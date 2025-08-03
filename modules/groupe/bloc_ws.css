@@ -1,0 +1,9 @@
+/*css pour bloc ws*/
+.ul_bloc_ws {
+   list-style-type: none;
+   list-style-image: none;
+   background-image: none;
+   background:none;
+   margin:0;
+   margin-top: 0.5rem !important;
+}

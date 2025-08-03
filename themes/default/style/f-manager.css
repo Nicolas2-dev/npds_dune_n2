@@ -1,0 +1,81 @@
+#photo {
+  text-align: center;
+  width: 100%;
+}
+#photo .imagethumb a{
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  height: 175px;
+  width:  175px;
+  padding: 10px;
+  margin: 4px;
+  border: 1px solid var(--bs-primary);
+  background: var(--bs-light);
+  border-radius: 20px;
+}
+#photo .imagethumb a:hover {
+  background: var(--bs-primary);
+}
+#photo div.mp3 {
+  height: 175px;
+  width:  230px;
+  padding-top: 10px;
+  margin: 4px;
+  border: 1px solid var(--bs-primary);
+  border-radius: 20px
+}
+#photo div.mp4 {
+  height: 175px;
+  width:  230px;
+  margin: 4px;
+  border: 1px solid var(--bs-primary);
+  border-radius: 20px;
+}
+#photo div.svg {
+  height: 175px;
+  width:  175px;
+  margin: 4px;
+}
+#photo div.svg a {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  height: 175px;
+  width:  175px;
+  padding: 10px;
+  border: 1px solid var(--bs-primary);
+  background: var(--bs-light);
+  border-radius: 20px;
+}
+#photo svg{
+  height: 160px;
+  width:  160px;
+}
+#photo div.svg a:hover {
+  background: var(--bs-primary);
+}
+#photo audio {
+  width:  200px;
+}
+
+/* input file customisation */
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+  width:1px;
+}
+.n-ci:lang(fr)::before {
+  content: "Choisir";
+}
+.n-ci:lang(es)::before {
+  content: "Elegir";
+}
+.n-ci:lang(de)::before {
+  content: "Wählen";
+}
+.n-ci:lang(en)::before {
+  content: "Browse";
+}
+.n-ci:lang(zh)::before {
+  content: "选择";
+}

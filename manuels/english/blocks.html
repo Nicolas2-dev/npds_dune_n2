@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <title>Administration - Blocks</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
+      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+   </head>
+   <body>
+      <div class="container">
+         <nav class="my-3">
+            <ol class="breadcrumb bg-transparent">
+               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+               <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li>
+               <li class="breadcrumb-item"><a href="men_inter.html">Interface</a></li>
+               <li class="breadcrumb-item active">Blocks</li>
+            </ol>
+         </nav>
+         <hr class="mt-n3" />
+         <h3 class="mb-3">Blocks</h3>
+         <p>NPDS allows you to display blocks (or boxes) on the side of your website.<br />
+         NPDS (with an appropriate theme) allows to display blocks on most pages.</p>
+         <p><strong>A Block can be visible only to administrators, members, or groups, for Anonymous only or visible by everyone.</strong>.</p>
+
+         <h4>Modify block</h4>
+         <p>Change the required informations inside the block and select the appropriate action, then click on <i>OK</i>.<br />
+         You can only modify one block at a time.</p>
+
+         <h4>Delete block</h4>
+         <p>Select the block and select <i>delete block,</i>, then click on <i>OK</i>.<br />
+         You can only delete one block at a time.</p>
+
+         <h4>Create block (left or right)</h4>
+         <p>Enter its title, its <strong>index</strong> (allows a sorted display) and its content then click on<i>Create a block ...</i>.
+         <br />
+         By default the new block is activated automatically.</p>
+         <hr />
+
+         <h4>Block and SuperCache</h4>
+         <ul>
+            <li>Blocks are "SuperCached" and can be activated or deactivated without changing themes config files.<br />
+            A block with a cache time of 0 (zero) won't be cached.</li>
+            <li>Blocks have an online help that can be used using the 'contextual-help' module (or leave it blank for no help). </li>
+         </ul>
+         
+         <h4>NPDS has an extended block system that allows to display :</h4>
+         <ul>
+            <li> HTML (if you want to create a bloc that support HTML / select the HTML option)</li>
+            <li>Javascript</li>
+            <li>PHP and/or SSI (Serveur Side Include)</li>
+            <li>PHP / NPDS function</li>
+         </ul>
+         <p>If you need to include code you must respect this syntax :
+            <ul>
+               <li>For PHP and/or SSI code :
+                  <ul>
+                     <li><strong>include#your_folder/your_file.php</strong> (without ', without ").</li>
+                     <li>your_file.php Must be a php file ! and the display (no echo "..."; but $content.="...";) Must be in <strong>$content</strong>.</li>
+                  </ul>
+               </li>
+               <li>For PHP and/or NPDS Functions :
+                  <ul>
+                     <li><strong>function#you_function</strong> => function#Xblock (without ', without ", without () et without ;).</li>
+                     <li>If your function has parameters:
+                        <ul>
+                           <li><strong>function#your_function</strong> => function#XNews (without ', without ", without () et without ;).</li>
+                           <li><strong>params#your_param</strong> => params#5,10,false (without ', without " but separated by commas).<br />
+                              for example :
+                              <ul>
+                                 <li>function#category</li>
+                                 <li>function#oldNews</li>
+                                 <li>params#$storynum</li><br />
+                                 <li>function#RecentForumPosts</li>
+                                 <li>params#Forums Infos,15,0,false,10,false,-:&nbsp;</li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                     <li>You can also use the 2 phases:
+                        <ul>
+                           <li><strong>include#your_directory/your_file.php</strong> (without ', without ").</li>
+                           <li><strong>function#your_function</strong> => function#XNews (without ', without ", without () et without ;).</li>
+                           <li><strong>params#your_param</strong> => params#5,10,false (without ', without " but separated by commas).<br />
+                           <span class="text-info">Which allows you to load some code and run it!</span></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </li>
+            </ul>
+         </p>
+         
+         <h4>Block CSS</h4>
+         <p><strong>class-title#name</strong> of one class in your CSS file.<br />
+            <strong>class-content#name</strong> of one class in your CSS file.<br />
+            <span class="text-info">These lines allow you to associate a CSS (title and content) for EACH BLOCK!</span>
+            <ul>
+               <li>Theme-Dynamic has two new meta-words: B_class_title and B_class_content which can be used in block code.html</li>
+               <li>PHP themes have two new variables : $B_class_title and $B_class_content which can be 'imported' into the themesidebox function (via a global ...)<li>
+            </ul>
+         </p>
+
+         <h4>CSS Block Specific</h4>
+         <p>To have the specific css, you must:
+            <ul>
+               <li>check the box in administration</li>
+               <li>note the block id</li>
+               <li>declare the id and class in the style.css file or add css via the manager (pages.php of your theme)</li>
+            </ul>
+         <br />
+         <p>CSS example on a particular block, here the left block ID 2:
+         <code><p>
+         #LB_2 .LB_title {<br />
+            color: #FF0000;<br />
+            font-family: Georgia, "Times New Roman", serif;<br />
+            font-size: 1.25em;<br />
+            font-weight: bold;<br />
+            height: 21px;<br />
+            text-align: center;<br />
+            line-height: 21px;<br />
+         }<br />
+         #LB_2 .LB_contain ul {<br />
+            list-style: none;<br />
+            width: 150px;<br />
+            margin:0px;<br />
+            padding:0px;<br />
+         }<br />
+         #LB_2 .LB_contain li {<br />
+            margin:0;<br />
+            padding:0;<br />
+         }<br />
+         #LB_2 .LB_contain li a {<br />
+            min-height: 1.5em;<br />
+            height: auto !important;<br />
+            height: 1.5em;<br />
+            line-height: 1.5em;<br />
+            margin: 1px 0px 1px 0px;<br />
+            padding: 0px 5px 0px 5px;<br />
+            border-bottom: solid 1px #C8C8C8;<br />
+            border-left: solid 10px #427FBC;<br />
+            color: #646464;<br />
+            text-decoration: none;<br />
+            font-weight: normal;<br />
+            font-size: 1em;<br />
+         }<br />
+         #LB_2 .LB_contain li a:hover {<br />
+            border-left: solid 10px #cccccc;<br />
+            background: #f0f0f0;<br />
+            font-weight: bold;<br />
+            color: #000000;<br />
+            text-decoration: none;<br />
+         }</p></code>
+         </p>
+
+         <h4>Block URI:</h4>
+         <p><strong>uri#uris_separated_by_a_space</strong> to display the block only on the URIs mentioned.<br />
+         The retention time should be zero in this case.<br />
+         Example: uri#index.php user.php forum.php static.php?op=statik.txt&npds=1<br />
+         The uri# tag allows the use of the wildcard *: for example: viewforum.php?forum=* or viewtopic.php?topic=*&forum=10
+         <br />
+         <span class="text-warning">This syntax is the only one supported!</span>
+         </p>
+
+         <h4>Hidden Block</h4>
+         <p><strong>hidden#...</strong> to not display the block theme but load the content.<br />
+         This allows you to use the block system to 'load' javascripts, PHP files, CSS files...<br />
+         Example: hidden#&lt;script type=&quot;text/javascript&quot; src=&quot;lib/yui/build/yui/yui-min.js&quot;&gt;&lt;/script&gt;<br />
+         <span class="text-warning">This syntax is the only one supported!</span>
+         </p>
+         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Administration manual</span></p>      </div>
+   </body>
+</html>
