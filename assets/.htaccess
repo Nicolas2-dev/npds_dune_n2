@@ -1,0 +1,16 @@
+# Autorise l'accès aux fichiers (css, js, images, etc.)
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Allow from all
+</IfModule>
+
+# Interdit l'affichage de l'index du dossier
+Options -Indexes
+
+# Sécurise en bloquant l'exécution de fichiers PHP
+<FilesMatch "\.(php|php[0-9]?|phtml)$">
+    Deny from all
+</FilesMatch>
