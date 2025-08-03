@@ -1,0 +1,23 @@
+      <link id="bsth" rel="stylesheet" href="themes/_skins/default/bootstrap.min.css">
+      <link href="lib/bootstrap/dist/css/bootstrap-icons.css" rel="stylesheet" type="text/css" media="all">
+   </head>
+   <body>
+      <div class="contenair-fluid mt-5">
+         <div class= "card mx-auto p-3" style="width:380px; text-align:center">
+            <span style="font-size: 72px;"><i class="bi bi-lock-fill text-danger"></i></span>
+            <span class="text-danger h3 mb-3">
+               Web Site closed ! <br />
+               Site Web ferm&eacute ! <br />
+               Website geschlossen ! <br /> 
+               &#x901A;&#x5165;&#x88AB;&#x5426;&#x8BA4; ! <br />
+               Sitio web cerrado ! <br />
+            </span>
+            <hr />
+            <div>
+               <span class="text-body-secondary">NPDS - Portal System</span>
+               <img class="adm_img ms-2" src="/images/admin/message_npds.png" alt="icon_npds" loading="lazy" />
+            </div>
+         </div>
+      </div>';
+   </body>
+</html>
