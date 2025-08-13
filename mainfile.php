@@ -2994,3 +2994,11 @@ function load_blocks(string $dir): void
         }
     }
 }
+
+function import_meta($title = 'NPDS')
+{
+    $Titlesitename = $title;
+
+    if (file_exists('storage/meta/meta.php'))
+        include 'storage/meta/meta.php';
+}
