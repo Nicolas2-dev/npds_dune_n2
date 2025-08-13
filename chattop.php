@@ -10,16 +10,15 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
-$Titlesitename = 'NPDS';
 
 $nuke_url = '';
 $meta_op = '';
 
-include("mainfile.php");
-include('meta/meta.php');
+include 'mainfile.php';
 
-echo '
-    </head>
+import_meta();
+
+echo '</head>
     <body>
     </body>
 </html>';
