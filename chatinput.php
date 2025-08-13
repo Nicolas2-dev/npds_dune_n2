@@ -11,7 +11,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 if (!function_exists("Mysql_Connexion"))
-   include("mainfile.php");
+    include("mainfile.php");
 // chatbox avec salon privatif - on utilise id pour filtrer les messages -> id = l'id du groupe au sens autorisation de NPDS (-127,-1,0,1,2...126))
 
 settype($id, 'integer');
@@ -28,21 +28,21 @@ include("functions.php");
 if (!autorisation($id)) die();
 global $Default_Theme, $Default_Skin, $user;
 if (isset($user) and $user != '') {
-   global $cookie;
-   if ($cookie[9] != '') {
-      $ibix = explode('+', urldecode($cookie[9]));
-      if (array_key_exists(0, $ibix)) $theme = $ibix[0];
-      else $theme = $Default_Theme;
-      if (array_key_exists(1, $ibix)) $skin = $ibix[1];
-      else $skin = $Default_Skin;
-      $tmp_theme = $theme;
-      if (!$file = @opendir("themes/$theme")) $tmp_theme = $Default_Theme;
-   } else
-      $tmp_theme = $Default_Theme;
+    global $cookie;
+    if ($cookie[9] != '') {
+        $ibix = explode('+', urldecode($cookie[9]));
+        if (array_key_exists(0, $ibix)) $theme = $ibix[0];
+        else $theme = $Default_Theme;
+        if (array_key_exists(1, $ibix)) $skin = $ibix[1];
+        else $skin = $Default_Skin;
+        $tmp_theme = $theme;
+        if (!$file = @opendir("themes/$theme")) $tmp_theme = $Default_Theme;
+    } else
+        $tmp_theme = $Default_Theme;
 } else {
-   $theme = $Default_Theme;
-   $skin = $Default_Skin;
-   $tmp_theme = $theme;
+    $theme = $Default_Theme;
+    $skin = $Default_Skin;
+    $tmp_theme = $theme;
 }
 $skin = $skin == '' ? 'default' : $skin;
 
@@ -67,9 +67,9 @@ echo '
          <input type="hidden" name="auto" value="' . $auto . '" />';
 
 if (!isset($cookie[1]))
-   $pseudo = isset($name) ? $name : getip();
+    $pseudo = isset($name) ? $name : getip();
 else
-   $pseudo = $cookie[1];
+    $pseudo = $cookie[1];
 $xJava = 'name="message" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="storeForm(this)"';
 
 echo translate("Vous êtes connecté en tant que :") . ' <strong>' . $pseudo . '</strong>&nbsp;';
@@ -93,14 +93,14 @@ echo '
 
 settype($op, 'string');
 switch ($op) {
-   case 'set':
-      if (!isset($cookie[1]) && isset($name)) {
-         $uname = $name;
-         $dbname = 0;
-      } else {
-         $uname = $cookie[1];
-         $dbname = 1;
-      }
-      insertChat($uname, $message, $dbname, $id);
-      break;
+    case 'set':
+        if (!isset($cookie[1]) && isset($name)) {
+            $uname = $name;
+            $dbname = 0;
+        } else {
+            $uname = $cookie[1];
+            $dbname = 1;
+        }
+        insertChat($uname, $message, $dbname, $id);
+        break;
 }

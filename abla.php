@@ -14,11 +14,11 @@
 /************************************************************************/
 
 if (!stristr($_SERVER['PHP_SELF'], 'admin.php')) {
-   include 'admin/die.php';
+    include 'admin/die.php';
 }
 
 if (!function_exists('Mysql_Connexion')) {
-   include 'mainfile.php';
+    include 'mainfile.php';
 }
 
 include 'functions.php';
@@ -32,56 +32,56 @@ admindroits($aid, $f_meta_nom);
 
 function row_span($total, $xtotal)
 {
-   echo '<td>' . wrh($total) . ' (';
+    echo '<td>' . wrh($total) . ' (';
 
-   if ($total > $xtotal) {
-      echo '<span class="text-success">+';
-   } elseif ($total < $xtotal) {
-      echo '<span class="text-danger">';
-   } else {
-      echo '<span>';
-   }
+    if ($total > $xtotal) {
+        echo '<span class="text-success">+';
+    } elseif ($total < $xtotal) {
+        echo '<span class="text-danger">';
+    } else {
+        echo '<span>';
+    }
 
-   echo wrh($total - $xtotal) . '</span>)</td>';
+    echo wrh($total - $xtotal) . '</span>)</td>';
 }
 
 global $admin;
 if ($admin) {
-   include 'header.php';
+    include 'header.php';
 
-   global $language;
-   $hlpfile = '/manuels/' . $language . '/abla.html';
+    global $language;
+    $hlpfile = '/manuels/' . $language . '/abla.html';
 
-   GraphicAdmin($hlpfile);
-   adminhead($f_meta_nom, $f_titre, $adminimg);
+    GraphicAdmin($hlpfile);
+    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   global $startdate;
-   list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
+    global $startdate;
+    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
 
-   //LNL Email in outside table
-   $result = sql_query("SELECT email FROM " . sql_prefix('lnl_outside_users'));
+    //LNL Email in outside table
+    $result = sql_query("SELECT email FROM " . sql_prefix('lnl_outside_users'));
 
-   if ($result) {
-      $totalnl = sql_num_rows($result);
-   } else {
-      $totalnl = "0";
-   }
+    if ($result) {
+        $totalnl = sql_num_rows($result);
+    } else {
+        $totalnl = "0";
+    }
 
-   include 'storage/abla/log.php';
+    include 'storage/abla/log.php';
 
-   $timex = time() - $xdate;
+    $timex = time() - $xdate;
 
-   if ($timex >= 86400) {
-      $timex = round($timex / 86400) . ' ' . translate('Jour(s)');
-   } elseif ($timex >= 3600) {
-      $timex = round($timex / 3600) . ' ' . translate('Heure(s)');
-   } elseif ($timex >= 60) {
-      $timex = round($timex / 60) . ' ' . translate('Minute(s)');
-   } else {
-      $timex = $timex . ' ' . translate('Seconde(s)');
-   }
+    if ($timex >= 86400) {
+        $timex = round($timex / 86400) . ' ' . translate('Jour(s)');
+    } elseif ($timex >= 3600) {
+        $timex = round($timex / 3600) . ' ' . translate('Heure(s)');
+    } elseif ($timex >= 60) {
+        $timex = round($timex / 60) . ' ' . translate('Minute(s)');
+    } else {
+        $timex = $timex . ' ' . translate('Seconde(s)');
+    }
 
-   echo '
+    echo '
    <hr />
    <p class="lead mb-3">' . translate('Statistiques générales') . ' - ' . translate('Dernières stats') . ' : ' . $timex . ' </p>
    <table class="mb-2" data-toggle="table" data-classes="table mb-2">
@@ -95,57 +95,57 @@ if ($admin) {
          <tr>
             <td>' . translate('Nb. pages vues') . ' : </td>';
 
-   echo row_span($totalz, $xtotalz);
+    echo row_span($totalz, $xtotalz);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb. de membres') . ' : </td>';
 
-   echo row_span($membres, $xmembres);
+    echo row_span($membres, $xmembres);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb. d\'articles') . ' : </td>';
 
-   echo row_span($totala, $xtotala);
+    echo row_span($totala, $xtotala);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb. de forums') . ' : </td>';
 
-   echo row_span($totalc, $xtotalc);
+    echo row_span($totalc, $xtotalc);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb. de sujets') . ' : </td>';
 
-   echo row_span($totald, $xtotald);
+    echo row_span($totald, $xtotald);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb. de critiques') . ' : </td>';
 
-   echo row_span($totalb, $xtotalb);
+    echo row_span($totalb, $xtotalb);
 
-   echo '</tr>
+    echo '</tr>
          <tr>
             <td>' . translate('Nb abonnés à lettre infos') . ' : </td>';
 
-   echo row_span($totalnl, $xtotalnl);
+    echo row_span($totalnl, $xtotalnl);
 
-   echo '</tr>';
+    echo '</tr>';
 
-   $xfile = "<?php\n";
-   $xfile .= "\$xdate = " . time() . ";\n";
-   $xfile .= "\$xtotalz = $totalz;\n";
-   $xfile .= "\$xmembres = $membres;\n";
-   $xfile .= "\$xtotala = $totala;\n";
-   $xfile .= "\$xtotalc = $totalc;\n";
-   $xfile .= "\$xtotald = $totald;\n";
-   $xfile .= "\$xtotalb = $totalb;\n";
-   $xfile .= "\$xtotalnl = $totalnl;\n";
+    $xfile = "<?php\n";
+    $xfile .= "\$xdate = " . time() . ";\n";
+    $xfile .= "\$xtotalz = $totalz;\n";
+    $xfile .= "\$xmembres = $membres;\n";
+    $xfile .= "\$xtotala = $totala;\n";
+    $xfile .= "\$xtotalc = $totalc;\n";
+    $xfile .= "\$xtotald = $totald;\n";
+    $xfile .= "\$xtotalb = $totalb;\n";
+    $xfile .= "\$xtotalnl = $totalnl;\n";
 
-   echo '
+    echo '
       </tbody>
    </table>
    <p class="lead my-3">' . translate('Statistiques des chargements') . '</p>
@@ -158,38 +158,38 @@ if ($admin) {
       </thead>
       <tbody>';
 
-   $num_dow = 0;
+    $num_dow = 0;
 
-   $result = sql_query("SELECT dcounter, dfilename FROM " . sql_prefix('downloads'));
+    $result = sql_query("SELECT dcounter, dfilename FROM " . sql_prefix('downloads'));
 
-   settype($xdownload, 'array');
+    settype($xdownload, 'array');
 
-   while (list($dcounter, $dfilename) = sql_fetch_row($result)) {
-      $num_dow++;
+    while (list($dcounter, $dfilename) = sql_fetch_row($result)) {
+        $num_dow++;
 
-      echo '
+        echo '
          <tr>
             <td><span class="text-danger">';
 
-      if (array_key_exists($num_dow, $xdownload)) {
-         echo $xdownload[$num_dow][1];
-      }
+        if (array_key_exists($num_dow, $xdownload)) {
+            echo $xdownload[$num_dow][1];
+        }
 
-      echo '</span> -/- ' . $dfilename . '</td>
+        echo '</span> -/- ' . $dfilename . '</td>
             <td><span class="text-danger">';
 
-      if (array_key_exists($num_dow, $xdownload)) {
-         echo $xdownload[$num_dow][2];
-      }
+        if (array_key_exists($num_dow, $xdownload)) {
+            echo $xdownload[$num_dow][2];
+        }
 
-      echo '</span> -/- ' . $dcounter . '</td>
+        echo '</span> -/- ' . $dcounter . '</td>
          </tr>';
 
-      $xfile .= "\$xdownload[$num_dow][1] = \"$dfilename\";\n";
-      $xfile .= "\$xdownload[$num_dow][2] = \"$dcounter\";\n";
-   }
+        $xfile .= "\$xdownload[$num_dow][1] = \"$dfilename\";\n";
+        $xfile .= "\$xdownload[$num_dow][2] = \"$dcounter\";\n";
+    }
 
-   echo '
+    echo '
       </tbody>
    </table>
    <p class="lead my-3">Forums</p>
@@ -203,86 +203,86 @@ if ($admin) {
          </tr>
       </thead>';
 
-   $result = sql_query("SELECT * FROM " . sql_prefix('catagories') . " ORDER BY cat_id");
+    $result = sql_query("SELECT * FROM " . sql_prefix('catagories') . " ORDER BY cat_id");
 
-   $num_for = 0;
+    $num_for = 0;
 
-   while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
-      $sub_sql = "SELECT f.*, u.uname FROM " . sql_prefix('forums') . " f, " . sql_prefix('users') . " u WHERE f.cat_id = '$cat_id' AND f.forum_moderator = u.uid ORDER BY forum_index, forum_id";
+    while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
+        $sub_sql = "SELECT f.*, u.uname FROM " . sql_prefix('forums') . " f, " . sql_prefix('users') . " u WHERE f.cat_id = '$cat_id' AND f.forum_moderator = u.uid ORDER BY forum_index, forum_id";
 
-      if (!$sub_result = sql_query($sub_sql)) {
-         forumerror('0022');
-      }
+        if (!$sub_result = sql_query($sub_sql)) {
+            forumerror('0022');
+        }
 
-      if ($myrow = sql_fetch_assoc($sub_result)) {
-         echo '
+        if ($myrow = sql_fetch_assoc($sub_result)) {
+            echo '
          <tbody>
             <tr>
                <td class="table-active" colspan="4">' . stripslashes($cat_title) . '</td>
             </tr>';
 
-         do {
-            $num_for++;
+            do {
+                $num_for++;
 
-            $last_post = get_last_post($myrow['forum_id'], 'forum', 'infos', true);
+                $last_post = get_last_post($myrow['forum_id'], 'forum', 'infos', true);
 
-            echo '<tr>';
+                echo '<tr>';
 
-            $total_topics = get_total_topics($myrow['forum_id']);
+                $total_topics = get_total_topics($myrow['forum_id']);
 
-            $name = stripslashes($myrow['forum_name']);
-            $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
-            $xfile .= "\$xforum[$num_for][2] = $total_topics;\n";
-            $desc = stripslashes($myrow['forum_desc']);
+                $name = stripslashes($myrow['forum_name']);
+                $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
+                $xfile .= "\$xforum[$num_for][2] = $total_topics;\n";
+                $desc = stripslashes($myrow['forum_desc']);
 
-            echo '<td>
+                echo '<td>
             <a tabindex="0" role="button" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="' . $desc . '">
                <i class="far fa-lg fa-file-alt me-2"></i>
             </a>
             <a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >
                <span class="text-danger">';
 
-            if (array_key_exists($num_for, $xforum)) {
-               echo $xforum[$num_for][1];
-            }
+                if (array_key_exists($num_for, $xforum)) {
+                    echo $xforum[$num_for][1];
+                }
 
-            echo '</span> -/- ' . $name . ' </a></td>
+                echo '</span> -/- ' . $name . ' </a></td>
                <td class="text-center"><span class="text-danger">';
 
-            if (array_key_exists($num_for, $xforum)) {
-               echo $xforum[$num_for][2];
-            }
+                if (array_key_exists($num_for, $xforum)) {
+                    echo $xforum[$num_for][2];
+                }
 
-            echo '</span> -/- ' . $total_topics . '</td>';
+                echo '</span> -/- ' . $total_topics . '</td>';
 
-            $total_posts = get_total_posts($myrow['forum_id'], "", "forum", false);
-            $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
+                $total_posts = get_total_posts($myrow['forum_id'], "", "forum", false);
+                $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
 
-            echo '
+                echo '
             <td class="text-center"><span class="text-danger">';
 
-            if (array_key_exists($num_for, $xforum)) {
-               echo $xforum[$num_for][3];
-            }
+                if (array_key_exists($num_for, $xforum)) {
+                    echo $xforum[$num_for][3];
+                }
 
-            echo '</span> -/- ' . $total_posts . '</td>
+                echo '</span> -/- ' . $total_posts . '</td>
             <td class="text-end small">' . $last_post . '</td>';
-         } while ($myrow = sql_fetch_assoc($sub_result));
-      }
-   }
+            } while ($myrow = sql_fetch_assoc($sub_result));
+        }
+    }
 
-   echo '
+    echo '
          </tr>
       </tbody>
    </table>';
 
-   $file = fopen('storage/abla/log.php', 'w');
-   $xfile .= "?>\n";
+    $file = fopen('storage/abla/log.php', 'w');
+    $xfile .= "?>\n";
 
-   fwrite($file, $xfile);
-   fclose($file);
+    fwrite($file, $xfile);
+    fclose($file);
 
-   adminfoot('', '', '', '');
+    adminfoot('', '', '', '');
 } else {
-   redirect_url('index.php');
+    redirect_url('index.php');
 }

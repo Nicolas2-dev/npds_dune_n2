@@ -16,24 +16,24 @@ include("grab_globals.php");
 
 function Access_Error()
 {
-   include("admin/die.php");
+    include("admin/die.php");
 }
 
 function filtre_module($strtmp)
 {
-   if (strstr($strtmp, '..') || stristr($strtmp, 'script') || stristr($strtmp, 'cookie') || stristr($strtmp, 'iframe') || stristr($strtmp, 'applet') || stristr($strtmp, 'object'))
-      Access_Error();
-   else
-      return $strtmp != '' ? true : false;
+    if (strstr($strtmp, '..') || stristr($strtmp, 'script') || stristr($strtmp, 'cookie') || stristr($strtmp, 'iframe') || stristr($strtmp, 'applet') || stristr($strtmp, 'object'))
+        Access_Error();
+    else
+        return $strtmp != '' ? true : false;
 }
 
 if (filtre_module($ModPath) and filtre_module($ModStart)) {
-   if (!function_exists("Mysql_Connexion"))
-      include("mainfile.php");
-   if (file_exists("modules/$ModPath/$ModStart.php")) {
-      include("modules/$ModPath/$ModStart.php");
-      die();
-   } else
-      Access_Error();
+    if (!function_exists("Mysql_Connexion"))
+        include("mainfile.php");
+    if (file_exists("modules/$ModPath/$ModStart.php")) {
+        include("modules/$ModPath/$ModStart.php");
+        die();
+    } else
+        Access_Error();
 } else
-   Access_Error();
+    Access_Error();

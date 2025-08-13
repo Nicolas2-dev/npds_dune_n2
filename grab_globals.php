@@ -18,145 +18,145 @@
 /************************************************************************/
 
 if (stristr($_SERVER['PHP_SELF'], 'grab_globals.php') and strlen($_SERVER['QUERY_STRING']) != '') {
-   include 'admin/die.php';
+    include 'admin/die.php';
 }
 
 if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
-   define('NPDS_GRAB_GLOBALS_INCLUDED', 1);
+    define('NPDS_GRAB_GLOBALS_INCLUDED', 1);
 
-   // Modify the report level of PHP
-   
-   // Report NO ERROR
-   // error_reporting(0);
+    // Modify the report level of PHP
 
-   // Devel report
-   // error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+    // Report NO ERROR
+    // error_reporting(0);
 
-   // standard ERROR report
-   error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+    // Devel report
+    // error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
-   // report toutes les erreurs.
-   // error_reporting(E_ALL);
-   
-   function getip()
-   {
-      if (isset($_SERVER)) {
-         if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-         } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-            $realip = $_SERVER['HTTP_CLIENT_IP'];
-         } else {
-            $realip = $_SERVER['REMOTE_ADDR'];
-         }
-      } else {
-         if (getenv('HTTP_X_FORWARDED_FOR')) {
-            $realip = getenv('HTTP_X_FORWARDED_FOR');
-         } elseif (getenv('HTTP_CLIENT_IP')) {
-            $realip = getenv('HTTP_CLIENT_IP');
-         } else {
-            $realip = getenv('REMOTE_ADDR');
-         }
-      }
+    // standard ERROR report
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-      if (strpos($realip, ",") > 0) {
-         $realip = substr($realip, 0, strpos($realip, ",") - 1);
-      }
+    // report toutes les erreurs.
+    // error_reporting(E_ALL);
 
-      // from Gu1ll4um3r0m41n - 08-05-2007 - dev 2012
-      return trim($realip);
-   }
+    function getip()
+    {
+        if (isset($_SERVER)) {
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $realip = $_SERVER['HTTP_CLIENT_IP'];
+            } else {
+                $realip = $_SERVER['REMOTE_ADDR'];
+            }
+        } else {
+            if (getenv('HTTP_X_FORWARDED_FOR')) {
+                $realip = getenv('HTTP_X_FORWARDED_FOR');
+            } elseif (getenv('HTTP_CLIENT_IP')) {
+                $realip = getenv('HTTP_CLIENT_IP');
+            } else {
+                $realip = getenv('REMOTE_ADDR');
+            }
+        }
 
-   function access_denied()
-   {
-      include 'admin/die.php';
-   }
+        if (strpos($realip, ",") > 0) {
+            $realip = substr($realip, 0, strpos($realip, ",") - 1);
+        }
 
-   // First of all : Spam from IP / |5 indicate that the same IP has passed 6 times with status KO in the anti_spambot function
-   $path_log = 'storage/logs/spam.log';
-   
-   if (file_exists($path_log)) {
-      $tab_spam = str_replace("\r\n", "", file($path_log));
+        // from Gu1ll4um3r0m41n - 08-05-2007 - dev 2012
+        return trim($realip);
+    }
 
-      if (is_array($tab_spam)) {
-         $ipadr = getip();
-         $ipv = strstr($ipadr, ':') ? '6' : '4';
+    function access_denied()
+    {
+        include 'admin/die.php';
+    }
 
-         if (in_array($ipadr . "|5", $tab_spam)) {
+    // First of all : Spam from IP / |5 indicate that the same IP has passed 6 times with status KO in the anti_spambot function
+    $path_log = 'storage/logs/spam.log';
+
+    if (file_exists($path_log)) {
+        $tab_spam = str_replace("\r\n", "", file($path_log));
+
+        if (is_array($tab_spam)) {
+            $ipadr = getip();
+            $ipv = strstr($ipadr, ':') ? '6' : '4';
+
+            if (in_array($ipadr . "|5", $tab_spam)) {
+                access_denied();
+            }
+
+            // nous pouvons bannir une plage d'adresse ip en V4 (dans l'admin IPban sous forme x.x.%|5 ou x.x.x.%|5)
+            if ($ipv == '4') {
+                $ip4detail = explode('.', $ipadr);
+
+                if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.%|5', $tab_spam)) {
+                    access_denied();
+                }
+
+                if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.' . $ip4detail[2] . '.%|5', $tab_spam)) {
+                    access_denied();
+                }
+            }
+
+            // nous pouvons bannir une plage d'adresse ip en V6 (dans l'admin IPban sous forme x:x:%|5 ou x:x:x:%|5)
+            if ($ipv == '6') {
+                $ip6detail = explode(':', $ipadr);
+
+                if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':%|5', $tab_spam)) {
+                    access_denied();
+                }
+
+                if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':' . $ip6detail[2] . ':%|5', $tab_spam)) {
+                    access_denied();
+                }
+            }
+        }
+    }
+
+    function addslashes_GPC(&$arr)
+    {
+        $arr = addslashes($arr);
+    }
+
+    function url_protect($arr, $key)
+    {
+        // include url_protect Bad Words and create the filter function
+        include 'modules/include/url_protect.php';
+
+        // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
+        $arr = rawurldecode($arr);
+        $RQ_tmp = strtolower($arr);
+        $RQ_tmp_large = strtolower($key) . "=" . $RQ_tmp;
+
+        if (
+            in_array($RQ_tmp, $bad_uri_content)
+            or
+            in_array($RQ_tmp_large, $bad_uri_content)
+            or
+            in_array($key, $bad_uri_key, true)
+            or
+            count($badname_in_uri) > 0
+        ) {
+            unset($bad_uri_content);
+            unset($bad_uri_key);
+            unset($badname_in_uri);
+
             access_denied();
-         }
+        }
+    }
 
-         // nous pouvons bannir une plage d'adresse ip en V4 (dans l'admin IPban sous forme x.x.%|5 ou x.x.x.%|5)
-         if ($ipv == '4') {
-            $ip4detail = explode('.', $ipadr);
+    // Get values, slash, filter and extract
+    if (!empty($_GET)) {
+        array_walk_recursive($_GET, 'addslashes_GPC');
+        reset($_GET); // no need
 
-            if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.%|5', $tab_spam)) {
-               access_denied();
-            }
-            
-            if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.' . $ip4detail[2] . '.%|5', $tab_spam)) {
-               access_denied();
-            }
-         }
+        array_walk_recursive($_GET, 'url_protect');
+        extract($_GET, EXTR_OVERWRITE);
+    }
 
-         // nous pouvons bannir une plage d'adresse ip en V6 (dans l'admin IPban sous forme x:x:%|5 ou x:x:x:%|5)
-         if ($ipv == '6') {
-            $ip6detail = explode(':', $ipadr);
-
-            if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':%|5', $tab_spam)) {
-               access_denied();
-            }
-
-            if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':' . $ip6detail[2] . ':%|5', $tab_spam)) {
-               access_denied();
-            }
-         }
-      }
-   }
-
-   function addslashes_GPC(&$arr)
-   {
-      $arr = addslashes($arr);
-   }
-
-   function url_protect($arr, $key)
-   { 
-      // include url_protect Bad Words and create the filter function
-      include 'modules/include/url_protect.php';
-
-      // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
-      $arr = rawurldecode($arr);
-      $RQ_tmp = strtolower($arr);
-      $RQ_tmp_large = strtolower($key) . "=" . $RQ_tmp;
-      
-      if (
-         in_array($RQ_tmp, $bad_uri_content)
-      or
-         in_array($RQ_tmp_large, $bad_uri_content)
-      or
-         in_array($key, $bad_uri_key, true)
-      or
-         count($badname_in_uri) > 0
-      ) {
-         unset($bad_uri_content);
-         unset($bad_uri_key);
-         unset($badname_in_uri);
-
-         access_denied();
-      }
-   }
-
-   // Get values, slash, filter and extract
-   if (!empty($_GET)) {
-      array_walk_recursive($_GET, 'addslashes_GPC');
-      reset($_GET); // no need
-
-      array_walk_recursive($_GET, 'url_protect');
-      extract($_GET, EXTR_OVERWRITE);
-   }
-
-   if (!empty($_POST)) {
-      array_walk_recursive($_POST, 'addslashes_GPC');
-      /*
+    if (!empty($_POST)) {
+        array_walk_recursive($_POST, 'addslashes_GPC');
+        /*
       array_walk_recursive($_POST,'post_protect');
 
       if(!isset($_SERVER['HTTP_REFERER'])) {
@@ -171,45 +171,44 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
       }
       */
 
-      extract($_POST, EXTR_OVERWRITE);
-   }
+        extract($_POST, EXTR_OVERWRITE);
+    }
 
-   // Cookies - analyse et purge - shiney 07-11-2010
-   if (!empty($_COOKIE)) {
-      extract($_COOKIE, EXTR_OVERWRITE);
-   }
+    // Cookies - analyse et purge - shiney 07-11-2010
+    if (!empty($_COOKIE)) {
+        extract($_COOKIE, EXTR_OVERWRITE);
+    }
 
-   if (isset($user)) {
-      $ibid = explode(':', base64_decode($user));
-      array_walk($ibid, 'url_protect');
-      $user = base64_encode(str_replace("%3A", ":", urlencode(base64_decode($user))));
-   }
+    if (isset($user)) {
+        $ibid = explode(':', base64_decode($user));
+        array_walk($ibid, 'url_protect');
+        $user = base64_encode(str_replace("%3A", ":", urlencode(base64_decode($user))));
+    }
 
-   if (isset($user_language)) {
-      $ibid = explode(':', $user_language);
-      array_walk($ibid, 'url_protect');
-      $user_language = str_replace("%3A", ":", urlencode($user_language));
-   }
+    if (isset($user_language)) {
+        $ibid = explode(':', $user_language);
+        array_walk($ibid, 'url_protect');
+        $user_language = str_replace("%3A", ":", urlencode($user_language));
+    }
 
-   if (isset($admin)) {
-      $ibid = explode(':', base64_decode($admin));
-      array_walk($ibid, 'url_protect');
-      $admin = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($admin))));
-   }
+    if (isset($admin)) {
+        $ibid = explode(':', base64_decode($admin));
+        array_walk($ibid, 'url_protect');
+        $admin = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($admin))));
+    }
 
-   // Cookies - analyse et purge - shiney 07-11-2010
-   if (!empty($_SERVER)) {
-      extract($_SERVER, EXTR_OVERWRITE);
-   }
+    // Cookies - analyse et purge - shiney 07-11-2010
+    if (!empty($_SERVER)) {
+        extract($_SERVER, EXTR_OVERWRITE);
+    }
 
-   if (!empty($_ENV)) {
-      extract($_ENV, EXTR_OVERWRITE);
-   }
+    if (!empty($_ENV)) {
+        extract($_ENV, EXTR_OVERWRITE);
+    }
 
-   if (!empty($_FILES)) {
-      foreach ($_FILES as $key => $value) {
-         $$key = $value['tmp_name'];
-      }
-   }
-
+    if (!empty($_FILES)) {
+        foreach ($_FILES as $key => $value) {
+            $$key = $value['tmp_name'];
+        }
+    }
 }

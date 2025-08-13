@@ -13,35 +13,35 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 if (!function_exists("Mysql_Connexion"))
-   include("mainfile.php");
+    include("mainfile.php");
 
 function FriendSend($sid, $archive)
 {
-   global $NPDS_Prefix;
-   settype($sid, "integer");
-   settype($archive, "integer");
-   $result = sql_query("SELECT title, aid FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
-   list($title, $aid) = sql_fetch_row($result);
-   if (!$aid)
-      header("Location: index.php");
-   include("header.php");
+    global $NPDS_Prefix;
+    settype($sid, "integer");
+    settype($archive, "integer");
+    $result = sql_query("SELECT title, aid FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+    list($title, $aid) = sql_fetch_row($result);
+    if (!$aid)
+        header("Location: index.php");
+    include("header.php");
 
-   echo '
+    echo '
    <div class="card card-body">
    <h2><i class="fa fa-at fa-lg text-body-secondary"></i>&nbsp;' . translate("Envoi de l'article à un ami") . '</h2>
    <hr />
    <p class="lead">' . translate("Vous allez envoyer cet article") . ' : <strong>' . aff_langue($title) . '</strong></p>
    <form id="friendsendstory" action="friend.php" method="post">
       <input type="hidden" name="sid" value="' . $sid . '" />';
-   global $user;
-   $yn = '';
-   $ye = '';
-   if ($user) {
-      global $cookie;
-      $result = sql_query("SELECT name, email FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'");
-      list($yn, $ye) = sql_fetch_row($result);
-   }
-   echo '
+    global $user;
+    $yn = '';
+    $ye = '';
+    if ($user) {
+        global $cookie;
+        $result = sql_query("SELECT name, email FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'");
+        list($yn, $ye) = sql_fetch_row($result);
+    }
+    echo '
       <div class="form-floating mb-3">
          <input type="text" class="form-control" id="fname" name="fname" maxlength="100" required="required" />
          <label for="fname">' . translate("Nom du destinataire") . '</label>
@@ -62,88 +62,88 @@ function FriendSend($sid, $archive)
          <label for="ymail">' . translate("Votre Email") . '</label>
          <span class="help-block text-end"><span class="muted" id="countcar_ymail"></span></span>
       </div>';
-   echo '' . Q_spambot();
-   echo '
+    echo '' . Q_spambot();
+    echo '
       <input type="hidden" name="archive" value="' . $archive . '" />
       <input type="hidden" name="op" value="SendStory" />
       <button type="submit" class="btn btn-primary" title="' . translate("Envoyer") . '"><i class="fa fa-lg fa-at"></i>&nbsp;' . translate("Envoyer") . '</button>
    </form>';
-   $arg1 = '
+    $arg1 = '
    var formulid = ["friendsendstory"];
    inpandfieldlen("yname",100);
    inpandfieldlen("ymail",254);
    inpandfieldlen("fname",100);
    inpandfieldlen("fmail",254);';
-   adminfoot('fv', '', $arg1, '');
+    adminfoot('fv', '', $arg1, '');
 }
 
 function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse)
 {
-   global $user;
-   if (!$user) {
-      //anti_spambot
-      if (!R_spambot($asb_question, $asb_reponse, '')) {
-         Ecr_Log('security', "Send-Story Anti-Spam : name=" . $yname . " / mail=" . $ymail, '');
-         redirect_url("index.php");
-         die();
-      }
-   }
+    global $user;
+    if (!$user) {
+        //anti_spambot
+        if (!R_spambot($asb_question, $asb_reponse, '')) {
+            Ecr_Log('security', "Send-Story Anti-Spam : name=" . $yname . " / mail=" . $ymail, '');
+            redirect_url("index.php");
+            die();
+        }
+    }
 
-   global $sitename, $nuke_url, $NPDS_Prefix;
-   settype($sid, 'integer');
-   settype($archive, 'integer');
-   $result2 = sql_query("SELECT title, time, topic FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
-   list($title, $time, $topic) = sql_fetch_row($result2);
-   $result3 = sql_query("SELECT topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
-   list($topictext) = sql_fetch_row($result3);
-   $subject = html_entity_decode(translate("Article intéressant sur"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
-   $fname = removeHack($fname);
-   $message = translate("Bonjour") . " $fname :\n\n" . translate("Votre ami") . " $yname " . translate("a trouvé cet article intéressant et a souhaité vous l'envoyer.") . "\n\n" . aff_langue($title) . "\n" . translate("Date :") . " $time\n" . translate("Sujet : ") . " " . aff_langue($topictext) . "\n\n" . translate("L'article") . " : <a href=\"$nuke_url/article.php?sid=$sid&amp;archive=$archive\">$nuke_url/article.php?sid=$sid&amp;archive=$archive</a>\n\n";
-   include("signat.php");
-   $fmail = removeHack($fmail);
-   $subject = removeHack($subject);
-   $message = removeHack($message);
-   $yname = removeHack($yname);
-   $ymail = removeHack($ymail);
-   $stop = false;
-   if ((!$fmail) || ($fmail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) $stop = true;
-   if ((!$ymail) || ($ymail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) $stop = true;
-   if (!$stop)
-      send_email($fmail, $subject, $message, $ymail, false, 'html', '');
-   else {
-      $title = '';
-      $fname = '';
-   }
-   $title = urlencode(aff_langue($title));
-   $fname = urlencode($fname);
-   Header("Location: friend.php?op=StorySent&title=$title&fname=$fname");
+    global $sitename, $nuke_url, $NPDS_Prefix;
+    settype($sid, 'integer');
+    settype($archive, 'integer');
+    $result2 = sql_query("SELECT title, time, topic FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+    list($title, $time, $topic) = sql_fetch_row($result2);
+    $result3 = sql_query("SELECT topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+    list($topictext) = sql_fetch_row($result3);
+    $subject = html_entity_decode(translate("Article intéressant sur"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
+    $fname = removeHack($fname);
+    $message = translate("Bonjour") . " $fname :\n\n" . translate("Votre ami") . " $yname " . translate("a trouvé cet article intéressant et a souhaité vous l'envoyer.") . "\n\n" . aff_langue($title) . "\n" . translate("Date :") . " $time\n" . translate("Sujet : ") . " " . aff_langue($topictext) . "\n\n" . translate("L'article") . " : <a href=\"$nuke_url/article.php?sid=$sid&amp;archive=$archive\">$nuke_url/article.php?sid=$sid&amp;archive=$archive</a>\n\n";
+    include("signat.php");
+    $fmail = removeHack($fmail);
+    $subject = removeHack($subject);
+    $message = removeHack($message);
+    $yname = removeHack($yname);
+    $ymail = removeHack($ymail);
+    $stop = false;
+    if ((!$fmail) || ($fmail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) $stop = true;
+    if ((!$ymail) || ($ymail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) $stop = true;
+    if (!$stop)
+        send_email($fmail, $subject, $message, $ymail, false, 'html', '');
+    else {
+        $title = '';
+        $fname = '';
+    }
+    $title = urlencode(aff_langue($title));
+    $fname = urlencode($fname);
+    Header("Location: friend.php?op=StorySent&title=$title&fname=$fname");
 }
 
 function StorySent($title, $fname)
 {
-   include("header.php");
-   $title = urldecode($title);
-   $fname = urldecode($fname);
-   if ($fname == '')
-      echo '<div class="alert alert-danger">' . translate("Erreur : Email invalide") . '</div>';
-   else
-      echo '<div class="alert alert-success">' . translate("L'article") . ' <strong>' . stripslashes($title) . '</strong> ' . translate("a été envoyé à") . '&nbsp;' . $fname . '<br />' . translate("Merci") . '</div>';
-   include("footer.php");
+    include("header.php");
+    $title = urldecode($title);
+    $fname = urldecode($fname);
+    if ($fname == '')
+        echo '<div class="alert alert-danger">' . translate("Erreur : Email invalide") . '</div>';
+    else
+        echo '<div class="alert alert-success">' . translate("L'article") . ' <strong>' . stripslashes($title) . '</strong> ' . translate("a été envoyé à") . '&nbsp;' . $fname . '<br />' . translate("Merci") . '</div>';
+    include("footer.php");
 }
 
 function RecommendSite()
 {
-   global $user;
-   if ($user) {
-      global $cookie, $NPDS_Prefix;
-      $result = sql_query("SELECT name, email FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'");
-      list($yn, $ye) = sql_fetch_row($result);
-   } else {
-      $yn = '';
-      $ye = '';
-   }
-   include("header.php");
-   echo '
+    global $user;
+    if ($user) {
+        global $cookie, $NPDS_Prefix;
+        $result = sql_query("SELECT name, email FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'");
+        list($yn, $ye) = sql_fetch_row($result);
+    } else {
+        $yn = '';
+        $ye = '';
+    }
+    include("header.php");
+    echo '
    <div class="card card-body">
    <h2>' . translate("Recommander ce site à un ami") . '</h2>
    <hr />
@@ -176,86 +176,86 @@ function RecommendSite()
          </div>
       </div>
    </form>';
-   $arg1 = '
+    $arg1 = '
    var formulid = ["friendrecomsite"];
    inpandfieldlen("yname",100);
    inpandfieldlen("ymail",100);
    inpandfieldlen("fname",100);
    inpandfieldlen("fmail",100);';
-   adminfoot('fv', '', $arg1, '');
+    adminfoot('fv', '', $arg1, '');
 }
 
 function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
 {
-   global $user;
-   if (!$user) {
-      //anti_spambot
-      if (!R_spambot($asb_question, $asb_reponse, '')) {
-         Ecr_Log('security', "Friend Anti-Spam : name=" . $yname . " / mail=" . $ymail, '');
-         redirect_url("index.php");
-         die();
-      }
-   }
+    global $user;
+    if (!$user) {
+        //anti_spambot
+        if (!R_spambot($asb_question, $asb_reponse, '')) {
+            Ecr_Log('security', "Friend Anti-Spam : name=" . $yname . " / mail=" . $ymail, '');
+            redirect_url("index.php");
+            die();
+        }
+    }
 
-   global $sitename, $nuke_url;
-   $subject = html_entity_decode(translate("Site à découvrir : "), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
-   $fname = removeHack($fname);
-   $message = translate("Bonjour") . " $fname :\n\n" . translate("Votre ami") . " $yname " . translate("a trouvé notre site") . " $sitename " . translate("intéressant et a voulu vous le faire connaître.") . "\n\n$sitename : <a href=\"$nuke_url\">$nuke_url</a>\n\n";
-   include("signat.php");
-   $fmail = removeHack($fmail);
-   $subject = removeHack($subject);
-   $message = removeHack($message);
-   $yname = removeHack($yname);
-   $ymail = removeHack($ymail);
-   $stop = false;
-   if ((!$fmail) || ($fmail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) $stop = true;
-   if ((!$ymail) || ($ymail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) $stop = true;
-   if (!$stop)
-      send_email($fmail, $subject, $message, $ymail, false, 'html', '');
-   else
-      $fname = '';
-   Header("Location: friend.php?op=SiteSent&fname=$fname");
+    global $sitename, $nuke_url;
+    $subject = html_entity_decode(translate("Site à découvrir : "), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
+    $fname = removeHack($fname);
+    $message = translate("Bonjour") . " $fname :\n\n" . translate("Votre ami") . " $yname " . translate("a trouvé notre site") . " $sitename " . translate("intéressant et a voulu vous le faire connaître.") . "\n\n$sitename : <a href=\"$nuke_url\">$nuke_url</a>\n\n";
+    include("signat.php");
+    $fmail = removeHack($fmail);
+    $subject = removeHack($subject);
+    $message = removeHack($message);
+    $yname = removeHack($yname);
+    $ymail = removeHack($ymail);
+    $stop = false;
+    if ((!$fmail) || ($fmail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) $stop = true;
+    if ((!$ymail) || ($ymail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) $stop = true;
+    if (!$stop)
+        send_email($fmail, $subject, $message, $ymail, false, 'html', '');
+    else
+        $fname = '';
+    Header("Location: friend.php?op=SiteSent&fname=$fname");
 }
 
 function SiteSent($fname)
 {
-   include('header.php');
-   if ($fname == '')
-      echo '
+    include('header.php');
+    if ($fname == '')
+        echo '
          <div class="alert alert-danger lead" role="alert">
             <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
             ' . translate("Erreur : Email invalide") . '
          </div>';
-   else
-      echo '
+    else
+        echo '
       <div class="alert alert-success lead" role="alert">
          <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
          ' . translate("Nos références ont été envoyées à ") . ' ' . $fname . ', <br />
          <strong>' . translate("Merci de nous avoir recommandé") . '</strong>
       </div>';
-   include('footer.php');
+    include('footer.php');
 }
 
 settype($op, 'string');
 settype($archive, 'string');
 
 switch ($op) {
-   case 'FriendSend':
-      FriendSend($sid, $archive);
-      break;
-   case 'SendStory':
-      SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse);
-      break;
-   case 'StorySent':
-      StorySent($title, $fname);
-      break;
-   case 'SendSite':
-      SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse);
-      break;
-   case 'SiteSent':
-      SiteSent($fname);
-      break;
-   default:
-      RecommendSite();
-      break;
+    case 'FriendSend':
+        FriendSend($sid, $archive);
+        break;
+    case 'SendStory':
+        SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse);
+        break;
+    case 'StorySent':
+        StorySent($title, $fname);
+        break;
+    case 'SendSite':
+        SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse);
+        break;
+    case 'SiteSent':
+        SiteSent($fname);
+        break;
+    default:
+        RecommendSite();
+        break;
 }

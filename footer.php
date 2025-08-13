@@ -14,81 +14,81 @@
 /************************************************************************/
 
 if (!function_exists('Mysql_Connexion')) {
-   include 'mainfile.php';
+    include 'mainfile.php';
 }
 
 function footmsg()
 {
-   global $foot1, $foot2, $foot3, $foot4;
+    global $foot1, $foot2, $foot3, $foot4;
 
-   $foot = '<p align="center">';
+    $foot = '<p align="center">';
 
-   // Boucle sur les variables $foot1 à $foot4
-   for ($i = 1; $i <= 4; $i++) {
-      $varName = 'foot' . $i;
-      if (!empty($$varName)) {
-         $foot .= stripslashes($$varName);
-         if ($i < 4) {
-            $foot .= '<br />';
-         }
-      }
-   }
+    // Boucle sur les variables $foot1 à $foot4
+    for ($i = 1; $i <= 4; $i++) {
+        $varName = 'foot' . $i;
+        if (!empty($$varName)) {
+            $foot .= stripslashes($$varName);
+            if ($i < 4) {
+                $foot .= '<br />';
+            }
+        }
+    }
 
-   $foot .= '</p>';
+    $foot .= '</p>';
 
-   echo aff_langue($foot);
+    echo aff_langue($foot);
 }
 
 function foot()
 {
-   global $user, $Default_Theme, $cookie9;
+    global $user, $Default_Theme, $cookie9;
 
-   if ($user) {
-      $cookie = explode(':', base64_decode($user));
+    if ($user) {
+        $cookie = explode(':', base64_decode($user));
 
-      if ($cookie[9] == '') {
-         $cookie[9] = $Default_Theme;
-      }
+        if ($cookie[9] == '') {
+            $cookie[9] = $Default_Theme;
+        }
 
-      $ibix = explode('+', urldecode($cookie[9]));
+        $ibix = explode('+', urldecode($cookie[9]));
 
-      if (!@opendir('themes/'.$ibix[0])) {
-         $theme = $Default_Theme;
-      } else {
-         $theme = $ibix[0];
-      }
-   } else {
-      $theme = $Default_Theme;
-   }
+        if (!@opendir('themes/' . $ibix[0])) {
+            $theme = $Default_Theme;
+        } else {
+            $theme = $ibix[0];
+        }
+    } else {
+        $theme = $Default_Theme;
+    }
 
-   include 'themes/' . $theme . '/footer.php';
+    include 'themes/' . $theme . '/footer.php';
 
-   if ($user) {
-      $cookie9 = $ibix[0];
-   }
+    if ($user) {
+        $cookie9 = $ibix[0];
+    }
 }
 
-function footer_after($theme) 
+function footer_after($theme)
 {
-   if (file_exists($path_theme = 'themes/' . $theme . '/include/footer_after.inc')) {
-      include $path_theme;
-   } else {
-      if (file_exists($path_module = 'modules/include/footer_after.inc')) {
-         include $path_module;
-      }
-   }
+    if (file_exists($path_theme = 'themes/' . $theme . '/include/footer_after.inc')) {
+        include $path_theme;
+    } else {
+        if (file_exists($path_module = 'modules/include/footer_after.inc')) {
+            include $path_module;
+        }
+    }
 }
 
 function footer_before()
 {
-   if (file_exists($path_module = 'modules/include/footer_before.inc')) {
-      include $path_module;
-   }
+    if (file_exists($path_module = 'modules/include/footer_before.inc')) {
+        include $path_module;
+    }
 }
 
 global $tiny_mce;
 if ($tiny_mce) {
-   echo aff_editeur('tiny_mce', 'end');
+    echo aff_editeur('tiny_mce', 'end');
 }
 
 // include externe file from modules/include for functions, codes ...
@@ -98,11 +98,11 @@ foot();
 
 // include externe file from modules/themes include for functions, codes ...
 if (isset($user)) {
-   global $cookie9;
-   footer_after($cookie9);
+    global $cookie9;
+    footer_after($cookie9);
 } else {
-   global $Default_Theme;
-   footer_after($Default_Theme);
+    global $Default_Theme;
+    footer_after($Default_Theme);
 }
 
 echo '
