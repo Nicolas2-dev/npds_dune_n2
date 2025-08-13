@@ -12,58 +12,56 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 include("grab_globals.php");
-include("config.php");
-include("lib/multi-langue.php");
+include("config/config.php");
+include("library/multi-langue.php");
 include("language/lang-$language.php");
-include("cache.class.php");
+include("library/supercache/cache.class.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require 'lib/PHPMailer/src/Exception.php';
-require 'lib/PHPMailer/src/PHPMailer.php';
-require 'lib/PHPMailer/src/SMTP.php';
-include("lib/mysqli.php");
-include("modules/meta-lang/adv-meta_lang.php");
+require 'library/PHPMailer/src/Exception.php';
+require 'library/PHPMailer/src/PHPMailer.php';
+require 'library/PHPMailer/src/SMTP.php';
+include 'library/database/mysqli.php';
+include 'modules/meta-lang/adv-meta_lang.php';
 
-#autodoc Mysql_Connexion() : Connexion plus détaillée ($mysql_p=true => persistente connexion) - Attention : le type de SGBD n'a pas de lien avec le nom de cette fonction
-function Mysql_Connexion()
-{
-   global $mysql_error, $dbhost, $dbname;
-   $ret_p = sql_connect();
-   if (!$ret_p) {
-      $Titlesitename = "NPDS";
-      if (file_exists("meta/meta.php"))
-         include("meta/meta.php");
-      if (file_exists("static/database.txt"))
-         include("static/database.txt");
-      die();
-   }
-   return ($ret_p);
-}
-/****************/
 $dblink = Mysql_Connexion();
+
 $mainfile = 1;
-require_once("auth.inc.php");
-if (isset($user)) $cookie = cookiedecode($user);
+
+require_once 'auth.inc.php';
+
+if (isset($user)) {
+   $cookie = cookiedecode($user);
+}
+
 session_manage();
+
 $tab_langue = make_tab_langue();
+
 global $meta_glossaire;
 $meta_glossaire = charg_metalang();
+
 date_default_timezone_set("Europe/Paris");
-/****************/
+
+// charegement des blocks.
+load_blocks('blocks');
 
 #autodoc file_contents_exist() : Controle de réponse// c'est pas encore assez fin not work with https probably
 function file_contents_exist($url, $response_code = 200)
 {
    $headers = get_headers($url);
+
    if (substr($headers[0], 9, 3) == $response_code)
       return TRUE;
    else
       return FALSE;
 }
+
 #autodoc session_manage() : Mise à jour la table session
 function session_manage()
 {
@@ -108,6 +106,7 @@ function session_manage()
    } else
       sql_query("INSERT INTO " . $NPDS_Prefix . "session (username, time, host_addr, guest, uri, agent) VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
 }
+
 #autodoc NightDay() : Pour obtenir Nuit ou Jour ... Un grand Merci à P.PECHARD pour cette fonction
 function NightDay()
 {
@@ -118,6 +117,7 @@ function NightDay()
    if ($Maintenant - $Jour < 0 xor $Maintenant - $Nuit > 0) return "Nuit";
    else return "Jour";
 }
+
 #autodoc removeHack($Xstring) : Permet de rechercher et de remplacer "some bad words" dans une chaine // Preg_replace by Pascalp
 function removeHack($Xstring)
 {
@@ -335,6 +335,7 @@ function removeHack($Xstring)
    }
    return ($Xstring);
 }
+
 #autodoc send_email($email, $subject, $message, $from, $priority, $mime, $file) : Pour envoyer un mail en texte ou html avec ou sans pieces jointes  / $mime = 'text', 'html' 'html-nobr'-(sans application de nl2br) ou 'mixed'-(avec piece(s) jointe(s) : génération ou non d'un DKIM suivant option choisie) 
 function send_email($email, $subject, $message, $from = "", $priority = false, $mime = "text", $file = null)
 {
@@ -441,6 +442,7 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 
    return $result ? true : false;
 }
+
 #autodoc copy_to_email($to_userid,$sujet,$message) : Pour copier un subject+message dans un email ($to_userid)
 function copy_to_email($to_userid, $sujet, $message)
 {
@@ -451,6 +453,7 @@ function copy_to_email($to_userid, $sujet, $message)
       send_email($mail, $sujet, $message, '', true, 'html', '');
    }
 }
+
 #autodoc Ecr_Log($fic_log, $req_log, $mot_log) : Pour &eacute;crire dans un log (security.log par exemple)
 function Ecr_Log($fic_log, $req_log, $mot_log)
 {
@@ -470,6 +473,7 @@ function Ecr_Log($fic_log, $req_log, $mot_log)
    flock($fp, 3);
    fclose($fp);
 }
+
 #autodoc redirect_url($urlx) : Permet une redirection javascript / en lieu et place de header("location: ...");
 function redirect_url($urlx)
 {
@@ -479,6 +483,7 @@ function redirect_url($urlx)
    echo "//]]>\n";
    echo "</script>";
 }
+
 #autodoc SC_infos() : Indique le status de SuperCache
 function SC_infos()
 {
@@ -487,7 +492,7 @@ function SC_infos()
    if ($SuperCache) {
       /*
       $infos = $npds_sc ? '<span class="small">'.translate(".:Page >> Super-Cache:.").'</span>':'';
-*/
+      */
       if ($npds_sc) {
          $infos = '<span class="small">' . translate(".:Page >> Super-Cache:.") . '</span>';
       } else {
@@ -496,6 +501,7 @@ function SC_infos()
    }
    return $infos;
 }
+
 #autodoc req_stat() : Retourne un tableau contenant les nombres pour les statistiques du site (stats.php)
 function req_stat()
 {
@@ -527,11 +533,13 @@ function req_stat()
    sql_free_result($result);
    return ($xtab);
 }
+
 #autodoc Mess_Check_Mail($username) : Appel la fonction d'affichage du groupe check_mail (theme principal de NPDS) sans class
 function Mess_Check_Mail($username)
 {
    Mess_Check_Mail_interface($username, '');
 }
+
 #autodoc Mess_Check_Mail_interface($username, $class) : Affiche le groupe check_mail (theme principal de NPDS)
 function Mess_Check_Mail_interface($username, $class)
 {
@@ -556,6 +564,7 @@ function Mess_Check_Mail_interface($username, $class)
       }
    }
 }
+
 #autodoc Mess_Check_Mail_Sub($username, $class) : Affiche le groupe check_mail (theme principal de NPDS) / SOUS-Fonction
 function Mess_Check_Mail_Sub($username, $class)
 {
@@ -589,12 +598,14 @@ function Mess_Check_Mail_Sub($username, $class)
    }
    return ("$Mel : $YNmail / $Ymail");
 }
+
 #autodoc Who_Online() : Qui est en ligne ? + message de bienvenue
 function Who_Online()
 {
    list($content1, $content2) = Who_Online_Sub();
    return array($content1, $content2);
 }
+
 #autodoc Who_Online() : Qui est en ligne ? + message de bienvenue / SOUS-Fonction / Utilise Site_Load
 function Who_Online_Sub()
 {
@@ -608,6 +619,7 @@ function Who_Online_Sub()
    }
    return array($content1, $content2);
 }
+
 #autodoc Site_Load() : Maintient les informations de NB connexion (membre, anonyme) - globalise la variable $who_online_num et maintient le fichier cache/site_load.log &agrave; jour<br />Indispensable pour la gestion de la 'clean_limit' de SuperCache
 function Site_Load()
 {
@@ -629,6 +641,7 @@ function Site_Load()
    }
    return array($member_online_num, $guest_online_num);
 }
+
 #autodoc AutoReg() : Si AutoRegUser=true et que le user ne dispose pas du droit de connexion : RAZ du cookie NPDS<br />retourne False ou True
 function AutoReg()
 {
@@ -650,6 +663,7 @@ function AutoReg()
       return true;
    }
 }
+
 #autodoc secur_static($sec_type) : Pour savoir si le visiteur est un : membre ou admin (static.php et banners.php par exemple)
 function secur_static($sec_type)
 {
@@ -663,6 +677,7 @@ function secur_static($sec_type)
          break;
    }
 }
+
 #autodoc ultramode() : Génération des fichiers ultramode.txt et net2zone.txt dans /cache
 function ultramode()
 {
@@ -687,6 +702,7 @@ function ultramode()
    fclose($file);
    fclose($file2);
 }
+
 #autodoc cookiedecode($user) : Décode le cookie membre et vérifie certaines choses (password)
 function cookiedecode($user)
 {
@@ -733,6 +749,7 @@ function cookiedecode($user)
       }
    }
 }
+
 #autodoc getusrinfo($user) : Renvoi le contenu de la table users pour le user uname
 function getusrinfo($user)
 {
@@ -751,6 +768,7 @@ function getusrinfo($user)
    }
    return $userinfo;
 }
+
 #autodoc FixQuotes($what) : Quote une chaîne contenant des '
 function FixQuotes($what = '')
 {
@@ -761,6 +779,7 @@ function FixQuotes($what = '')
    }
    return $what;
 }
+
 #autodoc formatTimes($time) : Formate un timestamp ou une chaine de date formatée correspondant à l'argument obligatoire $time - le décalage $gmt défini dans les préférences n'est pas appliqué
 function formatTimes($time, $dateStyle = IntlDateFormatter::SHORT, $timeStyle = IntlDateFormatter::NONE, $timezone = 'Europe/Paris')
 {
@@ -770,6 +789,7 @@ function formatTimes($time, $dateStyle = IntlDateFormatter::SHORT, $timeStyle = 
    $date_au_format = ucfirst(htmlentities($fmt->format($timestamp), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
    return $date_au_format;
 }
+
 #autodoc getPartOfTime($time) : découpe/extrait/formate et plus grâce au paramètre $format.... un timestamp ou une chaine de date formatée correspondant à l'argument obligatoire $time -
 function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 {
@@ -779,6 +799,7 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
    $date_au_format = $fmt->format($timestamp);
    return ucfirst(htmlentities($date_au_format, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
 }
+
 #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
 function formatAidHeader($aid)
 {
@@ -795,6 +816,7 @@ function formatAidHeader($aid)
       }
    }
 }
+
 #autodoc ctrl_aff($ihome, $catid) : Gestion + fine des destinataires (-1, 0, 1, 2 -> 127, -127)
 function ctrl_aff($ihome, $catid = 0)
 {
@@ -820,6 +842,7 @@ function ctrl_aff($ihome, $catid = 0)
       if ($user) $affich = true;
    return ($affich);
 }
+
 #autodoc news_aff($type_req, $sel, $storynum, $oldnum) : Une des fonctions fondamentales de NPDS / assure la gestion de la selection des News en fonctions des critères de publication
 function news_aff($type_req, $sel, $storynum, $oldnum)
 { // pas stabilisé ...!
@@ -891,11 +914,13 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
    @sql_free_result($result);
    return ($tab);
 }
+
 #autodoc themepreview($title, $hometext, $bodytext, $notes) : Permet de prévisualiser la présentation d'un NEW
 function themepreview($title, $hometext, $bodytext = '', $notes = '')
 {
    echo "$title<br />" . meta_lang($hometext) . "<br />" . meta_lang($bodytext) . "<br />" . meta_lang($notes);
 }
+
 #autodoc prepa_aff_news($op,$catid) : Prépare, serialize et stock dans un tableau les news répondant aux critères<br />$op="" ET $catid="" : les news // $op="categories" ET $catid="catid" : les news de la catégorie catid //  $op="article" ET $catid=ID_X : l'article d'ID X // Les news des sujets : $op="topics" ET $catid="topic"
 function prepa_aff_news($op, $catid, $marqeur)
 {
@@ -991,6 +1016,7 @@ function prepa_aff_news($op, $catid, $marqeur)
    if (isset($news_tab))
       return ($news_tab);
 }
+
 #autodoc valid_group($xuser) : Retourne un tableau contenant la liste des groupes d'appartenance d'un membre
 function valid_group($xuser)
 {
@@ -1004,6 +1030,7 @@ function valid_group($xuser)
       $tab_groupe = '';
    return ($tab_groupe);
 }
+
 #autodoc liste_group() : Retourne une liste des groupes disponibles dans un tableau
 function liste_group()
 {
@@ -1016,12 +1043,14 @@ function liste_group()
    sql_free_result($r);
    return ($tmp_groupe);
 }
+
 #autodoc groupe_forum($forum_groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) forum de type groupe
 function groupe_forum($forum_groupeX, $tab_groupeX)
 {
    $ok_affich = groupe_autorisation($forum_groupeX, $tab_groupeX);
    return ($ok_affich);
 }
+
 #autodoc groupe_autorisation($groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) groupe
 function groupe_autorisation($groupeX, $tab_groupeX)
 {
@@ -1040,6 +1069,7 @@ function groupe_autorisation($groupeX, $tab_groupeX)
    }
    return ($ok);
 }
+
 #autodoc block_fonction($title, $contentX) : Assure la gestion des include# et function# des blocs de NPDS / le titre du bloc est exporté (global) )dans $block_title
 function block_fonction($title, $contentX)
 {
@@ -1109,6 +1139,7 @@ function block_fonction($title, $contentX)
       return (false);
    }
 }
+
 #autodoc fab_block($title, $member, $content, $Xcache) : Assure la fabrication réelle et le Cache d'un bloc
 function fab_block($title, $member, $content, $Xcache)
 {
@@ -1269,16 +1300,19 @@ function fab_block($title, $member, $content, $Xcache)
       }
    }
 }
+
 #autodoc leftblocks() : Meta-Fonction / Blocs de Gauche
 function leftblocks($moreclass)
 {
    Pre_fab_block('', 'LB', $moreclass);
 }
+
 #autodoc rightblocks() : Meta-Fonction / Blocs de Droite
 function rightblocks($moreclass)
 {
    Pre_fab_block('', 'RB', $moreclass);
 }
+
 #autodoc oneblock($Xid, $Xblock) : Alias de Pre_fab_block pour meta-lang
 function oneblock($Xid, $Xblock)
 {
@@ -1288,6 +1322,7 @@ function oneblock($Xid, $Xblock)
    ob_end_clean();
    return ($tmp);
 }
+
 #autodoc Pre_fab_block($Xid, $Xblock, $moreclass) : Assure la fabrication d'un ou de tous les blocs Gauche et Droite
 function Pre_fab_block($Xid, $Xblock, $moreclass)
 {
@@ -1315,6 +1350,7 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
    }
    sql_free_result($result);
 }
+
 #autodoc niv_block($Xcontent) : Retourne le niveau d'autorisation d'un block (et donc de certaines fonctions) / le paramètre (une expression régulière) est le contenu du bloc (function#....)
 function niv_block($Xcontent)
 {
@@ -1331,6 +1367,7 @@ function niv_block($Xcontent)
    }
    sql_free_result($result);
 }
+
 #autodoc autorisation_block($Xcontent) : Retourne une chaine?? // array ou vide contenant la liste des autorisations (-127,-1,0,1,2...126)) SI le bloc est actif SINON "" / le paramètre est le contenu du bloc (function#....)
 function autorisation_block($Xcontent)
 {
@@ -1349,6 +1386,7 @@ function autorisation_block($Xcontent)
    else
       return ('');
 }
+
 #autodoc autorisation($auto) : Retourne true ou false en fonction des paramètres d'autorisation de NPDS (Administrateur, anonyme, Membre, Groupe de Membre, Tous)
 function autorisation($auto)
 {
@@ -1371,6 +1409,7 @@ function autorisation($auto)
    if (($auto == -127) and ($admin)) $affich = true;
    return ($affich);
 }
+
 #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
 function getTopics($s_sid)
 {
@@ -1391,6 +1430,7 @@ function getTopics($s_sid)
       return (false);
    }
 }
+
 #autodoc subscribe_mail($Xtype, $Xtopic,$Xforum, $Xresume, $Xsauf) : Assure l'envoi d'un mail pour un abonnement
 function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 {
@@ -1441,6 +1481,7 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
       }
    }
 }
+
 #autodoc subscribe_query($Xuser,$Xtype, $Xclef) : Retourne true si le membre est abonné; à un topic ou forum
 function subscribe_query($Xuser, $Xtype, $Xclef)
 {
@@ -1458,6 +1499,7 @@ function subscribe_query($Xuser, $Xtype, $Xclef)
       return (false);
    }
 }
+
 #autodoc pollSecur($pollID) : Assure la gestion des sondages membres
 function pollSecur($pollID)
 {
@@ -1474,67 +1516,7 @@ function pollSecur($pollID)
    }
    return (array($pollID, $pollClose));
 }
-#autodoc pollMain($pollID,$pollClose) : Construit le bloc sondage
-function pollMain($pollID, $pollClose)
-{
-   global $NPDS_Prefix, $maxOptions, $boxTitle, $boxContent, $userimg, $language, $pollcomm, $cookie;
-   if (!isset($pollID))
-      $pollID = 1;
-   if (!isset($url))
-      $url = sprintf("pollBooth.php?op=results&amp;pollID=%d", $pollID);
-   $boxContent = '
-                              <form action="pollBooth.php" method="post">
-                                 <input type="hidden" name="pollID" value="' . $pollID . '" />
-                                 <input type="hidden" name="forwarder" value="' . $url . '" />';
-   $result = sql_query("SELECT pollTitle, voters FROM " . $NPDS_Prefix . "poll_desc WHERE pollID='$pollID'");
-   list($pollTitle, $voters) = sql_fetch_row($result);
-   global $block_title;
-   $boxTitle = $block_title == '' ? translate("Sondage") :  $block_title;
-   $boxContent .= '<legend>' . aff_langue($pollTitle) . '</legend>';
-   $result = sql_query("SELECT pollID, optionText, optionCount, voteID FROM " . $NPDS_Prefix . "poll_data WHERE (pollID='$pollID' AND optionText<>'') ORDER BY voteID");
-   $sum = 0;
-   $j = 0;
-   if (!$pollClose) {
-      $boxContent .= '
-                                 <div class="mb-3">';
-      while ($object = sql_fetch_assoc($result)) {
-         $boxContent .= '
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="radio" id="voteID' . $j . '" name="voteID" value="' . $object['voteID'] . '" />
-                                       <label class="form-check-label d-block" for="voteID' . $j . '" >' . aff_langue($object['optionText']) . '</label>
-                                    </div>';
-         $sum = $sum + $object['optionCount'];
-         $j++;
-      }
-      $boxContent .= '
-                                 </div>';
-   } else {
-      while ($object = sql_fetch_assoc($result)) {
-         $boxContent .= '&nbsp;' . aff_langue($object['optionText']) . '<br />';
-         $sum = $sum + $object['optionCount'];
-      }
-   }
-   settype($inputvote, 'string');
-   if (!$pollClose)
-      $inputvote = '<button class="btn btn-outline-primary btn-sm btn-block" type="submit" value="' . translate("Voter") . '" title="' . translate("Voter") . '" ><i class="fa fa-check fa-lg"></i> ' . translate("Voter") . '</button>';
-   $boxContent .= '
-                                 <div class="mb-3">' . $inputvote . '</div>
-                              </form>
-                              <a href="pollBooth.php?op=results&amp;pollID=' . $pollID . '" title="' . translate("Résultats") . '">' . translate("Résultats") . '</a>&nbsp;&nbsp;<a href="pollBooth.php">' . translate("Anciens sondages") . '</a>
-                              <ul class="list-group mt-3">
-                                 <li class="list-group-item">' . translate("Votes : ") . ' <span class="badge rounded-pill bg-secondary float-end">' . $sum . '</span></li>';
-   if ($pollcomm) {
-      if (file_exists("modules/comments/pollBoth.conf.php"))
-         include("modules/comments/pollBoth.conf.php");
-      list($numcom) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$pollID' AND post_aff='1'"));
-      $boxContent .= '
-                                 <li class="list-group-item">' . translate("Commentaire(s) : ") . ' <span class="badge rounded-pill bg-secondary float-end">' . $numcom . '</span></li>';
-   }
-   $boxContent .= '
-                              </ul>
-                           ';
-   themesidebox($boxTitle, $boxContent);
-}
+
 #autodoc fab_edito() : Construit l'edito
 function fab_edito()
 {
@@ -1585,6 +1567,7 @@ function fab_edito()
    $Xcontents = meta_lang(aff_langue($Xcontents));
    return array($affich, $Xcontents);
 }
+
 #autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate("xxxx")
 function aff_langue($ibid)
 {
@@ -1638,6 +1621,7 @@ function aff_langue($ibid)
    }
    return ($ibid);
 }
+
 #autodoc make_tab_langue() : Charge le tableau TAB_LANGUE qui est utilisé par les fonctions multi-langue
 function make_tab_langue()
 {
@@ -1647,6 +1631,7 @@ function make_tab_langue()
    $tab_langue = explode(' ', $languageslocal);
    return ($tab_langue);
 }
+
 #autodoc aff_localzone_langue($ibid) : Charge une zone de formulaire de selection de la langue
 function aff_localzone_langue($ibid)
 {
@@ -1669,6 +1654,7 @@ function aff_localzone_langue($ibid)
                                  </noscript>';
    return ($M_langue);
 }
+
 #autodoc aff_local_langue($ibid_index, $ibid, $mess) : Charge une FORM de selection de langue $ibid_index = URL de la Form, $ibid = nom du champ
 function aff_local_langue($ibid_index, $ibid, $mess = '')
 {
@@ -1684,6 +1670,7 @@ function aff_local_langue($ibid_index, $ibid, $mess = '')
                            ';
    return ($M_langue);
 }
+
 #autodoc preview_local_langue($local_user_language,$ibid) : appel la fonction aff_langue en modifiant temporairement la valeur de la langue
 function preview_local_langue($local_user_language, $ibid)
 {
@@ -1697,11 +1684,13 @@ function preview_local_langue($local_user_language, $ibid)
    }
    return ($ibid);
 }
+
 #autodoc af_cod($ibid) : Analyse le contenu d'une chaîne et converti les pseudo-balises [code]...[/code] et leur contenu en html
 function change_cod($r)
 {
    return '<' . $r[2] . ' class="language-' . $r[3] . '">' . htmlentities($r[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') . '</' . $r[2] . '>';
 }
+
 function af_cod($ibid)
 {
    $pat = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
@@ -1709,6 +1698,7 @@ function af_cod($ibid)
    //   $ibid= str_replace(array("\r\n", "\r", "\n"), "<br />",$ibid);
    return $ibid;
 }
+
 #autodoc desaf_cod($ibid) : Analyse le contenu d'une chaîne et converti les balises html <code>...</code> en pseudo-balises [code]...[/code]
 function desaf_cod($ibid)
 {
@@ -1720,6 +1710,7 @@ function desaf_cod($ibid)
    $ibid = preg_replace_callback($pat, 'rechange_cod', $ibid, -1);
    return $ibid;
 }
+
 #autodoc aff_code($ibid) : Analyse le contenu d'une chaîne et converti les balises [code]...[/code]
 function aff_code($ibid)
 {
@@ -1745,6 +1736,7 @@ function aff_code($ibid)
    }
    return ($ibid);
 }
+
 #####// ces deux fonctions suivantes génèrent des erreurs multiples à corriger ou supprimer Warning: Uninitialized string offset 16 in mainfile.php on line 1655
 #autodoc split_string_without_space($msg, $split) : Découpe la chaine en morceau de $slpit longueur si celle-ci ne contient pas d'espace / Snipe 2004
 function split_string_without_space($msg, $split)
@@ -1754,6 +1746,7 @@ function split_string_without_space($msg, $split)
    $Xmsg = implode(' ', $Xmsg);
    return ($Xmsg);
 }
+
 #autodoc wrapper_f (&$string, $key, $cols) : Fonction Wrapper pour split_string_without_space / Snipe 2004
 function wrapper_f(&$string, $key, $cols)
 {
@@ -1778,12 +1771,14 @@ function wrapper_f(&$string, $key, $cols)
    }
    //   }
 }
+
 #autodoc preg_anti_spam($str) : Permet l'utilisation de la fonction anti_spam via preg_replace
 function preg_anti_spam($ibid)
 {
    // Adaptation - David MARTINET alias Boris (2011)
    return ("<a href=\"mailto:" . anti_spam($ibid, 1) . "\" target=\"_blank\">" . anti_spam($ibid, 0) . "</a>");
 }
+
 #autodoc anti_spam($str [, $highcode]) : Encode une chaine en mélangeant caractères normaux, codes décimaux et hexa. Si $highcode == 1, utilise également le codage ASCII (compatible uniquement avec des mailto et des URL, pas pour affichage)
 function anti_spam($str, $highcode = 0)
 {
@@ -1818,6 +1813,7 @@ function anti_spam($str, $highcode = 0)
    }
    return $str_encoded;
 }
+
 #autodoc aff_editeur($Xzone, $Xactiv) : Charge l'éditeur ... ou non : $Xzone = nom du textarea / $Xactiv = deprecated <br /> si $Xzone="custom" on utilise $Xactiv pour passer des paramètres spécifiques
 function aff_editeur($Xzone, $Xactiv)
 {
@@ -1853,6 +1849,7 @@ function aff_editeur($Xzone, $Xactiv)
       $tmp = '';
    return ($tmp);
 }
+
 #autodoc utf8_java($ibid) : Encode une chaine UF8 au format javascript - JPB 2005
 function utf8_java($ibid)
 {
@@ -1869,6 +1866,7 @@ function utf8_java($ibid)
    }
    return ($ibid);
 }
+
 #autodoc wrh($ibid) : Formate une chaine numérique avec un espace tous les 3 chiffres / cheekybilly 2005
 function wrh($ibid)
 {
@@ -1876,6 +1874,7 @@ function wrh($ibid)
    $tmp = str_replace(' ', '&nbsp;', $tmp);
    return ($tmp);
 }
+
 #autodoc Q_spambot() : forge un champ de formulaire (champ de saisie : $asb_reponse / champ hidden : asb_question) permettant de déployer une fonction anti-spambot
 function Q_spambot()
 {
@@ -1933,47 +1932,47 @@ function Q_spambot()
 
    ##################################################################
    /* infernal ....
-après de nombreux essai ... avec ISO-8859-1 ou UTF-8
-$aff=str_replace($tab[$al1],html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'ISO-8859-1'),$aff);
+   après de nombreux essai ... avec ISO-8859-1 ou UTF-8
+   $aff=str_replace($tab[$al1],html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'ISO-8859-1'),$aff);
 
-encrypt puis decrypt renvoient un résultats corrects stable
-mais parfois la fonction encrypt peut renvoyer une chaine 
-- se terminant par == ou /
-- contenant de + des / 
-dans ces cas là le résultat de rawurldecode(decrypt()) est corrompu !
+   encrypt puis decrypt renvoient un résultats corrects stable
+   mais parfois la fonction encrypt peut renvoyer une chaine 
+   - se terminant par == ou /
+   - contenant de + des / 
+   dans ces cas là le résultat de rawurldecode(decrypt()) est corrompu !
 
-dans les autres cas le résultat de rawurldecode(decrypt()) traité dans cette page est correct
-MAIS PAS quand ça repasse par le serveur et traité dans getfile.php (et je ne comprends pas pourquoi)
+   dans les autres cas le résultat de rawurldecode(decrypt()) traité dans cette page est correct
+   MAIS PAS quand ça repasse par le serveur et traité dans getfile.php (et je ne comprends pas pourquoi)
 
-donc pour l'instant on garde UTF-8 et on redécode dans getfile.php
-mais dans tout les cas le captcha en chinois est faux
-//je pense qu' il faut plutôt utiliser imagettftext dans le captcha (adapté à utf-8) !
-*/
-   /*
-var_dump('sortie de trad en utf-8 ou iso ==>'.$aff.'<br />');/////////
+   donc pour l'instant on garde UTF-8 et on redécode dans getfile.php
+   mais dans tout les cas le captcha en chinois est faux
+   //je pense qu' il faut plutôt utiliser imagettftext dans le captcha (adapté à utf-8) !
+   */
+      /*
+   var_dump('sortie de trad en utf-8 ou iso ==>'.$aff.'<br />');/////////
 
-$encryt_aff = encrypt($aff." = ");/////
-var_dump("fonction encrypt ==> ".$encryt_aff.'<br />');/////
-$decryt_aff = decrypt($encryt_aff." = ");/////
-var_dump("fonction decrypt ==> ".$decryt_aff.'<br />');/////
+   $encryt_aff = encrypt($aff." = ");/////
+   var_dump("fonction encrypt ==> ".$encryt_aff.'<br />');/////
+   $decryt_aff = decrypt($encryt_aff." = ");/////
+   var_dump("fonction decrypt ==> ".$decryt_aff.'<br />');/////
 
-$rawurlencode= rawurlencode($encryt_aff);/////
-var_dump("fonction rawurlencode ==> ".$rawurlencode.'<br />');/////
-$rawurldecode= rawurldecode($rawurlencode);/////
-var_dump("fonction rawurldecode ==> ".$rawurldecode.'<br />');/////
+   $rawurlencode= rawurlencode($encryt_aff);/////
+   var_dump("fonction rawurlencode ==> ".$rawurlencode.'<br />');/////
+   $rawurldecode= rawurldecode($rawurlencode);/////
+   var_dump("fonction rawurldecode ==> ".$rawurldecode.'<br />');/////
 
-$b = rawurldecode(decrypt($rawurlencode));
-var_dump('fonction rawurldecode (decrypt()) ==> '.$b.'<br />');////
+   $b = rawurldecode(decrypt($rawurlencode));
+   var_dump('fonction rawurldecode (decrypt()) ==> '.$b.'<br />');////
 
-function mb_rawurlencode($url){
-$encoded='';
-$length=mb_strlen($url);
-for($i=0;$i<$length;$i++){
-$encoded.='%'.wordwrap(bin2hex(mb_substr($url,$i,1)),2,'%',true);
-}
-return $encoded;
-}
-*/
+   function mb_rawurlencode($url){
+   $encoded='';
+   $length=mb_strlen($url);
+   for($i=0;$i<$length;$i++){
+   $encoded.='%'.wordwrap(bin2hex(mb_substr($url,$i,1)),2,'%',true);
+   }
+   return $encoded;
+   }
+   */
    ##################################################################
    // mis en majuscule
    if ($asb_index % 2)
@@ -2003,6 +2002,7 @@ return $encoded;
    }
    return ($tmp);
 }
+
 #autodoc L_spambot($ip, $status) : Log spambot activity : $ip="" => getip of the current user OR $ip="x.x.x.x" / $status = Op to do : true => not log or suppress log - false => log+1 - ban => Ban an IP 
 function L_spambot($ip, $status)
 {
@@ -2050,6 +2050,7 @@ function L_spambot($ip, $status)
       fclose($file);
    }
 }
+
 #autodoc R_spambot($asb_question, $asb_reponse, $message) : valide le champ $asb_question avec la valeur de $asb_reponse (anti-spambot) et filtre le contenu de $message si nécessaire
 function R_spambot($asb_question, $asb_reponse, $message = '')
 {
@@ -2095,6 +2096,7 @@ function R_spambot($asb_question, $asb_reponse, $message = '')
       return (false);
    }
 }
+
 #autodoc keyED($txt,$encrypt_key) : Composant des fonctions encrypt et decrypt
 function keyED($txt, $encrypt_key)
 {
@@ -2108,12 +2110,14 @@ function keyED($txt, $encrypt_key)
    }
    return $tmp;
 }
+
 #autodoc encrypt($txt) : retourne une chaine encryptée en utilisant la valeur de $NPDS_Key
 function encrypt($txt)
 {
    global $NPDS_Key;
    return (encryptK($txt, $NPDS_Key));
 }
+
 #autodoc encryptK($txt, $C_key) : retourne une chaine encryptée en utilisant la clef : $C_key
 function encryptK($txt, $C_key)
 {
@@ -2137,12 +2141,14 @@ function encryptK($txt, $C_key)
    }
    return base64_encode(keyED($tmp, $C_key));
 }
+
 #autodoc decrypt($txt) : retourne une chaine décryptée en utilisant la valeur de $NPDS_Key
 function decrypt($txt)
 {
    global $NPDS_Key;
    return (decryptK($txt, $NPDS_Key));
 }
+
 #autodoc decryptK($txt, $C_key) : retourne une décryptée en utilisant la clef de $C_Key
 function decryptK($txt, $C_key)
 {
@@ -2155,6 +2161,7 @@ function decryptK($txt, $C_key)
    }
    return ($tmp);
 }
+
 #autodoc conv2br($txt) : convertie \r \n  BR ... en br XHTML
 function conv2br($txt)
 {
@@ -2165,6 +2172,7 @@ function conv2br($txt)
    $Xcontent = str_replace("<BR>", "<br />", $Xcontent);
    return ($Xcontent);
 }
+
 #autodoc hexfromchr($txt) : Les 8 premiers caractères sont convertis en UNE valeur Hexa unique 
 function hexfromchr($txt)
 {
@@ -2175,375 +2183,17 @@ function hexfromchr($txt)
    }
    return ($tmp %= 16);
 }
-#autodoc:<Mainfile.php>
-#autodoc <span class="text-success">BLOCS NPDS</span>:
-#autodoc Site_Activ() : Bloc activité du site <br />=> syntaxe : function#Site_Activ
-function Site_Activ()
-{
-   global $startdate, $top;
-   list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
-   $aff = '
-                              <p class="text-center">' . translate("Pages vues depuis") . ' ' . $startdate . ' : <span class="fw-semibold">' . wrh($totalz) . '</span></p>
-                              <ul class="list-group mb-3" id="site_active">
-                                 <li class="my-1">' . translate("Nb. de membres") . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh(($membres)) . '</span></li>
-                                 <li class="my-1">' . translate("Nb. d'articles") . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh($totala) . '</span></li>
-                                 <li class="my-1">' . translate("Nb. de forums") . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh($totalc) . '</span></li>
-                                 <li class="my-1">' . translate("Nb. de sujets") . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh($totald) . '</span></li>
-                                 <li class="my-1">' . translate("Nb. de critiques") . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh($totalb) . '</span></li>
-                              </ul>';
-   if ($ibid = theme_image("box/top.gif")) {
-      $imgtmp = $ibid;
-   } else {
-      $imgtmp = false;
-   } // no need
-   if ($imgtmp) {
-      $aff .= '
-                              <p class="text-center"><a href="top.php"><img src="' . $imgtmp . '" alt="' . translate("Top") . ' ' . $top . '" /></a>&nbsp;&nbsp;';
-      if ($ibid = theme_image("box/stat.gif")) {
-         $imgtmp = $ibid;
-      } else {
-         $imgtmp = false;
-      } // no need
-      $aff .= '<a href="stats.php"><img src="' . $imgtmp . '" alt="' . translate("Statistiques") . '" /></a></p>';
-   } else
-      $aff .= '
-                              <p class="text-center"><a href="top.php">' . translate("Top") . ' ' . $top . '</a>&nbsp;&nbsp;<a href="stats.php" >' . translate("Statistiques") . '</a></p>
-                           ';
-   global $block_title;
-   $title = $block_title == '' ? translate("Activité du site") : $block_title;
-   themesidebox($title, $aff);
-}
-#autodoc online() : Bloc Online (Who_Online) <br />=> syntaxe : function#online
-function online()
-{
-   global $NPDS_Prefix, $user, $cookie;
-   $ip = getip();
-   $username = isset($cookie[1]) ? $cookie[1] : '';
-   if ($username == '') {
-      $username = $ip;
-      $guest = 1;
-   } else
-      $guest = 0;
-   $past = time() - 300;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "session WHERE time < '$past'");
-   $result = sql_query("SELECT time FROM " . $NPDS_Prefix . "session WHERE username='$username'");
-   $ctime = time();
-   if ($row = sql_fetch_row($result))
-      sql_query("UPDATE " . $NPDS_Prefix . "session SET username='$username', time='$ctime', host_addr='$ip', guest='$guest' WHERE username='$username'");
-   else
-      sql_query("INSERT INTO " . $NPDS_Prefix . "session (username, time, host_addr, guest) VALUES ('$username', '$ctime', '$ip', '$guest')");
-   $result = sql_query("SELECT username FROM " . $NPDS_Prefix . "session WHERE guest=1");
-   $guest_online_num = sql_num_rows($result);
-   $result = sql_query("SELECT username FROM " . $NPDS_Prefix . "session WHERE guest=0");
-   $member_online_num = sql_num_rows($result);
-   $who_online_num = $guest_online_num + $member_online_num;
-   $who_online = '
-                              <p class="text-center">' . translate("Il y a actuellement") . ' <span class="badge bg-secondary">' . $guest_online_num . '</span> ' . translate("visiteur(s) et") . ' <span class="badge bg-secondary">' . $member_online_num . ' </span> ' . translate("membre(s) en ligne.") . '<br />';
-   $content = $who_online;
-   if ($user) {
-      $content .= '<br />' . translate("Vous êtes connecté en tant que") . ' <strong>' . $username . '</strong>.<br />';
-      $result = Q_select("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='$username'", 86400);
-      $uid = $result[0];
-      $result2 = sql_query("SELECT to_userid FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid='" . $uid['uid'] . "' AND type_msg='0'");
-      $numrow = sql_num_rows($result2);
-      $content .= translate("Vous avez") . ' <a href="viewpmsg.php"><span class="badge bg-primary">' . $numrow . '</span></a> ' . translate("message(s) personnel(s).") . '</p>
-                           ';
-   } else
-      $content .= '<br />' . translate("Devenez membre privilégié en cliquant") . ' <a href="user.php?op=only_newuser">' . translate("ici") . '</a></p>
-                           ';
-   global $block_title;
-   $title = $block_title == '' ? translate("Qui est en ligne ?") : $block_title;
-   themesidebox($title, $content);
-}
-#autodoc lnlbox() : Bloc Little News-Letter <br />=> syntaxe : function#lnlbox
-function lnlbox()
-{
-   global $block_title;
-   $title = $block_title == '' ? translate("La lettre") : $block_title;
-   $boxstuff = '
-         <form id="lnlblock" action="lnl.php" method="get">
-            <div class="mb-3">
-               <select name="op" class=" form-select">
-                  <option value="subscribe">' . translate("Abonnement") . '</option>
-                  <option value="unsubscribe">' . translate("Désabonnement") . '</option>
-               </select>
-            </div>
-            <div class="form-floating mb-3">
-               <input type="email" id="email_block" name="email" maxlength="254" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required="required"/>
-               <label for="email_block">' . translate("Votre adresse Email") . '</label>
-               <span class="help-block">' . translate("Recevez par mail les nouveautés du site.") . '</span>
-            </div>
-            <button type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class ="fa fa-check fa-lg me-2"></i>' . translate("Valider") . '</button>
-         </form>';
-   themesidebox($title, $boxstuff);
-}
-#autodoc searchbox() : Bloc Search-engine <br />=> syntaxe : function#searchbox
-function searchbox()
-{
-   global $block_title;
-   $title = $block_title == '' ? translate("Recherche") : $block_title;
-   $content = '
-                              <form id="searchblock" action="search.php" method="get">
-                                 <input class="form-control" type="text" name="query" />
-                              </form>
-                           ';
-   themesidebox($title, $content);
-}
+
 function changetoamp($r)
 {
    return str_replace('&', '&amp;', $r[0]);
 } //must work from php 4 to 7 !..?..
-#autodoc mainblock() : Bloc principal <br />=> syntaxe : function#mainblock
-function mainblock()
-{
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT title, content FROM " . $NPDS_Prefix . "block WHERE id=1");
-   list($title, $content) = sql_fetch_row($result);
-   global $block_title;
-   if ($title == '') $title = $block_title;
-   //must work from php 4 to 7 !..?..
-   themesidebox(aff_langue($title), aff_langue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', 'changetoamp', $content)));
-}
+
 function changetoampadm($r)
 {
    return str_replace('&', '&amp;', $r[0]);
 }
-#autodoc adminblock() : Bloc Admin <br />=> syntaxe : function#adminblock
-function adminblock()
-{
-   $bloc_foncts_A = '';
-   global $NPDS_Prefix, $admin, $aid, $admingraphic, $adminimg, $admf_ext, $Version_Sub, $Version_Num, $nuke_url;
-   if ($admin) {
-      $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$aid' LIMIT 1"));
-      $R = $Q['radminsuper'] == 1 ?
-         sql_query("SELECT * FROM " . $NPDS_Prefix . "fonctions f WHERE f.finterface =1 AND f.fetat != '0' ORDER BY f.fcategorie") :
-         sql_query("SELECT * FROM " . $NPDS_Prefix . "fonctions f LEFT JOIN " . $NPDS_Prefix . "droits d ON f.fdroits1 = d.d_fon_fid LEFT JOIN " . $NPDS_Prefix . "authors a ON d.d_aut_aid =a.aid WHERE f.finterface =1 AND fetat!=0 AND d.d_aut_aid='$aid' AND d.d_droits REGEXP'^1' ORDER BY f.fcategorie");
-      while ($SAQ = sql_fetch_assoc($R)) {
-         $arraylecture = array();
-         if (isset($SAQ['fdroits1_descr']) && is_string($SAQ['fdroits1_descr']))
-            $arraylecture = explode('|', $SAQ['fdroits1_descr']);
-         $cat[] = $SAQ['fcategorie'];
-         $cat_n[] = $SAQ['fcategorie_nom'];
-         $fid_ar[] = $SAQ['fid'];
-         if ($SAQ['fcategorie'] == 9)
-            $adminico = $adminimg . $SAQ['ficone'] . '.' . $admf_ext;
-         if ($SAQ['fcategorie'] == 9 and strstr($SAQ['furlscript'], "op=Extend-Admin-SubModule"))
-            if (file_exists('modules/' . $SAQ['fnom'] . '/' . $SAQ['fnom'] . '.' . $admf_ext)) $adminico = 'modules/' . $SAQ['fnom'] . '/' . $SAQ['fnom'] . '.' . $admf_ext;
-            else $adminico = $adminimg . 'module.' . $admf_ext;
-         if ($SAQ['fcategorie'] == 9) {
-            if (preg_match('#messageModal#', $SAQ['furlscript']))
-               $furlscript = 'data-bs-toggle="modal" data-bs-target="#bl_messageModal"';
 
-            if (preg_match('#mes_npds_\d#', $SAQ['fnom'])) {
-               if (!in_array($aid, $arraylecture, true)) {
-                  $bloc_foncts_A .= '
-                                 <a class=" btn btn-outline-primary btn-sm me-2 my-1 tooltipbyclass" title="' . $SAQ['fretour_h'] . '" data-id="' . $SAQ['fid'] . '" data-bs-html="true" ' . $furlscript . ' >
-                                    <img class="adm_img" src="' . $adminico . '" alt="icon_message" loading="lazy" />
-                                    <span class="badge bg-danger ms-1">' . $SAQ['fretour'] . '</span>
-                                 </a>';
-               }
-            } else {
-               $furlscript = preg_match('#versusModal#', $SAQ['furlscript']) ?
-                  'data-bs-toggle="modal" data-bs-target="#bl_versusModal"' :
-                  $SAQ['furlscript'];
-               if (preg_match('#NPDS#', $SAQ['fretour_h']))
-                  $SAQ['fretour_h'] = str_replace('NPDS', 'NPDS^', $SAQ['fretour_h']);
-               $bloc_foncts_A .= '
-                                 <a class=" btn btn-outline-primary btn-sm me-2 my-1 tooltipbyclass" title="' . $SAQ['fretour_h'] . '" data-id="' . $SAQ['fid'] . '" data-bs-html="true" ' . $furlscript . ' >
-                                    <img class="adm_img" src="' . $adminico . '" alt="icon_' . $SAQ['fnom_affich'] . '" loading="lazy" />
-                                    <span class="badge bg-danger ms-1">' . $SAQ['fretour'] . '</span>
-                                 </a>';
-            }
-         }
-      }
-
-      $result = sql_query("SELECT title, content FROM " . $NPDS_Prefix . "block WHERE id=2");
-      list($title, $content) = sql_fetch_row($result);
-      global $block_title;
-      $title = $title == '' ? $block_title : aff_langue($title);
-      $content = aff_langue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', 'changetoampadm', $content));
-
-      //==> recuperation
-      $messagerie_npds = file_get_contents('https://raw.githubusercontent.com/npds/npds_dune/master/versus.txt');
-      $messages_npds = explode("\n", $messagerie_npds);
-      array_pop($messages_npds);
-
-      // traitement spécifique car fonction permanente versus
-      $versus_info = explode('|', $messages_npds[0]);
-      if ($versus_info[1] == $Version_Sub and $versus_info[2] == $Version_Num)
-         sql_query("UPDATE " . $NPDS_Prefix . "fonctions SET fetat='1', fretour='', fretour_h='Version NPDS " . $Version_Sub . " " . $Version_Num . "', furlscript='' WHERE fid='36'");
-      else
-         sql_query("UPDATE " . $NPDS_Prefix . "fonctions SET fetat='1', fretour='N', furlscript='data-bs-toggle=\"modal\" data-bs-target=\"#versusModal\"', fretour_h='Une nouvelle version NPDS est disponible !<br />" . $versus_info[1] . " " . $versus_info[2] . "<br />Cliquez pour télécharger.' WHERE fid='36'");
-      $content .= '
-                              <div class="d-flex justify-content-start flex-wrap" id="adm_block">
-      ' . $bloc_foncts_A;
-      if ($Q['radminsuper'] == 1)
-         $content .= '
-                                 <a class="btn btn-outline-primary btn-sm me-2 my-1" title="' . translate("Vider la table chatBox") . '" data-bs-toggle="tooltip" href="powerpack.php?op=admin_chatbox_write&amp;chatbox_clearDB=OK" ><img src="images/admin/chat.png" class="adm_img" alt="icon clear chat" loading="lazy" />&nbsp;<span class="badge bg-danger ms-1">X</span></a>';
-      $content .= '
-                              </div>
-                              <div class="mt-3">
-                                 <small class="text-body-secondary"><i class="fas fa-user-cog fa-2x align-middle"></i> ' . $aid . '</small>
-                              </div>
-                              <div class="modal fade" id="bl_versusModal" tabindex="-1" aria-labelledby="bl_versusModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog">
-                                    <div class="modal-content">
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="bl_versusModalLabel"><img class="adm_img me-2" src="images/admin/message_npds.png" alt="icon_" loading="lazy" />' . translate("Version") . ' NPDS^</h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                       </div>
-                                       <div class="modal-body">
-                                          <p>Vous utilisez NPDS^ ' . $Version_Sub . ' ' . $Version_Num . '</p>
-                                          <p>' . translate("Une nouvelle version de NPDS^ est disponible !") . '</p>
-                                          <p class="lead mt-3">' . $versus_info[1] . ' ' . $versus_info[2] . '</p>
-                                          <p class="my-3">
-                                             <a class="me-3" href="https://github.com/npds/npds_dune/archive/refs/tags/' . $versus_info[2] . '.zip" target="_blank" title="" data-bs-toggle="tooltip" data-original-title="Charger maintenant"><i class="fa fa-download fa-2x me-1"></i>.zip</a>
-                                             <a class="mx-3" href="https://github.com/npds/npds_dune/archive/refs/tags/' . $versus_info[2] . '.tar.gz" target="_blank" title="" data-bs-toggle="tooltip" data-original-title="Charger maintenant"><i class="fa fa-download fa-2x me-1"></i>.tar.gz</a>
-                                          </p>
-                                       </div>
-                                       <div class="modal-footer">
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="modal fade" id="bl_messageModal" tabindex="-1" aria-labelledby="bl_messageModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog">
-                                    <div class="modal-content">
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id=""><span id="bl_messageModalIcon" class="me-2"></span><span id="bl_messageModalLabel"></span></h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                       </div>
-                                       <div class="modal-body">
-                                          <p id="bl_messageModalContent"></p>
-                                          <form class="mt-3" id="bl_messageModalForm" action="" method="POST">
-                                             <input type="hidden" name="id" id="bl_messageModalId" value="0" />
-                                             <button type="submit" class="btn btn btn-primary btn-sm">' . translate("Confirmer la lecture") . '</button>
-                                          </form>
-                                       </div>
-                                       <div class="modal-footer">
-                                       <span class="small text-body-secondary">Information de npds.org</span><img class="adm_img me-2" src="images/admin/message_npds.png" alt="icon_" loading="lazy" />
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                              <script>
-                                 $(function () {
-                                   $("#bl_messageModal").on("show.bs.modal", function (event) {
-                                       var button = $(event.relatedTarget); 
-                                       var id = button.data("id");
-                                       $("#bl_messageModalId").val(id);
-                                       $("#bl_messageModalForm").attr("action", "' . $nuke_url . '/admin.php?op=alerte_update");
-                                       $.ajax({
-                                          url:"' . $nuke_url . '/admin.php?op=alerte_api",
-                                          method: "POST",
-                                          data:{id:id},
-                                          dataType:"JSON",
-                                          success:function(data) {
-                                             var fnom_affich = JSON.stringify(data["fnom_affich"]),
-                                                 fretour_h = JSON.stringify(data["fretour_h"]),
-                                                 ficone = JSON.stringify(data["ficone"]);
-                                             $("#bl_messageModalLabel").html(JSON.parse(fretour_h));
-                                             $("#bl_messageModalContent").html(JSON.parse(fnom_affich));
-                                             $("#bl_messageModalIcon").html("<img src=\"images/admin/"+JSON.parse(ficone)+".png\" />");
-                                          }
-                                       });
-                                    });
-                                 });
-                              </script>
-                           ';
-      themesidebox($title, $content);
-   }
-}
-#autodoc ephemblock() : Bloc ephemerid <br />=> syntaxe : function#ephemblock
-function ephemblock()
-{
-   global $NPDS_Prefix, $gmt;
-   $cnt = 0;
-   $eday = date("d", time() + ((int)$gmt * 3600));
-   $emonth = date("m", time() + ((int)$gmt * 3600));
-   $result = sql_query("SELECT yid, content FROM " . $NPDS_Prefix . "ephem WHERE did='$eday' AND mid='$emonth' ORDER BY yid ASC");
-   $boxstuff = '<div>' . translate("En ce jour...") . '</div>';
-   while (list($yid, $content) = sql_fetch_row($result)) {
-      if ($cnt == 1)
-         $boxstuff .= "\n<br />\n";
-      $boxstuff .= "<b>$yid</b>\n<br />\n";
-      $boxstuff .= aff_langue($content);
-      $cnt = 1;
-   }
-   $boxstuff .= "<br />\n";
-   global $block_title;
-   $title = $block_title == '' ? translate("Ephémérides") : $block_title;
-   themesidebox($title, $boxstuff);
-}
-#autodoc loginbox() : Bloc Login <br />=> syntaxe : function#loginbox
-function loginbox()
-{
-   global $user;
-   $boxstuff = '';
-   if (!$user) {
-      $boxstuff = '
-      <form action="user.php" method="post">
-         <div class="mb-3">
-            <label for="uname">' . translate("Identifiant") . '</label>
-            <input class="form-control" type="text" name="uname" maxlength="25" />
-         </div>
-         <div class="mb-3">
-            <label for="pass">' . translate("Mot de passe") . '</label>
-            <input class="form-control" type="password" name="pass" maxlength="20" />
-         </div>
-         <div class="mb-3">
-            <input type="hidden" name="op" value="login" />
-            <button class="btn btn-primary" type="submit">' . translate("Valider") . '</button>
-         </div>
-         <div class="help-block">
-         ' . translate("Vous n'avez pas encore de compte personnel ? Vous devriez") . ' <a href="user.php">' . translate("en créer un") . '</a>. ' . translate("Une fois enregistré") . ' ' . translate("vous aurez certains avantages, comme pouvoir modifier l'aspect du site,") . ' ' . translate("ou poster des commentaires signés...") . '
-         </div>
-      </form>';
-      global $block_title;
-      $title = $block_title == '' ? translate("Se connecter") : $block_title;
-      themesidebox($title, $boxstuff);
-   }
-}
-#autodoc userblock() : Bloc membre <br />=> syntaxe : function#userblock
-function userblock()
-{
-   global $NPDS_Prefix, $user, $cookie;
-   if (($user) and ($cookie[8])) {
-      $getblock = Q_select("SELECT ublock FROM " . $NPDS_Prefix . "users WHERE uid='$cookie[0]'", 86400);
-      $ublock = $getblock[0];
-      global $block_title;
-      $title = $block_title == '' ? translate("Menu de") . ' ' . $cookie[1] : $block_title;
-      themesidebox($title, $ublock['ublock']);
-   }
-}
-#autodoc topdownload() : Bloc topdownload <br />=> syntaxe : function#topdownload
-function topdownload()
-{
-   global $block_title;
-   $title = $block_title == '' ? translate("Les plus téléchargés") : $block_title;
-   $boxstuff = '
-                              <ul>';
-   $boxstuff .= topdownload_data('short', 'dcounter');
-   $boxstuff .= '
-                              </ul>
-                           ';
-   if (strpos($boxstuff, '<li') === false) $boxstuff = '';
-   themesidebox($title, $boxstuff);
-}
-#autodoc lastdownload() : Bloc lastdownload <br />=> syntaxe : function#lastdownload
-function lastdownload()
-{
-   global $block_title;
-   $title = $block_title == '' ? translate("Fichiers les + récents") : $block_title;
-   $boxstuff = '
-                              <ul>';
-   $boxstuff .= topdownload_data('short', 'ddate');
-   $boxstuff .= '
-                              </ul>
-                           ';
-   if (strpos($boxstuff, '<li') === false) $boxstuff = '';
-   themesidebox($title, $boxstuff);
-}
 #autodoc topdownload_data($form, $ordre) : Bloc topdownload et lastdownload / SOUS-Fonction
 function topdownload_data($form, $ordre)
 {
@@ -2577,215 +2227,7 @@ function topdownload_data($form, $ordre)
    sql_free_result($result);
    return $ibid;
 }
-#autodoc oldNews($storynum) : Bloc Anciennes News <br />=> syntaxe <br />function#oldNews<br />params#$storynum,lecture (affiche le NB de lecture) - facultatif
-function oldNews($storynum, $typ_aff = '')
-{
-   global $oldnum, $storyhome, $categories, $cat, $user, $cookie, $language;
-   $boxstuff = '<ul class="list-group">';
-   $storynum = isset($cookie[3]) ? $cookie[3] : $storyhome;
 
-   if (($categories == 1) and ($cat != ''))
-      $sel = $user ? "WHERE catid='$cat'" : "WHERE catid='$cat' AND ihome=0";
-   else
-      $sel = $user ? '' : "WHERE ihome=0";
-
-   $sel =  "WHERE ihome=0"; // en dur pour test
-   $vari = 0;
-   $xtab = news_aff('old_news', $sel, $storynum, $oldnum);
-   $story_limit = 0;
-   $time2 = 0;
-   $a = 0;
-   while (($story_limit < $oldnum) and ($story_limit < sizeof($xtab))) {
-      list($sid, $title, $time, $comments, $counter) = $xtab[$story_limit];
-      $story_limit++;
-      $date_au_format = formatTimes($time, IntlDateFormatter::FULL);
-      $comments = $typ_aff == 'lecture' ?
-         '<span class="badge rounded-pill bg-secondary ms-1" title="' . translate("Lu") . '" data-bs-toggle="tooltip">' . $counter . '</span>' : '';
-      if ($time2 == $date_au_format)
-         $boxstuff .= '
-                                 <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a class="n-ellipses" href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
-      else {
-         if ($a == 0) {
-            $boxstuff .= '
-                                 <li class="list-group-item fs-6">' . $date_au_format . '</li>
-                                 <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
-            $time2 = $date_au_format;
-            $a = 1;
-         } else {
-            $boxstuff .= '
-                                 <li class="list-group-item fs-6">' . $date_au_format . '</li>
-                                 <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
-            $time2 = $date_au_format;
-         }
-      }
-      $vari++;
-      if ($vari == $oldnum) {
-         //$storynum = isset($cookie[3]) ? $cookie[3] : $storyhome ;
-         $min = $oldnum; // + $storynum;
-         $boxstuff .= '
-                                 <li class="text-center mt-3"><a href="search.php?min=' . $min . '&amp;type=stories&amp;category=' . $cat . '"><strong>' . translate("Articles plus anciens") . '</strong></a></li>';
-      }
-   }
-   $boxstuff .= '
-                              </ul>';
-   if (strpos($boxstuff, '<li') === false) $boxstuff = '';
-   global $block_title;
-   $boxTitle = $block_title == '' ? translate("Anciens articles") : $block_title;
-   themesidebox($boxTitle, $boxstuff);
-}
-#autodoc bigstory() : Bloc BigStory <br />=> syntaxe : function#bigstory
-function bigstory()
-{
-   global $cookie; //no need ?
-   $content = '';
-   $tdate = getPartOfTime(time(), 'yyyy-MM-dd');
-   $xtab = news_aff("big_story", "WHERE (time LIKE '%$tdate%')", 1, 1);
-   if (sizeof($xtab))
-      list($fsid, $ftitle) = $xtab[0];
-   else {
-      $fsid = '';
-      $ftitle = '';
-   }
-   $content .= ($fsid == '' and $ftitle == '') ?
-      '<span class="fw-semibold">' . translate("Il n'y a pas encore d'article du jour.") . '</span>' :
-      '<span class="fw-semibold">' . translate("L'article le plus consulté aujourd'hui est :") . '</span><br /><br /><a href="article.php?sid=' . $fsid . '">' . aff_langue($ftitle) . '</a>';
-   global $block_title;
-   $boxtitle = $block_title == '' ? translate("Article du Jour") : $block_title;
-   themesidebox($boxtitle, $content);
-}
-#autodoc category() : Bloc de gestion des catégories <br />=> syntaxe : function#category
-function category()
-{
-   global $NPDS_Prefix, $cat, $language;
-   $result = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat ORDER BY title");
-   $numrows = sql_num_rows($result);
-   if ($numrows == 0)
-      return;
-   else {
-      $boxstuff = '<ul>';
-      while (list($catid, $title) = sql_fetch_row($result)) {
-         $result2 = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE catid='$catid' LIMIT 0,1");
-         $numrows = sql_num_rows($result2);
-         if ($numrows > 0) {
-            $res = sql_query("SELECT time FROM " . $NPDS_Prefix . "stories WHERE catid='$catid' ORDER BY sid DESC LIMIT 0,1");
-            list($time) = sql_fetch_row($res);
-            $boxstuff .= $cat == $catid ?
-               '<li class="my-2"><strong>' . aff_langue($title) . '</strong></li>' :
-               '<li class="list-group-item list-group-item-action hyphenate my-2"><a href="index.php?op=newcategory&amp;catid=' . $catid . '" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate("Dernière contribution") . ' <br />' . formatTimes($time) . ' ">' . aff_langue($title) . '</a></li>';
-         }
-      }
-      $boxstuff .= '</ul>';
-      global $block_title;
-      $title = $block_title == '' ? translate("Catégories") : $block_title;
-      themesidebox($title, $boxstuff);
-   }
-}
-#autodoc headlines() : Bloc HeadLines <br />=> syntaxe :<br />function#headlines<br />params#ID_du_canal
-function headlines($hid = '', $block = true)
-{
-   global $NPDS_Prefix, $Version_Num, $Version_Id, $rss_host_verif, $long_chain;
-
-   if (file_exists("proxy.conf.php"))
-      include("proxy.conf.php");
-   if ($hid == '')
-      $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . $NPDS_Prefix . "headlines WHERE status=1");
-   else
-      $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . $NPDS_Prefix . "headlines WHERE hid='$hid' AND status=1");
-
-   while (list($sitename, $url, $headlinesurl, $hid) = sql_fetch_row($result)) {
-      $boxtitle = $sitename;
-      $cache_file = 'cache/' . preg_replace('[^a-z0-9]', '', strtolower($sitename)) . '_' . $hid . '.cache';
-      $cache_time = 1200; //3600 origine
-      $items = 0;
-      $max_items = 6;
-      $rss_timeout = 15;
-      $rss_font = '<span class="small">';
-      if ((!(file_exists($cache_file))) or (filemtime($cache_file) < (time() - $cache_time)) or (!(filesize($cache_file)))) {
-         $rss = parse_url($url);
-         if ($rss_host_verif == true) {
-            $verif = fsockopen($rss['host'], 80, $errno, $errstr, $rss_timeout);
-            if ($verif) {
-               fclose($verif);
-               $verif = true;
-            }
-         } else
-            $verif = true;
-         if (!$verif) {
-            $cache_file_sec = $cache_file . ".security";
-            if (file_exists($cache_file))
-               $ibid = rename($cache_file, $cache_file_sec);
-            themesidebox($boxtitle, "Security Error");
-            return;
-         } else {
-            if (!$long_chain) $long_chain = 15;
-            $fpwrite = fopen($cache_file, 'w');
-            if ($fpwrite) {
-               fputs($fpwrite, "<ul>\n");
-               $flux = simplexml_load_file($headlinesurl, 'SimpleXMLElement', LIBXML_NOCDATA);
-               $namespaces = $flux->getNamespaces(true); // get namespaces
-               $ic = '';
-               //ATOM//
-               if ($flux->entry) {
-                  $j = 0;
-                  $cont = '';
-                  foreach ($flux->entry as $entry) {
-                     if ($entry->content) $cont = (string) $entry->content;
-                     fputs($fpwrite, '<li><a href="' . (string)$entry->link['href'] . '" target="_blank" >' . (string) $entry->title . '</a><br />' . $cont . '</li>');
-                     if ($j == $max_items) break;
-                     $j++;
-                  }
-               }
-
-               if ($flux->{'item'}) {
-                  $j = 0;
-                  $cont = '';
-                  foreach ($flux->item as $item) {
-                     if ($item->description) $cont = (string) $item->description;
-                     fputs($fpwrite, '<li><a href="' . (string)$item->link['href'] . '"  target="_blank" >' . (string) $item->title . '</a><br /></li>');
-                     if ($j == $max_items) break;
-                     $j++;
-                  }
-               }
-               //RSS
-               if ($flux->{'channel'}) {
-                  $j = 0;
-                  $cont = '';
-                  foreach ($flux->channel->item as $item) {
-                     if ($item->description) $cont = (string) $item->description;
-                     fputs($fpwrite, '<li><a href="' . (string)$item->link . '"  target="_blank" >' . (string) $item->title . '</a><br />' . $cont . '</li>');
-                     if ($j == $max_items) break;
-                     $j++;
-                  }
-               }
-
-               $j = 0;
-               if ($flux->image) $ico = '<img class="img-fluid" src="' . $flux->image->url . '" />&nbsp;';
-               foreach ($flux->item as $item) {
-                  fputs($fpwrite, '<li>' . $ico . '<a href="' . (string) $item->link . '" target="_blank" >' . (string) $item->title . '</a></li>');
-                  if ($j == $max_items) break;
-                  $j++;
-               }
-
-               fputs($fpwrite, "\n" . '</ul>');
-               fclose($fpwrite);
-            }
-         }
-      }
-      if (file_exists($cache_file)) {
-         ob_start();
-         $ibid = readfile($cache_file);
-         $boxstuff = $rss_font . ob_get_contents() . '</span>';
-         ob_end_clean();
-      }
-      $boxstuff .= '
-            <div class="text-end"><a href="' . $url . '" target="_blank">' . translate("Lire la suite...") . '</a></div>';
-      if ($block) {
-         themesidebox($boxtitle, $boxstuff);
-         $boxstuff = '';
-      } else
-         return ($boxstuff);
-   }
-}
 #autodoc PollNewest() : Bloc Sondage <br />=> syntaxe : <br />function#pollnewest<br />params#ID_du_sondage OU vide (dernier sondage créé)
 function PollNewest(?int $id = null): void
 {
@@ -2801,61 +2243,7 @@ function PollNewest(?int $id = null): void
       if ($ibid) pollMain($ibid, $pollClose);
    }
 }
-#autodoc bloc_langue() : Bloc langue <br />=> syntaxe : function#bloc_langue
-function bloc_langue()
-{
-   global $block_title, $multi_langue;
-   if ($multi_langue) {
-      $title = $block_title == '' ? translate("Choisir une langue") : $block_title;
-      themesidebox($title, aff_local_langue("index.php", "choice_user_language", ''));
-   }
-}
-#autodoc bloc_rubrique() : Bloc des Rubriques <br />=> syntaxe : function#bloc_rubrique
-function bloc_rubrique()
-{
-   global $NPDS_Prefix, $language, $user;
-   $result = sql_query("SELECT rubid, rubname, ordre FROM " . $NPDS_Prefix . "rubriques WHERE enligne='1' AND rubname<>'divers' ORDER BY ordre");
-   $boxstuff = '<ul>';
-   while (list($rubid, $rubname) = sql_fetch_row($result)) {
-      $title = aff_langue($rubname);
-      $result2 = sql_query("SELECT secid, secname, userlevel, ordre FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
-      $boxstuff .= '<li><strong>' . $title . '</strong></li>';
-      //$ibid++;//??? only for notice ???
-      while (list($secid, $secname, $userlevel) = sql_fetch_row($result2)) {
-         $query3 = "SELECT artid FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'";
-         $result3 = sql_query($query3);
-         $nb_article = sql_num_rows($result3);
-         if ($nb_article > 0) {
-            $boxstuff .= '<ul>';
-            $tmp_auto = explode(',', $userlevel);
-            foreach ($tmp_auto as $userlevel) {
-               $okprintLV1 = autorisation($userlevel);
-               if ($okprintLV1) break;
-            }
-            if ($okprintLV1) {
-               $sec = aff_langue($secname);
-               $boxstuff .= '<li><a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . $sec . '</a></li>';
-            }
-            $boxstuff .= '</ul>';
-         }
-      }
-   }
-   $boxstuff .= '</ul>';
-   global $block_title;
-   $title = $block_title == '' ? translate("Rubriques") : $block_title;
-   themesidebox($title, $boxstuff);
-}
-#autodoc espace_groupe() : Bloc du WorkSpace <br />=> syntaxe :<br />function#bloc_espace_groupe<br />params#ID_du_groupe, Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, Le nom du groupe sera utilisé
-function bloc_espace_groupe($gr, $i_gr)
-{
-   global $NPDS_Prefix, $block_title;
-   if ($block_title == '') {
-      $rsql = sql_fetch_assoc(sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$gr'"));
-      $title = $rsql['groupe_name'];
-   } else
-      $title = $block_title;
-   themesidebox($title, fab_espace_groupe($gr, "0", $i_gr));
-}
+
 function fab_espace_groupe($gr, $t_gr, $i_gr)
 {
    global $NPDS_Prefix, $short_user, $dblink;
@@ -3099,13 +2487,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
                         ';
    return ($content);
 }
-#autodoc bloc_groupes() : Bloc des groupes <br />=> syntaxe :<br />function#bloc_groupes<br />params#Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, 'Les groupes' sera utilisé. Liste des groupes AVEC membres et lien pour demande d'adhésion pour l'utilisateur.
-function bloc_groupes($im)
-{
-   global $block_title, $user;
-   $title = $block_title == '' ? 'Les groupes' : $block_title;
-   themesidebox($title, fab_groupes_bloc($user, $im));
-}
+
 function fab_groupes_bloc($user, $im)
 {
    global $NPDS_Prefix;
@@ -3169,6 +2551,7 @@ function theme_image($theme_img)
       return ("themes/$theme/images/$theme_img");
    return false;
 }
+
 #autodoc import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : recherche et affiche la CSS (site, langue courante ou par défaut) / Charge la CSS complémentaire / le HTML ne contient que de simple quote pour être compatible avec javascript
 function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = '', $css = '')
 {
@@ -3240,11 +2623,13 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
    }
    return ($tmp);
 }
+
 #autodoc import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : Fonctionnement identique à import_css_javascript sauf que le code HTML en retour ne contient que de double quote
 function import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css)
 {
    return (str_replace("'", "\"", import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css)));
 }
+
 #autodoc auto_complete ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_cache) : fabrique un array js à partir de la requete sql et implente un auto complete pour l'input (dependence : jquery.min.js ,jquery-ui.js) $nom_array_js=> nom du tableau javascript; $nom_champ=>nom de champ bd; $nom_tabl=>nom de table bd,$id_inpu=> id de l'input,$temps_cache=>temps de cache de la requête. Si $id_inpu n'est pas défini retourne un array js.
 function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_cache)
 {
@@ -3284,6 +2669,7 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
    }
    return ($scri_js);
 }
+
 #autodoc auto_complete_multi ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $req) : fabrique un pseudo array json à partir de la requete sql et implente un auto complete pour le champ input (dependence : jquery-2.1.3.min.js ,jquery-ui.js)
 function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $req)
 {
@@ -3341,6 +2727,7 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
    </script>' . "\n";
    return ($scri_js);
 }
+
 #autodoc language_iso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2 $l=> 0 ou 1(requis), $s (séparateur - | _) , $c=> 0 ou 1 (requis)
 function language_iso($l, $s, $c)
 {
@@ -3381,6 +2768,7 @@ function language_iso($l, $s, $c)
    if (($l == 1) and ($c !== 1)) $ietf = $iso_lang;
    return ($ietf);
 }
+
 #autodoc adminfoot($fv,$fv_parametres,$arg1,$foo) : fin d'affichage avec form validateur ou pas, ses parametres (js), fermeture div admin et inclusion footer.php  $fv=> fv : inclusion du validateur de form , $fv_parametres=> éléments de l'objet fields differents input (objet js ex :   xxx: {},...) si !###! est trouvé dans la variable la partie du code suivant sera inclu à la fin de la fonction d'initialisation, $arg1=>js pur au début du script js, $foo =='' ==> </div> et inclusion footer.php $foo =='foo' ==> inclusion footer.php
 function adminfoot($fv, $fv_parametres, $arg1, $foo)
 {
@@ -3535,6 +2923,7 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
          break;
    }
 }
+
 #autodoc getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms=100) : permet de calculer le coût algorythmique optimum pour la procédure de hashage ($AlgoCrypt) d'un mot de pass ($pass) avec un temps minimum alloué ($min_ms)
 function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
 {
@@ -3547,6 +2936,7 @@ function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
          return $i;
    }
 }
+
 #autodoc dataimagetofileurl($base_64_string, $output_path) : Analyse la chaine $base_64_string pour touver "src data:image" SI oui : fabrication de fichiers (gif | png | jpeg) (avec $output_path) - redimensionne l'image si supérieure aux dimensions maxi fixées et remplacement de "src data:image" par "src url", et retourne $base_64_string modifié ou pas
 function dataimagetofileurl($base_64_string, $output_path)
 {
@@ -3586,3 +2976,22 @@ function dataimagetofileurl($base_64_string, $output_path)
    }
    return $base_64_string;
 }
+
+function load_blocks(string $dir): void
+{
+    if (!is_dir($dir)) {
+        trigger_error("Dossier introuvable : $dir", E_USER_WARNING);
+        return;
+    }
+
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS)
+    );
+
+    foreach ($iterator as $file) {
+        if ($file->getExtension() === 'php') {
+            require_once $file->getPathname();
+        }
+    }
+}
+
