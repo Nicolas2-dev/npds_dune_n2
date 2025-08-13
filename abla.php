@@ -30,7 +30,8 @@ $f_titre = translate('Tableau de bord');
 // controle droit
 admindroits($aid, $f_meta_nom);
 
-function row_span($total, $xtotal) {
+function row_span($total, $xtotal)
+{
    echo '<td>' . wrh($total) . ' (';
 
    if ($total > $xtotal) {
@@ -208,7 +209,7 @@ if ($admin) {
 
    while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
       $sub_sql = "SELECT f.*, u.uname FROM " . $NPDS_Prefix . "forums f, " . $NPDS_Prefix . "users u WHERE f.cat_id = '$cat_id' AND f.forum_moderator = u.uid ORDER BY forum_index,forum_id";
-      
+
       if (!$sub_result = sql_query($sub_sql)) {
          forumerror('0022');
       }
@@ -240,7 +241,7 @@ if ($admin) {
             </a>
             <a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >
                <span class="text-danger">';
-            
+
             if (array_key_exists($num_for, $xforum)) {
                echo $xforum[$num_for][1];
             }
