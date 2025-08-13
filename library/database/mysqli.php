@@ -19,6 +19,29 @@ define('NPDS_DEBUG', $debugmysql);
 
 $sql_nbREQ = 0;
 
+#autodoc Mysql_Connexion() : Connexion plus détaillée ($mysql_p=true => persistente connexion) - Attention : le type de SGBD n'a pas de lien avec le nom de cette fonction
+function Mysql_Connexion()
+{
+   $ret_p = sql_connect();
+
+   if (!$ret_p) {
+      $Titlesitename = "NPDS";
+
+      if (file_exists('storage/meta/meta.php')) {
+         include('storage/meta/meta.php');
+      }
+
+      if (file_exists('storage/static/database.txt')) {
+         global $mysql_error, $dbhost, $dbname;
+         include 'storage/static/database.txt';
+      }
+
+      die();
+   }
+
+   return $ret_p;
+}
+
 // Connexion
 function sql_connect()
 {
