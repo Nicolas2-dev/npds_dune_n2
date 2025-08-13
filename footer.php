@@ -68,7 +68,8 @@ function foot()
    }
 }
 
-function footer_after($theme) {
+function footer_after($theme) 
+{
    if (file_exists($path_theme = 'themes/' . $theme . '/include/footer_after.inc')) {
       include $path_theme;
    } else {
@@ -78,15 +79,20 @@ function footer_after($theme) {
    }
 }
 
+function footer_before()
+{
+   if (file_exists($path_module = 'modules/include/footer_before.inc')) {
+      include $path_module;
+   }
+}
+
 global $tiny_mce;
 if ($tiny_mce) {
    echo aff_editeur('tiny_mce', 'end');
 }
 
 // include externe file from modules/include for functions, codes ...
-if (file_exists($path_module = 'modules/include/footer_before.inc')) {
-   include $path_module;
-}
+footer_before();
 
 foot();
 
