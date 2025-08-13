@@ -19,7 +19,7 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global $NPDS_Prefix, $adminforum;
+global sql_prefix(''), $adminforum;
 
 //==> droits des admin sur les forums (superadmin et admin avec droit gestion forum)
 $adminforum = false;
@@ -27,11 +27,11 @@ if ($admin) {
     $adminforum = 0;
     $adminX = base64_decode($admin);
     $adminR = explode(':', $adminX);
-    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$adminR[0]' LIMIT 1"));
+    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$adminR[0]' LIMIT 1"));
     if ($Q['radminsuper'] == 1) {
         $adminforum = 1;
     } else {
-        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . $NPDS_Prefix . "authors a LEFT JOIN " . $NPDS_Prefix . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . $NPDS_Prefix . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
+        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('') . "authors a LEFT JOIN " . sql_prefix('') . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
         if (sql_num_rows($R) >= 1) $adminforum = 1;
     }
 }
@@ -44,7 +44,7 @@ if (isset($user)) {
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
     settype($forum, 'integer');
-    $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$forum'", 3600);
+    $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
     if (!$rowQ1)
         forumerror('0001');
     $myrow = $rowQ1[0];
@@ -60,18 +60,18 @@ if (isset($user)) {
 if ((!$Mmod) and ($adminforum == 0))
     forumerror('0007');
 if ((isset($submit)) and ($mode == 'move')) {
-    $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET forum_id='$newforum' WHERE topic_id='$topic'";
+    $sql = "UPDATE " . sql_prefix('') . "forumtopics SET forum_id='$newforum' WHERE topic_id='$topic'";
     if (!$r = sql_query($sql))
         forumerror('0010');
-    $sql = "UPDATE " . $NPDS_Prefix . "posts SET forum_id='$newforum' WHERE topic_id='$topic' AND forum_id='$forum'";
+    $sql = "UPDATE " . sql_prefix('') . "posts SET forum_id='$newforum' WHERE topic_id='$topic' AND forum_id='$forum'";
     if (!$r = sql_query($sql))
         forumerror('0010');
-    $sql = "DELETE FROM " . $NPDS_Prefix . "forum_read where topicid='$topic'";
+    $sql = "DELETE FROM " . sql_prefix('') . "forum_read where topicid='$topic'";
     if (!$r = sql_query($sql))
         forumerror('0001');
     $sql = "UPDATE $upload_table SET forum_id='$newforum' WHERE apli='forum_npds' AND topic_id='$topic' AND forum_id='$forum'";
     sql_query($sql);
-    $sql = "SELECT arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id='$newforum'";
+    $sql = "SELECT arbre FROM " . sql_prefix('') . "forums WHERE forum_id='$newforum'";
     $arbre = sql_fetch_assoc(sql_query($sql));
     if ($arbre['arbre']) $url_ret = "viewtopicH.php";
     else $url_ret = "viewtopic.php";
@@ -95,7 +95,7 @@ if ((isset($submit)) and ($mode == 'move')) {
             <label class="form-label" for="newforum">' . translate("Déplacer le sujet vers : ") . '</label>
             <div class="col-sm-12">
                <select class="form-select" name="newforum">';
-                $sql = "SELECT forum_id, forum_name FROM " . $NPDS_Prefix . "forums WHERE forum_id!='$forum' ORDER BY cat_id,forum_index,forum_id";
+                $sql = "SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums WHERE forum_id!='$forum' ORDER BY cat_id,forum_index,forum_id";
                 if ($result = sql_query($sql)) {
                     if ($myrow = sql_fetch_assoc($result)) {
                         do {
@@ -125,36 +125,36 @@ if ((isset($submit)) and ($mode == 'move')) {
                 include("footer.php");
                 break;
             case 'del':
-                $sql = "DELETE FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' AND forum_id='$forum'";
+                $sql = "DELETE FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND forum_id='$forum'";
                 if (!$result = sql_query($sql))
                     forumerror('0009');
-                $sql = "DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id='$topic'";
+                $sql = "DELETE FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'";
                 if (!$result = sql_query($sql))
                     forumerror('0010');
-                $sql = "DELETE FROM " . $NPDS_Prefix . "forum_read WHERE topicid='$topic'";
+                $sql = "DELETE FROM " . sql_prefix('') . "forum_read WHERE topicid='$topic'";
                 if (!$r = sql_query($sql))
                     forumerror('0001');
                 control_efface_post("forum_npds", "", $topic, "");
                 header("location: viewforum.php?forum=$forum");
                 break;
             case 'lock':
-                $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET topic_status=1 WHERE topic_id='$topic'";
+                $sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status=1 WHERE topic_id='$topic'";
                 if (!$r = sql_query($sql))
                     forumerror('0011');
                 header("location: $url_ret?topic=$topic&forum=$forum");
                 break;
             case 'unlock':
                 $topic_title = '';
-                $sql = "SELECT topic_title FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic'";
+                $sql = "SELECT topic_title FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
                 $r = sql_fetch_assoc(sql_query($sql));
                 $topic_title = str_replace("[" . translate("Résolu") . "] - ", "", $r['topic_title']);
-                $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET topic_status = '0', topic_first='1', topic_title='" . addslashes($topic_title) . "' WHERE topic_id = '$topic'";
+                $sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status = '0', topic_first='1', topic_title='" . addslashes($topic_title) . "' WHERE topic_id = '$topic'";
                 if (!$r = sql_query($sql))
                     forumerror('0012');
                 header("location: $url_ret?topic=$topic&forum=$forum");
                 break;
             case 'first':
-                $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET topic_status = '1', topic_first='0' WHERE topic_id = '$topic'";
+                $sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status = '1', topic_first='0' WHERE topic_id = '$topic'";
                 if (!$r = sql_query($sql))
                     forumerror('0011');
                 header("location: $url_ret?topic=$topic&forum=$forum");
@@ -163,7 +163,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                 include("header.php");
                 include('modules/geoloc/geoloc_locip.php');
 
-                $sql = "SELECT u.uname, p.poster_ip, p.poster_dns FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
+                $sql = "SELECT u.uname, p.poster_ip, p.poster_dns FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
                 if (!$r = sql_query($sql))
                     forumerror('0013');
                 if (!$m = sql_fetch_assoc($r))
@@ -187,7 +187,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                 include("footer.php");
                 break;
             case 'banip':
-                $sql = "SELECT p.poster_ip FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
+                $sql = "SELECT p.poster_ip FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
                 if (!$r = sql_query($sql))
                     forumerror('0013');
                 if (!$m = sql_fetch_assoc($r))
@@ -196,7 +196,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                 header("location: $url_ret?topic=$topic&forum=$forum");
                 break;
             case 'aff':
-                $sql = "UPDATE " . $NPDS_Prefix . "posts SET post_aff = '$ordre' WHERE post_id = '$post'";
+                $sql = "UPDATE " . sql_prefix('') . "posts SET post_aff = '$ordre' WHERE post_id = '$post'";
                 sql_query($sql);
                 header("location: $url_ret?topic=$topic&forum=$forum");
                 break;

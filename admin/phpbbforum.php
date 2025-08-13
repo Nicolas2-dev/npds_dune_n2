@@ -27,7 +27,7 @@ include("functions.php");
 
 function ForumAdmin()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -44,9 +44,9 @@ function ForumAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT cat_id, cat_title FROM " . $NPDS_Prefix . "catagories ORDER BY cat_id");
+   $result = sql_query("SELECT cat_id, cat_title FROM " . sql_prefix('') . "catagories ORDER BY cat_id");
    while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
-      $gets = sql_query("SELECT COUNT(*) AS total FROM " . $NPDS_Prefix . "forums WHERE cat_id='$cat_id'");
+      $gets = sql_query("SELECT COUNT(*) AS total FROM " . sql_prefix('') . "forums WHERE cat_id='$cat_id'");
       $numbers = sql_fetch_assoc($gets);
       echo '
          <tr>
@@ -81,12 +81,12 @@ function ForumAdmin()
 
 function ForumGo($cat_id)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $result = sql_query("SELECT cat_title FROM " . $NPDS_Prefix . "catagories WHERE cat_id='$cat_id'");
+   $result = sql_query("SELECT cat_title FROM " . sql_prefix('') . "catagories WHERE cat_id='$cat_id'");
    list($cat_title) = sql_fetch_row($result);
    $ctg = StripSlashes($cat_title);
    echo '
@@ -106,7 +106,7 @@ function ForumGo($cat_id)
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT forum_id, forum_name, forum_access, forum_moderator, forum_type, arbre, attachement, forum_index FROM " . $NPDS_Prefix . "forums WHERE cat_id='$cat_id' ORDER BY forum_index,forum_id");
+   $result = sql_query("SELECT forum_id, forum_name, forum_access, forum_moderator, forum_type, arbre, attachement, forum_index FROM " . sql_prefix('') . "forums WHERE cat_id='$cat_id' ORDER BY forum_index,forum_id");
    while (list($forum_id, $forum_name, $forum_access, $forum_moderator, $forum_type, $arbre, $attachement, $forum_index) = sql_fetch_row($result)) {
       $moderator = str_replace(' ', ', ', get_moderator($forum_moderator));
       echo '
@@ -352,10 +352,10 @@ function ForumGo($cat_id)
 
 function ForumGoEdit($forum_id, $ctg)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT forum_id, forum_name, forum_desc, forum_access, forum_moderator, cat_id, forum_type, forum_pass, arbre, attachement, forum_index FROM " . $NPDS_Prefix . "forums WHERE forum_id='$forum_id'");
+   $result = sql_query("SELECT forum_id, forum_name, forum_desc, forum_access, forum_moderator, cat_id, forum_type, forum_pass, arbre, attachement, forum_index FROM " . sql_prefix('') . "forums WHERE forum_id='$forum_id'");
    list($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id_1, $forum_type, $forum_pass, $arbre, $attachement, $forum_index) = sql_fetch_row($result);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    settype($sel0, 'string');
@@ -419,7 +419,7 @@ function ForumGoEdit($forum_id, $ctg)
          <label class="col-form-label col-sm-4" for="cat_id">' . adm_translate("Catégories") . ' </label>
          <div class="col-sm-8">
             <select class="form-select" id="cat_id" name="cat_id">';
-   $result = sql_query("SELECT cat_id, cat_title FROM " . $NPDS_Prefix . "catagories");
+   $result = sql_query("SELECT cat_id, cat_title FROM " . sql_prefix('') . "catagories");
    while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
       if ($cat_id == $cat_id_1)
          echo '
@@ -631,11 +631,11 @@ function ForumGoEdit($forum_id, $ctg)
 
 function ForumCatEdit($cat_id)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT cat_id, cat_title FROM " . $NPDS_Prefix . "catagories WHERE cat_id='$cat_id'");
+   $result = sql_query("SELECT cat_id, cat_title FROM " . sql_prefix('') . "catagories WHERE cat_id='$cat_id'");
    list($cat_id, $cat_title) = sql_fetch_row($result);
    echo '
    <hr />
@@ -682,10 +682,10 @@ function ForumCatEdit($cat_id)
 
 function ForumCatSave($old_catid, $cat_id, $cat_title)
 {
-   global $NPDS_Prefix;
-   $return = sql_query("UPDATE " . $NPDS_Prefix . "catagories SET cat_id='$cat_id', cat_title='" . AddSlashes($cat_title) . "' WHERE cat_id='$old_catid'");
+   global sql_prefix('');
+   $return = sql_query("UPDATE " . sql_prefix('') . "catagories SET cat_id='$cat_id', cat_title='" . AddSlashes($cat_title) . "' WHERE cat_id='$old_catid'");
    if ($return)
-      sql_query("UPDATE " . $NPDS_Prefix . "forums SET cat_id='$cat_id' WHERE cat_id='$old_catid'");
+      sql_query("UPDATE " . sql_prefix('') . "forums SET cat_id='$cat_id' WHERE cat_id='$old_catid'");
    Q_Clean();
    global $aid;
    Ecr_Log("security", "UpdateForumCat($old_catid, $cat_id, $cat_title) by AID : $aid", '');
@@ -694,7 +694,7 @@ function ForumCatSave($old_catid, $cat_id, $cat_title)
 
 function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
 {
-   global $hlpfile, $NPDS_Prefix;
+   global $hlpfile, sql_prefix('');
 
    // il faut supprimer le dernier , à cause de l'auto-complete
    $forum_mod = rtrim(chop($forum_mod), ',');
@@ -702,11 +702,11 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
    $forum_mod = '';
    $error_mod = '';
    for ($i = 0; $i < count($moderator); $i++) {
-      $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='" . trim($moderator[$i]) . "'");
+      $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='" . trim($moderator[$i]) . "'");
       list($forum_moderator) = sql_fetch_row($result);
       if ($forum_moderator != '') {
          $forum_mod .= $forum_moderator . ' ';
-         sql_query("UPDATE " . $NPDS_Prefix . "users_status SET level='2' WHERE uid='$forum_moderator'");
+         sql_query("UPDATE " . sql_prefix('') . "users_status SET level='2' WHERE uid='$forum_moderator'");
       } else
          $error_mod .= $moderator[$i] . ' ';
    }
@@ -723,9 +723,9 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
          if (($forum_type == 7) and ($forum_access == 0)) {
             $forum_access = 1;
          }
-         sql_query("UPDATE " . $NPDS_Prefix . "forums SET forum_name='$forum_name', forum_desc='$forum_desc', forum_access='$forum_access', forum_moderator='$forum_mod', cat_id='$cat_id', forum_type='$forum_type', forum_pass='$forum_pass', arbre='$arbre', attachement='$attachement', forum_index='$forum_index' WHERE forum_id='$forum_id'");
+         sql_query("UPDATE " . sql_prefix('') . "forums SET forum_name='$forum_name', forum_desc='$forum_desc', forum_access='$forum_access', forum_moderator='$forum_mod', cat_id='$cat_id', forum_type='$forum_type', forum_pass='$forum_pass', arbre='$arbre', attachement='$attachement', forum_index='$forum_index' WHERE forum_id='$forum_id'");
       } else
-         sql_query("UPDATE " . $NPDS_Prefix . "forums SET forum_name='$forum_name', forum_desc='$forum_desc', forum_access='$forum_access', forum_moderator='$forum_mod', cat_id='$cat_id', forum_type='$forum_type', forum_pass='', arbre='$arbre', attachement='$attachement', forum_index='$forum_index' WHERE forum_id='$forum_id'");
+         sql_query("UPDATE " . sql_prefix('') . "forums SET forum_name='$forum_name', forum_desc='$forum_desc', forum_access='$forum_access', forum_moderator='$forum_mod', cat_id='$cat_id', forum_type='$forum_type', forum_pass='', arbre='$arbre', attachement='$attachement', forum_index='$forum_index' WHERE forum_id='$forum_id'");
       Q_Clean();
       global $aid;
       Ecr_Log("security", "UpdateForum($forum_id, $forum_name) by AID : $aid", '');
@@ -735,8 +735,8 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
 
 function ForumCatAdd($catagories)
 {
-   global $NPDS_Prefix;
-   sql_query("INSERT INTO " . $NPDS_Prefix . "catagories VALUES (NULL, '$catagories')");
+   global sql_prefix('');
+   sql_query("INSERT INTO " . sql_prefix('') . "catagories VALUES (NULL, '$catagories')");
    global $aid;
    Ecr_Log('security', "AddForumCat($catagories) by AID : $aid", '');
    Header("Location: admin.php?op=ForumAdmin");
@@ -744,18 +744,18 @@ function ForumCatAdd($catagories)
 
 function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
 {
-   global $hlpfile, $NPDS_Prefix;
+   global $hlpfile, sql_prefix('');
    // il faut supprimer le dernier , à cause de l'auto-complete
    $forum_mod = rtrim(chop($forum_mod), ',');
    $moderator = explode(",", $forum_mod);
    $forum_mod = '';
    $error_mod = '';
    for ($i = 0; $i < count($moderator); $i++) {
-      $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='" . trim($moderator[$i]) . "'");
+      $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='" . trim($moderator[$i]) . "'");
       list($forum_moderator) = sql_fetch_row($result);
       if ($forum_moderator != '') {
          $forum_mod .= $forum_moderator . ' ';
-         sql_query("UPDATE " . $NPDS_Prefix . "users_status SET level='2' WHERE uid='$forum_moderator'");
+         sql_query("UPDATE " . sql_prefix('') . "users_status SET level='2' WHERE uid='$forum_moderator'");
       } else
          $error_mod .= $moderator[$i] . ' ';
    }
@@ -771,7 +771,7 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
    } else {
       if ($arbre > 1) $arbre = 1;
       $forum_mod = str_replace(' ', ',', chop($forum_mod));
-      sql_query("INSERT INTO " . $NPDS_Prefix . "forums VALUES (NULL, '$forum_name', '$forum_desc', '$forum_access', '$forum_mod', '$cat_id', '$forum_type', '$forum_pass', '$arbre', '$attachement', '$forum_index')");
+      sql_query("INSERT INTO " . sql_prefix('') . "forums VALUES (NULL, '$forum_name', '$forum_desc', '$forum_access', '$forum_mod', '$cat_id', '$forum_type', '$forum_pass', '$arbre', '$attachement', '$forum_index')");
       Q_Clean();
       global $aid;
       Ecr_Log("security", "AddForum($forum_name) by AID : $aid", "");
@@ -781,17 +781,17 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
 
 function ForumCatDel($cat_id, $ok = 0)
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
-      $result = sql_query("SELECT forum_id FROM " . $NPDS_Prefix . "forums WHERE cat_id='$cat_id'");
+      $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums WHERE cat_id='$cat_id'");
       while (list($forum_id) = sql_fetch_row($result)) {
-         sql_query("DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id'");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read WHERE forum_id='$forum_id'");
+         sql_query("DELETE FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id'");
+         sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum_id'");
          control_efface_post("forum_npds", "", "", $forum_id);
-         sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum_id'");
+         sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum_id'");
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "forums WHERE cat_id='$cat_id'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "catagories WHERE cat_id='$cat_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "forums WHERE cat_id='$cat_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "catagories WHERE cat_id='$cat_id'");
       Q_Clean();
       global $aid;
       Ecr_Log("security", "DeleteForumCat($cat_id) by AID : $aid", "");
@@ -813,13 +813,13 @@ function ForumCatDel($cat_id, $ok = 0)
 
 function ForumGoDel($forum_id, $ok = 0)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read WHERE forum_id='$forum_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum_id'");
       control_efface_post('forum_npds', '', '', $forum_id);
-      sql_query("DELETE FROM " . $NPDS_Prefix . "forums WHERE forum_id='$forum_id'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "forums WHERE forum_id='$forum_id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum_id'");
       Q_Clean();
       global $aid;
       Ecr_Log('security', "DeleteForum($forum_id) by AID : $aid", '');

@@ -20,13 +20,13 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global $NPDS_Prefix;
+global sql_prefix('');
 
 settype($cancel, 'string');
 if ($cancel)
     header("Location: viewtopic.php?topic=$topic&forum=$forum");
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
@@ -57,7 +57,7 @@ if ($submitS) {
             if (($username == '') or ($password == ''))
                 forumerror('0027');
             else {
-                $result = sql_query("SELECT pass FROM " . $NPDS_Prefix . "users WHERE uname='$username'");
+                $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$username'");
                 list($pass) = sql_fetch_row($result);
 
                 if ((password_verify($password, $pass)) and ($pass != '')) {
@@ -117,24 +117,24 @@ if ($submitS) {
         $message = addslashes($message);
         $time = date("Y-m-d H:i:s", time() + ((int)$gmt * 3600));
 
-        $sql = "INSERT INTO " . $NPDS_Prefix . "posts (post_idH, topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) VALUES ('0', '$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
+        $sql = "INSERT INTO " . sql_prefix('') . "posts (post_idH, topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) VALUES ('0', '$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
         if (!$result = sql_query($sql))
             forumerror('0020');
         else
             $IdPost = sql_last_id();
 
-        $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET topic_time = '$time', current_poster = '" . $userdata['uid'] . "' WHERE topic_id = '$topic'";
+        $sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_time = '$time', current_poster = '" . $userdata['uid'] . "' WHERE topic_id = '$topic'";
         if (!$result = sql_query($sql))
             forumerror('0020');
-        $sql = "UPDATE " . $NPDS_Prefix . "forum_read SET status='0' where topicid = '$topic' and uid <> '" . $userdata['uid'] . "'";
+        $sql = "UPDATE " . sql_prefix('') . "forum_read SET status='0' where topicid = '$topic' and uid <> '" . $userdata['uid'] . "'";
         if (!$r = sql_query($sql))
             forumerror('0001');
 
-        $sql = "UPDATE " . $NPDS_Prefix . "users_status SET posts=posts+1 WHERE (uid = '" . $userdata['uid'] . "')";
+        $sql = "UPDATE " . sql_prefix('') . "users_status SET posts=posts+1 WHERE (uid = '" . $userdata['uid'] . "')";
         $result = sql_query($sql);
         if (!$result)
             forumerror('0029');
-        $sql = "SELECT t.topic_notify, u.email, u.uname, u.uid, u.user_langue FROM " . $NPDS_Prefix . "forumtopics t, " . $NPDS_Prefix . "users u WHERE t.topic_id = '$topic' AND t.topic_poster = u.uid";
+        $sql = "SELECT t.topic_notify, u.email, u.uname, u.uid, u.user_langue FROM " . sql_prefix('') . "forumtopics t, " . sql_prefix('') . "users u WHERE t.topic_id = '$topic' AND t.topic_poster = u.uid";
         if (!$result = sql_query($sql))
             forumerror('0022');
 
@@ -142,7 +142,7 @@ if ($submitS) {
         $sauf = '';
         if (($m['topic_notify'] == 1) && ($m['uname'] != $userdata['uname'])) {
             include_once("language/lang-multi.php");
-            $resultZ = sql_query("SELECT topic_title FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id='$topic'");
+            $resultZ = sql_query("SELECT topic_title FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'");
             list($title_topic) = sql_fetch_row($resultZ);
             $subject = strip_tags($forum_name) . "/" . $title_topic . " : " . html_entity_decode(translate_ml($m['user_langue'], "Une réponse à votre dernier Commentaire a été posté."), ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $message = $m['uname'] . "\n\n";
@@ -178,7 +178,7 @@ if ($submitS) {
     if ($allow_bbcode == 1)
         include("lib/formhelp.java.php");
 
-    list($topic_title, $topic_status) = sql_fetch_row(sql_query("SELECT topic_title, topic_status FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id='$topic'"));
+    list($topic_title, $topic_status) = sql_fetch_row(sql_query("SELECT topic_title, topic_status FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'"));
     if (isset($user)) {
         $userX = base64_decode($user);
         $userdata = explode(':', $userX);
@@ -303,7 +303,7 @@ if ($submitS) {
                </div>
                <div class="card-body">';
         if ($citation && !$submitP) {
-            $sql = "SELECT p.post_text, p.post_time, u.uname FROM " . $NPDS_Prefix . "posts p, " . $NPDS_Prefix . "users u WHERE post_id = '$post' AND ((p.poster_id = u.uid) XOR (p.poster_id=0)) ";
+            $sql = "SELECT p.post_text, p.post_time, u.uname FROM " . sql_prefix('') . "posts p, " . sql_prefix('') . "users u WHERE post_id = '$post' AND ((p.poster_id = u.uid) XOR (p.poster_id=0)) ";
             if ($r = sql_query($sql)) {
                 $m = sql_fetch_assoc($r);
                 $text = $m['post_text'];
@@ -350,7 +350,7 @@ if ($submitS) {
         }
         if ($user) {
             if ($allow_sig == 1 || $sig == 'on') {
-                $asig = sql_query("SELECT attachsig FROM " . $NPDS_Prefix . "users_status WHERE uid='$cookie[0]'");
+                $asig = sql_query("SELECT attachsig FROM " . sql_prefix('') . "users_status WHERE uid='$cookie[0]'");
                 list($attachsig) = sql_fetch_row($asig);
                 if ($attachsig == 1) $s = 'checked="checked"';
                 else $s = '';
@@ -399,7 +399,7 @@ if ($submitS) {
         echo '
       <h4 class="my-3">' . translate("Aperçu des sujets :") . '</h4>';
         $post_aff = $Mmod ? '' : " AND post_aff='1' ";
-        $sql = "SELECT * FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id DESC limit 0,10";
+        $sql = "SELECT * FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id DESC limit 0,10";
         if (!$result = sql_query($sql))
             forumerror('0001');
         $myrow = sql_fetch_assoc($result);

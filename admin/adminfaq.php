@@ -28,7 +28,7 @@ $hlpfile = "manuels/$language/faqs.html";
 
 function FaqAdmin()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -47,7 +47,7 @@ function FaqAdmin()
       </thead>
       <tbody>';
 
-   $result = sql_query("SELECT id_cat, categories FROM " . $NPDS_Prefix . "faqcategories order by id_cat ASC");
+   $result = sql_query("SELECT id_cat, categories FROM " . sql_prefix('') . "faqcategories order by id_cat ASC");
 
    while (list($id_cat, $categories) = sql_fetch_row($result)) {
       echo '
@@ -104,7 +104,7 @@ function FaqAdmin()
 
 function FaqCatGo($id_cat)
 {
-   global $hlpfile, $NPDS_Prefix, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -113,8 +113,8 @@ function FaqCatGo($id_cat)
    $lst_qr = '';
 
    $result = sql_query("SELECT fa.id, fa.question, fa.answer, fc.categories 
-                        FROM " . $NPDS_Prefix . "faqanswer fa 
-                        LEFT JOIN " . $NPDS_Prefix . "faqcategories fc ON fa.id_cat = fc.id_cat 
+                        FROM " . sql_prefix('') . "faqanswer fa 
+                        LEFT JOIN " . sql_prefix('') . "faqcategories fc ON fa.id_cat = fc.id_cat 
                         WHERE fa.id_cat='$id_cat' ORDER BY id");
 
    while (list($id, $question, $answer, $categories) = sql_fetch_row($result)) {
@@ -203,14 +203,14 @@ function FaqCatGo($id_cat)
 
 function FaqCatEdit($id_cat)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $result = sql_query("SELECT categories FROM " . $NPDS_Prefix . "faqcategories WHERE id_cat='$id_cat'");
+   $result = sql_query("SELECT categories FROM " . sql_prefix('') . "faqcategories WHERE id_cat='$id_cat'");
    list($categories) = sql_fetch_row($result);
 
    echo '
@@ -249,7 +249,7 @@ function FaqCatEdit($id_cat)
 
 function FaqCatGoEdit($id)
 {
-   global $hlpfile, $NPDS_Prefix, $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -257,8 +257,8 @@ function FaqCatGoEdit($id)
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
    $result = sql_query("SELECT fa.question, fa.answer, fa.id_cat, fc.categories 
-                        FROM " . $NPDS_Prefix . "faqanswer fa 
-                        LEFT JOIN " . $NPDS_Prefix . "faqcategories fc ON fa.id_cat = fc.id_cat 
+                        FROM " . sql_prefix('') . "faqanswer fa 
+                        LEFT JOIN " . sql_prefix('') . "faqcategories fc ON fa.id_cat = fc.id_cat 
                         WHERE fa.id='$id'");
 
    list($question, $answer, $id_cat, $faq_cat) = sql_fetch_row($result);
@@ -320,61 +320,61 @@ function FaqCatGoEdit($id)
 
 function FaqCatSave($old_id_cat, $id_cat, $categories)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $categories = stripslashes(FixQuotes($categories));
 
    if ($old_id_cat != $id_cat) {
-      sql_query("UPDATE " . $NPDS_Prefix . "faqanswer SET id_cat='$id_cat' WHERE id_cat='$old_id_cat'");
+      sql_query("UPDATE " . sql_prefix('') . "faqanswer SET id_cat='$id_cat' WHERE id_cat='$old_id_cat'");
    }
 
-   sql_query("UPDATE " . $NPDS_Prefix . "faqcategories SET id_cat='$id_cat', categories='$categories' WHERE id_cat='$old_id_cat'");
+   sql_query("UPDATE " . sql_prefix('') . "faqcategories SET id_cat='$id_cat', categories='$categories' WHERE id_cat='$old_id_cat'");
    
    Header('Location: admin.php?op=FaqAdmin');
 }
 
 function FaqCatGoSave($id, $question, $answer)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $question   = stripslashes(FixQuotes($question));
    $answer     = stripslashes(FixQuotes($answer));
 
-   sql_query("UPDATE " . $NPDS_Prefix . "faqanswer SET question='$question', answer='$answer' WHERE id='$id'");
+   sql_query("UPDATE " . sql_prefix('') . "faqanswer SET question='$question', answer='$answer' WHERE id='$id'");
 
    Header('Location: admin.php?op=FaqCatGoEdit&id='. $id);
 }
 
 function FaqCatAdd($categories)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $categories = stripslashes(FixQuotes($categories));
 
-   sql_query("INSERT INTO " . $NPDS_Prefix . "faqcategories VALUES (NULL, '$categories')");
+   sql_query("INSERT INTO " . sql_prefix('') . "faqcategories VALUES (NULL, '$categories')");
 
    Header('Location: admin.php?op=FaqAdmin');
 }
 
 function FaqCatGoAdd($id_cat, $question, $answer)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $question   = stripslashes(FixQuotes($question));
    $answer     = stripslashes(FixQuotes($answer));
 
-   sql_query("INSERT INTO " . $NPDS_Prefix . "faqanswer VALUES (NULL, '$id_cat', '$question', '$answer')");
+   sql_query("INSERT INTO " . sql_prefix('') . "faqanswer VALUES (NULL, '$id_cat', '$question', '$answer')");
 
    Header('Location: admin.php?op=FaqCatGo&id_cat='. $id_cat);
 }
 
 function FaqCatDel($id_cat, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "faqcategories WHERE id_cat='$id_cat'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "faqanswer WHERE id_cat='$id_cat'");
+      sql_query("DELETE FROM " . sql_prefix('') . "faqcategories WHERE id_cat='$id_cat'");
+      sql_query("DELETE FROM " . sql_prefix('') . "faqanswer WHERE id_cat='$id_cat'");
 
       Header('Location: admin.php?op=FaqAdmin');
    } else {
@@ -403,10 +403,10 @@ function FaqCatDel($id_cat, $ok = 0)
 
 function FaqCatGoDel($id, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "faqanswer WHERE id='$id'");
+      sql_query("DELETE FROM " . sql_prefix('') . "faqanswer WHERE id='$id'");
 
       Header('Location: admin.php?op=FaqAdmin');
    } else {

@@ -260,10 +260,10 @@ if ($stage == 6) {
 
     switch ($op) {
         case 'write_database':
-            global $stage, $langue, $stage6_ok, $NPDS_Prefix, $pre_tab, $sql_com, $qi;
+            global $stage, $langue, $stage6_ok, sql_prefix(''), $pre_tab, $sql_com, $qi;
             settype($out, 'string');
             require('install/sql/build_sql-create.php');
-            build_sql_create($NPDS_Prefix);
+            build_sql_create(sql_prefix(''));
             Mysql_Connexion();
             require('install/sql/sql-create.php');
             write_database();
@@ -327,11 +327,11 @@ if ($stage == 7) {
     if (!isset($op)) $op = 'etape_7';
     switch ($op) {
         case 'write_users':
-            global $stage, $langue, $stage7_ok, $NPDS_Prefix;
+            global $stage, $langue, $stage7_ok, sql_prefix('');
             if (($adminpass1 != '') and ($adminpass2 != '')) {
                 settype($out, 'string');
                 include('config.php');
-                write_users($adminlogin, $adminpass1, $adminpass2, $NPDS_Prefix);
+                write_users($adminlogin, $adminpass1, $adminpass2, sql_prefix(''));
                 if ($stage7_ok == 2) {
                     echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'install.php?op=etape_7&stage=7&classe=0&langue=' . $langue . '\';' . "\n" . '//]]>' . "\n" . '</script>';
                 } else {

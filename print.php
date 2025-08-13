@@ -17,14 +17,14 @@ if (!function_exists("Mysql_Connexion"))
 
 function PrintPage($oper, $DB, $nl, $sid)
 {
-    global $user, $cookie, $theme, $Default_Theme, $language, $site_logo, $sitename, $datetime, $nuke_url, $Titlesitename, $NPDS_Prefix;
+    global $user, $cookie, $theme, $Default_Theme, $language, $site_logo, $sitename, $datetime, $nuke_url, $Titlesitename, sql_prefix('');
 
     $aff = true;
     if ($oper == 'news') {
         $xtab = news_aff('libre', "WHERE sid='$sid'", 1, 1);
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
         if ($topic != '') {
-            $result2 = sql_query("SELECT topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+            $result2 = sql_query("SELECT topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
             list($topictext) = sql_fetch_row($result2);
         } else
             $aff = false;
@@ -33,7 +33,7 @@ function PrintPage($oper, $DB, $nl, $sid)
         $xtab = news_aff('archive', "WHERE sid='$sid'", 1, 1);
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
         if ($topic != '') {
-            $result2 = sql_query("SELECT topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+            $result2 = sql_query("SELECT topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
             list($topictext) = sql_fetch_row($result2);
         } else
             $aff = false;

@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/referer.html";
 
 function hreferer($filter)
 {
-   global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre, $NPDS_Prefix;
+   global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre, sql_prefix('');
    include("header.php");
    GraphicAdmin($hlpfile);
 
@@ -55,7 +55,7 @@ function hreferer($filter)
       </tr>
    </thead>
    <tbody>';
-   $hresult = sql_query("SELECT url, COUNT(url) AS TheCount, substring(url,1,$filter) AS filter FROM " . $NPDS_Prefix . "referer GROUP BY url, filter ORDER BY TheCount DESC");
+   $hresult = sql_query("SELECT url, COUNT(url) AS TheCount, substring(url,1,$filter) AS filter FROM " . sql_prefix('') . "referer GROUP BY url, filter ORDER BY TheCount DESC");
    while (list($url, $TheCount) = sql_fetch_row($hresult)) {
       echo '
       <tr>
@@ -83,20 +83,20 @@ function hreferer($filter)
 
 function delreferer()
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "referer");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "referer");
    Header("Location: admin.php?op=AdminMain");
 }
 
 function archreferer($filter)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $file = fopen("slogs/referers.log", "w");
    $content = "===================================================\n";
    $content .= "Date : " . date("d-m-Y") . "-/- NPDS - HTTP Referers\n";
    $content .= "===================================================\n";
-   $result = sql_query("SELECT url FROM " . $NPDS_Prefix . "referer");
+   $result = sql_query("SELECT url FROM " . sql_prefix('') . "referer");
    while (list($url) = sql_fetch_row($result)) {
       $content .= "$url\n";
    }

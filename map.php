@@ -17,19 +17,19 @@ if (!function_exists("Mysql_Connexion"))
 
 function mapsections()
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $tmp = '';
-    $result = sql_query("SELECT rubid, rubname FROM " . $NPDS_Prefix . "rubriques WHERE enligne='1' AND rubname<>'Divers' AND rubname<>'Presse-papiers' ORDER BY ordre");
+    $result = sql_query("SELECT rubid, rubname FROM " . sql_prefix('') . "rubriques WHERE enligne='1' AND rubname<>'Divers' AND rubname<>'Presse-papiers' ORDER BY ordre");
     if (sql_num_rows($result) > 0) {
         while (list($rubid, $rubname) = sql_fetch_row($result)) {
             if ($rubname != '')
                 $tmp .= '<li>' . aff_langue($rubname);
-            $result2 = sql_query("SELECT secid, secname, image, userlevel, intro FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' AND (userlevel='0' OR userlevel='') ORDER BY ordre");
+            $result2 = sql_query("SELECT secid, secname, image, userlevel, intro FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' AND (userlevel='0' OR userlevel='') ORDER BY ordre");
             if (sql_num_rows($result2) > 0) {
                 while (list($secid, $secname, $userlevel) = sql_fetch_row($result2)) {
                     if (autorisation($userlevel)) {
                         $tmp .= '<ul><li>' . aff_langue($secname);
-                        $result3 = sql_query("SELECT artid, title FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'");
+                        $result3 = sql_query("SELECT artid, title FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
                         while (list($artid, $title) = sql_fetch_row($result3)) {
                             $tmp .= "<ul>
                      <li><a href=\"sections.php?op=viewarticle&amp;artid=$artid\">" . aff_langue($title) . '</a></li></ul>';
@@ -81,11 +81,11 @@ function mapforum()
 
 function maptopics()
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $lis_top = '';
-    $result = sql_query("SELECT topicid, topictext FROM " . $NPDS_Prefix . "topics ORDER BY topicname");
+    $result = sql_query("SELECT topicid, topictext FROM " . sql_prefix('') . "topics ORDER BY topicname");
     while (list($topicid, $topictext) = sql_fetch_row($result)) {
-        $result2 = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE topic='$topicid'");
+        $result2 = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE topic='$topicid'");
         $nb_article = sql_num_rows($result2);
         $lis_top .= '
        <li><a href="search.php?query=&amp;topic=' . $topicid . '">' . aff_langue($topictext) . '</a>&nbsp;<span class="">(' . $nb_article . ')</span></li>';
@@ -108,11 +108,11 @@ function maptopics()
 
 function mapcategories()
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $lis_cat = '';
-    $result = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat ORDER BY title");
+    $result = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat ORDER BY title");
     while (list($catid, $title) = sql_fetch_row($result)) {
-        $result2 = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE catid='$catid'");
+        $result2 = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
         $nb_article = sql_num_rows($result2);
         $lis_cat .= '<li><a href="index.php?op=newindex&amp;catid=' . $catid . '">' . aff_langue($title) . '</a> <span class="float-end badge bg-secondary"> ' . $nb_article . ' </span></li>' . "\n";
     }
@@ -135,9 +135,9 @@ function mapcategories()
 
 function mapfaq()
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $lis_faq = '';
-    $result = sql_query("SELECT id_cat, categories FROM " . $NPDS_Prefix . "faqcategories ORDER BY id_cat ASC");
+    $result = sql_query("SELECT id_cat, categories FROM " . sql_prefix('') . "faqcategories ORDER BY id_cat ASC");
     while (list($id_cat, $categories) = sql_fetch_row($result)) {
         $catname = aff_langue($categories);
         $lis_faq .= "<li><a href=\"faq.php?id_cat=$id_cat&amp;myfaq=yes&amp;categories=" . urlencode($catname) . "\">" . $catname . "</a></li>\n";

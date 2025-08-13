@@ -36,13 +36,13 @@ if ($op != "maj_subscribe") {
 } else {
     if ($subscribe) {
         if ($user) {
-            $result = sql_query("DELETE FROM " . $NPDS_Prefix . "subscribe WHERE uid='$cookie[0]' AND topicid IS NOT NULL");
-            $selection = sql_query("SELECT topicid FROM " . $NPDS_Prefix . "topics ORDER BY topicid");
+            $result = sql_query("DELETE FROM " . sql_prefix('') . "subscribe WHERE uid='$cookie[0]' AND topicid IS NOT NULL");
+            $selection = sql_query("SELECT topicid FROM " . sql_prefix('') . "topics ORDER BY topicid");
             while (list($topicid) = sql_fetch_row($selection)) {
                 if (isset($Subtopicid)) {
                     if (array_key_exists($topicid, $Subtopicid)) {
                         if ($Subtopicid[$topicid] == "on") {
-                            $resultX = sql_query("INSERT INTO " . $NPDS_Prefix . "subscribe (topicid, uid) VALUES ('$topicid','$cookie[0]')");
+                            $resultX = sql_query("INSERT INTO " . sql_prefix('') . "subscribe (topicid, uid) VALUES ('$topicid','$cookie[0]')");
                         }
                     }
                 }

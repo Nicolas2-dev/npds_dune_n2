@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/banners.html";
 
 function BannersAdmin()
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -45,9 +45,9 @@ function BannersAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT bid, cid, imageurl, imptotal, impmade, clicks, date FROM " . $NPDS_Prefix . "banner WHERE userlevel!='9' ORDER BY bid");
+   $result = sql_query("SELECT bid, cid, imageurl, imptotal, impmade, clicks, date FROM " . sql_prefix('') . "banner WHERE userlevel!='9' ORDER BY bid");
    while (list($bid, $cid, $imageurl, $imptotal, $impmade, $clicks, $date) = sql_fetch_row($result)) {
-      $result2 = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
       $left = $imptotal == 0 ? adm_translate("Illimité") : $imptotal - $impmade;
@@ -84,9 +84,9 @@ function BannersAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT bid, cid, imageurl, imptotal, impmade, clicks, date FROM " . $NPDS_Prefix . "banner WHERE userlevel='9' order by bid");
+   $result = sql_query("SELECT bid, cid, imageurl, imptotal, impmade, clicks, date FROM " . sql_prefix('') . "banner WHERE userlevel='9' order by bid");
    while (list($bid, $cid, $imageurl, $imptotal, $impmade, $clicks, $date) = sql_fetch_row($result)) {
-      $result2 = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
       $left = $imptotal == 0 ? adm_translate("Illimité") : $imptotal - $impmade;
@@ -120,9 +120,9 @@ function BannersAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT bid, cid, impressions, clicks, datestart, dateend FROM " . $NPDS_Prefix . "bannerfinish ORDER BY bid");
+   $result = sql_query("SELECT bid, cid, impressions, clicks, datestart, dateend FROM " . sql_prefix('') . "bannerfinish ORDER BY bid");
    while (list($bid, $cid, $impressions, $clicks, $datestart, $dateend) = sql_fetch_row($result)) {
-      $result2 = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       if ($impressions == 0) $impressions = 1;
       $percent = substr(100 * $clicks / $impressions, 0, 5);
@@ -155,9 +155,9 @@ function BannersAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT cid, name, contact, email FROM " . $NPDS_Prefix . "bannerclient ORDER BY cid");
+   $result = sql_query("SELECT cid, name, contact, email FROM " . sql_prefix('') . "bannerclient ORDER BY cid");
    while (list($cid, $name, $contact, $email) = sql_fetch_row($result)) {
-      $result2 = sql_query("SELECT cid FROM " . $NPDS_Prefix . "banner WHERE cid='$cid'");
+      $result2 = sql_query("SELECT cid FROM " . sql_prefix('') . "banner WHERE cid='$cid'");
       $numrows = sql_num_rows($result2);
       echo '
          <tr>
@@ -173,7 +173,7 @@ function BannersAdmin()
       </tbody>
    </table>';
    // Add Banner
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "bannerclient");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "bannerclient");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
       echo '
@@ -184,7 +184,7 @@ function BannersAdmin()
    <form id="bannersnewbanner" action="admin.php" method="post">
       <div class="form-floating mb-3">
          <select class="form-select" name="cid">';
-      $result = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient");
+      $result = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient");
       while (list($cid, $name) = sql_fetch_row($result)) {
          echo '
             <option value="' . $cid . '">' . $name . '</option>';
@@ -276,33 +276,33 @@ function BannersAdmin()
 }
 function BannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
 {
-   global $NPDS_Prefix;
-   sql_query("INSERT INTO " . $NPDS_Prefix . "banner VALUES (NULL, '$cid', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$userlevel', now())");
+   global sql_prefix('');
+   sql_query("INSERT INTO " . sql_prefix('') . "banner VALUES (NULL, '$cid', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$userlevel', now())");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerAddClient($name, $contact, $email, $login, $passwd, $extrainfo)
 {
-   global $NPDS_Prefix;
-   sql_query("INSERT INTO " . $NPDS_Prefix . "bannerclient VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
+   global sql_prefix('');
+   sql_query("INSERT INTO " . sql_prefix('') . "bannerclient VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerFinishDelete($bid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "bannerfinish WHERE bid='$bid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "bannerfinish WHERE bid='$bid'");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerDelete($bid, $ok = 0)
 {
-   global $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "banner WHERE bid='$bid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
       Header("Location: admin.php?op=BannersAdmin");
    } else {
       global $hlpfile;
       include("header.php");
       GraphicAdmin($hlpfile);
-      $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl FROM " . $NPDS_Prefix . "banner WHERE bid='$bid'");
+      $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
       list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl) = sql_fetch_row($result);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo '
@@ -324,7 +324,7 @@ function BannerDelete($bid, $ok = 0)
             </tr>
          </thead>
          <tbody>';
-      $result2 = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = substr(100 * $clicks / $impmade, 0, 5);
       $left = $imptotal == 0 ? adm_translate("Illimité") : $imptotal - $impmade;
@@ -349,11 +349,11 @@ function BannerDelete($bid, $ok = 0)
 
 function BannerEdit($bid)
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, userlevel FROM " . $NPDS_Prefix . "banner WHERE bid='$bid'");
+   $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, userlevel FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
    list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $userlevel) = sql_fetch_row($result);
    echo '
    <hr />
@@ -368,11 +368,11 @@ function BannerEdit($bid)
    <form id="bannersadm" action="admin.php" method="post">
       <div class="form-floating mb-3">
          <select class="form-select" id="cid" name="cid">';
-   $result = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+   $result = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
    list($cid, $name) = sql_fetch_row($result);
    echo '
             <option value="' . $cid . '" selected="selected">' . $name . '</option>';
-   $result = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient");
+   $result = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient");
    while (list($ccid, $name) = sql_fetch_row($result)) {
       if ($cid != $ccid)
          echo '
@@ -418,30 +418,30 @@ function BannerEdit($bid)
 }
 function BannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $imp = $imptotal + $impadded;
-   sql_query("UPDATE " . $NPDS_Prefix . "banner SET cid='$cid', imptotal='$imp', imageurl='$imageurl', clickurl='$clickurl', userlevel='$userlevel' WHERE bid='$bid'");
+   sql_query("UPDATE " . sql_prefix('') . "banner SET cid='$cid', imptotal='$imp', imageurl='$imageurl', clickurl='$clickurl', userlevel='$userlevel' WHERE bid='$bid'");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerClientDelete($cid, $ok = 0)
 {
-   global $NPDS_Prefix, $sitename, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $sitename, $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "banner WHERE cid='$cid'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "banner WHERE cid='$cid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       Header("Location: admin.php?op=BannersAdmin");
    } else {
       include("header.php");
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
-      $result = sql_query("SELECT cid, name FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+      $result = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result);
       echo '
       <hr />
       <h3 class="text-danger">' . adm_translate("Supprimer l'Annonceur") . '</h3>';
       echo '
       <div class="alert alert-secondary my-3">' . adm_translate("Vous êtes sur le point de supprimer cet annonceur : ") . ' <strong>' . $name . '</strong> ' . adm_translate("et toutes ses bannières !!!");
-      $result2 = sql_query("SELECT imageurl, clickurl FROM " . $NPDS_Prefix . "banner WHERE cid='$cid'");
+      $result2 = sql_query("SELECT imageurl, clickurl FROM " . sql_prefix('') . "banner WHERE cid='$cid'");
       $numrows = sql_num_rows($result2);
       if ($numrows == 0)
          echo '<br />' . adm_translate("Cet annonceur n'a pas de bannière active pour le moment.") . '</div>';
@@ -460,11 +460,11 @@ function BannerClientDelete($cid, $ok = 0)
 }
 function BannerClientEdit($cid)
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT name, contact, email, login, passwd, extrainfo FROM " . $NPDS_Prefix . "bannerclient WHERE cid='$cid'");
+   $result = sql_query("SELECT name, contact, email, login, passwd, extrainfo FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
    list($name, $contact, $email, $login, $passwd, $extrainfo) = sql_fetch_row($result);
    echo '
    <hr />
@@ -524,8 +524,8 @@ function BannerClientEdit($cid)
 }
 function BannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "bannerclient SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' WHERE cid='$cid'");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "bannerclient SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' WHERE cid='$cid'");
    Header("Location: admin.php?op=BannersAdmin");
 }
 

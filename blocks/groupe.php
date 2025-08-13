@@ -3,10 +3,10 @@
 #autodoc espace_groupe() : Bloc du WorkSpace <br />=> syntaxe :<br />function#bloc_espace_groupe<br />params#ID_du_groupe, Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, Le nom du groupe sera utilisé
 function bloc_espace_groupe($gr, $i_gr)
 {
-    global $NPDS_Prefix, $block_title;
+    global sql_prefix(''), $block_title;
 
     if ($block_title == '') {
-        $rsql = sql_fetch_assoc(sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$gr'"));
+        $rsql = sql_fetch_assoc(sql_query("SELECT groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='$gr'"));
         $title = $rsql['groupe_name'];
     } else {
         $title = $block_title;

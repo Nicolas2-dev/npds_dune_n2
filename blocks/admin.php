@@ -3,16 +3,16 @@
 #autodoc adminblock() : Bloc Admin <br />=> syntaxe : function#adminblock
 function adminblock()
 {
-    global $NPDS_Prefix, $admin, $aid, $admingraphic, $adminimg, $admf_ext, $Version_Sub, $Version_Num, $nuke_url;
+    global sql_prefix(''), $admin, $aid, $admingraphic, $adminimg, $admf_ext, $Version_Sub, $Version_Num, $nuke_url;
 
     $bloc_foncts_A = '';
 
     if ($admin) {
-        $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$aid' LIMIT 1"));
+        $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$aid' LIMIT 1"));
 
         $R = $Q['radminsuper'] == 1
-            ? sql_query("SELECT * FROM " . $NPDS_Prefix . "fonctions f WHERE f.finterface =1 AND f.fetat != '0' ORDER BY f.fcategorie")
-            : sql_query("SELECT * FROM " . $NPDS_Prefix . "fonctions f LEFT JOIN " . $NPDS_Prefix . "droits d ON f.fdroits1 = d.d_fon_fid LEFT JOIN " . $NPDS_Prefix . "authors a ON d.d_aut_aid =a.aid WHERE f.finterface =1 AND fetat!=0 AND d.d_aut_aid='$aid' AND d.d_droits REGEXP'^1' ORDER BY f.fcategorie");
+            ? sql_query("SELECT * FROM " . sql_prefix('') . "fonctions f WHERE f.finterface =1 AND f.fetat != '0' ORDER BY f.fcategorie")
+            : sql_query("SELECT * FROM " . sql_prefix('') . "fonctions f LEFT JOIN " . sql_prefix('') . "droits d ON f.fdroits1 = d.d_fon_fid LEFT JOIN " . sql_prefix('') . "authors a ON d.d_aut_aid =a.aid WHERE f.finterface =1 AND fetat!=0 AND d.d_aut_aid='$aid' AND d.d_droits REGEXP'^1' ORDER BY f.fcategorie");
 
         while ($SAQ = sql_fetch_assoc($R)) {
             $arraylecture = array();
@@ -67,7 +67,7 @@ function adminblock()
             }
         }
 
-        $result = sql_query("SELECT title, content FROM " . $NPDS_Prefix . "block WHERE id=2");
+        $result = sql_query("SELECT title, content FROM " . sql_prefix('') . "block WHERE id=2");
         list($title, $content) = sql_fetch_row($result);
 
         global $block_title;
@@ -85,9 +85,9 @@ function adminblock()
         $versus_info = explode('|', $messages_npds[0]);
 
         if ($versus_info[1] == $Version_Sub and $versus_info[2] == $Version_Num) {
-            sql_query("UPDATE " . $NPDS_Prefix . "fonctions SET fetat='1', fretour='', fretour_h='Version NPDS " . $Version_Sub . " " . $Version_Num . "', furlscript='' WHERE fid='36'");
+            sql_query("UPDATE " . sql_prefix('') . "fonctions SET fetat='1', fretour='', fretour_h='Version NPDS " . $Version_Sub . " " . $Version_Num . "', furlscript='' WHERE fid='36'");
         } else {
-            sql_query("UPDATE " . $NPDS_Prefix . "fonctions SET fetat='1', fretour='N', furlscript='data-bs-toggle=\"modal\" data-bs-target=\"#versusModal\"', fretour_h='Une nouvelle version NPDS est disponible !<br />" . $versus_info[1] . " " . $versus_info[2] . "<br />Cliquez pour télécharger.' WHERE fid='36'");
+            sql_query("UPDATE " . sql_prefix('') . "fonctions SET fetat='1', fretour='N', furlscript='data-bs-toggle=\"modal\" data-bs-target=\"#versusModal\"', fretour_h='Une nouvelle version NPDS est disponible !<br />" . $versus_info[1] . " " . $versus_info[2] . "<br />Cliquez pour télécharger.' WHERE fid='36'");
         }
 
         $content .= '<div class="d-flex justify-content-start flex-wrap" id="adm_block">

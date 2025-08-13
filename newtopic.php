@@ -21,9 +21,9 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = ($SuperCache) ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global $NPDS_Prefix;
+global sql_prefix('');
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
@@ -72,7 +72,7 @@ if (isset($submitS)) {
                 forumerror('0027');
             else {
                 $modo = '';
-                $result = sql_query("SELECT pass FROM " . $NPDS_Prefix . "users WHERE uname='$username'");
+                $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$username'");
                 list($pass) = sql_fetch_row($result);
                 if ((password_verify($password, $pass)) and ($pass != '')) {
                     $userdata = get_userdata($username);
@@ -123,20 +123,20 @@ if (isset($submitS)) {
 
         $Msubject = $subject;
         $time = date("Y-m-d H:i", time() + ((int)$gmt * 3600));
-        $sql = "INSERT INTO " . $NPDS_Prefix . "forumtopics (topic_title, topic_poster, current_poster, forum_id, topic_time, topic_notify) VALUES ('$subject', '" . $userdata['uid'] . "', '" . $userdata['uid'] . "', '$forum', '$time'";
+        $sql = "INSERT INTO " . sql_prefix('') . "forumtopics (topic_title, topic_poster, current_poster, forum_id, topic_time, topic_notify) VALUES ('$subject', '" . $userdata['uid'] . "', '" . $userdata['uid'] . "', '$forum', '$time'";
         $sql .= (isset($notify2) && $userdata['uid'] != 1) ? ", '1'" : ", '0'";
         $sql .= ')';
         if (!$result = sql_query($sql))
             forumerror('0020');
         $topic_id = sql_last_id();
         $image_subject = isset($image_subject) ? $image_subject : '00.png';
-        $sql = "INSERT INTO " . $NPDS_Prefix . "posts (topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) VALUES ('$topic_id', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
+        $sql = "INSERT INTO " . sql_prefix('') . "posts (topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) VALUES ('$topic_id', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
         if (!$result = sql_query($sql))
             forumerror('0020');
         else
             $IdPost = sql_last_id();
 
-        $sql = "UPDATE " . $NPDS_Prefix . "users_status SET posts=posts+1 WHERE (uid='" . $userdata['uid'] . "')";
+        $sql = "UPDATE " . sql_prefix('') . "users_status SET posts=posts+1 WHERE (uid='" . $userdata['uid'] . "')";
         $result = sql_query($sql);
         if (!$result)
             forumerror('0029');
@@ -329,7 +329,7 @@ if (isset($submitS)) {
             }
             if ($user) {
                 if ($allow_sig == 1 || $sig == 'on') {
-                    $asig = sql_query("SELECT attachsig FROM " . $NPDS_Prefix . "users_status WHERE uid='$cookie[0]'");
+                    $asig = sql_query("SELECT attachsig FROM " . sql_prefix('') . "users_status WHERE uid='$cookie[0]'");
                     list($attachsig) = sql_fetch_row($asig);
                     $s = ($attachsig == 1) ? 'checked="checked"' : '';
                     if (($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {

@@ -39,13 +39,13 @@ function go_back($label)
 
 function list_meta($meta, $type_meta)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $sel = '';
    $list = '
    <select class="form-select" name="meta" onchange="window.location=eval(\'this.options[this.selectedIndex].value\')">
       <option value="">META-MOT</option>';
-   if (!empty($type_meta)) $Q = sql_query("SELECT def FROM " . $NPDS_Prefix . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
-   else $Q = sql_query("SELECT def FROM " . $NPDS_Prefix . "metalang ORDER BY 'def' ASC");
+   if (!empty($type_meta)) $Q = sql_query("SELECT def FROM " . sql_prefix('') . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
+   else $Q = sql_query("SELECT def FROM " . sql_prefix('') . "metalang ORDER BY 'def' ASC");
    while ($resultat = sql_fetch_row($Q)) {
       if ($meta == $resultat[0]) $sel = 'selected="selected"';
       $list .= '
@@ -73,13 +73,13 @@ function list_meta_type()
 
 function list_type_meta($type_meta)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $sel = '';
    settype($url, 'string');
    $list = '
    <select class="form-select" name="type_meta" onchange="window.location=eval(\'this.options[this.selectedIndex].value\')">
       <option value="' . $url . '">Type</option>';
-   $Q = sql_query("SELECT type_meta FROM " . $NPDS_Prefix . "metalang GROUP BY type_meta ORDER BY 'type_meta' ASC");
+   $Q = sql_query("SELECT type_meta FROM " . sql_prefix('') . "metalang GROUP BY type_meta ORDER BY 'type_meta' ASC");
    while ($resultat = sql_fetch_row($Q)) {
       if ($type_meta == $resultat[0]) $sel = 'selected="selected"';
       $list .= '
@@ -94,11 +94,11 @@ function list_type_meta($type_meta)
 
 function List_Meta_Lang()
 {
-   global $hlpfile, $NPDS_Prefix, $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
 
-   if (!empty($meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . $NPDS_Prefix . "metalang WHERE def = '" . $meta . "' ORDER BY type_meta, def ASC");
-   else if (!empty($type_meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . $NPDS_Prefix . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
-   else $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . $NPDS_Prefix . "metalang ORDER BY 'type_meta','def' ASC");
+   if (!empty($meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $meta . "' ORDER BY type_meta, def ASC");
+   else if (!empty($type_meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
+   else $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang ORDER BY 'type_meta','def' ASC");
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -171,9 +171,9 @@ function List_Meta_Lang()
 
 function Edit_Meta_Lang()
 {
-   global $hlpfile, $NPDS_Prefix, $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
 
-   $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . $NPDS_Prefix . "metalang WHERE def = '" . $ml . "'");
+   $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $ml . "'");
    $Q = sql_fetch_assoc($Q);
    sql_free_result($Q);
    include("header.php");
@@ -340,7 +340,7 @@ function Creat_Meta_Lang()
          else
             echo '
             <textarea class="form-control" name="content" id="content" rows="20" required="required">';
-         if ($type_meta == "meta") echo "function MM_XYZ (\$arg) {\n   global \$NPDS_Prefix;\n   \$arg = arg_filter(\$arg);\n\n   return(\$content);\n}";
+         if ($type_meta == "meta") echo "function MM_XYZ (\$arg) {\n   global \sql_prefix('');\n   \$arg = arg_filter(\$arg);\n\n   return(\$content);\n}";
          echo '
             </textarea>
          </div>
@@ -387,11 +387,11 @@ function Creat_Meta_Lang()
 
 function kill_Meta_Lang($nbr, $action)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $i = 0;
    while ($i <= $nbr) {
       if (!empty($action[$i]))
-         sql_query("DELETE FROM " . $NPDS_Prefix . "metalang WHERE def='" . $action[$i] . "' ");
+         sql_query("DELETE FROM " . sql_prefix('') . "metalang WHERE def='" . $action[$i] . "' ");
       $i++;
    }
    Header("Location: admin.php?op=Meta-LangAdmin");
@@ -416,7 +416,7 @@ function meta_exist($def)
 
 function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($type_uri == 'plus') {
       $type_uri = '+';
    } else {
@@ -424,7 +424,7 @@ function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $d
    }
    if ($Maj_Bdd_ML == 'creat_meta') {
       $def = trim($def);
-      $Q = sql_query("SELECT def FROM " . $NPDS_Prefix . "metalang WHERE def='" . $def . "'");
+      $Q = sql_query("SELECT def FROM " . sql_prefix('') . "metalang WHERE def='" . $def . "'");
       $Q = sql_fetch_assoc($Q);
       sql_free_result($Q);
       if ($Q['def']) {
@@ -433,12 +433,12 @@ function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $d
          if ($type_meta == 'smil')
             $content = "\$cmd=MM_img(\"$content\");";
          if ($def != '')
-            sql_query("INSERT INTO " . $NPDS_Prefix . "metalang SET def='" . $def . "', content='$content', type_meta='" . $type_meta . "', type_uri='" . $type_uri . "', uri='" . $uri . "', description='" . $desc . "', obligatoire='0'");
+            sql_query("INSERT INTO " . sql_prefix('') . "metalang SET def='" . $def . "', content='$content', type_meta='" . $type_meta . "', type_uri='" . $type_uri . "', uri='" . $uri . "', description='" . $desc . "', obligatoire='0'");
          Header('Location: admin.php?op=Meta-LangAdmin');
       }
    }
    if ($Maj_Bdd_ML == 'edit_meta') {
-      sql_query("UPDATE " . $NPDS_Prefix . "metalang SET content='" . $content . "', type_meta='" . $type_meta . "', type_uri='" . $type_uri . "', uri='" . $uri . "', description='" . $desc . "' WHERE def='" . $def . "'");
+      sql_query("UPDATE " . sql_prefix('') . "metalang SET content='" . $content . "', type_meta='" . $type_meta . "', type_uri='" . $type_uri . "', uri='" . $uri . "', description='" . $desc . "' WHERE def='" . $def . "'");
       Header('Location: admin.php?op=Meta-LangAdmin');
    }
 }

@@ -38,7 +38,7 @@ function display_score($score)
 
 function write_review()
 {
-    global $admin, $sitename, $user, $cookie, $short_review, $NPDS_Prefix;
+    global $admin, $sitename, $user, $cookie, $short_review, sql_prefix('');
     include('header.php');
     echo '
    <h2>' . translate("Ecrire une critique") . '</h2>
@@ -56,7 +56,7 @@ function write_review()
       </div>';
 
     if ($user) {
-        $result = sql_query("SELECT uname, email FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'");
+        $result = sql_query("SELECT uname, email FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
         list($uname, $email) = sql_fetch_row($result);
         echo '
       <div class="form-floating mb-3">
@@ -266,7 +266,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
 function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $asb_question, $asb_reponse)
 {
-    global $admin, $user, $NPDS_Prefix;
+    global $admin, $user, sql_prefix('');
 
     include('header.php');
     $title = stripslashes(FixQuotes(strip_tags($title)));
@@ -291,13 +291,13 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
         translate("Merci d'avoir posté cette critique") . ', ' . $reviewer;
     echo '<br />';
     if (($admin) && ($id == 0)) {
-        sql_query("INSERT INTO " . $NPDS_Prefix . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
+        sql_query("INSERT INTO " . sql_prefix('') . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
         echo translate("Dès maintenant disponible dans la base de données des critiques.");
     } else if (($admin) && ($id != 0)) {
-        sql_query("UPDATE " . $NPDS_Prefix . "reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
+        sql_query("UPDATE " . sql_prefix('') . "reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
         echo translate("Dès maintenant disponible dans la base de données des critiques.");
     } else {
-        sql_query("INSERT INTO " . $NPDS_Prefix . "reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
+        sql_query("INSERT INTO " . sql_prefix('') . "reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
         echo translate("Nous allons vérifier votre contribution. Elle devrait bientôt être disponible !");
     }
     echo '
@@ -308,29 +308,29 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 
 function reviews($field, $order)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     include('header.php');
-    $r_result = sql_query("SELECT title, description FROM " . $NPDS_Prefix . "reviews_main");
+    $r_result = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
     list($r_title, $r_description) = sql_fetch_row($r_result);
     if ($order != "ASC" and $order != "DESC") $order = "ASC";
     switch ($field) {
         case 'reviewer':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY reviewer $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY reviewer $order");
             break;
         case 'score':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY score $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY score $order");
             break;
         case 'hits':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY hits $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY hits $order");
             break;
         case 'id':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY id $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY id $order");
             break;
         case 'date':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY date $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY date $order");
             break;
         default:
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . $NPDS_Prefix . "reviews ORDER BY title $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY title $order");
             break;
     }
     $numresults = sql_num_rows($result);
@@ -415,11 +415,11 @@ function reviews($field, $order)
 
 function showcontent($id)
 {
-    global $admin, $NPDS_Prefix;
+    global $admin, sql_prefix('');
     include('header.php');
     //settype($id,'integer');
-    sql_query("UPDATE " . $NPDS_Prefix . "reviews SET hits=hits+1 WHERE id='$id'");
-    $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "reviews WHERE id='$id'");
+    sql_query("UPDATE " . sql_prefix('') . "reviews SET hits=hits+1 WHERE id='$id'");
+    $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id='$id'");
     $myrow = sql_fetch_assoc($result);
     $id =  $myrow['id'];
     $fdate = formatTimes($myrow['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
@@ -492,12 +492,12 @@ function showcontent($id)
 
 function mod_review($id)
 {
-    global $admin, $NPDS_Prefix;
+    global $admin, sql_prefix('');
     include('header.php');
 
     settype($id, 'integer');
     if (($id != 0) && ($admin)) {
-        $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "reviews WHERE id = '$id'");
+        $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id = '$id'");
         $myrow =  sql_fetch_assoc($result);
         $id =  $myrow['id'];
         $date = $myrow['date'];
@@ -630,15 +630,15 @@ function mod_review($id)
 
 function del_review($id_del)
 {
-    global $admin, $NPDS_Prefix;
+    global $admin, sql_prefix('');
 
     settype($id_del, "integer");
     if ($admin) {
-        sql_query("DELETE FROM " . $NPDS_Prefix . "reviews WHERE id='$id_del'");
+        sql_query("DELETE FROM " . sql_prefix('') . "reviews WHERE id='$id_del'");
         // commentaires
         if (file_exists("modules/comments/reviews.conf.php")) {
             include("modules/comments/reviews.conf.php");
-            sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$id_del'");
+            sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$id_del'");
         }
     }
     redirect_url("reviews.php");

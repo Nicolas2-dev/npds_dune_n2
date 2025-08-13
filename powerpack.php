@@ -29,7 +29,7 @@ switch ($op) {
         settype($copie, 'string');
         settype($messages, 'string');
         if (isset($user)) {
-            $rowQ1 = Q_Select("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='$cookie[1]'", 3600);
+            $rowQ1 = Q_Select("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'", 3600);
             $uid = $rowQ1[0];
             $from_userid = $uid['uid'];
             if (($subject != '') or ($message != '')) {
@@ -46,10 +46,10 @@ switch ($op) {
         if ($admin) {
             $adminX = base64_decode($admin);
             $adminR = explode(':', $adminX);
-            $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$adminR[0]' LIMIT 1"));
+            $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$adminR[0]' LIMIT 1"));
             if ($Q['radminsuper'] == 1)
                 if ($chatbox_clearDB == 'OK')
-                    sql_query("DELETE FROM " . $NPDS_Prefix . "chatbox WHERE date <= " . (time() - (60 * 5)) . "");
+                    sql_query("DELETE FROM " . sql_prefix('') . "chatbox WHERE date <= " . (time() - (60 * 5)) . "");
         }
         Header("Location: index.php");
         break;

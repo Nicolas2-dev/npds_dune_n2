@@ -25,10 +25,10 @@ $hlpfile = "manuels/$language/topics.html";
 
 function topicsmanager()
 {
-   global $hlpfile, $tipath, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $nook;
+   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $nook;
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . $NPDS_Prefix . "topics ORDER BY topicname");
+   $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('') . "topics ORDER BY topicname");
    adminhead($f_meta_nom, $f_titre, $adminimg);
    settype($topicadmin, 'string');
    if (sql_num_rows($result) > 0) {
@@ -172,10 +172,10 @@ function topicsmanager()
 
 function topicedit($topicid)
 {
-   global $hlpfile, $tipath, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $radminsuper;
+   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $radminsuper;
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT topicid, topicname, topicimage, topictext, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topicid'");
+   $result = sql_query("SELECT topicid, topicname, topicimage, topictext, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
    list($topicid, $topicname, $topicimage, $topictext, $topicadmin) = sql_fetch_row($result);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -257,7 +257,7 @@ function topicedit($topicid)
    echo '
     <hr />
     <h3 class="my-2">' . adm_translate("Gérer les Liens Relatifs : ") . ' <span class="text-body-secondary">' . aff_langue($topicname) . '</span></h3>';
-   $res = sql_query("SELECT rid, name, url FROM " . $NPDS_Prefix . "related WHERE tid='$topicid'");
+   $res = sql_query("SELECT rid, name, url FROM " . sql_prefix('') . "related WHERE tid='$topicid'");
    echo '
    <table id="tad_linkrel" data-toggle="table" data-striped="true" data-icons="icons" data-icons-prefix="fa">
       <thead>
@@ -331,13 +331,13 @@ function topicedit($topicid)
 
 function relatededit($tid, $rid)
 {
-   global $hlpfile, $tipath, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT name, url FROM " . $NPDS_Prefix . "related WHERE rid='$rid'");
+   $result = sql_query("SELECT name, url FROM " . sql_prefix('') . "related WHERE rid='$rid'");
    list($name, $url) = sql_fetch_row($result);
-   $result2 = sql_query("SELECT topictext, topicimage FROM " . $NPDS_Prefix . "topics WHERE topicid='$tid'");
+   $result2 = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$tid'");
    list($topictext, $topicimage) = sql_fetch_row($result2);
 
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -391,49 +391,49 @@ function relatededit($tid, $rid)
 
 function relatedsave($tid, $rid, $name, $url)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "related SET name='$name', url='$url' WHERE rid='$rid'");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "related SET name='$name', url='$url' WHERE rid='$rid'");
    Header("Location: admin.php?op=topicedit&topicid=$tid");
 }
 
 function relateddelete($tid, $rid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "related WHERE rid='$rid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "related WHERE rid='$rid'");
    Header("Location: admin.php?op=topicedit&topicid=$tid");
 }
 
 function topicmake($topicname, $topicimage, $topictext, $topicadmin)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $topicname = stripslashes(FixQuotes($topicname));
-   $istopicname = sql_num_rows(sql_query("SELECT * FROM " . $NPDS_Prefix . "topics WHERE topicname='$topicname'"));
+   $istopicname = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('') . "topics WHERE topicname='$topicname'"));
    if ($istopicname !== 0) {
       Header("Location: admin.php?op=topicsmanager&nook=nook#addtopic");
       die();
    }
    $topicimage = stripslashes(FixQuotes($topicimage));
    $topictext = stripslashes(FixQuotes($topictext));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "topics VALUES (NULL,'$topicname','$topicimage','$topictext','0', '$topicadmin')");
+   sql_query("INSERT INTO " . sql_prefix('') . "topics VALUES (NULL,'$topicname','$topicimage','$topictext','0', '$topicadmin')");
    global $aid;
    Ecr_Log("security", "topicMake ($topicname) by AID : $aid", "");
    $topicadminX = explode(",", $topicadmin);
    array_pop($topicadminX);
    for ($i = 0; $i < count($topicadminX); $i++) {
       trim($topicadminX[$i]);
-      $nres = sql_num_rows(sql_query("SELECT * FROM " . $NPDS_Prefix . "droits WHERE d_aut_aid='$topicadminX[$i]' and d_droits=11112"));
+      $nres = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('') . "droits WHERE d_aut_aid='$topicadminX[$i]' and d_droits=11112"));
       if ($nres == 0)
-         sql_query("INSERT INTO " . $NPDS_Prefix . "droits VALUES ('$topicadminX[$i]', '2', '11112')");
+         sql_query("INSERT INTO " . sql_prefix('') . "droits VALUES ('$topicadminX[$i]', '2', '11112')");
    }
    Header("Location: admin.php?op=topicsmanager#addtopic");
 }
 
 function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin, $name, $url)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $topicadminX = explode(',', $topicadmin);
    array_pop($topicadminX);
-   $res = sql_query("SELECT * FROM " . $NPDS_Prefix . "droits WHERE d_droits=11112 AND d_fon_fid=2");
+   $res = sql_query("SELECT * FROM " . sql_prefix('') . "droits WHERE d_droits=11112 AND d_fon_fid=2");
    $d = array();
    $topad = array();
    while ($d = sql_fetch_row($res)) {
@@ -441,18 +441,18 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
    }
 
    foreach ($topicadminX as $value) {
-      if (!in_array($value, $topad)) sql_query("INSERT INTO " . $NPDS_Prefix . "droits VALUES ('$value', '2', '11112')");
+      if (!in_array($value, $topad)) sql_query("INSERT INTO " . sql_prefix('') . "droits VALUES ('$value', '2', '11112')");
    }
    foreach ($topad as $value) { //pour chaque droit adminsujet on regarde le nom de l'adminsujet
       if (!in_array($value, $topicadminX)) { //si le nom de l'adminsujet n'est pas dans les nouveaux adminsujet
          //on cherche si il administre un autre sujet
          $resu =  mysqli_get_client_info() <= '8.0' ?
-            sql_query("SELECT * FROM " . $NPDS_Prefix . "topics WHERE topicadmin REGEXP '[[:<:]]" . $value . "[[:>:]]'") :
-            sql_query("SELECT * FROM " . $NPDS_Prefix . "topics WHERE topicadmin REGEXP '\\b" . $value . "\\b'");
+            sql_query("SELECT * FROM " . sql_prefix('') . "topics WHERE topicadmin REGEXP '[[:<:]]" . $value . "[[:>:]]'") :
+            sql_query("SELECT * FROM " . sql_prefix('') . "topics WHERE topicadmin REGEXP '\\b" . $value . "\\b'");
          $nbrow = sql_num_rows($resu);
          list($tid) = sql_fetch_row($resu);
          if (($nbrow == 1) and ($topicid == $tid)) {
-            sql_query("DELETE FROM " . $NPDS_Prefix . "droits WHERE d_aut_aid='$value' AND d_droits=11112 AND d_fon_fid=2");
+            sql_query("DELETE FROM " . sql_prefix('') . "droits WHERE d_aut_aid='$value' AND d_droits=11112 AND d_fon_fid=2");
          }
       }
    }
@@ -462,33 +462,33 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
    $topictext = stripslashes(FixQuotes($topictext));
    $name = stripslashes(FixQuotes($name));
    $url = stripslashes(FixQuotes($url));
-   sql_query("UPDATE " . $NPDS_Prefix . "topics SET topicname='$topicname', topicimage='$topicimage', topictext='$topictext', topicadmin='$topicadmin' WHERE topicid='$topicid'");
+   sql_query("UPDATE " . sql_prefix('') . "topics SET topicname='$topicname', topicimage='$topicimage', topictext='$topictext', topicadmin='$topicadmin' WHERE topicid='$topicid'");
    global $aid;
    Ecr_Log("security", "topicChange ($topicname, $topicid) by AID : $aid", "");
    if ($name)
-      sql_query("INSERT INTO " . $NPDS_Prefix . "related VALUES (NULL, '$topicid','$name','$url')");
+      sql_query("INSERT INTO " . sql_prefix('') . "related VALUES (NULL, '$topicid','$name','$url')");
 
    Header("Location: admin.php?op=topicedit&topicid=$topicid");
 }
 
 function topicdelete($topicid, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if ($ok == 1) {
       global $aid;
-      $result = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE topic='$topicid'");
+      $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE topic='$topicid'");
       list($sid) = sql_fetch_row($result);
-      sql_query("DELETE FROM " . $NPDS_Prefix . "stories WHERE topic='$topicid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE topic='$topicid'");
       Ecr_Log("security", "topicDelete (stories, $topicid) by AID : $aid", "");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "topics WHERE topicid='$topicid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
       Ecr_Log("security", "topicDelete (topic, $topicid) by AID : $aid", "");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "related WHERE tid='$topicid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "related WHERE tid='$topicid'");
       Ecr_Log("security", "topicDelete (related, $topicid) by AID : $aid", '');
       // commentaires
       if (file_exists("modules/comments/article.conf.php")) {
          include("modules/comments/article.conf.php");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' and topic_id='$topic'");
+         sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' and topic_id='$topic'");
          Ecr_Log("security", "topicDelete (comments, $topicid) by AID : $aid", "");
       }
       Header("Location: admin.php?op=topicsmanager");
@@ -496,7 +496,7 @@ function topicdelete($topicid, $ok = 0)
       global $hlpfile, $tipath, $topicimage, $f_meta_nom, $f_titre, $adminimg;
       include("header.php");
       GraphicAdmin($hlpfile);
-      $result2 = sql_query("SELECT topicimage, topicname, topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topicid'");
+      $result2 = sql_query("SELECT topicimage, topicname, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
       list($topicimage, $topicname, $topictext) = sql_fetch_row($result2);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo '

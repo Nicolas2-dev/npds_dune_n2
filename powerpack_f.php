@@ -24,9 +24,9 @@ function Form_instant_message($to_userid)
 #autodoc online_members () : liste des membres connect&eacute;s <br /> Retourne un tableau dont la position 0 est le nombre, puis la liste des username | time <br />Appel : $xx=online_members(); puis $xx[x]['username'] $xx[x]['time'] ...
 function online_members()
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
 
-    $result = sql_query("SELECT username, guest, time FROM " . $NPDS_Prefix . "session WHERE guest='0' ORDER BY username ASC");
+    $result = sql_query("SELECT username, guest, time FROM " . sql_prefix('') . "session WHERE guest='0' ORDER BY username ASC");
     $i = 0;
     $members_online[$i] = sql_num_rows($result);
     while ($session = sql_fetch_assoc($result)) {
@@ -42,9 +42,9 @@ function online_members()
 #autodoc writeDB_private_message($to_userid,$image,$subject,$from_userid,$message, $copie) : Insère un MI dans la base et le cas échéant envoi un mail
 function writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
 
-    $res = sql_query("SELECT uid, user_langue FROM " . $NPDS_Prefix . "users WHERE uname='$to_userid'");
+    $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_userid'");
     list($to_useridx, $user_languex) = sql_fetch_row($res);
 
     if ($to_useridx == '')
@@ -55,12 +55,12 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
         $subject = removeHack($subject);
         $message = str_replace("\n", "<br />", $message);
         $message = addslashes(removeHack($message));
-        $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
+        $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
         $sql .= "VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message')";
         if (!$result = sql_query($sql))
             forumerror('0020');
         if ($copie) {
-            $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
+            $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
             $sql .= "VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message', '1', '1')";
             if (!$result = sql_query($sql))
                 forumerror('0020');
@@ -116,13 +116,13 @@ function write_short_private_message($to_userid)
 #autodoc if_chat() : Retourne le nombre de connecté au Chat
 function if_chat($pour)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $auto = autorisation_block("params#" . $pour);
     $dimauto = count($auto);
     $numofchatters = 0;
 
     if ($dimauto <= 1) {
-        $result = sql_query("SELECT DISTINCT ip FROM " . $NPDS_Prefix . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 3)) . "");
+        $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 3)) . "");
         $numofchatters = sql_num_rows($result);
     }
     return ($numofchatters);
@@ -131,14 +131,14 @@ function if_chat($pour)
 #autodoc insertChat($username, $message, $dbname, $id) : Insère un record dans la table Chat / on utilise id pour filtrer les messages - id = l'id du groupe
 function insertChat($username, $message, $dbname, $id)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     if ($message != '') {
         $username = removeHack(stripslashes(FixQuotes(strip_tags(trim($username)))));
         $message =  removeHack(stripslashes(FixQuotes(strip_tags(trim($message)))));
         $ip = getip();
         settype($id, 'integer');
         settype($dbname, 'integer');
-        $result = sql_query("INSERT INTO " . $NPDS_Prefix . "chatbox VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
+        $result = sql_query("INSERT INTO " . sql_prefix('') . "chatbox VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
     }
 }
 
@@ -156,7 +156,7 @@ function JavaPopUp($F, $T, $W, $H)
 #autodoc instant_members_message() : Bloc MI (Message Interne) <br />=> syntaxe : function#instant_members_message
 function instant_members_message()
 {
-    global $user, $admin, $long_chain, $NPDS_Prefix;
+    global $user, $admin, $long_chain, sql_prefix('');
     settype($boxstuff, 'string');
     if (!$long_chain) $long_chain = 13;
 
@@ -184,16 +184,16 @@ function instant_members_message()
                     $and = ($ibid[$i]['username'] == $cookie[1]) ? '' : 'AND is_visible=1';
             } else
                 $and = '';
-            $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='" . $ibid[$i]['username'] . "' $and");
+            $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='" . $ibid[$i]['username'] . "' $and");
             list($userid) = sql_fetch_row($result);
             if ($userid) {
-                $rowQ1 = Q_Select("SELECT rang FROM " . $NPDS_Prefix . "users_status WHERE uid='$userid'", 3600);
+                $rowQ1 = Q_Select("SELECT rang FROM " . sql_prefix('') . "users_status WHERE uid='$userid'", 3600);
                 $myrow = $rowQ1[0];
                 $rank = $myrow['rang'];
                 $tmpR = '';
                 if ($rank) {
                     if ($rank1 == '') {
-                        if ($rowQ2 = Q_Select("SELECT rank1, rank2, rank3, rank4, rank5 FROM " . $NPDS_Prefix . "config", 86400)) {
+                        if ($rowQ2 = Q_Select("SELECT rank1, rank2, rank3, rank4, rank5 FROM " . sql_prefix('') . "config", 86400)) {
                             $myrow = $rowQ2[0];
                             $rank1 = $myrow['rank1'];
                             $rank2 = $myrow['rank2'];
@@ -211,7 +211,7 @@ function instant_members_message()
                     $tmpR = "<img src=\"" . $imgtmpA . "\" border=\"0\" alt=\"" . aff_langue($$messR) . "\" title=\"" . aff_langue($$messR) . "\" loading=\"lazy\" />";
                 } else
                     $tmpR = '&nbsp;';
-                $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid = '$userid' AND read_msg='0' AND type_msg='0'"));
+                $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userid' AND read_msg='0' AND type_msg='0'"));
                 if ($new_messages > 0) {
                     $PopUp = JavaPopUp("readpmsg_imm.php?op=new_msg", "IMM", 600, 500);
                     $PopUp = "<a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">";
@@ -221,7 +221,7 @@ function instant_members_message()
                         $icon .= '</a>';
                     }
                 } else {
-                    $messages = sql_num_rows(sql_query("SELECT msg_id FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid = '$userid' AND type_msg='0' AND dossier='...'"));
+                    $messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userid' AND type_msg='0' AND dossier='...'"));
                     if ($messages > 0) {
                         $PopUp = JavaPopUp("readpmsg_imm.php?op=msg", "IMM", 600, 500);
                         $PopUp = '<a href="javascript:void(0);" onclick="window.open(' . $PopUp . ');">';
@@ -258,7 +258,7 @@ function instant_members_message()
 #autodoc makeChatBox($pour) : Bloc ChatBox <br />=> syntaxe : function#makeChatBox <br />params#chat_membres <br /> le parametre doit être en accord avec l'autorisation donc (chat_membres, chat_tous, chat_admin, chat_anonyme)
 function makeChatBox($pour)
 {
-    global $user, $admin, $member_list, $long_chain, $NPDS_Prefix;
+    global $user, $admin, $member_list, $long_chain, sql_prefix('');
     include_once('functions.php');
     $auto = autorisation_block('params#' . $pour);
     $dimauto = count($auto);
@@ -268,9 +268,9 @@ function makeChatBox($pour)
     $une_ligne = false;
 
     if ($dimauto <= 1) {
-        $counter = sql_num_rows(sql_query("SELECT message FROM " . $NPDS_Prefix . "chatbox WHERE id='" . $auto[0] . "'")) - 6;
+        $counter = sql_num_rows(sql_query("SELECT message FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "'")) - 6;
         if ($counter < 0) $counter = 0;
-        $result = sql_query("SELECT username, message, dbname FROM " . $NPDS_Prefix . "chatbox WHERE id='" . $auto[0] . "' ORDER BY date ASC LIMIT $counter,6");
+        $result = sql_query("SELECT username, message, dbname FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' ORDER BY date ASC LIMIT $counter,6");
         if ($result) {
             while (list($username, $message, $dbname) = sql_fetch_row($result)) {
                 if (isset($username)) {
@@ -289,7 +289,7 @@ function makeChatBox($pour)
         }
         $PopUp = JavaPopUp("chat.php?id=" . $auto[0] . "&amp;auto=" . encrypt(serialize($auto[0])), "chat" . $auto[0], 380, 480);
         if ($une_ligne) $thing .= '<hr />';
-        $result = sql_query("SELECT DISTINCT ip FROM " . $NPDS_Prefix . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 2)) . "");
+        $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 2)) . "");
         $numofchatters = sql_num_rows($result);
         $thing .= $numofchatters > 0 ?
             '<div class="d-flex"><a id="' . $pour . '_encours" class="fs-4" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate("Cliquez ici pour entrer") . ' ' . $pour . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-comments fa-2x nav-link faa-pulse animated faa-slow"></i></a><span class="badge rounded-pill bg-primary ms-auto align-self-center" title="' . translate("personne connectée.") . '" data-bs-toggle="tooltip">' . $numofchatters . '</span></div>' :
@@ -299,12 +299,12 @@ function makeChatBox($pour)
             $numofchatters = 0;
             $thing .= '<ul>';
             foreach ($auto as $autovalue) {
-                $result = Q_select("SELECT groupe_id, groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$autovalue'", 3600);
+                $result = Q_select("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='$autovalue'", 3600);
                 $autovalueX = $result[0];
                 $PopUp = JavaPopUp("chat.php?id=" . $autovalueX['groupe_id'] . "&auto=" . encrypt(serialize($autovalueX['groupe_id'])), "chat" . $autovalueX['groupe_id'], 380, 480);
                 $thing .= "<li><a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">" . $autovalueX['groupe_name'] . "</a>";
 
-                $result = sql_query("SELECT DISTINCT ip FROM " . $NPDS_Prefix . "chatbox WHERE id='" . $autovalueX['groupe_id'] . "' AND date >= " . (time() - (60 * 3)) . "");
+                $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $autovalueX['groupe_id'] . "' AND date >= " . (time() - (60 * 3)) . "");
                 $numofchatters = sql_num_rows($result);
                 if ($numofchatters) $thing .= '&nbsp;(<span class="text-danger"><b>' . sql_num_rows($result) . '</b></span>)';
                 echo '</li>';
@@ -331,7 +331,7 @@ function RecentForumPosts($title, $maxforums, $maxtopics, $displayposter = false
 
 function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $topicmaxchars, $hr, $decoration)
 {
-    global $parse, $user, $NPDS_Prefix;
+    global $parse, $user, sql_prefix('');
 
     $topics = 0;
     settype($maxforums, "integer");
@@ -339,8 +339,8 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
 
     $lim = $maxforums == 0 ? '' : " LIMIT $maxforums";
     $query = $user ?
-        "SELECT * FROM " . $NPDS_Prefix . "forums ORDER BY cat_id,forum_index,forum_id" . $lim :
-        "SELECT * FROM " . $NPDS_Prefix . "forums WHERE forum_type!='9' AND forum_type!='7' AND forum_type!='5' ORDER BY cat_id,forum_index,forum_id" . $lim;
+        "SELECT * FROM " . sql_prefix('') . "forums ORDER BY cat_id,forum_index,forum_id" . $lim :
+        "SELECT * FROM " . sql_prefix('') . "forums WHERE forum_type!='9' AND forum_type!='7' AND forum_type!='5' ORDER BY cat_id,forum_index,forum_id" . $lim;
     $result = sql_query($query);
 
     if (!$result) exit();
@@ -369,7 +369,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
                 $forum_desc = stripslashes($forum_desc);
             }
 
-            $res = sql_query("SELECT * FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id = '$forumid' ORDER BY topic_time DESC");
+            $res = sql_query("SELECT * FROM " . sql_prefix('') . "forumtopics WHERE forum_id = '$forumid' ORDER BY topic_time DESC");
             $ibidx = sql_num_rows($res);
             $boxstuff .= '
                                  <li class="list-unstyled border-0 p-2 mt-1"><h6><a href="viewforum.php?forum=' . $forumid . '" title="' . strip_tags($forum_desc) . '" data-bs-toggle="tooltip">' . $forumname . '</a><span class="float-end badge bg-primary" title="' . translate("Sujets") . '" data-bs-toggle="tooltip">' . $ibidx . '</span></h6></li>';
@@ -380,7 +380,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
                 $tt = $topictitle = $topicrow[1];
                 $date = $topicrow[3];
                 $replies = 0;
-                $postquery = "SELECT COUNT(*) AS total FROM " . $NPDS_Prefix . "posts WHERE topic_id = '$topicid'";
+                $postquery = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "posts WHERE topic_id = '$topicid'";
                 if ($pres = sql_query($postquery)) {
                     if ($myrow = sql_fetch_assoc($pres))
                         $replies = $myrow['total'];
@@ -392,7 +392,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
 
                 if ($displayposter) {
                     $posterid = $topicrow[2];
-                    $RowQ1 = Q_Select("SELECT uname FROM " . $NPDS_Prefix . "users WHERE uid = '$posterid'", 3600);
+                    $RowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('') . "users WHERE uid = '$posterid'", 3600);
                     $myrow = $RowQ1[0];
                     $postername = $myrow['uname'];
                 }

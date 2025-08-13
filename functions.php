@@ -17,8 +17,8 @@
 
 function get_total_topics($forum_id)
 {
-    global $NPDS_Prefix;
-    $sql = "SELECT COUNT(*) AS total FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id'";
+    global sql_prefix('');
+    $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id'";
     if (!$result = sql_query($sql))
         return ("ERROR");
     if (!$myrow = sql_fetch_assoc($result))
@@ -31,8 +31,8 @@ function get_total_topics($forum_id)
 #autodoc get_contributeurs($fid, $tid) : Retourne une chaine des id des contributeurs du sujet
 function get_contributeurs($fid, $tid)
 {
-    global $NPDS_Prefix;
-    $rowQ1 = Q_Select("SELECT DISTINCT poster_id FROM " . $NPDS_Prefix . "posts WHERE topic_id='$tid' AND forum_id='$fid'", 2);
+    global sql_prefix('');
+    $rowQ1 = Q_Select("SELECT DISTINCT poster_id FROM " . sql_prefix('') . "posts WHERE topic_id='$tid' AND forum_id='$fid'", 2);
     $posterids = '';
     foreach ($rowQ1 as $contribs) {
         foreach ($contribs as $contrib) {
@@ -44,14 +44,14 @@ function get_contributeurs($fid, $tid)
 
 function get_total_posts($fid, $tid, $type, $Mmod)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $post_aff = $Mmod ? '' : " AND post_aff='1'";
     switch ($type) {
         case 'forum':
-            $sql = "SELECT COUNT(*) AS total FROM " . $NPDS_Prefix . "posts WHERE forum_id='$fid'$post_aff";
+            $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "posts WHERE forum_id='$fid'$post_aff";
             break;
         case 'topic':
-            $sql = "SELECT COUNT(*) AS total FROM " . $NPDS_Prefix . "posts WHERE topic_id='$tid' AND forum_id='$fid' $post_aff";
+            $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "posts WHERE topic_id='$tid' AND forum_id='$fid' $post_aff";
             break;
         case 'user':
             forumerror('0031');
@@ -68,16 +68,16 @@ function get_total_posts($fid, $tid, $type, $Mmod)
 
 function get_last_post($id, $type, $cmd, $Mmod)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     // $Mmod ne sert plus - maintenu pour compatibilité
     switch ($type) {
         case 'forum':
-            $sql1 = "SELECT topic_time, current_poster FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id = '$id' ORDER BY topic_time DESC LIMIT 0,1";
-            $sql2 = "SELECT uname FROM " . $NPDS_Prefix . "users WHERE uid=";
+            $sql1 = "SELECT topic_time, current_poster FROM " . sql_prefix('') . "forumtopics WHERE forum_id = '$id' ORDER BY topic_time DESC LIMIT 0,1";
+            $sql2 = "SELECT uname FROM " . sql_prefix('') . "users WHERE uid=";
             break;
         case 'topic':
-            $sql1 = "SELECT topic_time, current_poster FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$id'";
-            $sql2 = "SELECT uname FROM " . $NPDS_Prefix . "users WHERE uid=";
+            $sql1 = "SELECT topic_time, current_poster FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$id'";
+            $sql2 = "SELECT uname FROM " . sql_prefix('') . "users WHERE uid=";
             break;
     }
     if (!$result = sql_query($sql1))
@@ -98,11 +98,11 @@ function get_last_post($id, $type, $cmd, $Mmod)
 
 function get_moderator($user_id)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     $user_id = str_replace(",", "' or uid='", $user_id);
     if ($user_id == 0)
         return ("None");
-    $rowQ1 = Q_Select("SELECT uname FROM " . $NPDS_Prefix . "users WHERE uid='$user_id'", 3600);
+    $rowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('') . "users WHERE uid='$user_id'", 3600);
     $modslist = '';
     foreach ($rowQ1 as $modnames) {
         foreach ($modnames as $modname) {
@@ -114,9 +114,9 @@ function get_moderator($user_id)
 
 function user_is_moderator($uidX, $passwordX, $forum_accessX)
 {
-    global $NPDS_Prefix;
-    $result1 = sql_query("SELECT pass FROM " . $NPDS_Prefix . "users WHERE uid = '$uidX'");
-    $result2 = sql_query("SELECT level FROM " . $NPDS_Prefix . "users_status WHERE uid = '$uidX'");
+    global sql_prefix('');
+    $result1 = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uid = '$uidX'");
+    $result2 = sql_query("SELECT level FROM " . sql_prefix('') . "users_status WHERE uid = '$uidX'");
     $userX = sql_fetch_assoc($result1);
     $password = $userX['pass'];
     $userX = sql_fetch_assoc($result2);
@@ -128,9 +128,9 @@ function user_is_moderator($uidX, $passwordX, $forum_accessX)
 
 function get_userdata_from_id($userid)
 {
-    global $NPDS_Prefix;
-    $sql1 = "SELECT * FROM " . $NPDS_Prefix . "users WHERE uid='$userid'";
-    $sql2 = "SELECT * FROM " . $NPDS_Prefix . "users_status WHERE uid='$userid'";
+    global sql_prefix('');
+    $sql1 = "SELECT * FROM " . sql_prefix('') . "users WHERE uid='$userid'";
+    $sql2 = "SELECT * FROM " . sql_prefix('') . "users_status WHERE uid='$userid'";
     if (!$result = sql_query($sql1))
         forumerror('0016');
     if (!$myrow = sql_fetch_assoc($result))
@@ -142,16 +142,16 @@ function get_userdata_from_id($userid)
 
 function get_userdata_extend_from_id($userid)
 {
-    global $NPDS_Prefix;
-    $sql1 = "SELECT * FROM " . $NPDS_Prefix . "users_extend WHERE uid='$userid'";
+    global sql_prefix('');
+    $sql1 = "SELECT * FROM " . sql_prefix('') . "users_extend WHERE uid='$userid'";
     $myrow = (array)sql_fetch_assoc(sql_query($sql1));
     return ($myrow);
 }
 
 function get_userdata($username)
 {
-    global $NPDS_Prefix;
-    $sql = "SELECT * FROM " . $NPDS_Prefix . "users WHERE uname='$username'";
+    global sql_prefix('');
+    $sql = "SELECT * FROM " . sql_prefix('') . "users WHERE uname='$username'";
     if (!$result = sql_query($sql))
         forumerror('0016');
     if (!$myrow = sql_fetch_assoc($result))
@@ -161,13 +161,13 @@ function get_userdata($username)
 
 function does_exists($id, $type)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     switch ($type) {
         case 'forum':
-            $sql = "SELECT forum_id FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$id'";
+            $sql = "SELECT forum_id FROM " . sql_prefix('') . "forums WHERE forum_id = '$id'";
             break;
         case 'topic':
-            $sql = "SELECT topic_id FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$id'";
+            $sql = "SELECT topic_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$id'";
             break;
     }
     if (!$result = sql_query($sql))
@@ -179,8 +179,8 @@ function does_exists($id, $type)
 
 function is_locked($topic)
 {
-    global $NPDS_Prefix;
-    $sql = "SELECT topic_status FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic'";
+    global sql_prefix('');
+    $sql = "SELECT topic_status FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
     if (!$r = sql_query($sql))
         return (FALSE);
     if (!$m = sql_fetch_assoc($r))
@@ -601,10 +601,10 @@ function forumerror($e_code)
 function control_efface_post($apli, $post_id, $topic_id, $IdForum)
 {
     global $upload_table;
-    global $NPDS_Prefix;
+    global sql_prefix('');
     include("modules/upload/include_forum/upload.conf.forum.php");
-    $sql1 = "SELECT att_id, att_name, att_path FROM " . $NPDS_Prefix . "$upload_table WHERE apli='$apli' AND";
-    $sql2 = "DELETE FROM " . $NPDS_Prefix . "$upload_table WHERE apli='$apli' AND";
+    $sql1 = "SELECT att_id, att_name, att_path FROM " . sql_prefix('') . "$upload_table WHERE apli='$apli' AND";
+    $sql2 = "DELETE FROM " . sql_prefix('') . "$upload_table WHERE apli='$apli' AND";
     if ($IdForum != '') {
         $sql1 .= " forum_id = '$IdForum'";
         $sql2 .= " forum_id = '$IdForum'";
@@ -625,11 +625,11 @@ function control_efface_post($apli, $post_id, $topic_id, $IdForum)
 
 function autorize()
 {
-    global $IdPost, $IdTopic, $IdForum, $user, $NPDS_Prefix;
-    list($poster_id) = sql_fetch_row(sql_query("SELECT poster_id FROM " . $NPDS_Prefix . "posts WHERE post_id='$IdPost' AND topic_id='$IdTopic'"));
+    global $IdPost, $IdTopic, $IdForum, $user, sql_prefix('');
+    list($poster_id) = sql_fetch_row(sql_query("SELECT poster_id FROM " . sql_prefix('') . "posts WHERE post_id='$IdPost' AND topic_id='$IdTopic'"));
     $Mmod = false;
     if ($poster_id) {
-        $myrow = sql_fetch_assoc(sql_query("SELECT forum_moderator FROM " . $NPDS_Prefix . "forums WHERE (forum_id='$IdForum')"));
+        $myrow = sql_fetch_assoc(sql_query("SELECT forum_moderator FROM " . sql_prefix('') . "forums WHERE (forum_id='$IdForum')"));
         if ($myrow) {
             $moderator = get_moderator($myrow['forum_moderator']);
             $moderator = explode(' ', $moderator);
@@ -654,10 +654,10 @@ function anti_flood($modoX, $paramAFX, $poster_ipX, $userdataX, $gmtX)
 {
     // anti_flood : nb de post dans les 90 puis 30 dernières minutes / les modérateurs echappent à cette règle
     // security.log est utilisée pour enregistrer les tentatives
-    global $NPDS_Prefix, $anonymous;
+    global sql_prefix(''), $anonymous;
     $compte = !array_key_exists('uname', $userdataX) ? $anonymous : $userdataX['uname'];
     if ((!$modoX) and ($paramAFX > 0)) {
-        $sql = "SELECT COUNT(poster_ip) AS total FROM " . $NPDS_Prefix . "posts WHERE post_time>'";
+        $sql = "SELECT COUNT(poster_ip) AS total FROM " . sql_prefix('') . "posts WHERE post_time>'";
         $sql2 = $userdataX['uid'] != 1 ?
             "' AND (poster_ip='$poster_ipX' OR poster_id='" . $userdataX['uid'] . "')" :
             "' AND poster_ip='$poster_ipX'";
@@ -679,18 +679,18 @@ function anti_flood($modoX, $paramAFX, $poster_ipX, $userdataX, $gmtX)
 
 function forum($rowQ1)
 {
-    global $user, $subscribe, $theme, $NPDS_Prefix, $admin, $adminforum;
+    global $user, $subscribe, $theme, sql_prefix(''), $admin, $adminforum;
 
     //==> droits des admin sur les forums (superadmin et admin avec droit gestion forum)
     $adminforum = false;
     if ($admin) {
         $adminX = base64_decode($admin);
         $adminR = explode(':', $adminX);
-        $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$adminR[0]' LIMIT 1"));
+        $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$adminR[0]' LIMIT 1"));
         if ($Q['radminsuper'] == 1) {
             $adminforum = 1;
         } else {
-            $R = sql_query("SELECT fnom, fid, radminsuper FROM " . $NPDS_Prefix . "authors a LEFT JOIN " . $NPDS_Prefix . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . $NPDS_Prefix . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
+            $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('') . "authors a LEFT JOIN " . sql_prefix('') . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
             if (sql_num_rows($R) >= 1) $adminforum = 1;
         }
     }
@@ -714,21 +714,21 @@ function forum($rowQ1)
     }
 
     // preparation de la gestion des folders
-    $result = sql_query("SELECT forum_id, COUNT(topic_id) AS total FROM " . $NPDS_Prefix . "forumtopics GROUP BY (forum_id)");
+    $result = sql_query("SELECT forum_id, COUNT(topic_id) AS total FROM " . sql_prefix('') . "forumtopics GROUP BY (forum_id)");
     while (list($forumid, $total) = sql_fetch_row($result)) {
         $tab_folder[$forumid][0] = $total; // Topic
     }
-    $result = sql_query("SELECT forum_id, COUNT(DISTINCT topicid) AS total FROM " . $NPDS_Prefix . "forum_read WHERE uid='$userR[0]' AND topicid>'0' AND status!='0' GROUP BY (forum_id)");
+    $result = sql_query("SELECT forum_id, COUNT(DISTINCT topicid) AS total FROM " . sql_prefix('') . "forum_read WHERE uid='$userR[0]' AND topicid>'0' AND status!='0' GROUP BY (forum_id)");
     while (list($forumid, $total) = sql_fetch_row($result)) {
         $tab_folder[$forumid][1] = $total; // Folder
     }
     // préparation de la gestion des abonnements
-    $result = sql_query("SELECT forumid FROM " . $NPDS_Prefix . "subscribe WHERE uid='$userR[0]'");
+    $result = sql_query("SELECT forumid FROM " . sql_prefix('') . "subscribe WHERE uid='$userR[0]'");
     while (list($forumid) = sql_fetch_row($result)) {
         $tab_subscribe[$forumid] = true;
     }
     // preparation du compteur total_post
-    $rowQ0 = Q_Select("SELECT forum_id, COUNT(post_aff) AS total FROM " . $NPDS_Prefix . "posts GROUP BY forum_id", 600);
+    $rowQ0 = Q_Select("SELECT forum_id, COUNT(post_aff) AS total FROM " . sql_prefix('') . "posts GROUP BY forum_id", 600);
     foreach ($rowQ0 as $row0) {
         $tab_total_post[$row0['forum_id']] = $row0['total'];
     }
@@ -736,7 +736,7 @@ function forum($rowQ1)
     if ($rowQ1) {
         foreach ($rowQ1 as $row) {
             $title_aff = true;
-            $rowQ2 = Q_Select("SELECT * FROM " . $NPDS_Prefix . "forums WHERE cat_id = '" . $row['cat_id'] . "' AND SUBSTRING(forum_name,1,3)!='<!>' ORDER BY forum_index,forum_id", 21600);
+            $rowQ2 = Q_Select("SELECT * FROM " . sql_prefix('') . "forums WHERE cat_id = '" . $row['cat_id'] . "' AND SUBSTRING(forum_name,1,3)!='<!>' ORDER BY forum_index,forum_id", 21600);
             if ($rowQ2) {
                 foreach ($rowQ2 as $myrow) {
                     // Gestion des Forums Cachés aux non-membres
@@ -865,17 +865,17 @@ function forum($rowQ1)
 // fonction appelée par le meta-mot forum_subfolder()
 function sub_forum_folder($forum)
 {
-    global $user, $NPDS_Prefix;
+    global $user, sql_prefix('');
 
     if ($user) {
         $userX = base64_decode($user);
         $userR = explode(':', $userX);
     }
 
-    $result = sql_query("SELECT COUNT(topic_id) AS total FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum'");
+    $result = sql_query("SELECT COUNT(topic_id) AS total FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum'");
     list($totalT) = sql_fetch_row($result);
 
-    $result = sql_query("SELECT COUNT(DISTINCT topicid) AS total FROM " . $NPDS_Prefix . "forum_read WHERE uid='$userR[0]' AND topicid>'0' AND status!='0' AND forum_id='$forum'");
+    $result = sql_query("SELECT COUNT(DISTINCT topicid) AS total FROM " . sql_prefix('') . "forum_read WHERE uid='$userR[0]' AND topicid>'0' AND status!='0' AND forum_id='$forum'");
     list($totalF) = sql_fetch_row($result);
 
     if ($ibid = theme_image("forum/icons/red_sub_folder.gif")) {

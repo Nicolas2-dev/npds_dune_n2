@@ -3,14 +3,14 @@
 #autodoc ephemblock() : Bloc ephemerid <br />=> syntaxe : function#ephemblock
 function ephemblock()
 {
-    global $NPDS_Prefix, $gmt;
+    global sql_prefix(''), $gmt;
 
     $cnt = 0;
 
     $eday = date("d", time() + ((int)$gmt * 3600));
     $emonth = date("m", time() + ((int)$gmt * 3600));
 
-    $result = sql_query("SELECT yid, content FROM " . $NPDS_Prefix . "ephem WHERE did='$eday' AND mid='$emonth' ORDER BY yid ASC");
+    $result = sql_query("SELECT yid, content FROM " . sql_prefix('') . "ephem WHERE did='$eday' AND mid='$emonth' ORDER BY yid ASC");
     $boxstuff = '<div>' . translate("En ce jour...") . '</div>';
 
     while (list($yid, $content) = sql_fetch_row($result)) {

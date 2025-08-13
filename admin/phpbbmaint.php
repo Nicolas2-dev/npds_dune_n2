@@ -27,7 +27,7 @@ include("functions.php");
 
 function ForumMaintMarkTopics()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -42,22 +42,22 @@ function ForumMaintMarkTopics()
          </tr>
       </thead>
       <tbody>';
-   if (!$r = sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read"))
+   if (!$r = sql_query("DELETE FROM " . sql_prefix('') . "forum_read"))
       forumerror('0001');
    else {
-      $resultF = sql_query("SELECT forum_id FROM " . $NPDS_Prefix . "forums ORDER BY forum_id ASC");
+      $resultF = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums ORDER BY forum_id ASC");
       $time_actu = time() + ((int)$gmt * 3600);
       while (list($forum_id) = sql_fetch_row($resultF)) {
          echo '
          <tr>
             <td align="center">' . $forum_id . '</td>
             <td align="left">';
-         $resultT = sql_query("SELECT topic_id FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id' ORDER BY topic_id ASC");
+         $resultT = sql_query("SELECT topic_id FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id' ORDER BY topic_id ASC");
          while (list($topic_id) = sql_fetch_row($resultT)) {
-            $resultU = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users ORDER BY uid DESC");
+            $resultU = sql_query("SELECT uid FROM " . sql_prefix('') . "users ORDER BY uid DESC");
             while (list($uid) = sql_fetch_row($resultU)) {
                if ($uid > 1)
-                  $r = sql_query("INSERT INTO " . $NPDS_Prefix . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum_id', '$topic_id', '$uid', '$time_actu', '1')");
+                  $r = sql_query("INSERT INTO " . sql_prefix('') . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum_id', '$topic_id', '$uid', '$time_actu', '1')");
             }
             sql_free_result($resultU);
             echo $topic_id . ' ';
@@ -78,7 +78,7 @@ function ForumMaintMarkTopics()
 
 function ForumMaintTopics($before, $forum_name)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $parse;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $parse;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -98,12 +98,12 @@ function ForumMaintTopics($before, $forum_name)
    $add_sql2 = $forum_name != '' ? "WHERE forum_name='$forum_name'" : '';
    echo '
    <form action="admin.php" method="post">';
-   $resultF = sql_query("SELECT forum_id, forum_name FROM " . $NPDS_Prefix . "forums $add_sql2 ORDER BY forum_id ASC");
+   $resultF = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums $add_sql2 ORDER BY forum_id ASC");
    while (list($forum_id, $forum_name) = sql_fetch_row($resultF)) {
       echo '
        <h4>' . $forum_name . '</h4>
        <div class="mb-3 border p-4">';
-      $resultT = sql_query("SELECT topic_id, topic_title FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id' $add_sql ORDER BY topic_id ASC");
+      $resultT = sql_query("SELECT topic_id, topic_title FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id' $add_sql ORDER BY topic_id ASC");
       while (list($topic_id, $topic_title) = sql_fetch_row($resultT)) {
          $tt = $parse == 0 ? FixQuotes($topic_title) : stripslashes($topic_title);
          urlencode($tt);
@@ -129,11 +129,11 @@ function ForumMaintTopics($before, $forum_name)
 
 function ForumMaintTopicDetail($topic, $topic_title)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $resultTT = sql_query("SELECT post_text, post_time FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' ORDER BY post_time DESC LIMIT 0,1");
+   $resultTT = sql_query("SELECT post_text, post_time FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' ORDER BY post_time DESC LIMIT 0,1");
    list($post_text, $post_time) = sql_fetch_row($resultTT);
    echo '
    <hr />
@@ -153,17 +153,17 @@ function ForumMaintTopicDetail($topic, $topic_title)
 
 function ForumMaintTopicMassiveSup($topics)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($topics) {
       foreach ($topics as $topic_id => $value) {
          if ($value == 'on') {
-            $sql = "DELETE FROM " . $NPDS_Prefix . "posts WHERE topic_id = '$topic_id'";
+            $sql = "DELETE FROM " . sql_prefix('') . "posts WHERE topic_id = '$topic_id'";
             if (!$result = sql_query($sql))
                forumerror('0009');
-            $sql = "DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic_id'";
+            $sql = "DELETE FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic_id'";
             if (!$result = sql_query($sql))
                forumerror('0010');
-            $sql = "DELETE FROM " . $NPDS_Prefix . "forum_read WHERE topicid = '$topic_id'";
+            $sql = "DELETE FROM " . sql_prefix('') . "forum_read WHERE topicid = '$topic_id'";
             if (!$r = sql_query($sql))
                forumerror('0001');
             control_efface_post("forum_npds", "", $topic_id, "");
@@ -176,14 +176,14 @@ function ForumMaintTopicMassiveSup($topics)
 
 function ForumMaintTopicSup($topic)
 {
-   global $NPDS_Prefix;
-   $sql = "DELETE FROM " . $NPDS_Prefix . "posts WHERE topic_id = '$topic'";
+   global sql_prefix('');
+   $sql = "DELETE FROM " . sql_prefix('') . "posts WHERE topic_id = '$topic'";
    if (!$result = sql_query($sql))
       forumerror('0009');
-   $sql = "DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic'";
+   $sql = "DELETE FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
    if (!$result = sql_query($sql))
       forumerror('0010');
-   $sql = "DELETE FROM " . $NPDS_Prefix . "forum_read WHERE topicid = '$topic'";
+   $sql = "DELETE FROM " . sql_prefix('') . "forum_read WHERE topicid = '$topic'";
    if (!$r = sql_query($sql))
       forumerror('0001');
    control_efface_post("forum_npds", "", $topic, "");
@@ -193,26 +193,26 @@ function ForumMaintTopicSup($topic)
 
 function SynchroForum()
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    // affectation d'un topic à un forum
-   if (!$result1 = sql_query("SELECT topic_id, forum_id FROM " . $NPDS_Prefix . "forumtopics ORDER BY topic_id ASC"))
+   if (!$result1 = sql_query("SELECT topic_id, forum_id FROM " . sql_prefix('') . "forumtopics ORDER BY topic_id ASC"))
       forumerror('0009');
    while (list($topi_cid, $foru_mid) = sql_fetch_row($result1)) {
-      sql_query("UPDATE " . $NPDS_Prefix . "posts SET forum_id='$foru_mid' WHERE topic_id='$topi_cid' and forum_id>0");
+      sql_query("UPDATE " . sql_prefix('') . "posts SET forum_id='$foru_mid' WHERE topic_id='$topi_cid' and forum_id>0");
    }
    sql_free_result($result1);
 
    // table forum_read et contenu des topic
-   if (!$result1 = sql_query("SELECT topicid, uid, rid FROM " . $NPDS_Prefix . "forum_read ORDER BY topicid ASC"))
+   if (!$result1 = sql_query("SELECT topicid, uid, rid FROM " . sql_prefix('') . "forum_read ORDER BY topicid ASC"))
       forumerror('0009');
    while (list($topicid, $uid, $rid) = sql_fetch_row($result1)) {
       if (($topicid . $uid) == $tmp)
-         $resultD = sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read WHERE topicid='$topicid' and uid='$uid' and rid='$rid'");
+         $resultD = sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE topicid='$topicid' and uid='$uid' and rid='$rid'");
       $tmp = $topicid . $uid;
-      if ($result2 = sql_query("SELECT topic_id FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topicid'")) {
+      if ($result2 = sql_query("SELECT topic_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topicid'")) {
          list($topic_id) = sql_fetch_row($result2);
          if (!$topic_id)
-            $result3 = sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read WHERE topicid='$topicid'");
+            $result3 = sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE topicid='$topicid'");
       }
       sql_free_result($result2);
    }
@@ -222,7 +222,7 @@ function SynchroForum()
 
 function MergeForum()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -235,7 +235,7 @@ function MergeForum()
             <label class="col-form-label col-sm-4" for="oriforum">' . adm_translate("Forum d'origine") . '</label>
             <div class="col-sm-8">
                <select class="form-select" id="oriforum" name="oriforum">';
-   $sql = "SELECT forum_id, forum_name FROM " . $NPDS_Prefix . "forums ORDER BY forum_index,forum_id";
+   $sql = "SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums ORDER BY forum_index,forum_id";
    if ($result = sql_query($sql)) {
       if ($myrow = sql_fetch_assoc($result)) {
          do {
@@ -287,14 +287,14 @@ function MergeForum()
 function MergeForumAction($oriforum, $destforum)
 {
    global $upload_table;
-   global $NPDS_Prefix;
-   $sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET forum_id='$destforum' WHERE forum_id='$oriforum'";
+   global sql_prefix('');
+   $sql = "UPDATE " . sql_prefix('') . "forumtopics SET forum_id='$destforum' WHERE forum_id='$oriforum'";
    if (!$r = sql_query($sql))
       forumerror('0010');
-   $sql = "UPDATE " . $NPDS_Prefix . "posts SET forum_id='$destforum' WHERE forum_id='$oriforum'";
+   $sql = "UPDATE " . sql_prefix('') . "posts SET forum_id='$destforum' WHERE forum_id='$oriforum'";
    if (!$r = sql_query($sql))
       forumerror('0010');
-   $sql = "UPDATE " . $NPDS_Prefix . "forum_read SET forum_id='$destforum' WHERE forum_id='$oriforum'";
+   $sql = "UPDATE " . sql_prefix('') . "forum_read SET forum_id='$destforum' WHERE forum_id='$oriforum'";
    if (!$r = sql_query($sql))
       forumerror('0001');
    $sql = "UPDATE $upload_table SET forum_id='$destforum' WHERE apli='forum_npds' and forum_id='$oriforum'";

@@ -98,14 +98,14 @@ function nmig_License($licence_file, $name_module)
 function nmig_AlertSql($sql, $name_module)
 {
    include("header.php");
-   global $ModInstall, $display, $NPDS_Prefix;
+   global $ModInstall, $display, sql_prefix('');
    $reqsql = '';
    foreach ($sql as $v) {
       preg_match('#^(CREATE TABLE |CREATE TABLE IF NOT EXISTS) (\w+)#', $v, $tables);
    }
    for ($i = 0; $i < count($sql); $i++) {
       for ($j = 0; $j < count($tables); $j++) {
-         $sql[$i] = preg_replace("#$tables[$j]#i", $NPDS_Prefix . $tables[$j], $sql[$i]);
+         $sql[$i] = preg_replace("#$tables[$j]#i", sql_prefix('') . $tables[$j], $sql[$i]);
       }
       $reqsql .= '<pre class="language-sql"><code class="language-sql">' . $sql[$i] . '</code></pre><br />';
    }
@@ -130,7 +130,7 @@ function nmig_AlertSql($sql, $name_module)
 function nmig_WriteSql($sql, $path_adm_module, $name_module, $affich, $icon)
 {
    include("header.php");
-   global $ModInstall, $display, $NPDS_Prefix, $path_adm_module, $name_module, $affich, $icon;
+   global $ModInstall, $display, sql_prefix(''), $path_adm_module, $name_module, $affich, $icon;
    $reqsql = '';
    $display = '
    <hr />
@@ -156,18 +156,18 @@ function nmig_WriteSql($sql, $path_adm_module, $name_module, $affich, $icon)
    } else {
       if ($path_adm_module != '') {
          //controle si on a pas déja la fonction (si oui on efface sinon on renseigne)
-         $ck = sql_query("SELECT fnom FROM " . $NPDS_Prefix . "fonctions WHERE fnom = '" . $name_module . "'");
+         $ck = sql_query("SELECT fnom FROM " . sql_prefix('') . "fonctions WHERE fnom = '" . $name_module . "'");
          if ($ck)
-            sql_query("DELETE FROM " . $NPDS_Prefix . "fonctions WHERE fnom='" . $name_module . "'");
-         sql_query("INSERT INTO " . $NPDS_Prefix . "fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES (0, '" . $ModInstall . "', 0, '', 1, 1, '', '', '" . $affich . "', '" . $icon . "', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=" . $ModInstall . "&ModStart=" . $path_adm_module . "\"', 6, 'Modules', 0)") or sql_error();
+            sql_query("DELETE FROM " . sql_prefix('') . "fonctions WHERE fnom='" . $name_module . "'");
+         sql_query("INSERT INTO " . sql_prefix('') . "fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES (0, '" . $ModInstall . "', 0, '', 1, 1, '', '', '" . $affich . "', '" . $icon . "', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=" . $ModInstall . "&ModStart=" . $path_adm_module . "\"', 6, 'Modules', 0)") or sql_error();
          $ibid = sql_last_id();
-         sql_query("UPDATE " . $NPDS_Prefix . "fonctions SET fdroits1 = " . $ibid . " WHERE fid=" . $ibid . "");
+         sql_query("UPDATE " . sql_prefix('') . "fonctions SET fdroits1 = " . $ibid . " WHERE fid=" . $ibid . "");
          //==> ajout des alertesadmin
          if (file_exists("modules/" . $name_module . "/admin/adm_alertes.php")) {
             include("modules/" . $name_module . "/admin/adm_alertes.php");
             if (count($reqalertes) != 0) {
                foreach ($reqalertes as $v) {
-                  sql_query("INSERT INTO " . $NPDS_Prefix . "fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES (0, '" . $ModInstall . "', " . $ibid . ", '', 1, 1, '', '', '" . $affich . "', '" . $icon . "', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=" . $ModInstall . "&ModStart=" . $path_adm_module . "\"', 9, 'Modules', 0)") or sql_error();
+                  sql_query("INSERT INTO " . sql_prefix('') . "fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES (0, '" . $ModInstall . "', " . $ibid . ", '', 1, 1, '', '', '" . $affich . "', '" . $icon . "', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=" . $ModInstall . "&ModStart=" . $path_adm_module . "\"', 9, 'Modules', 0)") or sql_error();
                }
             }
          }
@@ -322,7 +322,7 @@ function nmig_AlertBloc($blocs, $name_module)
 function nmig_WriteBloc($blocs, $posbloc, $name_module)
 {
    include("header.php");
-   global $ModInstall, $display, $NPDS_Prefix;
+   global $ModInstall, $display, sql_prefix('');
    $display = '
    <hr />
    <div class="lead">' . $name_module . '</div>
@@ -336,7 +336,7 @@ function nmig_WriteBloc($blocs, $posbloc, $name_module)
       if ($posbloc == 'r')
          $posblocM = 'R';
       for ($i = 0; $i < count($blocs[0]) && !isset($erreur); $i++) {
-         sql_query("INSERT INTO " . $NPDS_Prefix . $posbloc . "blocks (`id`, `title`, `content`, `member`, `" . $posblocM . "index`, `cache`, `actif`, `aide`) VALUES (0, '" . $blocs[0][$i] . "', '" . $blocs[1][$i] . "', '" . $blocs[2][$i] . "', '" . $blocs[4][$i] . "', '" . $blocs[5][$i] . "', '" . $blocs[6][$i] . "', '" . $blocs[7][$i] . "');") or $erreur = sql_error();
+         sql_query("INSERT INTO " . sql_prefix('') . $posbloc . "blocks (`id`, `title`, `content`, `member`, `" . $posblocM . "index`, `cache`, `actif`, `aide`) VALUES (0, '" . $blocs[0][$i] . "', '" . $blocs[1][$i] . "', '" . $blocs[2][$i] . "', '" . $blocs[4][$i] . "', '" . $blocs[5][$i] . "', '" . $blocs[6][$i] . "', '" . $blocs[7][$i] . "');") or $erreur = sql_error();
       }
       if (isset($erreur)) {
          $display .= adm_translate("Une erreur est survenue lors de la configuration automatique du(des) bloc(s). Mysql a répondu :");
@@ -390,8 +390,8 @@ function nmig_txt($txtfin)
 function nmig_End($name_module, $end_link)
 {
    include("header.php");
-   global $ModInstall, $display, $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "modules SET minstall='1' WHERE mnom='" . $ModInstall . "'");
+   global $ModInstall, $display, sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "modules SET minstall='1' WHERE mnom='" . $ModInstall . "'");
    $display = '
    <hr /> 
    <div class="alert alert-success lead">' . adm_translate("L'installation automatique du module") . ' <b>' . $name_module . '</b> ' . adm_translate("est terminée !") . '</div>
@@ -417,7 +417,7 @@ if (!isset($try_Chmod))
 
 if ($ModInstall != '' && $ModDesinstall == '') {
    if ($subop == 'install')
-      $result = sql_query("UPDATE " . $NPDS_Prefix . "modules SET minstall='1' WHERE mnom= '" . $ModInstall . "'");
+      $result = sql_query("UPDATE " . sql_prefix('') . "modules SET minstall='1' WHERE mnom= '" . $ModInstall . "'");
    if (file_exists("modules/" . $ModInstall . "/install.conf.php"))
       include("modules/" . $ModInstall . "/install.conf.php");
    else {
@@ -501,19 +501,19 @@ if ($ModInstall != '' && $ModDesinstall == '') {
          $tabsblocs = $rb[1];
       } else
          $tabsblocs = 'include#modules/' . $ModDesinstall . '/';
-      $lbmod = sql_num_rows(sql_query("SELECT id FROM " . $NPDS_Prefix . "lblocks WHERE content LIKE '$tabsblocs%'"));
-      $rbmod = sql_num_rows(sql_query("SELECT id FROM " . $NPDS_Prefix . "rblocks WHERE content LIKE '$tabsblocs%'"));
+      $lbmod = sql_num_rows(sql_query("SELECT id FROM " . sql_prefix('') . "lblocks WHERE content LIKE '$tabsblocs%'"));
+      $rbmod = sql_num_rows(sql_query("SELECT id FROM " . sql_prefix('') . "rblocks WHERE content LIKE '$tabsblocs%'"));
 
-      $fonct = sql_num_rows(sql_query("SELECT fid FROM " . $NPDS_Prefix . "fonctions WHERE fnom='" . $ModDesinstall . "'"));
+      $fonct = sql_num_rows(sql_query("SELECT fid FROM " . sql_prefix('') . "fonctions WHERE fnom='" . $ModDesinstall . "'"));
       if ($fonct > 0) array_push($othertabinsert, 'fonctions', 'droits');
    }
    //nettoyage
    if ($subop == "desinst") {
       if (file_exists("modules/" . $ModDesinstall . "/install.conf.php")) {
-         list($fid) = sql_fetch_row(sql_query("SELECT fid FROM " . $NPDS_Prefix . "fonctions WHERE fnom='" . $ModDesinstall . "'"));
+         list($fid) = sql_fetch_row(sql_query("SELECT fid FROM " . sql_prefix('') . "fonctions WHERE fnom='" . $ModDesinstall . "'"));
          if (isset($fid) and $fid != '') {
-            sql_query("DELETE FROM " . $NPDS_Prefix . "droits WHERE d_fon_fid=" . $fid . "");
-            sql_query("DELETE FROM " . $NPDS_Prefix . "fonctions WHERE fnom='" . $ModDesinstall . "'");
+            sql_query("DELETE FROM " . sql_prefix('') . "droits WHERE d_fon_fid=" . $fid . "");
+            sql_query("DELETE FROM " . sql_prefix('') . "fonctions WHERE fnom='" . $ModDesinstall . "'");
          }
          // nettoyage table(s) créé(s)
          if (count($tabcreated) > 0) {
@@ -524,17 +524,17 @@ if ($ModInstall != '' && $ModDesinstall == '') {
          // nettoyage metamot
          if (count($modulemetamot) > 0) {
             foreach ($modulemetamot as $v) {
-               sql_query("DELETE FROM " . $NPDS_Prefix . "metalang WHERE metalang.def='" . $v . "'");
+               sql_query("DELETE FROM " . sql_prefix('') . "metalang WHERE metalang.def='" . $v . "'");
             }
          }
          // nettoyage blocs
          if ($tabsblocs != '') {
-            sql_query("DELETE FROM " . $NPDS_Prefix . "lblocks WHERE content LIKE '" . $tabsblocs . "%'");
-            sql_query("DELETE FROM " . $NPDS_Prefix . "rblocks WHERE content LIKE '" . $tabsblocs . "%'");
+            sql_query("DELETE FROM " . sql_prefix('') . "lblocks WHERE content LIKE '" . $tabsblocs . "%'");
+            sql_query("DELETE FROM " . sql_prefix('') . "rblocks WHERE content LIKE '" . $tabsblocs . "%'");
          }
       }
       // maj etat d'installation
-      sql_query("UPDATE " . $NPDS_Prefix . "modules SET minstall='0' WHERE mnom= '" . $ModDesinstall . "'");
+      sql_query("UPDATE " . sql_prefix('') . "modules SET minstall='0' WHERE mnom= '" . $ModDesinstall . "'");
       redirect_url("admin.php?op=modules");
    }
    include("header.php");

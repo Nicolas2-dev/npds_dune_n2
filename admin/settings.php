@@ -1457,7 +1457,7 @@ function Configure()
             <div class="col-sm-4">
                <select class="form-select" id="xdownload_cat" name="xdownload_cat">
                   <option value="' . $download_cat . '">' . aff_langue($download_cat) . '</option>';
-   $result = sql_query("SELECT distinct dcategory FROM " . $NPDS_Prefix . "downloads");
+   $result = sql_query("SELECT distinct dcategory FROM " . sql_prefix('') . "downloads");
    while (list($category) = sql_fetch_row($result)) {
       $category = stripslashes($category);
       echo '

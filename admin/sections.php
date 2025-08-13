@@ -101,19 +101,19 @@ function droits($member)
 
 function sousrub_select($secid)
 {
-   global $radminsuper, $aid, $NPDS_Prefix;
+   global $radminsuper, $aid, sql_prefix('');
    $ok_pub = false;
    $tmp = '
          <select name="secid" class="form-select">';
-   $result = sql_query("SELECT distinct rubid, rubname, ordre FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+   $result = sql_query("SELECT distinct rubid, rubname, ordre FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
    while (list($rubid, $rubname) = sql_fetch_row($result)) {
       $rubname = aff_langue($rubname);
       $tmp .= '
             <optgroup label="' . aff_langue($rubname) . '">';
       if ($radminsuper == 1)
-         $result2 = sql_query("SELECT secid, secname, ordre FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+         $result2 = sql_query("SELECT secid, secname, ordre FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
       else
-         $result2 = sql_query("SELECT distinct sections.secid, sections.secname, sections.ordre FROM " . $NPDS_Prefix . "sections, " . $NPDS_Prefix . "publisujet WHERE sections.rubid='$rubid' and sections.secid=publisujet.secid2 and publisujet.aid='$aid' and publisujet.type='1' ORDER BY ordre");
+         $result2 = sql_query("SELECT distinct sections.secid, sections.secname, sections.ordre FROM " . sql_prefix('') . "sections, " . sql_prefix('') . "publisujet WHERE sections.rubid='$rubid' and sections.secid=publisujet.secid2 and publisujet.aid='$aid' and publisujet.type='1' ORDER BY ordre");
       while (list($secid2, $secname) = sql_fetch_row($result2)) {
          $secname = aff_langue($secname);
          $secname = substr($secname, 0, 50);
@@ -136,11 +136,11 @@ function sousrub_select($secid)
 
 function droits_publication($secid)
 {
-   global $radminsuper, $aid, $NPDS_Prefix;
+   global $radminsuper, $aid, sql_prefix('');
 
    $droits = 0; // 3=mod - 4=delete
    if ($radminsuper != 1) {
-      $result = sql_query("SELECT type FROM " . $NPDS_Prefix . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type in(3,4) ORDER BY type");
+      $result = sql_query("SELECT type FROM " . sql_prefix('') . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type in(3,4) ORDER BY type");
       if (sql_num_rows($result) > 0) {
          while (list($type) = sql_fetch_row($result)) {
             $droits = $droits + $type;
@@ -153,13 +153,13 @@ function droits_publication($secid)
 
 function sections()
 {
-   global $hlpfile, $NPDS_Prefix, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = $radminsuper == 1 ?
-      sql_query("SELECT rubid, rubname, enligne, ordre FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre") :
-      sql_query("SELECT DISTINCT r.rubid, r.rubname, r.enligne, r.ordre FROM " . $NPDS_Prefix . "rubriques r, " . $NPDS_Prefix . "sections s, " . $NPDS_Prefix . "publisujet p WHERE (r.rubid=s.rubid AND s.secid=p.secid2 AND p.aid='$aid') ORDER BY ordre");
+      sql_query("SELECT rubid, rubname, enligne, ordre FROM " . sql_prefix('') . "rubriques ORDER BY ordre") :
+      sql_query("SELECT DISTINCT r.rubid, r.rubname, r.enligne, r.ordre FROM " . sql_prefix('') . "rubriques r, " . sql_prefix('') . "sections s, " . sql_prefix('') . "publisujet p WHERE (r.rubid=s.rubid AND s.secid=p.secid2 AND p.aid='$aid') ORDER BY ordre");
    $nb_rub = sql_num_rows($result);
 
    echo '
@@ -209,9 +209,9 @@ function sections()
       </div>';
 
          if ($radminsuper == 1)
-            $result2 = sql_query("SELECT DISTINCT secid, secname, ordre FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+            $result2 = sql_query("SELECT DISTINCT secid, secname, ordre FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
          else
-            $result2 = sql_query("SELECT DISTINCT sections.secid, sections.secname, sections.ordre FROM " . $NPDS_Prefix . "sections, " . $NPDS_Prefix . "publisujet WHERE sections.rubid='$rubid' AND sections.secid=publisujet.secid2 AND publisujet.aid='$aid' ORDER BY ordre");
+            $result2 = sql_query("SELECT DISTINCT sections.secid, sections.secname, sections.ordre FROM " . sql_prefix('') . "sections, " . sql_prefix('') . "publisujet WHERE sections.rubid='$rubid' AND sections.secid=publisujet.secid2 AND publisujet.aid='$aid' ORDER BY ordre");
 
          if (sql_num_rows($result2) > 0) {
             echo '
@@ -224,7 +224,7 @@ function sections()
             while (list($secid, $secname) = sql_fetch_row($result2)) {
                $droit_pub = droits_publication($secid);
                $secname = aff_langue($secname);
-               $result3 = sql_query("SELECT artid, title FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid' ORDER BY ordre");
+               $result3 = sql_query("SELECT artid, title FROM " . sql_prefix('') . "seccont WHERE secid='$secid' ORDER BY ordre");
 
                echo '
                <div class="list-group-item d-flex py-2">';
@@ -329,14 +329,14 @@ function sections()
 
    $enattente = '';
    if ($radminsuper == 1) {
-      $result = sql_query("SELECT distinct artid, secid, title, content, author FROM " . $NPDS_Prefix . "seccont_tempo ORDER BY artid");
+      $result = sql_query("SELECT distinct artid, secid, title, content, author FROM " . sql_prefix('') . "seccont_tempo ORDER BY artid");
       $nb_enattente = sql_num_rows($result);
       while (list($artid, $secid, $title, $content, $author) = sql_fetch_row($result)) {
          $enattente .= '
          <li class="list-group-item list-group-item-action" ><div class="d-flex flex-row align-items-center"><span class="flex-grow-1 pe-4">' . aff_langue($title) . '<br /><span class="text-body-secondary"><i class="fa fa-user fa-lg me-1"></i>[' . $author . ']</span></span><span class="text-center"><a href="admin.php?op=secartupdate&amp;artid=' . $artid . '">' . adm_translate("Editer") . '<br /><i class="fa fa-edit fa-lg"></i></a></span></div>';
       }
    } else {
-      $result = sql_query("SELECT distinct seccont_tempo.artid, seccont_tempo.title, seccont_tempo.author FROM " . $NPDS_Prefix . "seccont_tempo, " . $NPDS_Prefix . "publisujet WHERE seccont_tempo.secid=publisujet.secid2 AND publisujet.aid='$aid' AND (publisujet.type='1' OR publisujet.type='2')");
+      $result = sql_query("SELECT distinct seccont_tempo.artid, seccont_tempo.title, seccont_tempo.author FROM " . sql_prefix('') . "seccont_tempo, " . sql_prefix('') . "publisujet WHERE seccont_tempo.secid=publisujet.secid2 AND publisujet.aid='$aid' AND (publisujet.type='1' OR publisujet.type='2')");
       $nb_enattente = sql_num_rows($result);
       while (list($artid, $title, $author) = sql_fetch_row($result)) {
          $enattente .= '
@@ -354,7 +354,7 @@ function sections()
       echo  '
       <hr />
       <h3 class="mb-3"><a name="droits des auteurs"><i class="fa fa-user-edit me-2"></i>' . adm_translate("Droits des auteurs") . '</a></h3>';
-      $result = sql_query("SELECT aid, name, radminsuper FROM " . $NPDS_Prefix . "authors");
+      $result = sql_query("SELECT aid, name, radminsuper FROM " . sql_prefix('') . "authors");
       echo '<div class="row">';
       while (list($Xaid, $name, $Xradminsuper) = sql_fetch_row($result)) {
          if (!$Xradminsuper) {
@@ -376,7 +376,7 @@ function sections()
 
 function new_rub_section($type)
 {
-   global $hlpfile, $NPDS_Prefix, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -391,9 +391,9 @@ function new_rub_section($type)
             <div class="col-sm-8">
                <select class="form-select" id="rubref" name="rubref">';
       if ($radminsuper == 1)
-         $result = sql_query("SELECT rubid, rubname FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+         $result = sql_query("SELECT rubid, rubname FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
       else
-         $result = sql_query("SELECT DISTINCT r.rubid, r.rubname FROM " . $NPDS_Prefix . "rubriques r LEFT JOIN " . $NPDS_Prefix . "sections s on r.rubid= s.rubid LEFT JOIN " . $NPDS_Prefix . "publisujet p on s.secid= p.secid2 WHERE p.aid='$aid'");
+         $result = sql_query("SELECT DISTINCT r.rubid, r.rubname FROM " . sql_prefix('') . "rubriques r LEFT JOIN " . sql_prefix('') . "sections s on r.rubid= s.rubid LEFT JOIN " . sql_prefix('') . "publisujet p on s.secid= p.secid2 WHERE p.aid='$aid'");
       while (list($rubid, $rubname) = sql_fetch_row($result)) {
          echo '
                   <option value="' . $rubid . '">' . aff_langue($rubname) . '</option>';
@@ -462,16 +462,16 @@ function new_rub_section($type)
 // Fonction publications connexes
 function publishcompat($article)
 {
-   global $hlpfile, $NPDS_Prefix, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
-   $result2 = sql_query("SELECT title FROM " . $NPDS_Prefix . "seccont WHERE artid='$article'");
+   $result2 = sql_query("SELECT title FROM " . sql_prefix('') . "seccont WHERE artid='$article'");
    list($titre) = sql_fetch_row($result2);
 
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $result = sql_query("SELECT rubid, rubname, enligne, ordre FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+   $result = sql_query("SELECT rubid, rubname, enligne, ordre FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
    echo '
    <hr />
    <h3 class="mb-3">' . adm_translate("Publications connexes") . ' : <span class="text-body-secondary">' . aff_langue($titre) . '</span></h3>
@@ -491,20 +491,20 @@ function publishcompat($article)
          <a class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#lst_' . $rubid . '" ><i class="toggle-icon fa fa-caret-down fa-lg"></i></a>&nbsp;' . aff_langue($rubname) . '<span class="badge bg-' . $cla . ' float-end">' . $online . '</span>
       </div>';
       if ($radminsuper == 1)
-         $result2 = sql_query("SELECT secid, secname FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+         $result2 = sql_query("SELECT secid, secname FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
       else
-         $result2 = sql_query("SELECT DISTINCT sections.secid, sections.secname, sections.ordre FROM " . $NPDS_Prefix . "sections, " . $NPDS_Prefix . "publisujet WHERE sections.rubid='$rubid' AND sections.secid=publisujet.secid2 AND publisujet.aid='$aid' AND publisujet.type='1' ORDER BY ordre");
+         $result2 = sql_query("SELECT DISTINCT sections.secid, sections.secname, sections.ordre FROM " . sql_prefix('') . "sections, " . sql_prefix('') . "publisujet WHERE sections.rubid='$rubid' AND sections.secid=publisujet.secid2 AND publisujet.aid='$aid' AND publisujet.type='1' ORDER BY ordre");
       if (sql_num_rows($result2) > 0) {
          echo '
          <ul id="lst_' . $rubid . '" class="list-group mb-1 collapse">';
          while (list($secid, $secname) = sql_fetch_row($result2)) {
             echo '
             <li class="list-group-item"><strong class="ms-3" title="' . adm_translate("sous-rubrique") . '" data-bs-toggle="tooltip">' . aff_langue($secname) . '</strong></li>';
-            $result3 = sql_query("SELECT artid, title FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid' ORDER BY ordre");
+            $result3 = sql_query("SELECT artid, title FROM " . sql_prefix('') . "seccont WHERE secid='$secid' ORDER BY ordre");
             if (sql_num_rows($result3) > 0) {
                while (list($artid, $title) = sql_fetch_row($result3)) {
                   $i++;
-                  $result4 = sql_query("SELECT id2 FROM " . $NPDS_Prefix . "compatsujet WHERE id2='$artid' AND id1='$article'");
+                  $result4 = sql_query("SELECT id2 FROM " . sql_prefix('') . "compatsujet WHERE id2='$artid' AND id1='$article'");
                   echo '
             <li class="list-group-item list-group-item-action"><div class="form-check ms-3">';
                   if (sql_num_rows($result4) > 0)
@@ -531,12 +531,12 @@ function publishcompat($article)
 
 function updatecompat($article, $admin_rub, $idx)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
-   $result = sql_query("DELETE FROM " . $NPDS_Prefix . "compatsujet WHERE id1='$article'");
+   $result = sql_query("DELETE FROM " . sql_prefix('') . "compatsujet WHERE id1='$article'");
    for ($j = 1; $j < ($idx + 1); $j++) {
       if ($admin_rub[$j] != '') {
-         $result = sql_query("INSERT INTO " . $NPDS_Prefix . "compatsujet VALUES ('$article','$admin_rub[$j]')");
+         $result = sql_query("INSERT INTO " . sql_prefix('') . "compatsujet VALUES ('$article','$admin_rub[$j]')");
       }
    }
 
@@ -549,12 +549,12 @@ function updatecompat($article, $admin_rub, $idx)
 // Fonctions RUBRIQUES
 function rubriquedit($rubid)
 {
-   global $hlpfile, $NPDS_Prefix, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
 
-   $result = sql_query("SELECT rubid, rubname, intro, enligne, ordre FROM " . $NPDS_Prefix . "rubriques WHERE rubid='$rubid'");
+   $result = sql_query("SELECT rubid, rubname, intro, enligne, ordre FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'");
    list($rubid, $rubname, $intro, $enligne, $ordre) = sql_fetch_row($result);
    if (!sql_num_rows($result))
       Header("Location: admin.php?op=sections");
@@ -562,7 +562,7 @@ function rubriquedit($rubid)
    include("header.php");
    GraphicAdmin($hlpfile);
 
-   $result2 = sql_query("SELECT secid FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid'");
+   $result2 = sql_query("SELECT secid FROM " . sql_prefix('') . "sections WHERE rubid='$rubid'");
    $number = sql_num_rows($result2);
    $rubname = stripslashes($rubname);
    $intro = stripslashes($intro);
@@ -628,18 +628,18 @@ function rubriquedit($rubid)
 
 function rubriquemake($rubname, $introc)
 {
-   global $NPDS_Prefix, $radminsuper, $aid;
+   global sql_prefix(''), $radminsuper, $aid;
    $rubname = stripslashes(FixQuotes($rubname));
    $introc = stripslashes(FixQuotes(dataimagetofileurl($introc, 'modules/upload/upload/rub')));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "rubriques VALUES (NULL,'$rubname','$introc','0','0')");
+   sql_query("INSERT INTO " . sql_prefix('') . "rubriques VALUES (NULL,'$rubname','$introc','0','0')");
 
    //mieux ? création automatique d'une sous rubrique avec droits ... ?
    if ($radminsuper != 1) {
-      $result = sql_query("SELECT rubid FROM " . $NPDS_Prefix . "rubriques ORDER BY rubid DESC LIMIT 1");
+      $result = sql_query("SELECT rubid FROM " . sql_prefix('') . "rubriques ORDER BY rubid DESC LIMIT 1");
       list($rublast) = sql_fetch_row($result);
 
-      sql_query("INSERT INTO " . $NPDS_Prefix . "sections VALUES (NULL,'A modifier !', '', '', '$rublast', '<p>Cette sous-rubrique a été créé automatiquement. <br />Vous pouvez la personaliser et ensuite rattacher les publications que vous souhaitez.</p>','99','0')");
-      $result = sql_query("SELECT secid FROM " . $NPDS_Prefix . "sections ORDER BY secid DESC LIMIT 1");
+      sql_query("INSERT INTO " . sql_prefix('') . "sections VALUES (NULL,'A modifier !', '', '', '$rublast', '<p>Cette sous-rubrique a été créé automatiquement. <br />Vous pouvez la personaliser et ensuite rattacher les publications que vous souhaitez.</p>','99','0')");
+      $result = sql_query("SELECT secid FROM " . sql_prefix('') . "sections ORDER BY secid DESC LIMIT 1");
       list($seclast) = sql_fetch_row($result);
       droitsalacreation($aid, $seclast);
       Ecr_Log('security', "CreateSections(Vide) by AID : $aid (via system)", '');
@@ -653,11 +653,11 @@ function rubriquemake($rubname, $introc)
 
 function rubriquechange($rubid, $rubname, $introc, $enligne)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $rubname = stripslashes(FixQuotes($rubname));
    $introc = dataimagetofileurl($introc, 'modules/upload/upload/rub');
    $introc = stripslashes(FixQuotes($introc));
-   sql_query("UPDATE " . $NPDS_Prefix . "rubriques SET rubname='$rubname', intro='$introc', enligne='$enligne' WHERE rubid='$rubid'");
+   sql_query("UPDATE " . sql_prefix('') . "rubriques SET rubname='$rubname', intro='$introc', enligne='$enligne' WHERE rubid='$rubid'");
 
    global $aid;
    Ecr_Log("security", "UpdateRubriques($rubid, $rubname) by AID : $aid", "");
@@ -668,11 +668,11 @@ function rubriquechange($rubid, $rubname, $introc, $enligne)
 // Fonctions SECTIONS
 function sectionedit($secid)
 {
-   global $hlpfile, $radminsuper, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $aid;
+   global $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
 
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT secid, secname, image, userlevel, rubid, intro FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+   $result = sql_query("SELECT secid, secname, image, userlevel, rubid, intro FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
    list($secid, $secname, $image, $userlevel, $rubref, $intro) = sql_fetch_row($result);
    $secname = stripslashes($secname);
    $intro = stripslashes($intro);
@@ -681,7 +681,7 @@ function sectionedit($secid)
    echo '
    <hr />
    <h3 class="mb-3">' . adm_translate("Sous-rubrique") . ' : <span class="text-body-secondary">' . aff_langue($secname) . '</span></h3>';
-   $result2 = sql_query("SELECT artid FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'");
+   $result2 = sql_query("SELECT artid FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
    $number = sql_num_rows($result2);
    if ($number)
       echo '<span class="badge bg-secondary p-2 me-2">' . $number . ' </span>' . adm_translate("publication(s) attachée(s)");
@@ -692,9 +692,9 @@ function sectionedit($secid)
 
 
    if ($radminsuper == 1)
-      $result = sql_query("SELECT rubid, rubname FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+      $result = sql_query("SELECT rubid, rubname FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
    else
-      $result = sql_query("SELECT DISTINCT r.rubid, r.rubname FROM " . $NPDS_Prefix . "rubriques r LEFT JOIN " . $NPDS_Prefix . "sections s on r.rubid= s.rubid LEFT JOIN " . $NPDS_Prefix . "publisujet p on s.secid= p.secid2 WHERE p.aid='$aid'");
+      $result = sql_query("SELECT DISTINCT r.rubid, r.rubname FROM " . sql_prefix('') . "rubriques r LEFT JOIN " . sql_prefix('') . "sections s on r.rubid= s.rubid LEFT JOIN " . sql_prefix('') . "publisujet p on s.secid= p.secid2 WHERE p.aid='$aid'");
    echo '
             <select class="form-select" id="rubref" name="rubref">';
    while (list($rubid, $rubname) = sql_fetch_row($result)) {
@@ -715,7 +715,7 @@ function sectionedit($secid)
    if ($radminsuper==1) {
       echo '
             <select class="form-select" id="rubref" name="rubref">';
-      $result = sql_query("SELECT rubid, rubname FROM ".$NPDS_Prefix."rubriques ORDER BY ordre");
+      $result = sql_query("SELECT rubid, rubname FROM ".sql_prefix('')."rubriques ORDER BY ordre");
       while(list($rubid, $rubname) = sql_fetch_row($result)) {
          $sel = $rubref==$rubid?'selected="selected"':'';
          echo '
@@ -726,7 +726,7 @@ function sectionedit($secid)
       </div>';
    } else {
       echo '<input type="hidden" name="rubref" value="'.$rubref.'" />';
-      $result = sql_query("SELECT rubname FROM ".$NPDS_Prefix."rubriques WHERE rubid='$rubref'");
+      $result = sql_query("SELECT rubname FROM ".sql_prefix('')."rubriques WHERE rubid='$rubref'");
       list($rubname) = sql_fetch_row($result);
       echo '<pan class="ms-2">'.aff_langue($rubname).'</span>';
    }
@@ -768,7 +768,7 @@ function sectionedit($secid)
 
 function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
 {
-   global $NPDS_Prefix, $radminsuper, $aid;
+   global sql_prefix(''), $radminsuper, $aid;
 
    if (is_array($Mmembers) and ($members == 1)) {
       $members = implode(',', $Mmembers);
@@ -778,10 +778,10 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
    $rubref = stripslashes(FixQuotes($rubref));
    $image = stripslashes(FixQuotes($image));
    $introd = stripslashes(FixQuotes(dataimagetofileurl($introd, 'modules/upload/upload/sec')));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "sections VALUES (NULL,'$secname', '$image', '$members', '$rubref', '$introd','99','0')");
+   sql_query("INSERT INTO " . sql_prefix('') . "sections VALUES (NULL,'$secname', '$image', '$members', '$rubref', '$introd','99','0')");
 
    if ($radminsuper != 1) {
-      $result = sql_query("SELECT secid FROM " . $NPDS_Prefix . "sections ORDER BY secid DESC LIMIT 1");
+      $result = sql_query("SELECT secid FROM " . sql_prefix('') . "sections ORDER BY secid DESC LIMIT 1");
       list($secid) = sql_fetch_row($result);
       droitsalacreation($aid, $secid);
    }
@@ -792,7 +792,7 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
 
 function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $introd)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if (is_array($Mmembers) and ($members == 1)) {
       $members = implode(',', $Mmembers);
@@ -802,7 +802,7 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
    $secname = stripslashes(FixQuotes($secname));
    $image = stripslashes(FixQuotes($image));
    $introd = stripslashes(FixQuotes(dataimagetofileurl($introd, 'modules/upload/upload/sec')));
-   sql_query("UPDATE " . $NPDS_Prefix . "sections SET secname='$secname', image='$image', userlevel='$members', rubid='$rubref', intro='$introd' WHERE secid='$secid'");
+   sql_query("UPDATE " . sql_prefix('') . "sections SET secname='$secname', image='$image', userlevel='$members', rubid='$rubref', intro='$introd' WHERE secid='$secid'");
 
    global $aid;
    Ecr_Log('security', "UpdateSections($secid, $secname) by AID : $aid", '');
@@ -813,8 +813,8 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
 // Fonction ARTICLES
 function secartedit($artid)
 {
-   global $radminsuper, $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
-   $result2 = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
+   global $radminsuper, $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   $result2 = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
    list($author, $artid, $secid, $arttitle, $content, $userlevel) = sql_fetch_row($result2);
    if (!$artid)
       Header("Location: admin.php?op=sections");
@@ -839,7 +839,7 @@ function secartedit($artid)
    if ($tmp_autorise)
       echo $tmp_autorise;
    else {
-      $result = sql_query("SELECT secname FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+      $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
       list($secname) = sql_fetch_row($result);
       echo "<b>" . aff_langue($secname) . "</b>";
       echo '<input type="hidden" name="secid" value="' . $secid . '" />';
@@ -882,11 +882,11 @@ function secartedit($artid)
 
 function secartupdate($artid)
 {
-   global $hlpfile, $aid, $radminsuper, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
-   $result = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . $NPDS_Prefix . "seccont_tempo WHERE artid='$artid'");
+   $result = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
    list($author, $artid, $secid, $title, $content, $userlevel) = sql_fetch_row($result);
-   $testpubli = sql_query("SELECT type FROM " . $NPDS_Prefix . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type='1'");
+   $testpubli = sql_query("SELECT type FROM " . sql_prefix('') . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type='1'");
    list($test_publi) = sql_fetch_row($testpubli);
    if ($test_publi == 1) {
       $debut = '
@@ -902,7 +902,7 @@ function secartupdate($artid)
       </div>
       <input type="submit" class="btn btn-primary" name="submit" value="' . adm_translate("Ok") . '" />';
    }
-   $testpubli = sql_query("SELECT type FROM " . $NPDS_Prefix . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type='2'");
+   $testpubli = sql_query("SELECT type FROM " . sql_prefix('') . "publisujet WHERE secid2='$secid' AND aid='$aid' AND type='2'");
    list($test_publi) = sql_fetch_row($testpubli);
    if (($test_publi == 2) or ($radminsuper == 1)) {
       $debut = '
@@ -941,7 +941,7 @@ function secartupdate($artid)
    if ($tmp_autorise)
       echo $tmp_autorise;
    else {
-      $result = sql_query("SELECT secname FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+      $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
       list($secname) = sql_fetch_row($result);
       echo '
             <strong>' . aff_langue($secname) . '</strong>
@@ -972,7 +972,7 @@ function secartupdate($artid)
 
 function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
 {
-   global $NPDS_Prefix, $radminsuper;
+   global sql_prefix(''), $radminsuper;
    // pas de removehack pour l'entrée des données ???????
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
@@ -981,12 +981,12 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
       if ($radminsuper == 1) {
          $timestamp = time();
          $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/upload/s')));
-         sql_query("INSERT INTO " . $NPDS_Prefix . "seccont VALUES (NULL,'$secid','$title','$content','0','$autho','99','$members', '$timestamp')");
+         sql_query("INSERT INTO " . sql_prefix('') . "seccont VALUES (NULL,'$secid','$title','$content','0','$autho','99','$members', '$timestamp')");
          global $aid;
          Ecr_Log("security", "CreateArticleSections($secid, $title) by AID : $aid", "");
       } else {
          $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'cache/s')));
-         sql_query("INSERT INTO " . $NPDS_Prefix . "seccont_tempo VALUES (NULL,'$secid','$title','$content','0','$autho','99','$members')");
+         sql_query("INSERT INTO " . sql_prefix('') . "seccont_tempo VALUES (NULL,'$secid','$title','$content','0','$autho','99','$members')");
          global $aid;
          Ecr_Log('security', "CreateArticleSectionsTempo($secid, $title) by AID : $aid", '');
       }
@@ -996,14 +996,14 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
 
 function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $title = stripslashes(FixQuotes($title));
    $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/upload/s')));
    $timestamp = time();
    if ($secid != '0') {
-      sql_query("UPDATE " . $NPDS_Prefix . "seccont SET secid='$secid', title='$title', content='$content', userlevel='$members', timestamp='$timestamp' WHERE artid='$artid'");
+      sql_query("UPDATE " . sql_prefix('') . "seccont SET secid='$secid', title='$title', content='$content', userlevel='$members', timestamp='$timestamp' WHERE artid='$artid'");
       global $aid;
       Ecr_Log("security", "UpdateArticleSections($artid, $secid, $title) by AID : $aid", "");
    }
@@ -1012,13 +1012,13 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
 
 function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $title = stripslashes(FixQuotes($title));
    $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'cache/s')));
    if ($secid != '0') {
-      sql_query("UPDATE " . $NPDS_Prefix . "seccont_tempo SET secid='$secid', title='$title', content='$content', userlevel='$members' WHERE artid='$artid'");
+      sql_query("UPDATE " . sql_prefix('') . "seccont_tempo SET secid='$secid', title='$title', content='$content', userlevel='$members' WHERE artid='$artid'");
       global $aid;
       Ecr_Log('security', "UpdateArticleSectionsTempo($artid, $secid, $title) by AID : $aid", '');
    }
@@ -1027,20 +1027,20 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
 
 function secartpublish($artid, $secid, $title, $content, $author, $members, $Mmembers)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/upload/s')));
    $title = stripslashes(FixQuotes($title));
    if ($secid != '0') {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "seccont_tempo WHERE artid='$artid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
       $timestamp = time();
-      sql_query("INSERT INTO " . $NPDS_Prefix . "seccont VALUES (NULL,'$secid','$title','$content', '0', '$author', '99', '$members', '$timestamp')");
+      sql_query("INSERT INTO " . sql_prefix('') . "seccont VALUES (NULL,'$secid','$title','$content', '0', '$author', '99', '$members', '$timestamp')");
       global $aid;
       Ecr_Log('security', "PublicateArticleSections($artid, $secid, $title) by AID : $aid", '');
 
-      $result = sql_query("SELECT email FROM " . $NPDS_Prefix . "authors WHERE aid='$author'");
+      $result = sql_query("SELECT email FROM " . sql_prefix('') . "authors WHERE aid='$author'");
       list($lemail) = sql_fetch_row($result);
       $sujet = html_entity_decode(adm_translate("Validation de votre publication"), ENT_COMPAT | ENT_HTML401, 'UTF-8');
       $message = adm_translate("La publication que vous aviez en attente vient d'être validée");
@@ -1054,27 +1054,27 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
 // Fonctions de DELETE
 function rubriquedelete($rubid, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    // protection
    global $radminsuper;
    if (!$radminsuper) {
       Header("Location: admin.php?op=sections");
    }
    if ($ok == 1) {
-      $result = sql_query("SELECT secid FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid'");
+      $result = sql_query("SELECT secid FROM " . sql_prefix('') . "sections WHERE rubid='$rubid'");
       if (sql_num_rows($result) > 0) {
          while (list($secid) = sql_fetch_row($result)) {
-            $result2 = sql_query("SELECT artid FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'");
+            $result2 = sql_query("SELECT artid FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
             if (sql_num_rows($result2) > 0) {
                while (list($artid) = sql_fetch_row($result2)) {
-                  sql_query("DELETE FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
-                  sql_query("DELETE FROM " . $NPDS_Prefix . "compatsujet WHERE id1='$artid'");
+                  sql_query("DELETE FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
+                  sql_query("DELETE FROM " . sql_prefix('') . "compatsujet WHERE id1='$artid'");
                }
             }
          }
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "rubriques WHERE rubid='$rubid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "sections WHERE rubid='$rubid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'");
 
       global $aid;
       Ecr_Log("security", "DeleteRubriques($rubid) by AID : $aid", "");
@@ -1084,7 +1084,7 @@ function rubriquedelete($rubid, $ok = 0)
       include("header.php");
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
-      $result = sql_query("SELECT rubname FROM " . $NPDS_Prefix . "rubriques WHERE rubid='$rubid'");
+      $result = sql_query("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'");
       list($rubname) = sql_fetch_row($result);
       echo '
       <hr />
@@ -1099,21 +1099,21 @@ function rubriquedelete($rubid, $ok = 0)
 
 function sectiondelete($secid, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    // protection
    $tmp = droits_publication($secid);
    if (($tmp != 7) and ($tmp != 4)) {
       Header("Location: admin.php?op=sections");
    }
    if ($ok == 1) {
-      $result = sql_query("SELECT artid FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'");
+      $result = sql_query("SELECT artid FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
       if (sql_num_rows($result) > 0) {
          while (list($artid) = sql_fetch_row($result)) {
-            sql_query("DELETE FROM " . $NPDS_Prefix . "compatsujet WHERE id1='$artid'");
+            sql_query("DELETE FROM " . sql_prefix('') . "compatsujet WHERE id1='$artid'");
          }
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
 
       global $aid;
       Ecr_Log("security", "DeleteSections($secid) by AID : $aid", "");
@@ -1123,7 +1123,7 @@ function sectiondelete($secid, $ok = 0)
       include("header.php");
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
-      $result = sql_query("SELECT secname FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+      $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
       list($secname) = sql_fetch_row($result);
       echo '
       <hr />
@@ -1138,23 +1138,23 @@ function sectiondelete($secid, $ok = 0)
 
 function secartdelete($artid, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    // protection
-   $result = sql_query("SELECT secid FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
+   $result = sql_query("SELECT secid FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
    list($secid) = sql_fetch_row($result);
    $tmp = droits_publication($secid);
    if (($tmp != 7) and ($tmp != 4))
       Header("Location: admin.php?op=sections");
    if ($ok == 1) {
-      $res = sql_query("SELECT content FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
+      $res = sql_query("SELECT content FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
       list($content) = sql_fetch_row($res);
       $rechuploadimage = '#modules/upload/upload/s\d+_\d+_\d+.[a-z]{3,4}#m';
       preg_match_all($rechuploadimage, $content, $uploadimages);
       foreach ($uploadimages[0] as $imagetodelete) {
          unlink($imagetodelete);
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
-      sql_query("DELETE FROM " . $NPDS_Prefix . "compatsujet WHERE id1='$artid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "compatsujet WHERE id1='$artid'");
       global $aid;
       Ecr_Log("security", "DeleteArticlesSections($artid) by AID : $aid", "");
       Header("Location: admin.php?op=sections");
@@ -1163,7 +1163,7 @@ function secartdelete($artid, $ok = 0)
       include('header.php');
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
-      $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "seccont WHERE artid='$artid'");
+      $result = sql_query("SELECT title FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
       list($title) = sql_fetch_row($result);
       echo '
       <hr />
@@ -1179,9 +1179,9 @@ function secartdelete($artid, $ok = 0)
 
 function secartdelete2($artid, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "seccont_tempo WHERE artid='$artid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
       global $aid;
       Ecr_Log('security', "DeleteArticlesSectionsTempo($artid) by AID : $aid", '');
       Header("Location: admin.php?op=sections");
@@ -1190,7 +1190,7 @@ function secartdelete2($artid, $ok = 0)
       include('header.php');
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
-      $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "seccont_tempo WHERE artid='$artid'");
+      $result = sql_query("SELECT title FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
       list($title) = sql_fetch_row($result);
       echo '
       <hr />
@@ -1207,7 +1207,7 @@ function secartdelete2($artid, $ok = 0)
 // Fonctions de classement
 function ordremodule()
 {
-   global $hlpfile, $radminsuper, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
@@ -1226,7 +1226,7 @@ function ordremodule()
             </tr>
          </thead>
          <tbody>';
-   $result = sql_query("SELECT rubid, rubname, ordre FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+   $result = sql_query("SELECT rubid, rubname, ordre FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
    $numrow = sql_num_rows($result);
    $i = 0;
    $fv_parametres = '';
@@ -1268,7 +1268,7 @@ function ordremodule()
 
 function ordrechapitre()
 {
-   global $rubname, $rubid, $NPDS_Prefix, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $rubname, $rubid, sql_prefix(''), $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1) {
       Header("Location: admin.php?op=sections");
    }
@@ -1288,7 +1288,7 @@ function ordrechapitre()
          </thead>
          <tbody>';
 
-   $result = sql_query("SELECT secid, secname, ordre FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+   $result = sql_query("SELECT secid, secname, ordre FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
    $i = 0;
    $fv_parametres = '';
    $numrow = sql_num_rows($result);
@@ -1335,13 +1335,13 @@ function ordrechapitre()
 
 function ordrecours()
 {
-   global $secid, $hlpfile, $radminsuper, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $secid, $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT secname FROM " . $NPDS_Prefix . "sections WHERE secid='$secid'");
+   $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
    list($secname) = sql_fetch_row($result);
    echo '
    <hr />
@@ -1355,7 +1355,7 @@ function ordrecours()
             </tr>
          </thead>
          <tbody>';
-   $result = sql_query("SELECT artid, title, ordre FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid' ORDER BY ordre");
+   $result = sql_query("SELECT artid, title, ordre FROM " . sql_prefix('') . "seccont WHERE secid='$secid' ORDER BY ordre");
    $numrow = sql_num_rows($result);
    $i = 0;
    $fv_parametres = '';
@@ -1402,7 +1402,7 @@ function ordrecours()
 
 function updateordre($rubid, $artid, $secid, $op, $ordre)
 {
-   global $NPDS_Prefix, $radminsuper;
+   global sql_prefix(''), $radminsuper;
    if ($radminsuper != 1) {
       Header("Location: admin.php?op=sections");
    }
@@ -1411,7 +1411,7 @@ function updateordre($rubid, $artid, $secid, $op, $ordre)
       for ($j = 1; $j < ($i + 1); $j++) {
          $rub = $rubid[$j];
          $ord = $ordre[$j];
-         $result = sql_query("UPDATE " . $NPDS_Prefix . "rubriques SET ordre='$ord' WHERE rubid='$rub'");
+         $result = sql_query("UPDATE " . sql_prefix('') . "rubriques SET ordre='$ord' WHERE rubid='$rub'");
       }
    }
    if ($op == "majchapitre") {
@@ -1419,7 +1419,7 @@ function updateordre($rubid, $artid, $secid, $op, $ordre)
       for ($j = 1; $j < ($i + 1); $j++) {
          $sec = $secid[$j];
          $ord = $ordre[$j];
-         $result = sql_query("UPDATE " . $NPDS_Prefix . "sections SET ordre='$ord' WHERE secid='$sec'");
+         $result = sql_query("UPDATE " . sql_prefix('') . "sections SET ordre='$ord' WHERE secid='$sec'");
       }
    }
    if ($op == "majcours") {
@@ -1427,7 +1427,7 @@ function updateordre($rubid, $artid, $secid, $op, $ordre)
       for ($j = 1; $j < ($i + 1); $j++) {
          $art = $artid[$j];
          $ord = $ordre[$j];
-         $result = sql_query("UPDATE " . $NPDS_Prefix . "seccont SET ordre='$ord' WHERE artid='$art'");
+         $result = sql_query("UPDATE " . sql_prefix('') . "seccont SET ordre='$ord' WHERE artid='$art'");
       }
    }
    Header("Location: admin.php?op=sections");
@@ -1437,7 +1437,7 @@ function updateordre($rubid, $artid, $secid, $op, $ordre)
 // Fonctions DROIT des AUTEURS
 function publishrights($author)
 {
-   global $NPDS_Prefix, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
@@ -1447,7 +1447,7 @@ function publishrights($author)
    <hr />
    <h3 class="mb-3"><i class="fa fa-user-edit me-2"></i>' . adm_translate("Droits des auteurs") . ' : <span class="text-body-secondary">' . $author . '</span></h3>
    <form action="admin.php" method="post">';
-   $result1 = sql_query("SELECT rubid, rubname FROM " . $NPDS_Prefix . "rubriques ORDER BY ordre");
+   $result1 = sql_query("SELECT rubid, rubname FROM " . sql_prefix('') . "rubriques ORDER BY ordre");
    $numrow = sql_num_rows($result1);
    $i = 0;
    $scrr = '';
@@ -1471,9 +1471,9 @@ function publishrights($author)
                   $(".ckbr_' . $rubid . '").prop("checked", $(this).prop("checked"));
                });';
 
-      $result2 = sql_query("SELECT secid, secname FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+      $result2 = sql_query("SELECT secid, secname FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
       while (list($secid, $secname) = sql_fetch_row($result2)) {
-         $result3 = sql_query("SELECT type FROM " . $NPDS_Prefix . "publisujet WHERE secid2='$secid' AND aid='$author'");
+         $result3 = sql_query("SELECT type FROM " . sql_prefix('') . "publisujet WHERE secid2='$secid' AND aid='$author'");
          $i++;
          $crea = '';
          $publi = '';
@@ -1530,39 +1530,39 @@ function publishrights($author)
 
 function droitsalacreation($chng_aid, $secid)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $lesdroits = array('1', '2', '3');
    //      if($secid > 0)
    foreach ($lesdroits as $droit) {
-      sql_query("INSERT INTO " . $NPDS_Prefix . "publisujet VALUES ('$chng_aid','$secid','$droit')");
+      sql_query("INSERT INTO " . sql_prefix('') . "publisujet VALUES ('$chng_aid','$secid','$droit')");
    }
    //      else
-   //         sql_query("INSERT INTO ".$NPDS_Prefix."publisujet VALUES ('$chng_aid','$secid','1')");
+   //         sql_query("INSERT INTO ".sql_prefix('')."publisujet VALUES ('$chng_aid','$secid','1')");
 }
 
 function updaterights($chng_aid, $maxindex, $creation, $publication, $modification, $suppression)
 {
-   global $NPDS_Prefix, $radminsuper;
+   global sql_prefix(''), $radminsuper;
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
 
-   $result = sql_query("DELETE FROM " . $NPDS_Prefix . "publisujet WHERE aid='$chng_aid'");
+   $result = sql_query("DELETE FROM " . sql_prefix('') . "publisujet WHERE aid='$chng_aid'");
    for ($j = 1; $j < ($maxindex + 1); $j++) {
       if (array_key_exists($j, $creation))
          if ($creation[$j] != '') {
-            $result = sql_query("INSERT INTO " . $NPDS_Prefix . "publisujet VALUES ('$chng_aid','$creation[$j]','1')");
+            $result = sql_query("INSERT INTO " . sql_prefix('') . "publisujet VALUES ('$chng_aid','$creation[$j]','1')");
          }
       if (array_key_exists($j, $publication))
          if ($publication[$j] != '') {
-            $result = sql_query("INSERT INTO " . $NPDS_Prefix . "publisujet VALUES ('$chng_aid','$publication[$j]','2')");
+            $result = sql_query("INSERT INTO " . sql_prefix('') . "publisujet VALUES ('$chng_aid','$publication[$j]','2')");
          }
       if (array_key_exists($j, $modification))
          if ($modification[$j] != '') {
-            $result = sql_query("INSERT INTO " . $NPDS_Prefix . "publisujet VALUES ('$chng_aid','$modification[$j]','3')");
+            $result = sql_query("INSERT INTO " . sql_prefix('') . "publisujet VALUES ('$chng_aid','$modification[$j]','3')");
          }
       if (array_key_exists($j, $suppression))
          if ($suppression[$j] != '') {
-            $result = sql_query("INSERT INTO " . $NPDS_Prefix . "publisujet VALUES ('$chng_aid','$suppression[$j]','4')");
+            $result = sql_query("INSERT INTO " . sql_prefix('') . "publisujet VALUES ('$chng_aid','$suppression[$j]','4')");
          }
    }
 

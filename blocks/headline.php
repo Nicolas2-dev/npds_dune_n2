@@ -3,15 +3,15 @@
 #autodoc headlines() : Bloc HeadLines <br />=> syntaxe :<br />function#headlines<br />params#ID_du_canal
 function headlines($hid = '', $block = true)
 {
-    global $NPDS_Prefix, $Version_Num, $Version_Id, $rss_host_verif, $long_chain;
+    global sql_prefix(''), $Version_Num, $Version_Id, $rss_host_verif, $long_chain;
 
     if (file_exists("proxy.conf.php"))
         include("proxy.conf.php");
 
     if ($hid == '')
-        $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . $NPDS_Prefix . "headlines WHERE status=1");
+        $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . sql_prefix('') . "headlines WHERE status=1");
     else
-        $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . $NPDS_Prefix . "headlines WHERE hid='$hid' AND status=1");
+        $result = sql_query("SELECT sitename, url, headlinesurl, hid FROM " . sql_prefix('') . "headlines WHERE hid='$hid' AND status=1");
 
     while (list($sitename, $url, $headlinesurl, $hid) = sql_fetch_row($result)) {
         $boxtitle = $sitename;

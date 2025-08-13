@@ -71,15 +71,15 @@ if (isset($user)) {
         if (strstr($to_user, ',')) {
             $tempo = explode(',', $to_user);
             foreach ($tempo as $to_user) {
-                $res = sql_query("SELECT uid, user_langue FROM " . $NPDS_Prefix . "users WHERE uname='$to_user'");
+                $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_user'");
                 list($to_userid, $user_langue) = sql_fetch_row($res);
                 if (($to_userid != '') and ($to_userid != 1)) {
-                    $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
+                    $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
                     $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
                     if (!$result = sql_query($sql))
                         forumerror('0020');
                     if ($copie) {
-                        $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
+                        $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
                         $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
                         if (!$result = sql_query($sql))
                             forumerror('0020');
@@ -96,18 +96,18 @@ if (isset($user)) {
                 }
             }
         } else {
-            $res = sql_query("SELECT uid, user_langue FROM " . $NPDS_Prefix . "users WHERE uname='$to_user'");
+            $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_user'");
             list($to_userid, $user_langue) = sql_fetch_row($res);
 
             if (($to_userid == '') or ($to_userid == 1))
                 forumerror('0016');
             else {
-                $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
+                $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
                 $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
                 if (!$result = sql_query($sql))
                     forumerror('0020');
                 if ($copie) {
-                    $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
+                    $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
                     $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
                     if (!$result = sql_query($sql))
                         forumerror('0020');
@@ -134,9 +134,9 @@ if (isset($user)) {
         settype($status, 'integer');
         foreach ($msg_id as $v) {
             if ($type == 'outbox')
-                $sql = "DELETE FROM " . $NPDS_Prefix . "priv_msgs WHERE msg_id='" . $v . "' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
+                $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='" . $v . "' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
             else
-                $sql = "DELETE FROM " . $NPDS_Prefix . "priv_msgs WHERE msg_id='" . $v . "' AND to_userid='" . $userdata['uid'] . "'";
+                $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='" . $v . "' AND to_userid='" . $userdata['uid'] . "'";
             if (!sql_query($sql))
                 forumerror('0021');
             else
@@ -151,9 +151,9 @@ if (isset($user)) {
     //   settype($delete,'integer');
     if (isset($delete)) {
         if (isset($type) and $type == 'outbox')
-            $sql = "DELETE FROM " . $NPDS_Prefix . "priv_msgs WHERE msg_id='$msg_id' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
+            $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='$msg_id' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
         else
-            $sql = "DELETE FROM " . $NPDS_Prefix . "priv_msgs WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
+            $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
         if (!sql_query($sql))
             forumerror('0021');
         else
@@ -163,7 +163,7 @@ if (isset($user)) {
     if ($classement) {
         if ($nouveau_dossier != '') $dossier = $nouveau_dossier;
         $dossier = strip_tags($dossier);
-        $sql = "UPDATE " . $NPDS_Prefix . "priv_msgs SET dossier='$dossier' WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
+        $sql = "UPDATE " . sql_prefix('') . "priv_msgs SET dossier='$dossier' WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
         $result = sql_query($sql);
         if (!$result)
             forumerror('0005');
@@ -200,7 +200,7 @@ if (isset($user)) {
         if ($allow_bbcode)
             include("lib/formhelp.java.php");
         if ($reply) {
-            $sql = "SELECT msg_image, subject, from_userid, to_userid FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND msg_id='$msg_id' AND type_msg='0'";
+            $sql = "SELECT msg_image, subject, from_userid, to_userid FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND msg_id='$msg_id' AND type_msg='0'";
             $result = sql_query($sql);
             if (!$result)
                 forumerror('0022');
@@ -320,7 +320,7 @@ if (isset($user)) {
 
         settype($message, 'string');
         if ($reply and $message == '') {
-            $sql = "SELECT p.msg_text, p.msg_time, u.uname FROM " . $NPDS_Prefix . "priv_msgs p, " . $NPDS_Prefix . "users u ";
+            $sql = "SELECT p.msg_text, p.msg_time, u.uname FROM " . sql_prefix('') . "priv_msgs p, " . sql_prefix('') . "users u ";
             $sql .= "WHERE (p.msg_id='$msg_id') AND (p.from_userid=u.uid) AND (p.type_msg='0')";
             if ($result = sql_query($sql)) {
                 $row = sql_fetch_assoc($result);

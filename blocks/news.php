@@ -103,9 +103,9 @@ function bigstory()
 #autodoc category() : Bloc de gestion des catégories <br />=> syntaxe : function#category
 function category()
 {
-    global $NPDS_Prefix, $cat, $language;
+    global sql_prefix(''), $cat, $language;
 
-    $result = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat ORDER BY title");
+    $result = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat ORDER BY title");
     $numrows = sql_num_rows($result);
 
     if ($numrows == 0)
@@ -114,11 +114,11 @@ function category()
         $boxstuff = '<ul>';
 
         while (list($catid, $title) = sql_fetch_row($result)) {
-            $result2 = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE catid='$catid' LIMIT 0,1");
+            $result2 = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid' LIMIT 0,1");
             $numrows = sql_num_rows($result2);
 
             if ($numrows > 0) {
-                $res = sql_query("SELECT time FROM " . $NPDS_Prefix . "stories WHERE catid='$catid' ORDER BY sid DESC LIMIT 0,1");
+                $res = sql_query("SELECT time FROM " . sql_prefix('') . "stories WHERE catid='$catid' ORDER BY sid DESC LIMIT 0,1");
                 list($time) = sql_fetch_row($res);
 
                 $boxstuff .= $cat == $catid
@@ -139,9 +139,9 @@ function category()
 #autodoc bloc_rubrique() : Bloc des Rubriques <br />=> syntaxe : function#bloc_rubrique
 function bloc_rubrique()
 {
-    global $NPDS_Prefix, $language, $user;
+    global sql_prefix(''), $language, $user;
 
-    $result = sql_query("SELECT rubid, rubname, ordre FROM " . $NPDS_Prefix . "rubriques WHERE enligne='1' AND rubname<>'divers' ORDER BY ordre");
+    $result = sql_query("SELECT rubid, rubname, ordre FROM " . sql_prefix('') . "rubriques WHERE enligne='1' AND rubname<>'divers' ORDER BY ordre");
 
     $boxstuff = '<ul>';
 
@@ -149,14 +149,14 @@ function bloc_rubrique()
 
         $title = aff_langue($rubname);
 
-        $result2 = sql_query("SELECT secid, secname, userlevel, ordre FROM " . $NPDS_Prefix . "sections WHERE rubid='$rubid' ORDER BY ordre");
+        $result2 = sql_query("SELECT secid, secname, userlevel, ordre FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
 
         $boxstuff .= '<li><strong>' . $title . '</strong></li>';
 
         //$ibid++;//??? only for notice ???
 
         while (list($secid, $secname, $userlevel) = sql_fetch_row($result2)) {
-            $query3 = "SELECT artid FROM " . $NPDS_Prefix . "seccont WHERE secid='$secid'";
+            $query3 = "SELECT artid FROM " . sql_prefix('') . "seccont WHERE secid='$secid'";
             $result3 = sql_query($query3);
             $nb_article = sql_num_rows($result3);
 

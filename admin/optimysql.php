@@ -30,13 +30,13 @@ GraphicAdmin($hlpfile);
 global $dbname; // non utile ?
 
 // Insertion de valeurs d'initialisation de la table (si nécessaire)
-$result = sql_query("SELECT optid FROM " . $NPDS_Prefix . "optimy");
+$result = sql_query("SELECT optid FROM " . sql_prefix('') . "optimy");
 list($idopt) = sql_fetch_row($result);
 if (!$idopt or ($idopt == ''))
-   $result = sql_query("INSERT INTO " . $NPDS_Prefix . "optimy (optid, optgain, optdate, opthour, optcount) VALUES ('1', '0', '', '', '0')");
+   $result = sql_query("INSERT INTO " . sql_prefix('') . "optimy (optid, optgain, optdate, opthour, optcount) VALUES ('1', '0', '', '', '0')");
 // Extraction de la date et de l'heure de la précédente optimisation
 $last_opti = '';
-$result = sql_query("SELECT optdate, opthour FROM " . $NPDS_Prefix . "optimy WHERE optid='1'");
+$result = sql_query("SELECT optdate, opthour FROM " . sql_prefix('') . "optimy WHERE optid='1'");
 list($dateopt, $houropt) = sql_fetch_row($result);
 if (!$dateopt or ($dateopt == '') or !$houropt or ($houropt == '')) {
 } else {
@@ -85,14 +85,14 @@ $total_gain = round($total_gain, 3);
 
 // Historique des gains
 // Extraction du nombre d'optimisation effectuée
-$result = sql_query("SELECT optgain, optcount FROM " . $NPDS_Prefix . "optimy WHERE optid='1'");
+$result = sql_query("SELECT optgain, optcount FROM " . sql_prefix('') . "optimy WHERE optid='1'");
 list($gainopt, $countopt) = sql_fetch_row($result);
 $newgain = ($gainopt + $total_gain);
 $newcount = ($countopt + 1);
 // Enregistrement du nouveau gain
-$result = sql_query("UPDATE " . $NPDS_Prefix . "optimy SET optgain='$newgain', optdate='$date_opt', opthour='$heure_opt', optcount='$newcount' WHERE optid='1'");
+$result = sql_query("UPDATE " . sql_prefix('') . "optimy SET optgain='$newgain', optdate='$date_opt', opthour='$heure_opt', optcount='$newcount' WHERE optid='1'");
 // Lecture des gains précédents et addition
-$result = sql_query("SELECT optgain, optcount FROM " . $NPDS_Prefix . "optimy WHERE optid='1'");
+$result = sql_query("SELECT optgain, optcount FROM " . sql_prefix('') . "optimy WHERE optid='1'");
 list($gainopt, $countopt) = sql_fetch_row($result);
 
 // Affichage

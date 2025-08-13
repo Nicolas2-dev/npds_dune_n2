@@ -25,7 +25,7 @@ admindroits($aid, $f_meta_nom);
 
 function ablock()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $language;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $language;
 
    include 'header.php';
 
@@ -38,7 +38,7 @@ function ablock()
       <hr />
       <h3 class="mb-3">' . adm_translate('Editer le Bloc Administration') . '</h3>';
 
-   $result = sql_query("SELECT title, content FROM " . $NPDS_Prefix . "block WHERE id=2");
+   $result = sql_query("SELECT title, content FROM " . sql_prefix('') . "block WHERE id=2");
 
    if (sql_num_rows($result) > 0) {
       while (list($title, $content) = sql_fetch_row($result)) {
@@ -69,12 +69,12 @@ function ablock()
 
 function changeablock($title, $content)
 {
-   global $NPDS_Prefix, $aid;
+   global sql_prefix(''), $aid;
 
    $title   = stripslashes(FixQuotes($title));
    $content = stripslashes(FixQuotes($content));
 
-   sql_query("UPDATE " . $NPDS_Prefix . "block SET title='$title', content='$content' WHERE id='2'");
+   sql_query("UPDATE " . sql_prefix('') . "block SET title='$title', content='$content' WHERE id='2'");
 
    Ecr_Log('security', 'ChangeAdminBlock() by AID : '. $aid, '');
 

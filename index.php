@@ -58,7 +58,7 @@ function select_start_page($op)
 
 function automatednews()
 {
-    global $gmt, $NPDS_Prefix;
+    global $gmt, sql_prefix('');
 
     $today = getdate(time() + ((int)$gmt * 3600));
     $day = $today['mday'];
@@ -70,19 +70,19 @@ function automatednews()
     $year = $today['year'];
     $hour = $today['hours'];
     $min = $today['minutes'];
-    $result = sql_query("SELECT anid, date_debval FROM " . $NPDS_Prefix . "autonews WHERE date_debval LIKE '$year-$month%'");
+    $result = sql_query("SELECT anid, date_debval FROM " . sql_prefix('') . "autonews WHERE date_debval LIKE '$year-$month%'");
     while (list($anid, $date_debval) = sql_fetch_row($result)) {
         preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $date_debval, $date);
         if (($date[1] <= $year) and ($date[2] <= $month) and ($date[3] <= $day)) {
             if (($date[4] < $hour) and ($date[5] >= $min) or ($date[4] <= $hour) and ($date[5] <= $min) or (($day - $date[3]) >= 1)) {
-                $result2 = sql_query("SELECT catid, aid, title, hometext, bodytext, topic, informant, notes, ihome, date_finval, auto_epur FROM " . $NPDS_Prefix . "autonews WHERE anid='$anid'");
+                $result2 = sql_query("SELECT catid, aid, title, hometext, bodytext, topic, informant, notes, ihome, date_finval, auto_epur FROM " . sql_prefix('') . "autonews WHERE anid='$anid'");
                 while (list($catid, $aid, $title, $hometext, $bodytext, $topic, $author, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result2)) {
                     $subject = stripslashes(FixQuotes($title));
                     $hometext = stripslashes(FixQuotes($hometext));
                     $bodytext = stripslashes(FixQuotes($bodytext));
                     $notes = stripslashes(FixQuotes($notes));
-                    sql_query("INSERT INTO " . $NPDS_Prefix . "stories VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$author', '$notes', '$ihome', '0', '$date_finval', '$epur')");
-                    sql_query("DELETE FROM " . $NPDS_Prefix . "autonews WHERE anid='$anid'");
+                    sql_query("INSERT INTO " . sql_prefix('') . "stories VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$author', '$notes', '$ihome', '0', '$date_finval', '$epur')");
+                    sql_query("DELETE FROM " . sql_prefix('') . "autonews WHERE anid='$anid'");
                     global $subscribe;
                     if ($subscribe)
                         subscribe_mail('topic', $topic, '', $subject, '');
@@ -95,20 +95,20 @@ function automatednews()
         }
     }
     // Purge automatique
-    $result = sql_query("SELECT sid, date_finval, auto_epur FROM " . $NPDS_Prefix . "stories WHERE date_finval LIKE '$year-$month%'");
+    $result = sql_query("SELECT sid, date_finval, auto_epur FROM " . sql_prefix('') . "stories WHERE date_finval LIKE '$year-$month%'");
     while (list($sid, $date_finval, $epur) = sql_fetch_row($result)) {
         preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $date_finval, $date);
         if (($date[1] <= $year) and ($date[2] <= $month) and ($date[3] <= $day)) {
             if (($date[4] < $hour) and ($date[5] >= $min) or ($date[4] <= $hour) and ($date[5] <= $min)) {
                 if ($epur == 1) {
-                    sql_query("DELETE FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+                    sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
                     if (file_exists("modules/comments/article.conf.php")) {
                         include("modules/comments/article.conf.php");
-                        sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
+                        sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
                     }
                     Ecr_Log('security', "removeStory ($sid, epur) by automated epur : system", '');
                 } else
-                    sql_query("UPDATE " . $NPDS_Prefix . "stories SET archive='1' WHERE sid='$sid'");
+                    sql_query("UPDATE " . sql_prefix('') . "stories SET archive='1' WHERE sid='$sid'");
             }
         }
     }
