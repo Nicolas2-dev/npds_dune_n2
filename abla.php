@@ -82,58 +82,44 @@ if ($admin) {
     }
 
     echo '
-   <hr />
-   <p class="lead mb-3">' . translate('Statistiques générales') . ' - ' . translate('Dernières stats') . ' : ' . $timex . ' </p>
-   <table class="mb-2" data-toggle="table" data-classes="table mb-2">
-      <thead class="collapse thead-default">
-         <tr>
-            <th class="n-t-col-xs-9"></th>
-            <th class="text-end"></th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr>
-            <td>' . translate('Nb. pages vues') . ' : </td>';
-
-    echo row_span($totalz, $xtotalz);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb. de membres') . ' : </td>';
-
-    echo row_span($membres, $xmembres);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb. d\'articles') . ' : </td>';
-
-    echo row_span($totala, $xtotala);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb. de forums') . ' : </td>';
-
-    echo row_span($totalc, $xtotalc);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb. de sujets') . ' : </td>';
-
-    echo row_span($totald, $xtotald);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb. de critiques') . ' : </td>';
-
-    echo row_span($totalb, $xtotalb);
-
-    echo '</tr>
-         <tr>
-            <td>' . translate('Nb abonnés à lettre infos') . ' : </td>';
-
-    echo row_span($totalnl, $xtotalnl);
-
-    echo '</tr>';
+    <hr />
+    <p class="lead mb-3">' . translate('Statistiques générales') . ' - ' . translate('Dernières stats') . ' : ' . $timex . ' </p>
+    <table class="mb-2" data-toggle="table" data-classes="table mb-2">
+        <thead class="collapse thead-default">
+            <tr>
+                <th class="n-t-col-xs-9"></th>
+                <th class="text-end"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>' . translate('Nb. pages vues') . ' : </td>
+                '. row_span($totalz, $xtotalz) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb. de membres') . ' : </td>
+                '. row_span($membres, $xmembres) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb. d\'articles') . ' : </td>
+                '. row_span($totala, $xtotala) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb. de forums') . ' : </td>
+                '. row_span($totalc, $xtotalc) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb. de sujets') . ' : </td>
+                '. row_span($totald, $xtotald) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb. de critiques') . ' : </td>
+                '. row_span($totalb, $xtotalb) .'
+            </tr>
+            <tr>
+                <td>' . translate('Nb abonnés à lettre infos') . ' : </td>
+                '. row_span($totalnl, $xtotalnl) .'
+            </tr>';
 
     $xfile = "<?php\n";
     $xfile .= "\$xdate = " . time() . ";\n";
@@ -145,18 +131,17 @@ if ($admin) {
     $xfile .= "\$xtotalb = $totalb;\n";
     $xfile .= "\$xtotalnl = $totalnl;\n";
 
-    echo '
-      </tbody>
-   </table>
-   <p class="lead my-3">' . translate('Statistiques des chargements') . '</p>
-   <table data-toggle="table" data-classes="table">
-      <thead class=" thead-default">
-         <tr>
-            <th class="n-t-col-xs-9"></th>
-            <th class="text-end"></th>
-         </tr>
-      </thead>
-      <tbody>';
+    echo '</tbody>
+    </table>
+    <p class="lead my-3">' . translate('Statistiques des chargements') . '</p>
+    <table data-toggle="table" data-classes="table">
+        <thead class=" thead-default">
+            <tr>
+                <th class="n-t-col-xs-9"></th>
+                <th class="text-end"></th>
+            </tr>
+        </thead>
+        <tbody>';
 
     $num_dow = 0;
 
@@ -167,41 +152,39 @@ if ($admin) {
     while (list($dcounter, $dfilename) = sql_fetch_row($result)) {
         $num_dow++;
 
-        echo '
-         <tr>
-            <td><span class="text-danger">';
+        echo '<tr>
+        <td><span class="text-danger">';
 
         if (array_key_exists($num_dow, $xdownload)) {
             echo $xdownload[$num_dow][1];
         }
 
         echo '</span> -/- ' . $dfilename . '</td>
-            <td><span class="text-danger">';
+        <td><span class="text-danger">';
 
         if (array_key_exists($num_dow, $xdownload)) {
             echo $xdownload[$num_dow][2];
         }
 
         echo '</span> -/- ' . $dcounter . '</td>
-         </tr>';
+        </tr>';
 
         $xfile .= "\$xdownload[$num_dow][1] = \"$dfilename\";\n";
         $xfile .= "\$xdownload[$num_dow][2] = \"$dcounter\";\n";
     }
 
-    echo '
-      </tbody>
-   </table>
-   <p class="lead my-3">Forums</p>
-   <table class="table table-bordered table-sm" data-classes="table">
-      <thead class="">
-         <tr>
-            <th>' . translate('Forum') . '</th>
-            <th class="n-t-col-xs-2 text-center">' . translate('Sujets') . '</th>
-            <th class="n-t-col-xs-2 text-center">' . translate('Contributions') . '</th>
-            <th class="n-t-col-xs-3 text-end">' . translate('Dernières contributions') . '</th>
-         </tr>
-      </thead>';
+    echo '</tbody>
+    </table>
+    <p class="lead my-3">Forums</p>
+    <table class="table table-bordered table-sm" data-classes="table">
+        <thead class="">
+            <tr>
+                <th>' . translate('Forum') . '</th>
+                <th class="n-t-col-xs-2 text-center">' . translate('Sujets') . '</th>
+                <th class="n-t-col-xs-2 text-center">' . translate('Contributions') . '</th>
+                <th class="n-t-col-xs-3 text-end">' . translate('Dernières contributions') . '</th>
+            </tr>
+        </thead>';
 
     $result = sql_query("SELECT * FROM " . sql_prefix('catagories') . " ORDER BY cat_id");
 
@@ -215,8 +198,7 @@ if ($admin) {
         }
 
         if ($myrow = sql_fetch_assoc($sub_result)) {
-            echo '
-         <tbody>
+            echo '<tbody>
             <tr>
                <td class="table-active" colspan="4">' . stripslashes($cat_title) . '</td>
             </tr>';
@@ -236,18 +218,18 @@ if ($admin) {
                 $desc = stripslashes($myrow['forum_desc']);
 
                 echo '<td>
-            <a tabindex="0" role="button" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="' . $desc . '">
-               <i class="far fa-lg fa-file-alt me-2"></i>
-            </a>
-            <a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >
-               <span class="text-danger">';
+                <a tabindex="0" role="button" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="' . $desc . '">
+                    <i class="far fa-lg fa-file-alt me-2"></i>
+                </a>
+                <a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >
+                    <span class="text-danger">';
 
                 if (array_key_exists($num_for, $xforum)) {
                     echo $xforum[$num_for][1];
                 }
 
                 echo '</span> -/- ' . $name . ' </a></td>
-               <td class="text-center"><span class="text-danger">';
+                <td class="text-center"><span class="text-danger">';
 
                 if (array_key_exists($num_for, $xforum)) {
                     echo $xforum[$num_for][2];
@@ -258,23 +240,21 @@ if ($admin) {
                 $total_posts = get_total_posts($myrow['forum_id'], "", "forum", false);
                 $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
 
-                echo '
-            <td class="text-center"><span class="text-danger">';
+                echo '<td class="text-center"><span class="text-danger">';
 
                 if (array_key_exists($num_for, $xforum)) {
                     echo $xforum[$num_for][3];
                 }
 
                 echo '</span> -/- ' . $total_posts . '</td>
-            <td class="text-end small">' . $last_post . '</td>';
+                <td class="text-end small">' . $last_post . '</td>';
             } while ($myrow = sql_fetch_assoc($sub_result));
         }
     }
 
-    echo '
-         </tr>
-      </tbody>
-   </table>';
+    echo '</tr>
+        </tbody>
+    </table>';
 
     $file = fopen('storage/abla/log.php', 'w');
     $xfile .= "?>\n";
