@@ -20,7 +20,7 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = ($SuperCache) ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global $NPDS_Prefix, $admin, $adminforum;
+global sql_prefix(''), $admin, $adminforum;
 
 if ($allow_upload_forum)
     include("modules/upload/upload_forum.php");
@@ -34,23 +34,23 @@ if ($admin) {
     $adminforum = 0;
     $adminX = base64_decode($admin);
     $adminR = explode(':', $adminX);
-    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . $NPDS_Prefix . "authors WHERE aid='$adminR[0]' LIMIT 1"));
+    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$adminR[0]' LIMIT 1"));
     if ($Q['radminsuper'] == 1) {
         $adminforum = 1;
     } else {
-        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . $NPDS_Prefix . "authors a LEFT JOIN " . $NPDS_Prefix . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . $NPDS_Prefix . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
+        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('') . "authors a LEFT JOIN " . sql_prefix('') . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
         if (sql_num_rows($R) >= 1) $adminforum = 1;
     }
 }
 //<== droits des admin sur les forums (superadmin et admin avec droit gestion forum)
 
 
-$rowQ1 = Q_Select("SELECT forum_id FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id='$topic'", 3600);
+$rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
 $forum = $myrow['forum_id'];
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
@@ -92,7 +92,7 @@ if (isset($user)) {
         }
     }
 }
-$sql = "SELECT topic_title, topic_status, topic_poster FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic'";
+$sql = "SELECT topic_title, topic_status, topic_poster FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
 $total = get_total_posts($forum, $topic, "topic", $Mmod);
 if ($total > $posts_per_page) {
     $times = 0;
@@ -277,9 +277,9 @@ if (isset($start)) {
             $start = 0;
         };
     }
-    $sql = "SELECT * FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id LIMIT $start, $posts_per_page";
+    $sql = "SELECT * FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id LIMIT $start, $posts_per_page";
 } else
-    $sql = "SELECT * FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id LIMIT $start, $posts_per_page";
+    $sql = "SELECT * FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND forum_id='$forum'" . $post_aff . "ORDER BY post_id LIMIT $start, $posts_per_page";
 
 if (!$result = sql_query($sql))
     forumerror('0001');
@@ -299,15 +299,15 @@ if ($allow_upload_forum) {
 // Forum Read
 if (isset($user)) {
     $time_actu = time() + ((int)$gmt * 3600);
-    $sqlR = "SELECT last_read FROM " . $NPDS_Prefix . "forum_read WHERE forum_id='$forum' AND uid='$userdata[0]' AND topicid='$topic'";
+    $sqlR = "SELECT last_read FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum' AND uid='$userdata[0]' AND topicid='$topic'";
     $result_LR = sql_query($sqlR);
     $last_read = '';
     if (sql_num_rows($result_LR) == 0) {
-        $sqlR = "INSERT INTO " . $NPDS_Prefix . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum', '$topic', '$userdata[0]', '$time_actu', '1')";
+        $sqlR = "INSERT INTO " . sql_prefix('') . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum', '$topic', '$userdata[0]', '$time_actu', '1')";
         $resultR = sql_query($sqlR);
     } else {
         list($last_read) = sql_fetch_row($result_LR);
-        $sqlR = "UPDATE " . $NPDS_Prefix . "forum_read SET last_read='$time_actu', status='1' WHERE forum_id='$forum' AND uid='$userdata[0]' AND topicid='$topic'";
+        $sqlR = "UPDATE " . sql_prefix('') . "forum_read SET last_read='$time_actu', status='1' WHERE forum_id='$forum' AND uid='$userdata[0]' AND topicid='$topic'";
         $resultR = sql_query($sqlR);
     }
 }
@@ -525,7 +525,7 @@ do {
     $count++;
 } while ($myrow = sql_fetch_assoc($result));
 unset($tmp_imp);
-$sql = "UPDATE " . $NPDS_Prefix . "forumtopics SET topic_views = topic_views + 1 WHERE topic_id = '$topic'";
+$sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_views = topic_views + 1 WHERE topic_id = '$topic'";
 sql_query($sql);
 if ($total > $posts_per_page) {
     echo '
@@ -568,7 +568,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
          <select class="form-select" id="forumjump" name="forum" onchange="submit();">
             <option value="index">' . translate("Sauter à : ") . '</option>
             <option value="index">' . translate("Index du forum") . '</option>';
-    $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass FROM " . $NPDS_Prefix . "forums ORDER BY cat_id,forum_index,forum_id";
+    $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass FROM " . sql_prefix('') . "forums ORDER BY cat_id,forum_index,forum_id";
     if ($res = sql_query($sub_sql)) {
         while (list($forum_id, $forum_name, $forum_type, $forum_pass) = sql_fetch_row($res)) {
             if (($forum_type != '9') or ($userdata)) {

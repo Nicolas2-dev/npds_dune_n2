@@ -32,12 +32,12 @@ else {
     settype($dossier, 'string');
 
     if ($type == 'outbox')
-        $sql = "SELECT * FROM " . $NPDS_Prefix . "priv_msgs WHERE from_userid='" . $userdata['uid'] . "' AND type_msg='1' ORDER BY msg_id DESC LIMIT $start,1";
+        $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE from_userid='" . $userdata['uid'] . "' AND type_msg='1' ORDER BY msg_id DESC LIMIT $start,1";
     else {
         if ($dossier == 'All') $ibid = '';
         else $ibid = "AND dossier='$dossier'";
         if (!$dossier) $ibid = "AND dossier='...'";
-        $sql = "SELECT * FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' $ibid ORDER BY msg_id DESC LIMIT $start,1";
+        $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' $ibid ORDER BY msg_id DESC LIMIT $start,1";
     }
     $resultID = sql_query($sql);
     if (!$resultID)
@@ -45,7 +45,7 @@ else {
     else {
         $myrow = sql_fetch_assoc($resultID);
         if ($myrow['read_msg'] != '1') {
-            $sql = "UPDATE " . $NPDS_Prefix . "priv_msgs SET read_msg='1' WHERE msg_id='" . $myrow['msg_id'] . "'";
+            $sql = "UPDATE " . sql_prefix('') . "priv_msgs SET read_msg='1' WHERE msg_id='" . $myrow['msg_id'] . "'";
             $result = sql_query($sql);
             if (!$result)
                 forumerror('0005');
@@ -219,7 +219,7 @@ else {
       </ul>';
 
         if ($type != 'outbox') {
-            $sql = "SELECT DISTINCT dossier FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' ORDER BY dossier";
+            $sql = "SELECT DISTINCT dossier FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' ORDER BY dossier";
             $result = sql_query($sql);
             echo '
       <div class="collapse" id="sortbox">

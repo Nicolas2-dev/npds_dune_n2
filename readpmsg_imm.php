@@ -33,7 +33,7 @@ function cache_ctrl()
 function show_imm($op)
 {
     global $smilies, $user, $allow_bbcode, $language, $Default_Theme, $Default_Skin, $theme, $short_user, $Titlesitename;
-    global $NPDS_Prefix;
+    global sql_prefix('');
     if (!$user)
         Header("Location: user.php");
     else {
@@ -53,8 +53,8 @@ function show_imm($op)
         include("themes/$theme/theme.php");
         $userdata = get_userdata($userdata[1]);
         $sql = ($op != 'new_msg') ?
-            "SELECT * FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid = '" . $userdata['uid'] . "' AND read_msg='1' AND type_msg='0' AND dossier='...' ORDER BY msg_id DESC" :
-            "SELECT * FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid = '" . $userdata['uid'] . "' AND read_msg='0' AND type_msg='0' ORDER BY msg_id ASC";
+            "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '" . $userdata['uid'] . "' AND read_msg='1' AND type_msg='0' AND dossier='...' ORDER BY msg_id DESC" :
+            "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '" . $userdata['uid'] . "' AND read_msg='0' AND type_msg='0' ORDER BY msg_id ASC";
         $result = sql_query($sql);
         $pasfin = false;
         while ($myrow = sql_fetch_assoc($result)) {
@@ -143,11 +143,11 @@ function show_imm($op)
 
 function sup_imm($msg_id)
 {
-    global $cookie, $NPDS_Prefix;
+    global $cookie, sql_prefix('');
     if (!$cookie)
         Header("Location: user.php");
     else {
-        $sql = "DELETE FROM " . $NPDS_Prefix . "priv_msgs WHERE msg_id='$msg_id' AND to_userid='$cookie[0]'";
+        $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='$msg_id' AND to_userid='$cookie[0]'";
         if (!sql_query($sql))
             forumerror('0021');
     }
@@ -155,11 +155,11 @@ function sup_imm($msg_id)
 
 function read_imm($msg_id, $sub_op)
 {
-    global $cookie, $NPDS_Prefix;
+    global $cookie, sql_prefix('');
     if (!$cookie)
         Header("Location: user.php");
     else {
-        $sql = "UPDATE " . $NPDS_Prefix . "priv_msgs SET read_msg='1' WHERE msg_id='$msg_id' AND to_userid='$cookie[0]'";
+        $sql = "UPDATE " . sql_prefix('') . "priv_msgs SET read_msg='1' WHERE msg_id='$msg_id' AND to_userid='$cookie[0]'";
         if (!sql_query($sql))
             forumerror('0021');
         if ($sub_op == 'reply') {

@@ -69,7 +69,7 @@ switch ($acc) {
     case 'editpost':
         $userdata = get_userdata($userdata[1]);
         settype($post_id, "integer");
-        $sql = "SELECT poster_id, topic_id FROM " . $NPDS_Prefix . "posts WHERE (post_id = '$post_id')";
+        $sql = "SELECT poster_id, topic_id FROM " . sql_prefix('') . "posts WHERE (post_id = '$post_id')";
         $result = sql_query($sql);
         if (!$result)
             forumerror('0022');
@@ -78,7 +78,7 @@ switch ($acc) {
         $userdata['uid'] = $row2['poster_id'];
         // IF we made it this far we are allowed to edit this message
         settype($forum, "integer");
-        $myrow2 = sql_fetch_assoc(sql_query("SELECT forum_type FROM " . $NPDS_Prefix . "forums WHERE (forum_id = '$forum')"));
+        $myrow2 = sql_fetch_assoc(sql_query("SELECT forum_type FROM " . sql_prefix('') . "forums WHERE (forum_id = '$forum')"));
         $forum_type = $myrow2['forum_type'];
 
         if ($allow_html == 0 || isset($html))

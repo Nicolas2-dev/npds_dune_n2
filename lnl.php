@@ -17,7 +17,7 @@ if (!function_exists("Mysql_Connexion"))
 
 function SuserCheck($email)
 {
-    global $NPDS_Prefix, $stop;
+    global sql_prefix(''), $stop;
     include_once('functions.php');
     $stop = '';
     if ((!$email) || ($email == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email)))
@@ -26,11 +26,11 @@ function SuserCheck($email)
         $stop = translate("Erreur : une adresse Email ne peut pas contenir d'espaces");
     if (checkdnsmail($email) === false)
         $stop = translate("Erreur : DNS ou serveur de mail incorrect");
-    if (sql_num_rows(sql_query("SELECT email FROM " . $NPDS_Prefix . "users WHERE email='$email'")) > 0)
+    if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE email='$email'")) > 0)
         $stop = translate("Erreur : adresse Email déjà utilisée");
-    if (sql_num_rows(sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users WHERE email='$email'")) > 0) {
-        if (sql_num_rows(sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users WHERE email='$email' AND status='NOK'")) > 0)
-            sql_query("DELETE FROM " . $NPDS_Prefix . "lnl_outside_users WHERE email='$email'");
+    if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "lnl_outside_users WHERE email='$email'")) > 0) {
+        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "lnl_outside_users WHERE email='$email' AND status='NOK'")) > 0)
+            sql_query("DELETE FROM " . sql_prefix('') . "lnl_outside_users WHERE email='$email'");
         else
             $stop = translate("Erreur : adresse Email déjà utilisée");
     }
@@ -69,7 +69,7 @@ function subscribe($var)
 
 function subscribe_ok($xemail)
 {
-    global $NPDS_Prefix, $stop;
+    global sql_prefix(''), $stop;
 
     include("header.php");
     if ($xemail != '') {
@@ -78,9 +78,9 @@ function subscribe_ok($xemail)
             $host_name = getip();
             $timeX = date("Y-m-d H:m:s", time());
             // Troll Control
-            list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . $NPDS_Prefix . "lnl_outside_users WHERE (host_name='$host_name') AND (to_days(now()) - to_days(date) < 3)"));
+            list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . sql_prefix('') . "lnl_outside_users WHERE (host_name='$host_name') AND (to_days(now()) - to_days(date) < 3)"));
             if ($troll < 6) {
-                sql_query("INSERT INTO " . $NPDS_Prefix . "lnl_outside_users VALUES ('$xemail', '$host_name', '$timeX', 'OK')");
+                sql_query("INSERT INTO " . sql_prefix('') . "lnl_outside_users VALUES ('$xemail', '$host_name', '$timeX', 'OK')");
                 // Email validation + url to unsubscribe
                 global $sitename, $nuke_url;
                 $subject = html_entity_decode(translate("La lettre"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' / ' . $sitename;
@@ -103,17 +103,17 @@ function subscribe_ok($xemail)
 
 function unsubscribe($xemail)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
 
     if ($xemail != '') {
         if ((!$xemail) || ($xemail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $xemail))) header("location: index.php");
         if (strrpos($xemail, ' ') > 0) header("location: index.php");
-        if (sql_num_rows(sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users WHERE email='$xemail'")) > 0) {
+        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "lnl_outside_users WHERE email='$xemail'")) > 0) {
             $host_name = getip();
             // Troll Control
-            list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . $NPDS_Prefix . "lnl_outside_users WHERE (host_name='$host_name') AND (to_days(now()) - to_days(date) < 3)"));
+            list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . sql_prefix('') . "lnl_outside_users WHERE (host_name='$host_name') AND (to_days(now()) - to_days(date) < 3)"));
             if ($troll < 6) {
-                sql_query("UPDATE " . $NPDS_Prefix . "lnl_outside_users SET status='NOK' WHERE email='$xemail'");
+                sql_query("UPDATE " . sql_prefix('') . "lnl_outside_users SET status='NOK' WHERE email='$xemail'");
                 include("header.php");
                 echo '
             <div class="alert alert-success">' . translate("Merci") . '</div>

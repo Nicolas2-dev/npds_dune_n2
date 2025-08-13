@@ -20,23 +20,23 @@ $f_titre = adm_translate("Petite Lettre D'information");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
-global $language, $NPDS_Prefix;
+global $language, sql_prefix('');
 $hlpfile = "manuels/$language/lnl.html";
 
 $rowH = array();
-$result = sql_query("SELECT ref, text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='HED' ORDER BY ref ");
+$result = sql_query("SELECT ref, text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='HED' ORDER BY ref ");
 while ($row = sql_fetch_assoc($result)) {
    $rowH[] = $row;
 }
 sql_free_result($result);
 $rowB = array();
-$result = sql_query("SELECT ref, text, html FROM " . $NPDS_Prefix . "lnl_body ORDER BY ref ");
+$result = sql_query("SELECT ref, text, html FROM " . sql_prefix('') . "lnl_body ORDER BY ref ");
 while ($row = sql_fetch_assoc($result)) {
    $rowB[] = $row;
 }
 sql_free_result($result);
 $rowF = array();
-$result = sql_query("SELECT ref, text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='FOT' ORDER BY ref ");
+$result = sql_query("SELECT ref, text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='FOT' ORDER BY ref ");
 while ($row = sql_fetch_assoc($result)) {
    $rowF[] = $row;
 }
@@ -76,12 +76,12 @@ function ShowHeader()
 
 function Detail_Header_Footer($ibid, $type)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    // $type = HED or FOT
-   $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='$type' AND ref='$ibid'");
+   $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='$type' AND ref='$ibid'");
    $tmp = sql_fetch_row($result);
    sql_free_result($result);
    echo '
@@ -162,14 +162,14 @@ function ShowBody()
 
 function Detail_Body($ibid)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
    <h3 class="mb-2">' . adm_translate("Corps de message") . ' - ';
-   $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_body WHERE ref='$ibid'");
+   $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_body WHERE ref='$ibid'");
    $tmp = sql_fetch_row($result);
    if ($tmp[1] == 1)
       echo adm_translate("Prévisualiser") . ' <code>HTML</code></h3>
@@ -256,8 +256,8 @@ function Add_Body()
 
 function Add_Body_Submit($Ytext, $Yhtml)
 {
-   global $NPDS_Prefix;
-   sql_query("INSERT INTO " . $NPDS_Prefix . "lnl_body VALUES ('0', '$Yhtml', '$Ytext', 'OK')");
+   global sql_prefix('');
+   sql_query("INSERT INTO " . sql_prefix('') . "lnl_body VALUES ('0', '$Yhtml', '$Ytext', 'OK')");
 }
 
 function ShowFooter()
@@ -354,11 +354,11 @@ function Add_Header_Footer($ibid)
 
 function Add_Header_Footer_Submit($ibid, $xtext, $xhtml)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($ibid == "HED")
-      sql_query("INSERT INTO " . $NPDS_Prefix . "lnl_head_foot VALUES ('0', 'HED','$xhtml', '$xtext', 'OK')");
+      sql_query("INSERT INTO " . sql_prefix('') . "lnl_head_foot VALUES ('0', 'HED','$xhtml', '$xtext', 'OK')");
    else
-      sql_query("INSERT INTO " . $NPDS_Prefix . "lnl_head_foot VALUES ('0', 'FOT', '$xhtml', '$xtext', 'OK')");
+      sql_query("INSERT INTO " . sql_prefix('') . "lnl_head_foot VALUES ('0', 'FOT', '$xhtml', '$xtext', 'OK')");
 }
 
 function main()
@@ -550,15 +550,15 @@ function Del_Question($retour, $param)
 
 function Test($Yheader, $Ybody, $Yfooter)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='HED' AND ref='$Yheader'");
+   $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='HED' AND ref='$Yheader'");
    $Xheader = sql_fetch_row($result);
-   $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_body WHERE html='$Xheader[1]' AND ref='$Ybody'");
+   $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_body WHERE html='$Xheader[1]' AND ref='$Ybody'");
    $Xbody = sql_fetch_row($result);
-   $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='FOT' AND html='$Xheader[1]' AND ref='$Yfooter'");
+   $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='FOT' AND html='$Xheader[1]' AND ref='$Yfooter'");
    $Xfooter = sql_fetch_row($result);
    // For Meta-Lang
    /* celà génère une erreur dans certains cas
@@ -590,11 +590,11 @@ function Test($Yheader, $Ybody, $Yfooter)
 
 function lnl_list()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT ref, header , body, footer, number_send, type_send, date, status FROM " . $NPDS_Prefix . "lnl_send ORDER BY date");
+   $result = sql_query("SELECT ref, header , body, footer, number_send, type_send, date, status FROM " . sql_prefix('') . "lnl_send ORDER BY date");
 
    echo '
    <hr />
@@ -656,11 +656,11 @@ function lnl_list()
 
 function lnl_user_list()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT email, date, status FROM " . $NPDS_Prefix . "lnl_outside_users ORDER BY date");
+   $result = sql_query("SELECT email, date, status FROM " . sql_prefix('') . "lnl_outside_users ORDER BY date");
    $nb_prospect = $result ? sql_num_rows($result) : '';
    echo '
    <hr />
@@ -709,15 +709,15 @@ switch ($op) {
       Del_Question("lnl_Sup_FooterOK", "Footerid=$Footerid");
       break;
    case "Sup_HeaderOK":
-      sql_query("DELETE FROM " . $NPDS_Prefix . "lnl_head_foot WHERE ref='$Headerid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "lnl_head_foot WHERE ref='$Headerid'");
       header("location: admin.php?op=lnl");
       break;
    case "Sup_BodyOK":
-      sql_query("DELETE FROM " . $NPDS_Prefix . "lnl_body WHERE ref='$Bodyid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "lnl_body WHERE ref='$Bodyid'");
       header("location: admin.php?op=lnl");
       break;
    case "Sup_FooterOK":
-      sql_query("DELETE FROM " . $NPDS_Prefix . "lnl_head_foot WHERE ref='$Footerid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "lnl_head_foot WHERE ref='$Footerid'");
       header("location: admin.php?op=lnl");
       break;
    case "Shw_Header":
@@ -738,7 +738,7 @@ switch ($op) {
       header("location: admin.php?op=lnl");
       break;
    case "Add_Header_Mod":
-      sql_query("UPDATE " . $NPDS_Prefix . "lnl_head_foot SET text='$xtext' WHERE ref='$ref'");
+      sql_query("UPDATE " . sql_prefix('') . "lnl_head_foot SET text='$xtext' WHERE ref='$ref'");
       header("location: admin.php?op=lnl_Shw_Header&Headerid=$ref");
       break;
 
@@ -750,7 +750,7 @@ switch ($op) {
       header("location: admin.php?op=lnl");
       break;
    case "Add_Body_Mod":
-      sql_query("UPDATE " . $NPDS_Prefix . "lnl_body SET text='$xtext' WHERE ref='$ref'");
+      sql_query("UPDATE " . sql_prefix('') . "lnl_body SET text='$xtext' WHERE ref='$ref'");
       header("location: admin.php?op=lnl_Shw_Body&Bodyid=$ref");
       break;
 
@@ -762,7 +762,7 @@ switch ($op) {
       header("location: admin.php?op=lnl");
       break;
    case "Add_Footer_Mod":
-      sql_query("UPDATE " . $NPDS_Prefix . "lnl_head_foot SET text='$xtext' WHERE ref='$ref'");
+      sql_query("UPDATE " . sql_prefix('') . "lnl_head_foot SET text='$xtext' WHERE ref='$ref'");
       header("location: admin.php?op=lnl_Shw_Footer&Footerid=$ref");
       break;
 
@@ -777,7 +777,7 @@ switch ($op) {
       lnl_user_list();
       break;
    case "Sup_User":
-      sql_query("DELETE FROM " . $NPDS_Prefix . "lnl_outside_users WHERE email='$lnl_user_email'");
+      sql_query("DELETE FROM " . sql_prefix('') . "lnl_outside_users WHERE email='$lnl_user_email'");
       header("location: admin.php?op=lnl_User_List");
       break;
 
@@ -788,11 +788,11 @@ switch ($op) {
       if (!isset($number_send)) $number_send = 0;
 
       global $nuke_url;
-      $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='HED' AND ref='$Xheader'");
+      $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='HED' AND ref='$Xheader'");
       $Yheader = sql_fetch_row($result);
-      $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_body WHERE html='$Yheader[1]' AND ref='$Xbody'");
+      $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_body WHERE html='$Yheader[1]' AND ref='$Xbody'");
       $Ybody = sql_fetch_row($result);
-      $result = sql_query("SELECT text, html FROM " . $NPDS_Prefix . "lnl_head_foot WHERE type='FOT' AND html='$Yheader[1]' AND ref='$Xfooter'");
+      $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='FOT' AND html='$Yheader[1]' AND ref='$Xfooter'");
       $Yfooter = sql_fetch_row($result);
       $subject = stripslashes($Xsubject);
       if (!isset($Yheader[0]) or !isset($Ybody[0]) or !isset($Yfooter[0])) {
@@ -811,9 +811,9 @@ switch ($op) {
 
       // Outside Users
       if ($Xtype == "Out") {
-         $mysql_result = sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users WHERE status='OK'");
+         $mysql_result = sql_query("SELECT email FROM " . sql_prefix('') . "lnl_outside_users WHERE status='OK'");
          $nrows = sql_num_rows($mysql_result);
-         $result = sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users WHERE status='OK' ORDER BY email limit $debut,$limit");
+         $result = sql_query("SELECT email FROM " . sql_prefix('') . "lnl_outside_users WHERE status='OK' ORDER BY email limit $debut,$limit");
          while (list($email) = sql_fetch_row($result)) {
             if (($email != "Anonyme") or ($email != "Anonymous")) {
                if ($email != '') {
@@ -835,9 +835,9 @@ switch ($op) {
       // NPDS Users
       if ($Xtype == 'Mbr') {
          if ($Xgroupe != '') {
-            $mysql_result = sql_query("SELECT u.uid FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND (s.groupe LIKE '%$Xgroupe,%' OR s.groupe LIKE '%,$Xgroupe' OR s.groupe='$Xgroupe') AND u.user_lnl='1'");
+            $mysql_result = sql_query("SELECT u.uid FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND (s.groupe LIKE '%$Xgroupe,%' OR s.groupe LIKE '%,$Xgroupe' OR s.groupe='$Xgroupe') AND u.user_lnl='1'");
             $nrows = sql_num_rows($mysql_result);
-            $resultGP = sql_query("SELECT u.email, u.uid, s.groupe FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND (s.groupe LIKE '%$Xgroupe,%' OR s.groupe LIKE '%,$Xgroupe' OR s.groupe='$Xgroupe') AND u.user_lnl='1' ORDER BY u.email LIMIT $debut,$limit");
+            $resultGP = sql_query("SELECT u.email, u.uid, s.groupe FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND (s.groupe LIKE '%$Xgroupe,%' OR s.groupe LIKE '%,$Xgroupe' OR s.groupe='$Xgroupe') AND u.user_lnl='1' ORDER BY u.email LIMIT $debut,$limit");
             $result = array();
             while (list($email, $uid, $groupe) = sql_fetch_row($resultGP)) {
                $re = "#^$Xgroupe{1}|,$Xgroupe,{1}|,$Xgroupe$#";
@@ -846,9 +846,9 @@ switch ($op) {
             }
             $boucle = true;
          } else {
-            $mysql_result = sql_query("SELECT u.uid FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND u.user_lnl='1'");
+            $mysql_result = sql_query("SELECT u.uid FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.email!='' AND u.user_lnl='1'");
             $nrows = sql_num_rows($mysql_result);
-            $query = sql_query("SELECT u.uid, u.email FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.user_lnl='1' ORDER BY email LIMIT $debut,$limit");
+            $query = sql_query("SELECT u.uid, u.email FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "users_status s WHERE s.open='1' AND u.uid=s.uid AND u.user_lnl='1' ORDER BY email LIMIT $debut,$limit");
             $result = array();
             while (list($uid, $email) = sql_fetch_row($query)) {
                $result[] = $email;
@@ -877,7 +877,7 @@ switch ($op) {
                $timeX = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
                if ($OXtype == "All") $Xtype = "All";
                if (($Xtype == "Mbr") and ($Xgroupe != "")) $Xtype = $Xgroupe;
-               sql_query("INSERT INTO " . $NPDS_Prefix . "lnl_send VALUES ('0', '$Xheader', '$Xbody', '$Xfooter', '$number_send', '$Xtype', '$timeX', 'OK')");
+               sql_query("INSERT INTO " . sql_prefix('') . "lnl_send VALUES ('0', '$Xheader', '$Xbody', '$Xfooter', '$number_send', '$Xtype', '$timeX', 'OK')");
             }
             header("location: admin.php?op=lnl");
             break;
@@ -886,7 +886,7 @@ switch ($op) {
                $chartmp = "$Xtype : $nrows / $nrows";
                $deb = 0;
                $Xtype = "Mbr";
-               $mysql_result = sql_query("SELECT u.uid FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "users_status s WHERE s.open='1' and u.uid=s.uid and u.email!='' and u.user_lnl='1'");
+               $mysql_result = sql_query("SELECT u.uid FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "users_status s WHERE s.open='1' and u.uid=s.uid and u.email!='' and u.user_lnl='1'");
                $nrows = sql_num_rows($mysql_result);
             }
          }

@@ -47,15 +47,15 @@ while (false !== ($file = readdir($handle))) {
 closedir($handle);
 $modlist = explode(' ', rtrim($modlist));
 
-$whatondb = sql_query("SELECT mnom FROM " . $NPDS_Prefix . "modules");
+$whatondb = sql_query("SELECT mnom FROM " . sql_prefix('') . "modules");
 while ($row = sql_fetch_row($whatondb)) {
-   if (!in_array($row[0], $modlist)) sql_query("DELETE FROM " . $NPDS_Prefix . "modules WHERE mnom='" . $row[0] . "'");
+   if (!in_array($row[0], $modlist)) sql_query("DELETE FROM " . sql_prefix('') . "modules WHERE mnom='" . $row[0] . "'");
 }
 foreach ($modlist as $value) {
-   $queryexiste = sql_query("SELECT mnom FROM " . $NPDS_Prefix . "modules WHERE mnom='" . $value . "'");
+   $queryexiste = sql_query("SELECT mnom FROM " . sql_prefix('') . "modules WHERE mnom='" . $value . "'");
    $moexiste = sql_num_rows($queryexiste);
    if ($moexiste !== 1)
-      sql_query("INSERT INTO " . $NPDS_Prefix . "modules VALUES (NULL, '" . $value . "', '0')");
+      sql_query("INSERT INTO " . sql_prefix('') . "modules VALUES (NULL, '" . $value . "', '0')");
 }
 
 adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -72,7 +72,7 @@ echo '
       </thead>
       <tbody>';
 
-$result = sql_query("SELECT * FROM " . $NPDS_Prefix . "modules ORDER BY mid");
+$result = sql_query("SELECT * FROM " . sql_prefix('') . "modules ORDER BY mid");
 while ($row = sql_fetch_assoc($result)) {
    $icomod = '';
    $clatd = '';

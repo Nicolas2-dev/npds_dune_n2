@@ -25,7 +25,7 @@ if (isset($gr_from_ws) and ($gr_from_ws != 0)) {
     $uid_from_ws = "^(";
     global $dblink;
     $mysql_version = mysqli_get_server_info($dblink);
-    $query = "SELECT uid, groupe FROM " . $NPDS_Prefix . "users_status WHERE ";
+    $query = "SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE ";
     $query .= (version_compare($mysql_version, '8.0.4', '>=')) ?
         "groupe REGEXP '\\\\b$gr_from_ws\\\\b'" :
         "groupe REGEXP '[[:<:]]" . $gr_from_ws . "[[:>:]]'";
@@ -163,7 +163,7 @@ if (isset($list)) {
     $list = urlencode(implode(',', $tempo));
 }
 
-$result = sql_query("SELECT u.uname, u.user_avatar FROM " . $NPDS_Prefix . "users AS u LEFT JOIN " . $NPDS_Prefix . "users_status AS us ON u.uid = us.uid where us.open='1' ORDER BY u.uid DESC LIMIT 0,1");
+$result = sql_query("SELECT u.uname, u.user_avatar FROM " . sql_prefix('') . "users AS u LEFT JOIN " . sql_prefix('') . "users_status AS us ON u.uid = us.uid where us.open='1' ORDER BY u.uid DESC LIMIT 0,1");
 list($lastuser, $lastava) = sql_fetch_row($result);
 
 echo '
@@ -201,8 +201,8 @@ $min = $pagesize * ($page - 1);
 $max = $pagesize;
 $ws_req = '';
 if (isset($uid_from_ws) and ($uid_from_ws != '')) $ws_req = 'WHERE uid REGEXP \'' . $uid_from_ws . '\' ';
-$count = "SELECT COUNT(uid) AS total FROM " . $NPDS_Prefix . "users ";
-$select = "SELECT uid, name, uname, femail, url, user_regdate, user_from, email, is_visible, user_viewemail, user_avatar, mns, user_lastvisit FROM " . $NPDS_Prefix . "users ";
+$count = "SELECT COUNT(uid) AS total FROM " . sql_prefix('') . "users ";
+$select = "SELECT uid, name, uname, femail, url, user_regdate, user_from, email, is_visible, user_viewemail, user_avatar, mns, user_lastvisit FROM " . sql_prefix('') . "users ";
 if (($letter != translate("Autres")) and ($letter != translate("Tous"))) {
     if ($admin and (preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $letter)))
         $where = "WHERE uname LIKE '" . $letter . "%' OR email LIKE '%" . strtolower($letter) . "%'" . str_replace('WHERE', ' AND', $ws_req);
@@ -307,7 +307,7 @@ if ($letter != 'front') {
                 if ($posterdata_extend[$ch_lat] != '')
                     $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&op=u' . $temp_user['uid'] . '" title="' . translate("Localisation") . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Localisation") . '</span></a>';
             }
-            $op_result = sql_query("SELECT open FROM " . $NPDS_Prefix . "users_status WHERE uid='" . $temp_user['uid'] . "'");
+            $op_result = sql_query("SELECT open FROM " . sql_prefix('') . "users_status WHERE uid='" . $temp_user['uid'] . "'");
             list($open_user) = sql_fetch_row($op_result);
             $clconnect = '';
             if (($open_user == 1 and $user) || ($admin)) {

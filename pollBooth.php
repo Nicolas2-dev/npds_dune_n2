@@ -23,13 +23,13 @@ $al_nom = 'Poll';
 // ----------------------------------------------------------------------------
 function pollCollector($pollID, $voteID, $forwarder)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
     if ($voteID) {
         global $setCookies, $al_id, $al_nom, $dns_verif;
         $voteValid = "1";
-        $result = sql_query("SELECT timeStamp FROM " . $NPDS_Prefix . "poll_desc WHERE pollID='$pollID'");
+        $result = sql_query("SELECT timeStamp FROM " . sql_prefix('') . "poll_desc WHERE pollID='$pollID'");
         list($timeStamp) = sql_fetch_row($result);
-        $cookieName = 'poll' . $NPDS_Prefix . $timeStamp;
+        $cookieName = 'poll' . sql_prefix('') . $timeStamp;
         global $$cookieName;
         if ($$cookieName == "1")
             $voteValid = "0";
@@ -46,16 +46,16 @@ function pollCollector($pollID, $voteID, $forwarder)
         if ($setCookies == "1") {
             $ip = getip();
             $hostname = ($dns_verif) ? "OR al_hostname='" . gethostbyaddr($ip) . "' " : '';
-            $sql = "SELECT al_id FROM " . $NPDS_Prefix . "appli_log WHERE al_id='$al_id' AND al_subid='$pollID' AND (al_ip='$ip' " . $hostname . $user_req . ")";
+            $sql = "SELECT al_id FROM " . sql_prefix('') . "appli_log WHERE al_id='$al_id' AND al_subid='$pollID' AND (al_ip='$ip' " . $hostname . $user_req . ")";
             if ($result = sql_fetch_row(sql_query($sql)))
                 $voteValid = "0";
         }
         if ($voteValid == "1") {
             $ip = getip();
             $hostname = $dns_verif ? gethostbyaddr($ip) : '';
-            sql_query("INSERT INTO " . $NPDS_Prefix . "appli_log (al_id, al_name, al_subid, al_date, al_uid, al_data, al_ip, al_hostname) VALUES ('$al_id', '$al_nom', '$pollID', now(), '$cookie[0]', '$voteID', '$ip', '$hostname')");
-            sql_query("UPDATE " . $NPDS_Prefix . "poll_data SET optionCount=optionCount+1 WHERE (pollID='$pollID') AND (voteID='$voteID')");
-            sql_query("UPDATE " . $NPDS_Prefix . "poll_desc SET voters=voters+1 WHERE pollID='$pollID'");
+            sql_query("INSERT INTO " . sql_prefix('') . "appli_log (al_id, al_name, al_subid, al_date, al_uid, al_data, al_ip, al_hostname) VALUES ('$al_id', '$al_nom', '$pollID', now(), '$cookie[0]', '$voteID', '$ip', '$hostname')");
+            sql_query("UPDATE " . sql_prefix('') . "poll_data SET optionCount=optionCount+1 WHERE (pollID='$pollID') AND (voteID='$voteID')");
+            sql_query("UPDATE " . sql_prefix('') . "poll_desc SET voters=voters+1 WHERE pollID='$pollID'");
         }
     }
     Header("Location: $forwarder");
@@ -63,8 +63,8 @@ function pollCollector($pollID, $voteID, $forwarder)
 
 function pollList()
 {
-    global $NPDS_Prefix;
-    $result = sql_query("SELECT pollID, pollTitle, voters FROM " . $NPDS_Prefix . "poll_desc ORDER BY timeStamp DESC");
+    global sql_prefix('');
+    $result = sql_query("SELECT pollID, pollTitle, voters FROM " . sql_prefix('') . "poll_desc ORDER BY timeStamp DESC");
     echo '
    <h2 class="mb-3">' . translate("Sondage") . '</h2>
    <hr />
@@ -73,7 +73,7 @@ function pollList()
         $id = $object['pollID'];
         $pollTitle = $object['pollTitle'];
         $voters = $object['voters'];
-        $result2 = sql_query("SELECT SUM(optionCount) AS SUM FROM " . $NPDS_Prefix . "poll_data WHERE pollID='$id'");
+        $result2 = sql_query("SELECT SUM(optionCount) AS SUM FROM " . sql_prefix('') . "poll_data WHERE pollID='$id'");
         list($sum) = sql_fetch_row($result2);
         echo '
       <div class="col-sm-8">' . aff_langue($pollTitle) . '</div>
@@ -85,20 +85,20 @@ function pollList()
 
 function pollResults(int $pollID): void
 {
-    global $NPDS_Prefix, $maxOptions, $setCookies;
+    global sql_prefix(''), $maxOptions, $setCookies;
 
     if (!isset($pollID) or empty($pollID)) $pollID = 1;
-    $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . $NPDS_Prefix . "poll_desc WHERE pollID='$pollID'");
+    $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . sql_prefix('') . "poll_desc WHERE pollID='$pollID'");
     list(, $pollTitle) = sql_fetch_row($result);
 
     echo '
    <h3 class="my-3">' . $pollTitle . '</h3>';
-    $result = sql_query("SELECT SUM(optionCount) AS SUM FROM " . $NPDS_Prefix . "poll_data WHERE pollID='$pollID'");
+    $result = sql_query("SELECT SUM(optionCount) AS SUM FROM " . sql_prefix('') . "poll_data WHERE pollID='$pollID'");
     list($sum) = sql_fetch_row($result);
     echo '
    <h4><span class="badge bg-secondary">' . $sum . '</span>&nbsp;' . translate("Résultats") . '</h4>';
     for ($i = 1; $i <= $maxOptions; $i++) {
-        $result = sql_query("SELECT optionText, optionCount, voteID FROM " . $NPDS_Prefix . "poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
+        $result = sql_query("SELECT optionText, optionCount, voteID FROM " . sql_prefix('') . "poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
         $object = sql_fetch_assoc($result);
         if (!is_null($object)) {
             $optionText = $object['optionText'];
@@ -135,21 +135,21 @@ function pollResults(int $pollID): void
 #autodoc pollboxbooth($pollID,$pollClose) : Construit le blocs sondages / code du mainfile avec autre présentation
 function pollboxbooth($pollID, $pollClose)
 {
-    global $NPDS_Prefix, $maxOptions, $boxTitle, $boxContent, $userimg, $language, $pollcomm;
+    global sql_prefix(''), $maxOptions, $boxTitle, $boxContent, $userimg, $language, $pollcomm;
     if (!isset($pollID)) $pollID = 1;
     if (!isset($url)) $url = sprintf("pollBooth.php?op=results&amp;pollID=%d", $pollID);
     $boxContent = '
    <form action="pollBooth.php" method="post">
       <input type="hidden" name="pollID" value="' . $pollID . '" />
       <input type="hidden" name="forwarder" value="' . $url . '" />';
-    $result = sql_query("SELECT pollTitle, voters FROM " . $NPDS_Prefix . "poll_desc WHERE pollID='$pollID'");
+    $result = sql_query("SELECT pollTitle, voters FROM " . sql_prefix('') . "poll_desc WHERE pollID='$pollID'");
     list($pollTitle, $voters) = sql_fetch_row($result);
     global $block_title;
     $boxTitle = $block_title == '' ? translate("Sondage") : $block_title;
     $boxContent .= '
          <h4>' . aff_langue($pollTitle) . '</h4>';
 
-    $result = sql_query("SELECT pollID, optionText, optionCount, voteID FROM " . $NPDS_Prefix . "poll_data WHERE (pollID='$pollID' AND optionText<>'') ORDER BY voteID");
+    $result = sql_query("SELECT pollID, optionText, optionCount, voteID FROM " . sql_prefix('') . "poll_data WHERE (pollID='$pollID' AND optionText<>'') ORDER BY voteID");
     $sum = 0;
     $j = 0;
     if (!$pollClose) {
@@ -184,7 +184,7 @@ function pollboxbooth($pollID, $pollClose)
     if ($pollcomm) {
         if (file_exists("modules/comments/pollBoth.conf.php"))
             include("modules/comments/pollBoth.conf.php");
-        list($numcom) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$pollID' AND post_aff='1'"));
+        list($numcom) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$pollID' AND post_aff='1'"));
         $boxContent .= '<li>' . translate("Votes : ") . ' ' . $sum . '</li><li>' . translate("Commentaire(s) : ") . ' ' . $numcom . '</li>';
     } else
         $boxContent .= '<li>' . translate("Votes : ") . ' ' . $sum . '</li>';

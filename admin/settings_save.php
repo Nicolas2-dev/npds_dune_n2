@@ -406,7 +406,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
    $content .= "# Do not touch the following options !\n";
    $content .= "$line";
    $content .= "\n";
-   $content .= "\$NPDS_Prefix = \"$NPDS_Prefix\";\n";
+   $content .= "\sql_prefix('') = \"sql_prefix('')\";\n";
    if ($NPDS_Key == '') $NPDS_Key = uniqid("");
    $content .= "\$NPDS_Key = \"$NPDS_Key\";\n";
    $content .= "\$Version_Num = \"v.16.8\";\n";

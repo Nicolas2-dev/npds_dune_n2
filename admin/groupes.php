@@ -33,15 +33,15 @@ if ($al) {
 
 function group_liste()
 {
-   global $hlpfile, $NPDS_Prefix, $al, $mes, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $al, $mes, $f_meta_nom, $f_titre, $adminimg;
 
    include('header.php');
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT uid, groupe FROM " . $NPDS_Prefix . "users_status WHERE groupe!='' ORDER BY uid ASC");
+   $result = sql_query("SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE groupe!='' ORDER BY uid ASC");
    $one_gp = false;
    $tab_groupeII = array();
    $tab_groupeIII = array();
-   $r = sql_query("SELECT groupe_id FROM " . $NPDS_Prefix . "groupes ORDER BY groupe_id ASC");
+   $r = sql_query("SELECT groupe_id FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
    while ($gl = sql_fetch_assoc($r)) {
       $tab_groupeII[$gl['groupe_id']] = '';
    }
@@ -129,7 +129,7 @@ function group_liste()
       sort($tab_groupeIII);
       foreach ($tab_groupeIII as $bidon => $gp) {
          $lst_user_json = '';
-         $result = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$gp'"));
+         $result = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('') . "groupes WHERE groupe_id='$gp'"));
          echo '
          <div id="bloc_gr_' . $gp . '" class="row border rounded ms-1 p-2 px-0 mb-2 w-100">
             <div class="col-lg-4 ">
@@ -152,7 +152,7 @@ function group_liste()
          echo '<ul id="lst_mb_gr_' . $gp . '" style ="display:none; padding-left:0px; -webkit-padding-start: 0px;">';
          foreach ($tab_groupe as $bidon => $uidX) {
             if ($uidX) {
-               list($uname, $user_avatar) = sql_fetch_row(sql_query("SELECT uname, user_avatar FROM " . $NPDS_Prefix . "users WHERE uid='$uidX'"));
+               list($uname, $user_avatar) = sql_fetch_row(sql_query("SELECT uname, user_avatar FROM " . sql_prefix('') . "users WHERE uid='$uidX'"));
                $lst_user_json .= $uname . ',';
                $lst_uid_json .= $uidX . ',';
                $lst_gr_json .= '\'mbgr_' . $gp . '\': { gp: \'' . $gp . '\'},';
@@ -186,7 +186,7 @@ function group_liste()
                //=>traitement moderateur
                if ($result['groupe_forum'] == 1) {
                   $pat = '#\b' . $uidX . '\b#';
-                  $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . $NPDS_Prefix . "forums f WHERE f.forum_pass='$gp'");
+                  $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . sql_prefix('') . "forums f WHERE f.forum_pass='$gp'");
                   while ($row = sql_fetch_row($res)) {
                      $ar_moder = explode(',', $row[2]);
                      $tmp_moder = $ar_moder;
@@ -256,7 +256,7 @@ function group_liste()
    }
 
    // groupes sans membre
-   $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM " . $NPDS_Prefix . "groupes ORDER BY groupe_id ASC");
+   $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
    while (list($gp, $gp_name, $gp_description) = sql_fetch_row($result)) {
       $gpA = true;
       if ($tab_groupeIII) {
@@ -331,10 +331,10 @@ function membre_add($gp)
 
 function membre_add_finish($groupe_id, $luname)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    include('powerpack_f.php');
    $image = '18.png';
-   $r = sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='" . $groupe_id . "'");
+   $r = sql_query("SELECT groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='" . $groupe_id . "'");
    list($gn) = sql_fetch_row($r);
    $luname = rtrim($luname, ', ');
    $luname = str_replace(' ', '', $luname);
@@ -347,11 +347,11 @@ function membre_add_finish($groupe_id, $luname)
 
    for ($j = 0; $j < $nbremembres; $j++) {
       $uname = $list_membres[$j];
-      $result1 = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='$uname'");
+      $result1 = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$uname'");
       $ibid = sql_fetch_assoc($result1);
       if ($ibid['uid']) {
          $to_userid = $uname;
-         $result2 = sql_query("SELECT groupe FROM " . $NPDS_Prefix . "users_status WHERE uid='" . $ibid['uid'] . "'");
+         $result2 = sql_query("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='" . $ibid['uid'] . "'");
          $ibid2 = sql_fetch_assoc($result2);
          $lesgroupes = explode(',', $ibid2['groupe']);
          $nbregroupes = count($lesgroupes);
@@ -366,7 +366,7 @@ function membre_add_finish($groupe_id, $luname)
          if (!$groupeexistedeja) {
             if ($ibid2['groupe']) $groupesmodif = $ibid2['groupe'] . ',' . $groupe_id;
             else $groupesmodif = $groupe_id;
-            $resultat = sql_query("UPDATE " . $NPDS_Prefix . "users_status SET groupe='$groupesmodif' WHERE uid='" . $ibid['uid'] . "'");
+            $resultat = sql_query("UPDATE " . sql_prefix('') . "users_status SET groupe='$groupesmodif' WHERE uid='" . $ibid['uid'] . "'");
          }
          writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie);
       }
@@ -378,17 +378,17 @@ function membre_add_finish($groupe_id, $luname)
 
 function retiredugroupe($groupe_id, $uid, $uname)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    include('powerpack_f.php');
    $image = '18.png';
-   $r = sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='" . $groupe_id . "'");
+   $r = sql_query("SELECT groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='" . $groupe_id . "'");
    list($gn) = sql_fetch_row($r);
 
    $pat = '#^\b' . $uid . '\b$#';
    $mes_sys = '';
    $q = '';
    $ok = 0;
-   $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . $NPDS_Prefix . "forums f WHERE f.forum_pass='$groupe_id' AND cat_id='-1'");
+   $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . sql_prefix('') . "forums f WHERE f.forum_pass='$groupe_id' AND cat_id='-1'");
    while ($row = sql_fetch_row($res)) {
       if (preg_match($pat, $row[2])) {
          $mes_sys = 'mod_' . $uname;
@@ -399,13 +399,13 @@ function retiredugroupe($groupe_id, $uid, $uname)
 
    if ($ok == 0) {
       $pat = '#\b' . $uid . '\b#';
-      $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . $NPDS_Prefix . "forums f WHERE f.forum_pass='$groupe_id' AND cat_id='-1'");
+      $res = sql_query("SELECT f.forum_id, f.forum_name, f.forum_moderator FROM " . sql_prefix('') . "forums f WHERE f.forum_pass='$groupe_id' AND cat_id='-1'");
       while ($r = sql_fetch_row($res)) {
          $new_moder = preg_replace('#,,#', ',', trim(preg_replace($pat, '', $r[2]), ','));
-         sql_query("UPDATE " . $NPDS_Prefix . "forums SET forum_moderator='$new_moder' WHERE forum_id='$r[0]'");
+         sql_query("UPDATE " . sql_prefix('') . "forums SET forum_moderator='$new_moder' WHERE forum_id='$r[0]'");
       };
 
-      $resultat = sql_query("SELECT groupe FROM " . $NPDS_Prefix . "users_status WHERE uid='$uid'");
+      $resultat = sql_query("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='$uid'");
       $subject = adm_translate('Nouvelles du groupe') . ' ' . $gn;
       $message = adm_translate('Vous ne faites plus partie des membres du groupe') . ' : ' . $gn . ' [' . $groupe_id . '].';
       $copie = '';
@@ -421,7 +421,7 @@ function retiredugroupe($groupe_id, $uid, $uname)
             else $groupesmodif .= ',' . $lesgroupes[$i];
          }
       }
-      $resultat = sql_query("UPDATE " . $NPDS_Prefix . "users_status SET groupe='$groupesmodif' WHERE uid='$uid'");
+      $resultat = sql_query("UPDATE " . sql_prefix('') . "users_status SET groupe='$groupesmodif' WHERE uid='$uid'");
       writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie);
       global $aid;
       Ecr_Log('security', "DeleteMemberToGroup($groupe_id, $uname) by AID : $aid", '');
@@ -431,12 +431,12 @@ function retiredugroupe($groupe_id, $uid, $uname)
 
 function retiredugroupe_all($groupe_id, $tab_groupe)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $tab_groupe = explode(',', $tab_groupe);
    foreach ($tab_groupe as $bidon => $uidZ) {
       if ($uidZ) {
          // a rajouter enlever modérateur forum
-         $resultat = sql_query("SELECT groupe FROM " . $NPDS_Prefix . "users_status WHERE uid='$uidZ'");
+         $resultat = sql_query("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='$uidZ'");
          $valeurs = sql_fetch_assoc($resultat);
          $lesgroupes = explode(',', $valeurs['groupe']);
          $nbregroupes = count($lesgroupes);
@@ -447,7 +447,7 @@ function retiredugroupe_all($groupe_id, $tab_groupe)
                else $groupesmodif .= ',' . $lesgroupes[$i];
             }
          }
-         $resultat = sql_query("UPDATE " . $NPDS_Prefix . "users_status SET groupe='$groupesmodif' WHERE uid='$uidZ'");
+         $resultat = sql_query("UPDATE " . sql_prefix('') . "users_status SET groupe='$groupesmodif' WHERE uid='$uidZ'");
          global $aid;
          Ecr_Log('security', "DeleteAllMemberToGroup($groupe_id, $uidZ) by AID : $aid", '');
       }
@@ -458,11 +458,11 @@ function retiredugroupe_all($groupe_id, $tab_groupe)
 // GROUPES
 function groupe_edit($groupe_id)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include('header.php');
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_fetch_assoc(sql_query("SELECT groupe_name, groupe_description FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$groupe_id'"));
+   $result = sql_fetch_assoc(sql_query("SELECT groupe_name, groupe_description FROM " . sql_prefix('') . "groupes WHERE groupe_id='$groupe_id'"));
    if ($groupe_id != 'groupe_add')
       echo '
       <hr />
@@ -518,15 +518,15 @@ function groupe_edit($groupe_id)
 }
 function groupe_maj($sub_op)
 {
-   global $hlpfile, $NPDS_Prefix, $groupe_id, $groupe_name, $groupe_description;
+   global $hlpfile, sql_prefix(''), $groupe_id, $groupe_name, $groupe_description;
 
    if ($sub_op == adm_translate("Sauver les modifications")) {
-      sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_name='$groupe_name', groupe_description='$groupe_description' WHERE groupe_id='$groupe_id'");
+      sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_name='$groupe_name', groupe_description='$groupe_description' WHERE groupe_id='$groupe_id'");
       global $aid;
       Ecr_Log("security", "UpdateGroup($groupe_id) by AID : $aid", '');
    }
    if ($sub_op == adm_translate("Supprimer")) {
-      $result = sql_query("SELECT uid, groupe FROM " . $NPDS_Prefix . "users_status WHERE groupe!='' ORDER BY uid ASC");
+      $result = sql_query("SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE groupe!='' ORDER BY uid ASC");
       $maj_ok = true;
       while (list($to_userid, $groupeX) = sql_fetch_row($result)) {
          $tab_groupe = explode(',', $groupeX);
@@ -546,12 +546,12 @@ function groupe_maj($sub_op)
 }
 function groupe_delete($groupe_id)
 {
-   global $hlpfile, $NPDS_Prefix, $groupe_name, $groupe_description, $sub_op;
+   global $hlpfile, sql_prefix(''), $groupe_name, $groupe_description, $sub_op;
 
-   sql_query("DELETE FROM " . $NPDS_Prefix . "lblocks WHERE member='$groupe_id'");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "rblocks WHERE member='$groupe_id'");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='$groupe_id'");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='" . md5("WS-BN" . $groupe_id) . "'");
+   sql_query("DELETE FROM " . sql_prefix('') . "lblocks WHERE member='$groupe_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "rblocks WHERE member='$groupe_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "groupes WHERE groupe_id='$groupe_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "blocnotes WHERE bnid='" . md5("WS-BN" . $groupe_id) . "'");
 
    forum_groupe_delete($groupe_id);
    workspace_archive($groupe_id);
@@ -566,7 +566,7 @@ function groupe_delete($groupe_id)
 // WORKSPACE
 function workspace_create($groupe_id)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    //==>creation fichier conf du groupe
    @copy('modules/f-manager/users/groupe.conf.php', 'modules/f-manager/users/groupe_' . $groupe_id . '.conf.php');
@@ -624,15 +624,15 @@ function workspace_create($groupe_id)
 // PAD
 function pad_create($groupe_id)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_pad = '1' WHERE groupe_id = '$groupe_id';");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_pad = '1' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "CreatePadWS($groupe_id) by AID : $aid", '');
 }
 function pad_remove($groupe_id)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_pad = '0' WHERE groupe_id = '$groupe_id';");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_pad = '0' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "DeletePadWS($groupe_id) by AID : $aid", '');
 }
@@ -640,24 +640,24 @@ function pad_remove($groupe_id)
 // BLOC-NOTE
 function note_create($groupe_id)
 {
-   global $NPDS_Prefix;
-   $sql = "CREATE TABLE IF NOT EXISTS " . $NPDS_Prefix . "blocnotes (
+   global sql_prefix('');
+   $sql = "CREATE TABLE IF NOT EXISTS " . sql_prefix('') . "blocnotes (
    bnid text COLLATE utf8mb4_unicode_ci NOT NULL,
    texte text COLLATE utf8mb4_unicode_ci,
    PRIMARY KEY (bnid(32))
    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
    sql_query($sql);
 
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_blocnote = '1' WHERE groupe_id = '$groupe_id';");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_blocnote = '1' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "CreateBlocnoteWS($groupe_id) by AID : $aid", '');
 }
 
 function note_remove($groupe_id)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='" . md5("WS-BN" . $groupe_id) . "'");
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_blocnote = '0' WHERE groupe_id = '$groupe_id';");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "blocnotes WHERE bnid='" . md5("WS-BN" . $groupe_id) . "'");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_blocnote = '0' WHERE groupe_id = '$groupe_id';");
 
    global $aid;
    Ecr_Log('security', "DeleteBlocnoteWS($groupe_id) by AID : $aid", '');
@@ -677,45 +677,45 @@ function workspace_archive($groupe_id)
 // FORUMS
 function forum_groupe_create($groupe_id, $groupe_name, $description, $moder)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    // creation forum
    // creation catégorie forum_groupe
-   $result = sql_query("SELECT cat_id FROM " . $NPDS_Prefix . "catagories WHERE cat_id = -1;");
+   $result = sql_query("SELECT cat_id FROM " . sql_prefix('') . "catagories WHERE cat_id = -1;");
    list($cat_id) = sql_fetch_row($result);
    if (!$cat_id)
-      sql_query("INSERT INTO " . $NPDS_Prefix . "catagories VALUES (-1, '" . adm_translate("Groupe de travail") . "')");
+      sql_query("INSERT INTO " . sql_prefix('') . "catagories VALUES (-1, '" . adm_translate("Groupe de travail") . "')");
    //==>creation forum
 
    echo "$groupe_id,$groupe_name,$description,$moder";
 
-   sql_query("INSERT INTO " . $NPDS_Prefix . "forums VALUES (NULL, '$groupe_name', '$description', '1', '$moder', '-1', '7', '$groupe_id', '0', '0', '0')");
+   sql_query("INSERT INTO " . sql_prefix('') . "forums VALUES (NULL, '$groupe_name', '$description', '1', '$moder', '-1', '7', '$groupe_id', '0', '0', '0')");
    //=> ajout etat forum (1 ou 0) dans le groupe
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_forum = '1' WHERE groupe_id = '$groupe_id';");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_forum = '1' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log("security", "CreateForumWS($groupe_id) by AID : $aid", '');
 }
 
 function moderateur_update($forum_id, $forum_moderator)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "forums SET forum_moderator = '$forum_moderator' WHERE forum_id='$forum_id'");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "forums SET forum_moderator = '$forum_moderator' WHERE forum_id='$forum_id'");
 }
 
 function forum_groupe_delete($groupe_id)
 {
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT forum_id FROM " . $NPDS_Prefix . "forums WHERE forum_pass='$groupe_id' and cat_id='-1'");
+   global sql_prefix('');
+   $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums WHERE forum_pass='$groupe_id' and cat_id='-1'");
    list($forum_id) = sql_fetch_row($result);
    // suppression des topics
-   sql_query("DELETE FROM " . $NPDS_Prefix . "forumtopics WHERE forum_id='$forum_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id'");
    // maj table lecture
-   sql_query("DELETE FROM " . $NPDS_Prefix . "forum_read WHERE forum_id='$forum_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum_id'");
 
    //=> suppression du forum
-   sql_query("DELETE FROM " . $NPDS_Prefix . "forums WHERE forum_id='$forum_id'");
+   sql_query("DELETE FROM " . sql_prefix('') . "forums WHERE forum_id='$forum_id'");
    // =>remise à 0 forum dans le groupe
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_forum = '0' WHERE groupe_id='$groupe_id'");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_forum = '0' WHERE groupe_id='$groupe_id'");
    global $aid;
    Ecr_Log('security', "DeleteForumWS($forum_id) by AID : $aid", '');
 }
@@ -723,7 +723,7 @@ function forum_groupe_delete($groupe_id)
 // MNS
 function groupe_mns_create($groupe_id)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    include("modules/upload/upload.conf.php");
 
    if ($DOCUMENTROOT == '') {
@@ -770,13 +770,13 @@ function groupe_mns_create($groupe_id)
    }
    closedir($handle);
    unset($filelist);
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_mns = '1' WHERE groupe_id = '$groupe_id';");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_mns = '1' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "CreateMnsWS($groupe_id) by AID : $aid", '');
 }
 function groupe_mns_delete($groupe_id)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    include("modules/upload/upload.conf.php");
 
    if ($DOCUMENTROOT == '') {
@@ -800,7 +800,7 @@ function groupe_mns_delete($groupe_id)
       closedir($dir);
       @rmdir($user_dir . '/mns');
    }
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_mns = '0' WHERE groupe_id = '$groupe_id';");
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_mns = '0' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "DeleteMnsWS($groupe_id) by AID : $aid", '');
 }
@@ -808,55 +808,55 @@ function groupe_mns_delete($groupe_id)
 // CHAT
 function groupe_chat_create($groupe_id)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_chat = '1' WHERE groupe_id = '$groupe_id';");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_chat = '1' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "ActivateChatWS($groupe_id) by AID : $aid", '');
 }
 
 function groupe_chat_delete($groupe_id)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "groupes SET groupe_chat = '0' WHERE groupe_id = '$groupe_id';");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "groupes SET groupe_chat = '0' WHERE groupe_id = '$groupe_id';");
    global $aid;
    Ecr_Log('security', "DesactivateChatWS($groupe_id) by AID : $aid", '');
 }
 
 function bloc_groupe_create($groupe_id)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    // Creation bloc espace de travail user
    // On créer le bloc s'il n'existe pas déjà
    $bloc = false;
    $menu_workspace = "function#bloc_espace_groupe\r\nparams#$groupe_id,1";
-   $row = sql_fetch_row(sql_query("SELECT COUNT(id) FROM " . $NPDS_Prefix . "lblocks WHERE content='$menu_workspace'"));
+   $row = sql_fetch_row(sql_query("SELECT COUNT(id) FROM " . sql_prefix('') . "lblocks WHERE content='$menu_workspace'"));
    if ($row[0] == 0) {
-      $row = sql_fetch_row(sql_query("SELECT COUNT(id) FROM " . $NPDS_Prefix . "rblocks WHERE content='$menu_workspace'"));
+      $row = sql_fetch_row(sql_query("SELECT COUNT(id) FROM " . sql_prefix('') . "rblocks WHERE content='$menu_workspace'"));
       if ($row[0] <> 0)
          $bloc = true;
    } else
       $bloc = true;
    if ($bloc == false)
-      sql_query("INSERT INTO " . $NPDS_Prefix . "lblocks VALUES (NULL, '', '$menu_workspace', '$groupe_id', '3', '0', '1', '0', NULL)");
+      sql_query("INSERT INTO " . sql_prefix('') . "lblocks VALUES (NULL, '', '$menu_workspace', '$groupe_id', '3', '0', '1', '0', NULL)");
 }
 
 function groupe_member_ask()
 {
-   global $sub_op, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $myrow, $hlpfile, $groupe_asked, $user_asked;
+   global $sub_op, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $myrow, $hlpfile, $groupe_asked, $user_asked;
    $directory = "users_private/groupe";
    if (isset($sub_op)) {
       include_once('powerpack_f.php');
-      $res = sql_query("SELECT uname FROM " . $NPDS_Prefix . "users WHERE uid='" . $user_asked . "'");
+      $res = sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uid='" . $user_asked . "'");
       list($uname) = sql_fetch_row($res);
 
-      $r = sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='" . $groupe_asked . "'");
+      $r = sql_query("SELECT groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='" . $groupe_asked . "'");
       list($gn) = sql_fetch_row($r);
       $subject = adm_translate('Nouvelles du groupe') . ' ' . $gn;
       $image = '18.png';
       if ($sub_op == adm_translate("Oui")) {
          $message = '✅ ' . adm_translate('Demande acceptée.') . ' ' . adm_translate('Vous faites désormais partie des membres du groupe') . ' : ' . $gn . ' [' . $groupe_asked . '].';
          unlink($directory . '/ask4group_' . $user_asked . '_' . $groupe_asked . '_.txt');
-         $result2 = sql_query("SELECT groupe FROM " . $NPDS_Prefix . "users_status WHERE uid='" . $user_asked . "'");
+         $result2 = sql_query("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='" . $user_asked . "'");
          $ibid2 = sql_fetch_assoc($result2);
          $lesgroupes = explode(',', $ibid2['groupe']);
          $nbregroupes = count($lesgroupes);
@@ -869,7 +869,7 @@ function groupe_member_ask()
          }
          if (!$groupeexistedeja) {
             $groupesmodif = $ibid2['groupe'] ? $ibid2['groupe'] . ',' . $groupe_asked : $groupe_asked;
-            $resultat = sql_query("UPDATE " . $NPDS_Prefix . "users_status SET groupe='$groupesmodif' WHERE uid='" . $user_asked . "'");
+            $resultat = sql_query("UPDATE " . sql_prefix('') . "users_status SET groupe='$groupesmodif' WHERE uid='" . $user_asked . "'");
          }
          writeDB_private_message($uname, $image, $subject, 1, $message, '');
          global $aid;
@@ -894,7 +894,7 @@ function groupe_member_ask()
       if ($fileinfo->isFile() and strpos($fileinfo->getFilename(), 'ask4group') !== false) {
          $us_gr = explode('_', $fileinfo->getFilename());
          $myrow = get_userdata_from_id($us_gr[1]);
-         $r = sql_query("SELECT groupe_name FROM " . $NPDS_Prefix . "groupes WHERE groupe_id='" . $us_gr[2] . "'");
+         $r = sql_query("SELECT groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='" . $us_gr[2] . "'");
          list($gn) = sql_fetch_row($r);
 
          echo '
@@ -1000,10 +1000,10 @@ switch ($op) {
       groupe_member_ask();
       break;
    case 'groupe_add_finish':
-      global $NPDS_Prefix;
+      global sql_prefix('');
       $ok_grp = false;
       if (($groupe_id == '') or ($groupe_id < 2) or ($groupe_id > 126)) {
-         $row = sql_fetch_row(sql_query("SELECT MAX(groupe_id) FROM " . $NPDS_Prefix . "groupes"));
+         $row = sql_fetch_row(sql_query("SELECT MAX(groupe_id) FROM " . sql_prefix('') . "groupes"));
          if ($row[0] < 126) {
             if ($row[0] == 0) $row[0] = 1;
             $groupe_id = $row[0] + 1;
@@ -1012,7 +1012,7 @@ switch ($op) {
       } else
          $ok_grp = true;
       if ($ok_grp) {
-         sql_query("INSERT INTO " . $NPDS_Prefix . "groupes VALUES ('$groupe_id', '$groupe_name','$groupe_description','0','0','0','0','0')");
+         sql_query("INSERT INTO " . sql_prefix('') . "groupes VALUES ('$groupe_id', '$groupe_name','$groupe_description','0','0','0','0','0')");
          @mkdir('users_private/groupe/' . $groupe_id);
          $fp = fopen('users_private/groupe/' . $groupe_id . '/index.html', 'w');
          fclose($fp);

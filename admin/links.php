@@ -28,16 +28,16 @@ $rupture = 100; //100
 
 function links()
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $results = sql_query("SELECT * FROM " . $NPDS_Prefix . "links_links");
+   $results = sql_query("SELECT * FROM " . sql_prefix('') . "links_links");
    $numrows = sql_num_rows($results);
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "links_modrequest WHERE brokenlink=1");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink=1");
    $totalbrokenlinks = sql_num_rows($result);
-   $result2 = sql_query("SELECT * FROM " . $NPDS_Prefix . "links_modrequest WHERE brokenlink=0");
+   $result2 = sql_query("SELECT * FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink=0");
    $totalmodrequests = sql_num_rows($result2);
 
    echo '
@@ -46,7 +46,7 @@ function links()
    echo '[ <a href="admin.php?op=LinksListBrokenLinks">' . adm_translate("Soumission de Liens brisés") . ' (' . $totalbrokenlinks . ')</a> -
    <a href="admin.php?op=LinksListModRequests">' . adm_translate("Proposition de modifications de Liens") . ' (' . $totalmodrequests . ')</a> ]';
 
-   $result = sql_query("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM " . $NPDS_Prefix . "links_newlink ORDER BY lid ASC LIMIT 0,1");
+   $result = sql_query("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM " . sql_prefix('') . "links_newlink ORDER BY lid ASC LIMIT 0,1");
    $numrows = sql_num_rows($result);
    $adminform = '';
    if ($numrows > 0) {
@@ -100,7 +100,7 @@ function links()
             <span class="help-block text-end"><span id="countcar_emailenattente"></span></span>
          </div>
       </div>';
-      $result2 = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories ORDER BY title");
+      $result2 = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories ORDER BY title");
       echo '
       <input type="hidden" name="new" value="1">
       <input type="hidden" name="lid" value="' . $lid . '">
@@ -114,7 +114,7 @@ function links()
             $sel = 'selected="selected" ';
          echo '
                <option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
-         $result3 = sql_query("SELECT sid, title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$ccid' ORDER BY title");
+         $result3 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$ccid' ORDER BY title");
          while (list($ssid, $stitle) = sql_fetch_row($result3)) {
             $sel = '';
             if ($sid == $ssid)
@@ -150,7 +150,7 @@ function links()
    }
 
    // Add a Link to Database
-   $result = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories");
+   $result = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
       echo '
@@ -177,7 +177,7 @@ function links()
          </div>
       </div>
       <div class="mb-3 row">';
-      $result = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories ORDER BY title");
+      $result = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories ORDER BY title");
       echo '
          <label class="col-form-label col-sm-4" for="cat">' . adm_translate("Catégorie") . '</label>
          <div class="col-sm-8">
@@ -185,7 +185,7 @@ function links()
       while (list($cid, $title) = sql_fetch_row($result)) {
          echo '
                <option value="' . $cid . '">' . aff_langue($title) . '</option>';
-         $result2 = sql_query("SELECT sid, title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$cid' ORDER BY title");
+         $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$cid' ORDER BY title");
          while (list($sid, $stitle) = sql_fetch_row($result2)) {
             echo '
                <option value="' . $cid . '-' . $sid . '">' . aff_langue($title) . ' / ' . aff_langue($stitle) . '</option>';
@@ -256,7 +256,7 @@ function links()
    </div>';
 
    // Add a New Sub-Category
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "links_categories");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "links_categories");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
       echo '
@@ -270,7 +270,7 @@ function links()
                <span class="help-block text-end"><span id="countcar_subcattitle"></span></span>
             </div>
          </div>';
-      $result = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories ORDER BY title");
+      $result = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories ORDER BY title");
       echo '
          <div class="mb-3 row">
             <label class="col-form-label col-sm-4" for="cid">' . adm_translate("Catégorie") . '</label>
@@ -295,10 +295,10 @@ function links()
    }
 
    // Modify Category
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "links_categories");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "links_categories");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
-      $result = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories ORDER BY title");
+      $result = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories ORDER BY title");
       echo '
    <div class="card card-body">
       <h3 class="mb-3">' . adm_translate("Modifier la Catégorie") . '</h3>
@@ -310,7 +310,7 @@ function links()
       while (list($cid, $title) = sql_fetch_row($result)) {
          echo '
                   <option value="' . $cid . '">' . aff_langue($title) . '</option>';
-         $result2 = sql_query("SELECT sid, title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$cid' ORDER BY title");
+         $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$cid' ORDER BY title");
          while (list($sid, $stitle) = sql_fetch_row($result2)) {
             echo '
                   <option value="' . $cid . '-' . $sid . '">' . aff_langue($title) . ' / ' . aff_langue($stitle) . '</option>';
@@ -331,7 +331,7 @@ function links()
    }
 
    // Modify Links
-   $result = sql_query("SELECT lid FROM " . $NPDS_Prefix . "links_links");
+   $result = sql_query("SELECT lid FROM " . sql_prefix('') . "links_links");
    $numrow = sql_num_rows($result);
    echo '
    <hr />
@@ -354,7 +354,7 @@ function links()
       $sens = +1;
    }
    $deja_affiches = abs($deja_affiches);
-   $result = sql_query("SELECT lid, title, url FROM " . $NPDS_Prefix . "links_links ORDER BY lid ASC LIMIT $deja_affiches,$rupture");
+   $result = sql_query("SELECT lid, title, url FROM " . sql_prefix('') . "links_links ORDER BY lid ASC LIMIT $deja_affiches,$rupture");
    while (list($lid, $title, $url) = sql_fetch_row($result)) {
       echo '
          <tr>
@@ -401,11 +401,11 @@ function links()
 
 function LinksModLink($lid)
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    global $anonymous;
-   $result = sql_query("SELECT cid, sid, title, url, description, name, email, hits FROM " . $NPDS_Prefix . "links_links WHERE lid='$lid'");
+   $result = sql_query("SELECT cid, sid, title, url, description, name, email, hits FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
@@ -465,7 +465,7 @@ function LinksModLink($lid)
          </div>
       </div>
       <div class="mb-3 row">';
-   $result2 = sql_query("SELECT cid, title FROM " . $NPDS_Prefix . "links_categories ORDER BY title");
+   $result2 = sql_query("SELECT cid, title FROM " . sql_prefix('') . "links_categories ORDER BY title");
    echo '
          <input type="hidden" name="lid" value="' . $lid . '" />
          <label class="col-form-label col-sm-4 " for="cat">' . adm_translate("Catégorie") . '</label>
@@ -478,7 +478,7 @@ function LinksModLink($lid)
       }
       echo '
                <option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
-      $result3 = sql_query("SELECT sid, title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$ccid' ORDER BY title");
+      $result3 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$ccid' ORDER BY title");
       while (list($ssid, $stitle) = sql_fetch_row($result3)) {
          $sel = '';
          if ($sid == $ssid) {
@@ -503,7 +503,7 @@ function LinksModLink($lid)
    </form>';
 
    //Modify or Add Editorial
-   $resulted2 = sql_query("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM " . $NPDS_Prefix . "links_editorials WHERE linkid='$lid'");
+   $resulted2 = sql_query("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM " . sql_prefix('') . "links_editorials WHERE linkid='$lid'");
    $recordexist = sql_num_rows($resulted2);
    if ($recordexist == 0) {
       echo '
@@ -603,8 +603,8 @@ function LinksModLink($lid)
 
 function LinksListBrokenLinks()
 {
-   global $NPDS_Prefix, $hlpfile, $anonymous, $f_meta_nom, $f_titre, $adminimg;
-   $resultBrok = sql_query("SELECT requestid, lid, modifysubmitter FROM " . $NPDS_Prefix . "links_modrequest WHERE brokenlink='1' ORDER BY requestid");
+   global sql_prefix(''), $hlpfile, $anonymous, $f_meta_nom, $f_titre, $adminimg;
+   $resultBrok = sql_query("SELECT requestid, lid, modifysubmitter FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink='1' ORDER BY requestid");
    $totalbrokenlinks = sql_num_rows($resultBrok);
    if ($totalbrokenlinks == 0)
       header("location: admin.php?op=links");
@@ -637,13 +637,13 @@ function LinksListBrokenLinks()
       </thead>
       <tbody>';
       while (list($requestid, $lid, $modifysubmitter) = sql_fetch_row($resultBrok)) {
-         $result2 = sql_query("SELECT title, url, submitter FROM " . $NPDS_Prefix . "links_links WHERE lid='$lid'");
+         $result2 = sql_query("SELECT title, url, submitter FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
          if ($modifysubmitter != $anonymous) {
-            $result3 = sql_query("SELECT email FROM " . $NPDS_Prefix . "users WHERE uname='$modifysubmitter'");
+            $result3 = sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE uname='$modifysubmitter'");
             list($email) = sql_fetch_row($result3);
          }
          list($title, $url, $owner) = sql_fetch_row($result2);
-         $result4 = sql_query("SELECT email FROM " . $NPDS_Prefix . "users WHERE uname='$owner'");
+         $result4 = sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE uname='$owner'");
          list($owneremail) = sql_fetch_row($result4);
          echo '
          <tr>
@@ -676,9 +676,9 @@ function LinksListBrokenLinks()
 
 function LinksDelBrokenLinks($lid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_modrequest WHERE lid='$lid'");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_links WHERE lid='$lid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE lid='$lid'");
+   sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "DeleteBrokensLinks($lid) by AID : $aid", '');
    Header("Location: admin.php?op=LinksListBrokenLinks");
@@ -686,15 +686,15 @@ function LinksDelBrokenLinks($lid)
 
 function LinksIgnoreBrokenLinks($lid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_modrequest WHERE lid='$lid' AND brokenlink='1'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE lid='$lid' AND brokenlink='1'");
    Header("Location: admin.php?op=LinksListBrokenLinks");
 }
 
 function LinksListModRequests()
 {
-   global $NPDS_Prefix, $hlpfile;
-   $resultLink = sql_query("SELECT requestid, lid, cid, sid, title, url, description, modifysubmitter FROM " . $NPDS_Prefix . "links_modrequest WHERE brokenlink='0' ORDER BY requestid");
+   global sql_prefix(''), $hlpfile;
+   $resultLink = sql_query("SELECT requestid, lid, cid, sid, title, url, description, modifysubmitter FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink='0' ORDER BY requestid");
    $totalmodrequests = sql_num_rows($resultLink);
    if ($totalmodrequests == 0)
       header("location: admin.php?op=links");
@@ -708,14 +708,14 @@ function LinksListModRequests()
    GraphicAdmin($hlpfile);
    echo '<h3 class="my-3">' . adm_translate("Requête de modification d'un Lien Utilisateur") . '<span class="badge bg-danger float-end">' . $totalmodrequests . '</span></h3>';
    while (list($requestid, $lid, $cid, $sid, $title, $url, $description, $modifysubmitter) = sql_fetch_row($resultLink)) {
-      $result2 = sql_query("SELECT cid, sid, title, url, description, submitter FROM " . $NPDS_Prefix . "links_links WHERE lid='$lid'");
+      $result2 = sql_query("SELECT cid, sid, title, url, description, submitter FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
       list($origcid, $origsid, $origtitle, $origurl, $origdescription, $owner) = sql_fetch_row($result2);
-      $result3 = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_categories WHERE cid='$cid'");
-      $result4 = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$cid' AND sid='$sid'");
-      $result5 = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_categories WHERE cid='$origcid'");
-      $result6 = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$origcid' AND sid='$origsid'");
-      $result7 = sql_query("SELECT email FROM " . $NPDS_Prefix . "users WHERE uname='$modifysubmitter'");
-      $result8 = sql_query("SELECT email FROM " . $NPDS_Prefix . "users WHERE uname='$owner'");
+      $result3 = sql_query("SELECT title FROM " . sql_prefix('') . "links_categories WHERE cid='$cid'");
+      $result4 = sql_query("SELECT title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$cid' AND sid='$sid'");
+      $result5 = sql_query("SELECT title FROM " . sql_prefix('') . "links_categories WHERE cid='$origcid'");
+      $result6 = sql_query("SELECT title FROM " . sql_prefix('') . "links_subcategories WHERE cid='$origcid' AND sid='$origsid'");
+      $result7 = sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE uname='$modifysubmitter'");
+      $result8 = sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE uname='$owner'");
       list($cidtitle) = sql_fetch_row($result3);
       list($sidtitle) = sql_fetch_row($result4);
       list($origcidtitle) = sql_fetch_row($result5);
@@ -795,14 +795,14 @@ function LinksListModRequests()
 
 function LinksChangeModRequests($Xrequestid)
 {
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT requestid, lid, cid, sid, title, url, description FROM " . $NPDS_Prefix . "links_modrequest WHERE requestid='$Xrequestid'");
+   global sql_prefix('');
+   $result = sql_query("SELECT requestid, lid, cid, sid, title, url, description FROM " . sql_prefix('') . "links_modrequest WHERE requestid='$Xrequestid'");
    while (list($requestid, $lid, $cid, $sid, $title, $url, $description) = sql_fetch_row($result)) {
       $title = stripslashes($title);
       $description = stripslashes($description);
-      sql_query("UPDATE " . $NPDS_Prefix . "links_links SET cid='$cid', sid='$sid', title='$title', url='$url', description='$description' WHERE lid = '$lid'");
+      sql_query("UPDATE " . sql_prefix('') . "links_links SET cid='$cid', sid='$sid', title='$title', url='$url', description='$description' WHERE lid = '$lid'");
    }
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_modrequest WHERE requestid='$Xrequestid'");
+   sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE requestid='$Xrequestid'");
 
    global $aid;
    Ecr_Log('security', "UpdateModRequestLinks($Xrequestid) by AID : $aid", '');
@@ -811,14 +811,14 @@ function LinksChangeModRequests($Xrequestid)
 
 function LinksChangeIgnoreRequests($requestid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_modrequest WHERE requestid='$requestid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE requestid='$requestid'");
    Header("Location: admin.php?op=LinksListModRequests");
 }
 
 function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $cat = explode('-', $cat);
    if (!array_key_exists(1, $cat))
       $cat[1] = 0;
@@ -827,7 +827,7 @@ function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
    $xtext = stripslashes(FixQuotes($xtext));
    $name = stripslashes(FixQuotes($name));
    $email = stripslashes(FixQuotes($email));
-   sql_query("UPDATE " . $NPDS_Prefix . "links_links SET cid='$cat[0]', sid='$cat[1]', title='$title', url='$url', description='$xtext', name='$name', email='$email', hits='$hits' WHERE lid='$lid'");
+   sql_query("UPDATE " . sql_prefix('') . "links_links SET cid='$cat[0]', sid='$cat[1]', title='$title', url='$url', description='$xtext', name='$name', email='$email', hits='$hits' WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "UpdateLinks($lid, $title) by AID : $aid", '');
    Header("Location: admin.php?op=links");
@@ -835,8 +835,8 @@ function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
 
 function LinksDelLink($lid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_links WHERE lid='$lid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "DeleteLinks($lid) by AID : $aid", '');
    Header("Location: admin.php?op=links");
@@ -844,7 +844,7 @@ function LinksDelLink($lid)
 
 function LinksModCat($cat)
 {
-   global $NPDS_Prefix, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    $cat = explode('-', $cat);
@@ -855,7 +855,7 @@ function LinksModCat($cat)
       echo '
         <hr />
         <h3>' . adm_translate("Modifier la Catégorie") . '</h3>';
-      $result = sql_query("SELECT title, cdescription FROM " . $NPDS_Prefix . "links_categories WHERE cid='$cat[0]'");
+      $result = sql_query("SELECT title, cdescription FROM " . sql_prefix('') . "links_categories WHERE cid='$cat[0]'");
       list($title, $cdescription) = sql_fetch_row($result);
       $cdescription = stripslashes($cdescription);
       echo '
@@ -884,9 +884,9 @@ function LinksModCat($cat)
       </div>
    </form>';
    } else {
-      $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_categories WHERE cid='$cat[0]'");
+      $result = sql_query("SELECT title FROM " . sql_prefix('') . "links_categories WHERE cid='$cat[0]'");
       list($ctitle) = sql_fetch_row($result);
-      $result2 = sql_query("SELECT title FROM " . $NPDS_Prefix . "links_subcategories WHERE sid='$cat[1]'");
+      $result2 = sql_query("SELECT title FROM " . sql_prefix('') . "links_subcategories WHERE sid='$cat[1]'");
       list($stitle) = sql_fetch_row($result2);
       echo '
    <hr />
@@ -921,13 +921,13 @@ function LinksModCat($cat)
 
 function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($sub == 0) {
-      sql_query("UPDATE " . $NPDS_Prefix . "links_categories SET title='$title', cdescription='$cdescription' WHERE cid='$cid'");
+      sql_query("UPDATE " . sql_prefix('') . "links_categories SET title='$title', cdescription='$cdescription' WHERE cid='$cid'");
       global $aid;
       Ecr_Log('security', "UpdateCatLinks($cid, $title) by AID : $aid", '');
    } else {
-      sql_query("UPDATE " . $NPDS_Prefix . "links_subcategories SET title='$title' WHERE sid='$sid'");
+      sql_query("UPDATE " . sql_prefix('') . "links_subcategories SET title='$title' WHERE sid='$sid'");
       global $aid;
       Ecr_Log('security', "UpdateSubCatLinks($cid, $title) by AID : $aid", '');
    }
@@ -936,17 +936,17 @@ function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
 
 function LinksDelCat($cid, $sid, $sub, $ok = 0)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($ok == 1) {
       if ($sub > 0) {
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_subcategories WHERE sid='$sid'");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_links WHERE sid='$sid'");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_subcategories WHERE sid='$sid'");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE sid='$sid'");
          global $aid;
          Ecr_Log('security', "DeleteSubCatLinks($sid) by AID : $aid", '');
       } else {
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_categories WHERE cid='$cid'");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_subcategories WHERE cid='$cid'");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_links WHERE cid='$cid' AND sid=0");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_categories WHERE cid='$cid'");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_subcategories WHERE cid='$cid'");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE cid='$cid' AND sid=0");
          global $aid;
          Ecr_Log('security', "DeleteCatLinks($cid) by AID : $aid", '');
       }
@@ -958,8 +958,8 @@ function LinksDelCat($cid, $sid, $sub, $ok = 0)
 
 function LinksDelNew($lid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_newlink WHERE lid='$lid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_newlink WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "DeleteNewLinks($lid) by AID : $aid", '');
    Header("Location: admin.php?op=links");
@@ -967,13 +967,13 @@ function LinksDelNew($lid)
 
 function LinksAddCat($title, $cdescription)
 {
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT cid FROM " . $NPDS_Prefix . "links_categories WHERE title='$title'");
+   global sql_prefix('');
+   $result = sql_query("SELECT cid FROM " . sql_prefix('') . "links_categories WHERE title='$title'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
       message_error('<div class="alert alert-danger"><strong>' . adm_translate("Erreur : La Catégorie") . " $title " . adm_translate("existe déjà !") . '</strong></div>');
    else {
-      sql_query("INSERT INTO " . $NPDS_Prefix . "links_categories VALUES (NULL, '$title', '$cdescription')");
+      sql_query("INSERT INTO " . sql_prefix('') . "links_categories VALUES (NULL, '$title', '$cdescription')");
       global $aid;
       Ecr_Log('security', "AddCatLinks($title) by AID : $aid", '');
       Header("Location: admin.php?op=links");
@@ -982,13 +982,13 @@ function LinksAddCat($title, $cdescription)
 
 function LinksAddSubCat($cid, $title)
 {
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT cid FROM " . $NPDS_Prefix . "links_subcategories WHERE title='$title' AND cid='$cid'");
+   global sql_prefix('');
+   $result = sql_query("SELECT cid FROM " . sql_prefix('') . "links_subcategories WHERE title='$title' AND cid='$cid'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
       message_error('<div class="alert alert-danger"><strong>' . adm_translate("Erreur : La Sous-catégorie") . " $title " . adm_translate("existe déjà !") . '</strong></div>');
    else {
-      sql_query("INSERT INTO " . $NPDS_Prefix . "links_subcategories VALUES (NULL, '$cid', '$title')");
+      sql_query("INSERT INTO " . sql_prefix('') . "links_subcategories VALUES (NULL, '$cid', '$title')");
       global $aid;
       Ecr_Log('security', "AddSubCatLinks($title) by AID : $aid", '');
       Header("Location: admin.php?op=links");
@@ -997,18 +997,18 @@ function LinksAddSubCat($cid, $title)
 
 function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 {
-   global $NPDS_Prefix, $aid;
+   global sql_prefix(''), $aid;
    $editorialtext = stripslashes(FixQuotes($editorialtext));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "links_editorials VALUES ('$linkid', '$aid', now(), '$editorialtext', '$editorialtitle')");
+   sql_query("INSERT INTO " . sql_prefix('') . "links_editorials VALUES ('$linkid', '$aid', now(), '$editorialtext', '$editorialtitle')");
    Ecr_Log('security', "AddEditorialLinks($linkid, $editorialtitle) by AID : $aid", '');
    message_error('<div class="alert alert-success"><strong>' . adm_translate("Editorial ajouté à la base de données") . '</strong></div>');
 }
 
 function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    $editorialtext = stripslashes(FixQuotes($editorialtext));
-   sql_query("UPDATE " . $NPDS_Prefix . "links_editorials SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' WHERE linkid='$linkid'");
+   sql_query("UPDATE " . sql_prefix('') . "links_editorials SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' WHERE linkid='$linkid'");
    global $aid;
    Ecr_Log('security', "ModEditorialLinks($linkid, $editorialtitle) by AID : $aid", '');
    message_error('<div class="alert alert-success"><strong>' . adm_translate("Editorial modifié") . '</strong></div>');
@@ -1016,8 +1016,8 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 
 function LinksDelEditorial($linkid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "links_editorials WHERE linkid='$linkid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "links_editorials WHERE linkid='$linkid'");
    global $aid;
    Ecr_Log('security', "DeteteEditorialLinks($linkid) by AID : $aid", '');
    message_error('<div class="alert alert-success"><strong>' . adm_translate("Editorial supprimé de la base de données") . '</strong></div>');
@@ -1037,8 +1037,8 @@ function message_error($ibid)
 
 function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter)
 {
-   global $NPDS_Prefix;
-   $result = sql_query("SELECT url FROM " . $NPDS_Prefix . "links_links WHERE url='$url'");
+   global sql_prefix('');
+   $result = sql_query("SELECT url FROM " . sql_prefix('') . "links_links WHERE url='$url'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
       message_error('<div class="alert alert-danger"><strong>' . adm_translate("Erreur : cette URL est déjà présente dans la base de données !") . '</strong></div>');
@@ -1057,9 +1057,9 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $su
       $xtext = stripslashes(FixQuotes($xtext));
       $name = stripslashes(FixQuotes($name));
       $email = stripslashes(FixQuotes($email));
-      sql_query("INSERT INTO " . $NPDS_Prefix . "links_links VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$xtext', now(), '$name', '$email', '0','$submitter',0,0,0,0)");
+      sql_query("INSERT INTO " . sql_prefix('') . "links_links VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$xtext', now(), '$name', '$email', '0','$submitter',0,0,0,0)");
       if ($new == 1) {
-         sql_query("DELETE FROM " . $NPDS_Prefix . "links_newlink WHERE lid='$lid'");
+         sql_query("DELETE FROM " . sql_prefix('') . "links_newlink WHERE lid='$lid'");
          if ($email != '') {
             global $sitename, $nuke_url;
             $subject = html_entity_decode(adm_translate("Votre Lien"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " : $sitename";

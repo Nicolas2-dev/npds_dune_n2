@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/email_user.html";
 
 function email_user()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
    include('header.php');
    GraphicAdmin($hlpfile);
@@ -60,7 +60,7 @@ function email_user()
                <div class="col-sm-8">
                   <select id="groupe" class="form-select" name="groupe" >
                      <option value="0" selected="selected">' . adm_translate("Choisir un groupe");
-   $resultID = sql_query("SELECT groupe_id, groupe_name FROM " . $NPDS_Prefix . "groupes ORDER BY groupe_id ASC");
+   $resultID = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
    while (list($groupe_id, $groupe_name) = sql_fetch_row($resultID)) {
       echo '
                      <option value="' . $groupe_id . '">' . $groupe_id . ' - ' . aff_langue($groupe_name);
@@ -144,7 +144,7 @@ function email_user()
 
 function send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur)
 {
-   global $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
 
    if ($subject != '') {
       if ($expediteur == 1)
@@ -159,13 +159,13 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
             $emetteur = 1;
       }
       if ($all) {
-         $result = sql_query("SELECT uid, user_langue FROM " . $NPDS_Prefix . "users");
+         $result = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users");
          while (list($to_userid, $user_langue) = sql_fetch_row($result)) {
             $tab_to_userid[] = $to_userid . ':' . $user_langue;
          }
       } else {
          if ($groupe) {
-            $result = sql_query("SELECT s.uid, s.groupe, u.user_langue FROM " . $NPDS_Prefix . "users_status s, " . $NPDS_Prefix . "users u WHERE s.uid=u.uid AND s.groupe!='' ORDER BY s.uid ASC");
+            $result = sql_query("SELECT s.uid, s.groupe, u.user_langue FROM " . sql_prefix('') . "users_status s, " . sql_prefix('') . "users u WHERE s.uid=u.uid AND s.groupe!='' ORDER BY s.uid ASC");
             while (list($to_userid, $groupeX, $user_langue) = sql_fetch_row($result)) {
                $tab_groupe = explode(',', $groupeX);
                if ($tab_groupe) {
@@ -176,7 +176,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
                }
             }
          } else {
-            $result = sql_query("SELECT uid, user_langue FROM " . $NPDS_Prefix . "users WHERE uname='$username'");
+            $result = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$username'");
             while (list($to_userid, $user_langue) = sql_fetch_row($result)) {
                $tab_to_userid[] = $to_userid . ':' . $user_langue;
             }
@@ -193,7 +193,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
          $to_tmp = explode(':', $tab_to_userid[$count]);
          $to_userid = $to_tmp[0];
          if (($to_userid != '') and ($to_userid != 1)) {
-            $sql = "INSERT INTO " . $NPDS_Prefix . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
+            $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
             $sql .= "VALUES ('$image', '$subject', '$emetteur', '$to_userid', '$time', '$message')";
             if ($resultX = sql_query($sql))
                $pasfin = true;

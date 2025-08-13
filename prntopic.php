@@ -19,16 +19,16 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 
-global $NPDS_Prefix;
+global sql_prefix('');
 include('auth.php');
 
-$rowQ1 = Q_Select("SELECT forum_id FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id='$topic'", 3600);
+$rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
 $forum = $myrow['forum_id'];
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . $NPDS_Prefix . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
 if (!$rowQ1)
     forumerror('0001');
 $myrow = $rowQ1[0];
@@ -68,7 +68,7 @@ if (isset($user)) {
     }
 }
 
-$sql = "SELECT topic_title, topic_status FROM " . $NPDS_Prefix . "forumtopics WHERE topic_id = '$topic'";
+$sql = "SELECT topic_title, topic_status FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
 if (!$result = sql_query($sql))
     forumerror('0001');
 $myrow = sql_fetch_assoc($result);
@@ -86,7 +86,7 @@ if (isset($user)) {
     $tmp_theme = $Default_Theme;
 $post_aff = $Mmod ? ' ' : " AND post_aff='1' ";
 
-$sql = "SELECT * FROM " . $NPDS_Prefix . "posts WHERE topic_id='$topic' AND post_id='$post_id'" . $post_aff;
+$sql = "SELECT * FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND post_id='$post_id'" . $post_aff;
 if (!$result = sql_query($sql))
     forumerror('0001');
 $myrow = sql_fetch_assoc($result);

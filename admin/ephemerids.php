@@ -120,16 +120,16 @@ function Ephemerids()
 
 function Ephemeridsadd($did, $mid, $yid, $content)
 {
-   global $NPDS_Prefix, $f_meta_nom;
+   global sql_prefix(''), $f_meta_nom;
    $content = stripslashes(FixQuotes($content) . "");
-   sql_query("INSERT into " . $NPDS_Prefix . "ephem VALUES (NULL, '$did', '$mid', '$yid', '$content')");
+   sql_query("INSERT into " . sql_prefix('') . "ephem VALUES (NULL, '$did', '$mid', '$yid', '$content')");
    Header("Location: admin.php?op=Ephemerids");
 }
 
 function Ephemeridsmaintenance($did, $mid)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
-   $resultX = sql_query("SELECT eid, did, mid, yid, content FROM " . $NPDS_Prefix . "ephem WHERE did='$did' AND mid='$mid' ORDER BY yid ASC");
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   $resultX = sql_query("SELECT eid, did, mid, yid, content FROM " . sql_prefix('') . "ephem WHERE did='$did' AND mid='$mid' ORDER BY yid ASC");
    if (!sql_num_rows($resultX)) header("location: admin.php?op=Ephemerids");
    include("header.php");
    GraphicAdmin($hlpfile);
@@ -163,18 +163,18 @@ function Ephemeridsmaintenance($did, $mid)
 
 function Ephemeridsdel($eid, $did, $mid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "ephem WHERE eid='$eid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "ephem WHERE eid='$eid'");
    Header("Location: admin.php?op=Ephemeridsmaintenance&did=$did&mid=$mid");
 }
 
 function Ephemeridsedit($eid, $did, $mid)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT yid, content FROM " . $NPDS_Prefix . "ephem WHERE eid='$eid'");
+   $result = sql_query("SELECT yid, content FROM " . sql_prefix('') . "ephem WHERE eid='$eid'");
    list($yid, $content) = sql_fetch_row($result);
    echo '
    <hr />
@@ -199,9 +199,9 @@ function Ephemeridsedit($eid, $did, $mid)
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    $content = stripslashes(FixQuotes($content) . "");
-   sql_query("UPDATE " . $NPDS_Prefix . "ephem SET yid='$yid', content='$content' WHERE eid='$eid'");
+   sql_query("UPDATE " . sql_prefix('') . "ephem SET yid='$yid', content='$content' WHERE eid='$eid'");
    Header("Location: admin.php?op=Ephemeridsmaintenance&did=$did&mid=$mid");
 }
 

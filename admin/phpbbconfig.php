@@ -26,12 +26,12 @@ $hlpfile = "manuels/$language/forumconfig.html";
 
 function ForumConfigAdmin()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "config");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "config");
    list($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $forum_attachments, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved) = sql_fetch_row($result);
    echo '
    <hr />
@@ -284,8 +284,8 @@ function ForumConfigAdmin()
 
 function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "config SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', anti_flood='$anti_flood', solved='$solved'");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "config SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', anti_flood='$anti_flood', solved='$solved'");
    Q_Clean();
    Header("Location: admin.php?op=ForumConfigAdmin");
 }

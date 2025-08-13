@@ -94,8 +94,8 @@ function puthome($ihome)
 
 function SelectCategory($cat)
 {
-   global $NPDS_Prefix;
-   $selcat = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat");
+   global sql_prefix('');
+   $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
    echo ' 
       <div class="mb-3 row">
          <label class="col-sm-4 col-form-label" for="catid">' . adm_translate("Catégorie") . '</label>
@@ -158,7 +158,7 @@ function AddCategory()
 
 function SaveCategory($title)
 {
-   global $NPDS_Prefix, $aid, $f_meta_nom, $adminimg;
+   global sql_prefix(''), $aid, $f_meta_nom, $adminimg;
 
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
@@ -167,12 +167,12 @@ function SaveCategory($title)
    //<== controle droit
 
    $title = preg_replace('#"#', '', $title);
-   $check = sql_num_rows(sql_query("SELECT catid FROM " . $NPDS_Prefix . "stories_cat WHERE title='$title'"));
+   $check = sql_num_rows(sql_query("SELECT catid FROM " . sql_prefix('') . "stories_cat WHERE title='$title'"));
    if ($check)
       $what1 = '<div class="alert alert-danger lead" role="alert">' . adm_translate("Cette Catégorie existe déjà !") . '<br /><a href="javascript:history.go(-1)" class="btn btn-secondary  mt-2">' . adm_translate("Retour en arrière, pour changer le Nom") . '</a></div>';
    else {
       $what1 = '<div class="alert alert-success lead" role="alert">' . adm_translate("Nouvelle Catégorie ajoutée") . '</div>';
-      $result = sql_query("INSERT INTO " . $NPDS_Prefix . "stories_cat VALUES (NULL, '$title', '0')");
+      $result = sql_query("INSERT INTO " . sql_prefix('') . "stories_cat VALUES (NULL, '$title', '0')");
    }
    include("header.php");
    GraphicAdmin('');
@@ -186,7 +186,7 @@ function SaveCategory($title)
 
 function EditCategory($catid)
 {
-   global $NPDS_Prefix, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
    //==> controle droit
@@ -199,10 +199,10 @@ function EditCategory($catid)
    echo '
    <hr />
    <h3 class="mb-3">' . adm_translate("Edition des Catégories") . '</h3>';
-   $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$catid'");
+   $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
    list($title) = sql_fetch_row($result);
    if (!$catid) {
-      $selcat = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat");
+      $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
       echo '
    <form action="admin.php" method="post">
       <div class="mb-3 row">
@@ -253,15 +253,15 @@ function EditCategory($catid)
 }
 function SaveEditCategory($catid, $title)
 {
-   global $NPDS_Prefix, $aid, $f_meta_nom, $adminimg;
+   global sql_prefix(''), $aid, $f_meta_nom, $adminimg;
    $f_titre = adm_translate("Articles");
    $title = preg_replace('#"#', '', $title);
-   $check = sql_num_rows(sql_query("SELECT catid FROM " . $NPDS_Prefix . "stories_cat WHERE title='$title'"));
+   $check = sql_num_rows(sql_query("SELECT catid FROM " . sql_prefix('') . "stories_cat WHERE title='$title'"));
    if ($check) {
       $what1 = '<div class="alert alert-danger lead" role="alert">' . adm_translate("Cette Catégorie existe déjà !") . '<br /><a href="javascript:history.go(-2)" class="btn btn-secondary  mt-2">' . adm_translate("Retour en arrière, pour changer le Nom") . '</a></div>';
    } else {
       $what1 = '<div class="alert alert-success lead" role="alert">' . adm_translate("Catégorie sauvegardée") . '</div>';
-      $result = sql_query("UPDATE " . $NPDS_Prefix . "stories_cat SET title='$title' WHERE catid='$catid'");
+      $result = sql_query("UPDATE " . sql_prefix('') . "stories_cat SET title='$title' WHERE catid='$catid'");
       global $aid;
       Ecr_Log("security", "SaveEditCategory($catid, $title) by AID : $aid", "");
    }
@@ -277,7 +277,7 @@ function SaveEditCategory($catid, $title)
 
 function DelCategory($cat)
 {
-   global $NPDS_Prefix, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
    //==> controle droit
@@ -286,14 +286,14 @@ function DelCategory($cat)
    include("header.php");
    GraphicAdmin('');
 
-   $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$cat'");
+   $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$cat'");
    list($title) = sql_fetch_row($result);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
    <h3 class="mb-3 text-danger">' . adm_translate("Supprimer une Catégorie") . '</h3>';
    if (!$cat) {
-      $selcat = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat");
+      $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
       echo '
    <form action="admin.php" method="post">
       <div class="mb-3 row">
@@ -316,10 +316,10 @@ function DelCategory($cat)
       </div>
    </form>';
    } else {
-      $result2 = sql_query("SELECT * FROM " . $NPDS_Prefix . "stories WHERE catid='$cat'");
+      $result2 = sql_query("SELECT * FROM " . sql_prefix('') . "stories WHERE catid='$cat'");
       $numrows = sql_num_rows($result2);
       if ($numrows == 0) {
-         sql_query("DELETE FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$cat'");
+         sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$cat'");
          global $aid;
          Ecr_Log('security', "DelCategory($cat) by AID : $aid", '');
          echo '
@@ -340,16 +340,16 @@ function DelCategory($cat)
 }
 function YesDelCategory($catid)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
-   sql_query("DELETE FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$catid'");
-   $result = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE catid='$catid'");
+   sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+   $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
    while (list($sid) = sql_fetch_row($result)) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "stories WHERE catid='$catid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
       // commentaires
       if (file_exists("modules/comments/article.conf.php")) {
          include("modules/comments/article.conf.php");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
+         sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
       }
    }
    global $aid;
@@ -358,7 +358,7 @@ function YesDelCategory($catid)
 }
 function NoMoveCategory($catid, $newcat)
 {
-   global $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $aid;
+   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
    //==> controle droit
@@ -367,7 +367,7 @@ function NoMoveCategory($catid, $newcat)
    include("header.php");
    GraphicAdmin('');
 
-   $result = sql_query("SELECT title FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$catid'");
+   $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
    list($title) = sql_fetch_row($result);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -375,7 +375,7 @@ function NoMoveCategory($catid, $newcat)
    <h3 class="mb-3">' . adm_translate("Affectation d'Articles vers une nouvelle Catégorie") . '</h3>';
    if (!$newcat) {
       echo '<label>' . adm_translate("Tous les Articles dans") . ' <strong>' . aff_langue($title) . '</strong> ' . adm_translate("seront affectés à") . '</label>';
-      $selcat = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat");
+      $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
       echo '
    <form action="admin.php" method="post">
       <div class="mb-3 row">
@@ -400,11 +400,11 @@ function NoMoveCategory($catid, $newcat)
       </div>
    </form>';
    } else {
-      $resultm = sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories WHERE catid='$catid'");
+      $resultm = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
       while (list($sid) = sql_fetch_row($resultm)) {
-         sql_query("UPDATE " . $NPDS_Prefix . "stories SET catid='$newcat' WHERE sid='$sid'");
+         sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$newcat' WHERE sid='$sid'");
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "stories_cat WHERE catid='$catid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
       global $aid;
       Ecr_Log("security", "NoMoveCategory($catid, $newcat) by AID : $aid", "");
       echo '<div class="alert alert-success"><strong>' . adm_translate("La ré-affectation est terminée !") . '</strong></div>';
@@ -415,11 +415,11 @@ function NoMoveCategory($catid, $newcat)
 // NEWS
 function displayStory($qid)
 {
-   global $NPDS_Prefix, $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
    $hlpfile = "manuels/$language/newarticle.html";
-   $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur FROM " . $NPDS_Prefix . "queue WHERE qid='$qid'");
+   $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
    list($qid, $uid, $uname, $subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur) = sql_fetch_row($result);
    sql_free_result($result);
    $subject = stripslashes($subject);
@@ -430,7 +430,7 @@ function displayStory($qid)
       $topic = 1;
    }
    $affiche = false;
-   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
    if ($radminsuper) {
       $affiche = true;
@@ -483,7 +483,7 @@ function displayStory($qid)
          <label class="col-sm-4 col-form-label" for="topic">' . adm_translate("Sujet") . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
                <option value="">' . adm_translate("Tous les Sujets") . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {
@@ -561,7 +561,7 @@ function displayStory($qid)
 
 function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 {
-   global $NPDS_Prefix, $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Articles");
    $hlpfile = "manuels/$language/newarticle.html";
@@ -575,7 +575,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
       $topic = 1;
    }
    $affiche = false;
-   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
    if ($radminsuper)
       $affiche = true;
@@ -629,7 +629,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
          <label class="col-form-label col-sm-4" for="topic">' . adm_translate("Sujet") . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
                <option value="">' . adm_translate("Tous les Sujets") . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {
@@ -702,7 +702,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
 
 function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur)
 {
-   global $NPDS_Prefix, $aid, $ultramode;
+   global sql_prefix(''), $aid, $ultramode;
    if ($uid == 1) $author = '';
    if ($hometext == $bodytext) $bodytext = '';
 
@@ -728,15 +728,15 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
    if (($members == 1) and (($Mmembers > 1) and ($Mmembers <= 127))) $ihome = $Mmembers;
 
    if ($type_pub == 'pub_immediate') {
-      $result = sql_query("INSERT INTO " . $NPDS_Prefix . "stories VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
+      $result = sql_query("INSERT INTO " . sql_prefix('') . "stories VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
       Ecr_Log("security", "postStory (pub_immediate, $subject) by AID : $aid", "");
    } else {
-      $result = sql_query("INSERT INTO " . $NPDS_Prefix . "autonews VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
+      $result = sql_query("INSERT INTO " . sql_prefix('') . "autonews VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
       Ecr_Log("security", "postStory (autonews, $subject) by AID : $aid", "");
    }
    if (($uid != 1) and ($uid != ''))
-      sql_query("UPDATE " . $NPDS_Prefix . "users SET counter=counter+1 WHERE uid='$uid'");
-   sql_query("UPDATE " . $NPDS_Prefix . "authors SET counter=counter+1 WHERE aid='$aid'");
+      sql_query("UPDATE " . sql_prefix('') . "users SET counter=counter+1 WHERE uid='$uid'");
+   sql_query("UPDATE " . sql_prefix('') . "authors SET counter=counter+1 WHERE aid='$aid'");
    if ($ultramode)
       ultramode();
    deleteStory($qid);
@@ -759,7 +759,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
 function editStory($sid)
 {
-   global $NPDS_Prefix, $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Editer un Article");
    //==> controle droit
@@ -771,7 +771,7 @@ function editStory($sid)
 
    $hlpfile = "manuels/$language/newarticle.html";
 
-   $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+   $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
    list($catid, $subject, $hometext, $bodytext, $topic, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result);
    $subject = stripslashes($subject);
    $hometext = stripslashes($hometext);
@@ -780,7 +780,7 @@ function editStory($sid)
    $notes = stripslashes($notes);
 
    $affiche = false;
-   $result2 = sql_query("SELECT topictext, topicname, topicimage, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topictext, topicname, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topictext, $topicname, $topicimage, $topicadmin) = sql_fetch_row($result2);
    if ($radminsuper)
       $affiche = true;
@@ -797,7 +797,7 @@ function editStory($sid)
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
-   $result = sql_query("SELECT topictext, topicimage FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topictext, $topicimage) = sql_fetch_row($result);
 
    echo '<hr />' . aff_local_langue('', 'local_user_language', '<label class="col-form-label">' . adm_translate("Langue de Prévisualisation") . '</label>');
@@ -828,7 +828,7 @@ function editStory($sid)
          <label class="col-sm-4 col-form-label" for="topic">' . adm_translate("Sujet") . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
                <option value="">' . adm_translate("Tous les Sujets") . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {
@@ -943,8 +943,8 @@ function editStory($sid)
 
 function deleteStory($qid)
 {
-   global $NPDS_Prefix;
-   $res = sql_query("SELECT story, bodytext FROM " . $NPDS_Prefix . "queue WHERE qid='$qid'");
+   global sql_prefix('');
+   $res = sql_query("SELECT story, bodytext FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
    list($story, $bodytext) = sql_fetch_row($res);
    $artcomplet = $story . $bodytext;
    $rechcacheimage = '#cache/a[i|c|]\d+_\d+_\d+.[a-z]{3,4}#m';
@@ -952,7 +952,7 @@ function deleteStory($qid)
    foreach ($cacheimages[0] as $imagetodelete) {
       unlink($imagetodelete);
    }
-   $result = sql_query("DELETE FROM " . $NPDS_Prefix . "queue WHERE qid='$qid'");
+   $result = sql_query("DELETE FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
    global $aid;
    Ecr_Log("security", "deleteStoryfromQueue($qid) by AID : $aid", "");
 }
@@ -961,11 +961,11 @@ function removeStory($sid, $ok = 0)
 {
    if (($sid == '') or ($sid == '0'))
       header("location: admin.php");
-   global $NPDS_Prefix, $ultramode, $aid, $radminsuper;
-   $result = sql_query("SELECT topic FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+   global sql_prefix(''), $ultramode, $aid, $radminsuper;
+   $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
    list($topic) = sql_fetch_row($result);
    $affiche = false;
-   $result2 = sql_query("SELECT topicadmin, topicname FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topicadmin, topicname FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topicadmin, $topicname) = sql_fetch_row($result2);
    if ($radminsuper)
       $affiche = true;
@@ -978,7 +978,7 @@ function removeStory($sid, $ok = 0)
    if (!$affiche) header("location: admin.php");
 
    if ($ok) {
-      $res = sql_query("SELECT hometext, bodytext, notes FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+      $res = sql_query("SELECT hometext, bodytext, notes FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
       list($hometext, $bodytext, $notes) = sql_fetch_row($res);
       $artcomplet = $hometext . $bodytext . $notes;
       $rechuploadimage = '#modules/upload/upload/a[i|c|]\d+_\d+_\d+.[a-z]{3,4}#m';
@@ -986,11 +986,11 @@ function removeStory($sid, $ok = 0)
       foreach ($uploadimages[0] as $imagetodelete) {
          unlink($imagetodelete);
       }
-      sql_query("DELETE FROM " . $NPDS_Prefix . "stories WHERE sid='$sid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
       // commentaires
       if (file_exists("modules/comments/article.conf.php")) {
          include("modules/comments/article.conf.php");
-         sql_query("DELETE FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
+         sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
       }
       global $aid;
       Ecr_Log('security', "removeStory ($sid, $ok) by AID : $aid", '');
@@ -1011,7 +1011,7 @@ function removeStory($sid, $ok = 0)
 
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme, $dd_pub, $fd_pub, $dh_pub, $fh_pub)
 {
-   global $NPDS_Prefix, $aid, $ultramode;
+   global sql_prefix(''), $aid, $ultramode;
    $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
    $hometext = stripslashes(FixQuotes($hometext));
    $bodytext = stripslashes(FixQuotes($bodytext));
@@ -1020,19 +1020,19 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
    if (($members == 1) and (($Mmembers > 1) and ($Mmembers <= 127))) $ihome = $Mmembers;
 
    if ($Cdate) {
-      sql_query("UPDATE " . $NPDS_Prefix . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome',time=now(), date_finval='$date_finval', auto_epur='$epur', archive='0' WHERE sid='$sid'");
+      sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome',time=now(), date_finval='$date_finval', auto_epur='$epur', archive='0' WHERE sid='$sid'");
    } else {
-      sql_query("UPDATE " . $NPDS_Prefix . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_finval='$date_finval', auto_epur='$epur' WHERE sid='$sid'");
+      sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_finval='$date_finval', auto_epur='$epur' WHERE sid='$sid'");
    }
    if ($Csid) {
-      sql_query("UPDATE " . $NPDS_Prefix . "stories SET hometext='<i class=\"fa fa-thumb-tack fa-2x me-2 text-body-secondary\"></i> $hometext' WHERE sid='$sid'");
-      list($Lsid) = sql_fetch_row(sql_query("SELECT sid FROM " . $NPDS_Prefix . "stories ORDER BY sid DESC"));
+      sql_query("UPDATE " . sql_prefix('') . "stories SET hometext='<i class=\"fa fa-thumb-tack fa-2x me-2 text-body-secondary\"></i> $hometext' WHERE sid='$sid'");
+      list($Lsid) = sql_fetch_row(sql_query("SELECT sid FROM " . sql_prefix('') . "stories ORDER BY sid DESC"));
       $Lsid++;
-      sql_query("UPDATE " . $NPDS_Prefix . "stories SET sid='$Lsid' WHERE sid='$sid'");
+      sql_query("UPDATE " . sql_prefix('') . "stories SET sid='$Lsid' WHERE sid='$sid'");
       // commentaires
       if (file_exists("modules/comments/article.conf.php")) {
          include("modules/comments/article.conf.php");
-         sql_query("UPDATE " . $NPDS_Prefix . "posts SET topic_id='$Lsid' WHERE forum_id='$forum' AND topic_id='$topic'");
+         sql_query("UPDATE " . sql_prefix('') . "posts SET topic_id='$Lsid' WHERE forum_id='$forum' AND topic_id='$topic'");
       }
       $sid = $Lsid;
    }
@@ -1062,7 +1062,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 
 function adminStory()
 {
-   global $NPDS_Prefix, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
    $f_titre = adm_translate("Nouvel Article");
    //==> controle droit
@@ -1098,7 +1098,7 @@ function adminStory()
          <label class="col-sm-4 col-form-label" for="topic">' . adm_translate("Sujet") . '</label>
          <div class="col-sm-8">
          <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    //probablement ici aussi mettre les droits pour les gestionnaires de topics ??
    if ($radminsuper) echo '
             <option value="">' . adm_translate("Sélectionner un Sujet") . '</option>';
@@ -1178,7 +1178,7 @@ function adminStory()
 
 function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 {
-   global $NPDS_Prefix, $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
+   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
    $hlpfile = "manuels/$language/newarticle.html";
 
    $subject = stripslashes(str_replace('"', '&quot;', $subject));
@@ -1188,7 +1188,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
 
    if ($topic < 1) $topic = 1;
    $affiche = false;
-   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
    if ($radminsuper)
       $affiche = true;
@@ -1242,7 +1242,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
             <label class="col-sm-4 col-form-label" for="topic">' . adm_translate("Sujet") . '</label>
             <div class="col-sm-8">
                <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
                   <option value="">' . adm_translate("Tous les Sujets") . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {

@@ -107,7 +107,7 @@ function droits_bloc($member, $j, $lb)
 
 function blocks()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg, $aid;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -115,7 +115,7 @@ function blocks()
    echo '
    <hr />
    <h3>' . adm_translate("Edition des Blocs de gauche") . '</h3>';
-   $result = sql_query("SELECT id, title, content, member, Lindex, cache, actif, aide, css FROM " . $NPDS_Prefix . "lblocks ORDER BY Lindex ASC");
+   $result = sql_query("SELECT id, title, content, member, Lindex, cache, actif, aide, css FROM " . sql_prefix('') . "lblocks ORDER BY Lindex ASC");
    $num_row = sql_num_rows($result);
    if ($num_row > 0) {
       echo '
@@ -275,7 +275,7 @@ function blocks()
    echo '
    <hr />
    <h3>' . adm_translate("Edition des Blocs de droite") . '</h3>';
-   $result = sql_query("SELECT id, title, content, member, Rindex, cache, actif, aide, css FROM " . $NPDS_Prefix . "rblocks ORDER BY Rindex ASC");
+   $result = sql_query("SELECT id, title, content, member, Rindex, cache, actif, aide, css FROM " . sql_prefix('') . "rblocks ORDER BY Rindex ASC");
    $num_row = sql_num_rows($result);
    if ($num_row > 0) {
       echo '

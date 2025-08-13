@@ -24,9 +24,9 @@ $Smax = '99';
 /*jules*/
 function ancre($forum_id, $topic_id, $post_id, $posts_per_page)
 {
-    global $NPDS_Prefix;
+    global sql_prefix('');
 
-    $rowQ1 = Q_Select("SELECT post_id FROM " . $NPDS_Prefix . "posts WHERE forum_id='$forum_id' AND topic_id='$topic_id' ORDER BY post_id ASC", 600);
+    $rowQ1 = Q_Select("SELECT post_id FROM " . sql_prefix('') . "posts WHERE forum_id='$forum_id' AND topic_id='$topic_id' ORDER BY post_id ASC", 600);
     if (!$rowQ1)
         forumerror('0015');
     $i = 0;
@@ -85,7 +85,7 @@ echo '
          <div class="col-sm-8">
             <select class="form-select" name="forum" id="forum">
                <option value="all">' . translate("Rechercher dans tous les forums") . '</option>';
-$rowQ1 = Q_Select("SELECT forum_name,forum_id FROM " . $NPDS_Prefix . "forums", 3600);
+$rowQ1 = Q_Select("SELECT forum_name,forum_id FROM " . sql_prefix('') . "forums", 3600);
 if (!$rowQ1)
     forumerror('0015');
 foreach ($rowQ1 as $row) {
@@ -142,7 +142,7 @@ echo '/>
       </div>
    </form>';
 
-$query = "SELECT u.uid, f.forum_id, p.topic_id, p.post_id, u.uname, p.post_time, t.topic_title, f.forum_name, f.forum_type, f.forum_pass, f.arbre FROM " . $NPDS_Prefix . "posts p, " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "forums f, " . $NPDS_Prefix . "forumtopics t";
+$query = "SELECT u.uid, f.forum_id, p.topic_id, p.post_id, u.uname, p.post_time, t.topic_title, f.forum_name, f.forum_type, f.forum_pass, f.arbre FROM " . sql_prefix('') . "posts p, " . sql_prefix('') . "users u, " . sql_prefix('') . "forums f, " . sql_prefix('') . "forumtopics t";
 if (isset($term) && $term != '') {
     $andor = '';
     $terms = explode(' ', stripslashes(removeHack(trim($term))));
@@ -163,7 +163,7 @@ if (isset($forum) && $forum != 'all' && $forum != 0) {
 
 if (isset($username) && $username != '') {
     $username = removeHack(stripslashes(htmlspecialchars(urldecode($username), ENT_QUOTES, 'UTF-8'))); // electrobug
-    if (!$result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE uname='$username'"))
+    if (!$result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$username'"))
         forumerror('0001');
     list($userid) = sql_fetch_row($result);
     $addquery .= isset($addquery) ?

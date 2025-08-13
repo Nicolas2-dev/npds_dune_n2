@@ -24,21 +24,21 @@ $hlpfile = "manuels/$language/reviews.html";
 
 function mod_main($title, $description)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $title = stripslashes(FixQuotes($title));
    $description = stripslashes(FixQuotes($description));
-   sql_query("UPDATE " . $NPDS_Prefix . "reviews_main SET title='$title', description='$description'");
+   sql_query("UPDATE " . sql_prefix('') . "reviews_main SET title='$title', description='$description'");
    Header("Location: admin.php?op=reviews");
 }
 
 function reviews()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $resultrm = sql_query("SELECT title, description FROM " . $NPDS_Prefix . "reviews_main");
+   $resultrm = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
    list($title, $description) = sql_fetch_row($resultrm);
 
    echo '
@@ -68,7 +68,7 @@ function reviews()
       </fieldset>
    </form>
    <hr />';
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "reviews_add ORDER BY id");
+   $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews_add ORDER BY id");
    $numrows = sql_num_rows($result);
    echo '<h3>' . adm_translate("Critiques en attente de validation") . '<span class="badge bg-danger float-end">' . $numrows . '</span></h3>';
    $jsfvc = '';
@@ -207,14 +207,14 @@ function reviews()
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    $title = stripslashes(FixQuotes($title));
    $text = stripslashes(FixQuotes($text));
    $reviewer = stripslashes(FixQuotes($reviewer));
    $email = stripslashes(FixQuotes($email));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "reviews_add WHERE id = '$id'");
+   sql_query("INSERT INTO " . sql_prefix('') . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
+   sql_query("DELETE FROM " . sql_prefix('') . "reviews_add WHERE id = '$id'");
    Header("Location: admin.php?op=reviews");
 }
 

@@ -24,7 +24,7 @@ $hlpfile = "manuels/$language/leftblocks.html";
 
 function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLaide, $SHTML, $css)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -34,7 +34,7 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
    $content = stripslashes(FixQuotes($content));
    if ($SHTML != 'ON')
       $content = strip_tags(str_replace('<br />', '\n', $content));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "lblocks VALUES (NULL,'$title','$content','$members', '$Lindex', '$Scache', '1','$css', '$BLaide')");
+   sql_query("INSERT INTO " . sql_prefix('') . "lblocks VALUES (NULL,'$title','$content','$members', '$Lindex', '$Scache', '1','$css', '$BLaide')");
 
    global $aid;
    Ecr_Log('security', "MakeLeftBlock(" . aff_langue($title) . ") by AID : $aid", "");
@@ -43,7 +43,7 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
 
 function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -56,7 +56,7 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
    else $css = 0;
    $content = stripslashes(FixQuotes($content));
    $BLaide = stripslashes(FixQuotes($BLaide));
-   sql_query("UPDATE " . $NPDS_Prefix . "lblocks SET title='$title', content='$content', member='$members', Lindex='$Lindex', cache='$Scache', actif='$Sactif', aide='$BLaide', css='$css' WHERE id='$id'");
+   sql_query("UPDATE " . sql_prefix('') . "lblocks SET title='$title', content='$content', member='$members', Lindex='$Lindex', cache='$Scache', actif='$Sactif', aide='$BLaide', css='$css' WHERE id='$id'");
 
    global $aid;
    Ecr_Log('security', "ChangeLeftBlock(" . aff_langue($title) . " - $id) by AID : $aid", '');
@@ -65,7 +65,7 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
 
 function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -80,8 +80,8 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
    else $css = 0;
    $content = stripslashes(FixQuotes($content));
    $BLaide = stripslashes(FixQuotes($BLaide));
-   sql_query("INSERT INTO " . $NPDS_Prefix . "rblocks VALUES (NULL,'$title','$content', '$members', '$Lindex', '$Scache', '$Sactif', '$css', '$BLaide')");
-   sql_query("DELETE FROM " . $NPDS_Prefix . "lblocks WHERE id='$id'");
+   sql_query("INSERT INTO " . sql_prefix('') . "rblocks VALUES (NULL,'$title','$content', '$members', '$Lindex', '$Scache', '$Sactif', '$css', '$BLaide')");
+   sql_query("DELETE FROM " . sql_prefix('') . "lblocks WHERE id='$id'");
 
    global $aid;
    Ecr_Log('security', "MoveLeftBlockToRight(" . aff_langue($title) . " - $id) by AID : $aid", '');
@@ -90,8 +90,8 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
 
 function deletelblock($id)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "lblocks WHERE id='$id'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "lblocks WHERE id='$id'");
    global $aid;
    Ecr_Log('security', "DeleteLeftBlock($id) by AID : $aid", '');
    Header("Location: admin.php?op=blocks");

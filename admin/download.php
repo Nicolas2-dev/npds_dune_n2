@@ -106,11 +106,11 @@ function droits($member)
 
 function DownloadAdmin()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $resultX = sql_query("SELECT DISTINCT dcategory FROM " . $NPDS_Prefix . "downloads ORDER BY dcategory");
+   $resultX = sql_query("SELECT DISTINCT dcategory FROM " . sql_prefix('') . "downloads ORDER BY dcategory");
    $num_row = sql_num_rows($resultX);
 
    echo '
@@ -139,7 +139,7 @@ function DownloadAdmin()
             </tr>
          </thead>
          <tbody>';
-      $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dver, perms FROM " . $NPDS_Prefix . "downloads WHERE dcategory='" . addslashes($dcategory) . "' ORDER BY did ASC");
+      $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dver, perms FROM " . sql_prefix('') . "downloads WHERE dcategory='" . addslashes($dcategory) . "' ORDER BY did ASC");
       while (list($did, $dcounter, $durl, $dfilename, $dfilesize, $ddate, $dver, $dperm) = sql_fetch_row($result)) {
          if ($dperm == '0') $dperm = '<span title="' . adm_translate("Anonymes") . '<br />' . adm_translate("Membres") . '<br />' . adm_translate("Administrateurs") . '" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true"><i class="far fa-user fa-lg"></i><i class="fas fa-user fa-lg"></i><i class="fa fa-user-cog fa-lg"></i></span>';
          else if ($dperm == '1') $dperm = '<span title="' . adm_translate("Membres") . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-user fa-lg"></i></span>';
@@ -241,7 +241,7 @@ function DownloadAdmin()
             <span class="help-block text-end" id="countcar_dcategory"></span>
             <select class="form-select" name="sdcategory" onchange="adminForm.dcategory.value=options[selectedIndex].value">
                <option>' . adm_translate("Catégorie") . '</option>';
-   $result = sql_query("SELECT DISTINCT dcategory FROM " . $NPDS_Prefix . "downloads ORDER BY dcategory");
+   $result = sql_query("SELECT DISTINCT dcategory FROM " . sql_prefix('') . "downloads ORDER BY dcategory");
    while (list($dcategory) = sql_fetch_row($result)) {
       $dcategory = stripslashes($dcategory);
       echo '
@@ -285,11 +285,11 @@ function DownloadAdmin()
 
 function DownloadEdit($did)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dweb, duser, dver, dcategory, ddescription, perms FROM " . $NPDS_Prefix . "downloads WHERE did='$did'");
+   $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dweb, duser, dver, dcategory, ddescription, perms FROM " . sql_prefix('') . "downloads WHERE did='$did'");
    list($did, $dcounter, $durl, $dfilename, $dfilesize, $ddate, $dweb, $duser, $dver, $dcategory, $ddescription, $privs) = sql_fetch_row($result);
    $ddescription = stripslashes($ddescription);
    echo '
@@ -345,7 +345,7 @@ function DownloadEdit($did)
             <input class="form-control" type="text" id="dcategory" name="dcategory" value="' . stripslashes($dcategory) . '" maxlength="250" required="required" />
             <span class="help-block text-end"><span id="countcar_dcategory"></span></span>
             <select class="form-select" name="sdcategory" onchange="adminForm.dcategory.value=options[selectedIndex].value">';
-   $result = sql_query("SELECT DISTINCT dcategory FROM " . $NPDS_Prefix . "downloads ORDER BY dcategory");
+   $result = sql_query("SELECT DISTINCT dcategory FROM " . sql_prefix('') . "downloads ORDER BY dcategory");
    while (list($Xdcategory) = sql_fetch_row($result)) {
       $sel = $Xdcategory == $dcategory ? 'selected' : '';
       $Xdcategory = stripslashes($Xdcategory);
@@ -400,7 +400,7 @@ function DownloadEdit($did)
 
 function DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $ddate, $dver, $dcategory, $sdcategory, $description, $privs, $Mprivs)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($privs == 1) {
       if ($Mprivs != '')
          $privs = implode(',', $Mprivs);
@@ -410,15 +410,15 @@ function DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $du
    $description = addslashes($description);
    if ($ddate == "yes") {
       $time = date("Y-m-d");
-      sql_query("UPDATE " . $NPDS_Prefix . "downloads SET dcounter='$dcounter', durl='$durl', dfilename='$dfilename', dfilesize='$dfilesize', ddate='$time', dweb='$dweb', duser='$duser', dver='$dver', dcategory='$dcategory', ddescription='$description', perms='$privs' WHERE did='$did'");
+      sql_query("UPDATE " . sql_prefix('') . "downloads SET dcounter='$dcounter', durl='$durl', dfilename='$dfilename', dfilesize='$dfilesize', ddate='$time', dweb='$dweb', duser='$duser', dver='$dver', dcategory='$dcategory', ddescription='$description', perms='$privs' WHERE did='$did'");
    } else
-      sql_query("UPDATE " . $NPDS_Prefix . "downloads SET dcounter='$dcounter', durl='$durl', dfilename='$dfilename', dfilesize='$dfilesize', dweb='$dweb', duser='$duser', dver='$dver', dcategory='$dcategory', ddescription='$description', perms='$privs' WHERE did='$did'");
+      sql_query("UPDATE " . sql_prefix('') . "downloads SET dcounter='$dcounter', durl='$durl', dfilename='$dfilename', dfilesize='$dfilesize', dweb='$dweb', duser='$duser', dver='$dver', dcategory='$dcategory', ddescription='$description', perms='$privs' WHERE did='$did'");
    Header("Location: admin.php?op=DownloadAdmin");
 }
 
 function DownloadAdd($dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $dver, $dcategory, $sdcategory, $description, $privs, $Mprivs)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    if ($privs == 1) {
       if ($Mprivs > 1 and $Mprivs <= 127 and $Mprivs != '') $privs = $Mprivs;
    }
@@ -427,15 +427,15 @@ function DownloadAdd($dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $d
    $description = addslashes($description);
    $time = date("Y-m-d");
    if (($durl) and ($dfilename))
-      sql_query("INSERT INTO " . $NPDS_Prefix . "downloads VALUES ('0', '0', '$durl', '$dfilename', '0', '$time', '$dweb', '$duser', '$dver', '$dcategory', '$description', '$privs')");
+      sql_query("INSERT INTO " . sql_prefix('') . "downloads VALUES ('0', '0', '$durl', '$dfilename', '0', '$time', '$dweb', '$duser', '$dver', '$dcategory', '$description', '$privs')");
    Header("Location: admin.php?op=DownloadAdmin");
 }
 
 function DownloadDel($did, $ok = 0)
 {
-   global $NPDS_Prefix, $f_meta_nom;
+   global sql_prefix(''), $f_meta_nom;
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "downloads WHERE did='$did'");
+      sql_query("DELETE FROM " . sql_prefix('') . "downloads WHERE did='$did'");
       Header("Location: admin.php?op=DownloadAdmin");
    } else {
       global $hlpfile, $f_titre, $adminimg;

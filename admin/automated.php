@@ -95,8 +95,8 @@ function puthome($ihome)
 
 function SelectCategory($cat)
 {
-   global $NPDS_Prefix;
-   $selcat = sql_query("SELECT catid, title FROM " . $NPDS_Prefix . "stories_cat");
+   global sql_prefix('');
+   $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
    echo ' 
       <div class="mb-3 row">
          <label class="col-sm-4 col-form-label" for="catid">' . adm_translate("Catégorie") . '</label>
@@ -121,7 +121,7 @@ function SelectCategory($cat)
 
 function autoStory()
 {
-   global $hlpfile, $aid, $NPDS_Prefix, $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, sql_prefix(''), $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -138,11 +138,11 @@ function autoStory()
       </thead>
       <tbody>';
 
-   $result = sql_query("SELECT anid, title, date_debval, topic FROM " . $NPDS_Prefix . "autonews ORDER BY date_debval ASC");
+   $result = sql_query("SELECT anid, title, date_debval, topic FROM " . sql_prefix('') . "autonews ORDER BY date_debval ASC");
    while (list($anid, $title, $time, $topic) = sql_fetch_row($result)) {
       if ($anid != '') {
          $affiche = false;
-         $result2 = sql_query("SELECT topicadmin, topicname FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+         $result2 = sql_query("SELECT topicadmin, topicname FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
          list($topicadmin, $topicname) = sql_fetch_row($result2);
          if ($radminsuper)
             $affiche = true;
@@ -179,21 +179,21 @@ function autoStory()
 
 function autoDelete($anid)
 {
-   global $NPDS_Prefix;
-   sql_query("DELETE FROM " . $NPDS_Prefix . "autonews WHERE anid='$anid'");
+   global sql_prefix('');
+   sql_query("DELETE FROM " . sql_prefix('') . "autonews WHERE anid='$anid'");
    Header("Location: admin.php?op=autoStory");
 }
 
 function autoEdit($anid)
 {
-   global $aid, $hlpfile, $tipath, $radminsuper, $NPDS_Prefix, $adminimg;
+   global $aid, $hlpfile, $tipath, $radminsuper, sql_prefix(''), $adminimg;
    $f_meta_nom = 'autoStory';
    $f_titre = adm_translate("Editer un Article");
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
 
-   $result = sql_query("SELECT catid, title, time, hometext, bodytext, topic, informant, notes, ihome, date_debval,date_finval,auto_epur FROM " . $NPDS_Prefix . "autonews WHERE anid='$anid'");
+   $result = sql_query("SELECT catid, title, time, hometext, bodytext, topic, informant, notes, ihome, date_debval,date_finval,auto_epur FROM " . sql_prefix('') . "autonews WHERE anid='$anid'");
    list($catid, $title, $time, $hometext, $bodytext, $topic, $informant, $notes, $ihome, $date_debval, $date_finval, $epur) = sql_fetch_row($result);
    sql_free_result($result);
    $titre = stripslashes($title);
@@ -205,7 +205,7 @@ function autoEdit($anid)
       $topic = 1;
    }
    $affiche = false;
-   $result2 = sql_query("SELECT topicname, topictext, topicimage, topicadmin FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+   $result2 = sql_query("SELECT topicname, topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
    list($topicname, $topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
    if ($radminsuper)
       $affiche = true;
@@ -252,7 +252,7 @@ function autoEdit($anid)
          <label class="col-form-label col-sm-4" for="topic">' . adm_translate("Sujet") . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
-   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+   $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
                <option value="">' . adm_translate("Tous les Sujets") . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {
@@ -344,7 +344,7 @@ function autoEdit($anid)
 
 function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur)
 {
-   global $aid, $ultramode, $NPDS_Prefix;
+   global $aid, $ultramode, sql_prefix('');
 
    $title = stripslashes(FixQuotes(str_replace('"', '&quot;', $title)));
    $hometext = stripslashes(FixQuotes($hometext));
@@ -353,7 +353,7 @@ function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $cati
    if (($members == 1) and ($Mmembers == '')) $ihome = '-127';
    if (($members == 1) and (($Mmembers > 1) and ($Mmembers <= 127))) $ihome = $Mmembers;
 
-   $result = sql_query("UPDATE " . $NPDS_Prefix . "autonews SET catid='$catid', title='$title', time=now(), hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_debval='$date_debval', date_finval='$date_finval', auto_epur='$epur' WHERE anid='$anid'");
+   $result = sql_query("UPDATE " . sql_prefix('') . "autonews SET catid='$catid', title='$title', time=now(), hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_debval='$date_debval', date_finval='$date_finval', auto_epur='$epur' WHERE anid='$anid'");
    if ($ultramode)
       ultramode();
    Header("Location: admin.php?op=autoEdit&anid=$anid");

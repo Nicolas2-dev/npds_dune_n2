@@ -27,7 +27,7 @@ $listdroitsmodulo = '';
 $hlpfile = "manuels/$language/authors.html";
 
 // sélection des fonctions sauf les fonctions de type alerte 
-$R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie FROM " . $NPDS_Prefix . "fonctions f WHERE f.finterface =1 AND fcategorie < 7 ORDER BY f.fcategorie");
+$R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie FROM " . sql_prefix('') . "fonctions f WHERE f.finterface =1 AND fcategorie < 7 ORDER BY f.fcategorie");
 while (list($fid, $fnom, $fnom_affich, $fcategorie) = sql_fetch_row($R)) {
    if ($fcategorie == 6) {
       $listdroitsmodulo .= '
@@ -93,11 +93,11 @@ $scri_check = '
 
 function displayadmins()
 {
-   global $hlpfile, $NPDS_Prefix, $admf_ext, $fieldnames, $listdroits, $listdroitsmodulo, $f_meta_nom, $f_titre, $adminimg, $scri_check;
+   global $hlpfile, sql_prefix(''), $admf_ext, $fieldnames, $listdroits, $listdroitsmodulo, $f_meta_nom, $f_titre, $adminimg, $scri_check;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT aid, name, url, email, radminsuper FROM " . $NPDS_Prefix . "authors");
+   $result = sql_query("SELECT aid, name, url, email, radminsuper FROM " . sql_prefix('') . "authors");
    echo '
    <hr />
    <h3>' . adm_translate("Les administrateurs") . '</h3>
@@ -247,7 +247,7 @@ function displayadmins()
 
 function modifyadmin($chng_aid)
 {
-   global $hlpfile, $aid, $NPDS_Prefix, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $scri_check, $fv_parametres;
+   global $hlpfile, $aid, sql_prefix(''), $admf_ext, $f_meta_nom, $f_titre, $adminimg, $scri_check, $fv_parametres;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -255,18 +255,18 @@ function modifyadmin($chng_aid)
    <hr />
    <h3>' . adm_translate("Actualiser l'administrateur") . ' : <span class="text-body-secondary">' . $chng_aid . '</span></h3>';
 
-   $result = sql_query("SELECT aid, name, url, email, pwd, radminsuper FROM " . $NPDS_Prefix . "authors WHERE aid='$chng_aid'");
+   $result = sql_query("SELECT aid, name, url, email, pwd, radminsuper FROM " . sql_prefix('') . "authors WHERE aid='$chng_aid'");
    list($chng_aid, $chng_name, $chng_url, $chng_email, $chng_pwd, $chng_radminsuper) = sql_fetch_row($result);
    $supadm_inp = $chng_radminsuper == 1 ? ' checked="checked"' : '';
    //==> construction des check-box des droits
    $listdroits = '';
    $listdroitsmodulo = '';
-   $result3 = sql_query("SELECT * FROM " . $NPDS_Prefix . "droits WHERE d_aut_aid ='$chng_aid'");
+   $result3 = sql_query("SELECT * FROM " . sql_prefix('') . "droits WHERE d_aut_aid ='$chng_aid'");
    $datas = array();
    while ($data = sql_fetch_row($result3)) {
       $datas[] = $data[1];
    }
-   $R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie FROM " . $NPDS_Prefix . "fonctions f WHERE f.finterface =1 AND fcategorie < 7 ORDER BY f.fcategorie");
+   $R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie FROM " . sql_prefix('') . "fonctions f WHERE f.finterface =1 AND fcategorie < 7 ORDER BY f.fcategorie");
    while (list($fid, $fnom, $fnom_affich, $fcategorie) = sql_fetch_row($R)) {
       $chec = in_array($fid, $datas) ? 'checked="checked"' : '';
       if ($fcategorie == 6) {
@@ -389,21 +389,21 @@ function modifyadmin($chng_aid)
 
 function deletedroits($del_dr_aid)
 {
-   global $NPDS_Prefix;
-   $res = sql_query("DELETE FROM " . $NPDS_Prefix . "droits WHERE d_aut_aid='$del_dr_aid'");
+   global sql_prefix('');
+   $res = sql_query("DELETE FROM " . sql_prefix('') . "droits WHERE d_aut_aid='$del_dr_aid'");
 }
 
 function updatedroits($chng_aid)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
    foreach ($_POST as $y => $w) {
-      if (stristr("$y", 'ad_d_')) $res = sql_query("INSERT INTO " . $NPDS_Prefix . "droits VALUES ('$chng_aid', '$w', 11111)");
+      if (stristr("$y", 'ad_d_')) $res = sql_query("INSERT INTO " . sql_prefix('') . "droits VALUES ('$chng_aid', '$w', 11111)");
    }
 }
 
 function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $ad_d_27, $old_pwd)
 {
-   global $NPDS_Prefix;
+   global sql_prefix('');
 
    if (!($chng_aid && $chng_name && $chng_email))
       Header("Location: admin.php?op=mod_authors");
@@ -417,7 +417,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
       return;
    }
 
-   $result = sql_query("SELECT radminsuper FROM " . $NPDS_Prefix . "authors WHERE aid='$chng_aid'");
+   $result = sql_query("SELECT radminsuper FROM " . sql_prefix('') . "authors WHERE aid='$chng_aid'");
    list($ori_radminsuper) = sql_fetch_row($result);
    if (!$ori_radminsuper and $chng_radminsuper) {
       @copy("modules/f-manager/users/modele.admin.conf.php", "modules/f-manager/users/" . strtolower($chng_aid) . ".conf.php");
@@ -467,14 +467,14 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
          }
       }
       $result = $chng_radminsuper == 1 ?
-         sql_query("UPDATE " . $NPDS_Prefix . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', pwd='$chng_pwd', hashkey='1' WHERE aid='$chng_aid'") :
-         sql_query("UPDATE " . $NPDS_Prefix . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='0', pwd='$chng_pwd', hashkey='1' WHERE aid='$chng_aid'");
+         sql_query("UPDATE " . sql_prefix('') . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper', pwd='$chng_pwd', hashkey='1' WHERE aid='$chng_aid'") :
+         sql_query("UPDATE " . sql_prefix('') . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='0', pwd='$chng_pwd', hashkey='1' WHERE aid='$chng_aid'");
    } else {
       if ($chng_radminsuper == 1) {
-         $result = sql_query("UPDATE " . $NPDS_Prefix . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper' WHERE aid='$chng_aid'");
+         $result = sql_query("UPDATE " . sql_prefix('') . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper' WHERE aid='$chng_aid'");
          deletedroits($chng_aid);
       } else {
-         $result = sql_query("UPDATE " . $NPDS_Prefix . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='0' WHERE aid='$chng_aid'");
+         $result = sql_query("UPDATE " . sql_prefix('') . "authors SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='0' WHERE aid='$chng_aid'");
          deletedroits($chng_aid);
          updatedroits($chng_aid);
       }
@@ -532,7 +532,7 @@ switch ($op) {
       $hashpass = password_hash($add_pwd, $AlgoCrypt, $options);
       $add_pwdX = crypt($add_pwd, $hashpass);
 
-      $result = sql_query("INSERT INTO " . $NPDS_Prefix . "authors VALUES ('$add_aid', '$add_name', '$add_url', '$add_email', '$add_pwdX', '1', '0', '$add_radminsuper')");
+      $result = sql_query("INSERT INTO " . sql_prefix('') . "authors VALUES ('$add_aid', '$add_name', '$add_url', '$add_email', '$add_pwdX', '1', '0', '$add_radminsuper')");
       updatedroits($add_aid);
       // Copie du fichier pour filemanager
       if ($add_radminsuper or isset($ad_d_27)) // $ad_d_27 pas là ?
@@ -556,9 +556,9 @@ switch ($op) {
       adminfoot('', '', '', '');
       break;
    case 'deladminconf':
-      sql_query("DELETE FROM " . $NPDS_Prefix . "authors WHERE aid='$del_aid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "authors WHERE aid='$del_aid'");
       deletedroits($chng_aid = $del_aid);
-      sql_query("DELETE FROM " . $NPDS_Prefix . "publisujet WHERE aid='$del_aid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "publisujet WHERE aid='$del_aid'");
       // Supression du fichier pour filemanager
       @unlink("modules/f-manager/users/" . strtolower($del_aid) . ".conf.php");
       global $aid;

@@ -22,7 +22,7 @@ if (!stristr($_SERVER['PHP_SELF'], 'install.php')) die();
 function etape_7()
 {
    include_once('config.php');
-   global $langue, $stage, $minpass, $NPDS_Prefix, $qi;
+   global $langue, $stage, $minpass, $qi;
    $stage = 7;
    echo '
                <h3 class="mb-3">' . ins_translate('Compte Admin') . '</h3>

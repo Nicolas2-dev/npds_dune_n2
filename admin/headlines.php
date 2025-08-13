@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/headlines.html";
 
 function HeadlinesAdmin()
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -43,7 +43,7 @@ function HeadlinesAdmin()
          </tr>
       </thead>
       <tbody>';
-   $result = sql_query("SELECT hid, sitename, url, headlinesurl, status FROM " . $NPDS_Prefix . "headlines ORDER BY hid");
+   $result = sql_query("SELECT hid, sitename, url, headlinesurl, status FROM " . sql_prefix('') . "headlines ORDER BY hid");
    while (list($hid, $sitename, $url, $headlinesurl, $status) = sql_fetch_row($result)) {
       echo '
          <tr>
@@ -106,10 +106,10 @@ function HeadlinesAdmin()
 
 function HeadlinesEdit($hid)
 {
-   global $hlpfile, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
-   $result = sql_query("SELECT sitename, url, headlinesurl, status FROM " . $NPDS_Prefix . "headlines WHERE hid='$hid'");
+   $result = sql_query("SELECT sitename, url, headlinesurl, status FROM " . sql_prefix('') . "headlines WHERE hid='$hid'");
    list($xsitename, $url, $headlinesurl, $status) = sql_fetch_row($result);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -170,23 +170,23 @@ function HeadlinesEdit($hid)
 
 function HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status)
 {
-   global $NPDS_Prefix;
-   sql_query("UPDATE " . $NPDS_Prefix . "headlines SET sitename='$xsitename', url='$url', headlinesurl='$headlinesurl', status='$status' WHERE hid='$hid'");
+   global sql_prefix('');
+   sql_query("UPDATE " . sql_prefix('') . "headlines SET sitename='$xsitename', url='$url', headlinesurl='$headlinesurl', status='$status' WHERE hid='$hid'");
    Header("Location: admin.php?op=HeadlinesAdmin");
 }
 
 function HeadlinesAdd($xsitename, $url, $headlinesurl, $status)
 {
-   global $NPDS_Prefix;
-   sql_query("INSERT INTO " . $NPDS_Prefix . "headlines VALUES (NULL, '$xsitename', '$url', '$headlinesurl', '$status')");
+   global sql_prefix('');
+   sql_query("INSERT INTO " . sql_prefix('') . "headlines VALUES (NULL, '$xsitename', '$url', '$headlinesurl', '$status')");
    Header("Location: admin.php?op=HeadlinesAdmin");
 }
 
 function HeadlinesDel($hid, $ok = 0)
 {
-   global $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
-      sql_query("DELETE FROM " . $NPDS_Prefix . "headlines WHERE hid='$hid'");
+      sql_query("DELETE FROM " . sql_prefix('') . "headlines WHERE hid='$hid'");
       Header("Location: admin.php?op=HeadlinesAdmin");
    } else {
       global $hlpfile;

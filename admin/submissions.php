@@ -25,12 +25,12 @@ $hlpfile = "manuels/$language/submissions.html";
 
 function submissions()
 {
-   global $hlpfile, $NPDS_Prefix, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    $dummy = 0;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
-   $result = sql_query("SELECT qid, subject, timestamp, topic, uname FROM " . $NPDS_Prefix . "queue ORDER BY timestamp");
+   $result = sql_query("SELECT qid, subject, timestamp, topic, uname FROM " . sql_prefix('') . "queue ORDER BY timestamp");
    if (sql_num_rows($result) == 0)
       echo '
    <hr />
@@ -53,7 +53,7 @@ function submissions()
       while (list($qid, $subject, $timestamp, $topic, $uname) = sql_fetch_row($result)) {
          if ($topic < 1) $topic = 1;
          $affiche = false;
-         $result2 = sql_query("SELECT topicadmin, topictext, topicimage FROM " . $NPDS_Prefix . "topics WHERE topicid='$topic'");
+         $result2 = sql_query("SELECT topicadmin, topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
          list($topicadmin, $topictext, $topicimage) = sql_fetch_row($result2);
          if ($radminsuper)
             $affiche = true;
