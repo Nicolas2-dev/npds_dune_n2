@@ -10,13 +10,19 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 $Titlesitename = 'NPDS';
-if (!function_exists("Mysql_Connexion"))
-   include "mainfile.php";
-if (file_exists("meta/meta.php"))
-   include("meta/meta.php");
+
+if (!function_exists('Mysql_Connexion')) {
+   include 'mainfile.php';
+}
+
+if (file_exists('storage/meta/meta.php')) {
+   include 'storage/meta/meta.php';
+}
+
 echo '
-   <link id="bsth" rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+   <link id="bsth" rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
    </head>
    <body>
       <div class="contenair-fluid mt-5">
@@ -32,10 +38,11 @@ echo '
             <hr />
             <div>
                <span class="text-body-secondary">NPDS - Portal System</span>
-               <img width="48px" class="adm_img ms-2" src="/images/admin/message_npds.png" alt="icon_npds">
+               <img width="48px" class="adm_img ms-2" src="assets/images/admin/message_npds.png" alt="icon_npds">
             </div>
          </div>
       </div>
    </body>
 </html>';
+
 die();
