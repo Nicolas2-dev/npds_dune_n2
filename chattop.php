@@ -11,12 +11,15 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 $Titlesitename = 'NPDS';
+
 $nuke_url = '';
 $meta_op = '';
+
 include("mainfile.php");
 include('meta/meta.php');
+
 echo '
-   </head>
-   <body>
-   </body>
+    </head>
+    <body>
+    </body>
 </html>';

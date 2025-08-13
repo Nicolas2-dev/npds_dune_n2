@@ -15,56 +15,56 @@
 
 function code_aff($subject, $story, $bodytext, $notes)
 {
-   global $local_user_language;
-   $subjectX = aff_code(preview_local_langue($local_user_language, $subject));
-   $storyX = aff_code(preview_local_langue($local_user_language, $story));
-   $bodytextX = aff_code(preview_local_langue($local_user_language, $bodytext));
-   $notesX = aff_code(preview_local_langue($local_user_language, $notes));
-   themepreview($subjectX, $storyX, $bodytextX, $notesX);
+    global $local_user_language;
+    $subjectX = aff_code(preview_local_langue($local_user_language, $subject));
+    $storyX = aff_code(preview_local_langue($local_user_language, $story));
+    $bodytextX = aff_code(preview_local_langue($local_user_language, $bodytext));
+    $notesX = aff_code(preview_local_langue($local_user_language, $notes));
+    themepreview($subjectX, $storyX, $bodytextX, $notesX);
 }
 
 function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 {
-   global $gmt;
-   $today = getdate(time() + ((int)$gmt * 3600));
-   settype($dd_pub, 'string');
-   settype($fd_pub, 'string');
-   settype($dh_pub, 'string');
-   settype($fh_pub, 'string');
-   if (!$dd_pub) {
-      $dd_pub .= $today['year'] . '-';
-      if ($today['mon'] < 10) $dd_pub .= '0' . $today['mon'] . '-';
-      else $dd_pub .= $today['mon'] . '-';
-      if ($today['mday'] < 10) $dd_pub .= '0' . $today['mday'];
-      else $dd_pub .= $today['mday'];
-   }
-   if (!$fd_pub) {
-      $fd_pub .= ($today['year'] + 99) . '-';
-      if ($today['mon'] < 10) $fd_pub .= '0' . $today['mon'] . '-';
-      else $fd_pub .= $today['mon'] . '-';
-      if ($today['mday'] < 10) $fd_pub .= '0' . $today['mday'];
-      else $fd_pub .= $today['mday'];
-   }
-   if (!$dh_pub) {
-      if ($today['hours'] < 10) $dh_pub .= '0' . $today['hours'] . ':';
-      else $dh_pub .= $today['hours'] . ':';
-      if ($today['minutes'] < 10) $dh_pub .= '0' . $today['minutes'];
-      else $dh_pub .= $today['minutes'];
-   }
-   if (!$fh_pub) {
-      if ($today['hours'] < 10) $fh_pub .= '0' . $today['hours'] . ':';
-      else $fh_pub .= $today['hours'] . ':';
-      if ($today['minutes'] < 10) $fh_pub .= '0' . $today['minutes'];
-      else $fh_pub .= $today['minutes'];
-   }
-   echo '
+    global $gmt;
+    $today = getdate(time() + ((int)$gmt * 3600));
+    settype($dd_pub, 'string');
+    settype($fd_pub, 'string');
+    settype($dh_pub, 'string');
+    settype($fh_pub, 'string');
+    if (!$dd_pub) {
+        $dd_pub .= $today['year'] . '-';
+        if ($today['mon'] < 10) $dd_pub .= '0' . $today['mon'] . '-';
+        else $dd_pub .= $today['mon'] . '-';
+        if ($today['mday'] < 10) $dd_pub .= '0' . $today['mday'];
+        else $dd_pub .= $today['mday'];
+    }
+    if (!$fd_pub) {
+        $fd_pub .= ($today['year'] + 99) . '-';
+        if ($today['mon'] < 10) $fd_pub .= '0' . $today['mon'] . '-';
+        else $fd_pub .= $today['mon'] . '-';
+        if ($today['mday'] < 10) $fd_pub .= '0' . $today['mday'];
+        else $fd_pub .= $today['mday'];
+    }
+    if (!$dh_pub) {
+        if ($today['hours'] < 10) $dh_pub .= '0' . $today['hours'] . ':';
+        else $dh_pub .= $today['hours'] . ':';
+        if ($today['minutes'] < 10) $dh_pub .= '0' . $today['minutes'];
+        else $dh_pub .= $today['minutes'];
+    }
+    if (!$fh_pub) {
+        if ($today['hours'] < 10) $fh_pub .= '0' . $today['hours'] . ':';
+        else $fh_pub .= $today['hours'] . ':';
+        if ($today['minutes'] < 10) $fh_pub .= '0' . $today['minutes'];
+        else $fh_pub .= $today['minutes'];
+    }
+    echo '
    <hr />
    <p class="small text-end">
    ' . formatTimes(time(), IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '
    </p>';
 
-   if ($dd_pub != -1 and $dh_pub != -1)
-      echo '
+    if ($dd_pub != -1 and $dh_pub != -1)
+        echo '
    <div class="row mb-3">
       <div class="col-sm-5 mb-2">
          <label class="form-label" for="dd_pub">' . translate("Date de publication") . '</label>
@@ -78,7 +78,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
          </div>
       </div>
    </div>';
-   echo '
+    echo '
    <div class="row mb-3">
       <div class="col-sm-5 mb-2">
          <label class="form-label" for="fd_pub">' . translate("Date de fin de publication") . '</label>
@@ -118,11 +118,11 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 
    <div class="mb-3 row">
       <label class="col-form-label">' . translate("Epuration de la new à la fin de sa date de validité") . '</label>';
-   $sel1 = '';
-   $sel2 = '';
-   if (!$epur) $sel2 = 'checked="checked"';
-   else $sel1 = 'checked="checked"';
-   echo '
+    $sel1 = '';
+    $sel2 = '';
+    if (!$epur) $sel2 = 'checked="checked"';
+    else $sel1 = 'checked="checked"';
+    echo '
       <div class="col-sm-8 my-2">
          <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" id="epur_y" name="epur" value="1" ' . $sel1 . ' />

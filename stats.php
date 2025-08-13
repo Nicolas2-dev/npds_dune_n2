@@ -13,31 +13,31 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 if (!function_exists("Mysql_Connexion"))
-   include("mainfile.php");
+    include("mainfile.php");
 include("header.php");
 function generatePourcentageAndTotal($count, $total)
 {
-   $tab[] = wrh($count);
-   $tab[] = substr(sprintf('%f', 100 * $count / $total), 0, 5);
-   return $tab;
+    $tab[] = wrh($count);
+    $tab[] = substr(sprintf('%f', 100 * $count / $total), 0, 5);
+    return $tab;
 }
 
 $dkn = sql_query("SELECT type, var, count FROM " . $NPDS_Prefix . "counter ORDER BY type DESC");
 $total = 0;
 while (list($type, $var, $count) = sql_fetch_row($dkn)) {
-   if ($type == "total" && $var == "hits")
-      $total = $count;
-   elseif ($type == "browser") {
-      if ($var == "Other")
-         $b_other = generatePourcentageAndTotal($count, $total);
-      else
-         ${strtolower($var)} = generatePourcentageAndTotal($count, $total);
-   } elseif ($type == "os") {
-      if ($var == "Other")
-         $os_other = generatePourcentageAndTotal($count, $total);
-      else
-         ${strtolower(str_replace('/', '', $var))} = generatePourcentageAndTotal($count, $total);
-   }
+    if ($type == "total" && $var == "hits")
+        $total = $count;
+    elseif ($type == "browser") {
+        if ($var == "Other")
+            $b_other = generatePourcentageAndTotal($count, $total);
+        else
+            ${strtolower($var)} = generatePourcentageAndTotal($count, $total);
+    } elseif ($type == "os") {
+        if ($var == "Other")
+            $os_other = generatePourcentageAndTotal($count, $total);
+        else
+            ${strtolower(str_replace('/', '', $var))} = generatePourcentageAndTotal($count, $total);
+    }
 }
 echo '
    <h2>' . translate("Statistiques") . '</h2>
@@ -345,34 +345,34 @@ echo '
 $resultX = sql_query("SELECT DISTINCT(theme) FROM " . $NPDS_Prefix . "users");
 global $Default_Theme;
 while (list($themelist) = sql_fetch_row($resultX)) {
-   if ($themelist != '') {
-      $ibix = explode('+', $themelist);
-      $T_exist = is_dir("themes/$ibix[0]") ? '' : '<span class="text-danger">' . translate("Ce fichier n'existe pas ...") . '</span>';
-      if ($themelist == $Default_Theme) {
-         $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme='$themelist'");
-         $themeD1 = $result ? sql_num_rows($result) : 0;
-         $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme=''");
-         $themeD2 = $result ? sql_num_rows($result) : 0;
-         echo '
+    if ($themelist != '') {
+        $ibix = explode('+', $themelist);
+        $T_exist = is_dir("themes/$ibix[0]") ? '' : '<span class="text-danger">' . translate("Ce fichier n'existe pas ...") . '</span>';
+        if ($themelist == $Default_Theme) {
+            $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme='$themelist'");
+            $themeD1 = $result ? sql_num_rows($result) : 0;
+            $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme=''");
+            $themeD2 = $result ? sql_num_rows($result) : 0;
+            echo '
             <tr>
                <td>' . $themelist . ' <b>(' . translate("par défaut") . ')</b></td>
                <td><b>' . wrh(($themeD1 + $themeD2)) . '</b></td>
                <td>' . $T_exist . '</td>
             </tr>';
-      } else {
-         $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme='$themelist'");
-         $themeU = $result ? sql_num_rows($result) : 0;
-         echo '
+        } else {
+            $result = sql_query("SELECT uid FROM " . $NPDS_Prefix . "users WHERE theme='$themelist'");
+            $themeU = $result ? sql_num_rows($result) : 0;
+            echo '
             <tr>';
-         echo substr($ibix[0], -3) == "_sk" ? '
+            echo substr($ibix[0], -3) == "_sk" ? '
                <td>' . $themelist . '</td>' : '
                <td>' . $ibix[0] . '</td>';
-         echo '
+            echo '
                <td><b>' . wrh($themeU) . '</b></td>
                <td>' . $T_exist . '</td>
             </tr>';
-      }
-   }
+        }
+    }
 }
 echo '
       </tbody>

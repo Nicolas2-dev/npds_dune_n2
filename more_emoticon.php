@@ -13,18 +13,18 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 if (!function_exists("Mysql_Connexion"))
-   include("mainfile.php");
+    include("mainfile.php");
 include("functions.php");
 
 if (isset($user)) {
-   if ($cookie[9] == '') $cookie[9] = $Default_Theme;
-   if (isset($theme)) $cookie[9] = $theme;
-   $tmp_theme = $cookie[9];
-   if (!$file = @opendir("themes/$cookie[9]")) {
-      $tmp_theme = $Default_Theme;
-   }
+    if ($cookie[9] == '') $cookie[9] = $Default_Theme;
+    if (isset($theme)) $cookie[9] = $theme;
+    $tmp_theme = $cookie[9];
+    if (!$file = @opendir("themes/$cookie[9]")) {
+        $tmp_theme = $Default_Theme;
+    }
 } else {
-   $tmp_theme = $Default_Theme;
+    $tmp_theme = $Default_Theme;
 }
 include('meta/meta.php');
 echo '<link rel="stylesheet" href="themes/_skins/default/bootstrap.min.css">';
