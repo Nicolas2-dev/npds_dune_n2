@@ -308,6 +308,7 @@ function aff_video_yt($ibid)
     }
     return ($ibid);
 }
+
 // ne fonctionne pas dans tous les contextes car on a pas la variable du theme !?
 function putitems_more()
 {
