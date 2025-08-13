@@ -59,7 +59,7 @@ if ($admin) {
    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
 
    //LNL Email in outside table
-   $result = sql_query("SELECT email FROM " . $NPDS_Prefix . "lnl_outside_users");
+   $result = sql_query("SELECT email FROM " . sql_prefix('lnl_outside_users'));
 
    if ($result) {
       $totalnl = sql_num_rows($result);
@@ -160,7 +160,7 @@ if ($admin) {
 
    $num_dow = 0;
 
-   $result = sql_query("SELECT dcounter, dfilename FROM " . $NPDS_Prefix . "downloads");
+   $result = sql_query("SELECT dcounter, dfilename FROM " . sql_prefix('downloads'));
 
    settype($xdownload, 'array');
 
@@ -203,12 +203,12 @@ if ($admin) {
          </tr>
       </thead>';
 
-   $result = sql_query("SELECT * FROM " . $NPDS_Prefix . "catagories ORDER BY cat_id");
+   $result = sql_query("SELECT * FROM " . sql_prefix('catagories') . " ORDER BY cat_id");
 
    $num_for = 0;
 
    while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
-      $sub_sql = "SELECT f.*, u.uname FROM " . $NPDS_Prefix . "forums f, " . $NPDS_Prefix . "users u WHERE f.cat_id = '$cat_id' AND f.forum_moderator = u.uid ORDER BY forum_index,forum_id";
+      $sub_sql = "SELECT f.*, u.uname FROM " . sql_prefix('forums') . " f, " . sql_prefix('users') . " u WHERE f.cat_id = '$cat_id' AND f.forum_moderator = u.uid ORDER BY forum_index, forum_id";
 
       if (!$sub_result = sql_query($sub_sql)) {
          forumerror('0022');
