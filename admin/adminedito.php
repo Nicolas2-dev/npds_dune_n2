@@ -28,7 +28,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
 
    include 'header.php';
 
-   $hlpfile = "manuels/$language/edito.html";
+   $hlpfile = 'manuels/' . $language . '/edito.html';
 
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -51,7 +51,6 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
       </form>';
 
       adminfoot('', '', '', '');
-
    } else {
       if ($edito_type == 'G') {
          $edito_typeL = ' ' . adm_translate('Anonyme');
@@ -201,9 +200,9 @@ switch ($op) {
             fclose($fp);
          }
       } elseif ($edito_type == 'M') {
-         
+
          $path = 'storage/static/edito_membres.txt';
-         
+
          if (file_exists($path)) {
             $fp = fopen($path, 'r');
 
