@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/submissions.html";
 
 function submissions()
 {
-   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    $dummy = 0;
    include("header.php");
    GraphicAdmin($hlpfile);
@@ -67,7 +67,7 @@ function submissions()
          <tr>
             <td>' . userpopover($uname, '40', 2) . ' ' . $uname . '</td>
             <td>';
-         if ($subject == '') $subject = adm_translate('Aucun Sujet");
+         if ($subject == '') $subject = adm_translate('Aucun Sujet');
          $subject = aff_langue($subject);
          if ($affiche)
             echo '<img class=" " src="images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . aff_langue($topictext) . '</a></td>

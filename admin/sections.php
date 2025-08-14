@@ -14,7 +14,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'sections';
-$f_titre = adm_translate('Rubriques");
+$f_titre = adm_translate('Rubriques');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -101,7 +101,7 @@ function droits($member)
 
 function sousrub_select($secid)
 {
-   global $radminsuper, $aid, sql_prefix('');
+   global $radminsuper, $aid;
    $ok_pub = false;
    $tmp = '
          <select name="secid" class="form-select">';
@@ -136,7 +136,7 @@ function sousrub_select($secid)
 
 function droits_publication($secid)
 {
-   global $radminsuper, $aid, sql_prefix('');
+   global $radminsuper, $aid;
 
    $droits = 0; // 3=mod - 4=delete
    if ($radminsuper != 1) {
@@ -153,7 +153,7 @@ function droits_publication($secid)
 
 function sections()
 {
-   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -175,7 +175,7 @@ function sections()
       <li class="list-group-item list-group-item-action"><a href="admin.php?op=new_rub_section&amp;type=sec" ><i class="fa fa-plus-square fa-lg me-2"></i>' . adm_translate('Ajouter une nouvelle Sous-Rubrique') . '</a></li>';
    if ($radminsuper == 1)
       echo '
-      <li class="list-group-item list-group-item-action"><a href="admin.php?op=ordremodule"><i class="fa fa-sort-amount-up fa-lg me-2"></i>' . adm_translate('Changer l'ordre des rubriques') . '</a></li>
+      <li class="list-group-item list-group-item-action"><a href="admin.php?op=ordremodule"><i class="fa fa-sort-amount-up fa-lg me-2"></i>' . adm_translate('Changer l\'ordre des rubriques') . '</a></li>
       <li class="list-group-item list-group-item-action"><a href="#droits des auteurs"><i class="fa fa-user-edit fa-lg me-2"></i>' . adm_translate('Droits des auteurs') . '</a></li>';
    echo '
       <li class="list-group-item list-group-item-action"><a href="#publications en attente"><i class="fa fa-clock fa-lg me-2"></i>' . adm_translate('Publication(s) en attente de validation') . '</a></li>
@@ -198,7 +198,7 @@ function sections()
             $href3 = '';
          }
          $rubname = aff_langue($rubname);
-         if ($rubname == '') $rubname = adm_translate('Sans nom");
+         if ($rubname == '') $rubname = adm_translate('Sans nom');
          if ($enligne == 0)
             $online = '<span class="badge bg-danger ms-1 p-2">' . adm_translate('Hors Ligne') . '</span>';
          else if ($enligne == 1)
@@ -218,7 +218,7 @@ function sections()
             <div id="srub' . $i . '" class=" mb-3 collapse ">
                <div class="list-group-item d-flex py-2"><span class="badge bg-secondary me-2 p-2">' . sql_num_rows($result2) . '</span><strong class="">' . adm_translate('Sous-rubriques') . '</strong>';
             if ($radminsuper == 1)
-               echo '<span class="ms-auto"><a href="admin.php?op=ordrechapitre&amp;rubid=' . $rubid . '&amp;rubname=' . $rubname . '" title="' . adm_translate('Changer l'ordre des sous-rubriques') . '" data-bs-toggle="tooltip" data-bs-placement="left" ><i class="fa fa-sort-amount-up fa-lg"></i></a></span>';
+               echo '<span class="ms-auto"><a href="admin.php?op=ordrechapitre&amp;rubid=' . $rubid . '&amp;rubname=' . $rubname . '" title="' . adm_translate('Changer l\'ordre des sous-rubriques') . '" data-bs-toggle="tooltip" data-bs-placement="left" ><i class="fa fa-sort-amount-up fa-lg"></i></a></span>';
             echo '</div>';
 
             while (list($secid, $secname) = sql_fetch_row($result2)) {
@@ -249,10 +249,10 @@ function sections()
                   <span class="badge bg-secondary ms-4 p-2">' . sql_num_rows($result3) . '</span>&nbsp;<strong class=" text-capitalize">' . adm_translate('publications') . '</strong>';
                   if ($radminsuper == 1)
                      echo '
-                  <span class="ms-auto"><a href="admin.php?op=ordrecours&secid=' . $secid . '&amp;secname=' . $secname . '" title="' . adm_translate('Changer l'ordre des publications') . '" data-bs-toggle="tooltip" data-bs-placement="left">&nbsp;<i class="fa fa-sort-amount-up fa-lg"></i></a></span>';
+                  <span class="ms-auto"><a href="admin.php?op=ordrecours&secid=' . $secid . '&amp;secname=' . $secname . '" title="' . adm_translate('Changer l\'ordre des publications') . '" data-bs-toggle="tooltip" data-bs-placement="left">&nbsp;<i class="fa fa-sort-amount-up fa-lg"></i></a></span>';
                   echo '</li>';
                   while (list($artid, $title) = sql_fetch_row($result3)) {
-                     if ($title == '') $title = adm_translate('Sans titre");
+                     if ($title == '') $title = adm_translate('Sans titre');
                      echo '
                      <li class="list-group-item list-group-item-action d-flex"><span class="ms-4">' . aff_langue($title) . '</span>
                         <span class="ms-auto">
@@ -323,7 +323,7 @@ function sections()
          </form>';
          // ca c'est pas bon incomplet
          if ($radminsuper != 1)
-            echo '<p class="blockquote">' . adm_translate('Une fois que vous aurez validé cette publication, elle sera intégrée en base temporaire, et l'administrateur sera prévenu. Il visera cette publication et la mettra en ligne dans les meilleurs délais. Il est normal que pour l'instant, cette publication n'apparaisse pas dans l'arborescence.') . '</p>';
+            echo '<p class="blockquote">' . adm_translate('Une fois que vous aurez validé cette publication, elle sera intégrée en base temporaire, et l\'administrateur sera prévenu. Il visera cette publication et la mettra en ligne dans les meilleurs délais. Il est normal que pour l\'instant, cette publication n\'apparaisse pas dans l\'arborescence.') . '</p>';
       }
    }
 
@@ -363,7 +363,7 @@ function sections()
                <div class="card my-2 p-1">
                   <div class="card-body p-1">
                      <i class="fa fa-user fa-lg me-1"></i><br />' . $Xaid . '&nbsp;/&nbsp;' . $name . '<br />
-                     <a href="admin.php?op=droitauteurs&amp;author=' . $Xaid . '">' . adm_translate('Modifier l'information') . '</a>
+                     <a href="admin.php?op=droitauteurs&amp;author=' . $Xaid . '">' . adm_translate('Modifier l\'information') . '</a>
                   </div>
                </div>
             </div>';
@@ -376,7 +376,7 @@ function sections()
 
 function new_rub_section($type)
 {
-   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -414,7 +414,7 @@ function new_rub_section($type)
             <span class="help-block text-end"><span id="countcar_secname"></span></span>
          </div>
          <div class="mb-3">
-            <label class="col-form-label" for="introd">' . adm_translate('Texte d'introduction') . '</label>
+            <label class="col-form-label" for="introd">' . adm_translate('Texte d\'introduction') . '</label>
             <textarea class="tin form-control" name="introd" rows="30"></textarea>';
       echo aff_editeur("introd", '');
       echo '
@@ -441,7 +441,7 @@ function new_rub_section($type)
                <span class="help-block text-end" id="countcar_rubname"></span>
             </div>
             <div class="mb-3">
-               <label class="col-form-label" for="introc">' . adm_translate('Texte d'introduction') . '</label>
+               <label class="col-form-label" for="introc">' . adm_translate('Texte d\'introduction') . '</label>
                <textarea class="tin form-control" id="introc" name="introc" rows="30" ></textarea>
             </div>';
       echo aff_editeur('introc', '');
@@ -462,7 +462,7 @@ function new_rub_section($type)
 // Fonction publications connexes
 function publishcompat($article)
 {
-   global $hlpfile, sql_prefix(''), $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
    $result2 = sql_query("SELECT title FROM " . sql_prefix('') . "seccont WHERE artid='$article'");
    list($titre) = sql_fetch_row($result2);
@@ -480,10 +480,10 @@ function publishcompat($article)
    $i = 0;
    while (list($rubid, $rubname, $enligne, $ordre) = sql_fetch_row($result)) {
       if ($enligne == 0) {
-         $online = adm_translate('Hors Ligne");
+         $online = adm_translate('Hors Ligne');
          $cla = "danger";
       } else if ($enligne == 1) {
-         $online = adm_translate('En Ligne");
+         $online = adm_translate('En Ligne');
          $cla = "success";
       }
       echo '
@@ -531,8 +531,6 @@ function publishcompat($article)
 
 function updatecompat($article, $admin_rub, $idx)
 {
-   global sql_prefix('');
-
    $result = sql_query("DELETE FROM " . sql_prefix('') . "compatsujet WHERE id1='$article'");
    for ($j = 1; $j < ($idx + 1); $j++) {
       if ($admin_rub[$j] != '') {
@@ -549,7 +547,7 @@ function updatecompat($article, $admin_rub, $idx)
 // Fonctions RUBRIQUES
 function rubriquedit($rubid)
 {
-   global $hlpfile, sql_prefix(''), $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
@@ -571,7 +569,7 @@ function rubriquedit($rubid)
    <hr />
    <h3 class="mb-3">' . adm_translate('Editer une Rubrique : ') . ' <span class="text-body-secondary">' . aff_langue($rubname) . ' #' . $rubid . '</span></h3>';
    if ($number)
-      echo '<span class="badge bg-secondary">' . $number . '</span>&nbsp;' . adm_translate('sous-rubrique(s) attachée(s)");
+      echo '<span class="badge bg-secondary">' . $number . '</span>&nbsp;' . adm_translate('sous-rubrique(s) attachée(s)');
    echo '
          <form id="rubriquedit" action="admin.php" method="post" name="adminForm">
          <div class="mb-3 row">
@@ -582,7 +580,7 @@ function rubriquedit($rubid)
             </div>
          </div>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-12" for="introc">' . adm_translate('Texte d'introduction') . '</label>
+            <label class="col-form-label col-sm-12" for="introc">' . adm_translate('Texte d\'introduction') . '</label>
             <div class="col-sm-12">
                <textarea class="tin form-control" id="introc" name="introc" rows="30" >' . $intro . '</textarea>
             </div>
@@ -628,7 +626,7 @@ function rubriquedit($rubid)
 
 function rubriquemake($rubname, $introc)
 {
-   global sql_prefix(''), $radminsuper, $aid;
+   global $radminsuper, $aid;
    $rubname = stripslashes(FixQuotes($rubname));
    $introc = stripslashes(FixQuotes(dataimagetofileurl($introc, 'modules/upload/upload/rub')));
    sql_query("INSERT INTO " . sql_prefix('') . "rubriques VALUES (NULL,'$rubname','$introc','0','0')");
@@ -653,7 +651,6 @@ function rubriquemake($rubname, $introc)
 
 function rubriquechange($rubid, $rubname, $introc, $enligne)
 {
-   global sql_prefix('');
    $rubname = stripslashes(FixQuotes($rubname));
    $introc = dataimagetofileurl($introc, 'modules/upload/upload/rub');
    $introc = stripslashes(FixQuotes($introc));
@@ -668,7 +665,7 @@ function rubriquechange($rubid, $rubname, $introc, $enligne)
 // Fonctions SECTIONS
 function sectionedit($secid)
 {
-   global $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
+   global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg, $aid;
 
    include("header.php");
    GraphicAdmin($hlpfile);
@@ -684,7 +681,7 @@ function sectionedit($secid)
    $result2 = sql_query("SELECT artid FROM " . sql_prefix('') . "seccont WHERE secid='$secid'");
    $number = sql_num_rows($result2);
    if ($number)
-      echo '<span class="badge bg-secondary p-2 me-2">' . $number . ' </span>' . adm_translate('publication(s) attachée(s)");
+      echo '<span class="badge bg-secondary p-2 me-2">' . $number . ' </span>' . adm_translate('publication(s) attachée(s)');
    echo '
          <form id="sectionsedit" action="admin.php" method="post" name="adminForm">
          <div class="mb-3">
@@ -744,7 +741,7 @@ function sectionedit($secid)
       <span class="help-block text-end"><span id="countcar_image"></span></span>
    </div>
    <div class="mb-3">
-      <label class="col-form-label" for="introd">' . adm_translate('Texte d'introduction') . '</label>
+      <label class="col-form-label" for="introd">' . adm_translate('Texte d\'introduction') . '</label>
       <textarea class="tin form-control" id="introd" name="introd" rows="20">' . $intro . '</textarea>
    </div>';
    echo aff_editeur('introd', '');
@@ -768,7 +765,7 @@ function sectionedit($secid)
 
 function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
 {
-   global sql_prefix(''), $radminsuper, $aid;
+   global $radminsuper, $aid;
 
    if (is_array($Mmembers) and ($members == 1)) {
       $members = implode(',', $Mmembers);
@@ -792,8 +789,6 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
 
 function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $introd)
 {
-   global sql_prefix('');
-
    if (is_array($Mmembers) and ($members == 1)) {
       $members = implode(',', $Mmembers);
       if ($members == 0) $members = 1;
@@ -813,7 +808,7 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
 // Fonction ARTICLES
 function secartedit($artid)
 {
-   global $radminsuper, $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $radminsuper, $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    $result2 = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
    list($author, $artid, $secid, $arttitle, $content, $userlevel) = sql_fetch_row($result2);
    if (!$artid)
@@ -882,7 +877,7 @@ function secartedit($artid)
 
 function secartupdate($artid)
 {
-   global $hlpfile, $aid, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
    $result = sql_query("SELECT author, artid, secid, title, content, userlevel FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
    list($author, $artid, $secid, $title, $content, $userlevel) = sql_fetch_row($result);
@@ -972,7 +967,7 @@ function secartupdate($artid)
 
 function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
 {
-   global sql_prefix(''), $radminsuper;
+   global $radminsuper;
    // pas de removehack pour l'entrée des données ???????
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
@@ -996,7 +991,6 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
 
 function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
 {
-   global sql_prefix('');
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $title = stripslashes(FixQuotes($title));
@@ -1012,7 +1006,6 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
 
 function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
 {
-   global sql_prefix('');
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $title = stripslashes(FixQuotes($title));
@@ -1027,8 +1020,6 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
 
 function secartpublish($artid, $secid, $title, $content, $author, $members, $Mmembers)
 {
-   global sql_prefix('');
-
    if (is_array($Mmembers) and ($members == 1))
       $members = implode(',', $Mmembers);
    $content = stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/upload/s')));
@@ -1042,8 +1033,8 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
 
       $result = sql_query("SELECT email FROM " . sql_prefix('') . "authors WHERE aid='$author'");
       list($lemail) = sql_fetch_row($result);
-      $sujet = html_entity_decode(adm_translate('Validation de votre publication"), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-      $message = adm_translate('La publication que vous aviez en attente vient d'être validée");
+      $sujet = html_entity_decode(adm_translate('Validation de votre publication'), ENT_COMPAT | ENT_HTML401, 'UTF-8');
+      $message = adm_translate('La publication que vous aviez en attente vient d\'être validée');
       global $notify_from;
       send_email($lemail, $sujet, $message, $notify_from, true, "html", '');
    }
@@ -1054,7 +1045,6 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
 // Fonctions de DELETE
 function rubriquedelete($rubid, $ok = 0)
 {
-   global sql_prefix('');
    // protection
    global $radminsuper;
    if (!$radminsuper) {
@@ -1099,7 +1089,6 @@ function rubriquedelete($rubid, $ok = 0)
 
 function sectiondelete($secid, $ok = 0)
 {
-   global sql_prefix('');
    // protection
    $tmp = droits_publication($secid);
    if (($tmp != 7) and ($tmp != 4)) {
@@ -1138,7 +1127,6 @@ function sectiondelete($secid, $ok = 0)
 
 function secartdelete($artid, $ok = 0)
 {
-   global sql_prefix('');
    // protection
    $result = sql_query("SELECT secid FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
    list($secid) = sql_fetch_row($result);
@@ -1179,7 +1167,6 @@ function secartdelete($artid, $ok = 0)
 
 function secartdelete2($artid, $ok = 0)
 {
-   global sql_prefix('');
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");
       global $aid;
@@ -1207,7 +1194,7 @@ function secartdelete2($artid, $ok = 0)
 // Fonctions de classement
 function ordremodule()
 {
-   global $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
@@ -1216,7 +1203,7 @@ function ordremodule()
    /////////data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-mobile-responsive="true" data-icons-prefix="fa" data-icons="icons"
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate('Changer l'ordre des rubriques') . '</h3>
+   <h3 class="mb-3">' . adm_translate('Changer l\'ordre des rubriques') . '</h3>
    <form action="admin.php" method="post" id="ordremodule" name="adminForm">
       <table class="table table-borderless table-sm table-hover table-striped">
          <thead>
@@ -1268,7 +1255,7 @@ function ordremodule()
 
 function ordrechapitre()
 {
-   global $rubname, $rubid, sql_prefix(''), $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $rubname, $rubid, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1) {
       Header("Location: admin.php?op=sections");
    }
@@ -1277,7 +1264,7 @@ function ordrechapitre()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate('Changer l'ordre des sous-rubriques') . ' ' . adm_translate('dans') . ' / <span class="text-body-secondary">' . $rubname . '</span></h3>
+   <h3 class="mb-3">' . adm_translate('Changer l\'ordre des sous-rubriques') . ' ' . adm_translate('dans') . ' / <span class="text-body-secondary">' . $rubname . '</span></h3>
    <form action="admin.php" method="post" id="ordrechapitre" name="adminForm">
       <table class="table table-borderless table-sm table-hover table-striped">
          <thead>
@@ -1335,7 +1322,7 @@ function ordrechapitre()
 
 function ordrecours()
 {
-   global $secid, $hlpfile, $radminsuper, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $secid, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
@@ -1345,7 +1332,7 @@ function ordrecours()
    list($secname) = sql_fetch_row($result);
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate('Changer l'ordre') . ' ' . adm_translate('des') . ' ' . adm_translate('publications') . ' / ' . aff_langue($secname) . '</h3>
+   <h3 class="mb-3">' . adm_translate('Changer l\'ordre') . ' ' . adm_translate('des') . ' ' . adm_translate('publications') . ' / ' . aff_langue($secname) . '</h3>
    <form id="ordrecours" action="admin.php" method="post" name="adminForm">
       <table class="table table-borderless table-sm table-hover table-striped">
          <thead>
@@ -1402,7 +1389,7 @@ function ordrecours()
 
 function updateordre($rubid, $artid, $secid, $op, $ordre)
 {
-   global sql_prefix(''), $radminsuper;
+   global $radminsuper;
    if ($radminsuper != 1) {
       Header("Location: admin.php?op=sections");
    }
@@ -1437,7 +1424,7 @@ function updateordre($rubid, $artid, $secid, $op, $ordre)
 // Fonctions DROIT des AUTEURS
 function publishrights($author)
 {
-   global sql_prefix(''), $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
    include("header.php");
@@ -1530,7 +1517,6 @@ function publishrights($author)
 
 function droitsalacreation($chng_aid, $secid)
 {
-   global sql_prefix('');
    $lesdroits = array('1', '2', '3');
    //      if($secid > 0)
    foreach ($lesdroits as $droit) {
@@ -1542,7 +1528,7 @@ function droitsalacreation($chng_aid, $secid)
 
 function updaterights($chng_aid, $maxindex, $creation, $publication, $modification, $suppression)
 {
-   global sql_prefix(''), $radminsuper;
+   global $radminsuper;
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
 

@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'mod_users';
-$f_titre = adm_translate('Edition des Utilisateurs");
+$f_titre = adm_translate('Edition des Utilisateurs');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -31,7 +31,7 @@ function displayUsers()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-    <h3>' . adm_translate('Extraire l'annuaire') . '</h3>
+    <h3>' . adm_translate('Extraire l\'annuaire') . '</h3>
     <form method="post" class="form-inline" action="admin.php">
             <div class="mb-3">
                 <label class="me-2 mt-sm-3" for="op">' . adm_translate('Format de fichier') . '</label>
@@ -68,8 +68,6 @@ function displayUsers()
 
 function extractUserCSV()
 {
-   global sql_prefix('');
-
    include("lib/archive.php");
    $MSos = get_os();
    if ($MSos) {
@@ -108,7 +106,7 @@ function extractUserCSV()
 
 function modifyUser($chng_user)
 {
-   global $hlpfile, sql_prefix(''), $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -132,7 +130,7 @@ function modifyUser($chng_user)
 function error_handler($ibid)
 {
    echo '
-   <div class="alert alert-danger" align="center">' . adm_translate('Merci d'entrer l'information en fonction des spécifications') . '<br />
+   <div class="alert alert-danger" align="center">' . adm_translate('Merci d\'entrer l\'information en fonction des spécifications') . '<br />
    <strong>' . $ibid . '</strong><br /><a class="btn btn-secondary" href="admin.php?op=mod_users" >' . adm_translate('Retour en arrière') . '</a>
    </div>';
 }
@@ -191,7 +189,6 @@ function Minisites($chng_mns, $chng_uname)
 
 function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, $chng_femail, $chng_user_from, $chng_user_occ, $chng_user_intrest, $chng_user_viewemail, $chng_avatar, $chng_user_sig, $chng_bio, $chng_pass, $chng_pass2, $level, $open_user, $chng_groupe, $chng_send_email, $chng_is_visible, $chng_mns, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $raz_avatar, $chng_rank, $chng_lnl)
 {
-   global sql_prefix('');
    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uid!='$chng_uid' AND uname='$chng_uname'")) > 0) {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
       include("header.php");
@@ -283,7 +280,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
 function nonallowedUsers()
 {
-   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, sql_prefix('');
+   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -323,7 +320,7 @@ function nonallowedUsers()
 
 function checkdnsmailusers()
 {
-   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, sql_prefix(''), $adminmail, $page, $end, $autocont;
+   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $adminmail, $page, $end, $autocont;
    include("header.php");
    include_once('functions.php');
    GraphicAdmin($hlpfile);
@@ -345,9 +342,9 @@ function checkdnsmailusers()
    $wrongdnsmail = 0;
    $arrayusers = array();
    $image = '18.png';
-   $subject = adm_translate('Votre adresse Email est incorrecte.");
+   $subject = adm_translate('Votre adresse Email est incorrecte.');
    $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
-   $message = adm_translate('Votre adresse Email est incorrecte.') . ' (' . adm_translate('DNS ou serveur de mail incorrect') . ').<br />' . adm_translate('Tous vos abonnements vers cette adresse Email ont été suspendus.') . '<br /><a href="user.php?op=edituser">' . adm_translate('Merci de fournir une nouvelle adresse Email valide.') . ' <i class="fa fa-user fa-2x align-middle fa-fw"></i></a><br />' . adm_translate('Sans réponse de votre part sous 60 jours vous ne pourrez plus vous connecter en tant que membre sur ce site.') . ' ' . adm_translate('Puis votre compte pourra être supprimé.') . '<br /><br />' . adm_translate('Contacter l'administration du site.') . '<a href="mailto:' . $adminmail . '" target="_blank"><i class="fa fa-at fa-2x align-middle fa-fw"></i>';
+   $message = adm_translate('Votre adresse Email est incorrecte.') . ' (' . adm_translate('DNS ou serveur de mail incorrect') . ').<br />' . adm_translate('Tous vos abonnements vers cette adresse Email ont été suspendus.') . '<br /><a href="user.php?op=edituser">' . adm_translate('Merci de fournir une nouvelle adresse Email valide.') . ' <i class="fa fa-user fa-2x align-middle fa-fw"></i></a><br />' . adm_translate('Sans réponse de votre part sous 60 jours vous ne pourrez plus vous connecter en tant que membre sur ce site.') . ' ' . adm_translate('Puis votre compte pourra être supprimé.') . '<br /><br />' . adm_translate('Contacter l\'administration du site.') . '<a href="mailto:' . $adminmail . '" target="_blank"><i class="fa fa-at fa-2x align-middle fa-fw"></i>';
    $output = '';
    $contents = '';
    $filename = "users_private/usersbadmail.txt";

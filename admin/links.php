@@ -28,7 +28,7 @@ $rupture = 100; //100
 
 function links()
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -401,7 +401,7 @@ function links()
 
 function LinksModLink($lid)
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    global $anonymous;
@@ -535,7 +535,7 @@ function LinksModLink($lid)
          $editorialtext = stripslashes($editorialtext);
 
          echo '
-   <h3 class="mb-3">' . adm_translate('Modifier l'Editorial') . '</h3> - ' . adm_translate('Auteur') . ' : ' . $adminid . ' : ' . formatTimes($editorialtimestamp, IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+   <h3 class="mb-3">' . adm_translate('Modifier l\'Editorial') . '</h3> - ' . adm_translate('Auteur') . ' : ' . $adminid . ' : ' . formatTimes($editorialtimestamp, IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
          echo '
    <form action="admin.php" method="post" id="linkseditorial">
       <div class="mb-3 row">
@@ -603,7 +603,7 @@ function LinksModLink($lid)
 
 function LinksListBrokenLinks()
 {
-   global sql_prefix(''), $hlpfile, $anonymous, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $anonymous, $f_meta_nom, $f_titre, $adminimg;
    $resultBrok = sql_query("SELECT requestid, lid, modifysubmitter FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink='1' ORDER BY requestid");
    $totalbrokenlinks = sql_num_rows($resultBrok);
    if ($totalbrokenlinks == 0)
@@ -676,7 +676,6 @@ function LinksListBrokenLinks()
 
 function LinksDelBrokenLinks($lid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE lid='$lid'");
    sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
    global $aid;
@@ -686,14 +685,13 @@ function LinksDelBrokenLinks($lid)
 
 function LinksIgnoreBrokenLinks($lid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE lid='$lid' AND brokenlink='1'");
    Header("Location: admin.php?op=LinksListBrokenLinks");
 }
 
 function LinksListModRequests()
 {
-   global sql_prefix(''), $hlpfile;
+   global $hlpfile;
    $resultLink = sql_query("SELECT requestid, lid, cid, sid, title, url, description, modifysubmitter FROM " . sql_prefix('') . "links_modrequest WHERE brokenlink='0' ORDER BY requestid");
    $totalmodrequests = sql_num_rows($resultLink);
    if ($totalmodrequests == 0)
@@ -706,7 +704,7 @@ function LinksListModRequests()
       if ($x_ori != $x_mod) return ' class="text-danger" ';
    }
    GraphicAdmin($hlpfile);
-   echo '<h3 class="my-3">' . adm_translate('Requête de modification d'un Lien Utilisateur') . '<span class="badge bg-danger float-end">' . $totalmodrequests . '</span></h3>';
+   echo '<h3 class="my-3">' . adm_translate('Requête de modification d\'un Lien Utilisateur') . '<span class="badge bg-danger float-end">' . $totalmodrequests . '</span></h3>';
    while (list($requestid, $lid, $cid, $sid, $title, $url, $description, $modifysubmitter) = sql_fetch_row($resultLink)) {
       $result2 = sql_query("SELECT cid, sid, title, url, description, submitter FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
       list($origcid, $origsid, $origtitle, $origurl, $origdescription, $owner) = sql_fetch_row($result2);
@@ -795,7 +793,6 @@ function LinksListModRequests()
 
 function LinksChangeModRequests($Xrequestid)
 {
-   global sql_prefix('');
    $result = sql_query("SELECT requestid, lid, cid, sid, title, url, description FROM " . sql_prefix('') . "links_modrequest WHERE requestid='$Xrequestid'");
    while (list($requestid, $lid, $cid, $sid, $title, $url, $description) = sql_fetch_row($result)) {
       $title = stripslashes($title);
@@ -811,14 +808,12 @@ function LinksChangeModRequests($Xrequestid)
 
 function LinksChangeIgnoreRequests($requestid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_modrequest WHERE requestid='$requestid'");
    Header("Location: admin.php?op=LinksListModRequests");
 }
 
 function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
 {
-   global sql_prefix('');
    $cat = explode('-', $cat);
    if (!array_key_exists(1, $cat))
       $cat[1] = 0;
@@ -835,7 +830,6 @@ function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
 
 function LinksDelLink($lid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "DeleteLinks($lid) by AID : $aid", '');
@@ -844,7 +838,7 @@ function LinksDelLink($lid)
 
 function LinksModCat($cat)
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    $cat = explode('-', $cat);
@@ -891,7 +885,7 @@ function LinksModCat($cat)
       echo '
    <hr />
    <h3>' . adm_translate('Modifier la Catégorie') . ' </h3>
-   <p class="lead">' . adm_translate('Nom de la Catégorie : ") . aff_langue($ctitle) . '</p>
+   <p class="lead">' . adm_translate('Nom de la Catégorie : ') . aff_langue($ctitle) . '</p>
    <form action="admin.php" method="get" id="linksmodcat">
       <div class="mb-3 row">
          <label class="col-form-label col-sm-4 " for="title">' . adm_translate('Nom de la Sous-catégorie') . '</label>
@@ -921,7 +915,6 @@ function LinksModCat($cat)
 
 function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
 {
-   global sql_prefix('');
    if ($sub == 0) {
       sql_query("UPDATE " . sql_prefix('') . "links_categories SET title='$title', cdescription='$cdescription' WHERE cid='$cid'");
       global $aid;
@@ -936,7 +929,6 @@ function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
 
 function LinksDelCat($cid, $sid, $sub, $ok = 0)
 {
-   global sql_prefix('');
    if ($ok == 1) {
       if ($sub > 0) {
          sql_query("DELETE FROM " . sql_prefix('') . "links_subcategories WHERE sid='$sid'");
@@ -958,7 +950,6 @@ function LinksDelCat($cid, $sid, $sub, $ok = 0)
 
 function LinksDelNew($lid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_newlink WHERE lid='$lid'");
    global $aid;
    Ecr_Log('security', "DeleteNewLinks($lid) by AID : $aid", '');
@@ -967,11 +958,10 @@ function LinksDelNew($lid)
 
 function LinksAddCat($title, $cdescription)
 {
-   global sql_prefix('');
    $result = sql_query("SELECT cid FROM " . sql_prefix('') . "links_categories WHERE title='$title'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
-      message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Catégorie") . " $title " . adm_translate('existe déjà !') . '</strong></div>');
+      message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
    else {
       sql_query("INSERT INTO " . sql_prefix('') . "links_categories VALUES (NULL, '$title', '$cdescription')");
       global $aid;
@@ -982,11 +972,10 @@ function LinksAddCat($title, $cdescription)
 
 function LinksAddSubCat($cid, $title)
 {
-   global sql_prefix('');
    $result = sql_query("SELECT cid FROM " . sql_prefix('') . "links_subcategories WHERE title='$title' AND cid='$cid'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
-      message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Sous-catégorie") . " $title " . adm_translate('existe déjà !') . '</strong></div>');
+      message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Sous-catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
    else {
       sql_query("INSERT INTO " . sql_prefix('') . "links_subcategories VALUES (NULL, '$cid', '$title')");
       global $aid;
@@ -997,7 +986,7 @@ function LinksAddSubCat($cid, $title)
 
 function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 {
-   global sql_prefix(''), $aid;
+   global $aid;
    $editorialtext = stripslashes(FixQuotes($editorialtext));
    sql_query("INSERT INTO " . sql_prefix('') . "links_editorials VALUES ('$linkid', '$aid', now(), '$editorialtext', '$editorialtitle')");
    Ecr_Log('security', "AddEditorialLinks($linkid, $editorialtitle) by AID : $aid", '');
@@ -1006,7 +995,6 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 
 function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 {
-   global sql_prefix('');
    $editorialtext = stripslashes(FixQuotes($editorialtext));
    sql_query("UPDATE " . sql_prefix('') . "links_editorials SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' WHERE linkid='$linkid'");
    global $aid;
@@ -1016,7 +1004,6 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 
 function LinksDelEditorial($linkid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "links_editorials WHERE linkid='$linkid'");
    global $aid;
    Ecr_Log('security', "DeteteEditorialLinks($linkid) by AID : $aid", '');
@@ -1037,7 +1024,6 @@ function message_error($ibid)
 
 function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter)
 {
-   global sql_prefix('');
    $result = sql_query("SELECT url FROM " . sql_prefix('') . "links_links WHERE url='$url'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0)
@@ -1062,8 +1048,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $su
          sql_query("DELETE FROM " . sql_prefix('') . "links_newlink WHERE lid='$lid'");
          if ($email != '') {
             global $sitename, $nuke_url;
-            $subject = html_entity_decode(adm_translate('Votre Lien"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " : $sitename";
-            $message = adm_translate('Bonjour") . " $name :\n\n" . adm_translate('Nous avons approuvé votre contribution à notre moteur de recherche.") . "\n\n" . adm_translate('Titre de la page") . " : $title\n" . adm_translate('URL de la Page : ") . "<a href=\"$url\">$url</a>\n" . adm_translate('Description : ") . "$xtext\n" . adm_translate('Vous pouvez utiliser notre moteur de recherche sur : ") . " <a href=\"$nuke_url/modules.php?ModPath=links&ModStart=links\">$nuke_url/modules.php?ModPath=links&ModStart=links</a>\n\n" . adm_translate('Merci pour votre Contribution !") . "\n";
+            $subject = html_entity_decode(adm_translate('Votre Lien'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " : $sitename";
+            $message = adm_translate('Bonjour') . " $name :\n\n" . adm_translate('Nous avons approuvé votre contribution à notre moteur de recherche.') . "\n\n" . adm_translate('Titre de la page') . " : $title\n" . adm_translate('URL de la Page : ') . "<a href=\"$url\">$url</a>\n" . adm_translate('Description : ') . "$xtext\n" . adm_translate('Vous pouvez utiliser notre moteur de recherche sur : ') . " <a href=\"$nuke_url/modules.php?ModPath=links&ModStart=links\">$nuke_url/modules.php?ModPath=links&ModStart=links</a>\n\n" . adm_translate('Merci pour votre Contribution !') . "\n";
             include("signat.php");
             send_email($email, $subject, $message, '', false, 'html', '');
          }

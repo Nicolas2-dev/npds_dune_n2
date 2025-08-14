@@ -27,7 +27,7 @@ include("functions.php");
 
 function ForumAdmin()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -81,7 +81,7 @@ function ForumAdmin()
 
 function ForumGo($cat_id)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -201,7 +201,7 @@ function ForumGo($cat_id)
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="forum_access">' . adm_translate('Niveau d'accès') . '</label>
+         <label class="col-form-label col-sm-4" for="forum_access">' . adm_translate('Niveau d\'accès') . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="forum_access" name="forum_access">
                <option value="0">' . adm_translate('Publication Anonyme autorisée') . '</option>
@@ -352,7 +352,7 @@ function ForumGo($cat_id)
 
 function ForumGoEdit($forum_id, $ctg)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT forum_id, forum_name, forum_desc, forum_access, forum_moderator, cat_id, forum_type, forum_pass, arbre, attachement, forum_index FROM " . sql_prefix('') . "forums WHERE forum_id='$forum_id'");
@@ -400,7 +400,7 @@ function ForumGoEdit($forum_id, $ctg)
       </div>';
    echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="forum_access">' . adm_translate('Niveau d'accès') . '</label>
+         <label class="col-form-label col-sm-4" for="forum_access">' . adm_translate('Niveau d\'accès') . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="forum_access" name="forum_access">';
    if ($forum_access == 0) $sel0 = ' selected="selected"';
@@ -631,7 +631,7 @@ function ForumGoEdit($forum_id, $ctg)
 
 function ForumCatEdit($cat_id)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -682,7 +682,6 @@ function ForumCatEdit($cat_id)
 
 function ForumCatSave($old_catid, $cat_id, $cat_title)
 {
-   global sql_prefix('');
    $return = sql_query("UPDATE " . sql_prefix('') . "catagories SET cat_id='$cat_id', cat_title='" . AddSlashes($cat_title) . "' WHERE cat_id='$old_catid'");
    if ($return)
       sql_query("UPDATE " . sql_prefix('') . "forums SET cat_id='$cat_id' WHERE cat_id='$old_catid'");
@@ -694,7 +693,7 @@ function ForumCatSave($old_catid, $cat_id, $cat_title)
 
 function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
 {
-   global $hlpfile, sql_prefix('');
+   global $hlpfile;
 
    // il faut supprimer le dernier , à cause de l'auto-complete
    $forum_mod = rtrim(chop($forum_mod), ',');
@@ -713,8 +712,8 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
    if ($error_mod != '') {
       include("header.php");
       GraphicAdmin($hlpfile);
-      echo "<div><p align=\"center\">" . adm_translate('Le Modérateur sélectionné n'existe pas.") . " : $error_mod<br />";
-      echo "[ <a href=\"javascript:history.go(-1)\" >" . adm_translate('Retour en arrière") . "</a> ]</p></div>";
+      echo "<div><p align=\"center\">" . adm_translate('Le Modérateur sélectionné n\'existe pas.') . " : $error_mod<br />";
+      echo "[ <a href=\"javascript:history.go(-1)\" >" . adm_translate('Retour en arrière') . "</a> ]</p></div>";
       include("footer.php");
    } else {
       $forum_mod = str_replace(' ', ',', chop($forum_mod));
@@ -735,7 +734,6 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
 
 function ForumCatAdd($catagories)
 {
-   global sql_prefix('');
    sql_query("INSERT INTO " . sql_prefix('') . "catagories VALUES (NULL, '$catagories')");
    global $aid;
    Ecr_Log('security', "AddForumCat($catagories) by AID : $aid", '');
@@ -744,7 +742,7 @@ function ForumCatAdd($catagories)
 
 function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
 {
-   global $hlpfile, sql_prefix('');
+   global $hlpfile;
    // il faut supprimer le dernier , à cause de l'auto-complete
    $forum_mod = rtrim(chop($forum_mod), ',');
    $moderator = explode(",", $forum_mod);
@@ -764,7 +762,7 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
       GraphicAdmin($hlpfile);
       echo '
       <div class="alert alert-danger">
-         <p>' . adm_translate('Le Modérateur sélectionné n'existe pas.') . ' : ' . $error_mod . '</p>
+         <p>' . adm_translate('Le Modérateur sélectionné n\'existe pas.') . ' : ' . $error_mod . '</p>
          <a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>
       </div>';
       include("footer.php");
@@ -813,7 +811,7 @@ function ForumCatDel($cat_id, $ok = 0)
 
 function ForumGoDel($forum_id, $ok = 0)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id'");
       sql_query("DELETE FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum_id'");

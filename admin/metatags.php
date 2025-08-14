@@ -14,7 +14,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'MetaTagAdmin';
-$f_titre = adm_translate('Administration des MétaTags");
+$f_titre = adm_translate('Administration des MétaTags');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -50,12 +50,12 @@ function MetaTagAdmin(bool $meta_saved = false)
       <div class="form-floating mb-3">
          <input class="form-control" id="newtagreplyto" type="email" name="newtag[reply-to]" value="' . $tags['reply-to'] . '" maxlength="100" />
          <label for="newtagreplyto">' . adm_translate('Adresse e-mail principale') . '</label>
-         <span class="help-block">' . adm_translate('(Ex. : l'adresse e-mail du webmaster)') . '<span class="float-end ms-1" id="countcar_newtagreplyto"></span></span>
+         <span class="help-block">' . adm_translate('(Ex. : l\'adresse e-mail du webmaster)') . '<span class="float-end ms-1" id="countcar_newtagreplyto"></span></span>
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" id="newtagdescription" type="text" name="newtag[description]" value="' . $tags['description'] . '" maxlength="200" />
          <label for="newtagdescription">' . adm_translate('Description') . '</label>
-         <span class="help-block">' . adm_translate('(Brève description des centres d'intérêt du site. 200 caractères maxi.)') . '<span class="float-end ms-1" id="countcar_newtagdescription"></span></span>
+         <span class="help-block">' . adm_translate('(Brève description des centres d\'intérêt du site. 200 caractères maxi.)') . '<span class="float-end ms-1" id="countcar_newtagdescription"></span></span>
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" id="newtagkeywords" type="text" name="newtag[keywords]" value="' . $tags['keywords'] . '" maxlength="1000" />
@@ -90,11 +90,11 @@ function MetaTagAdmin(bool $meta_saved = false)
             <option value="none"' . (!strcasecmp($tags['robots'], 'none') ? $sel : '') . '>' . adm_translate('Aucune indexation') . '</option>
             <option value="index,nofollow"' . (!strcasecmp($tags['robots'], 'index,nofollow') ? $sel : '') . '>' . adm_translate('Page courante sans liens locaux') . '</option>
             <option value="noindex,follow"' . (!strcasecmp($tags['robots'], 'noindex,follow') ? $sel : '') . '>' . adm_translate('Liens locaux sauf page courante') . '</option>
-            <option value="noarchive"' . (!strcasecmp($tags['robots'], 'noarchive') ? $sel : '') . '>' . adm_translate('Pas d'affichage du cache') . '</option>
-            <option value="noodp,noydir"' . (!strcasecmp($tags['robots'], 'noodp,noydir') ? $sel : '') . '>' . adm_translate('Pas d'utilisation des descriptions ODP ou YDIR') . '</option>
+            <option value="noarchive"' . (!strcasecmp($tags['robots'], 'noarchive') ? $sel : '') . '>' . adm_translate('Pas d\'affichage du cache') . '</option>
+            <option value="noodp,noydir"' . (!strcasecmp($tags['robots'], 'noodp,noydir') ? $sel : '') . '>' . adm_translate('Pas d\'utilisation des descriptions ODP ou YDIR') . '</option>
          </select>
          <label for="newtagrobots">' . adm_translate('Robots/Spiders') . '</label>
-         <span class="help-block">' . adm_translate('(Définissez la méthode d'analyse que doivent adopter les robots des moteurs de recherche)') . '</span>
+         <span class="help-block">' . adm_translate('(Définissez la méthode d\'analyse que doivent adopter les robots des moteurs de recherche)') . '</span>
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" id="newtagrevisitafter" type="text" name="newtag[revisit-after]" value="' . $tags['revisit-after'] . '" maxlength="30" />

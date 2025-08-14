@@ -24,8 +24,6 @@ $hlpfile = "manuels/$language/rightblocks.html";
 
 function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRaide, $SHTML, $css)
 {
-   global sql_prefix('');
-
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -44,8 +42,6 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
 
 function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
 {
-   global sql_prefix('');
-
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -64,8 +60,6 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
 
 function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
 {
-   global sql_prefix('');
-
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -85,8 +79,6 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
 
 function deleterblock($id)
 {
-   global sql_prefix('');
-
    sql_query("DELETE FROM " . sql_prefix('') . "rblocks WHERE id='$id'");
    global $aid;
    Ecr_Log('security', "DeleteRightBlock($id) by AID : $aid", '');

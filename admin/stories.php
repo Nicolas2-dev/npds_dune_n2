@@ -42,7 +42,7 @@ function puthome($ihome)
                <input class="form-check-input" type="radio" id="ihome_n" name="ihome" value="1" ' . $sel2 . ' />
                <label class="form-check-label" for="ihome_n">' . adm_translate('Non') . '</label>
             </div>
-             <p class="help-block">' . adm_translate('Ne s'applique que si la catégorie : 'Articles' n'est pas sélectionnée.') . '</p>
+             <p class="help-block">' . adm_translate('Ne s\'applique que si la catégorie : \'Articles\' n\'est pas sélectionnée.') . '</p>
          </div>
       </div>';
    $sel1 = '';
@@ -94,7 +94,6 @@ function puthome($ihome)
 
 function SelectCategory($cat)
 {
-   global sql_prefix('');
    $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
    echo ' 
       <div class="mb-3 row">
@@ -123,7 +122,7 @@ function AddCategory()
 {
    global $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -158,10 +157,10 @@ function AddCategory()
 
 function SaveCategory($title)
 {
-   global sql_prefix(''), $aid, $f_meta_nom, $adminimg;
+   global $aid, $f_meta_nom, $adminimg;
 
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -186,9 +185,9 @@ function SaveCategory($title)
 
 function EditCategory($catid)
 {
-   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -253,8 +252,8 @@ function EditCategory($catid)
 }
 function SaveEditCategory($catid, $title)
 {
-   global sql_prefix(''), $aid, $f_meta_nom, $adminimg;
-   $f_titre = adm_translate('Articles");
+   global $aid, $f_meta_nom, $adminimg;
+   $f_titre = adm_translate('Articles');
    $title = preg_replace('#"#', '', $title);
    $check = sql_num_rows(sql_query("SELECT catid FROM " . sql_prefix('') . "stories_cat WHERE title='$title'"));
    if ($check) {
@@ -277,9 +276,9 @@ function SaveEditCategory($catid, $title)
 
 function DelCategory($cat)
 {
-   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -340,8 +339,6 @@ function DelCategory($cat)
 }
 function YesDelCategory($catid)
 {
-   global sql_prefix('');
-
    sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
    $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
    while (list($sid) = sql_fetch_row($result)) {
@@ -358,9 +355,9 @@ function YesDelCategory($catid)
 }
 function NoMoveCategory($catid, $newcat)
 {
-   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
+   global $f_meta_nom, $f_titre, $adminimg, $aid;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -372,7 +369,7 @@ function NoMoveCategory($catid, $newcat)
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate('Affectation d'Articles vers une nouvelle Catégorie') . '</h3>';
+   <h3 class="mb-3">' . adm_translate('Affectation d\'Articles vers une nouvelle Catégorie') . '</h3>';
    if (!$newcat) {
       echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . aff_langue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
       $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
@@ -415,9 +412,9 @@ function NoMoveCategory($catid, $newcat)
 // NEWS
 function displayStory($qid)
 {
-   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    $hlpfile = "manuels/$language/newarticle.html";
    $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
    list($qid, $uid, $uname, $subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur) = sql_fetch_row($result);
@@ -449,10 +446,10 @@ function displayStory($qid)
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3>' . adm_translate('Prévisualiser l'Article') . '</h3>
+   <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
    <form action="admin.php" method="post" name="adminForm" id="adminForm">
       <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-      ' . aff_localzone_langue("local_user_language') . '
+      ' . aff_localzone_langue('local_user_language') . '
       <div class="card card-body mb-3">';
    if ($topicimage !== '') {
       if (!$imgtmp = theme_image('topics/' . $topicimage)) {
@@ -470,7 +467,7 @@ function displayStory($qid)
          <label class="col-sm-4 col-form-label" for="author">' . userpopover($uname, 40, '') . adm_translate('Utilisateur') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="author" name="author" value="' . $uname . '" />
-            <a href="replypmsg.php?send=' . urlencode($uname) . '" target="_blank" title="' . adm_translate('Diffusion d'un Message Interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-lg"></i></a>
+            <a href="replypmsg.php?send=' . urlencode($uname) . '" target="_blank" title="' . adm_translate('Diffusion d\'un Message Interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-lg"></i></a>
          </div>
       </div>
       <div class="mb-3 row">
@@ -515,7 +512,7 @@ function displayStory($qid)
    puthome($ihome);
    echo '
    <div class="mb-3 row">
-      <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d'introduction') . '</label>
+      <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
       <div class="col-12">
          <textarea class="tin form-control" rows="25" id="hometext" name="hometext">' . $story . '</textarea>
       </div>
@@ -547,7 +544,7 @@ function displayStory($qid)
       <input type="hidden" name="uid" value="' . $uid . '" />
       <div class="mb-3">
          <select class="form-select" name="op">
-            <option value="DeleteStory">' . adm_translate('Effacer l'Article') . '</option>
+            <option value="DeleteStory">' . adm_translate('Effacer l\'Article') . '</option>
             <option value="PreviewAgain" selected="selected">' . adm_translate('Re-prévisualiser') . '</option>
             <option value="PostStory">' . adm_translate('Poster un Article ') . '</option>
          </select>
@@ -561,9 +558,9 @@ function displayStory($qid)
 
 function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 {
-   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Articles");
+   $f_titre = adm_translate('Articles');
    $hlpfile = "manuels/$language/newarticle.html";
 
    $subject = stripslashes(str_replace('"', '&quot;', $subject));
@@ -596,10 +593,10 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
    global $local_user_language;
    echo '
    <hr />
-   <h3>' . adm_translate('Prévisualiser l'Article') . '</h3>
+   <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
    <form action="admin.php" method="post" name="adminForm">
       <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-      ' . aff_localzone_langue("local_user_language') . '
+      ' . aff_localzone_langue('local_user_language') . '
       <div class="card card-body mb-3">';
    if ($topicimage !== '') {
       if (!$imgtmp = theme_image('topics/' . $topicimage)) {
@@ -663,7 +660,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
 
    echo '
     <div class="mb-3 row">
-      <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d'introduction') . '</label>
+      <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
       <div class="col-12">
          <textarea class="tin form-control" cols="70" rows="25" id="hometext" name="hometext" >' . $hometext . '</textarea>
       </div>
@@ -691,7 +688,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
       <input type="hidden" name="qid" value="' . $qid . '" />
       <input type="hidden" name="uid" value="' . $uid . '" />
       <select class="form-select" name="op">
-         <option value="DeleteStory">' . adm_translate('Effacer l'Article') . '</option>
+         <option value="DeleteStory">' . adm_translate('Effacer l\'Article') . '</option>
          <option value="PreviewAgain" selected="selected">' . adm_translate('Re-prévisualiser') . '</option>
          <option value="PostStory">' . adm_translate('Poster un Article ') . '</option>
       </select>
@@ -702,7 +699,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
 
 function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur)
 {
-   global sql_prefix(''), $aid, $ultramode;
+   global $aid, $ultramode;
    if ($uid == 1) $author = '';
    if ($hometext == $bodytext) $bodytext = '';
 
@@ -759,9 +756,9 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
 function editStory($sid)
 {
-   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Editer un Article");
+   $f_titre = adm_translate('Editer un Article');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -855,7 +852,7 @@ function editStory($sid)
    puthome($ihome);
    echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d'introduction') . '</label>
+         <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
          <div class="col-12">
             <textarea class="tin form-control" rows="25" id="hometext" name="hometext" >' . $hometext . '</textarea>
          </div>
@@ -912,7 +909,7 @@ function editStory($sid)
       <input type="hidden" name="theme" value="' . $theme . '" />
       <div class="mb-3 row">
          <div class="col-12">
-            <input class="btn btn-primary" type="submit" value="' . adm_translate('Modifier l'Article') . '" />
+            <input class="btn btn-primary" type="submit" value="' . adm_translate('Modifier l\'Article') . '" />
          </div>
       </div>
    </form>';
@@ -943,7 +940,6 @@ function editStory($sid)
 
 function deleteStory($qid)
 {
-   global sql_prefix('');
    $res = sql_query("SELECT story, bodytext FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
    list($story, $bodytext) = sql_fetch_row($res);
    $artcomplet = $story . $bodytext;
@@ -961,7 +957,7 @@ function removeStory($sid, $ok = 0)
 {
    if (($sid == '') or ($sid == '0'))
       header("location: admin.php");
-   global sql_prefix(''), $ultramode, $aid, $radminsuper;
+   global $ultramode, $aid, $radminsuper;
    $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
    list($topic) = sql_fetch_row($result);
    $affiche = false;
@@ -1003,7 +999,7 @@ function removeStory($sid, $ok = 0)
       include('header.php');
       GraphicAdmin($hlpfile);
       echo '
-      <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer l'Article N°') . ' ' . $sid . ' ' . adm_translate('et tous ses Commentaires ?') . '</div>
+      <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer l\'Article N°') . ' ' . $sid . ' ' . adm_translate('et tous ses Commentaires ?') . '</div>
       <p class=""><a href="admin.php?op=RemoveStory&amp;sid=' . $sid . '&amp;ok=1" class="btn btn-danger" >' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php" class="btn btn-secondary" >' . adm_translate('Non') . '</a></p>';
       include("footer.php");
    }
@@ -1011,7 +1007,7 @@ function removeStory($sid, $ok = 0)
 
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme, $dd_pub, $fd_pub, $dh_pub, $fh_pub)
 {
-   global sql_prefix(''), $aid, $ultramode;
+   global $aid, $ultramode;
    $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
    $hometext = stripslashes(FixQuotes($hometext));
    $bodytext = stripslashes(FixQuotes($bodytext));
@@ -1062,9 +1058,9 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 
 function adminStory()
 {
-   global sql_prefix(''), $hlpfile, $language, $aid, $radminsuper, $adminimg;
+   global $hlpfile, $language, $aid, $radminsuper, $adminimg;
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Nouvel Article");
+   $f_titre = adm_translate('Nouvel Article');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -1127,7 +1123,7 @@ function adminStory()
    puthome($ihome);
    echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d'introduction') . '</label>
+         <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
          <div class="col-12">
             <textarea class="tin form-control" rows="25" id="hometext" name="hometext">' . $hometext . '</textarea>
          </div>
@@ -1178,7 +1174,7 @@ function adminStory()
 
 function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 {
-   global sql_prefix(''), $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
+   global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
    $hlpfile = "manuels/$language/newarticle.html";
 
    $subject = stripslashes(str_replace('"', '&quot;', $subject));
@@ -1201,7 +1197,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
    if (!$affiche) header("location: admin.php");
 
    $f_meta_nom = 'adminStory';
-   $f_titre = adm_translate('Nouvel Article");
+   $f_titre = adm_translate('Nouvel Article');
    //==> controle droit
    //   admindroits($aid,$f_meta_nom); // à voir l'intégration avec les droits sur les topics ...
    //<== controle droit
@@ -1213,10 +1209,10 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3>' . adm_translate('Prévisualiser l'Article') . '</h3>
+   <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
    <form id="storiespreviswart" action="admin.php" method="post" name="adminForm">
       <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label> 
-      ' . aff_localzone_langue("local_user_language') . '
+      ' . aff_localzone_langue('local_user_language') . '
       <div class="card card-body mb-3">';
 
    if ($topicimage !== '') {
@@ -1275,7 +1271,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
    puthome($ihome);
    echo '
          <div class="mb-3 row">
-            <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d'introduction') . '</label>
+            <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
             <div class="col-12">
                <textarea class="tin form-control" rows="25" id="hometext" name="hometext">' . $hometext . '</textarea>
             </div>

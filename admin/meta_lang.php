@@ -25,7 +25,7 @@ $hlpfile = 'manuels/' . $language . '/meta_lang.html';
 
 function go_back($label)
 {
-   if (!$label) $label = adm_translate('Retour en arrière");
+   if (!$label) $label = adm_translate('Retour en arrière');
    echo '
    <script type="text/javascript">
    //<![CDATA[
@@ -39,7 +39,6 @@ function go_back($label)
 
 function list_meta($meta, $type_meta)
 {
-   global sql_prefix('');
    $sel = '';
    $list = '
    <select class="form-select" name="meta" onchange="window.location=eval(\'this.options[this.selectedIndex].value\')">
@@ -73,7 +72,6 @@ function list_meta_type()
 
 function list_type_meta($type_meta)
 {
-   global sql_prefix('');
    $sel = '';
    settype($url, 'string');
    $list = '
@@ -94,7 +92,7 @@ function list_type_meta($type_meta)
 
 function List_Meta_Lang()
 {
-   global $hlpfile, sql_prefix(''), $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
 
    if (!empty($meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $meta . "' ORDER BY type_meta, def ASC");
    else if (!empty($type_meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
@@ -171,7 +169,7 @@ function List_Meta_Lang()
 
 function Edit_Meta_Lang()
 {
-   global $hlpfile, sql_prefix(''), $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
 
    $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $ml . "'");
    $Q = sql_fetch_assoc($Q);
@@ -264,7 +262,7 @@ function Edit_Meta_Lang()
             <option' . $sel1 . ' value="plus">' . adm_translate('Seulement pour ...') . '</option>
          </select>
          <div class="help-block">...
-      ' . adm_translate('les URLs que vous aurez renseignés ci-après (ne renseigner que la racine de l'URI)') . '<br />
+      ' . adm_translate('les URLs que vous aurez renseignés ci-après (ne renseigner que la racine de l\'URI)') . '<br />
       ' . adm_translate('Exemple') . ' : index.php user.php forum.php static.php<br />
       ' . adm_translate('Par défaut, rien ou Tout sauf pour ... [aucune URI] = aucune restriction') . '
          </div>
@@ -334,7 +332,7 @@ function Creat_Meta_Lang()
          if ($type_meta == "smil")
             echo '
                <input class="form-control" type="text" name="content" id="content" maxlength="255" required="required" />
-               <span class="help-block">' . adm_translate('Chemin et nom de l'image du Smiley') . ' Ex. : forum/smilies/pafmur.gif<span class="float-end ms-1" id="countcar_content"></span></span>
+               <span class="help-block">' . adm_translate('Chemin et nom de l\'image du Smiley') . ' Ex. : forum/smilies/pafmur.gif<span class="float-end ms-1" id="countcar_content"></span></span>
             </div>
          </div>';
          else
@@ -359,7 +357,7 @@ function Creat_Meta_Lang()
       <div class="mb-3 row">
         <div class="col-sm-12">
            <div class="help-block">
-            ' . adm_translate('les URLs que vous aurez renseignés ci-après (ne renseigner que la racine de l'URI)') . '<br />
+            ' . adm_translate('les URLs que vous aurez renseignés ci-après (ne renseigner que la racine de l\'URI)') . '<br />
             ' . adm_translate('Exemple') . ' : index.php user.php forum.php static.php<br />
             ' . adm_translate('Par defaut, rien ou Tout sauf pour ... [aucune URI] = aucune restriction') . '
             </div>
@@ -387,7 +385,6 @@ function Creat_Meta_Lang()
 
 function kill_Meta_Lang($nbr, $action)
 {
-   global sql_prefix('');
    $i = 0;
    while ($i <= $nbr) {
       if (!empty($action[$i]))
@@ -416,7 +413,6 @@ function meta_exist($def)
 
 function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc)
 {
-   global sql_prefix('');
    if ($type_uri == 'plus') {
       $type_uri = '+';
    } else {

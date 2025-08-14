@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'hreferer';
-$f_titre = adm_translate('Sites Référents");
+$f_titre = adm_translate('Sites Référents');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/referer.html";
 
 function hreferer($filter)
 {
-   global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre, sql_prefix('');
+   global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre;
    include("header.php");
    GraphicAdmin($hlpfile);
 
@@ -83,15 +83,12 @@ function hreferer($filter)
 
 function delreferer()
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "referer");
    Header("Location: admin.php?op=AdminMain");
 }
 
 function archreferer($filter)
 {
-   global sql_prefix('');
-
    $file = fopen("slogs/referers.log", "w");
    $content = "===================================================\n";
    $content .= "Date : " . date("d-m-Y") . "-/- NPDS - HTTP Referers\n";

@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'topicsmanager';
-$f_titre = adm_translate('Gestion des sujets");
+$f_titre = adm_translate('Gestion des sujets');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/topics.html";
 
 function topicsmanager()
 {
-   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $nook;
+   global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $nook;
    include("header.php");
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('') . "topics ORDER BY topicname");
@@ -81,7 +81,7 @@ function topicsmanager()
          <label class="col-form-label col-sm-4" for="topicimage">' . adm_translate('Image') . '</label>
          <div class="col-sm-8">
             <input id="topicimage" class="form-control" type="text" name="topicimage" maxlength="20" value="' . $topicimage . '" placeholder="genial.png" />
-            <span class="help-block">' . adm_translate('(nom de l'image + extension)') . ' (' . $tipath . '). - ' . adm_translate('max caractères') . ' : <span id="countcar_topicimage"></span></span>
+            <span class="help-block">' . adm_translate('(nom de l\'image + extension)') . ' (' . $tipath . '). - ' . adm_translate('max caractères') . ' : <span id="countcar_topicimage"></span></span>
          </div>
       </div>
       <div class="mb-3 row">
@@ -172,7 +172,7 @@ function topicsmanager()
 
 function topicedit($topicid)
 {
-   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $radminsuper;
+   global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $radminsuper;
    include("header.php");
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT topicid, topicname, topicimage, topictext, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
@@ -206,7 +206,7 @@ function topicedit($topicid)
             <label class="col-form-label col-sm-4" for="topicimage">' . adm_translate('Image') . '</label>
             <div class="col-sm-8">
                <input id="topicimage" class="form-control" type="text" name="topicimage" maxlength="20" value="' . $topicimage . '" placeholder="genial.png" />
-               <span class="help-block">' . adm_translate('(nom de l'image + extension)') . ' (' . $tipath . '). - ' . adm_translate('max caractères') . ' : <span id="countcar_topicimage"></span></span>
+               <span class="help-block">' . adm_translate('(nom de l\'image + extension)') . ' (' . $tipath . '). - ' . adm_translate('max caractères') . ' : <span id="countcar_topicimage"></span></span>
             </div>
          </div>
          <div class="mb-3 row">
@@ -331,7 +331,7 @@ function topicedit($topicid)
 
 function relatededit($tid, $rid)
 {
-   global $hlpfile, $tipath, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg;
 
    include("header.php");
    GraphicAdmin($hlpfile);
@@ -391,21 +391,18 @@ function relatededit($tid, $rid)
 
 function relatedsave($tid, $rid, $name, $url)
 {
-   global sql_prefix('');
    sql_query("UPDATE " . sql_prefix('') . "related SET name='$name', url='$url' WHERE rid='$rid'");
    Header("Location: admin.php?op=topicedit&topicid=$tid");
 }
 
 function relateddelete($tid, $rid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "related WHERE rid='$rid'");
    Header("Location: admin.php?op=topicedit&topicid=$tid");
 }
 
 function topicmake($topicname, $topicimage, $topictext, $topicadmin)
 {
-   global sql_prefix('');
    $topicname = stripslashes(FixQuotes($topicname));
    $istopicname = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('') . "topics WHERE topicname='$topicname'"));
    if ($istopicname !== 0) {
@@ -430,7 +427,6 @@ function topicmake($topicname, $topicimage, $topictext, $topicadmin)
 
 function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin, $name, $url)
 {
-   global sql_prefix('');
    $topicadminX = explode(',', $topicadmin);
    array_pop($topicadminX);
    $res = sql_query("SELECT * FROM " . sql_prefix('') . "droits WHERE d_droits=11112 AND d_fon_fid=2");
@@ -473,8 +469,6 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
 
 function topicdelete($topicid, $ok = 0)
 {
-   global sql_prefix('');
-
    if ($ok == 1) {
       global $aid;
       $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE topic='$topicid'");

@@ -14,7 +14,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'supercache';
-$f_titre = adm_translate('SuperCache");
+$f_titre = adm_translate('SuperCache');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit

@@ -16,11 +16,11 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'lnl';
-$f_titre = adm_translate('Petite Lettre D'information");
+$f_titre = adm_translate('Petite Lettre D\'information');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
-global $language, sql_prefix('');
+global $language;
 $hlpfile = "manuels/$language/lnl.html";
 
 $rowH = array();
@@ -76,7 +76,7 @@ function ShowHeader()
 
 function Detail_Header_Footer($ibid, $type)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -88,9 +88,9 @@ function Detail_Header_Footer($ibid, $type)
    <hr />
    <h3 class="mb-2">';
    echo ($type == "HED") ?
-      adm_translate('Message d'entête") :
-      adm_translate('Message de pied de page");
-   echo ' - ' . adm_translate('Prévisualiser");
+      adm_translate('Message d\'entête') :
+      adm_translate('Message de pied de page');
+   echo ' - ' . adm_translate('Prévisualiser');
    if ($tmp[1] == 1)
       echo '<code> HTML</code></h3>
       <div class="card card-body">' . meta_lang($tmp[0]) . '</div>';
@@ -162,7 +162,7 @@ function ShowBody()
 
 function Detail_Body($ibid)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -256,7 +256,6 @@ function Add_Body()
 
 function Add_Body_Submit($Ytext, $Yhtml)
 {
-   global sql_prefix('');
    sql_query("INSERT INTO " . sql_prefix('') . "lnl_body VALUES ('0', '$Yhtml', '$Ytext', 'OK')");
 }
 
@@ -309,7 +308,7 @@ function Add_Header_Footer($ibid)
    }
    echo '
       <hr />
-      <h3 class="mb-2">' . ucfirst(adm_translate('$ti")) . '</h3>
+      <h3 class="mb-2">' . ucfirst(adm_translate($ti)) . '</h3>
       <form id="lnlheadfooter" action="admin.php" method="post" name="adminForm">
       <fieldset>
          <div class="mb-3">
@@ -354,7 +353,6 @@ function Add_Header_Footer($ibid)
 
 function Add_Header_Footer_Submit($ibid, $xtext, $xhtml)
 {
-   global sql_prefix('');
    if ($ibid == "HED")
       sql_query("INSERT INTO " . sql_prefix('') . "lnl_head_foot VALUES ('0', 'HED','$xhtml', '$xtext', 'OK')");
    else
@@ -369,7 +367,7 @@ function main()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3 class="mb-2">' . adm_translate('Petite Lettre D'information') . '</h3>
+   <h3 class="mb-2">' . adm_translate('Petite Lettre D\'information') . '</h3>
    <ul class="nav flex-md-row flex-column">
       <li class="nav-item">
          <a class="nav-link active" href="admin.php?op=lnl_List">' . adm_translate('Liste des LNL envoyées') . '</a>
@@ -378,7 +376,7 @@ function main()
          <a class="nav-link active" href="admin.php?op=lnl_User_List">' . adm_translate('Afficher la liste des prospects') . '</a>
       </li>
    </ul>
-   <h4 class="my-3"><a href="admin.php?op=lnl_Add_Header" ><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Message d'entête') . '"></i></a>' . adm_translate('Message d'entête') . '</h4>';
+   <h4 class="my-3"><a href="admin.php?op=lnl_Add_Header" ><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Message d\'entête') . '"></i></a>' . adm_translate('Message d\'entête') . '</h4>';
    ShowHeader();
    echo '
    <h4 class="my-3"><a href="admin.php?op=lnl_Add_Body" ><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Corps de message') . '"></i></a>' . adm_translate('Corps de message') . '</h4>';
@@ -550,7 +548,7 @@ function Del_Question($retour, $param)
 
 function Test($Yheader, $Ybody, $Yfooter)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -590,7 +588,7 @@ function Test($Yheader, $Ybody, $Yfooter)
 
 function lnl_list()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -606,7 +604,7 @@ function lnl_list()
             <th class="n-t-col-xs-1" data-halign="center" data-align="right">' . adm_translate('Entête') . '</th>
             <th class="n-t-col-xs-1" data-halign="center" data-align="right">' . adm_translate('Corps') . '</th>
             <th class="n-t-col-xs-1" data-halign="center" data-align="right">' . adm_translate('Pied') . '</th>
-            <th data-halign="center" data-align="right">' . adm_translate('Nbre d'envois effectués') . '</th>
+            <th data-halign="center" data-align="right">' . adm_translate('Nbre d\'envois effectués') . '</th>
             <th data-halign="center" data-align="center">' . adm_translate('Type') . '</th>
             <th data-halign="center" data-sortable="true" data-align="right">' . adm_translate('Date') . '</th>
             <th data-halign="center" data-align="center">' . adm_translate('Etat') . '</th>
@@ -656,7 +654,7 @@ function lnl_list()
 
 function lnl_user_list()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -820,10 +818,10 @@ switch ($op) {
                   if (($message != '') and ($subject != '')) {
                      if ($Xmime == "html-nobr") {
                         $Xmessage = $message . "<br /><br /><hr />";
-                        $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien") . " : <a href=\"$nuke_url/lnl.php?op=unsubscribe&email=$email\">" . adm_translate('Modifier") . "</a>";
+                        $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien') . " : <a href=\"$nuke_url/lnl.php?op=unsubscribe&email=$email\">" . adm_translate('Modifier') . "</a>";
                      } else {
                         $Xmessage = $message . "\n\n------------------------------------------------------------------\n";
-                        $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien") . " : $nuke_url/lnl.php?op=unsubscribe&email=$email";
+                        $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien') . " : $nuke_url/lnl.php?op=unsubscribe&email=$email";
                      }
                      send_email($email, $subject, $Xmessage, '', true, $Xmime, '');
                      $number_send++;
