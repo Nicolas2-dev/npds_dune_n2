@@ -28,7 +28,7 @@ function Mysql_Connexion()
       $Titlesitename = "NPDS";
 
       if (file_exists('storage/meta/meta.php')) {
-         include('storage/meta/meta.php');
+         include 'storage/meta/meta.php';
       }
 
       if (file_exists('storage/static/database.txt')) {
