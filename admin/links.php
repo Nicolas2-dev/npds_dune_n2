@@ -29,7 +29,7 @@ $rupture = 100; //100
 function links()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -402,7 +402,7 @@ function links()
 function LinksModLink($lid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    global $anonymous;
    $result = sql_query("SELECT cid, sid, title, url, description, name, email, hits FROM " . sql_prefix('') . "links_links WHERE lid='$lid'");
@@ -608,7 +608,7 @@ function LinksListBrokenLinks()
    $totalbrokenlinks = sql_num_rows($resultBrok);
    if ($totalbrokenlinks == 0)
       header("location: admin.php?op=links");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -696,7 +696,7 @@ function LinksListModRequests()
    $totalmodrequests = sql_num_rows($resultLink);
    if ($totalmodrequests == 0)
       header("location: admin.php?op=links");
-   include("header.php");
+   include 'header.php';
    $x_mod = '';
    $x_ori = '';
    function clformodif($x_ori, $x_mod)
@@ -788,7 +788,7 @@ function LinksListModRequests()
       </div>
    </div>';
    }
-   include("footer.php");
+   include 'footer.php';
 }
 
 function LinksChangeModRequests($Xrequestid)
@@ -839,7 +839,7 @@ function LinksDelLink($lid)
 function LinksModCat($cat)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $cat = explode('-', $cat);
    if (!array_key_exists(1, $cat))
@@ -1013,7 +1013,7 @@ function LinksDelEditorial($linkid)
 function message_error($ibid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '<hr />';

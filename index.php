@@ -221,7 +221,7 @@ function aff_news($op, $catid, $marqeur)
 
 function theindex($op, $catid, $marqeur)
 {
-    include("header.php");
+    include 'header.php';
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
@@ -247,7 +247,7 @@ function theindex($op, $catid, $marqeur)
     }
     if ($SuperCache)
         $cache_obj->endCachingPage();
-    include("footer.php");
+    include 'footer.php';
 }
 
 settype($op, 'string');

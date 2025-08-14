@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/banners.html";
 function BannersAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -297,7 +297,7 @@ function BannerDelete($bid, $ok = 0)
       Header("Location: admin.php?op=BannersAdmin");
    } else {
       global $hlpfile;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
       list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl) = sql_fetch_row($result);
@@ -347,7 +347,7 @@ function BannerDelete($bid, $ok = 0)
 function BannerEdit($bid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, userlevel FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
@@ -427,7 +427,7 @@ function BannerClientDelete($cid, $ok = 0)
       sql_query("DELETE FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       Header("Location: admin.php?op=BannersAdmin");
    } else {
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
@@ -457,7 +457,7 @@ function BannerClientDelete($cid, $ok = 0)
 function BannerClientEdit($cid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT name, contact, email, login, passwd, extrainfo FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");

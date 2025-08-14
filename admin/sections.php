@@ -154,7 +154,7 @@ function droits_publication($secid)
 function sections()
 {
    global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = $radminsuper == 1 ?
@@ -377,7 +377,7 @@ function sections()
 function new_rub_section($type)
 {
    global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $arg1 = '';
@@ -467,7 +467,7 @@ function publishcompat($article)
    $result2 = sql_query("SELECT title FROM " . sql_prefix('') . "seccont WHERE artid='$article'");
    list($titre) = sql_fetch_row($result2);
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -557,7 +557,7 @@ function rubriquedit($rubid)
    if (!sql_num_rows($result))
       Header("Location: admin.php?op=sections");
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
 
    $result2 = sql_query("SELECT secid FROM " . sql_prefix('') . "sections WHERE rubid='$rubid'");
@@ -667,7 +667,7 @@ function sectionedit($secid)
 {
    global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg, $aid;
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT secid, secname, image, userlevel, rubid, intro FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
    list($secid, $secname, $image, $userlevel, $rubref, $intro) = sql_fetch_row($result);
@@ -814,7 +814,7 @@ function secartedit($artid)
    if (!$artid)
       Header("Location: admin.php?op=sections");
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $arttitle = stripslashes($arttitle);
@@ -915,7 +915,7 @@ function secartupdate($artid)
       <input type="submit" class="btn btn-primary" name="submit" value="' . adm_translate('Ok') . '" />';
    }
    $fin .= '&nbsp;<input class="btn btn-secondary" type="button" value="' . adm_translate('Retour en arrière') . '" onclick="javascript:history.back()" />';
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -1071,7 +1071,7 @@ function rubriquedelete($rubid, $ok = 0)
       Header("Location: admin.php?op=sections");
    } else {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'");
@@ -1109,7 +1109,7 @@ function sectiondelete($secid, $ok = 0)
       Header("Location: admin.php?op=sections");
    } else {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
@@ -1161,7 +1161,7 @@ function secartdelete($artid, $ok = 0)
          <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
       </p>';
 
-      include("footer.php");
+      include 'footer.php';
    }
 }
 
@@ -1186,7 +1186,7 @@ function secartdelete2($artid, $ok = 0)
          <strong>' . adm_translate('Etes-vous certain de vouloir effacer cette publication ?') . '</strong><br /><br />
          <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete2&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
       </p>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 // Fonctions de DELETE
@@ -1197,7 +1197,7 @@ function ordremodule()
    global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    /////////data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-mobile-responsive="true" data-icons-prefix="fa" data-icons="icons"
@@ -1259,7 +1259,7 @@ function ordrechapitre()
    if ($radminsuper <> 1) {
       Header("Location: admin.php?op=sections");
    }
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -1325,7 +1325,7 @@ function ordrecours()
    global $secid, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper <> 1)
       Header("Location: admin.php?op=sections");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT secname FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
@@ -1427,7 +1427,7 @@ function publishrights($author)
    global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    if ($radminsuper != 1)
       Header("Location: admin.php?op=sections");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

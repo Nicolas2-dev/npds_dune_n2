@@ -16,7 +16,7 @@ if (!function_exists("Mysql_Connexion"))
     include("mainfile.php");
 function message_error($ibid, $op)
 {
-    include("header.php");
+    include 'header.php';
     echo '
    <h2>' . translate('Utilisateur') . '</h2>
    <div class="alert alert-danger lead">';
@@ -31,14 +31,14 @@ function message_error($ibid, $op)
         echo '<a class="btn btn-secondary mt-4" href="javascript:history.go(-1)" title="' . translate('Retour en arrière') . '">' . translate('Retour en arrière') . '</a>';
     echo '
    </div>';
-    include("footer.php");
+    include 'footer.php';
 }
 
 function message_pass($ibid)
 {
-    include("header.php");
+    include 'header.php';
     echo $ibid;
-    include("footer.php");
+    include 'footer.php';
 }
 
 function userCheck($uname, $email)
@@ -107,7 +107,7 @@ function Only_NewUser()
     if (!$user) {
         global $smilies, $short_user, $memberpass;
         global $uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $vpass, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1;
-        include("header.php");
+        include 'header.php';
         showimage();
         echo '
    <div>
@@ -188,7 +188,7 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
             $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Désolé, votre mot de passe doit faire au moins') . ' <strong>' . $minpass . '</strong> ' . translate('caractères');
     }
     if (!$stop) {
-        include("header.php");
+        include 'header.php';
         echo '
       <h2>' . translate('Utilisateur') . '</h2>
       <hr />
@@ -214,7 +214,7 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
                <input type="hidden" name="op" value="finish" /><br />
                <input class="btn btn-primary mt-2" type="submit" value="' . translate('Terminer') . '" />
             </form>';
-        include("footer.php");
+        include 'footer.php';
     } else
         message_error($stop, "new user");
 }
@@ -237,7 +237,7 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
     $user_regdate = time() + ((int)$gmt * 3600);
     $stop = userCheck($uname, $email);
     if (!$stop) {
-        include("header.php");
+        include 'header.php';
         if (!$memberpass)
             $makepass = makepass();
         else
@@ -318,7 +318,7 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
          ID : $uname
          Email : $email", '', false, "text", '');
         }
-        include("footer.php");
+        include 'footer.php';
     } else
         message_error($stop, 'finish');
 }
@@ -334,7 +334,7 @@ function userinfo($uname)
     if (!$uid)
         header("location: index.php");
     global $cookie;
-    include("header.php");
+    include 'header.php';
     include_once("functions.php");
 
     $email = removeHack($femail);
@@ -668,14 +668,14 @@ function userinfo($uname)
     if ($posterdata['attachsig'] == 1)
         echo '
    <p class="n-signature">' . $user_sig . '</p>';
-    include("footer.php");
+    include 'footer.php';
 }
 
 function main($user)
 {
     global $stop, $smilies;
     if (!isset($user)) {
-        include("header.php");
+        include 'header.php';
         echo '<h2>' . translate('Utilisateur') . '</h2>';
         if ($stop == 99)
             echo '<p class="alert alert-danger"><i class="fa fa-exclamation me-2"></i>' . translate('Vous n\'êtes pas encore autorisé à vous connecter.') . '</p>';
@@ -714,7 +714,7 @@ function main($user)
             if (file_exists("modules/include/user.inc"))
                 include("modules/include/user.inc");
         }
-        include("footer.php");
+        include 'footer.php';
     } elseif (isset($user)) {
         $cookie = cookiedecode($user);
         userinfo($cookie[1]);
@@ -735,7 +735,7 @@ function logout()
 
 function ForgetPassword()
 {
-    include("header.php");
+    include 'header.php';
     echo '
    <h2 class="mb-3">' . translate('Utilisateur') . '</h2>
    <div class="card card-body">
@@ -810,7 +810,7 @@ function valid_password($code)
     if ($email != '') {
         $ibid = explode("#fpwd#", decryptK($ibid[1], $pass));
         if ($email == $ibid[0]) {
-            include("header.php");
+            include 'header.php';
             echo '
       <p class="lead">' . translate('Vous avez perdu votre mot de passe ?') . '</p>
       <div class="card border rounded p-3">
@@ -837,7 +837,7 @@ function valid_password($code)
             </div>
          </div>
       </div>';
-            include("footer.php");
+            include 'footer.php';
         } else {
             message_pass('<div class="alert alert-danger lead text-center">' . translate('Erreur') . '</div>');
             Ecr_Log('security', 'Lost_password_valid NOK Mail not match : ' . $ibid[0], '');
@@ -959,7 +959,7 @@ function login($uname, $pass)
 function edituser()
 {
     global $user, $smilies, $short_user, $subscribe, $member_invisible, $avatar_size;
-    include("header.php");
+    include 'header.php';
     include_once('functions.php');
     $userinfo = getusrinfo($user);
     member_menu($userinfo['mns'], $userinfo['uname']);
@@ -968,7 +968,7 @@ function edituser()
     list($C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1) = sql_fetch_row($result);
     showimage();
     include("modules/sform/extend-user/mod_extend-user.php");
-    include("footer.php");
+    include 'footer.php';
 }
 
 function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bio, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $attach, $usend_email, $uis_visible, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $MAX_FILE_SIZE, $raz_avatar)
@@ -1089,7 +1089,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 function edithome()
 {
     global $user, $Default_Theme, $Default_Skin;
-    include("header.php");
+    include 'header.php';
     include_once('functions.php');
     $userinfo = getusrinfo($user);
     member_menu($userinfo['mns'], $userinfo['uname']);
@@ -1176,7 +1176,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
 function chgtheme()
 {
     global $user;
-    include("header.php");
+    include 'header.php';
     include_once('functions.php');
     $userinfo = getusrinfo($user);
     $ibid = explode('+', $userinfo['theme']);
@@ -1264,7 +1264,7 @@ function chgtheme()
    });
    //]]
    </script>';
-    include("footer.php");
+    include 'footer.php';
 }
 
 function savetheme($uid, $theme)
@@ -1288,7 +1288,7 @@ function savetheme($uid, $theme)
 function editjournal()
 {
     global $user;
-    include("header.php");
+    include 'header.php';
     include_once('functions.php');
     $userinfo = getusrinfo($user);
     member_menu($userinfo['mns'], $userinfo['uname']);
@@ -1318,7 +1318,7 @@ function editjournal()
          </div>
       </div>
    </form>';
-    include("footer.php");
+    include 'footer.php';
 }
 
 function savejournal($uid, $journal, $datetime)
@@ -1462,10 +1462,10 @@ switch ($op) {
         if ($CloseRegUser == 0)
             Only_NewUser();
         else {
-            include("header.php");
+            include 'header.php';
             if (file_exists("static/closed.txt"))
                 include("static/closed.txt");
-            include("footer.php");
+            include 'footer.php';
         }
         break;
     case 'askforgroupe':

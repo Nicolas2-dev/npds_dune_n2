@@ -1187,7 +1187,7 @@ if ($inclusion) {
       </head>
       <body class="p-3">';
    } else
-      include("header.php");
+      include 'header.php';
 
    // Head banner de présentation F-Manager
    if (file_exists("themes/$Default_Theme/html/modules/f-manager/head.html")) {
@@ -1241,6 +1241,6 @@ if ($inclusion) {
          if ($tiny_mce_init)
             echo aff_editeur("tiny_mce", "end");
    } else
-      include("footer.php");
+      include 'footer.php';
 }
 ?>

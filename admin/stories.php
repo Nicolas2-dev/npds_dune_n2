@@ -127,7 +127,7 @@ function AddCategory()
    admindroits($aid, $f_meta_nom);
    //<== controle droit
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
 
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -173,7 +173,7 @@ function SaveCategory($title)
       $what1 = '<div class="alert alert-success lead" role="alert">' . adm_translate('Nouvelle Catégorie ajoutée') . '</div>';
       $result = sql_query("INSERT INTO " . sql_prefix('') . "stories_cat VALUES (NULL, '$title', '0')");
    }
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -191,7 +191,7 @@ function EditCategory($catid)
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
 
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -264,7 +264,7 @@ function SaveEditCategory($catid, $title)
       global $aid;
       Ecr_Log("security", "SaveEditCategory($catid, $title) by AID : $aid", "");
    }
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -282,7 +282,7 @@ function DelCategory($cat)
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
 
    $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$cat'");
@@ -361,7 +361,7 @@ function NoMoveCategory($catid, $newcat)
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
-   include("header.php");
+   include 'header.php';
    GraphicAdmin('');
 
    $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
@@ -1001,7 +1001,7 @@ function removeStory($sid, $ok = 0)
       echo '
       <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer l\'Article N°') . ' ' . $sid . ' ' . adm_translate('et tous ses Commentaires ?') . '</div>
       <p class=""><a href="admin.php?op=RemoveStory&amp;sid=' . $sid . '&amp;ok=1" class="btn btn-danger" >' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php" class="btn btn-secondary" >' . adm_translate('Non') . '</a></p>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 

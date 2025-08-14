@@ -50,7 +50,7 @@ if ($submitS) {
         if ($forum_access == 0) {
             $userdata = array("uid" => 1);
             $modo = '';
-            include("header.php");
+            include 'header.php';
         } else {
             if (($username == '') or ($password == ''))
                 forumerror('0027');
@@ -62,7 +62,7 @@ if ($submitS) {
                     if ($userdata['uid'] == 1)
                         forumerror('0027');
                     else
-                        include("header.php");
+                        include 'header.php';
                 } else
                     forumerror('0028');
                 $modo = user_is_moderator($username, $pass, $forum_access);
@@ -84,7 +84,7 @@ if ($submitS) {
                 forumerror('0027');
         }
         $userdata = get_userdata($userdata[1]);
-        include("header.php");
+        include 'header.php';
     }
 
     // Either valid user/pass, or valid session. continue with post.

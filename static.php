@@ -49,7 +49,7 @@ settype($metalang, 'integer');
 settype($nl, 'integer');
 $pdst = $npds;
 $remp = '';
-include("header.php");
+include 'header.php';
 echo '
                   <div id="static_cont">';
 if (($op != '') and ($op)) {
@@ -83,4 +83,4 @@ if (($op != '') and ($op)) {
 }
 echo '
                   </div>';
-include("footer.php");
+include 'footer.php';

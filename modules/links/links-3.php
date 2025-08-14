@@ -23,7 +23,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
    if (autorise_mod($lid, false)) {
       if ($author == '-9')
          Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath/admin&op=LinksModLink&lid=$lid");
-      include("header.php");
+      include 'header.php';
       mainheader();
       $result = sql_query("SELECT cid, sid, title, url, description, topicid_card FROM " . $links_DB . "links_links WHERE lid='$lid'");
       list($cid, $sid, $title, $url, $description, $topicid_card) = sql_fetch_row($result);
@@ -116,7 +116,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
       $browse_key = $lid;
       include("modules/sform/$ModPath/link_maj.php");
       adminfoot('fv', '', '', 'nodiv');
-      include("footer.php");
+      include 'footer.php';
    } else
       header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
 }
@@ -135,21 +135,21 @@ function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmi
       $result = sql_query("INSERT INTO " . $links_DB . "links_modrequest VALUES (NULL, $lid, $cat[0], $cat[1], '$title', '$url', '$description', '$modifysubmitter', '0', '$topicL')");
 
       global $ModPath, $ModStart;
-      include("header.php");
+      include 'header.php';
       echo '
       <h3 class="my-3">' . translate("Liens") . '</h3>
       <hr />
       <h4 class="my-3">' . translate("Proposition de modification") . '</h4>
       <div class="alert alert-success">' . translate("Merci pour cette information. Nous allons l'examiner dès que possible.") . '</div>
       <a class="btn btn-primary" href="modules.php?ModPath=links&amp;ModStart=links">Index </a>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 
 function brokenlink($lid)
 {
    global $ModPath, $ModStart, $links_DB, $anonymous;
-   include("header.php");
+   include 'header.php';
    global $user;
    if (isset($user)) {
       global $cookie;
@@ -173,7 +173,7 @@ function brokenlink($lid)
       <input type="hidden" name="op" value="brokenlinkS" />
       <input type="submit" class="btn btn-success" value="' . translate("Rapporter un lien rompu") . '" />
    </form>';
-   include("footer.php");
+   include 'footer.php';
 }
 
 function brokenlinkS($lid, $modifysubmitter)
@@ -188,12 +188,12 @@ function brokenlinkS($lid, $modifysubmitter)
       settype($lid, 'integer');
       sql_query("INSERT INTO " . $links_DB . "links_modrequest VALUES (NULL, $lid, 0, 0, '', '', '', '$ratinguser', 1,0)");
    }
-   include("header.php");
+   include 'header.php';
    mainheader();
    echo '
    <h3>' . translate("Rapporter un lien rompu") . '</h3>
    <div class="alert alert-success my-3">
    ' . translate("Merci pour cette information. Nous allons l'examiner dès que possible.") . '
    </div>';
-   include("footer.php");
+   include 'footer.php';
 }

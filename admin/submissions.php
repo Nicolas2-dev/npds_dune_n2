@@ -27,7 +27,7 @@ function submissions()
 {
    global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
    $dummy = 0;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT qid, subject, timestamp, topic, uname FROM " . sql_prefix('') . "queue ORDER BY timestamp");

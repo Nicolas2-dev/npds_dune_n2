@@ -64,7 +64,7 @@ if ($Mmod) {
          redirect_url("$url_ret");
          break;
       case 'viewip':
-         include("header.php");
+         include 'header.php';
          $sql = "SELECT u.uname, p.poster_ip, p.poster_dns FROM " . $NPDS_Prefix . "users u, " . $NPDS_Prefix . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
          if (!$r = sql_query($sql))
             forumerror('0013');
@@ -94,7 +94,7 @@ if ($Mmod) {
          echo '
       </div>
       <p><a href="' . rawurldecode($url_ret) . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a></p>';
-         include("footer.php");
+         include 'footer.php';
          break;
       case 'aff':
          $sql = "UPDATE " . $NPDS_Prefix . "posts SET post_aff = '$ordre' WHERE post_id = '$post'";
@@ -112,9 +112,9 @@ if ($Mmod) {
          break;
    }
 } else {
-   include("header.php");
+   include 'header.php';
    echo '
       <p class="text-center">' . translate("Vous n'êtes pas identifié comme modérateur de ce forum. Opération interdite.") . '<br /><br />
       <a href="javascript:history.go(-1)" class="btn btn-secondary">' . translate("Retour en arrière") . '</a></p>';
-   include("footer.php");
+   include 'footer.php';
 }

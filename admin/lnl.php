@@ -77,7 +77,7 @@ function ShowHeader()
 function Detail_Header_Footer($ibid, $type)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    // $type = HED or FOT
@@ -163,7 +163,7 @@ function ShowBody()
 function Detail_Body($ibid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -206,7 +206,7 @@ function Detail_Body($ibid)
 function Add_Body()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -294,7 +294,7 @@ function ShowFooter()
 function Add_Header_Footer($ibid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $t = '';
@@ -362,7 +362,7 @@ function Add_Header_Footer_Submit($ibid, $xtext, $xhtml)
 function main()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $rowH, $rowB, $rowF;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -535,7 +535,7 @@ function main()
 function Del_Question($retour, $param)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -549,7 +549,7 @@ function Del_Question($retour, $param)
 function Test($Yheader, $Ybody, $Yfooter)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT text, html FROM " . sql_prefix('') . "lnl_head_foot WHERE type='HED' AND ref='$Yheader'");
@@ -589,7 +589,7 @@ function Test($Yheader, $Ybody, $Yfooter)
 function lnl_list()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT ref, header , body, footer, number_send, type_send, date, status FROM " . sql_prefix('') . "lnl_send ORDER BY date");
@@ -655,7 +655,7 @@ function lnl_list()
 function lnl_user_list()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT email, date, status FROM " . sql_prefix('') . "lnl_outside_users ORDER BY date");

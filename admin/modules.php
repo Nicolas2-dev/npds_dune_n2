@@ -33,7 +33,7 @@ $hlpfile = "manuels/$language/modules.html";
 
 global $language, $adminimg, $admf_ext;
 
-include("header.php");
+include 'header.php';
 GraphicAdmin($hlpfile);
 
 $handle = opendir('modules');

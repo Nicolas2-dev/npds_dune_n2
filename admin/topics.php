@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/topics.html";
 function topicsmanager()
 {
    global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $nook;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('') . "topics ORDER BY topicname");
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -173,7 +173,7 @@ function topicsmanager()
 function topicedit($topicid)
 {
    global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $radminsuper;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT topicid, topicname, topicimage, topictext, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
    list($topicid, $topicname, $topicimage, $topictext, $topicadmin) = sql_fetch_row($result);
@@ -333,7 +333,7 @@ function relatededit($tid, $rid)
 {
    global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg;
 
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT name, url FROM " . sql_prefix('') . "related WHERE rid='$rid'");
    list($name, $url) = sql_fetch_row($result);
@@ -488,7 +488,7 @@ function topicdelete($topicid, $ok = 0)
       Header("Location: admin.php?op=topicsmanager");
    } else {
       global $hlpfile, $tipath, $topicimage, $f_meta_nom, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       $result2 = sql_query("SELECT topicimage, topicname, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topicid'");
       list($topicimage, $topicname, $topictext) = sql_fetch_row($result2);

@@ -27,7 +27,7 @@ $hlpfile = "manuels/$language/forumconfig.html";
 function ForumConfigAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 

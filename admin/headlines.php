@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/headlines.html";
 function HeadlinesAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -107,7 +107,7 @@ function HeadlinesAdmin()
 function HeadlinesEdit($hid)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT sitename, url, headlinesurl, status FROM " . sql_prefix('') . "headlines WHERE hid='$hid'");
    list($xsitename, $url, $headlinesurl, $status) = sql_fetch_row($result);
@@ -188,7 +188,7 @@ function HeadlinesDel($hid, $ok = 0)
       Header("Location: admin.php?op=HeadlinesAdmin");
    } else {
       global $hlpfile;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo '
@@ -197,7 +197,7 @@ function HeadlinesDel($hid, $ok = 0)
          <strong class="d-block mb-1">' . adm_translate('Etes-vous sûr de vouloir supprimer cette boîte de Titres ?') . '</strong>
          <a class="btn btn-danger btn-sm" href="admin.php?op=HeadlinesDel&amp;hid=' . $hid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=HeadlinesAdmin" role="button">' . adm_translate('Non') . '</a>
       </p>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 

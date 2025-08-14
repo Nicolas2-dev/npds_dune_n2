@@ -24,7 +24,7 @@ $hlpfile = 'manuels/' . $language . '/optimysql.html';
 
 $date_opt = date(adm_translate('dateforop'));
 $heure_opt = date("h:i a");
-include("header.php");
+include 'header.php';
 GraphicAdmin($hlpfile);
 
 global $dbname; // non utile ?

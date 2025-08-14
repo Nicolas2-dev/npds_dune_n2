@@ -50,7 +50,7 @@ function error_handler($ibid)
 function subscribe($var)
 {
     if ($var != '') {
-        include("header.php");
+        include 'header.php';
         echo '
       <h2>' . translate('La lettre') . '</h2>
       <hr />
@@ -62,7 +62,7 @@ function subscribe($var)
          <input type="submit" class="btn btn-outline-primary me-2" value="' . translate('Valider') . '" />
          <a href="index.php" class="btn btn-outline-secondary">' . translate('Retour en arrière') . '</a>
       </form>';
-        include("footer.php");
+        include 'footer.php';
     } else
         header("location: index.php");
 }
@@ -71,7 +71,7 @@ function subscribe_ok($xemail)
 {
     global $stop;
 
-    include("header.php");
+    include 'header.php';
     if ($xemail != '') {
         SuserCheck($xemail);
         if ($stop == '') {
@@ -98,7 +98,7 @@ function subscribe_ok($xemail)
             error_handler($stop);
     } else
         error_handler(translate('Cette donnée ne doit pas être vide.') . "<br />");
-    include("footer.php");
+    include 'footer.php';
 }
 
 function unsubscribe($xemail)
@@ -112,16 +112,16 @@ function unsubscribe($xemail)
             list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . sql_prefix('') . "lnl_outside_users WHERE (host_name='$host_name') AND (to_days(now()) - to_days(date) < 3)"));
             if ($troll < 6) {
                 sql_query("UPDATE " . sql_prefix('') . "lnl_outside_users SET status='NOK' WHERE email='$xemail'");
-                include("header.php");
+                include 'header.php';
                 echo '
             <div class="alert alert-success">' . translate('Merci') . '</div>
             <a href="index.php">' . translate('Retour en arrière') . '</a>';
-                include("footer.php");
+                include 'footer.php';
             } else {
-                include("header.php");
+                include 'header.php';
                 $stop = translate('Compte ou adresse IP désactivée. Cet émetteur a participé plus de x fois dans les dernières heures, merci de contacter le webmaster pour déblocage.') . "<br />";
                 error_handler($stop);
-                include("footer.php");
+                include 'footer.php';
             }
         } else
             redirect_url("index.php");

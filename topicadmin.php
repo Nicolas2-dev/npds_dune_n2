@@ -75,19 +75,19 @@ if ((isset($submit)) and ($mode == 'move')) {
     $arbre = sql_fetch_assoc(sql_query($sql));
     if ($arbre['arbre']) $url_ret = "viewtopicH.php";
     else $url_ret = "viewtopic.php";
-    include("header.php");
+    include 'header.php';
     echo '
       <div class="alert alert-success">
       <h4 class="alert-heading">' . translate('Le sujet a été déplacé.') . '</h4>
       <hr /><a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $newforum . '" class="alert-link">' . translate('Cliquez ici pour voir le nouveau sujet.') . '</a><br /><a href="forum.php" class="alert-link">' . translate('Cliquez ici pour revenir à l\'index des Forums.') . '</a>
       </div>';
     Q_Clean();
-    include("footer.php");
+    include 'footer.php';
 } else {
     if ((isset($Mmod) and $Mmod === true) or ($adminforum == 1)) {
         switch ($mode) {
             case 'move':
-                include("header.php");
+                include 'header.php';
                 echo '
       <h2>' . translate('Forum') . '</h2>
       <form action="topicadmin.php" method="post">
@@ -122,7 +122,7 @@ if ((isset($submit)) and ($mode == 'move')) {
             </div>
          </div>
       </form>';
-                include("footer.php");
+                include 'footer.php';
                 break;
             case 'del':
                 $sql = "DELETE FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' AND forum_id='$forum'";
@@ -160,7 +160,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                 header("location: $url_ret?topic=$topic&forum=$forum");
                 break;
             case 'viewip':
-                include("header.php");
+                include 'header.php';
                 include('modules/geoloc/geoloc_locip.php');
 
                 $sql = "SELECT u.uname, p.poster_ip, p.poster_dns FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
@@ -184,7 +184,7 @@ if ((isset($submit)) and ($mode == 'move')) {
          </div>
       </div>
       <a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $forum . '" class="btn btn-secondary">' . translate('Retour en arrière') . '</a>';
-                include("footer.php");
+                include 'footer.php';
                 break;
             case 'banip':
                 $sql = "SELECT p.poster_ip FROM " . sql_prefix('') . "users u, " . sql_prefix('') . "posts p WHERE p.post_id = '$post' AND u.uid = p.poster_id";
@@ -202,11 +202,11 @@ if ((isset($submit)) and ($mode == 'move')) {
                 break;
         }
     } else {
-        include("header.php");
+        include 'header.php';
         echo '
          <div class="alert alert-danger">' . translate('Vous n\'êtes pas identifié comme modérateur de ce forum. Opération interdite.') . '<br />
             <a class="btn btn-secondary" href="javascript:history.go(-1)" >' . translate('Go Back') . '</a>
          </div>';
-        include("footer.php");
+        include 'footer.php';
     }
 }

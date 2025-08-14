@@ -22,7 +22,7 @@ include_once('modules/' . substr($ModPath, 0, $pos) . '/links.conf.php');
 if ($links_DB == '')
    $links_DB = $NPDS_Prefix;
 
-include("header.php");
+include 'header.php';
 echo '
    <p class="text-center">Cr&eacute;ation des tables en cours pour / Tables Creation running for : <b>' . $links_DB . '</b><br /><br />.';
 $sql_query = "CREATE TABLE IF NOT EXISTS " . $links_DB . "links_categories (
@@ -110,4 +110,4 @@ echo '.<br /><br />
    <a href="modules.php?ModStart=links&amp;ModPath=' . substr($ModPath, 0, $pos) . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>
    </p>';
 
-include("footer.php");
+include 'footer.php';

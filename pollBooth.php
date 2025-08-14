@@ -215,7 +215,7 @@ if (isset($forwarder)) {
     list($ibid, $pollClose) = pollSecur($pollID);
     if ($pollID == $ibid) {
         if ($header != 1)
-            include("header.php");
+            include 'header.php';
         echo '<h2>' . translate('Sondage') . '</h2><hr />';
         pollResults($pollID);
         if (!$pollClose) {

@@ -107,7 +107,7 @@ function droits($member)
 function DownloadAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $resultX = sql_query("SELECT DISTINCT dcategory FROM " . sql_prefix('') . "downloads ORDER BY dcategory");
@@ -286,7 +286,7 @@ function DownloadAdmin()
 function DownloadEdit($did)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dweb, duser, dver, dcategory, ddescription, perms FROM " . sql_prefix('') . "downloads WHERE did='$did'");
@@ -437,7 +437,7 @@ function DownloadDel($did, $ok = 0)
       Header("Location: admin.php?op=DownloadAdmin");
    } else {
       global $hlpfile, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
 
