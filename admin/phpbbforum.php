@@ -779,7 +779,7 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
 
 function ForumCatDel($cat_id, $ok = 0)
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
       $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums WHERE cat_id='$cat_id'");
       while (list($forum_id) = sql_fetch_row($result)) {
