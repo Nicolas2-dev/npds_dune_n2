@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'mblock';
-$f_titre = adm_translate('Bloc Principal");
+$f_titre = adm_translate('Bloc Principal');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/mainblock.html";
 
 function mblock()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -63,7 +63,6 @@ function mblock()
 
 function changemblock($title, $content)
 {
-   global sql_prefix('');
    $title = stripslashes(FixQuotes($title));
    $content = stripslashes(FixQuotes($content));
    sql_query("UPDATE " . sql_prefix('') . "block SET title='$title', content='$content' WHERE id='1'");

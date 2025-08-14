@@ -119,19 +119,19 @@ function dbSave()
    global $dbname, $name, $MSos, $crlf;
 
    @set_time_limit(600);
-   $date_jour = date(adm_translate('dateforop"));
+   $date_jour = date(adm_translate('dateforop'));
    $date_op = date("mdy");
    $filename = $dbname . "-" . $date_op;
    $tables = sql_list_tables($dbname);
    $num_tables = sql_num_rows($tables);
    if ($num_tables == 0)
-      echo "&nbsp;" . adm_translate('Aucune table n'a été trouvée") . "\n";
+      echo "&nbsp;" . adm_translate('Aucune table n\'a été trouvée') . "\n";
    else {
       $heure_jour = date("H:i");
       $data = "# ========================================================$crlf"
          . "# $crlf"
-         . "# " . adm_translate('Sauvegarde de la base de données") . " : " . $dbname . " $crlf"
-         . "# " . adm_translate('Effectuée le") . " " . $date_jour . " : " . $heure_jour . " " . adm_translate('par") . " " . $name . " $crlf"
+         . "# " . adm_translate('Sauvegarde de la base de données') . " : " . $dbname . " $crlf"
+         . "# " . adm_translate('Effectuée le') . " " . $date_jour . " : " . $heure_jour . " " . adm_translate('par') . " " . $name . " $crlf"
          . "# $crlf"
          . "# ========================================================$crlf";
       while ($row = sql_fetch_row($tables)) {
@@ -139,12 +139,12 @@ function dbSave()
          $data .= "$crlf"
             . "# --------------------------------------------------------$crlf"
             . "# $crlf"
-            . "# " . adm_translate('Structure de la table") . " '" . $table . "' $crlf"
+            . "# " . adm_translate('Structure de la table') . " '" . $table . "' $crlf"
             . "# $crlf$crlf";
          $data .= get_table_def($table)
             . "$crlf$crlf"
             . "# $crlf"
-            . "# " . adm_translate('Contenu de la table") . " '" . $table . "' $crlf"
+            . "# " . adm_translate('Contenu de la table') . " '" . $table . "' $crlf"
             . "# $crlf$crlf";
          $data .= get_table_content($table)
             . "$crlf$crlf"
@@ -159,13 +159,13 @@ function dbSave_tofile($repertoire, $linebyline = 0, $savemysql_size = 256)
    global $dbname, $name, $MSos, $crlf, $crlf2;
 
    @set_time_limit(600);
-   $date_jour = date(adm_translate('dateforop"));
+   $date_jour = date(adm_translate('dateforop'));
    $date_op = date("ymd");
    $filename = $dbname . "-" . $date_op;
    $tables = sql_list_tables($dbname);
    $num_tables = sql_num_rows($tables);
    if ($num_tables == 0)
-      echo "&nbsp;" . adm_translate('Aucune table n'a été trouvée") . "\n";
+      echo "&nbsp;" . adm_translate('Aucune table n\'a été trouvée') . "\n";
    else {
       if ((!isset($repertoire)) or ($repertoire == "")) $repertoire = ".";
       if (!is_dir($repertoire)) {
@@ -258,7 +258,7 @@ switch ($op) {
          dbSave_tofile("slogs", 0, $savemysql_size);
          echo "<script type=\"text/javascript\">
                   //<![CDATA[
-                     alert('" . html_entity_decode(adm_translate('Sauvegarde terminée. Les fichiers sont disponibles dans le répertoire /slogs"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "');
+                     alert('" . html_entity_decode(adm_translate('Sauvegarde terminée. Les fichiers sont disponibles dans le répertoire /slogs'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "');
                   //]]>
                   </script>";
          redirect_url("admin.php");
@@ -266,7 +266,7 @@ switch ($op) {
          dbSave_tofile("slogs", 1, $savemysql_size);
          echo "<script type=\"text/javascript\">
                   //<![CDATA[
-                     alert('" . html_entity_decode(adm_translate('Sauvegarde terminée. Les fichiers sont disponibles dans le répertoire /slogs"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "');
+                     alert('" . html_entity_decode(adm_translate('Sauvegarde terminée. Les fichiers sont disponibles dans le répertoire /slogs'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "');
                   //]]>
                   </script>";
          redirect_url("admin.php");

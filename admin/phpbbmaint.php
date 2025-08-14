@@ -27,7 +27,7 @@ include("functions.php");
 
 function ForumMaintMarkTopics()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -78,7 +78,7 @@ function ForumMaintMarkTopics()
 
 function ForumMaintTopics($before, $forum_name)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $parse;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $parse;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -129,7 +129,7 @@ function ForumMaintTopics($before, $forum_name)
 
 function ForumMaintTopicDetail($topic, $topic_title)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -153,7 +153,6 @@ function ForumMaintTopicDetail($topic, $topic_title)
 
 function ForumMaintTopicMassiveSup($topics)
 {
-   global sql_prefix('');
    if ($topics) {
       foreach ($topics as $topic_id => $value) {
          if ($value == 'on') {
@@ -176,7 +175,6 @@ function ForumMaintTopicMassiveSup($topics)
 
 function ForumMaintTopicSup($topic)
 {
-   global sql_prefix('');
    $sql = "DELETE FROM " . sql_prefix('') . "posts WHERE topic_id = '$topic'";
    if (!$result = sql_query($sql))
       forumerror('0009');
@@ -193,7 +191,6 @@ function ForumMaintTopicSup($topic)
 
 function SynchroForum()
 {
-   global sql_prefix('');
    // affectation d'un topic à un forum
    if (!$result1 = sql_query("SELECT topic_id, forum_id FROM " . sql_prefix('') . "forumtopics ORDER BY topic_id ASC"))
       forumerror('0009');
@@ -222,7 +219,7 @@ function SynchroForum()
 
 function MergeForum()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -232,7 +229,7 @@ function MergeForum()
    <form id="fad_mergeforum" action="admin.php" method="post">
       <fieldset>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-4" for="oriforum">' . adm_translate('Forum d'origine') . '</label>
+            <label class="col-form-label col-sm-4" for="oriforum">' . adm_translate('Forum d\'origine') . '</label>
             <div class="col-sm-8">
                <select class="form-select" id="oriforum" name="oriforum">';
    $sql = "SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums ORDER BY forum_index,forum_id";
@@ -287,7 +284,7 @@ function MergeForum()
 function MergeForumAction($oriforum, $destforum)
 {
    global $upload_table;
-   global sql_prefix('');
+
    $sql = "UPDATE " . sql_prefix('') . "forumtopics SET forum_id='$destforum' WHERE forum_id='$oriforum'";
    if (!$r = sql_query($sql))
       forumerror('0010');

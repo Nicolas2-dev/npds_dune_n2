@@ -22,7 +22,7 @@ admindroits($aid, $f_meta_nom);
 //<== controle droit
 $hlpfile = 'manuels/' . $language . '/optimysql.html';
 
-$date_opt = date(adm_translate('dateforop"));
+$date_opt = date(adm_translate('dateforop'));
 $heure_opt = date("h:i a");
 include("header.php");
 GraphicAdmin($hlpfile);
@@ -40,7 +40,7 @@ $result = sql_query("SELECT optdate, opthour FROM " . sql_prefix('') . "optimy W
 list($dateopt, $houropt) = sql_fetch_row($result);
 if (!$dateopt or ($dateopt == '') or !$houropt or ($houropt == '')) {
 } else {
-   $last_opti = adm_translate('Dernière optimisation effectuée le") . " : " . $dateopt . " " . adm_translate(' à ") . " " . $houropt . "<br />\n";
+   $last_opti = adm_translate('Dernière optimisation effectuée le') . " : " . $dateopt . " " . adm_translate(' à ') . " " . $houropt . "<br />\n";
 }
 
 $tot_data = 0;

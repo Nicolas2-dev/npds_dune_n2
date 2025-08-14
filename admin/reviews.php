@@ -15,7 +15,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'reviews';
-$f_titre = adm_translate('Critiques");
+$f_titre = adm_translate('Critiques');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -24,8 +24,6 @@ $hlpfile = "manuels/$language/reviews.html";
 
 function mod_main($title, $description)
 {
-   global sql_prefix('');
-
    $title = stripslashes(FixQuotes($title));
    $description = stripslashes(FixQuotes($description));
    sql_query("UPDATE " . sql_prefix('') . "reviews_main SET title='$title', description='$description'");
@@ -34,7 +32,7 @@ function mod_main($title, $description)
 
 function reviews()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -198,7 +196,7 @@ function reviews()
    <hr />
    <h3 class="my-3">' . adm_translate('Effacer / Modifier une Critique') . '</h3>
    <div class="alert alert-success">'
-      . adm_translate('Vous pouvez simplement Effacer / Modifier les Critiques en naviguant sur') . ' <a href="reviews.php" >reviews.php</a> ' . adm_translate('en tant qu'Administrateur.') . '
+      . adm_translate('Vous pouvez simplement Effacer / Modifier les Critiques en naviguant sur') . ' <a href="reviews.php" >reviews.php</a> ' . adm_translate('en tant qu\'Administrateur.') . '
    </div>';
 
    sql_free_result($result);
@@ -207,8 +205,6 @@ function reviews()
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title)
 {
-   global sql_prefix('');
-
    $title = stripslashes(FixQuotes($title));
    $text = stripslashes(FixQuotes($text));
    $reviewer = stripslashes(FixQuotes($reviewer));

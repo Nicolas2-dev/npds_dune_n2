@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/forumconfig.html";
 
 function ForumConfigAdmin()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -107,7 +107,7 @@ function ForumConfigAdmin()
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-5" for="hot_threshold">' . adm_translate('Seuil pour les Sujet 'chauds'') . '</label>
+         <label class="col-form-label col-sm-5" for="hot_threshold">' . adm_translate('Seuil pour les Sujet \'chauds\'') . '</label>
          <div class="col-sm-7">
             <input class="form-control" type="text" min="0" id="hot_threshold" name="hot_threshold" maxlength="6" value="' . $hot_threshold . '" />
             <span class="help-block text-end" id="countcar_hot_threshold"></span>
@@ -117,14 +117,14 @@ function ForumConfigAdmin()
          <label class="col-form-label col-sm-5" for="posts_per_page">' . adm_translate('Nombre de contributions par page') . '</label>
          <div class="col-sm-7">
             <input class="form-control" type="text" min="0" id="posts_per_page" name="posts_per_page" maxlength="6" value="' . $posts_per_page . '" />
-            <span class="help-block">' . adm_translate('(C'est le nombre de contributions affichées pour chaque page relative à un Sujet)') . '<span class="float-end ms-1" id="countcar_posts_per_page"></span></span>
+            <span class="help-block">' . adm_translate('(C\'est le nombre de contributions affichées pour chaque page relative à un Sujet)') . '<span class="float-end ms-1" id="countcar_posts_per_page"></span></span>
          </div>
       </div>
       <div class="mb-3 row">
          <label class="col-form-label col-sm-5" for="topics_per_page">' . adm_translate('Sujets par forum') . '</label>
          <div class="col-sm-7">
             <input class="form-control" type="text" min="0" id="topics_per_page" name="topics_per_page" maxlength="6" value="' . $topics_per_page . '" />
-            <span class="help-block">' . adm_translate('(C'est le nombre de Sujets affichés pour chaque page relative à un Forum)') . '<span class="float-end ms-1" id="countcar_topics_per_page"></span></span>
+            <span class="help-block">' . adm_translate('(C\'est le nombre de Sujets affichés pour chaque page relative à un Forum)') . '<span class="float-end ms-1" id="countcar_topics_per_page"></span></span>
          </div>
       </div>
       <div class="mb-3 row">
@@ -135,7 +135,7 @@ function ForumConfigAdmin()
          </div>
       </div>
       <div class="row">
-         <label class="col-form-label col-sm-5" for="solved">' . adm_translate('Activer le tri des contributions 'résolues'') . '</label>
+         <label class="col-form-label col-sm-5" for="solved">' . adm_translate('Activer le tri des contributions \'résolues\'') . '</label>
          <div class="col-sm-7 my-2">';
    $cky = '';
    $ckn = '';
@@ -158,7 +158,7 @@ function ForumConfigAdmin()
          </div>
       </div>
       <div class="row">
-         <label class="col-form-label col-sm-5" for="allow_upload_forum">' . adm_translate('Activer l'upload dans les forums ?') . '</label>
+         <label class="col-form-label col-sm-5" for="allow_upload_forum">' . adm_translate('Activer l\'upload dans les forums ?') . '</label>
          <div class="col-sm-7 my-2">';
    $cky = '';
    $ckn = '';
@@ -284,7 +284,6 @@ function ForumConfigAdmin()
 
 function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved)
 {
-   global sql_prefix('');
    sql_query("UPDATE " . sql_prefix('') . "config SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', anti_flood='$anti_flood', solved='$solved'");
    Q_Clean();
    Header("Location: admin.php?op=ForumConfigAdmin");

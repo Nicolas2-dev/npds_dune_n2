@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'create';
-$f_titre = adm_translate('Les sondages");
+$f_titre = adm_translate('Les sondages');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/surveys.html";
 
 function poll_createPoll()
 {
-   global $hlpfile, $maxOptions, $f_meta_nom, $f_titre, $adminimg, sql_prefix('');
+   global $hlpfile, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
    include('header.php');
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -102,7 +102,7 @@ function poll_createPoll()
 
 function poll_createPosted()
 {
-   global $maxOptions, $pollTitle, $optionText, $poll_type, sql_prefix('');
+   global $maxOptions, $pollTitle, $optionText, $poll_type;
 
    $timeStamp = time();
    $pollTitle = FixQuotes($pollTitle);
@@ -118,7 +118,7 @@ function poll_createPosted()
 
 function poll_removePoll()
 {
-   global $hlpfile, $f_meta_nom, $f_titre, $adminimg, sql_prefix('');
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include('header.php');
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -163,7 +163,7 @@ function poll_removePoll()
 
 function poll_removePosted()
 {
-   global $id, $setCookies, sql_prefix('');
+   global $id, $setCookies;
    // ----------------------------------------------------------------------------
    // Specified the index and the name off the application for the table appli_log
    $al_id = 1;
@@ -182,7 +182,7 @@ function poll_removePosted()
 
 function poll_editPoll()
 {
-   global $hlpfile, $f_meta_nom, $f_titre, $adminimg, sql_prefix('');
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include('header.php');
    $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . sql_prefix('') . "poll_desc ORDER BY timeStamp");
    GraphicAdmin($hlpfile);
@@ -224,7 +224,7 @@ function poll_editPoll()
 
 function poll_editPollPosted()
 {
-   global $id, $maxOptions, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $id, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
    if ($id) {
       global $hlpfile;
       include('header.php');
@@ -294,7 +294,7 @@ function poll_editPollPosted()
 
 function poll_SendEditPoll()
 {
-   global $maxOptions, $pollTitle, $optionText, $poll_type, $pollID, $poll_close, sql_prefix('');
+   global $maxOptions, $pollTitle, $optionText, $poll_type, $pollID, $poll_close;
    $result = sql_query("UPDATE " . sql_prefix('') . "poll_desc SET pollTitle='$pollTitle' WHERE pollID='$pollID'");
    $poll_type = $poll_type + 128 * $poll_close;
    for ($i = 1; $i <= sizeof($optionText); $i++) {
