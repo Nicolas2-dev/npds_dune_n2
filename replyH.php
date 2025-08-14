@@ -19,7 +19,6 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = ($SuperCache) ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global sql_prefix('');
 
 settype($cancel, 'string');
 if ($cancel)
@@ -162,8 +161,8 @@ if ($submitS) {
         }
         redirect_url("viewtopicH.php?forum=$forum&topic=$topic");
     } else {
-        echo "<p align=\"center\">" . translate("Vous devez taper un message à poster.") . "<br /><br />";
-        echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate("Retour en arrière") . "</a> ]</p>";
+        echo "<p align=\"center\">" . translate('Vous devez taper un message à poster.') . "<br /><br />";
+        echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate('Retour en arrière') . "</a> ]</p>";
     }
 } else {
     include('header.php');
@@ -182,12 +181,12 @@ if ($submitS) {
 
     echo '
    <p class="lead">
-      <a href="forum.php">' . translate("Index du forum") . '</a>&nbsp;&raquo;&raquo;&nbsp;
+      <a href="forum.php">' . translate('Index du forum') . '</a>&nbsp;&raquo;&raquo;&nbsp;
       <a href="viewforum.php?forum=' . $forum . '">' . stripslashes($forum_name) . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $topic_title . '
    </p>
    <div class="card">
       <div class="card-block-small">
-            ' . translate("Modéré par : ");
+            ' . translate('Modéré par : ');
     for ($i = 0; $i < count($moderator); $i++) {
         $modera = get_userdata($moderator[$i]);
         if ($modera['user_avatar'] != '') {
@@ -208,15 +207,15 @@ if ($submitS) {
     echo '
       </div>
    </div>
-   <h4 class="hidden-xs-down">' . translate("Poster une réponse dans le sujet") . '</h4>
+   <h4 class="hidden-xs-down">' . translate('Poster une réponse dans le sujet') . '</h4>
    <form action="replyH.php" method="post" name="coolsus">
-      <blockquote class="blockquote hidden-xs-down"><p>' . translate("A propos des messages publiés :") . '<br />';
+      <blockquote class="blockquote hidden-xs-down"><p>' . translate('A propos des messages publiés :') . '<br />';
     if ($forum_access == 0)
-        echo translate("Les utilisateurs anonymes peuvent poster de nouveaux sujets et des réponses dans ce forum.");
+        echo translate('Les utilisateurs anonymes peuvent poster de nouveaux sujets et des réponses dans ce forum.');
     else if ($forum_access == 1)
-        echo translate("Tous les utilisateurs enregistrés peuvent poster de nouveaux sujets et répondre dans ce forum.");
+        echo translate('Tous les utilisateurs enregistrés peuvent poster de nouveaux sujets et répondre dans ce forum.');
     else if ($forum_access == 2)
-        echo translate("Seuls les modérateurs peuvent poster de nouveaux sujets et répondre dans ce forum.");
+        echo translate('Seuls les modérateurs peuvent poster de nouveaux sujets et répondre dans ce forum.');
     echo '</p></blockquote>';
 
     $allow_to_reply = false;
@@ -245,14 +244,14 @@ if ($submitS) {
             $message = '';
         echo '
    <br />
-   <span class="lead">' . translate("Identifiant : ");
+   <span class="lead">' . translate('Identifiant : ');
         echo (isset($user)) ? $userdata[1] . '</span>' : $anonymous . '</span>';
 
         settype($image_subject, 'string');
         if ($smilies) {
             echo '
       <div class="hidden-xs-down mb-3 row">
-         <label class="form-label">' . translate("Icone du message") . '</label>
+         <label class="form-label">' . translate('Icone du message') . '</label>
          <div class="col-sm-12">
             <div class="card card-body n-fond_subject d-flex flex-row flex-wrap">
             ' . emotion_add($image_subject) . '
@@ -262,7 +261,7 @@ if ($submitS) {
         }
         echo '
       <div class="mb-3 row">
-         <label class="form-label" for="message">' . translate("Message") . '</label>
+         <label class="form-label" for="message">' . translate('Message') . '</label>
          <div class="col-sm-12">
             <div class="card">
                <div class="card-header">
@@ -271,9 +270,9 @@ if ($submitS) {
         echo '
                   </div>';
         if ($allow_html == 1)
-            echo '<span class="text-success float-end mt-2" title="HTML ' . translate("Activé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+            echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
         else
-            echo '<span class="text-danger float-end mt-2" title="HTML ' . translate("Désactivé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
+            echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         echo '
                </div>
             <div class="card-body">';
@@ -289,12 +288,12 @@ if ($submitS) {
                     $text = htmlspecialchars($text, ENT_COMPAT | ENT_HTML401, 'UTF-8');
                 $text = stripslashes($text);
                 if ($m['post_time'] != '' && $m['uname'] != '')
-                    $reply = '<blockquote class="blockquote">' . translate("Citation") . ' : <strong>' . $m['uname'] . '</strong><br />' . $text . '</blockquote>';
+                    $reply = '<blockquote class="blockquote">' . translate('Citation') . ' : <strong>' . $m['uname'] . '</strong><br />' . $text . '</blockquote>';
                 else
                     $reply = $text . "\n";
                 $reply = preg_replace("#\[hide\](.*?)\[\/hide\]#si", '', $reply);
             } else
-                $reply = translate("Erreur de connexion à la base de données") . "\n";
+                $reply = translate('Erreur de connexion à la base de données') . "\n";
             $message = $reply;
         }
         if ($allow_bbcode)
@@ -304,14 +303,14 @@ if ($submitS) {
                </div>
                <div class="card-footer p-0">
                   <span class="d-block">
-                     <button class="btn btn-link" type="submit" value="' . translate("Prévisualiser") . '" name="submitP" title="' . translate("Prévisualiser") . '" data-bs-toggle="tooltip" ><i class="fa fa-eye fa-lg"></i></button>
+                     <button class="btn btn-link" type="submit" value="' . translate('Prévisualiser') . '" name="submitP" title="' . translate('Prévisualiser') . '" data-bs-toggle="tooltip" ><i class="fa fa-eye fa-lg"></i></button>
                   </span>
                </div>
             </div>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="form-label">' . translate("Options") . '</label>';
+         <label class="form-label">' . translate('Options') . '</label>';
         if (($allow_html == 1) and ($forum_type != '6') and ($forum_type != '5')) {
             $checkhtml = (isset($html)) ? 'checked="checked"' : '';
             echo '
@@ -319,7 +318,7 @@ if ($submitS) {
             <div class="checkbox">
                <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="html" name="html" ' . $checkhtml . ' />
-                  <label class="form-check-label" for="html">' . translate("Désactiver le html pour cet envoi") . '</label>
+                  <label class="form-check-label" for="html">' . translate('Désactiver le html pour cet envoi') . '</label>
                </div>
             </div>';
         }
@@ -333,8 +332,8 @@ if ($submitS) {
             <div class="checkbox">
                <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="sig" name="sig" ' . $checksig . ' />
-                  <label class="form-check-label" for="sig">' . translate("Afficher la signature") . '</label>
-                  <small class="help-text">' . translate("Cela peut être retiré ou ajouté dans vos paramètres personnels") . '</small>
+                  <label class="form-check-label" for="sig">' . translate('Afficher la signature') . '</label>
+                  <small class="help-text">' . translate('Cela peut être retiré ou ajouté dans vos paramètres personnels') . '</small>
                </div>
             </div>';
                 }
@@ -346,7 +345,7 @@ if ($submitS) {
             <div class="checkbox">
                <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="upload" name="upload" ' . $checkupl . ' />
-                  <label class="form-check-label" for="upload">' . translate("Charger un fichier une fois l'envoi accepté") . '</label>
+                  <label class="form-check-label" for="upload">' . translate('Charger un fichier une fois l\'envoi accepté') . '</label>
                </div>
             </div>';
             }
@@ -360,13 +359,13 @@ if ($submitS) {
             <input type="hidden" name="forum" value="' . $forum . '" />
             <input type="hidden" name="topic" value="' . $topic . '" />
             <input type="hidden" name="post" value="' . $post . '" />
-            <button class="btn btn-primary" type="submit" name="submitS" value="' . translate("Valider") . '" accesskey="s" />' . translate("Valider") . '</button>&nbsp;
-            <button class="btn btn-danger" type="submit" value="' . translate("Annuler la contribution") . '" name="cancel" title="' . translate("Annuler la contribution") . '" data-bs-toggle="tooltip" >' . translate("Annuler la contribution") . '</button>
+            <button class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" accesskey="s" />' . translate('Valider') . '</button>&nbsp;
+            <button class="btn btn-danger" type="submit" value="' . translate('Annuler la contribution') . '" name="cancel" title="' . translate('Annuler la contribution') . '" data-bs-toggle="tooltip" >' . translate('Annuler la contribution') . '</button>
          </div>
       </div>';
     } else
         echo '
-      <div class="alert alert-danger">' . translate("Vous n'êtes pas autorisé à participer à ce forum") . '</div>';
+      <div class="alert alert-danger">' . translate('Vous n\'êtes pas autorisé à participer à ce forum') . '</div>';
     echo '
    </form>';
 }

@@ -17,7 +17,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'ConfigFiles';
-$f_titre = adm_translate("Les fichiers de configuration");
+$f_titre = adm_translate('Les fichiers de configuration");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -47,95 +47,95 @@ function ConfigFiles($contents, $files)
         </tr>
         <tr>
             <td><code>header_before.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé avant que de commencer la génération de la page HTML") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé avant que de commencer la génération de la page HTML') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=header_before"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=header_before"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=header_before"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=header_before"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>header_head.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé entre le HEAD et /HEAD lors de la génération de la page HTML") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé entre le HEAD et /HEAD lors de la génération de la page HTML') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=header_head"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=header_head"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
             </td>
         </tr>
         <tr>
             <td><code>body_onload.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé dans l'évènement ONLOAD de la balise BODY => JAVASCRIPT") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé dans l'évènement ONLOAD de la balise BODY => JAVASCRIPT') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=body_onload"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=body_onload"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=body_onload"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=body_onload"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>header_after.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé à la fin du header du thème") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé à la fin du header du thème') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=header_after"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=header_after"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=header_after"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=header_after"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>footer_before.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé avant le début du footer du thème") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé avant le début du footer du thème') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=footer_before"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=footer_before"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a></td>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=footer_before"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=footer_before"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a></td>
         </tr>
         <tr>
             <td><code>footer_after.inc</code></td>
-            <td>' . adm_translate("Ce fichier est appelé après la fin de la génération de la page HTML") . '</td>
+            <td>' . adm_translate('Ce fichier est appelé après la fin de la génération de la page HTML') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=footer_after"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=footer_after"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=footer_after"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=footer_after"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>new_user.inc</code></td>
-            <td>' . adm_translate("Ce fichier permet d'envoyer un MI personnalisé lorsqu'un nouveau membre s'inscrit") . '</td>
+            <td>' . adm_translate('Ce fichier permet d'envoyer un MI personnalisé lorsqu'un nouveau membre s'inscrit') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=new_user"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=new_user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=new_user"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=new_user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>user.inc</code></td>
-            <td>' . adm_translate("Ce fichier permet l'affichage d'informations complémentaires dans la page de login") . '</td>
+            <td>' . adm_translate('Ce fichier permet l'affichage d'informations complémentaires dans la page de login') . '</td>
             <td>
-                <a href="admin.php?op=ConfigFiles_load&amp;files=user"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a>
-                <a href="admin.php?op=delete_configfile&amp;file=user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate("Supprimer") . '" data-bs-toggle="tooltip" ></i></a>
+                <a href="admin.php?op=ConfigFiles_load&amp;files=user"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
+                <a href="admin.php?op=delete_configfile&amp;file=user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
             </td>
         </tr>
         <tr>
             <td><code>cache.config.php</code></td>
-            <td>' . adm_translate("Ce fichier permet la configuration technique de SuperCache") . ' ( / )</td>
-            <td><a href="admin.php?op=ConfigFiles_load&amp;files=cache.config"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a></td>
+            <td>' . adm_translate('Ce fichier permet la configuration technique de SuperCache') . ' ( / )</td>
+            <td><a href="admin.php?op=ConfigFiles_load&amp;files=cache.config"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a></td>
         </tr>
         <tr>
             <td><code>robots.txt</code></td>
             <td>( / )</td>
-            <td><a href="admin.php?op=ConfigFiles_load&amp;files=robots"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a></td>
+            <td><a href="admin.php?op=ConfigFiles_load&amp;files=robots"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a></td>
         </tr>
         <tr>
             <td><code>humans.txt</code></td>
             <td>( / )</td>
-            <td><a href="admin.php?op=ConfigFiles_load&amp;files=humans"><i class="fa fa-edit fa-lg" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip"></i></a></td>
+            <td><a href="admin.php?op=ConfigFiles_load&amp;files=humans"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a></td>
         </tr>
     </tbody>
 </table>';
    } else {
       echo '
       <hr />
-      <h3 class="my-3">' . adm_translate("Modification de") . ' : <span class="text-body-secondary">' . $files . '</span></h3>
+      <h3 class="my-3">' . adm_translate('Modification de') . ' : <span class="text-body-secondary">' . $files . '</span></h3>
       <form action="admin.php?op=ConfigFiles_save" method="post">
          <code><textarea class="form-control" name="Xtxt" rows="20" cols="70">';
       echo htmlspecialchars($contents, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
       echo '</textarea></code>
          <input type="hidden" name="Xfiles" value="' . $files . '" />
          <div class="mb-3 mt-3">
-            <button class="btn btn-primary" type="submit" name="confirm">' . adm_translate("Sauver les modifications") . '</button> 
-            <button href="admin.php?op=ConfigFiles" class="btn btn-secondary">' . adm_translate("Abandonner") . '</button>
+            <button class="btn btn-primary" type="submit" name="confirm">' . adm_translate('Sauver les modifications') . '</button> 
+            <button href="admin.php?op=ConfigFiles" class="btn btn-secondary">' . adm_translate('Abandonner') . '</button>
         </div>
       </form>
       ';
@@ -204,7 +204,7 @@ function delete_configfile($fileX)
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <div class="alert alert-danger" role="alert">
-      <p><strong>' . adm_translate("Supprimer le fichier") . ' ' . $fileX . ' ? </strong><br /><br /><a class="btn btn-danger btn-sm" href="admin.php?op=ConfigFiles_delete&amp;file=' . $fileX . '">' . adm_translate("Oui") . '</a>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=ConfigFiles" >' . adm_translate("Non") . '</a></p>
+      <p><strong>' . adm_translate('Supprimer le fichier') . ' ' . $fileX . ' ? </strong><br /><br /><a class="btn btn-danger btn-sm" href="admin.php?op=ConfigFiles_delete&amp;file=' . $fileX . '">' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
    </div>';
    adminfoot('', '', '', '');
 }
@@ -242,7 +242,7 @@ function copy_sample($fileX)
    echo '
    <hr />
    <div class="card card-body">
-       <p>' . adm_translate("Créer le fichier en utilisant le modèle") . ' ? <br /><br /><a class="btn btn-primary" href="admin.php?op=ConfigFiles_create&amp;modele=' . $fileX . '" >' . adm_translate("Oui") . '</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="admin.php?op=ConfigFiles" >' . adm_translate("Non") . '</a></p>
+       <p>' . adm_translate('Créer le fichier en utilisant le modèle') . ' ? <br /><br /><a class="btn btn-primary" href="admin.php?op=ConfigFiles_create&amp;modele=' . $fileX . '" >' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
    </div>';
    adminfoot('', '', '', '');
 }

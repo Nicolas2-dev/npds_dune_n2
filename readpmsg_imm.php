@@ -33,7 +33,6 @@ function cache_ctrl()
 function show_imm($op)
 {
     global $smilies, $user, $allow_bbcode, $language, $Default_Theme, $Default_Skin, $theme, $short_user, $Titlesitename;
-    global sql_prefix('');
     if (!$user)
         Header("Location: user.php");
     else {
@@ -73,11 +72,11 @@ function show_imm($op)
             echo '
             <div class="card mb-3">
                <div class="card-body">
-                  <div>' . userpopover($posterdata['uname'], 40, 2) . ' <span class="float-end small">' . translate("Envoyé") . ' : ' . $myrow['msg_time'] . '</span>';
+                  <div>' . userpopover($posterdata['uname'], 40, 2) . ' <span class="float-end small">' . translate('Envoyé') . ' : ' . $myrow['msg_time'] . '</span>';
 
             echo '
                </div>
-               <h3>' . translate("Message personnel") . ' ' . translate("de");
+               <h3>' . translate('Message personnel') . ' ' . translate('de');
             if ($posterdata['uid'] == 1) {
                 global $sitename;
                 echo ' <span class="text-body-secondary">' . $sitename . '</span></h3>';
@@ -121,10 +120,10 @@ function show_imm($op)
          <div class="card-footer">';
             if ($posterdata['uid'] <> 1)
                 echo '
-            <a class="me-3" href="readpmsg_imm.php?op=read_msg&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '&amp;sub_op=reply" title="' . translate("Répondre") . '" data-bs-toggle="tooltip"><i class="fa fa-reply fa-lg me-1"></i>' . translate("Répondre") . '</a>';
+            <a class="me-3" href="readpmsg_imm.php?op=read_msg&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '&amp;sub_op=reply" title="' . translate('Répondre') . '" data-bs-toggle="tooltip"><i class="fa fa-reply fa-lg me-1"></i>' . translate('Répondre') . '</a>';
             echo '
-            <a class="me-3" href="readpmsg_imm.php?op=read_msg&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '&amp;sub_op=read" title="' . translate("Lu") . '" data-bs-toggle="tooltip"><i class="far fa-check-square fa-lg"></i></a>
-            <a class="me-3 float-end" href="readpmsg_imm.php?op=delete&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '" title="' . translate("Effacer") . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fas fa-trash fa-lg text-danger"></i></a>
+            <a class="me-3" href="readpmsg_imm.php?op=read_msg&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '&amp;sub_op=read" title="' . translate('Lu') . '" data-bs-toggle="tooltip"><i class="far fa-check-square fa-lg"></i></a>
+            <a class="me-3 float-end" href="readpmsg_imm.php?op=delete&amp;msg_id=' . $myrow['msg_id'] . '&amp;op_orig=' . $op . '" title="' . translate('Effacer') . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fas fa-trash fa-lg text-danger"></i></a>
          </div>
          </div>';
         }
@@ -143,7 +142,7 @@ function show_imm($op)
 
 function sup_imm($msg_id)
 {
-    global $cookie, sql_prefix('');
+    global $cookie;
     if (!$cookie)
         Header("Location: user.php");
     else {
@@ -155,7 +154,7 @@ function sup_imm($msg_id)
 
 function read_imm($msg_id, $sub_op)
 {
-    global $cookie, sql_prefix('');
+    global $cookie;
     if (!$cookie)
         Header("Location: user.php");
     else {

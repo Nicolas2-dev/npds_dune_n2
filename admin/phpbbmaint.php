@@ -32,7 +32,7 @@ function ForumMaintMarkTopics()
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
-   <h3>' . adm_translate("Marquer tous les Topics comme lus") . '</h3>
+   <h3>' . adm_translate('Marquer tous les Topics comme lus') . '</h3>
    <table data-toggle="table" data-striped="true" data-mobile-responsive="true" data-icons="icons" data-icons-prefix="fa">
       <thead>
          <tr>
@@ -65,7 +65,7 @@ function ForumMaintMarkTopics()
          sql_free_result($resultT);
          echo '
             </td>
-            <td align="center">' . translate("Ok") . '</td>
+            <td align="center">' . translate('Ok') . '</td>
          </tr>';
       }
       sql_free_result($resultF);
@@ -85,7 +85,7 @@ function ForumMaintTopics($before, $forum_name)
 
    echo '
    <hr />
-   <h3 class="text-danger">' . adm_translate("Supprimer massivement les Topics") . '</h3>';
+   <h3 class="text-danger">' . adm_translate('Supprimer massivement les Topics') . '</h3>';
    if ($before != '') {
       echo '&nbsp;<span class="text-danger">< ' . $before . '</span>';
       $add_sql = "AND topic_time<'$before'";
@@ -121,7 +121,7 @@ function ForumMaintTopics($before, $forum_name)
    echo '
        <div class="mb-3>"
           <input type="hidden" name="op" value="ForumMaintTopicMassiveSup" />
-          <input class="btn btn-danger" type="submit" name="Topics_Del" value="' . adm_translate("Supprimer massivement les Topics") . '" />
+          <input class="btn btn-danger" type="submit" name="Topics_Del" value="' . adm_translate('Supprimer massivement les Topics') . '" />
       </div>
    </form>';
    adminfoot('', '', '', '');
@@ -137,7 +137,7 @@ function ForumMaintTopicDetail($topic, $topic_title)
    list($post_text, $post_time) = sql_fetch_row($resultTT);
    echo '
    <hr />
-   <h3 class="mb-3 text-danger">' . adm_translate("Supprimer massivement les Topics") . '</h3>
+   <h3 class="mb-3 text-danger">' . adm_translate('Supprimer massivement les Topics') . '</h3>
    <div class="lead">Topic : ' . $topic . ' | ' . stripslashes($topic_title) . '</div>
    <div class="card p-4 my-3 border-danger">
       <p class="text-end small text-body-secondary">[ ' . formatTimes($post_time, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . ' ]</p>' . stripslashes($post_text) . '
@@ -145,7 +145,7 @@ function ForumMaintTopicDetail($topic, $topic_title)
    <form action="admin.php" method="post">
       <input type="hidden" name="op" value="ForumMaintTopicSup" />
       <input type="hidden" name="topic" value="' . $topic . '" />
-      <input class="btn btn-danger" type="submit" name="Topics_Del" value="' . adm_translate("Effacer") . '" />
+      <input class="btn btn-danger" type="submit" name="Topics_Del" value="' . adm_translate('Effacer') . '" />
    </form>';
    sql_free_result($resultTT);
    adminfoot('', '', '', '');
@@ -228,11 +228,11 @@ function MergeForum()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr/>
-   <h3 class="mb-3">' . adm_translate("Fusionner des forums") . '</h3>
+   <h3 class="mb-3">' . adm_translate('Fusionner des forums') . '</h3>
    <form id="fad_mergeforum" action="admin.php" method="post">
       <fieldset>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-4" for="oriforum">' . adm_translate("Forum d'origine") . '</label>
+            <label class="col-form-label col-sm-4" for="oriforum">' . adm_translate('Forum d'origine') . '</label>
             <div class="col-sm-8">
                <select class="form-select" id="oriforum" name="oriforum">';
    $sql = "SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums ORDER BY forum_index,forum_id";
@@ -244,7 +244,7 @@ function MergeForum()
          } while ($myrow = sql_fetch_assoc($result));
       } else
          echo '
-                  <option value="-1">' . translate("No More Forums") . '</option>';
+                  <option value="-1">' . translate('No More Forums') . '</option>';
    } else
       echo '
                   <option value="-1">Database Error</option>';
@@ -253,7 +253,7 @@ function MergeForum()
             </div>
          </div>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-4" for="destforum">' . adm_translate("Forum de destination") . '</label>
+            <label class="col-form-label col-sm-4" for="destforum">' . adm_translate('Forum de destination') . '</label>
             <div class="col-sm-8">
                <select class="form-select" id="destforum" name="destforum">';
    if ($result = sql_query($sql)) {
@@ -264,7 +264,7 @@ function MergeForum()
          } while ($myrow = sql_fetch_assoc($result));
       } else
          echo '
-                 <option value="-1">' . translate("No More Forums") . '</option>';
+                 <option value="-1">' . translate('No More Forums') . '</option>';
    } else
       echo '
                  <option value="-1">Database Error</option>';
@@ -275,7 +275,7 @@ function MergeForum()
          <div class="mb-3 row">
             <div class="col-sm-8 ms-sm-auto">
                <input type="hidden" name="op" value="MergeForumAction" />
-               <button class="btn btn-primary col-12" type="submit" name="Merge_Forum_Action">' . adm_translate("Fusionner") . '</button>
+               <button class="btn btn-primary col-12" type="submit" name="Merge_Forum_Action">' . adm_translate('Fusionner') . '</button>
             </div>
          </div>
       </fieldset>
@@ -311,39 +311,39 @@ function ForumMaintAdmin()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate("Maintenance des Forums") . '</h3>';
+   <h3 class="mb-3">' . adm_translate('Maintenance des Forums') . '</h3>';
    // Mark Topics, Synchro Forum_read table, Merge Forums
    echo '
    <div class="row">
       <div class="col-12">
          <form id="fad_forumaction" action="admin.php" method="post">
             <input type="hidden" name="op" value="MaintForumMarkTopics" />
-            <button class="btn btn-primary btn-block mt-1" type="submit" name="Topics_Mark"><i class="far fa-check-square fa-lg"></i>&nbsp;' . adm_translate("Marquer tous les Topics comme lus") . '</button>
+            <button class="btn btn-primary btn-block mt-1" type="submit" name="Topics_Mark"><i class="far fa-check-square fa-lg"></i>&nbsp;' . adm_translate('Marquer tous les Topics comme lus') . '</button>
          </form>
       </div>
       <div class="col-12">
          <form action="admin.php" method="post">
             <input type="hidden" name="op" value="SynchroForum" />
-            <button class="btn btn-primary btn-block mt-1 " type="submit" name="Synchro_Forum"><i class="fas fa-sync fa-lg"></i>&nbsp;' . adm_translate("Synchroniser les forums") . '</button>
+            <button class="btn btn-primary btn-block mt-1 " type="submit" name="Synchro_Forum"><i class="fas fa-sync fa-lg"></i>&nbsp;' . adm_translate('Synchroniser les forums') . '</button>
          </form>
       </div>
       <div class="col-12">
          <form action="admin.php" method="post">
             <input type="hidden" name="op" value="MergeForum" />
-            <button class="btn btn-primary btn-block mt-1" type="submit" name="Merge_Forum"><i class="fa fa-compress fa-lg"></i>&nbsp;' . adm_translate("Fusionner des forums") . '</button>
+            <button class="btn btn-primary btn-block mt-1" type="submit" name="Merge_Forum"><i class="fa fa-compress fa-lg"></i>&nbsp;' . adm_translate('Fusionner des forums') . '</button>
          </form>
       </div>
    </div>
-   <h3 class="my-3">' . adm_translate("Supprimer massivement les Topics") . '</h3>
+   <h3 class="my-3">' . adm_translate('Supprimer massivement les Topics') . '</h3>
    <form id="faddeletetop" action="admin.php" method="post" autocomplete="nope" >
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="titreforum">' . adm_translate("Nom du forum") . '</label>
+         <label class="col-form-label col-sm-4" for="titreforum">' . adm_translate('Nom du forum') . '</label>
          <div class="col-sm-8">
             <input type="text" class="form-control" name="forum_name" id="titreforum" maxlength="150" autocomplete="nope" placeholder="   " />
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="before">' . adm_translate("Date") . '</label>
+         <label class="col-form-label col-sm-4" for="before">' . adm_translate('Date') . '</label>
          <div class="col-sm-8">
             <div class="input-group">
                <span id="datePicker" class="input-group-text bg-light date"><i class="far fa-calendar-check fa-lg"></i></span>
@@ -355,7 +355,7 @@ function ForumMaintAdmin()
       <div class="mb-3 row">
          <div class="col-sm-8 ms-sm-auto">
             <input type="hidden" name="op" value="MaintForumTopics" />
-            <button class="btn btn-primary" type="submit" name="Topics_Mark">' . adm_translate("Envoyer") . '</button>
+            <button class="btn btn-primary" type="submit" name="Topics_Mark">' . adm_translate('Envoyer') . '</button>
          </div>
       </div>
    </form>

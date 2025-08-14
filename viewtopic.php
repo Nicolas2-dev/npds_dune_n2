@@ -20,7 +20,7 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = ($SuperCache) ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global sql_prefix(''), $admin, $adminforum;
+global $admin, $adminforum;
 
 if ($allow_upload_forum)
     include("modules/upload/upload_forum.php");
@@ -131,15 +131,15 @@ function aff_pub($lock_state, $topic, $forum, $mod)
 {
     global $language;
     if ($lock_state == 0)
-        echo '<a class="" href="newtopic.php?forum=' . $forum . '" title="' . translate("Nouveau sujet") . '" data-bs-toggle="tooltip" ><i class="fa fa-plus-square me-2"></i><span class="d-none d-md-inline">' . translate("Nouveau sujet") . '<br /></span></a>&nbsp;';
+        echo '<a class="" href="newtopic.php?forum=' . $forum . '" title="' . translate('Nouveau sujet') . '" data-bs-toggle="tooltip" ><i class="fa fa-plus-square me-2"></i><span class="d-none d-md-inline">' . translate('Nouveau sujet') . '<br /></span></a>&nbsp;';
     else if ($lock_state == 1)
-        echo '<i class="fa fa-lock fa-lg text-danger me-2" aria-hidden="true" title="' . translate("Vous ne pouvez répondre à ce topic il est verrouillé. Contacter l'administrateur du site.") . '" data-bs-toggle="tooltip"></i>';
+        echo '<i class="fa fa-lock fa-lg text-danger me-2" aria-hidden="true" title="' . translate('Vous ne pouvez répondre à ce topic il est verrouillé. Contacter l\'administrateur du site.') . '" data-bs-toggle="tooltip"></i>';
 }
 function aff_pub_in($lock_state, $topic, $forum, $mod)
 {
     global $language;
     if ($lock_state == 0)
-        echo '<a class="me-3" href="reply.php?topic=' . $topic . '&amp;forum=' . $forum . '" title="' . translate("Répondre") . '" data-bs-toggle="tooltip"><span class="d-none d-md-inline"></span><i class="fa fa-reply me-2"></i><span class="d-none d-md-inline">' . translate("Répondre") . '</span></a>';
+        echo '<a class="me-3" href="reply.php?topic=' . $topic . '&amp;forum=' . $forum . '" title="' . translate('Répondre') . '" data-bs-toggle="tooltip"><span class="d-none d-md-inline"></span><i class="fa fa-reply me-2"></i><span class="d-none d-md-inline">' . translate('Répondre') . '</span></a>';
 }
 
 $contributeurs = get_contributeurs($forum, $topic);
@@ -152,7 +152,7 @@ include('header.php');
 echo '
    <a name="topofpage"></a>
    <p class="lead">
-      <a href="forum.php">' . translate("Index du forum") . '</a>&nbsp;&raquo;&raquo;&nbsp;
+      <a href="forum.php">' . translate('Index du forum') . '</a>&nbsp;&raquo;&raquo;&nbsp;
       <a href="viewforum.php?forum=' . $forum . '">' . stripslashes($forum_name) . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $topic_subject . '
    </p>
    <h3 class="mb-3">';
@@ -192,7 +192,7 @@ echo '
       <div class="card mb-3">
          <div class="card-body p-2">
          <div class="d-flex ">
-            <div class="text-end align-self-center mx-1 py-2"><span class=" me-1 lead">' . $total_contributeurs . '<i class="fa fa-edit fa-fw ms-1 d-inline d-md-none" title="' . translate("Contributeur(s)") . '" data-bs-toggle="tooltip"></i></span><span class="d-none d-md-inline">' . translate("Contributeur(s)") . '</span></div>
+            <div class="text-end align-self-center mx-1 py-2"><span class=" me-1 lead">' . $total_contributeurs . '<i class="fa fa-edit fa-fw ms-1 d-inline d-md-none" title="' . translate('Contributeur(s)') . '" data-bs-toggle="tooltip"></i></span><span class="d-none d-md-inline">' . translate('Contributeur(s)') . '</span></div>
             <div class=" align-self-center me-auto">';
 for ($i = 0; $i < $total_contributeurs; $i++) {
     $contri = get_userdata_from_id($contributeurs[$i]);
@@ -218,7 +218,7 @@ echo '
 $ibidcountmod = count($moderator);
 echo '
          <div class="d-flex">
-            <div class="text-end align-self-center mx-1 py-2"><span class="me-1 lead">' . $ibidcountmod . ' <i class="fa fa-balance-scale fa-fw ms-1 d-inline d-md-none" title="' . translate("Modérateur(s)") . '" data-bs-toggle="tooltip"></i></span><span class="d-none d-md-inline">' . translate("Modérateur(s)") . '</span></div>
+            <div class="text-end align-self-center mx-1 py-2"><span class="me-1 lead">' . $ibidcountmod . ' <i class="fa fa-balance-scale fa-fw ms-1 d-inline d-md-none" title="' . translate('Modérateur(s)') . '" data-bs-toggle="tooltip"></i></span><span class="d-none d-md-inline">' . translate('Modérateur(s)') . '</span></div>
             <div class=" align-self-center me-auto">';
 for ($i = 0; $i < $ibidcountmod; $i++) {
     $modera = get_userdata($moderator[$i]);
@@ -233,7 +233,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
             }
         }
     }
-    echo '<a href="user.php?op=userinfo&amp;uname=' . $moderator[$i] . '"><img class=" img-thumbnail img-fluid n-ava-small mb-1" src="' . $imgtmp . '" alt="' . $modera['uname'] . '" title="' . translate("Modéré par : ") . ' ' . $modera['uname'] . '" data-bs-toggle="tooltip" /></a>';
+    echo '<a href="user.php?op=userinfo&amp;uname=' . $moderator[$i] . '"><img class=" img-thumbnail img-fluid n-ava-small mb-1" src="' . $imgtmp . '" alt="' . $modera['uname'] . '" title="' . translate('Modéré par : ') . ' ' . $modera['uname'] . '" data-bs-toggle="tooltip" /></a>';
 }
 echo '
             </div>
@@ -248,13 +248,13 @@ if ($total > $posts_per_page) {
          <div id="fo-postpagi">
             <ul class="pagination pagination-sm">
                <li class="page-item">
-                  <a class="page-link" href="#botofpage"><i class="fa fa-angle-double-down" title="' . translate("Bas de page") . '" data-bs-toggle="tooltip"></i></a>
+                  <a class="page-link" href="#botofpage"><i class="fa fa-angle-double-down" title="' . translate('Bas de page') . '" data-bs-toggle="tooltip"></i></a>
                </li>
                <li class="page-item disabled">
-                  <a class="page-link" href="#" aria-label="' . translate("Contributions") . '">' . $total . ' ' . translate("Contributions") . '</a>
+                  <a class="page-link" href="#" aria-label="' . translate('Contributions') . '">' . $total . ' ' . translate('Contributions') . '</a>
                </li>
                <li class="page-item disabled">
-                  <a class="page-link"href="#" aria-label="' . translate("pages") . '">' . $pages . ' ' . translate("pages") . '</a>
+                  <a class="page-link"href="#" aria-label="' . translate('pages') . '">' . $pages . ' ' . translate('pages') . '</a>
                </li>
             </ul>
          </div>';
@@ -368,20 +368,20 @@ do {
         $useroutils = '';
         if ($user or autorisation(-127)) {
             if ($posterdata['uid'] != 1 and $posterdata['uid'] != '')
-                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate("Profil") . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Profil") . '</span></a>';
+                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
             if ($posterdata['uid'] != 1)
-                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" title="' . translate("Envoyer un message interne") . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Message") . '</span></a>';
+                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Message') . '</span></a>';
             if ($posterdata['femail'] != '')
-                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate("Email") . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Email") . '</span></a>';
+                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
                 if ($posterdata_extend[$ch_lat] != '')
-                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&amp;op=u' . $posterdata['uid'] . '" title="' . translate("Localisation") . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw">&nbsp;</i><span class="ms-3 d-none d-md-inline">' . translate("Localisation") . '</span></a>';
+                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&amp;op=u' . $posterdata['uid'] . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw">&nbsp;</i><span class="ms-3 d-none d-md-inline">' . translate('Localisation') . '</span></a>';
             }
         }
         if ($posterdata['url'] != '')
-            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="' . $posterdata['url'] . '" target="_blank" title="' . translate("Visiter ce site web") . '" data-bs-toggle="tooltip"><i class="fas fa-external-link-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Visiter ce site web") . '</span></a>';
+            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="' . $posterdata['url'] . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-external-link-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visiter ce site web') . '</span></a>';
         if ($posterdata['mns'])
-            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" target="_blank" title="' . translate("Visitez le minisite") . '" data-bs-toggle="tooltip"><i class="fa fa-desktop fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate("Visitez le minisite") . '</span></a>';
+            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-desktop fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visitez le minisite') . '</span></a>';
     }
     if (($count + 1) == $mycount) echo '<a name="lastpost"></a>';
     echo '
@@ -494,26 +494,26 @@ do {
         } else
             $postuser = false;
         if (($Mmod) or ($postuser) and (!$lock_state) and ($posterdata['uid'] != '')) {
-            echo '<a class="me-3" href="editpost.php?post_id=' . $myrow["post_id"] . '&amp;topic=' . $topic . '&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate("Editer") . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
+            echo '<a class="me-3" href="editpost.php?post_id=' . $myrow["post_id"] . '&amp;topic=' . $topic . '&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate('Editer') . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
             if ($allow_upload_forum) {
                 $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
-                echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate("Fichiers") . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
+                echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
 
                 /*
             echo '
-            <a class="me-3" href="#themodal" data-remote="" data-bs-toggle="modal" data-bs-target="#themodal" title="'.translate("Files").'" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
+            <a class="me-3" href="#themodal" data-remote="" data-bs-toggle="modal" data-bs-target="#themodal" title="'.translate('Files").'" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
 */
             }
         }
         if ($allow_to_post and !$lock_state and $posterdata['uid'] != '')
-            echo '<a class="me-3" href="reply.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $myrow['post_id'] . '&amp;citation=1" title="' . translate("Citation") . '" data-bs-toggle="tooltip"><i class="fa fa-quote-left fa-lg"></i></a>';
-        echo '<a class="me-3" href="prntopic.php?forum=' . $forum . '&amp;topic=' . $topic . '&amp;post_id=' . $myrow['post_id'] . '" title="' . translate("Imprimer") . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
+            echo '<a class="me-3" href="reply.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $myrow['post_id'] . '&amp;citation=1" title="' . translate('Citation') . '" data-bs-toggle="tooltip"><i class="fa fa-quote-left fa-lg"></i></a>';
+        echo '<a class="me-3" href="prntopic.php?forum=' . $forum . '&amp;topic=' . $topic . '&amp;post_id=' . $myrow['post_id'] . '" title="' . translate('Imprimer') . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
         if ($Mmod or $adminforum) {
             echo '<a class="me-3" href="topicadmin.php?mode=viewip&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;forum=' . $forum . '&amp;arbre=0" title="IP" data-bs-toggle="tooltip" ><i class="fa fa-laptop fa-lg"></i></a>';
             if (!$myrow['post_aff'])
-                echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=1&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate("Afficher ce post") . '" data-bs-toggle="tooltip"><i class="fa fa-eye text-danger fa-lg"></i></a>&nbsp;';
+                echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=1&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate('Afficher ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye text-danger fa-lg"></i></a>&nbsp;';
             else
-                echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=0&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate("Masquer ce post") . '" data-bs-toggle="tooltip"><i class="fa fa-eye-slash fa-lg "></i></a>&nbsp;';
+                echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=0&amp;forum=' . $forum . '&amp;arbre=0" title="' . translate('Masquer ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye-slash fa-lg "></i></a>&nbsp;';
         }
     }
     echo '
@@ -533,10 +533,10 @@ if ($total > $posts_per_page) {
           <nav>
             <ul class="pagination pagination-sm d-flex flex-wrap justify-content-end">
                <li class="page-item">
-                  <a class="page-link" href="#topofpage"><i class="fa fa-angle-double-up" title="' . translate("Haut de page") . '" data-bs-toggle="tooltip"></i></a>
+                  <a class="page-link" href="#topofpage"><i class="fa fa-angle-double-up" title="' . translate('Haut de page') . '" data-bs-toggle="tooltip"></i></a>
                </li>
                <li class="page-item disabled">
-                  <a class="page-link" href="#">' . translate("Haut de page") . '</a>
+                  <a class="page-link" href="#">' . translate('Haut de page') . '</a>
                </li>
             </ul>
          </nav>'
@@ -550,7 +550,7 @@ if ($forum_access != 9) {
     if ((($Mmod) or ($original_poster == $userdata[0])) and (!$lock_state)) {
         $sec_clef = md5($forum . $topic . md5($NPDS_Key));
         echo '
-          <p><a href="viewforum.php?forum=' . $forum . '&amp;topic_id=' . $topic . '&amp;topic_title=' . rawurlencode($topic_subject) . '&amp;op=solved&amp;sec_clef=' . $sec_clef . '"><i class="fa fa-lock fa-2x align-middle me-1"></i>' . translate("Résolu") . '</a></p>';
+          <p><a href="viewforum.php?forum=' . $forum . '&amp;topic_id=' . $topic . '&amp;topic_title=' . rawurlencode($topic_subject) . '&amp;op=solved&amp;sec_clef=' . $sec_clef . '"><i class="fa fa-lock fa-2x align-middle me-1"></i>' . translate('Résolu') . '</a></p>';
         unset($sec_clef);
     }
 }
@@ -564,10 +564,10 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 <form action="viewforum.php" method="post">
    <div class="mb-3 row">
       <div class="col-12">
-         <label class="visually-hidden" for="forumjump">' . translate("Sauter à : ") . '</label>
+         <label class="visually-hidden" for="forumjump">' . translate('Sauter à : ') . '</label>
          <select class="form-select" id="forumjump" name="forum" onchange="submit();">
-            <option value="index">' . translate("Sauter à : ") . '</option>
-            <option value="index">' . translate("Index du forum") . '</option>';
+            <option value="index">' . translate('Sauter à : ') . '</option>
+            <option value="index">' . translate('Index du forum') . '</option>';
     $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass FROM " . sql_prefix('') . "forums ORDER BY cat_id,forum_index,forum_id";
     if ($res = sql_query($sub_sql)) {
         while (list($forum_id, $forum_name, $forum_type, $forum_pass) = sql_fetch_row($res)) {
@@ -592,27 +592,27 @@ if ((($Mmod) and ($forum_access != 9)) or ($adminforum == 1)) {
     echo '
          <ul class="nav justify-content-center border rounded">
             <li class="nav-item ">
-               <a class="nav-link disabled" href="#"><i class="fa fa-cogs fa-lg" title="' . translate("Outils administrateur") . '" data-bs-toggle="tooltip"></i><span class="d-none d-md-inline">&nbsp;</span></a>
+               <a class="nav-link disabled" href="#"><i class="fa fa-cogs fa-lg" title="' . translate('Outils administrateur') . '" data-bs-toggle="tooltip"></i><span class="d-none d-md-inline">&nbsp;</span></a>
             </li>';
     if ($lock_state == 0)
         echo '
             <li class="nav-item">
-               <a class="nav-link" role="button" href="topicadmin.php?mode=lock&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fa fa-lock fa-lg d-md-none" title="' . translate("Fermer ce sujet") . '" data-bs-toggle="tooltip" ></i><span class="ms-2 d-none d-md-inline">' . translate("Fermer ce sujet") . '</span></a>
+               <a class="nav-link" role="button" href="topicadmin.php?mode=lock&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fa fa-lock fa-lg d-md-none" title="' . translate('Fermer ce sujet') . '" data-bs-toggle="tooltip" ></i><span class="ms-2 d-none d-md-inline">' . translate('Fermer ce sujet') . '</span></a>
             </li>';
     else
         echo '
             <li class="nav-item">
-               <a class="nav-link" role="button" href="topicadmin.php?mode=unlock&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class ="fa fa-unlock fa-lg d-md-none" title="' . translate("Ouvrir ce sujet") . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate("Ouvrir ce sujet") . '</span></a>
+               <a class="nav-link" role="button" href="topicadmin.php?mode=unlock&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class ="fa fa-unlock fa-lg d-md-none" title="' . translate('Ouvrir ce sujet') . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate('Ouvrir ce sujet') . '</span></a>
             </li>';
     echo '
             <li class="nav-item">
-               <a class="nav-link" role="button" href="topicadmin.php?mode=move&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fa fa-share fa-lg d-md-none" title="' . translate("Déplacer ce sujet") . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate("Déplacer ce sujet") . '</span></a>
+               <a class="nav-link" role="button" href="topicadmin.php?mode=move&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fa fa-share fa-lg d-md-none" title="' . translate('Déplacer ce sujet') . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate('Déplacer ce sujet') . '</span></a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" role="button" href="topicadmin.php?mode=first&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fas fa-level-up-alt fa-lg d-md-none" title="' . translate("Mettre ce sujet en premier") . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate("Mettre ce sujet en premier") . '</span></a>
+               <a class="nav-link" role="button" href="topicadmin.php?mode=first&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fas fa-level-up-alt fa-lg d-md-none" title="' . translate('Mettre ce sujet en premier') . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate('Mettre ce sujet en premier') . '</span></a>
             </li>
             <li class="nav-item">
-               <a class="nav-link text-danger" role="button" href="topicadmin.php?mode=del&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fas fa-trash fa-lg d-md-none" title="' . translate("Effacer ce sujet") . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate("Effacer ce sujet") . '</span></a>
+               <a class="nav-link text-danger" role="button" href="topicadmin.php?mode=del&amp;topic=' . $topic . '&amp;forum=' . $forum . '" ><i class="fas fa-trash fa-lg d-md-none" title="' . translate('Effacer ce sujet') . '" data-bs-toggle="tooltip"></i><span class="ms-2 d-none d-md-inline">' . translate('Effacer ce sujet') . '</span></a>
             </li>
          </ul>';
 }

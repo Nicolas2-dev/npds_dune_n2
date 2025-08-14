@@ -67,11 +67,11 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
         echo '
    <div class="row mb-3">
       <div class="col-sm-5 mb-2">
-         <label class="form-label" for="dd_pub">' . translate("Date de publication") . '</label>
+         <label class="form-label" for="dd_pub">' . translate('Date de publication') . '</label>
          <input type="text" class="form-control flatpi" id="dd_pub" name="dd_pub" value="' . $dd_pub . '" />
       </div>
       <div class="col-sm-3 mb-2">
-         <label class="form-label" for="dh_pub">' . translate("Heure") . '</label>
+         <label class="form-label" for="dh_pub">' . translate('Heure') . '</label>
          <div class="input-group clockpicker">
             <span class="input-group-text"><i class="far fa-clock fa-lg"></i></span>
             <input type="text" class="form-control" placeholder="Heure" id="dh_pub" name="dh_pub" value="' . $dh_pub . '" />
@@ -81,11 +81,11 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
     echo '
    <div class="row mb-3">
       <div class="col-sm-5 mb-2">
-         <label class="form-label" for="fd_pub">' . translate("Date de fin de publication") . '</label>
+         <label class="form-label" for="fd_pub">' . translate('Date de fin de publication') . '</label>
          <input type="text" class="form-control flatpi" id="fd_pub" name="fd_pub" value="' . $fd_pub . '" />
       </div>
       <div class="col-sm-3 mb-2">
-         <label class="form-label" for="fh_pub">' . translate("Heure") . '</label>
+         <label class="form-label" for="fh_pub">' . translate('Heure') . '</label>
          <div class="input-group clockpicker">
             <span class="input-group-text"><i class="far fa-clock fa-lg"></i></span>
             <input type="text" class="form-control" placeholder="Heure" id="fh_pub" name="fh_pub" value="' . $fh_pub . '" />
@@ -117,7 +117,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
    </script>
 
    <div class="mb-3 row">
-      <label class="col-form-label">' . translate("Epuration de la new à la fin de sa date de validité") . '</label>';
+      <label class="col-form-label">' . translate('Epuration de la new à la fin de sa date de validité') . '</label>';
     $sel1 = '';
     $sel2 = '';
     if (!$epur) $sel2 = 'checked="checked"';
@@ -126,11 +126,11 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
       <div class="col-sm-8 my-2">
          <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" id="epur_y" name="epur" value="1" ' . $sel1 . ' />
-            <label class="form-check-label" for="epur_y">' . translate("Oui") . '</label>
+            <label class="form-check-label" for="epur_y">' . translate('Oui') . '</label>
          </div>
          <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" id="epur_n" name="epur" value="0" ' . $sel2 . ' />
-            <label class="form-check-label" for="epur_n">' . translate("Non") . '</label>
+            <label class="form-check-label" for="epur_n">' . translate('Non') . '</label>
          </div>
       </div>
    </div>

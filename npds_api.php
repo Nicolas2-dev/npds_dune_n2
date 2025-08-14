@@ -16,7 +16,7 @@ if (!stristr($_SERVER['PHP_SELF'], 'admin.php')) include('admin/die.php');
 
 function alerte_api()
 {
-    global sql_prefix(''), $admin;
+    global $admin;
     if (isset($_POST['id'])) {
         $id = $_POST['id'];
         $result = sql_query("SELECT * FROM " . sql_prefix('') . "fonctions WHERE fid='$id'");
@@ -31,7 +31,7 @@ function alerte_api()
 
 function alerte_update()
 {
-    global sql_prefix(''), $admin;
+    global $admin;
     $Xadmin = base64_decode($admin);
     $Xadmin = explode(':', $Xadmin);
     $aid = urlencode($Xadmin[0]);

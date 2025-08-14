@@ -88,7 +88,7 @@ if (isset($user)) {
                     if ($subscribe) {
                         $old_message = $message; // what this
                         $sujet = html_entity_decode(translate_ml($user_langue, "Notification message privé."), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $usermore['uname'] . '] / ' . $sitename;
-                        $message = translate_ml($user_langue, "Bonjour") . '<br />' . translate_ml($user_langue, "Vous avez un nouveau message.") . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, "Cliquez ici pour lire votre nouveau message.") . '</a><br /><br />';
+                        $message = translate_ml($user_langue, 'Bonjour') . '<br />' . translate_ml($user_langue, 'Vous avez un nouveau message.') . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, 'Cliquez ici pour lire votre nouveau message.') . '</a><br /><br />';
                         include("signat.php");
                         copy_to_email($to_userid, $sujet, stripslashes($message));
                         $message = $old_message; // what this
@@ -115,7 +115,7 @@ if (isset($user)) {
                 global $nuke_url, $subscribe, $sitename;
                 if ($subscribe) {
                     $sujet = html_entity_decode(translate_ml($user_langue, "Notification message privé."), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $usermore['uname'] . '] / ' . $sitename;
-                    $message = translate_ml($user_langue, "Bonjour") . '<br />' . translate_ml($user_langue, "Vous avez un nouveau message.") . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, "Cliquez ici pour lire votre nouveau message.") . '</a><br /><br />';
+                    $message = translate_ml($user_langue, 'Bonjour') . '<br />' . translate_ml($user_langue, 'Vous avez un nouveau message.') . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, 'Cliquez ici pour lire votre nouveau message.') . '</a><br /><br />';
                     include("signat.php");
                     copy_to_email($to_userid, $sujet, stripslashes($message));
                 }
@@ -217,15 +217,15 @@ if (isset($user)) {
                 forumerror('0024');
         }
         echo '
-      <h2><a href="viewpmsg.php"><i class="me-2 fa fa-inbox"></i></a>' . translate("Message personnel") . '</h2>
+      <h2><a href="viewpmsg.php"><i class="me-2 fa fa-inbox"></i></a>' . translate('Message personnel') . '</h2>
       <hr />
-      <blockquote class="blockquote">' . translate("A propos des messages publiés :") . '<br />' .
-            translate("Tous les utilisateurs enregistrés peuvent poster des messages privés.") . '</blockquote>';
+      <blockquote class="blockquote">' . translate('A propos des messages publiés :') . '<br />' .
+            translate('Tous les utilisateurs enregistrés peuvent poster des messages privés.') . '</blockquote>';
         settype($submitP, 'string');
         if ($submitP) {
             echo '
          <hr />
-         <h3>' . translate("Prévisualiser") . '</h3>
+         <h3>' . translate('Prévisualiser') . '</h3>
          <p class="lead">' . StripSlashes($subject) . '</p>';
             $Xmessage = $message = StripSlashes($message);
             if ($allow_html == 0 || isset($html)) $Xmessage = htmlspecialchars($Xmessage, ENT_COMPAT | ENT_HTML401, 'UTF-8');
@@ -245,7 +245,7 @@ if (isset($user)) {
         echo '
          <form id="pmessage" action="replypmsg.php" method="post" name="coolsus">
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="to_user">' . translate("Destinataire") . '</label>
+            <label class="col-form-label col-sm-3" for="to_user">' . translate('Destinataire') . '</label>
             <div class="col-sm-9">';
         if ($reply)
             echo userpopover($fromuserdata['uname'], 48, 2) . '
@@ -260,7 +260,7 @@ if (isset($user)) {
         if (!$reply) {
             $carnet = JavaPopUp("carnet.php", "CARNET", 300, 350);
             $carnet = '<a href="javascript:void(0);" onclick="window.open(' . $carnet . '); ">';
-            echo $carnet . '<span class="small">' . translate("Carnet d'adresses") . '</span></a>';
+            echo $carnet . '<span class="small">' . translate('Carnet d\'adresses') . '</span></a>';
         }
         echo '
             </div>
@@ -273,12 +273,12 @@ if (isset($user)) {
             <div class="col-sm-9 ms-auto">
             <div class="form-check">
                <input class="form-check-input" type="checkbox" id="copie" name="copie" ' . $checked . ' />
-               <label class="form-check-label" for="copie"> ' . translate("Conserver une copie") . '</label>
+               <label class="form-check-label" for="copie"> ' . translate('Conserver une copie') . '</label>
             </div>
             </div>
          </div>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-12" for="subject">' . translate("Sujet") . '</label>
+            <label class="col-form-label col-sm-12" for="subject">' . translate('Sujet') . '</label>
             <div class="col-sm-12">';
         settype($subject, 'string');
         if ($subject) {
@@ -296,7 +296,7 @@ if (isset($user)) {
         if ($smilies) {
             echo '
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-12">' . translate("Icone du message") . '</label>
+            <label class="col-form-label col-sm-12">' . translate('Icone du message') . '</label>
             <div class="col-sm-12">
                <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
                ' . emotion_add($image_subject) . '
@@ -306,14 +306,14 @@ if (isset($user)) {
         }
         echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="message">' . translate("Message") . '</label>
+         <label class="col-form-label col-sm-12" for="message">' . translate('Message') . '</label>
          <div class="col-sm-12">
             <div class="card">
                <div class="card-header">';
         if ($allow_html == 1)
-            echo '<span class="text-success float-end" title="HTML ' . translate("Activé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+            echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
         else
-            echo '<span class="text-danger float-end" title="HTML ' . translate("Désactivé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
+            echo '<span class="text-danger float-end" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         echo '
             </div>
             <div class="card-body">';
@@ -330,7 +330,7 @@ if (isset($user)) {
                 $text = str_replace("<BR>", "\n", $text);
                 $text = stripslashes($text);
                 if ($row['msg_time'] != '' && $row['uname'] != '')
-                    $Xreply = $row['msg_time'] . ', ' . $row['uname'] . ' ' . translate("a écrit :") . "\n$text\n";
+                    $Xreply = $row['msg_time'] . ', ' . $row['uname'] . ' ' . translate('a écrit :') . "\n$text\n";
                 else
                     $Xreply = $text;
                 $Xreply = '
@@ -338,7 +338,7 @@ if (isset($user)) {
                ' . $Xreply . '
                </div>';
             } else
-                $Xreply = translate("Pas de connexion à la base forums.") . "\n";
+                $Xreply = translate('Pas de connexion à la base forums.') . "\n";
         } elseif ($message != '') {
             $Xreply = $message;
         }
@@ -350,8 +350,8 @@ if (isset($user)) {
         echo '
          </textarea>
          <span class="help-block text-end">
-            <button class="btn btn-outline-danger btn-sm" type="reset" value="' . translate("Annuler") . '" title="' . translate("Annuler") . '" data-bs-toggle="tooltip" ><i class="fas fa-times " ></i></button>
-            <button class="btn btn-outline-primary btn-sm" type="submit" value="' . translate("Prévisualiser") . '" name="submitP" title="' . translate("Prévisualiser") . '" data-bs-toggle="tooltip" ><i class="fa fa-eye "></i></button>
+            <button class="btn btn-outline-danger btn-sm" type="reset" value="' . translate('Annuler') . '" title="' . translate('Annuler') . '" data-bs-toggle="tooltip" ><i class="fas fa-times " ></i></button>
+            <button class="btn btn-outline-primary btn-sm" type="submit" value="' . translate('Prévisualiser') . '" name="submitP" title="' . translate('Prévisualiser') . '" data-bs-toggle="tooltip" ><i class="fa fa-eye "></i></button>
          </span>
                </div>
                <div class="card-footer text-body-secondary">';
@@ -363,7 +363,7 @@ if (isset($user)) {
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-3">' . translate("Options") . '</label>';
+         <label class="col-form-label col-sm-3">' . translate('Options') . '</label>';
         if ($allow_html == 1) {
             settype($html, 'string');
             if ($html == 'on') $checked = 'checked="checked"';
@@ -372,7 +372,7 @@ if (isset($user)) {
          <div class="col-sm-9 my-2">
             <div class="form-check">
                <input class="form-check-input" type="checkbox" id="html" name="html" ' . $checked . ' />
-               <label class="form-check-label" for="html">' . translate("Désactiver le html pour cet envoi") . '</label>
+               <label class="form-check-label" for="html">' . translate('Désactiver le html pour cet envoi') . '</label>
             </div>';
         }
 
@@ -386,9 +386,9 @@ if (isset($user)) {
             echo '
             <div class="form-check">
                <input class="form-check-input" type="checkbox" id="sig" name="sig" ' . $checked . ' />
-               <label class="form-check-label" for="sig">' . translate("Afficher la signature") . '</label>
+               <label class="form-check-label" for="sig">' . translate('Afficher la signature') . '</label>
             </div>
-            <small class="help-block">' . translate("Cela peut être retiré ou ajouté dans vos paramètres personnels") . '</small>';
+            <small class="help-block">' . translate('Cela peut être retiré ou ajouté dans vos paramètres personnels') . '</small>';
         }
 
         settype($msg_id, 'integer');
@@ -409,13 +409,13 @@ if (isset($user)) {
             echo '
             <input type="hidden" name="reply" value="1" />';
         echo '
-            <input class="btn btn-primary" type="submit" name="submitS" value="' . translate("Valider") . '" />&nbsp;';
+            <input class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" />&nbsp;';
         if ($reply)
             echo '
-            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate("Annuler la réponse") . '" />';
+            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler la réponse') . '" />';
         else {
             echo '
-            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate("Annuler l'envoi") . '" />';
+            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
             echo auto_complete('membre', 'uname', 'users', 'to_user', '86400');
         }
         echo '

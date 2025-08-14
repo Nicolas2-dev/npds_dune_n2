@@ -142,9 +142,9 @@ if (intval($connectes) != $numofchatters) {
     $rafraich_connectes = 1;
 
     if (($numofchatters == 1) or ($numofchatters == 0)) {
-        $nbre_connectes = "'" . $numofchatters . " " . utf8_java(html_entity_decode(translate("personne connectée."), ENT_QUOTES | ENT_HTML401, 'UTF-8')) . " GP [$id]'";
+        $nbre_connectes = "'" . $numofchatters . " " . utf8_java(html_entity_decode(translate('personne connectée.'), ENT_QUOTES | ENT_HTML401, 'UTF-8')) . " GP [$id]'";
     } else {
-        $nbre_connectes = "'" . $numofchatters . " " . utf8_java(html_entity_decode(translate("personnes connectées."), ENT_QUOTES | ENT_HTML401, 'UTF-8')) . " GP [$id]'";
+        $nbre_connectes = "'" . $numofchatters . " " . utf8_java(html_entity_decode(translate('personnes connectées.'), ENT_QUOTES | ENT_HTML401, 'UTF-8')) . " GP [$id]'";
     }
 }
 

@@ -19,7 +19,7 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 include('auth.php');
-global sql_prefix(''), $adminforum;
+global $adminforum;
 
 //==> droits des admin sur les forums (superadmin et admin avec droit gestion forum)
 $adminforum = false;
@@ -78,8 +78,8 @@ if ((isset($submit)) and ($mode == 'move')) {
     include("header.php");
     echo '
       <div class="alert alert-success">
-      <h4 class="alert-heading">' . translate("Le sujet a été déplacé.") . '</h4>
-      <hr /><a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $newforum . '" class="alert-link">' . translate("Cliquez ici pour voir le nouveau sujet.") . '</a><br /><a href="forum.php" class="alert-link">' . translate("Cliquez ici pour revenir à l'index des Forums.") . '</a>
+      <h4 class="alert-heading">' . translate('Le sujet a été déplacé.') . '</h4>
+      <hr /><a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $newforum . '" class="alert-link">' . translate('Cliquez ici pour voir le nouveau sujet.') . '</a><br /><a href="forum.php" class="alert-link">' . translate('Cliquez ici pour revenir à l\'index des Forums.') . '</a>
       </div>';
     Q_Clean();
     include("footer.php");
@@ -89,10 +89,10 @@ if ((isset($submit)) and ($mode == 'move')) {
             case 'move':
                 include("header.php");
                 echo '
-      <h2>' . translate("Forum") . '</h2>
+      <h2>' . translate('Forum') . '</h2>
       <form action="topicadmin.php" method="post">
          <div class="mb-3 row">
-            <label class="form-label" for="newforum">' . translate("Déplacer le sujet vers : ") . '</label>
+            <label class="form-label" for="newforum">' . translate('Déplacer le sujet vers : ') . '</label>
             <div class="col-sm-12">
                <select class="form-select" name="newforum">';
                 $sql = "SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums WHERE forum_id!='$forum' ORDER BY cat_id,forum_index,forum_id";
@@ -104,7 +104,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                         } while ($myrow = sql_fetch_assoc($result));
                     } else
                         echo '
-                     <option value="-1">' . translate("Plus de forum") . '</option>';
+                     <option value="-1">' . translate('Plus de forum') . '</option>';
                 } else
                     echo '
                      <option value="-1">Database Error</option>';
@@ -118,7 +118,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                <input type="hidden" name="topic" value="' . $topic . '" />
                <input type="hidden" name="forum" value="' . $forum . '" />
                <input type="hidden" name="arbre" value="' . $arbre . '" />
-               <input class="btn btn-primary" type="submit" name="submit" value="' . translate("Déplacer le sujet") . '" />
+               <input class="btn btn-primary" type="submit" name="submit" value="' . translate('Déplacer le sujet') . '" />
             </div>
          </div>
       </form>';
@@ -147,7 +147,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                 $topic_title = '';
                 $sql = "SELECT topic_title FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
                 $r = sql_fetch_assoc(sql_query($sql));
-                $topic_title = str_replace("[" . translate("Résolu") . "] - ", "", $r['topic_title']);
+                $topic_title = str_replace("[" . translate('Résolu') . "] - ", "", $r['topic_title']);
                 $sql = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status = '0', topic_first='1', topic_title='" . addslashes($topic_title) . "' WHERE topic_id = '$topic'";
                 if (!$r = sql_query($sql))
                     forumerror('0012');
@@ -169,21 +169,21 @@ if ((isset($submit)) and ($mode == 'move')) {
                 if (!$m = sql_fetch_assoc($r))
                     forumerror('0014');
                 echo '
-      <h2 class="mb-3">' . translate("Forum") . '</h2>
+      <h2 class="mb-3">' . translate('Forum') . '</h2>
       <div class="card card-body mb-3">
-         <h3 class="card-title mb-3" >' . translate("Adresses IP et informations sur les utilisateurs") . '</h3>
+         <h3 class="card-title mb-3" >' . translate('Adresses IP et informations sur les utilisateurs') . '</h3>
          <div class="row">
             <div class="col mb-3">
-              <span class="text-body-secondary">' . translate("Identifiant : ") . '</span><span class="">' . $m['uname'] . '</span><br />
-              <span class="text-body-secondary">' . translate("Adresse IP de l'utilisateur : ") . '</span><span class="">' . $m['poster_ip'] . ' => <a class="text-danger" href="topicadmin.php?mode=banip&topic=' . $topic . '&post=' . $post . '&forum=' . $forum . '&arbre=' . $arbre . '" >' . translate("Bannir cette @Ip") . '</a></span><br />
-              <span class="text-body-secondary">' . translate("Adresse DNS de l'utilisateur : ") . '</span><span class="">' . $m['poster_dns'] . '</span><br />
+              <span class="text-body-secondary">' . translate('Identifiant : ') . '</span><span class="">' . $m['uname'] . '</span><br />
+              <span class="text-body-secondary">' . translate('Adresse IP de l\'utilisateur : ') . '</span><span class="">' . $m['poster_ip'] . ' => <a class="text-danger" href="topicadmin.php?mode=banip&topic=' . $topic . '&post=' . $post . '&forum=' . $forum . '&arbre=' . $arbre . '" >' . translate('Bannir cette @Ip') . '</a></span><br />
+              <span class="text-body-secondary">' . translate('Adresse DNS de l\'utilisateur : ') . '</span><span class="">' . $m['poster_dns'] . '</span><br />
               <span class="text-body-secondary">GeoTool : </span><span class=""><a href="http://www.ip-tracker.org/?ip=' . $m['poster_ip'] . '" target="_blank" >IP tracker</a><br />
             </div>';
                 echo localiser_ip($iptoshow = $m['poster_ip']);
                 echo '
          </div>
       </div>
-      <a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $forum . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
+      <a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $forum . '" class="btn btn-secondary">' . translate('Retour en arrière') . '</a>';
                 include("footer.php");
                 break;
             case 'banip':
@@ -204,8 +204,8 @@ if ((isset($submit)) and ($mode == 'move')) {
     } else {
         include("header.php");
         echo '
-         <div class="alert alert-danger">' . translate("Vous n'êtes pas identifié comme modérateur de ce forum. Opération interdite.") . '<br />
-            <a class="btn btn-secondary" href="javascript:history.go(-1)" >' . translate("Go Back") . '</a>
+         <div class="alert alert-danger">' . translate('Vous n\'êtes pas identifié comme modérateur de ce forum. Opération interdite.') . '<br />
+            <a class="btn btn-secondary" href="javascript:history.go(-1)" >' . translate('Go Back') . '</a>
          </div>';
         include("footer.php");
     }

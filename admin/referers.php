@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'hreferer';
-$f_titre = adm_translate("Sites Référents");
+$f_titre = adm_translate('Sites Référents");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -35,11 +35,11 @@ function hreferer($filter)
    if (!$filter) $filter = 2048;
    echo '
    <hr />
-   <h3>' . adm_translate("Qui parle de nous ?") . '</h3>
+   <h3>' . adm_translate('Qui parle de nous ?') . '</h3>
    <form action="admin.php" method="post">
       <input type="hidden" name="op" value="hreferer" />
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="filter">' . adm_translate("Filtre") . '</label>
+         <label class="col-form-label col-sm-4" for="filter">' . adm_translate('Filtre') . '</label>
          <div class="col-sm-4">
             <input type="number" class="form-control" name="filter" min="0" max="99999" value="' . $filter . '" />
          </div>
@@ -75,8 +75,8 @@ function hreferer($filter)
    </table>
    <br />
    <ul class="nav nav-pills">
-      <li class="nav-item"><a class="text-danger nav-link" href="admin.php?op=delreferer" >' . adm_translate("Effacer les Référants") . '</a></li>
-      <li class="nav-item"><a class="nav-link" href="admin.php?op=archreferer&amp;filter=' . $filter . '">' . adm_translate("Archiver les Référants") . '</a></li>
+      <li class="nav-item"><a class="text-danger nav-link" href="admin.php?op=delreferer" >' . adm_translate('Effacer les Référants') . '</a></li>
+      <li class="nav-item"><a class="nav-link" href="admin.php?op=archreferer&amp;filter=' . $filter . '">' . adm_translate('Archiver les Référants') . '</a></li>
    </ul>';
    adminfoot('', '', '', '');
 }

@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'Ephemerids';
-$f_titre = adm_translate("Ephémérides");
+$f_titre = adm_translate('Ephémérides");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -32,7 +32,7 @@ function Ephemerids()
    $nday = '1';
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate("Ajouter un éphéméride") . '</h3>
+   <h3 class="mb-3">' . adm_translate('Ajouter un éphéméride') . '</h3>
    <form action="admin.php" method="post">
       <div class="row g-3 mb-3">
          <div class="col-sm-4">
@@ -45,7 +45,7 @@ function Ephemerids()
    }
    echo '
                </select>
-               <label for="did">' . adm_translate("Jour") . '</label>
+               <label for="did">' . adm_translate('Jour') . '</label>
             </div>
          </div>';
    $nmonth = "1";
@@ -60,25 +60,25 @@ function Ephemerids()
    }
    echo '
                </select>
-               <label for="mid">' . adm_translate("Mois") . '</label>
+               <label for="mid">' . adm_translate('Mois') . '</label>
             </div>
          </div>
          <div class="col-sm-4">
             <div class="form-floating">
                <input class="form-control" type="number" id="yid" name="yid" maxlength="4" size="5" />
-               <label for="yid">' . adm_translate("Année") . '</label>
+               <label for="yid">' . adm_translate('Année') . '</label>
             </div>
          </div>
       </div>
       <div class="form-floating mb-3">
          <textarea name="content" class="form-control" style="height:120px;"></textarea>
-         <label for="content">' . adm_translate("Description de l'éphéméride") . '</label>
+         <label for="content">' . adm_translate('Description de l'éphéméride') . '</label>
       </div>
-      <button class="btn btn-primary" type="submit">' . adm_translate("Envoyer") . '</button>
+      <button class="btn btn-primary" type="submit">' . adm_translate('Envoyer') . '</button>
       <input type="hidden" name="op" value="Ephemeridsadd" />
    </form>
    <hr />
-   <h3 class="mb-3">' . adm_translate("Maintenance des Ephémérides (Editer/Effacer)") . '</h3>
+   <h3 class="mb-3">' . adm_translate('Maintenance des Ephémérides (Editer/Effacer)') . '</h3>
    <form action="admin.php" method="post">';
    $nday = "1";
    echo '
@@ -93,7 +93,7 @@ function Ephemerids()
    }
    echo '
                </select>
-               <label for="did">' . adm_translate("Jour") . '</label>
+               <label for="did">' . adm_translate('Jour') . '</label>
             </div>
          </div>';
    $nmonth = "1";
@@ -108,12 +108,12 @@ function Ephemerids()
    }
    echo '
                </select>
-               <label for="mid">' . adm_translate("Mois") . '</label>
+               <label for="mid">' . adm_translate('Mois') . '</label>
             </div>
          </div>
       </div>
       <input type="hidden" name="op" value="Ephemeridsmaintenance" />
-      <button class="btn btn-primary" type="submit">' . adm_translate("Editer") . '</button>
+      <button class="btn btn-primary" type="submit">' . adm_translate('Editer') . '</button>
    </form>';
    adminfoot('', '', '', '');
 }
@@ -136,7 +136,7 @@ function Ephemeridsmaintenance($did, $mid)
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3>' . adm_translate("Maintenance des Ephémérides") . '</h3>
+   <h3>' . adm_translate('Maintenance des Ephémérides') . '</h3>
    <table data-toggle="table" data-striped="true" data-mobile-responsive="true" data-search="true" data-show-toggle="true" data-icons="icons" data-icons-prefix="fa">
       <thead>
          <tr>
@@ -152,7 +152,7 @@ function Ephemeridsmaintenance($did, $mid)
          <tr>
             <td>' . $yid . '</td>
             <td>' . aff_langue($content) . '</td>
-            <td><a href="admin.php?op=Ephemeridsedit&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg me-2"></i></a>&nbsp;<a href="admin.php?op=Ephemeridsdel&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate("Effacer") . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a>
+            <td><a href="admin.php?op=Ephemeridsedit&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg me-2"></i></a>&nbsp;<a href="admin.php?op=Ephemeridsdel&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a>
          </tr>';
    }
    echo '
@@ -178,21 +178,21 @@ function Ephemeridsedit($eid, $did, $mid)
    list($yid, $content) = sql_fetch_row($result);
    echo '
    <hr />
-   <h3>' . adm_translate("Editer éphéméride") . '</h3>
+   <h3>' . adm_translate('Editer éphéméride') . '</h3>
    <form action="admin.php" method="post">
       <div class="form-floating mb-3">
           <input class="form-control" type="number" name="yid" value="' . $yid . '" max="2500" />
-          <label for="yid">' . adm_translate("Année") . '</label>
+          <label for="yid">' . adm_translate('Année') . '</label>
       </div>
       <div class="form-floating mb-3">
          <textarea name="content" id="content" class="form-control" style="height:120px;">' . $content . '</textarea>
-         <label for="content">' . adm_translate("Description de l'éphéméride") . '</label>
+         <label for="content">' . adm_translate('Description de l'éphéméride') . '</label>
       </div>
       <input type="hidden" name="did" value="' . $did . '" />
       <input type="hidden" name="mid" value="' . $mid . '" />
       <input type="hidden" name="eid" value="' . $eid . '" />
       <input type="hidden" name="op" value="Ephemeridschange" />
-      <button class="btn btn-primary" type="submit">' . adm_translate("Envoyer") . '</button>
+      <button class="btn btn-primary" type="submit">' . adm_translate('Envoyer') . '</button>
    </form>';
    adminfoot('', '', '', '');
 }

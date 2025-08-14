@@ -16,13 +16,13 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'OptimySQL';
-$f_titre = adm_translate("Optimisation de la base de données") . ' : ' . $dbname;
+$f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbname;
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
 $hlpfile = 'manuels/' . $language . '/optimysql.html';
 
-$date_opt = date(adm_translate("dateforop"));
+$date_opt = date(adm_translate('dateforop"));
 $heure_opt = date("h:i a");
 include("header.php");
 GraphicAdmin($hlpfile);
@@ -40,7 +40,7 @@ $result = sql_query("SELECT optdate, opthour FROM " . sql_prefix('') . "optimy W
 list($dateopt, $houropt) = sql_fetch_row($result);
 if (!$dateopt or ($dateopt == '') or !$houropt or ($houropt == '')) {
 } else {
-   $last_opti = adm_translate("Dernière optimisation effectuée le") . " : " . $dateopt . " " . adm_translate(" à ") . " " . $houropt . "<br />\n";
+   $last_opti = adm_translate('Dernière optimisation effectuée le") . " : " . $dateopt . " " . adm_translate(' à ") . " " . $houropt . "<br />\n";
 }
 
 $tot_data = 0;
@@ -68,7 +68,7 @@ if (sql_num_rows($result)) {
          <tr class="table-success">
             <td align="right">' . $row['Name'] . '</td>
             <td align="right">' . $total . ' Ko</td>
-            <td align="center">' . adm_translate("optimisée") . '</td>
+            <td align="center">' . adm_translate('optimisée') . '</td>
             <td align="center"> -- </td>
          </tr>';
       else
@@ -76,7 +76,7 @@ if (sql_num_rows($result)) {
           <tr class="table-danger">
              <td align="right">' . $row['Name'] . '</td>
              <td align="right">' . $total . ' Ko</td>
-             <td class="text-danger" align="center">' . adm_translate("non optimisée") . '</td>
+             <td class="text-danger" align="center">' . adm_translate('non optimisée') . '</td>
              <td align="right">' . $gain . ' Ko</td>
           </tr>';
    }
@@ -97,10 +97,10 @@ list($gainopt, $countopt) = sql_fetch_row($result);
 
 // Affichage
 adminhead($f_meta_nom, $f_titre, $adminimg);
-echo '<hr /><p class="lead">' . adm_translate("Optimisation effectuée") . ' : ' . adm_translate("Gain total réalisé") . ' ' . $total_gain . ' Ko</br>';
+echo '<hr /><p class="lead">' . adm_translate('Optimisation effectuée') . ' : ' . adm_translate('Gain total réalisé') . ' ' . $total_gain . ' Ko</br>';
 echo $last_opti;
 echo '
-' . adm_translate("A ce jour, vous avez effectué ") . ' ' . $countopt . ' optimisation(s) ' . adm_translate(" et réalisé un gain global de ") . ' ' . $gainopt . ' Ko.</p>
+' . adm_translate('A ce jour, vous avez effectué ') . ' ' . $countopt . ' optimisation(s) ' . adm_translate(' et réalisé un gain global de ') . ' ' . $gainopt . ' Ko.</p>
 <table id="tad_opti" data-toggle="table" data-striped="true" data-show-toggle="true" data-mobile-responsive="true" data-icons="icons" data-icons-prefix="fa">
    <thead>
        <tr>
@@ -114,7 +114,7 @@ echo '
        <tr>
            <td></td>
            <td></td>
-           <td>' . adm_translate("Gain total réalisé") . ' : </td>
+           <td>' . adm_translate('Gain total réalisé') . ' : </td>
            <td>' . $total_gain . ' Ko</td>
        </tr>
    </tfoot>

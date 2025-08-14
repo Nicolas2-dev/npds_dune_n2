@@ -116,7 +116,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     </ul>
     <div>
         <span class="fw-semibold">
-            ' . translate("L'article le plus lu à propos de") . ' : 
+            ' . translate('L\'article le plus lu à propos de') . ' : 
         </span>
         <span class="h5">
             <span class="badge bg-secondary" title="' . $topicname . '<hr />' . aff_langue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">

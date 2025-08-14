@@ -15,7 +15,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'reviews';
-$f_titre = adm_translate("Critiques");
+$f_titre = adm_translate('Critiques");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -43,18 +43,18 @@ function reviews()
 
    echo '
    <hr />
-   <h3>' . adm_translate("Configuration de la page") . '</h3>
+   <h3>' . adm_translate('Configuration de la page') . '</h3>
    <form id="reviewspagecfg" class="" action="admin.php" method="post">
       <fieldset>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-12" for="tit_cri">' . adm_translate("Titre de la Page des Critiques") . '</label>
+            <label class="col-form-label col-sm-12" for="tit_cri">' . adm_translate('Titre de la Page des Critiques') . '</label>
             <div class="col-sm-12">
                <input class="form-control" type="text" id="tit_cri" name="title" value="' . $title . '" maxlength="100" />
                <span class="help-block text-end" id="countcar_tit_cri"></span>
             </div>
          </div>
          <div class="mb-3 row">
-            <label class="col-form-label col-sm-12" for="description">' . adm_translate("Description de la Page des Critiques") . '</label>
+            <label class="col-form-label col-sm-12" for="description">' . adm_translate('Description de la Page des Critiques') . '</label>
             <div class="col-sm-12">
                <textarea class="form-control" id="description" name="description" rows="10">' . $description . '</textarea>
             </div>
@@ -62,7 +62,7 @@ function reviews()
          <div class="mb-3 row">
             <div class="col-sm-12">
                <input type="hidden" name="op" value="mod_main" />
-               <button class="btn btn-primary col-12" type="submit"><i class="fa fa-check-square fa-lg"></i>&nbsp;' . adm_translate("Sauver les modifications") . '</button>
+               <button class="btn btn-primary col-12" type="submit"><i class="fa fa-check-square fa-lg"></i>&nbsp;' . adm_translate('Sauver les modifications') . '</button>
             </div>
          </div>
       </fieldset>
@@ -70,7 +70,7 @@ function reviews()
    <hr />';
    $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews_add ORDER BY id");
    $numrows = sql_num_rows($result);
-   echo '<h3>' . adm_translate("Critiques en attente de validation") . '<span class="badge bg-danger float-end">' . $numrows . '</span></h3>';
+   echo '<h3>' . adm_translate('Critiques en attente de validation') . '<span class="badge bg-danger float-end">' . $numrows . '</span></h3>';
    $jsfvc = '';
    $jsfvf = '';
    if ($numrows > 0) {
@@ -78,11 +78,11 @@ function reviews()
          $title = stripslashes($title);
          $text = stripslashes($text);
          echo '
-   <h4 class="my-3">' . adm_translate("Ajouter la critique N° : ") . ' ' . $id . '</h4>
+   <h4 class="my-3">' . adm_translate('Ajouter la critique N° : ') . ' ' . $id . '</h4>
    <form id="reviewsaddcr' . $id . '" action="admin.php" method="post">
    <input type="hidden" name="id" value="' . $id . '" />
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="reviewdate">' . adm_translate("Date") . '</label>
+         <label class="col-form-label col-sm-4" for="reviewdate">' . adm_translate('Date') . '</label>
          <div class="col-sm-8">
             <div class="input-group">
                <span class="input-group-text"><i class="far fa-calendar-check fa-lg"></i></span>
@@ -91,34 +91,34 @@ function reviews()
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="title' . $id . '">' . adm_translate("Nom du produit") . '</label>
+         <label class="col-form-label col-sm-4" for="title' . $id . '">' . adm_translate('Nom du produit') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="title' . $id . '" name="title" value="' . $title . '" maxlength="40" required="required" />
             <span class="help-block text-end" id="countcar_title' . $id . '"></span>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="text' . $id . '">' . adm_translate("Texte") . '</label>
+         <label class="col-form-label col-sm-4 " for="text' . $id . '">' . adm_translate('Texte') . '</label>
          <div class="col-sm-8">
             <textarea class="form-control" id="text' . $id . ' name="text" rows="6">' . $text . '</textarea>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="reviewer' . $id . '">' . adm_translate("Le critique") . '</label>
+         <label class="col-form-label col-sm-4 " for="reviewer' . $id . '">' . adm_translate('Le critique') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="reviewer' . $id . '" name="reviewer" value="' . $reviewer . '" maxlength="20" required="required" />
             <span class="help-block text-end" id="countcar_reviewer' . $id . '"></span>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="email' . $id . '">' . adm_translate("E-mail") . '</label>
+         <label class="col-form-label col-sm-4 " for="email' . $id . '">' . adm_translate('E-mail') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="email" id="email' . $id . '" name="email" value="' . $email . '" maxlength="60" required="required" />
             <span class="help-block text-end" id="countcar_email' . $id . '"></span>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="score' . $id . '">' . adm_translate("Note") . '</label>
+         <label class="col-form-label col-sm-4 " for="score' . $id . '">' . adm_translate('Note') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="number" id="score' . $id . '" name="score" value="' . $score . '"  min="1" max="10" />
          </div>
@@ -126,14 +126,14 @@ function reviews()
          if ($url != '') {
             echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="url' . $id . '">' . adm_translate("Liens relatifs") . '</label>
+         <label class="col-form-label col-sm-4 " for="url' . $id . '">' . adm_translate('Liens relatifs') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="url" id="url' . $id . '" name="url" value="' . $url . '" maxlength="100" />
             <span class="help-block text-end" id="countcar_url' . $id . '"></span>
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4 " for="url_title' . $id . '">' . adm_translate("Titre du lien") . '</label>
+         <label class="col-form-label col-sm-4 " for="url_title' . $id . '">' . adm_translate('Titre du lien') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="url_title' . $id . '" name="url_title" value="' . $url_title . '" maxlength="50" />
             <span class="help-block text-end" id="countcar_url_title' . $id . '"></span>
@@ -142,7 +142,7 @@ function reviews()
          }
          echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="cover' . $id . '">' . adm_translate("Image de garde") . '</label>
+         <label class="col-form-label col-sm-4" for="cover' . $id . '">' . adm_translate('Image de garde') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="cover' . $id . '" name="cover" maxlength="100" />
             <span class="help-block">150*150 pixel => images/covers<span class="float-end ms-1" id="countcar_cover' . $id . '"></span></span>
@@ -151,8 +151,8 @@ function reviews()
       <div class="mb-3 row">
          <div class="col-sm-8 ms-sm-auto">
             <input type="hidden" name="op" value="add_review">
-            <button class="btn btn-primary" type="submit">' . adm_translate("Ajouter") . '</button>
-            <a href="admin.php?op=deleteNotice&amp;id=' . $id . '&amp;op_back=reviews" class="btn btn-danger" role="button">' . adm_translate("Supprimer") . '</a>
+            <button class="btn btn-primary" type="submit">' . adm_translate('Ajouter') . '</button>
+            <a href="admin.php?op=deleteNotice&amp;id=' . $id . '&amp;op_back=reviews" class="btn btn-danger" role="button">' . adm_translate('Supprimer') . '</a>
          </div>
       </div>
    </form>';
@@ -187,18 +187,18 @@ function reviews()
    </script>';
    } else {
       echo '
-      <div class="alert alert-success my-3">' . adm_translate("Aucune critique à ajouter") . '</div>';
+      <div class="alert alert-success my-3">' . adm_translate('Aucune critique à ajouter') . '</div>';
       $arg1 = '
       var formulid = ["reviewspagecfg"];
       inpandfieldlen("tit_cri",100);';
    }
    echo '
    <hr />
-   <p><a href="reviews.php?op=write_review" >' . adm_translate("Cliquer ici pour proposer une Critique.") . '</a></p>
+   <p><a href="reviews.php?op=write_review" >' . adm_translate('Cliquer ici pour proposer une Critique.') . '</a></p>
    <hr />
-   <h3 class="my-3">' . adm_translate("Effacer / Modifier une Critique") . '</h3>
+   <h3 class="my-3">' . adm_translate('Effacer / Modifier une Critique') . '</h3>
    <div class="alert alert-success">'
-      . adm_translate("Vous pouvez simplement Effacer / Modifier les Critiques en naviguant sur") . ' <a href="reviews.php" >reviews.php</a> ' . adm_translate("en tant qu'Administrateur.") . '
+      . adm_translate('Vous pouvez simplement Effacer / Modifier les Critiques en naviguant sur') . ' <a href="reviews.php" >reviews.php</a> ' . adm_translate('en tant qu'Administrateur.') . '
    </div>';
 
    sql_free_result($result);

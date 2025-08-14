@@ -98,15 +98,15 @@ if ($submitS) {
         $message = make_clickable($message);
         $message = af_cod($message);
         $message = str_replace("\n", "<br />", removeHack($message));
-        $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate("Message édité par") . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
+        $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate('Message édité par') . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
     } else {
-        $message .= "\n\n" . translate("Message édité par") . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+        $message .= "\n\n" . translate('Message édité par') . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
     }
 
     $message = addslashes($message);
 
     if ($subject == '') {
-        $subject = translate("Sans titre");
+        $subject = translate('Sans titre');
     }
 
     // Forum ARBRE
@@ -188,7 +188,7 @@ if ($submitS) {
 
             redirect_url("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
         } else {
-            echo '<div class="alert alert-danger">' . translate("Votre contribution n'a pas été supprimée car au moins un post est encore rattaché (forum arbre).") . '</div>';
+            echo '<div class="alert alert-danger">' . translate('Votre contribution n\'a pas été supprimée car au moins un post est encore rattaché (forum arbre).') . '</div>';
         }
     }
 } else {
@@ -256,19 +256,19 @@ if ($submitS) {
         $qui = $myrow['poster_id'] == 0 ? $anonymous : $myrow['uname'];
 
         echo '<div>
-        <h3>' . translate("Edition de la soumission") . ' de <span class="text-body-secondary">' . $qui . '</span></h3>
+        <h3>' . translate('Edition de la soumission') . ' de <span class="text-body-secondary">' . $qui . '</span></h3>
         <hr />
         <form action="editpost.php" method="post" name="coolsus">';
 
         if ($Mmod) {
             echo '<div class="mb-3 row">
-                <label class="col-form-label col-sm-12" for="subject">' . translate("Titre") . '</label>
+                <label class="col-form-label col-sm-12" for="subject">' . translate('Titre') . '</label>
                 <div class="col-sm-12">
                 <input class="form-control" type="text" id="subject" name="subject" maxlength="100" value="' . htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '" />
                 </div>
             </div>';
         } else {
-            echo '<strong>' . translate("Edition de la soumission") . '</strong> : ' . $title;
+            echo '<strong>' . translate('Edition de la soumission') . '</strong> : ' . $title;
             echo "<input type=\"hidden\" name=\"subject\" value=\"" . htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\" />";
         }
     } else {
@@ -277,7 +277,7 @@ if ($submitS) {
 
     if ($smilies) {
         echo '<div class="d-none d-sm-block mb-3 row">
-            <span class="col-form-label">' . translate("Icone du message") . '</span>
+            <span class="col-form-label">' . translate('Icone du message') . '</span>
             <div class="col-sm-12">
                 <div class="border rounded pt-2 px-2 n-fond_subject">
                 ' . emotion_add($image_subject) . '
@@ -287,7 +287,7 @@ if ($submitS) {
     }
 
     echo '<div class="mb-3 row">
-    <label class="col-form-label col-sm-12" for="ta_edipost">' . translate("Message") . '</label>';
+    <label class="col-form-label col-sm-12" for="ta_edipost">' . translate('Message') . '</label>';
 
     if ($allow_bbcode) {
         $xJava = ' onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="storeForm(this)"';
@@ -302,9 +302,9 @@ if ($submitS) {
     echo '</div>';
 
     if ($allow_html == 1) {
-        echo '<span class="text-success float-end mt-2" title="HTML ' . translate("Activé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+        echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
     } else {
-        echo '<span class="text-danger float-end mt-2" title="HTML ' . translate("Désactivé") . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
+        echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
     }
 
     echo '</div>
@@ -313,7 +313,7 @@ if ($submitS) {
             </div>
             <div class="card-footer p-0">
                 <span class="d-block">
-                    <button class="btn btn-link" type="submit" value="' . translate("Prévisualiser") . '" name="submitP" title="' . translate("Prévisualiser") . '" data-bs-toggle="tooltip" ><i class="fa fa-eye fa-lg"></i></button>
+                    <button class="btn btn-link" type="submit" value="' . translate('Prévisualiser') . '" name="submitP" title="' . translate('Prévisualiser') . '" data-bs-toggle="tooltip" ><i class="fa fa-eye fa-lg"></i></button>
                 </span>
             </div>
             </div>
@@ -325,18 +325,18 @@ if ($submitS) {
 
         echo '
         <div class="mb-3 row">
-            <span class="col-form-label">' . translate("Options") . '</span>
+            <span class="col-form-label">' . translate('Options') . '</span>
             <div class="col-sm-12">
                 <div class="checkbox">
                     <div class="form-check text-danger">
                     <input class="form-check-input" type="checkbox" id="delete_p" name="delete" />
-                    <label class="form-check-label" for="delete_p">' . translate("Supprimer ce message") . '</label>
+                    <label class="form-check-label" for="delete_p">' . translate('Supprimer ce message') . '</label>
                     </div>
                 </div>
                 <div class="checkbox">
                     <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="html" name="html" ' . $sethtml . ' />
-                    <label class="form-check-label" for="html">' . translate("Désactiver le html pour cet envoi") . '</label>
+                    <label class="form-check-label" for="html">' . translate('Désactiver le html pour cet envoi') . '</label>
                     </div>
                 </div>
             </div>
@@ -350,7 +350,7 @@ if ($submitS) {
         <input type="hidden" name="arbre" value="' . $arbre . '" />
         <div class="mb-3 row">
             <div class="col-sm-12 ms-sm-auto ">
-                <button class="btn btn-primary" type="submit" name="submitS" value="' . translate("Valider") . '" >' . translate("Valider") . '</button>&nbsp;
+                <button class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" >' . translate('Valider') . '</button>&nbsp;
             </div>
         </div>
     </form>
