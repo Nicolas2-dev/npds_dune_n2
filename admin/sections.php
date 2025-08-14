@@ -1148,7 +1148,7 @@ function secartdelete($artid, $ok = 0)
       Header("Location: admin.php?op=sections");
    } else {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include('header.php');
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT title FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
@@ -1174,7 +1174,7 @@ function secartdelete2($artid, $ok = 0)
       Header("Location: admin.php?op=sections");
    } else {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include('header.php');
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT title FROM " . sql_prefix('') . "seccont_tempo WHERE artid='$artid'");

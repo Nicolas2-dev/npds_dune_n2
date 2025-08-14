@@ -165,7 +165,7 @@ if ($submitS) {
         echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate('Retour en arrière') . "</a> ]</p>";
     }
 } else {
-    include('header.php');
+    include 'header.php';
     if ($allow_bbcode == 1)
         include("lib/formhelp.java.php");
 

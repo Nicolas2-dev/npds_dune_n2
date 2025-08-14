@@ -441,7 +441,7 @@ function displayStory($qid)
       header("location: admin.php?op=submissions");
    }
    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -587,7 +587,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
    }
    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
 
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    global $local_user_language;
@@ -790,7 +790,7 @@ function editStory($sid)
    if (!$affiche) header("location: admin.php");
    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topicname) . '</strong></span>';
 
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -996,7 +996,7 @@ function removeStory($sid, $ok = 0)
    } else {
       global $hlpfile, $language;
       $hlpfile = "manuels/$language/newarticle.html";
-      include('header.php');
+      include 'header.php';
       GraphicAdmin($hlpfile);
       echo '
       <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer l\'Article N°') . ' ' . $sid . ' ' . adm_translate('et tous ses Commentaires ?') . '</div>
@@ -1066,7 +1066,7 @@ function adminStory()
    //<== controle droit
 
    $hlpfile = "manuels/$language/newarticle.html";
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    settype($hometext, 'string');
@@ -1202,7 +1202,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
    //   admindroits($aid,$f_meta_nom); // à voir l'intégration avec les droits sur les topics ...
    //<== controle droit
    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    global $local_user_language;
 

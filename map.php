@@ -153,7 +153,7 @@ function mapfaq()
     sql_free_result($result);
 }
 
-include('header.php');
+include 'header.php';
 // Include cache manager classe
 global $SuperCache;
 if ($SuperCache) {

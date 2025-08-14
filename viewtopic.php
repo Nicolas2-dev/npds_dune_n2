@@ -148,7 +148,7 @@ $total_contributeurs = count($contributeurs);
 
 $title = $forum_name;
 $post = $topic_subject;
-include('header.php');
+include 'header.php';
 echo '
    <a name="topofpage"></a>
    <p class="lead">

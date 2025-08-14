@@ -1605,7 +1605,7 @@ $(document).ready(function() {
 //<== construction js
 
 //==> affichage
-include('header.php');
+include 'header.php';
 $affi = '
    <span class="n-media-repere"></span>
    <h3 class="mt-4 mb-3">' . geoloc_translate("Géolocalisation des membres du site") . '<span class="float-end"><span class="badge bg-secondary me-2" title ="' . geoloc_translate('Membres du site') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $total_membre . '</span></span></h3>

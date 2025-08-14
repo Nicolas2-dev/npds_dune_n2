@@ -173,7 +173,7 @@ if ($submitS) {
    <a class="btn btn-outline-primary" href="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</a>';
     }
 } else {
-    include('header.php');
+    include 'header.php';
     if ($allow_bbcode == 1)
         include("lib/formhelp.java.php");
 

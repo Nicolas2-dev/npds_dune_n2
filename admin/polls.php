@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/surveys.html";
 function poll_createPoll()
 {
    global $hlpfile, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    global $id;
@@ -119,7 +119,7 @@ function poll_createPosted()
 function poll_removePoll()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -183,7 +183,7 @@ function poll_removePosted()
 function poll_editPoll()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include('header.php');
+   include 'header.php';
    $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . sql_prefix('') . "poll_desc ORDER BY timeStamp");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -227,7 +227,7 @@ function poll_editPollPosted()
    global $id, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
    if ($id) {
       global $hlpfile;
-      include('header.php');
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . sql_prefix('') . "poll_desc WHERE pollID='$id'");

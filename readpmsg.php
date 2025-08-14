@@ -22,7 +22,7 @@ include('auth.php');
 if (!$user)
     Header('Location: user.php');
 else {
-    include('header.php');
+    include 'header.php';
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
     $userdata = get_userdata($userdata[1]);

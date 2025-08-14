@@ -65,7 +65,7 @@ if (isset($submitS)) {
         if ($forum_access == 0) {
             $userdata = array("uid" => 1);
             $modo = '';
-            include('header.php');
+            include 'header.php';
         } else {
             if (($username == '') or ($password == ''))
                 forumerror('0027');
@@ -75,14 +75,14 @@ if (isset($submitS)) {
                 list($pass) = sql_fetch_row($result);
                 if ((password_verify($password, $pass)) and ($pass != '')) {
                     $userdata = get_userdata($username);
-                    include('header.php');
+                    include 'header.php';
                 } else
                     forumerror('0028');
             }
         }
     } else {
         $modo = user_is_moderator($userdata['uid'], $userdata['uname'], $forum_access);
-        include('header.php');
+        include 'header.php';
     }
     // Either valid user/pass, or valid session. continue with post.
     if ($stop != 1) {
@@ -156,7 +156,7 @@ if (isset($submitS)) {
       </div>';
     }
 } else {
-    include('header.php');
+    include 'header.php';
     if ($allow_bbcode) include("lib/formhelp.java.php");
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
