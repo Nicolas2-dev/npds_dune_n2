@@ -104,7 +104,7 @@ function FaqAdmin()
 
 function FaqCatGo($id_cat)
 {
-   global $hlpfile, sql_prefix(''), $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -203,7 +203,7 @@ function FaqCatGo($id_cat)
 
 function FaqCatEdit($id_cat)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -249,7 +249,7 @@ function FaqCatEdit($id_cat)
 
 function FaqCatGoEdit($id)
 {
-   global $hlpfile, sql_prefix(''), $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -320,8 +320,6 @@ function FaqCatGoEdit($id)
 
 function FaqCatSave($old_id_cat, $id_cat, $categories)
 {
-   global sql_prefix('');
-
    $categories = stripslashes(FixQuotes($categories));
 
    if ($old_id_cat != $id_cat) {
@@ -335,8 +333,6 @@ function FaqCatSave($old_id_cat, $id_cat, $categories)
 
 function FaqCatGoSave($id, $question, $answer)
 {
-   global sql_prefix('');
-
    $question   = stripslashes(FixQuotes($question));
    $answer     = stripslashes(FixQuotes($answer));
 
@@ -347,8 +343,6 @@ function FaqCatGoSave($id, $question, $answer)
 
 function FaqCatAdd($categories)
 {
-   global sql_prefix('');
-
    $categories = stripslashes(FixQuotes($categories));
 
    sql_query("INSERT INTO " . sql_prefix('') . "faqcategories VALUES (NULL, '$categories')");
@@ -358,8 +352,6 @@ function FaqCatAdd($categories)
 
 function FaqCatGoAdd($id_cat, $question, $answer)
 {
-   global sql_prefix('');
-
    $question   = stripslashes(FixQuotes($question));
    $answer     = stripslashes(FixQuotes($answer));
 
@@ -370,8 +362,6 @@ function FaqCatGoAdd($id_cat, $question, $answer)
 
 function FaqCatDel($id_cat, $ok = 0)
 {
-   global sql_prefix('');
-
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "faqcategories WHERE id_cat='$id_cat'");
       sql_query("DELETE FROM " . sql_prefix('') . "faqanswer WHERE id_cat='$id_cat'");
@@ -403,8 +393,6 @@ function FaqCatDel($id_cat, $ok = 0)
 
 function FaqCatGoDel($id, $ok = 0)
 {
-   global sql_prefix('');
-
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "faqanswer WHERE id='$id'");
 

@@ -17,7 +17,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'ConfigFiles';
-$f_titre = adm_translate('Les fichiers de configuration");
+$f_titre = adm_translate('Les fichiers de configuration');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -62,7 +62,7 @@ function ConfigFiles($contents, $files)
         </tr>
         <tr>
             <td><code>body_onload.inc</code></td>
-            <td>' . adm_translate('Ce fichier est appelé dans l'évènement ONLOAD de la balise BODY => JAVASCRIPT') . '</td>
+            <td>' . adm_translate('Ce fichier est appelé dans l\'évènement ONLOAD de la balise BODY => JAVASCRIPT') . '</td>
             <td>
                 <a href="admin.php?op=ConfigFiles_load&amp;files=body_onload"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
                 <a href="admin.php?op=delete_configfile&amp;file=body_onload"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
@@ -93,7 +93,7 @@ function ConfigFiles($contents, $files)
         </tr>
         <tr>
             <td><code>new_user.inc</code></td>
-            <td>' . adm_translate('Ce fichier permet d'envoyer un MI personnalisé lorsqu'un nouveau membre s'inscrit') . '</td>
+            <td>' . adm_translate('Ce fichier permet d\'envoyer un MI personnalisé lorsqu\'un nouveau membre s\'inscrit') . '</td>
             <td>
                 <a href="admin.php?op=ConfigFiles_load&amp;files=new_user"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
                 <a href="admin.php?op=delete_configfile&amp;file=new_user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>
@@ -101,7 +101,7 @@ function ConfigFiles($contents, $files)
         </tr>
         <tr>
             <td><code>user.inc</code></td>
-            <td>' . adm_translate('Ce fichier permet l'affichage d'informations complémentaires dans la page de login') . '</td>
+            <td>' . adm_translate('Ce fichier permet l\'affichage d\'informations complémentaires dans la page de login') . '</td>
             <td>
                 <a href="admin.php?op=ConfigFiles_load&amp;files=user"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a>
                 <a href="admin.php?op=delete_configfile&amp;file=user"><i class="fas fa-trash fa-lg text-danger ms-3" title="' . adm_translate('Supprimer') . '" data-bs-toggle="tooltip" ></i></a>

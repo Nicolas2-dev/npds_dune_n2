@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'Ephemerids';
-$f_titre = adm_translate('Ephémérides");
+$f_titre = adm_translate('Ephémérides');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -72,7 +72,7 @@ function Ephemerids()
       </div>
       <div class="form-floating mb-3">
          <textarea name="content" class="form-control" style="height:120px;"></textarea>
-         <label for="content">' . adm_translate('Description de l'éphéméride') . '</label>
+         <label for="content">' . adm_translate('Description de l\'éphéméride') . '</label>
       </div>
       <button class="btn btn-primary" type="submit">' . adm_translate('Envoyer') . '</button>
       <input type="hidden" name="op" value="Ephemeridsadd" />
@@ -120,7 +120,7 @@ function Ephemerids()
 
 function Ephemeridsadd($did, $mid, $yid, $content)
 {
-   global sql_prefix(''), $f_meta_nom;
+   global $f_meta_nom;
    $content = stripslashes(FixQuotes($content) . "");
    sql_query("INSERT into " . sql_prefix('') . "ephem VALUES (NULL, '$did', '$mid', '$yid', '$content')");
    Header("Location: admin.php?op=Ephemerids");
@@ -128,7 +128,7 @@ function Ephemeridsadd($did, $mid, $yid, $content)
 
 function Ephemeridsmaintenance($did, $mid)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    $resultX = sql_query("SELECT eid, did, mid, yid, content FROM " . sql_prefix('') . "ephem WHERE did='$did' AND mid='$mid' ORDER BY yid ASC");
    if (!sql_num_rows($resultX)) header("location: admin.php?op=Ephemerids");
    include("header.php");
@@ -163,14 +163,13 @@ function Ephemeridsmaintenance($did, $mid)
 
 function Ephemeridsdel($eid, $did, $mid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "ephem WHERE eid='$eid'");
    Header("Location: admin.php?op=Ephemeridsmaintenance&did=$did&mid=$mid");
 }
 
 function Ephemeridsedit($eid, $did, $mid)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -186,7 +185,7 @@ function Ephemeridsedit($eid, $did, $mid)
       </div>
       <div class="form-floating mb-3">
          <textarea name="content" id="content" class="form-control" style="height:120px;">' . $content . '</textarea>
-         <label for="content">' . adm_translate('Description de l'éphéméride') . '</label>
+         <label for="content">' . adm_translate('Description de l\'éphéméride') . '</label>
       </div>
       <input type="hidden" name="did" value="' . $did . '" />
       <input type="hidden" name="mid" value="' . $mid . '" />
@@ -199,7 +198,7 @@ function Ephemeridsedit($eid, $did, $mid)
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    $content = stripslashes(FixQuotes($content) . "");
    sql_query("UPDATE " . sql_prefix('') . "ephem SET yid='$yid', content='$content' WHERE eid='$eid'");
    Header("Location: admin.php?op=Ephemeridsmaintenance&did=$did&mid=$mid");
