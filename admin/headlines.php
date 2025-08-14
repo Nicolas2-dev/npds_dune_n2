@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'HeadlinesAdmin';
-$f_titre = adm_translate('Grands Titres de sites de News");
+$f_titre = adm_translate('Grands Titres de sites de News');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/headlines.html";
 
 function HeadlinesAdmin()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -106,7 +106,7 @@ function HeadlinesAdmin()
 
 function HeadlinesEdit($hid)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT sitename, url, headlinesurl, status FROM " . sql_prefix('') . "headlines WHERE hid='$hid'");
@@ -170,21 +170,19 @@ function HeadlinesEdit($hid)
 
 function HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status)
 {
-   global sql_prefix('');
    sql_query("UPDATE " . sql_prefix('') . "headlines SET sitename='$xsitename', url='$url', headlinesurl='$headlinesurl', status='$status' WHERE hid='$hid'");
    Header("Location: admin.php?op=HeadlinesAdmin");
 }
 
 function HeadlinesAdd($xsitename, $url, $headlinesurl, $status)
 {
-   global sql_prefix('');
    sql_query("INSERT INTO " . sql_prefix('') . "headlines VALUES (NULL, '$xsitename', '$url', '$headlinesurl', '$status')");
    Header("Location: admin.php?op=HeadlinesAdmin");
 }
 
 function HeadlinesDel($hid, $ok = 0)
 {
-   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "headlines WHERE hid='$hid'");
       Header("Location: admin.php?op=HeadlinesAdmin");

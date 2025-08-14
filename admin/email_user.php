@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'email_user';
-$f_titre = adm_translate('Diffusion d'un Message Interne");
+$f_titre = adm_translate('Diffusion d\'un Message Interne');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/email_user.html";
 
 function email_user()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
    include('header.php');
    GraphicAdmin($hlpfile);
@@ -41,7 +41,7 @@ function email_user()
                <div id="expediteur" class="col-sm-8 my-2">
                   <div class="form-check form-check-inline">
                      <input class="form-check-input" type="radio" id="adm" name="expediteur" value="1" checked="checked" />
-                     <label class="form-check-label" for="adm">' . adm_translate('qu'administrateur') . '</label>
+                     <label class="form-check-label" for="adm">' . adm_translate('qu\'administrateur') . '</label>
                   </div>
                   <div class="form-check form-check-inline">
                      <input class="form-check-input" type="radio" id="mem" name="expediteur" value="0" />
@@ -59,7 +59,7 @@ function email_user()
                <label class="col-form-label col-sm-4" for="groupe">' . adm_translate('Groupe') . '</label>
                <div class="col-sm-8">
                   <select id="groupe" class="form-select" name="groupe" >
-                     <option value="0" selected="selected">' . adm_translate('Choisir un groupe");
+                     <option value="0" selected="selected">' . adm_translate('Choisir un groupe');
    $resultID = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
    while (list($groupe_id, $groupe_name) = sql_fetch_row($resultID)) {
       echo '
@@ -144,7 +144,7 @@ function email_user()
 
 function send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur)
 {
-   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $f_meta_nom, $f_titre, $adminimg;
 
    if ($subject != '') {
       if ($expediteur == 1)
@@ -225,7 +225,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
    <div class="alert alert-success"><strong>"' . stripslashes($subject) . '"</strong> ' . adm_translate('a été envoyée') . '.</div>';
    else
       echo '
-   <div class="alert alert-danger"><strong>"' . stripslashes($subject) . '"</strong>' . adm_translate('n'a pas été envoyée') . '.</div>';
+   <div class="alert alert-danger"><strong>"' . stripslashes($subject) . '"</strong>' . adm_translate('n\'a pas été envoyée') . '.</div>';
    adminfoot('', '', '', '');
 }
 

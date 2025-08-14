@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'BannersAdmin';
-$f_titre = adm_translate('Administration des bannières");
+$f_titre = adm_translate('Administration des bannières');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -25,7 +25,7 @@ $hlpfile = "manuels/$language/banners.html";
 
 function BannersAdmin()
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -36,7 +36,7 @@ function BannersAdmin()
       <thead>
          <tr>
             <th class="n-t-col-xs-1" data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('ID') . '</th>
-            <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Nom de l'annonceur') . '</th>
+            <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Nom de l\'annonceur') . '</th>
             <th data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('Impressions') . '</th>
             <th data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('Imp. restantes') . '</th>
             <th data-sortable="true" data-halign="center" data-align="right">' . adm_translate('Clics') . '</th>
@@ -50,7 +50,7 @@ function BannersAdmin()
       $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
-      $left = $imptotal == 0 ? adm_translate('Illimité") : $imptotal - $impmade;
+      $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
       //  | <span class="small"><a href="#" class="tooltip">'.basename(aff_langue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
       echo '
@@ -79,7 +79,7 @@ function BannersAdmin()
             <th data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('Imp. restantes') . '</th>
             <th class="n-t-col-xs-2" data-sortable="true" data-halign="center" data-align="right">' . adm_translate('Clics') . '</th>
             <th class="n-t-col-xs-2" data-sortable="true" data-halign="center" data-align="right">% ' . adm_translate('Clics') . '</th>
-            <th data-sortable="true" data-halign="center" data-align="right">' . adm_translate('Nom de l'annonceur') . '</th>
+            <th data-sortable="true" data-halign="center" data-align="right">' . adm_translate('Nom de l\'annonceur') . '</th>
             <th class="n-t-col-xs-1" data-halign="center" data-align="center">' . adm_translate('Fonctions') . '</th>
          </tr>
       </thead>
@@ -89,7 +89,7 @@ function BannersAdmin()
       $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
-      $left = $imptotal == 0 ? adm_translate('Illimité") : $imptotal - $impmade;
+      $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
       echo '
          <tr>
          <td>' . $bid . '</td>
@@ -115,7 +115,7 @@ function BannersAdmin()
             <th data-sortable="true" data-halign="center" data-align="right" > % ' . adm_translate('Clics') . '</th>
             <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Date de début') . '</th>
             <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Date de fin') . '</th>
-            <th data-sortable="true" data-halign="center" data-align="center">' . adm_translate('Nom de l'annonceur') . '</th>
+            <th data-sortable="true" data-halign="center" data-align="center">' . adm_translate('Nom de l\'annonceur') . '</th>
             <th data-halign="center" data-align="center">' . adm_translate('Fonctions') . '</th>
          </tr>
       </thead>
@@ -147,7 +147,7 @@ function BannersAdmin()
       <thead>
          <tr>
             <th class="n-t-col-xs-1" data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('ID') . '</th>
-            <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Nom de l'annonceur') . '</th>
+            <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Nom de l\'annonceur') . '</th>
             <th data-sortable="true" data-halign="center" data-align="right" >' . adm_translate('Bannières actives') . '</th>
             <th data-sortable="true" data-halign="center" data-align="center" >' . adm_translate('Nom du Contact') . '</th>
             <th data-sortable="true" data-halign="center" >' . adm_translate('E-mail') . '</th>
@@ -191,7 +191,7 @@ function BannersAdmin()
       }
       echo '
          </select>
-         <label for="cid">' . adm_translate('Nom de l'annonceur') . '</label>
+         <label for="cid">' . adm_translate('Nom de l\'annonceur') . '</label>
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" type="number" id="imptotal" name="imptotal" min="0" max="99999999999" required="required" />
@@ -200,7 +200,7 @@ function BannersAdmin()
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" type="text" id="imageurl" name="imageurl" maxlength="320" />
-         <label for="imageurl">' . adm_translate('URL de l'image') . '</label>
+         <label for="imageurl">' . adm_translate('URL de l\'image') . '</label>
          <span class="help-block text-end"><span id="countcar_imageurl"></span></span>
       </div>
       <div class="form-floating mb-3">
@@ -210,7 +210,7 @@ function BannersAdmin()
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" type="number" id="userlevel" name="userlevel" min="0" max="9" value="0" required="required" />
-         <label for="userlevel">' . adm_translate('Niveau de l'Utilisateur') . '</label>
+         <label for="userlevel">' . adm_translate('Niveau de l\'Utilisateur') . '</label>
          <span class="help-block">' . adm_translate('0=Tout le monde, 1=Membre seulement, 3=Administrateur seulement, 9=Désactiver') . '.</span>
       </div>
       <input type="hidden" name="op" value="BannersAdd" />
@@ -224,7 +224,7 @@ function BannersAdmin()
    <form id="bannersnewanno" action="admin.php" method="post">
       <div class="form-floating mb-3">
          <input class="form-control" type="text" id="name" name="name" maxlength="60" required="required" />
-         <label for="name">' . adm_translate('Nom de l'annonceur') . '</label>
+         <label for="name">' . adm_translate('Nom de l\'annonceur') . '</label>
          <span class="help-block text-end" id="countcar_name"></span>
       </div>
       <div class="form-floating mb-3">
@@ -276,25 +276,22 @@ function BannersAdmin()
 }
 function BannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
 {
-   global sql_prefix('');
    sql_query("INSERT INTO " . sql_prefix('') . "banner VALUES (NULL, '$cid', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$userlevel', now())");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerAddClient($name, $contact, $email, $login, $passwd, $extrainfo)
 {
-   global sql_prefix('');
    sql_query("INSERT INTO " . sql_prefix('') . "bannerclient VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerFinishDelete($bid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "bannerfinish WHERE bid='$bid'");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerDelete($bid, $ok = 0)
 {
-   global sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "banner WHERE bid='$bid'");
       Header("Location: admin.php?op=BannersAdmin");
@@ -320,14 +317,14 @@ function BannerDelete($bid, $ok = 0)
                <th data-halign="center" data-align="right">' . adm_translate('Imp. restantes') . '</th>
                <th data-halign="center" data-align="right">' . adm_translate('Clics') . '</th>
                <th data-halign="center" data-align="right">% ' . adm_translate('Clics') . '</th>
-               <th data-halign="center" data-align="center">' . adm_translate('Nom de l'annonceur') . '</th>
+               <th data-halign="center" data-align="center">' . adm_translate('Nom de l\'annonceur') . '</th>
             </tr>
          </thead>
          <tbody>';
       $result2 = sql_query("SELECT cid, name FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
       list($cid, $name) = sql_fetch_row($result2);
       $percent = substr(100 * $clicks / $impmade, 0, 5);
-      $left = $imptotal == 0 ? adm_translate('Illimité") : $imptotal - $impmade;
+      $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
       echo '
             <tr>
                <td>' . $bid . '</td>
@@ -349,7 +346,7 @@ function BannerDelete($bid, $ok = 0)
 
 function BannerEdit($bid)
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -380,18 +377,18 @@ function BannerEdit($bid)
    }
    echo '
          </select>
-         <label for="cid">' . adm_translate('Nom de l'annonceur') . '</label>
+         <label for="cid">' . adm_translate('Nom de l\'annonceur') . '</label>
       </div>';
-   $impressions = $imptotal == 0 ? adm_translate('Illimité") : $imptotal;
+   $impressions = $imptotal == 0 ? adm_translate('Illimité') : $imptotal;
    echo '
       <div class="form-floating mb-3">
          <input class="form-control" type="number" id="impadded" name="impadded" min="0" max="99999999999" required="required" value="' . $imptotal . '"/>
-         <label for="impadded">' . adm_translate('Ajouter plus d'affichages') . '</label>
+         <label for="impadded">' . adm_translate('Ajouter plus d\'affichages') . '</label>
          <span class="help-block">' . adm_translate('Réservé : ') . '<strong>' . $impressions . '</strong> ' . adm_translate('Fait : ') . '<strong>' . $impmade . '</strong></span>
       </div>
       <div class="form-floating mb-3">
          <input class="form-control" type="text" id="imageurl" name="imageurl" maxlength="320" value="' . $imageurl . '" />
-         <label for="imageurl">' . adm_translate('URL de l'image') . '</label>
+         <label for="imageurl">' . adm_translate('URL de l\'image') . '</label>
          <span class="help-block text-end"><span id="countcar_imageurl"></span></span>
       </div>
       <div class="form-floating mb-3">
@@ -401,7 +398,7 @@ function BannerEdit($bid)
       </div>
       <div class="form-floating mb-3"> 
          <input class="form-control" type="number" name="userlevel" min="0" max="9" value="' . $userlevel . '" required="required" />
-         <label for="userlevel">' . adm_translate('Niveau de l'Utilisateur') . '</label>
+         <label for="userlevel">' . adm_translate('Niveau de l\'Utilisateur') . '</label>
          <span class="help-block">' . adm_translate('0=Tout le monde, 1=Membre seulement, 3=Administrateur seulement, 9=Désactiver') . '.</span>
       </div>
       <input type="hidden" name="bid" value="' . $bid . '" />
@@ -418,14 +415,13 @@ function BannerEdit($bid)
 }
 function BannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
 {
-   global sql_prefix('');
    $imp = $imptotal + $impadded;
    sql_query("UPDATE " . sql_prefix('') . "banner SET cid='$cid', imptotal='$imp', imageurl='$imageurl', clickurl='$clickurl', userlevel='$userlevel' WHERE bid='$bid'");
    Header("Location: admin.php?op=BannersAdmin");
 }
 function BannerClientDelete($cid, $ok = 0)
 {
-   global sql_prefix(''), $sitename, $f_meta_nom, $f_titre, $adminimg;
+   global $sitename, $f_meta_nom, $f_titre, $adminimg;
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "banner WHERE cid='$cid'");
       sql_query("DELETE FROM " . sql_prefix('') . "bannerclient WHERE cid='$cid'");
@@ -438,13 +434,13 @@ function BannerClientDelete($cid, $ok = 0)
       list($cid, $name) = sql_fetch_row($result);
       echo '
       <hr />
-      <h3 class="text-danger">' . adm_translate('Supprimer l'Annonceur') . '</h3>';
+      <h3 class="text-danger">' . adm_translate('Supprimer l\'Annonceur') . '</h3>';
       echo '
-      <div class="alert alert-secondary my-3">' . adm_translate('Vous êtes sur le point de supprimer cet annonceur : ') . ' <strong>' . $name . '</strong> ' . adm_translate('et toutes ses bannières !!!");
+      <div class="alert alert-secondary my-3">' . adm_translate('Vous êtes sur le point de supprimer cet annonceur : ') . ' <strong>' . $name . '</strong> ' . adm_translate('et toutes ses bannières !!!');
       $result2 = sql_query("SELECT imageurl, clickurl FROM " . sql_prefix('') . "banner WHERE cid='$cid'");
       $numrows = sql_num_rows($result2);
       if ($numrows == 0)
-         echo '<br />' . adm_translate('Cet annonceur n'a pas de bannière active pour le moment.') . '</div>';
+         echo '<br />' . adm_translate('Cet annonceur n\'a pas de bannière active pour le moment.') . '</div>';
       else
          echo '
       <br /><span class="text-danger"><b>' . adm_translate('ATTENTION !!!') . '</b></span><br />' . adm_translate('Cet annonceur a les BANNIERES ACTIVES suivantes dans') . ' ' . $sitename . '</div>';
@@ -460,7 +456,7 @@ function BannerClientDelete($cid, $ok = 0)
 }
 function BannerClientEdit($cid)
 {
-   global sql_prefix(''), $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -468,11 +464,11 @@ function BannerClientEdit($cid)
    list($name, $contact, $email, $login, $passwd, $extrainfo) = sql_fetch_row($result);
    echo '
    <hr />
-   <h3 class="mb-3">' . adm_translate('Editer l'annonceur') . '</h3>
+   <h3 class="mb-3">' . adm_translate('Editer l\'annonceur') . '</h3>
    <form action="admin.php" method="post" id="bannersedanno">
       <div class="form-floating mb-3">
          <input class="form-control" type="text" id="name" name="name" value="' . $name . '" maxlength="60" required="required" />
-         <label for="name">' . adm_translate('Nom de l'annonceur') . '</label>
+         <label for="name">' . adm_translate('Nom de l\'annonceur') . '</label>
          <span class="help-block text-end"><span id="countcar_name"></span></span>
       </div>
       <div class="form-floating mb-3">
@@ -524,7 +520,6 @@ function BannerClientEdit($cid)
 }
 function BannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)
 {
-   global sql_prefix('');
    sql_query("UPDATE " . sql_prefix('') . "bannerclient SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' WHERE cid='$cid'");
    Header("Location: admin.php?op=BannersAdmin");
 }

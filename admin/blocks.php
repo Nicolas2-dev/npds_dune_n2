@@ -107,7 +107,7 @@ function droits_bloc($member, $j, $lb)
 
 function blocks()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg, $aid;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $aid;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -174,7 +174,7 @@ function blocks()
                   $funct .= substr($content, $pos_func);
                $funct .= ')</span>';
             }
-            $funct = adm_translate('Sans nom") . $funct;
+            $funct = adm_translate('Sans nom') . $funct;
          }
          echo $Sactif ? '
          <tr class="table-success">' : '
@@ -319,7 +319,7 @@ function blocks()
                   $funct .= substr($content, $pos_func);
                $funct .= ')</span>';
             }
-            $funct = adm_translate('Sans nom") . $funct;
+            $funct = adm_translate('Sans nom') . $funct;
          }
          echo $Sactif ? '
          <tr class="table-success w-100 mw-100">' : '

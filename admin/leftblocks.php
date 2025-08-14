@@ -24,7 +24,6 @@ $hlpfile = "manuels/$language/leftblocks.html";
 
 function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLaide, $SHTML, $css)
 {
-   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -43,7 +42,6 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
 
 function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
 {
-   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -65,7 +63,6 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
 
 function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
 {
-   global sql_prefix('');
    if (is_array($Mmember) and ($members == 1)) {
       $members = implode(',', $Mmember);
       if ($members == 0) $members = 1;
@@ -90,7 +87,6 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
 
 function deletelblock($id)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "lblocks WHERE id='$id'");
    global $aid;
    Ecr_Log('security', "DeleteLeftBlock($id) by AID : $aid", '');

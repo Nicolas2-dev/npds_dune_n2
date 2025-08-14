@@ -106,7 +106,7 @@ function droits($member)
 
 function DownloadAdmin()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -285,7 +285,7 @@ function DownloadAdmin()
 
 function DownloadEdit($did)
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -400,7 +400,6 @@ function DownloadEdit($did)
 
 function DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $ddate, $dver, $dcategory, $sdcategory, $description, $privs, $Mprivs)
 {
-   global sql_prefix('');
    if ($privs == 1) {
       if ($Mprivs != '')
          $privs = implode(',', $Mprivs);
@@ -418,7 +417,6 @@ function DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $du
 
 function DownloadAdd($dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $dver, $dcategory, $sdcategory, $description, $privs, $Mprivs)
 {
-   global sql_prefix('');
    if ($privs == 1) {
       if ($Mprivs > 1 and $Mprivs <= 127 and $Mprivs != '') $privs = $Mprivs;
    }
@@ -433,7 +431,7 @@ function DownloadAdd($dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $d
 
 function DownloadDel($did, $ok = 0)
 {
-   global sql_prefix(''), $f_meta_nom;
+   global $f_meta_nom;
    if ($ok == 1) {
       sql_query("DELETE FROM " . sql_prefix('') . "downloads WHERE did='$did'");
       Header("Location: admin.php?op=DownloadAdmin");
