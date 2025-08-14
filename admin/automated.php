@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'autoStory';
-$f_titre = adm_translate("Articles programmés");
+$f_titre = adm_translate('Articles programmés');
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -28,7 +28,7 @@ function puthome($ihome)
 {
    echo '
       <div class="mb-3 row">
-         <label class="col-sm-4 col-form-label" for="ihome">' . adm_translate("Publier dans la racine ?") . '</label>';
+         <label class="col-sm-4 col-form-label" for="ihome">' . adm_translate('Publier dans la racine ?') . '</label>';
    $sel1 = 'checked="checked"';
    $sel2 = '';
    if ($ihome == 1) {
@@ -39,20 +39,20 @@ function puthome($ihome)
          <div class="col-sm-8 my-2">
             <div class="form-check form-check-inline">
                <input class="form-check-input" type="radio" id="ihome" name="ihome" value="0" ' . $sel1 . ' />
-               <label class="form-check-label" for="ihome">' . adm_translate("Oui") . '</label>
+               <label class="form-check-label" for="ihome">' . adm_translate('Oui') . '</label>
             </div>
             <div class="form-check form-check-inline">
                <input class="form-check-input" type="radio" id="ihome1" name="ihome" value="1" ' . $sel2 . ' />
-               <label class="form-check-label" for="ihome1">' . adm_translate("Non") . '</label>
+               <label class="form-check-label" for="ihome1">' . adm_translate('Non') . '</label>
             </div>
-            <p class="help-block">' . adm_translate("Ne s'applique que si la catégorie : 'Articles' n'est pas sélectionnée.") . '</p>
+            <p class="help-block">' . adm_translate('Ne s\'applique que si la catégorie : \'Articles\' n\'est pas sélectionnée.') . '</p>
          </div>
       </div>';
    $sel1 = '';
    $sel2 = 'checked="checked"';
    echo '
       <div class="mb-3 row">
-         <label class="col-sm-4 col-form-label" for="members">' . adm_translate("Seulement aux membres") . ', ' . adm_translate("Groupe") . '.</label>
+         <label class="col-sm-4 col-form-label" for="members">' . adm_translate('Seulement aux membres') . ', ' . adm_translate('Groupe') . '.</label>
          <div class="col-sm-8 my-2">
             <div class="form-check form-check-inline">';
    if ($ihome < 0) {
@@ -66,11 +66,11 @@ function puthome($ihome)
    }
    echo '
                <input class="form-check-input" type="radio" id="members" name="members" value="1" ' . $sel1 . ' />
-               <label class="form-check-label" for="members">' . adm_translate("Oui") . '</label>
+               <label class="form-check-label" for="members">' . adm_translate('Oui') . '</label>
             </div>
             <div class="form-check form-check-inline">
                <input class="form-check-input" type="radio" id="members1" name="members" value="0" ' . $sel2 . ' />
-               <label class="form-check-label" for="members1">' . adm_translate("Non") . '</label>
+               <label class="form-check-label" for="members1">' . adm_translate('Non') . '</label>
             </div>
          </div>
       </div>';
@@ -86,7 +86,7 @@ function puthome($ihome)
    }
    echo '
       <div class="mb-3 row" id="choixgroupe">
-         <label class="col-sm-4 col-form-label" for="Mmembers">' . adm_translate("Groupe") . '</label>
+         <label class="col-sm-4 col-form-label" for="Mmembers">' . adm_translate('Groupe') . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="Mmembers" name="Mmembers">' . $tmp_groupe . '</select>
          </div>
@@ -95,17 +95,16 @@ function puthome($ihome)
 
 function SelectCategory($cat)
 {
-   global sql_prefix('');
    $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
    echo ' 
       <div class="mb-3 row">
-         <label class="col-sm-4 col-form-label" for="catid">' . adm_translate("Catégorie") . '</label>
+         <label class="col-sm-4 col-form-label" for="catid">' . adm_translate('Catégorie') . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="catid" name="catid">';
    if ($cat == 0) $sel = 'selected="selected"';
    else $sel = '';
    echo '
-               <option name="catid" value="0" ' . $sel . '>' . adm_translate("Articles") . '</option>';
+               <option name="catid" value="0" ' . $sel . '>' . adm_translate('Articles') . '</option>';
    while (list($catidX, $title) = sql_fetch_row($selcat)) {
       if ($catidX == $cat) $sel = 'selected';
       else $sel = '';
@@ -114,20 +113,20 @@ function SelectCategory($cat)
    }
    echo '
             </select>
-            <p class="help-block text-end"><a href="admin.php?op=AddCategory" class="btn btn-outline-primary btn-sm" title="' . adm_translate("Ajouter") . '" data-bs-toggle="tooltip" ><i class="fa fa-plus-square fa-lg"></i></a>&nbsp;<a class="btn btn-outline-primary btn-sm" href="admin.php?op=EditCategory" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg"></i></a>&nbsp;<a class="btn btn-outline-danger btn-sm" href="admin.php?op=DelCategory" title="' . adm_translate("Effacer") . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg"></i></a></p>
+            <p class="help-block text-end"><a href="admin.php?op=AddCategory" class="btn btn-outline-primary btn-sm" title="' . adm_translate('Ajouter') . '" data-bs-toggle="tooltip" ><i class="fa fa-plus-square fa-lg"></i></a>&nbsp;<a class="btn btn-outline-primary btn-sm" href="admin.php?op=EditCategory" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg"></i></a>&nbsp;<a class="btn btn-outline-danger btn-sm" href="admin.php?op=DelCategory" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg"></i></a></p>
          </div>
       </div>';
 }
 
 function autoStory()
 {
-   global $hlpfile, $aid, sql_prefix(''), $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $aid, $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
    include("header.php");
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3>' . adm_translate("Liste des articles") . '</h3>
+   <h3>' . adm_translate('Liste des articles') . '</h3>
    <table id="tab_adm" data-toggle="table" data-striped="true" data-show-toggle="true" data-mobile-responsive="true" data-icons="icons" data-icons-prefix="fa">
       <thead>
          <tr>
@@ -152,14 +151,14 @@ function autoStory()
                if (trim($topicadminX[$i]) == $aid) $affiche = true;
             }
          }
-         $title = ($title == '') ? adm_translate("Aucun Sujet") : $title;
+         $title = ($title == '') ? adm_translate('Aucun Sujet') : $title;
          $date_au_format = formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM);
          if ($affiche) {
             echo '
          <tr>
             <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . aff_langue($title) . '</a></td>
             <td>' . $date_au_format . '</td>
-            <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '"><i class="fa fa-edit fa-lg me-2" title="' . adm_translate("Afficher l'article") . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=autoDelete&amp;anid=' . $anid . '">&nbsp;<i class="fas fa-trash fa-lg text-danger" title="' . adm_translate("Effacer l'Article") . '" data-bs-toggle="tooltip" ></i></a></td>
+            <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '"><i class="fa fa-edit fa-lg me-2" title="' . adm_translate('Afficher l\'article') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=autoDelete&amp;anid=' . $anid . '">&nbsp;<i class="fas fa-trash fa-lg text-danger" title="' . adm_translate('Effacer l\'Article') . '" data-bs-toggle="tooltip" ></i></a></td>
          </tr>';
          } else {
             echo '
@@ -179,16 +178,15 @@ function autoStory()
 
 function autoDelete($anid)
 {
-   global sql_prefix('');
    sql_query("DELETE FROM " . sql_prefix('') . "autonews WHERE anid='$anid'");
    Header("Location: admin.php?op=autoStory");
 }
 
 function autoEdit($anid)
 {
-   global $aid, $hlpfile, $tipath, $radminsuper, sql_prefix(''), $adminimg;
+   global $aid, $hlpfile, $tipath, $radminsuper, $adminimg;
    $f_meta_nom = 'autoStory';
-   $f_titre = adm_translate("Editer un Article");
+   $f_titre = adm_translate('Editer un Article');
    //==> controle droit
    admindroits($aid, $f_meta_nom);
    //<== controle droit
@@ -226,8 +224,8 @@ function autoEdit($anid)
 
    echo '
    <hr />
-   <h3>' . adm_translate("Editer l'Article Automatique") . '</h3>
-   ' . aff_local_langue('', 'local_user_language', adm_translate("Langue de Prévisualisation")) . '
+   <h3>' . adm_translate('Editer l\'Article Automatique') . '</h3>
+   ' . aff_local_langue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
    <div class="card card-body mb-3">';
    if ($topicimage !== '') {
       if (!$imgtmp = theme_image('topics/' . $topicimage)) $imgtmp = $tipath . $topicimage;
@@ -238,23 +236,23 @@ function autoEdit($anid)
 
    code_aff('<div class="d-flex"><div class="w-100 p-2 ps-0"><h3>' . $titre . '</h3></div><div class="align-self-center p-2 flex-shrink-1 h3">' . $topiclogo . '</div></div>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
 
-   echo '<hr /><b>' . adm_translate("Utilisateur") . '</b>' . $informant . '<br />';
+   echo '<hr /><b>' . adm_translate('Utilisateur') . '</b>' . $informant . '<br />';
    echo '
    </div>
    <form action="admin.php" method="post" name="adminForm" id="autoedit">
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="title">' . adm_translate("Titre") . '</label>
+         <label class="col-form-label col-sm-4" for="title">' . adm_translate('Titre') . '</label>
          <div class="col-sm-8">
             <input class="form-control" type="text" id="title" name="title" size="50" value="' . $titre . '" required="required" />
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-4" for="topic">' . adm_translate("Sujet") . '</label>
+         <label class="col-form-label col-sm-4" for="topic">' . adm_translate('Sujet') . '</label>
          <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
    if ($radminsuper) echo '
-               <option value="">' . adm_translate("Tous les Sujets") . '</option>';
+               <option value="">' . adm_translate('Tous les Sujets') . '</option>';
    while (list($topicid, $topics, $topicadmin) = sql_fetch_row($toplist)) {
       $affiche = false;
       if ($radminsuper) {
@@ -279,14 +277,14 @@ function autoEdit($anid)
    puthome($ihome);
    echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="hometext">' . adm_translate("Texte d'introduction") . '</label>
+         <label class="col-form-label col-sm-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
          <div class="col-sm-12">
             <textarea class="tin form-control" rows="25" id="hometext" name="hometext" >' . $hometext . '</textarea>
          </div>
       </div>
       ' . aff_editeur('hometext', '') . '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="bodytext">' . adm_translate("Texte étendu") . '</label>
+         <label class="col-form-label col-sm-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
          <div class="col-sm-12">
             <textarea class="tin form-control" rows="25" id="bodytext" name="bodytext" >' . $bodytext . '</textarea>
          </div>
@@ -295,7 +293,7 @@ function autoEdit($anid)
    if ($aid != $informant) {
       echo '
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="notes">' . adm_translate("Notes") . '</label>
+         <label class="col-form-label col-sm-12" for="notes">' . adm_translate('Notes') . '</label>
          <div class="col-sm-12">
             <textarea class="tin form-control" rows="7" id="notes" name="notes">' . $notes . '</textarea>
          </div>
@@ -313,7 +311,7 @@ function autoEdit($anid)
             <input type="hidden" name="anid" value="' . $anid . '" />
             <input type="hidden" name="informant" value="' . $informant . '" />
             <input type="hidden" name="op" value="autoSaveEdit" />
-            <input class="btn btn-primary" type="submit" value="' . adm_translate("Sauver les modifications") . '" />
+            <input class="btn btn-primary" type="submit" value="' . adm_translate('Sauver les modifications') . '" />
          </div>
       </div>
    </form>';
@@ -344,7 +342,7 @@ function autoEdit($anid)
 
 function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur)
 {
-   global $aid, $ultramode, sql_prefix('');
+   global $aid, $ultramode;
 
    $title = stripslashes(FixQuotes(str_replace('"', '&quot;', $title)));
    $hometext = stripslashes(FixQuotes($hometext));

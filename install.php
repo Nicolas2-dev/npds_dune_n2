@@ -148,7 +148,7 @@ if ($stage == 4) {
             write_parameters($new_dbhost, $new_dbuname, $new_dbpass, $new_dbname, $new_NPDS_Prefix, $new_mysql_p, $new_adminmail);
             if ($stage4_ok == 1) {
                 $msg = '
-            <div class="alert alert-success">' . ins_translate("Le fichier de configuration a été écrit avec succès !") . '</div>';
+            <div class="alert alert-success">' . ins_translate('Le fichier de configuration a été écrit avec succès !') . '</div>';
                 $Xinst_log = date('d/m/y  H:j:s') . ' : Ecriture paramètres de config pour ' . $cms_name . "\n";
                 $file = fopen('slogs/install.log', 'a');
                 fwrite($file, $Xinst_log);
@@ -159,7 +159,7 @@ if ($stage == 4) {
                 };
             } elseif ($stage4_ok == 0)
                 $msg = '
-            <div class="alert alert-danger">' . ins_translate("Le fichier de configuration n'a pas pu être modifié. Vérifiez les droits d'accès au fichier 'config.php', puis réessayez à nouveau.") . '</div>';
+            <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
             entete();
             menu();
             echo $menu;
@@ -170,7 +170,7 @@ if ($stage == 4) {
                   <form name="submit" method="post" action="install.php">
                      <input type="hidden" name="langue" value="' . $langue . '" />
                      <input type="hidden" name="stage" value="5" />
-                     <button type="submit" class="btn btn-success">' . ins_translate("Etape suivante") . '</button>
+                     <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                   </form>';
             $out .= '
                </div>';
@@ -215,12 +215,12 @@ if ($stage == 5) {
                 };
             } elseif ($stage5_ok == 0)
                 $msg = '
-               <div class="alert alert-danger">' . ins_translate("Le fichier de configuration n'a pas pu être modifié. Vérifiez les droits d'accès au fichier 'config.php', puis réessayez à nouveau.") . '</div>';
+               <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
             entete();
             menu();
             echo $menu;
             $out .= '
-               <h3 class="mb-3">' . ins_translate("Fichier de configuration") . '</h3>' . $msg;
+               <h3 class="mb-3">' . ins_translate('Fichier de configuration') . '</h3>' . $msg;
             if ($stage5_ok == 1 and $qi != 1)
                 $out .= '
                <form name="next" method="post" action="install.php">
@@ -260,7 +260,7 @@ if ($stage == 6) {
 
     switch ($op) {
         case 'write_database':
-            global $stage, $langue, $stage6_ok, sql_prefix(''), $pre_tab, $sql_com, $qi;
+            global $stage, $langue, $stage6_ok, $pre_tab, $sql_com, $qi;
             settype($out, 'string');
             require('install/sql/build_sql-create.php');
             build_sql_create(sql_prefix(''));
@@ -282,7 +282,7 @@ if ($stage == 6) {
             } elseif ($stage6_ok == 0) {
                 $colorst7 = '-danger';
                 $msg = '
-                  <div class="alert alert-danger">' . ins_translate("La base de données n'a pas pu être modifiée. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.") . '</div>';
+                  <div class="alert alert-danger">' . ins_translate('La base de données n\'a pas pu être modifiée. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.') . '</div>';
             }
             entete();
             menu();
@@ -327,7 +327,7 @@ if ($stage == 7) {
     if (!isset($op)) $op = 'etape_7';
     switch ($op) {
         case 'write_users':
-            global $stage, $langue, $stage7_ok, sql_prefix('');
+            global $stage, $langue, $stage7_ok;
             if (($adminpass1 != '') and ($adminpass2 != '')) {
                 settype($out, 'string');
                 include('config.php');
@@ -345,10 +345,10 @@ if ($stage == 7) {
                         };
 
                         $msg = '
-               <div class="alert alert-success">' . ins_translate("Le compte Admin a été modifié avec succès !") . '</div>';
+               <div class="alert alert-success">' . ins_translate('Le compte Admin a été modifié avec succès !') . '</div>';
                     } elseif ($stage7_ok == 0) {
                         $msg = '
-               <div class="alert alert-danger">' . ins_translate("Le compte Admin n'a pas pu être modifié. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.") . '</div>';
+               <div class="alert alert-danger">' . ins_translate('Le compte Admin n\'a pas pu être modifié. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.') . '</div>';
                     }
                     entete();
                     menu();
@@ -360,7 +360,7 @@ if ($stage == 7) {
                 <form name="next" method="post" action="install.php">
                    <input type="hidden" name="langue" value="' . $langue . '" />
                    <input type="hidden" name="stage" value="8" />
-                   <button type="submit" class="btn btn-success">' . ins_translate("Etape suivante") . '</button>
+                   <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                </form>';
                     }
                     $out .= '
@@ -412,20 +412,20 @@ if ($stage == 8) {
                 };
             } elseif ($stage8_ok == 0) {
                 $msg = '
-               <div class="alert alert-danger">' . ins_translate("Le fichier de configuration n'a pas pu être modifié. Vérifiez les droits d'accès au fichier 'config.php', puis réessayez à nouveau.") . '</div>';
+               <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
             }
             entete();
             menu();
             echo $menu;
 
             $out .=  '
-               <h3 class="mb-3">' . ins_translate("Configuration du module UPload") . '</h3>' . $msg;
+               <h3 class="mb-3">' . ins_translate('Configuration du module UPload') . '</h3>' . $msg;
             if ($stage8_ok == 1 and $qi != 1)
                 $out .= '
                <form name="next" method="post" action="install.php">
                   <input type="hidden" name="langue" value="' . $langue . '" />
                   <input type="hidden" name="stage" value="9" />
-                  <button type="submit" class="btn btn-success">' . ins_translate("Etape suivante") . '</button>
+                  <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                </form>';
             $out .= '
          </div>';

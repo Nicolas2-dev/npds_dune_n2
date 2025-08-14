@@ -17,7 +17,6 @@ if (!function_exists("Mysql_Connexion"))
 
 function mapsections()
 {
-    global sql_prefix('');
     $tmp = '';
     $result = sql_query("SELECT rubid, rubname FROM " . sql_prefix('') . "rubriques WHERE enligne='1' AND rubname<>'Divers' AND rubname<>'Presse-papiers' ORDER BY ordre");
     if (sql_num_rows($result) > 0) {
@@ -46,7 +45,7 @@ function mapsections()
         echo '
         <h3>
            <a class="" data-bs-toggle="collapse" href="#collapseSections" aria-expanded="false" aria-controls="collapseSections">
-           <i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate("Rubriques") . '
+           <i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate('Rubriques') . '
            <span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span>
         </h3>
      <div class="collapse" id="collapseSections">
@@ -69,7 +68,7 @@ function mapforum()
     if ($tmp != '')
         echo '
       <h3>
-         <a data-bs-toggle="collapse" href="#collapseForums" aria-expanded="false" aria-controls="collapseForums"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate("Forums") . '
+         <a data-bs-toggle="collapse" href="#collapseForums" aria-expanded="false" aria-controls="collapseForums"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate('Forums') . '
       </h3>
       <div class="collapse" id="collapseForums">
          <div class="card card-body">
@@ -81,7 +80,6 @@ function mapforum()
 
 function maptopics()
 {
-    global sql_prefix('');
     $lis_top = '';
     $result = sql_query("SELECT topicid, topictext FROM " . sql_prefix('') . "topics ORDER BY topicname");
     while (list($topicid, $topictext) = sql_fetch_row($result)) {
@@ -93,7 +91,7 @@ function maptopics()
     if ($lis_top != '')
         echo '
       <h3>
-         <a class="" data-bs-toggle="collapse" href="#collapseTopics" aria-expanded="false" aria-controls="collapseTopics"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate("Sujets") . '
+         <a class="" data-bs-toggle="collapse" href="#collapseTopics" aria-expanded="false" aria-controls="collapseTopics"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate('Sujets') . '
          <span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span>
       </h3>
       <div class="collapse" id="collapseTopics">
@@ -108,7 +106,6 @@ function maptopics()
 
 function mapcategories()
 {
-    global sql_prefix('');
     $lis_cat = '';
     $result = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat ORDER BY title");
     while (list($catid, $title) = sql_fetch_row($result)) {
@@ -119,7 +116,7 @@ function mapcategories()
     if ($lis_cat != '')
         echo '
       <h3>
-         <a class="" data-bs-toggle="collapse" href="#collapseCategories" aria-expanded="false" aria-controls="collapseCategories"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate("Catégories") . '
+         <a class="" data-bs-toggle="collapse" href="#collapseCategories" aria-expanded="false" aria-controls="collapseCategories"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate('Catégories') . '
          <span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span>
       </h3>
       <div class="collapse" id="collapseCategories">
@@ -135,7 +132,6 @@ function mapcategories()
 
 function mapfaq()
 {
-    global sql_prefix('');
     $lis_faq = '';
     $result = sql_query("SELECT id_cat, categories FROM " . sql_prefix('') . "faqcategories ORDER BY id_cat ASC");
     while (list($id_cat, $categories) = sql_fetch_row($result)) {
@@ -145,7 +141,7 @@ function mapfaq()
     if ($lis_faq != '')
         echo '
       <h3>
-         <a class="" data-bs-toggle="collapse" href="#collapseFaq" aria-expanded="false" aria-controls="collapseFaq"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate("FAQ - Questions fréquentes") . '
+         <a class="" data-bs-toggle="collapse" href="#collapseFaq" aria-expanded="false" aria-controls="collapseFaq"><i class="toggle-icon fa fa-caret-down"></i></a>&nbsp;' . translate('FAQ - Questions fréquentes') . '
          <span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span>
       </h3>
       <div class="collapse" id="collapseFaq">
@@ -170,7 +166,7 @@ if ($SuperCache) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
     echo '
-   <h2>' . translate("Plan du site") . '</h2>
+   <h2>' . translate('Plan du site') . '</h2>
    <hr />';
     mapsections();
     mapforum();

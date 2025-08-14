@@ -16,7 +16,7 @@
 if (!function_exists('admindroits'))
    include('die.php');
 $f_meta_nom = 'mblock';
-$f_titre = adm_translate("Bloc Principal");
+$f_titre = adm_translate('Bloc Principal");
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
@@ -31,23 +31,23 @@ function mblock()
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
    <hr />
-   <h3>' . adm_translate("Edition du Bloc Principal") . '</h3>';
+   <h3>' . adm_translate('Edition du Bloc Principal') . '</h3>';
    $result = sql_query("SELECT title, content FROM " . sql_prefix('') . "block WHERE id=1");
    if (sql_num_rows($result) > 0) {
       while (list($title, $content) = sql_fetch_row($result)) {
          echo '
          <form id="fad_mblock" action="admin.php" method="post">
             <div class="form-floating mb-3">
-               <textarea class="form-control" type="text" id="title" name="title" maxlength="1000" placeholder="' . adm_translate("Titre :") . '" style="height:70px;">' . $title . '</textarea>
-               <label for="title">' . adm_translate("Titre") . '</label>
+               <textarea class="form-control" type="text" id="title" name="title" maxlength="1000" placeholder="' . adm_translate('Titre :') . '" style="height:70px;">' . $title . '</textarea>
+               <label for="title">' . adm_translate('Titre') . '</label>
                <span class="help-block text-end"><span id="countcar_title"></span></span>
             </div>
             <div class="form-floating mb-3">
                <textarea class="form-control" id="content" name="content" style="height:170px;">' . $content . '</textarea>
-               <label for="content">' . adm_translate("Contenu") . '</label>
+               <label for="content">' . adm_translate('Contenu') . '</label>
             </div>
             <input type="hidden" name="op" value="changemblock" />
-            <button class="btn btn-primary btn-block" type="submit">' . adm_translate("Valider") . '</button>
+            <button class="btn btn-primary btn-block" type="submit">' . adm_translate('Valider') . '</button>
          </form>
          <script type="text/javascript">
          //<![CDATA[

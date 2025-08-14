@@ -19,7 +19,6 @@ if (!function_exists("Mysql_Connexion"))
 include('functions.php');
 $cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 
-global sql_prefix('');
 include('auth.php');
 
 $rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'", 3600);
@@ -121,7 +120,7 @@ else
 echo '
    <div class="row mt-4">
       <div class="col-md-2 text-sm-center">
-         <strong>' . translate("Auteur") . '</strong><br />';
+         <strong>' . translate('Auteur') . '</strong><br />';
 if ($smilies) {
     if ($myrow['poster_id'] != 0) {
         if ($posterdata['user_avatar'] != '') {
@@ -144,10 +143,10 @@ echo '
       </div>
       <div class="col-md-10">
       <hr />
-         <p class="">' . translate("Forum") . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;' . stripslashes($forum_name) . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;<strong>' . $topic_subject . '</strong></p>
+         <p class="">' . translate('Forum') . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;' . stripslashes($forum_name) . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;<strong>' . $topic_subject . '</strong></p>
          <hr />
          <p class="text-end">
-         <small>' . translate("Posté : ") . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</small> ';
+         <small>' . translate('Posté : ') . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</small> ';
 
 if ($myrow['image'] != '') {
     if ($ibid = theme_image("forum/subject/" . $myrow['image'])) {
@@ -186,7 +185,7 @@ if ($allow_upload_forum and ($att > 0)) {
 
 echo '
             <hr />
-            <p class="text-center">' . translate("Cet article provient de") . ' ' . $sitename . '<br />
+            <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
             <a href="' . $nuke_url . '/viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post_id=' . $post_id . '">' . $nuke_url . '/viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '</a></p>
          </div>
       </div>

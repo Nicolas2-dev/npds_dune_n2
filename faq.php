@@ -20,11 +20,11 @@ if (!function_exists('Mysql_Connexion')) {
 function ShowFaq($id_cat, $categories)
 {
     echo '
-    <h2 class="mb-4">' . translate("FAQ - Questions fréquentes") . '</h2>
+    <h2 class="mb-4">' . translate('FAQ - Questions fréquentes') . '</h2>
     <hr />
-    <h3 class="mb-3">' . translate("Catégorie") . ' <span class="text-body-secondary"># ' . StripSlashes($categories) . '</span></h3>
+    <h3 class="mb-3">' . translate('Catégorie') . ' <span class="text-body-secondary"># ' . StripSlashes($categories) . '</span></h3>
     <p class="lead">
-        <a href="faq.php" title="' . translate("Retour à l'index FAQ") . '" data-bs-toggle="tooltip">Index</a>&nbsp;&raquo;&raquo;&nbsp;' . StripSlashes($categories) . '
+        <a href="faq.php" title="' . translate('Retour à l\'index FAQ') . '" data-bs-toggle="tooltip">Index</a>&nbsp;&raquo;&raquo;&nbsp;' . StripSlashes($categories) . '
     </p>';
 
     $result = sql_query("SELECT id, id_cat, question, answer 
@@ -76,9 +76,9 @@ if (!$myfaq) {
                              FROM " . sql_prefix('faqcategories') . " 
                              ORDER BY id_cat ASC");
 
-        echo '<h2 class="mb-4">' . translate("FAQ - Questions fréquentes") . '</h2>
+        echo '<h2 class="mb-4">' . translate('FAQ - Questions fréquentes') . '</h2>
         <hr />
-        <h3 class="mb-3">' . translate("Catégories") . '<span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span></h3>
+        <h3 class="mb-3">' . translate('Catégories') . '<span class="badge bg-secondary float-end">' . sql_num_rows($result) . '</span></h3>
         <div class="list-group">';
 
         while (list($id_cat, $categories) = sql_fetch_row($result)) {

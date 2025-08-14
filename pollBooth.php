@@ -23,7 +23,6 @@ $al_nom = 'Poll';
 // ----------------------------------------------------------------------------
 function pollCollector($pollID, $voteID, $forwarder)
 {
-    global sql_prefix('');
     if ($voteID) {
         global $setCookies, $al_id, $al_nom, $dns_verif;
         $voteValid = "1";
@@ -63,10 +62,9 @@ function pollCollector($pollID, $voteID, $forwarder)
 
 function pollList()
 {
-    global sql_prefix('');
     $result = sql_query("SELECT pollID, pollTitle, voters FROM " . sql_prefix('') . "poll_desc ORDER BY timeStamp DESC");
     echo '
-   <h2 class="mb-3">' . translate("Sondage") . '</h2>
+   <h2 class="mb-3">' . translate('Sondage') . '</h2>
    <hr />
    <div class="row">';
     while ($object = sql_fetch_assoc($result)) {
@@ -77,7 +75,7 @@ function pollList()
         list($sum) = sql_fetch_row($result2);
         echo '
       <div class="col-sm-8">' . aff_langue($pollTitle) . '</div>
-      <div class="col-sm-4 text-end">(<a href="pollBooth.php?op=results&amp;pollID=' . $id . '">' . translate("Résultats") . '</a> - ' . $sum . ' ' . translate("votes") . ')</div>';
+      <div class="col-sm-4 text-end">(<a href="pollBooth.php?op=results&amp;pollID=' . $id . '">' . translate('Résultats') . '</a> - ' . $sum . ' ' . translate('votes') . ')</div>';
     }
     echo '
    </div>';
@@ -85,7 +83,7 @@ function pollList()
 
 function pollResults(int $pollID): void
 {
-    global sql_prefix(''), $maxOptions, $setCookies;
+    global $maxOptions, $setCookies;
 
     if (!isset($pollID) or empty($pollID)) $pollID = 1;
     $result = sql_query("SELECT pollID, pollTitle, timeStamp FROM " . sql_prefix('') . "poll_desc WHERE pollID='$pollID'");
@@ -96,7 +94,7 @@ function pollResults(int $pollID): void
     $result = sql_query("SELECT SUM(optionCount) AS SUM FROM " . sql_prefix('') . "poll_data WHERE pollID='$pollID'");
     list($sum) = sql_fetch_row($result);
     echo '
-   <h4><span class="badge bg-secondary">' . $sum . '</span>&nbsp;' . translate("Résultats") . '</h4>';
+   <h4><span class="badge bg-secondary">' . $sum . '</span>&nbsp;' . translate('Résultats') . '</h4>';
     for ($i = 1; $i <= $maxOptions; $i++) {
         $result = sql_query("SELECT optionText, optionCount, voteID FROM " . sql_prefix('') . "poll_data WHERE (pollID='$pollID') AND (voteID='$i')");
         $object = sql_fetch_assoc($result);
@@ -126,16 +124,16 @@ function pollResults(int $pollID): void
         }
     }
     echo '<br />';
-    echo '<p class="text-center"><b>' . translate("Nombre total de votes: ") . ' ' . $sum . '</b></p><br />';
+    echo '<p class="text-center"><b>' . translate('Nombre total de votes: ') . ' ' . $sum . '</b></p><br />';
     if ($setCookies > 0) {
-        echo '<p class="text-danger">' . translate("Un seul vote par sondage.") . '</p>';
+        echo '<p class="text-danger">' . translate('Un seul vote par sondage.') . '</p>';
     }
 }
 
 #autodoc pollboxbooth($pollID,$pollClose) : Construit le blocs sondages / code du mainfile avec autre présentation
 function pollboxbooth($pollID, $pollClose)
 {
-    global sql_prefix(''), $maxOptions, $boxTitle, $boxContent, $userimg, $language, $pollcomm;
+    global $maxOptions, $boxTitle, $boxContent, $userimg, $language, $pollcomm;
     if (!isset($pollID)) $pollID = 1;
     if (!isset($url)) $url = sprintf("pollBooth.php?op=results&amp;pollID=%d", $pollID);
     $boxContent = '
@@ -145,7 +143,7 @@ function pollboxbooth($pollID, $pollClose)
     $result = sql_query("SELECT pollTitle, voters FROM " . sql_prefix('') . "poll_desc WHERE pollID='$pollID'");
     list($pollTitle, $voters) = sql_fetch_row($result);
     global $block_title;
-    $boxTitle = $block_title == '' ? translate("Sondage") : $block_title;
+    $boxTitle = $block_title == '' ? translate('Sondage') : $block_title;
     $boxContent .= '
          <h4>' . aff_langue($pollTitle) . '</h4>';
 
@@ -175,26 +173,26 @@ function pollboxbooth($pollID, $pollClose)
     }
     if (!$pollClose) {
         $inputvote = '
-         <button class="btn btn-primary btn-sm my-2" type="submit" value="' . translate("Voter") . '" title="' . translate("Voter") . '" />' . translate("Voter") . '</button>';
+         <button class="btn btn-primary btn-sm my-2" type="submit" value="' . translate('Voter') . '" title="' . translate('Voter') . '" />' . translate('Voter') . '</button>';
     }
     $boxContent .= '
          <div class="mb-3">' . $inputvote . '</div>
    </form>';
-    $boxContent .= '<div><ul><li><a href="pollBooth.php">' . translate("Anciens sondages") . '</a></li>';
+    $boxContent .= '<div><ul><li><a href="pollBooth.php">' . translate('Anciens sondages') . '</a></li>';
     if ($pollcomm) {
         if (file_exists("modules/comments/pollBoth.conf.php"))
             include("modules/comments/pollBoth.conf.php");
         list($numcom) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$pollID' AND post_aff='1'"));
-        $boxContent .= '<li>' . translate("Votes : ") . ' ' . $sum . '</li><li>' . translate("Commentaire(s) : ") . ' ' . $numcom . '</li>';
+        $boxContent .= '<li>' . translate('Votes : ') . ' ' . $sum . '</li><li>' . translate('Commentaire(s) : ') . ' ' . $numcom . '</li>';
     } else
-        $boxContent .= '<li>' . translate("Votes : ") . ' ' . $sum . '</li>';
+        $boxContent .= '<li>' . translate('Votes : ') . ' ' . $sum . '</li>';
     $boxContent .= '</ul></div>';
     echo '<div class="card card-body">' . $boxContent . '</div>';
 }
 
 function PollMain_aff()
 {
-    $boxContent = '<p><strong><a href="pollBooth.php">' . translate("Anciens sondages") . '</a></strong></p>';
+    $boxContent = '<p><strong><a href="pollBooth.php">' . translate('Anciens sondages') . '</a></strong></p>';
     echo $boxContent;
 }
 
@@ -218,10 +216,10 @@ if (isset($forwarder)) {
     if ($pollID == $ibid) {
         if ($header != 1)
             include("header.php");
-        echo '<h2>' . translate("Sondage") . '</h2><hr />';
+        echo '<h2>' . translate('Sondage') . '</h2><hr />';
         pollResults($pollID);
         if (!$pollClose) {
-            $block_title = '<h3>' . translate("Voter") . '</h3>';
+            $block_title = '<h3>' . translate('Voter') . '</h3>';
             echo $block_title;
             pollboxbooth($pollID, $pollClose);
         } else

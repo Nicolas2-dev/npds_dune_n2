@@ -24,8 +24,6 @@ function Form_instant_message($to_userid)
 #autodoc online_members () : liste des membres connect&eacute;s <br /> Retourne un tableau dont la position 0 est le nombre, puis la liste des username | time <br />Appel : $xx=online_members(); puis $xx[x]['username'] $xx[x]['time'] ...
 function online_members()
 {
-    global sql_prefix('');
-
     $result = sql_query("SELECT username, guest, time FROM " . sql_prefix('') . "session WHERE guest='0' ORDER BY username ASC");
     $i = 0;
     $members_online[$i] = sql_num_rows($result);
@@ -42,8 +40,6 @@ function online_members()
 #autodoc writeDB_private_message($to_userid,$image,$subject,$from_userid,$message, $copie) : Insère un MI dans la base et le cas échéant envoi un mail
 function writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie)
 {
-    global sql_prefix('');
-
     $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_userid'");
     list($to_useridx, $user_languex) = sql_fetch_row($res);
 
@@ -67,8 +63,8 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
         }
         global $subscribe, $nuke_url, $sitename;
         if ($subscribe) {
-            $sujet = html_entity_decode(translate_ml($user_languex, "Notification message privé."), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $from_userid . '] / ' . $sitename;
-            $message = $time . '<br />' . translate_ml($user_languex, "Bonjour") . '<br />' . translate_ml($user_languex, "Vous avez un nouveau message.") . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_languex, "Cliquez ici pour lire votre nouveau message.") . '</a><br />';
+            $sujet = html_entity_decode(translate_ml($user_languex, 'Notification message privé.'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $from_userid . '] / ' . $sitename;
+            $message = $time . '<br />' . translate_ml($user_languex, 'Bonjour') . '<br />' . translate_ml($user_languex, 'Vous avez un nouveau message.') . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_languex, 'Cliquez ici pour lire votre nouveau message.') . '</a><br />';
             include("signat.php");
             copy_to_email($to_useridx, $sujet, stripslashes($message));
         }
@@ -79,17 +75,17 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
 function write_short_private_message($to_userid)
 {
     echo '
-   <h2>' . translate("Message à un membre") . '</h2>
+   <h2>' . translate('Message à un membre') . '</h2>
    <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>
    <form id="sh_priv_mess" action="powerpack.php" method="post">
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="subject" >' . translate("Sujet") . '</label>
+         <label class="col-form-label col-sm-12" for="subject" >' . translate('Sujet') . '</label>
          <div class="col-sm-12">
             <input class="form-control" type="text" id="subject" name="subject" maxlength="100" />
          </div>
       </div>
       <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="message" >' . translate("Message") . '</label>
+         <label class="col-form-label col-sm-12" for="message" >' . translate('Message') . '</label>
          <div class="col-sm-12">
             <textarea class="form-control"  id="message" name="message" rows="10"></textarea>
          </div>
@@ -98,7 +94,7 @@ function write_short_private_message($to_userid)
          <div class="col-sm-12">
             <div class="form-check" >
                <input class="form-check-input" type="checkbox" id="copie" name="copie" />
-               <label class="form-check-label" for="copie">' . translate("Conserver une copie") . '</label>
+               <label class="form-check-label" for="copie">' . translate('Conserver une copie') . '</label>
             </div>
          </div>
       </div>
@@ -106,8 +102,8 @@ function write_short_private_message($to_userid)
          <input type="hidden" name="to_userid" value="' . $to_userid . '" />
          <input type="hidden" name="op" value="write_instant_message" />
          <div class="col-sm-12">
-            <input class="btn btn-primary" type="submit" name="submit" value="' . translate("Valider") . '" accesskey="s" />&nbsp;
-            <button class="btn btn-secondary" type="reset">' . translate("Annuler") . '</button>
+            <input class="btn btn-primary" type="submit" name="submit" value="' . translate('Valider') . '" accesskey="s" />&nbsp;
+            <button class="btn btn-secondary" type="reset">' . translate('Annuler') . '</button>
          </div>
       </div>
    </form>';
@@ -116,7 +112,6 @@ function write_short_private_message($to_userid)
 #autodoc if_chat() : Retourne le nombre de connecté au Chat
 function if_chat($pour)
 {
-    global sql_prefix('');
     $auto = autorisation_block("params#" . $pour);
     $dimauto = count($auto);
     $numofchatters = 0;
@@ -131,7 +126,6 @@ function if_chat($pour)
 #autodoc insertChat($username, $message, $dbname, $id) : Insère un record dans la table Chat / on utilise id pour filtrer les messages - id = l'id du groupe
 function insertChat($username, $message, $dbname, $id)
 {
-    global sql_prefix('');
     if ($message != '') {
         $username = removeHack(stripslashes(FixQuotes(strip_tags(trim($username)))));
         $message =  removeHack(stripslashes(FixQuotes(strip_tags(trim($message)))));
@@ -156,13 +150,13 @@ function JavaPopUp($F, $T, $W, $H)
 #autodoc instant_members_message() : Bloc MI (Message Interne) <br />=> syntaxe : function#instant_members_message
 function instant_members_message()
 {
-    global $user, $admin, $long_chain, sql_prefix('');
+    global $user, $admin, $long_chain;
     settype($boxstuff, 'string');
     if (!$long_chain) $long_chain = 13;
 
     global $block_title;
     if ($block_title == '')
-        $block_title = translate("M2M bloc");
+        $block_title = translate('M2M bloc');
 
     if ($user) {
         global $cookie;
@@ -173,9 +167,9 @@ function instant_members_message()
         for ($i = 1; $i <= $ibid[0]; $i++) {
             $timex = time() - $ibid[$i]['time'];
             if ($timex >= 60)
-                $timex = '<i class="fa fa-plug text-body-secondary" title="' . $ibid[$i]['username'] . ' ' . translate("n'est pas connecté") . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;';
+                $timex = '<i class="fa fa-plug text-body-secondary" title="' . $ibid[$i]['username'] . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;';
             else
-                $timex = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $ibid[$i]['username'] . ' ' . translate("est connecté") . '" data-bs-toggle="tooltip" data-bs-placement="right" ></i>&nbsp;';
+                $timex = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $ibid[$i]['username'] . ' ' . translate('est connecté') . '" data-bs-toggle="tooltip" data-bs-placement="right" ></i>&nbsp;';
             global $member_invisible;
             if ($member_invisible) {
                 if ($admin)
@@ -216,7 +210,7 @@ function instant_members_message()
                     $PopUp = JavaPopUp("readpmsg_imm.php?op=new_msg", "IMM", 600, 500);
                     $PopUp = "<a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">";
                     $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
-                    $icon .= '<i class="fa fa-envelope fa-lg faa-shake animated" title="' . translate("Nouveau") . '<span class=\'px-2 rounded-pill bg-danger ms-2\'>' . $new_messages . '</span>" data-bs-html="true" data-bs-toggle="tooltip"></i>';
+                    $icon .= '<i class="fa fa-envelope fa-lg faa-shake animated" title="' . translate('Nouveau') . '<span class=\'px-2 rounded-pill bg-danger ms-2\'>' . $new_messages . '</span>" data-bs-html="true" data-bs-toggle="tooltip"></i>';
                     if ($ibid[$i]['username'] == $cookie[1]) {
                         $icon .= '</a>';
                     }
@@ -226,14 +220,14 @@ function instant_members_message()
                         $PopUp = JavaPopUp("readpmsg_imm.php?op=msg", "IMM", 600, 500);
                         $PopUp = '<a href="javascript:void(0);" onclick="window.open(' . $PopUp . ');">';
                         $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
-                        $icon .= '<i class="far fa-envelope-open fa-lg " title="' . translate("Nouveau") . ' : ' . $new_messages . '" data-bs-toggle="tooltip"></i></a>';
+                        $icon .= '<i class="far fa-envelope-open fa-lg " title="' . translate('Nouveau') . ' : ' . $new_messages . '" data-bs-toggle="tooltip"></i></a>';
                     } else
                         $icon = '&nbsp;';
                 }
                 $N = $ibid[$i]['username'];
                 $M = (strlen($N) > $long_chain) ? substr($N, 0, $long_chain) . '.' : $N;
                 $boxstuff .= '
-                                 <li class="my-2">' . $timex . '&nbsp;<a href="powerpack.php?op=instant_message&amp;to_userid=' . $N . '" title="' . translate("Envoyer un message interne") . '" data-bs-toggle="tooltip" >' . $M . '</a><span class="float-end">' . $icon . '</span></li>';
+                                 <li class="my-2">' . $timex . '&nbsp;<a href="powerpack.php?op=instant_message&amp;to_userid=' . $N . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip" >' . $M . '</a><span class="float-end">' . $icon . '</span></li>';
             } //suppression temporaire ... rank  '.$tmpR.'
         }
         $boxstuff .= '
@@ -258,7 +252,7 @@ function instant_members_message()
 #autodoc makeChatBox($pour) : Bloc ChatBox <br />=> syntaxe : function#makeChatBox <br />params#chat_membres <br /> le parametre doit être en accord avec l'autorisation donc (chat_membres, chat_tous, chat_admin, chat_anonyme)
 function makeChatBox($pour)
 {
-    global $user, $admin, $member_list, $long_chain, sql_prefix('');
+    global $user, $admin, $member_list, $long_chain;
     include_once('functions.php');
     $auto = autorisation_block('params#' . $pour);
     $dimauto = count($auto);
@@ -292,8 +286,8 @@ function makeChatBox($pour)
         $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 2)) . "");
         $numofchatters = sql_num_rows($result);
         $thing .= $numofchatters > 0 ?
-            '<div class="d-flex"><a id="' . $pour . '_encours" class="fs-4" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate("Cliquez ici pour entrer") . ' ' . $pour . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-comments fa-2x nav-link faa-pulse animated faa-slow"></i></a><span class="badge rounded-pill bg-primary ms-auto align-self-center" title="' . translate("personne connectée.") . '" data-bs-toggle="tooltip">' . $numofchatters . '</span></div>' :
-            '<div><a id="' . $pour . '" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate("Cliquez ici pour entrer") . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-comments fa-2x "></i></a></div>';
+            '<div class="d-flex"><a id="' . $pour . '_encours" class="fs-4" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Cliquez ici pour entrer') . ' ' . $pour . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-comments fa-2x nav-link faa-pulse animated faa-slow"></i></a><span class="badge rounded-pill bg-primary ms-auto align-self-center" title="' . translate('personne connectée.') . '" data-bs-toggle="tooltip">' . $numofchatters . '</span></div>' :
+            '<div><a id="' . $pour . '" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Cliquez ici pour entrer') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-comments fa-2x "></i></a></div>';
     } else {
         if (count($auto) > 1) {
             $numofchatters = 0;
@@ -314,7 +308,7 @@ function makeChatBox($pour)
     }
     global $block_title;
     if ($block_title == '')
-        $block_title = translate("Bloc Chat");
+        $block_title = translate('Bloc Chat');
     themesidebox($block_title, $thing);
     sql_free_result($result);
 }
@@ -325,13 +319,13 @@ function RecentForumPosts($title, $maxforums, $maxtopics, $displayposter = false
     $boxstuff = RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $topicmaxchars, $hr, $decoration);
     global $block_title;
     if ($title == '')
-        $title = $block_title == '' ? translate("Forums infos") : $block_title;
+        $title = $block_title == '' ? translate('Forums infos') : $block_title;
     themesidebox($title, $boxstuff);
 }
 
 function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $topicmaxchars, $hr, $decoration)
 {
-    global $parse, $user, sql_prefix('');
+    global $parse, $user;
 
     $topics = 0;
     settype($maxforums, "integer");
@@ -372,7 +366,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
             $res = sql_query("SELECT * FROM " . sql_prefix('') . "forumtopics WHERE forum_id = '$forumid' ORDER BY topic_time DESC");
             $ibidx = sql_num_rows($res);
             $boxstuff .= '
-                                 <li class="list-unstyled border-0 p-2 mt-1"><h6><a href="viewforum.php?forum=' . $forumid . '" title="' . strip_tags($forum_desc) . '" data-bs-toggle="tooltip">' . $forumname . '</a><span class="float-end badge bg-primary" title="' . translate("Sujets") . '" data-bs-toggle="tooltip">' . $ibidx . '</span></h6></li>';
+                                 <li class="list-unstyled border-0 p-2 mt-1"><h6><a href="viewforum.php?forum=' . $forumid . '" title="' . strip_tags($forum_desc) . '" data-bs-toggle="tooltip">' . $forumname . '</a><span class="float-end badge bg-primary" title="' . translate('Sujets') . '" data-bs-toggle="tooltip">' . $ibidx . '</span></h6></li>';
 
             $topics = 0;
             while (($topics < $maxtopics) && ($topicrow = sql_fetch_row($res))) {
@@ -404,7 +398,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
                     $topictitle = stripslashes($topictitle);
                 }
                 $boxstuff .= '
-                                 <li class="list-group-item p-1 border-right-0 border-left-0 list-group-item-action"><div class="n-ellipses"><span class="badge bg-secondary mx-2" title="' . translate("Réponses") . '" data-bs-toggle="tooltip" data-bs-placement="top">' . $replies . '</span><a href="viewtopic.php?topic=' . $topicid . '&amp;forum=' . $forumid . '" >' . $topictitle . '</a></div>';
+                                 <li class="list-group-item p-1 border-right-0 border-left-0 list-group-item-action"><div class="n-ellipses"><span class="badge bg-secondary mx-2" title="' . translate('Réponses') . '" data-bs-toggle="tooltip" data-bs-placement="top">' . $replies . '</span><a href="viewtopic.php?topic=' . $topicid . '&amp;forum=' . $forumid . '" >' . $topictitle . '</a></div>';
                 if ($displayposter) $boxstuff .= $decoration . '<span class="ms-1">' . $postername . '</span>';
                 $boxstuff .= '</li>';
                 $topics++;

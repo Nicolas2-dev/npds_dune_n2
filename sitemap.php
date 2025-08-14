@@ -15,7 +15,7 @@ if (stristr($_SERVER['PHP_SELF'], 'sitemap.php')) die();
 
 function sitemapforum($prio)
 {
-    global sql_prefix(''), $nuke_url;
+    global $nuke_url;
     $tmp = '';
 
     $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums WHERE forum_access='0' ORDER BY forum_id");
@@ -43,7 +43,7 @@ function sitemapforum($prio)
 
 function sitemaparticle($prio)
 {
-    global sql_prefix(''), $nuke_url;
+    global $nuke_url;
     $tmp = '';
 
     $result = sql_query("SELECT sid,time FROM " . sql_prefix('') . "stories WHERE ihome='0' AND archive='0' ORDER BY sid");
@@ -61,7 +61,7 @@ function sitemaparticle($prio)
 
 function sitemaprub($prio)
 {
-    global sql_prefix(''), $nuke_url;
+    global $nuke_url;
     $tmp = '';
 
     // Sommaire des rubriques
@@ -87,7 +87,7 @@ function sitemaprub($prio)
 
 function sitemapdown($prio)
 {
-    global sql_prefix(''), $nuke_url;
+    global $nuke_url;
     $tmp = '';
 
     // Sommaire des downloads

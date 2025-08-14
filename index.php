@@ -58,7 +58,7 @@ function select_start_page($op)
 
 function automatednews()
 {
-    global $gmt, sql_prefix('');
+    global $gmt;
 
     $today = getdate(time() + ((int)$gmt * 3600));
     $day = $today['mday'];
@@ -128,14 +128,14 @@ function aff_edito()
             $ret = themedito($Xcontents);
         else {
             if (function_exists("theme_centre_box")) {
-                $title = (!$notitle) ? translate("EDITO") : '';
+                $title = (!$notitle) ? translate('EDITO') : '';
                 theme_centre_box($title, $Xcontents);
                 $ret = true;
             }
         }
         if ($ret == false) {
             if (!$notitle)
-                echo '<span class="edito">' . translate("EDITO") . '</span>';
+                echo '<span class="edito">' . translate('EDITO') . '</span>';
             echo $Xcontents;
             echo '<br />';
         }
@@ -180,8 +180,8 @@ function aff_news($op, $catid, $marqeur)
         themeindex($aid, $informant, $datetime, $title, $counter, $topic, $hometext, $notes, $morelink, $topicname, $topicimage, $topictext, $s_id);
     }
 
-    $transl1 = translate("Page suivante");
-    $transl2 = translate("Home");
+    $transl1 = translate('Page suivante');
+    $transl2 = translate('Home');
     global $storyhome, $cookie;
     $storynum = isset($cookie[3]) ? $cookie[3] : $storyhome;
     if ($op == 'categories') {

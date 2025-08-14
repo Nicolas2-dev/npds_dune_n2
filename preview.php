@@ -89,10 +89,10 @@ switch ($acc) {
         if (($forum_type != 6) and ($forum_type != 5)) {
             $messageP = af_cod($messageP);
             $messageP = str_replace("\n", '<br />', removeHack($messageP));
-            $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate("Message édité par") . ' : ' . $userdata['uname'] . '</div';
+            $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
             if ($allow_bbcode) $messageP = aff_video_yt($messageP);
         } else
-            $messageP .= "\n\n" . translate("Message édité par") . ' : ' . $userdata['uname'];
+            $messageP .= "\n\n" . translate('Message édité par') . ' : ' . $userdata['uname'];
         $messageP = addslashes($messageP);
         break;
 }
@@ -100,7 +100,7 @@ switch ($acc) {
 $theposterdata = get_userdata_from_id($userdatat[0]);
 echo '
       <div class="mb-3">
-         <h4 class="mb-3">' . translate("Prévisualiser") . '</h4>
+         <h4 class="mb-3">' . translate('Prévisualiser') . '</h4>
          <div class="row mb-3">
             <div class="col-12">
                <div class="card">
@@ -149,7 +149,7 @@ if (isset($image_subject)) {
 echo '</span>
                   </div>
                   <div class="card-body">
-                     <span class="text-body-secondary float-end small" style="margin-top:-1rem;">' . translate("Posté : ") . $time . '</span>
+                     <span class="text-body-secondary float-end small" style="margin-top:-1rem;">' . translate('Posté : ') . $time . '</span>
                      <div id="post_preview" class="card-text pt-3">';
 
 $messageP = stripslashes($messageP);

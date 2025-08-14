@@ -17,7 +17,7 @@ if (!function_exists("Mysql_Connexion"))
 
 function PrintPage($oper, $DB, $nl, $sid)
 {
-    global $user, $cookie, $theme, $Default_Theme, $language, $site_logo, $sitename, $datetime, $nuke_url, $Titlesitename, sql_prefix('');
+    global $user, $cookie, $theme, $Default_Theme, $language, $site_logo, $sitename, $datetime, $nuke_url, $Titlesitename;
 
     $aff = true;
     if ($oper == 'news') {
@@ -60,12 +60,12 @@ function PrintPage($oper, $DB, $nl, $sid)
             } else
                 $aff = false;
         } else {
-            $remp = '<div class="alert alert-danger">' . translate("Merci d'entrer l'information en fonction des spécifications") . '</div>';
+            $remp = '<div class="alert alert-danger">' . translate('Merci d\'entrer l\'information en fonction des spécifications') . '</div>';
             $aff = false;
         }
     }
     if ($aff == true) {
-        $Titlesitename = 'NPDS - ' . translate("Page spéciale pour impression") . ' / ' . $title;
+        $Titlesitename = 'NPDS - ' . translate('Page spéciale pour impression') . ' / ' . $title;
         include("meta/meta.php");
         if (isset($user)) {
             if ($cookie[9] == '') $cookie[9] = $Default_Theme;
@@ -96,7 +96,7 @@ function PrintPage($oper, $DB, $nl, $sid)
             echo '
              <span class="float-end" style="font-size: .8rem;"> ' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br />
              <hr />
-             <h2 class="mb-3">' . translate("Sujet : ") . ' ' . aff_langue($topictext) . '</h2>
+             <h2 class="mb-3">' . translate('Sujet : ') . ' ' . aff_langue($topictext) . '</h2>
          </div>
          <div>' . $hometext . '<br /><br />';
             if ($bodytext != '') {
@@ -108,15 +108,15 @@ function PrintPage($oper, $DB, $nl, $sid)
             if ($oper == 'news') {
                 echo '
              <hr />
-             <p class="text-center">' . translate("Cet article provient de") . ' ' . $sitename . '<br />
-             ' . translate("L'url pour cet article est : ") . '
+             <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
+             ' . translate('L\'url pour cet article est : ') . '
              <a href="' . $nuke_url . '/article.php?sid=' . $sid . '">' . $nuke_url . '/article.php?sid=' . $sid . '</a>
              </p>';
             } else {
                 echo '
              <hr />
-             <p class="text-center">' . translate("Cet article provient de") . ' ' . $sitename . '<br />
-             ' . translate("L'url pour cet article est : ") . '
+             <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
+             ' . translate('L\'url pour cet article est : ') . '
              <a href="' . $nuke_url . '/article.php?sid=' . $sid . '&amp;archive=1">' . $nuke_url . '/article.php?sid=' . $sid . '&amp;archive=1</a>
              </p>';
             }
@@ -124,12 +124,12 @@ function PrintPage($oper, $DB, $nl, $sid)
         if ($oper == 'links') {
             echo '<span class="float-end" style="font-size: .8rem;">' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br /><hr />';
             if ($url != '') {
-                echo '<h2 class="mb-3">' . translate("Liens") . ' : ' . $url . '</h2>';
+                echo '<h2 class="mb-3">' . translate('Liens') . ' : ' . $url . '</h2>';
             }
             echo '
           <div>' . aff_langue($description) . '</div>
           <hr />
-          <p class="text-center">' . translate("Cet article provient de") . ' ' . $sitename . '<br />
+          <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
           <a href="' . $nuke_url . '">' . $nuke_url . '</a></p>';
         }
         if ($oper == 'static') {
@@ -138,7 +138,7 @@ function PrintPage($oper, $DB, $nl, $sid)
              ' . $remp . '
           </div>
           <hr />
-          <p class="text-center">' . translate("Cet article provient de") . ' ' . $sitename . '<br />
+          <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
           <a href="' . $nuke_url . '/static.php?op=' . $sid . '&npds=1">' . $nuke_url . '/static.php?op=' . $sid . '&npds=1</a></p>';
         }
         echo '

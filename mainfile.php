@@ -65,7 +65,7 @@ function file_contents_exist($url, $response_code = 200)
 #autodoc session_manage() : Mise à jour la table session
 function session_manage()
 {
-    global sql_prefix(''), $cookie, $REQUEST_URI, $nuke_url;
+    global $cookie, $REQUEST_URI, $nuke_url;
     $guest = 0;
     $ip = getip();
     $username = isset($cookie[1]) ? $cookie[1] : $ip;
@@ -446,7 +446,6 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 #autodoc copy_to_email($to_userid,$sujet,$message) : Pour copier un subject+message dans un email ($to_userid)
 function copy_to_email($to_userid, $sujet, $message)
 {
-    global sql_prefix('');
     $result = sql_query("SELECT email,send_email FROM " . sql_prefix('') . "users WHERE uid='$to_userid'");
     list($mail, $avertir_mail) = sql_fetch_row($result);
     if (($mail) and ($avertir_mail == 1)) {
@@ -491,12 +490,12 @@ function SC_infos()
     $infos = '';
     if ($SuperCache) {
         /*
-      $infos = $npds_sc ? '<span class="small">'.translate(".:Page >> Super-Cache:.").'</span>':'';
+      $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
       */
         if ($npds_sc) {
-            $infos = '<span class="small">' . translate(".:Page >> Super-Cache:.") . '</span>';
+            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
         } else {
-            $infos = '<span class="small">' . translate(".:Page >> Super-Cache:.") . '</span>';
+            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
         }
     }
     return $infos;
@@ -505,7 +504,6 @@ function SC_infos()
 #autodoc req_stat() : Retourne un tableau contenant les nombres pour les statistiques du site (stats.php)
 function req_stat()
 {
-    global sql_prefix('');
     // Les membres
     $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users");
     $xtab[0] = $result ? (sql_num_rows($result) - 1) : '0';
@@ -552,15 +550,15 @@ function Mess_Check_Mail_interface($username, $class)
     if ($class != "") $class = "class=\"$class\"";
     if ($username == $anonymous) {
         if ($imgtmp) {
-            echo "<img alt=\"\" src=\"$imgtmp\" align=\"center\" />$username - <a href=\"user.php\" $class>" . translate("Votre compte") . "</a>";
+            echo "<img alt=\"\" src=\"$imgtmp\" align=\"center\" />$username - <a href=\"user.php\" $class>" . translate('Votre compte') . "</a>";
         } else {
-            echo "[$username - <a href=\"user.php\" $class>" . translate("Votre compte") . "</a>]";
+            echo "[$username - <a href=\"user.php\" $class>" . translate('Votre compte') . "</a>]";
         }
     } else {
         if ($imgtmp) {
-            echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate("Votre compte") . "</a>&nbsp;" . Mess_Check_Mail_Sub($username, $class);
+            echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . Mess_Check_Mail_Sub($username, $class);
         } else {
-            echo "[<a href=\"user.php\" $class>" . translate("Votre compte") . "</a>&nbsp;&middot;&nbsp;" . Mess_Check_Mail_Sub($username, $class) . "]";
+            echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . Mess_Check_Mail_Sub($username, $class) . "]";
         }
     }
 }
@@ -568,7 +566,7 @@ function Mess_Check_Mail_interface($username, $class)
 #autodoc Mess_Check_Mail_Sub($username, $class) : Affiche le groupe check_mail (theme principal de NPDS) / SOUS-Fonction
 function Mess_Check_Mail_Sub($username, $class)
 {
-    global sql_prefix(''), $user;
+    global $user;
     if ($username) {
         $userdata = explode(':', base64_decode($user));
         $total_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userdata[0]' AND type_msg='0'"));
@@ -611,11 +609,11 @@ function Who_Online_Sub()
 {
     global $user, $cookie;
     list($member_online_num, $guest_online_num) = site_load();
-    $content1 = "$guest_online_num " . translate("visiteur(s) et") . " $member_online_num " . translate("membre(s) en ligne.");
+    $content1 = "$guest_online_num " . translate('visiteur(s) et') . " $member_online_num " . translate('membre(s) en ligne.');
     if ($user) {
-        $content2 = translate("Vous êtes connecté en tant que") . " <b>" . $cookie[1] . "</b>";
+        $content2 = translate('Vous êtes connecté en tant que') . " <b>" . $cookie[1] . "</b>";
     } else {
-        $content2 = translate("Devenez membre privilégié en cliquant") . " <a href=\"user.php?op=only_newuser\">" . translate("ici") . "</a>";
+        $content2 = translate('Devenez membre privilégié en cliquant') . " <a href=\"user.php?op=only_newuser\">" . translate('ici') . "</a>";
     }
     return array($content1, $content2);
 }
@@ -623,7 +621,7 @@ function Who_Online_Sub()
 #autodoc Site_Load() : Maintient les informations de NB connexion (membre, anonyme) - globalise la variable $who_online_num et maintient le fichier cache/site_load.log &agrave; jour<br />Indispensable pour la gestion de la 'clean_limit' de SuperCache
 function Site_Load()
 {
-    global sql_prefix(''), $SuperCache, $who_online_num;
+    global $SuperCache, $who_online_num;
     $guest_online_num = 0;
     $member_online_num = 0;
     $result = sql_query("SELECT COUNT(username) AS TheCount, guest FROM " . sql_prefix('') . "session GROUP BY guest");
@@ -645,7 +643,7 @@ function Site_Load()
 #autodoc AutoReg() : Si AutoRegUser=true et que le user ne dispose pas du droit de connexion : RAZ du cookie NPDS<br />retourne False ou True
 function AutoReg()
 {
-    global sql_prefix(''), $AutoRegUser, $user;
+    global $AutoRegUser, $user;
     if (!$AutoRegUser) {
         if (isset($user)) {
             $cookie = explode(':', base64_decode($user));
@@ -681,7 +679,7 @@ function secur_static($sec_type)
 #autodoc ultramode() : Génération des fichiers ultramode.txt et net2zone.txt dans /cache
 function ultramode()
 {
-    global sql_prefix(''), $nuke_url, $storyhome;
+    global $nuke_url, $storyhome;
     $ultra = "cache/ultramode.txt";
     $netTOzone = "cache/net2zone.txt";
     $file = fopen("$ultra", "w");
@@ -706,7 +704,7 @@ function ultramode()
 #autodoc cookiedecode($user) : Décode le cookie membre et vérifie certaines choses (password)
 function cookiedecode($user)
 {
-    global sql_prefix(''), $language;
+    global $language;
     $stop = false;
 
     if (array_key_exists("user", $_GET)) {
@@ -714,12 +712,8 @@ function cookiedecode($user)
             $stop = true;
             $user = "BAD-GET";
         }
-    } else if (isset($HTTP_GET_VARS)) {
-        if (array_key_exists("user", $HTTP_GET_VARS) and ($HTTP_GET_VAR['user'] != '')) {
-            $stop = true;
-            $user = "BAD-GET";
-        }
     }
+    
     if ($user) {
         $cookie = explode(':', base64_decode($user));
         settype($cookie[0], "integer");
@@ -753,7 +747,6 @@ function cookiedecode($user)
 #autodoc getusrinfo($user) : Renvoi le contenu de la table users pour le user uname
 function getusrinfo($user)
 {
-    global sql_prefix('');
     $cookie = explode(':', base64_decode($user));
     $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
     list($pass) = sql_fetch_row($result);
@@ -763,7 +756,7 @@ function getusrinfo($user)
         if (sql_num_rows($result) == 1) {
             $userinfo = sql_fetch_assoc($result);
         } else {
-            echo '<strong>' . translate("Un problème est survenu") . '.</strong>';
+            echo '<strong>' . translate('Un problème est survenu') . '.</strong>';
         }
     }
     return $userinfo;
@@ -803,7 +796,6 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
 function formatAidHeader($aid)
 {
-    global sql_prefix('');
     $holder = sql_query("SELECT url, email FROM " . sql_prefix('') . "authors WHERE aid='$aid'");
     if ($holder) {
         list($url, $email) = sql_fetch_row($holder);
@@ -846,7 +838,6 @@ function ctrl_aff($ihome, $catid = 0)
 #autodoc news_aff($type_req, $sel, $storynum, $oldnum) : Une des fonctions fondamentales de NPDS / assure la gestion de la selection des News en fonctions des critères de publication
 function news_aff($type_req, $sel, $storynum, $oldnum)
 { // pas stabilisé ...!
-    global sql_prefix('');
     // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
     // En fait on * le Nb de News par le Nb de groupes
     $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total FROM " . sql_prefix('') . "groupes", 86400);
@@ -924,7 +915,7 @@ function themepreview($title, $hometext, $bodytext = '', $notes = '')
 #autodoc prepa_aff_news($op,$catid) : Prépare, serialize et stock dans un tableau les news répondant aux critères<br />$op="" ET $catid="" : les news // $op="categories" ET $catid="catid" : les news de la catégorie catid //  $op="article" ET $catid=ID_X : l'article d'ID X // Les news des sujets : $op="topics" ET $catid="topic"
 function prepa_aff_news($op, $catid, $marqeur)
 {
-    global sql_prefix(''), $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
+    global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
     if (isset($cookie[3]))
         $storynum = $cookie[3];
     else
@@ -960,8 +951,8 @@ function prepa_aff_news($op, $catid, $marqeur)
     while (($story_limit < $storynum) and ($story_limit < sizeof($xtab))) {
         list($s_sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[$story_limit];
         $story_limit++;
-        $printP = '<a href="print.php?sid=' . $s_sid . '" class="me-3" title="' . translate("Page spéciale pour impression") . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-print"></i></a>&nbsp;';
-        $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $s_sid . '" class="me-3" title="' . translate("Envoyer cet article à un ami") . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-at"></i></a>';
+        $printP = '<a href="print.php?sid=' . $s_sid . '" class="me-3" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-print"></i></a>&nbsp;';
+        $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $s_sid . '" class="me-3" title="' . translate('Envoyer cet article à un ami') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-at"></i></a>';
         getTopics($s_sid);
         $title = aff_langue(stripslashes($title));
         $hometext = aff_langue(stripslashes($hometext));
@@ -970,23 +961,23 @@ function prepa_aff_news($op, $catid, $marqeur)
         if ($bodycount > 0) {
             $bodycount = strlen(strip_tags(aff_langue($bodytext)));
             if ($bodycount > 0)
-                $morelink[0] = wrh($bodycount) . ' ' . translate("caractères de plus");
+                $morelink[0] = wrh($bodycount) . ' ' . translate('caractères de plus');
             else
                 $morelink[0] = ' ';
-            $morelink[1] = ' <a href="article.php?sid=' . $s_sid . '" >' . translate("Lire la suite...") . '</a>';
+            $morelink[1] = ' <a href="article.php?sid=' . $s_sid . '" >' . translate('Lire la suite...') . '</a>';
         } else {
             $morelink[0] = '';
             $morelink[1] = '';
         }
         if ($comments == 0) {
             $morelink[2] = 0;
-            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3"><i class="far fa-comment fa-lg" title="' . translate("Commentaires ?") . '" data-bs-toggle="tooltip"></i></a>';
+            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3"><i class="far fa-comment fa-lg" title="' . translate('Commentaires ?') . '" data-bs-toggle="tooltip"></i></a>';
         } elseif ($comments == 1) {
             $morelink[2] = $comments;
-            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3"><i class="far fa-comment fa-lg" title="' . translate("Commentaire") . '" data-bs-toggle="tooltip"></i></a>';
+            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3"><i class="far fa-comment fa-lg" title="' . translate('Commentaire') . '" data-bs-toggle="tooltip"></i></a>';
         } else {
             $morelink[2] = $comments;
-            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3" ><i class="far fa-comment fa-lg" title="' . translate("Commentaires") . '" data-bs-toggle="tooltip"></i></a>';
+            $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3" ><i class="far fa-comment fa-lg" title="' . translate('Commentaires') . '" data-bs-toggle="tooltip"></i></a>';
         }
         $morelink[4] = $printP;
         $morelink[5] = $sendF;
@@ -1020,7 +1011,6 @@ function prepa_aff_news($op, $catid, $marqeur)
 #autodoc valid_group($xuser) : Retourne un tableau contenant la liste des groupes d'appartenance d'un membre
 function valid_group($xuser)
 {
-    global sql_prefix('');
     if ($xuser) {
         $userdata = explode(':', base64_decode($xuser));
         $user_temp = Q_select("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='$userdata[0]'", 3600);
@@ -1034,9 +1024,8 @@ function valid_group($xuser)
 #autodoc liste_group() : Retourne une liste des groupes disponibles dans un tableau
 function liste_group()
 {
-    global sql_prefix('');
     $r = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
-    $tmp_groupe[0] = '-> ' . adm_translate("Supprimer") . '/' . adm_translate("Choisir un groupe") . ' <-';
+    $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
     while ($mX = sql_fetch_assoc($r)) {
         $tmp_groupe[$mX['groupe_id']] = aff_langue($mX['groupe_name']);
     }
@@ -1326,7 +1315,7 @@ function oneblock($Xid, $Xblock)
 #autodoc Pre_fab_block($Xid, $Xblock, $moreclass) : Assure la fabrication d'un ou de tous les blocs Gauche et Droite
 function Pre_fab_block($Xid, $Xblock, $moreclass)
 {
-    global sql_prefix(''), $htvar; // modif Jireck
+    global $htvar; // modif Jireck
     if ($Xid)
         $result = $Xblock == 'RB' ?
             sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "rblocks WHERE id='$Xid'") :
@@ -1354,7 +1343,6 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
 #autodoc niv_block($Xcontent) : Retourne le niveau d'autorisation d'un block (et donc de certaines fonctions) / le paramètre (une expression régulière) est le contenu du bloc (function#....)
 function niv_block($Xcontent)
 {
-    global sql_prefix('');
     $result = sql_query("SELECT member, actif FROM " . sql_prefix('') . "rblocks WHERE content REGEXP '$Xcontent'");
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
@@ -1413,7 +1401,6 @@ function autorisation($auto)
 #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
 function getTopics($s_sid)
 {
-    global sql_prefix('');
     global $topicname, $topicimage, $topictext;
     $sid = $s_sid;
     $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
@@ -1435,7 +1422,7 @@ function getTopics($s_sid)
 function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 {
     // $Xtype : topic, forum ... / $Xtopic clause WHERE / $Xforum id of forum / $Xresume Text passed / $Xsauf not this userid
-    global sql_prefix(''), $sitename, $nuke_url;
+    global $sitename, $nuke_url;
     if ($Xtype == 'topic') {
         $result = sql_query("SELECT topictext FROM " . sql_prefix('') . "topics WHERE topicid='$Xtopic'");
         list($abo) = sql_fetch_row($result);
@@ -1485,7 +1472,6 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 #autodoc subscribe_query($Xuser,$Xtype, $Xclef) : Retourne true si le membre est abonné; à un topic ou forum
 function subscribe_query($Xuser, $Xtype, $Xclef)
 {
-    global sql_prefix('');
     if ($Xtype == 'topic') {
         $result = sql_query("SELECT topicid FROM " . sql_prefix('') . "subscribe WHERE uid='$Xuser' AND topicid='$Xclef'");
     }
@@ -1503,7 +1489,7 @@ function subscribe_query($Xuser, $Xtype, $Xclef)
 #autodoc pollSecur($pollID) : Assure la gestion des sondages membres
 function pollSecur($pollID)
 {
-    global sql_prefix(''), $user;
+    global $user;
     $pollIDX = false;
     $pollClose = '';
     $result = sql_query("SELECT pollType FROM " . sql_prefix('') . "poll_data WHERE pollID='$pollID'");
@@ -1568,7 +1554,7 @@ function fab_edito()
     return array($affich, $Xcontents);
 }
 
-#autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate("xxxx")
+#autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate('xxxx")
 function aff_langue($ibid)
 {
     global $language, $tab_langue;
@@ -1639,18 +1625,18 @@ function aff_localzone_langue($ibid)
     $flag = array('french' => '🇫🇷', 'spanish' => '🇪🇸', 'german' => '🇩🇪', 'english' => '🇺🇸', 'chinese' => '🇨🇳');
     $M_langue = '
                                  <div class="mb-3">
-                                    <select name="' . $ibid . '" class="form-select" onchange="this.form.submit()" aria-label="' . translate("Choisir une langue") . '">
-                                       <option value="">' . translate("Choisir une langue") . '</option>';
+                                    <select name="' . $ibid . '" class="form-select" onchange="this.form.submit()" aria-label="' . translate('Choisir une langue') . '">
+                                       <option value="">' . translate('Choisir une langue') . '</option>';
     foreach ($tab_langue as $bidon => $langue) {
         $M_langue .= '
-                                       <option value="' . $langue . '">' . $flag[$langue] . ' ' . translate("$langue") . '</option>';
+                                       <option value="' . $langue . '">' . $flag[$langue] . ' ' . translate('$langue') . '</option>';
     }
     $M_langue .= '
-                                       <option value="">- ' . translate("Aucune langue") . '</option>
+                                       <option value="">- ' . translate('Aucune langue') . '</option>
                                     </select>
                                  </div>
                                  <noscript>
-                                    <input class="btn btn-primary" type="submit" name="local_sub" value="' . translate("Valider") . '" />
+                                    <input class="btn btn-primary" type="submit" name="local_sub" value="' . translate('Valider') . '" />
                                  </noscript>';
     return ($M_langue);
 }
@@ -1988,7 +1974,7 @@ function Q_spambot()
         $tmp = '
       <div class="mb-3 row">
          <div class="col-sm-9 text-end">
-            <label class="form-label text-danger" for="asb_reponse">' . translate("Anti-Spam / Merci de répondre à la question suivante : ") . '&nbsp;' . $aff . '</label>
+            <label class="form-label text-danger" for="asb_reponse">' . translate('Anti-Spam / Merci de répondre à la question suivante : ') . '&nbsp;' . $aff . '</label>
          </div>
          <div class="col-sm-3 text-end">
             <input class="form-control" type="text" id="asb_reponse" name="asb_reponse" maxlength="2" onclick="this.value" />
@@ -2197,7 +2183,7 @@ function changetoampadm($r)
 #autodoc topdownload_data($form, $ordre) : Bloc topdownload et lastdownload / SOUS-Fonction
 function topdownload_data($form, $ordre)
 {
-    global sql_prefix(''), $top, $long_chain;
+    global $top, $long_chain;
     if (!$long_chain) $long_chain = 13;
     settype($top, 'integer');
     $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms FROM " . sql_prefix('') . "downloads ORDER BY $ordre DESC LIMIT 0,$top");
@@ -2218,7 +2204,7 @@ function topdownload_data($form, $ordre)
                                  <li class="list-group-item list-group-item-action d-flex justify-content-start p-2 flex-wrap">' . $lugar . ' <a class="ms-2" href="download.php?op=geninfo&amp;did=' . $did . '&amp;out_template=1" title="' . $ori_dfilename . ' ' . $dd . '" data-bs-toggle="tooltip" >' . $dfilename . '</a><span class="badge bg-secondary ms-auto align-self-center">' . $dd . '</span></li>';
             } else {
                 if ($okfile) $ibid .= '
-                                 <li class="ms-4 my-1"><a href="download.php?op=mydown&amp;did=' . $did . '" >' . $dfilename . '</a> (' . translate("Catégorie") . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;<span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span></li>';
+                                 <li class="ms-4 my-1"><a href="download.php?op=mydown&amp;did=' . $did . '" >' . $dfilename . '</a> (' . translate('Catégorie') . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;<span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span></li>';
             }
             if ($okfile)
                 $lugar++;
@@ -2231,7 +2217,6 @@ function topdownload_data($form, $ordre)
 #autodoc PollNewest() : Bloc Sondage <br />=> syntaxe : <br />function#pollnewest<br />params#ID_du_sondage OU vide (dernier sondage créé)
 function PollNewest(?int $id = null): void
 {
-    global sql_prefix('');
     // snipe : multi-poll evolution
     if ($id != 0) {
         settype($id, "integer");
@@ -2246,7 +2231,7 @@ function PollNewest(?int $id = null): void
 
 function fab_espace_groupe($gr, $t_gr, $i_gr)
 {
-    global sql_prefix(''), $short_user, $dblink;
+    global $short_user, $dblink;
     $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('') . "groupes WHERE groupe_id='$gr'"));
     $content = '
                               <script type="text/javascript">
@@ -2272,7 +2257,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
                                  <p>' . aff_langue($rsql['groupe_description']) . '</p>';
     if (file_exists('users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1))
         $content .= '
-                                 <img src="users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate("Groupe") . '" loading="lazy" />';
+                                 <img src="users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
     //=> liste des membres
     $mysql_version = mysqli_get_server_info($dblink);
     $query = "SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE ";
@@ -2287,7 +2272,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     $count = 0;
     $li_mb .= '
                                  <div class="my-4">
-                                    <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate("Déplier la liste") . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate("Liste des membres du groupe.") . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate("Membres") . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
+                                    <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
     $tab = online_members();
     $li_mb .= '
                                     <ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
@@ -2329,20 +2314,20 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         settype($ch_lat, 'string');
         $useroutils = '';
         if ($uid != 1 and $uid != '')
-            $useroutils .= '<a class="list-group-item text-primary" href="user.php?op=userinfo&amp;uname=' . $uname . '" target="_blank" title="' . translate("Profil") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-user align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Profil") . '</span></a>';
+            $useroutils .= '<a class="list-group-item text-primary" href="user.php?op=userinfo&amp;uname=' . $uname . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-user align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Profil') . '</span></a>';
         if ($uid != 1)
-            $useroutils .= '<a class="list-group-item text-primary" href="powerpack.php?op=instant_message&amp;to_userid=' . $uname . '" title="' . translate("Envoyer un message interne") . '" data-bs-toggle="tooltip"><i class="far fa-2x fa-envelope align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Message") . '</span></a>';
+            $useroutils .= '<a class="list-group-item text-primary" href="powerpack.php?op=instant_message&amp;to_userid=' . $uname . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-2x fa-envelope align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Message') . '</span></a>';
         if ($femail != '')
-            $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($femail, 1) . '" target="_blank" title="' . translate("Email") . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Email") . '</span></a>';
+            $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
         if ($url != '')
-            $useroutils .= '<a class="list-group-item text-primary" href="' . $url . '" target="_blank" title="' . translate("Visiter ce site web") . '" data-bs-toggle="tooltip"><i class="fas fa-2x fa-external-link-alt align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Visiter ce site web") . '</span></a>';
+            $useroutils .= '<a class="list-group-item text-primary" href="' . $url . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-2x fa-external-link-alt align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visiter ce site web') . '</span></a>';
         if ($mns)
-            $useroutils .= '<a class="list-group-item text-primary" href="minisite.php?op=' . $uname . '" target="_blank" target="_blank" title="' . translate("Visitez le minisite") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-desktop align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Visitez le minisite") . '</span></a>';
+            $useroutils .= '<a class="list-group-item text-primary" href="minisite.php?op=' . $uname . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-desktop align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visitez le minisite') . '</span></a>';
         if (!$short_user)
             if ($posterdata_extend[$ch_lat] != '')
-                $useroutils .= '<a class="list-group-item text-primary" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&op=u' . $uid . '" title="' . translate("Localisation") . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate("Localisation") . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&op=u' . $uid . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Localisation') . '</span></a>';
 
-        $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate("n'est pas connecté") . '" data-bs-toggle="tooltip" ></i>';
+        $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" ></i>';
         if (!$user_avatar)
             $imgtmp = "images/forum/avatar/blank.gif";
         else if (stristr($user_avatar, "users_private"))
@@ -2363,7 +2348,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
                 $timex = time() - $tab[$i]['time'];
         }
         if (($timex !== false) and ($timex < 60))
-            $conn = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $uname . ' ' . translate("est connecté") . '" data-bs-toggle="tooltip" ></i>';
+            $conn = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $uname . ' ' . translate('est connecté') . '" data-bs-toggle="tooltip" ></i>';
         $li_ic .= '<img class="n-smil" src="' . $imgtmp . '" alt="avatar" loading="lazy" />';
         $li_mb .= '
                                        <li class="list-group-item list-group-item-action d-flex flex-row p-2">
@@ -2394,7 +2379,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $res_forum = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums WHERE forum_pass REGEXP '$gr'");
         $nb_foru = sql_num_rows($res_forum);
         if ($nb_foru >= 1) {
-            $lst_for_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_for_gr_' . $gr . '" class="text-primary" id="show_lst_for_' . $gr . '" title="' . translate("Déplier la liste") . '" ><i id="i_lst_for_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
+            $lst_for_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_for_gr_' . $gr . '" class="text-primary" id="show_lst_for_' . $gr . '" title="' . translate('Déplier la liste') . '" ><i id="i_lst_for_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
             $lst_for .= '
                                     <ul id="lst_for_gr_' . $gr . '" class="list-group ul_bloc_ws collapse" style ="list-style-type:none;">';
             $nb_for_gr = '  <span class="badge bg-secondary float-end">' . $nb_foru . '</span>';
@@ -2408,7 +2393,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $content .= '
                                  <hr />
                                  <div>
-                                    ' . $lst_for_tog . '<i class="fa fa-list-alt fa-2x text-body-secondary ms-3 align-middle" title="' . translate("Groupe") . '(' . $gr . '): ' . translate("forum") . '." data-bs-toggle="tooltip" ></i>&nbsp;<a class="text-uppercase" href="forum.php">' . translate("Forum") . '</a>' . $nb_for_gr . $lst_for . '
+                                    ' . $lst_for_tog . '<i class="fa fa-list-alt fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Groupe') . '(' . $gr . '): ' . translate('forum') . '." data-bs-toggle="tooltip" ></i>&nbsp;<a class="text-uppercase" href="forum.php">' . translate('Forum') . '</a>' . $nb_for_gr . $lst_for . '
                                  </div>';
     }
     //=> wspad
@@ -2420,14 +2405,14 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $docs_gr = sql_query("SELECT page, editedby, modtime, ranq FROM " . sql_prefix('') . "wspad WHERE (ws_id) IN (SELECT MAX(ws_id) FROM " . sql_prefix('') . "wspad WHERE member='$gr' GROUP BY page) ORDER BY page ASC");
         $nb_doc = sql_num_rows($docs_gr);
         if ($nb_doc >= 1) {
-            $lst_doc_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_doc_gr_' . $gr . '" class="text-primary" id="show_lst_doc_' . $gr . '" title="' . translate("Déplier la liste") . '"><i id="i_lst_doc_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
+            $lst_doc_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_doc_gr_' . $gr . '" class="text-primary" id="show_lst_doc_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_doc_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
             $lst_doc .= '
                                     <ul id="lst_doc_gr_' . $gr . '" class="list-group ul_bloc_ws mt-3 collapse">';
             $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
             while (list($p, $e, $m, $r) = sql_fetch_row($docs_gr)) {
                 $surlignage = $couleur[hexfromchr($e)];
                 $lst_doc .= '
-                                       <li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate("Dernier éditeur") . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate("Document co-rédigé") . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
+                                       <li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
             }
             $lst_doc .= '
                                     </ul>';
@@ -2435,7 +2420,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $content .= '
                                  <hr />
                                  <div>
-                                    ' . $lst_doc_tog . '<i class="fa fa-edit fa-2x text-body-secondary ms-3 align-middle" title="' . translate("Co-rédaction") . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;<a class="text-uppercase" href="modules.php?ModPath=wspad&ModStart=wspad&member=' . $gr . '" >' . translate("Co-rédaction") . '</a>' . $nb_doc_gr . $lst_doc . '
+                                    ' . $lst_doc_tog . '<i class="fa fa-edit fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Co-rédaction') . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;<a class="text-uppercase" href="modules.php?ModPath=wspad&ModStart=wspad&member=' . $gr . '" >' . translate('Co-rédaction') . '</a>' . $nb_doc_gr . $lst_doc . '
                                  </div>';
     }
     //<= wspad
@@ -2446,7 +2431,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         settype($lst_blocnote, 'string');
         include_once("modules/bloc-notes/bloc-notes.php");
         $lst_blocnote_tog = '
-                                    <a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate("Déplier la liste") . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
+                                    <a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate('Déplier la liste') . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
         $lst_blocnote = '
                                     <div id="lst_blocnote_' . $gr . '" class="mt-3 collapse">
                                     ' . blocnotes("shared", 'WS-BN' . $gr, '', '7', 'bg-dark text-light', false) . '
@@ -2463,11 +2448,11 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     //=> Filemanager
     if (file_exists('modules/f-manager/users/groupe_' . $gr . '.conf.php'))
         $content .= '
-                                 <a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate("Gestionnaire fichiers") . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
+                                 <a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate('Gestionnaire fichiers') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
     //=> Minisite
     if ($rsql['groupe_mns'] == 1)
         $content .= '
-                                 <a class="mx-2" href="minisite.php?op=groupe/' . $gr . '" target="_blank" title= "' . translate("MiniSite") . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-desktop fa-2x"></i></a>';
+                                 <a class="mx-2" href="minisite.php?op=groupe/' . $gr . '" target="_blank" title= "' . translate('MiniSite') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-desktop fa-2x"></i></a>';
     //=> Chat
     settype($chat_img, 'string');
     if ($rsql['groupe_chat'] == 1) {
@@ -2475,12 +2460,12 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         if (array_key_exists('chat_info_' . $gr, $_COOKIE))
             if ($_COOKIE['chat_info_' . $gr]) $chat_img = 'faa-pulse animated faa-slow';
         $content .= '
-                                 <a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate("Ouvrir un salon de chat pour le groupe.") . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
+                                 <a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Ouvrir un salon de chat pour le groupe.') . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
     }
     //=> admin
     if (autorisation(-127))
         $content .= '
-                                 <a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate("Gestion des groupes.") . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
+                                 <a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
     $content .= '
                               </div>
                            </div>
@@ -2490,7 +2475,6 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
 function fab_groupes_bloc($user, $im)
 {
-    global sql_prefix('');
     $user;
     $lstgr = array();
     $userdata = explode(':', base64_decode($user));
@@ -2535,7 +2519,7 @@ function fab_groupes_bloc($user, $im)
          </ul>';
     if (autorisation(-127))
         $content .= '
-         <div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate("Gestion des groupes.") . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
+         <div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
     $content .= '
       </div>';
     sql_free_result($result);
@@ -2633,8 +2617,6 @@ function import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css)
 #autodoc auto_complete ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_cache) : fabrique un array js à partir de la requete sql et implente un auto complete pour l'input (dependence : jquery.min.js ,jquery-ui.js) $nom_array_js=> nom du tableau javascript; $nom_champ=>nom de champ bd; $nom_tabl=>nom de table bd,$id_inpu=> id de l'input,$temps_cache=>temps de cache de la requête. Si $id_inpu n'est pas défini retourne un array js.
 function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_cache)
 {
-    global sql_prefix('');
-
     $list_json = '';
     $list_json .= 'var ' . $nom_array_js . ' = [';
     $res = Q_select("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl, $temps_cache);
@@ -2673,8 +2655,6 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
 #autodoc auto_complete_multi ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $req) : fabrique un pseudo array json à partir de la requete sql et implente un auto complete pour le champ input (dependence : jquery-2.1.3.min.js ,jquery-ui.js)
 function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $req)
 {
-    global sql_prefix('');
-
     $list_json = '';
     $list_json .= $nom_array_js . ' = [';
     $res = sql_query("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl . " " . $req);
@@ -2802,35 +2782,35 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
                if (value === value.toLowerCase()) {
                   return {
                      valid: false,
-                     message: "' . translate("Le mot de passe doit contenir au moins un caractère en majuscule.") . '",
+                     message: "' . translate('Le mot de passe doit contenir au moins un caractère en majuscule.') . '",
                      meta:{score: score-1},
                    };
                }
                if (value === value.toUpperCase()) {
                   return {
                      valid: false,
-                     message: "' . translate("Le mot de passe doit contenir au moins un caractère en minuscule.") . '",
+                     message: "' . translate('Le mot de passe doit contenir au moins un caractère en minuscule.') . '",
                      meta:{score: score-2},
                   };
                }
                if (value.search(/[0-9]/) < 0) {
                   return {
                      valid: false,
-                     message: "' . translate("Le mot de passe doit contenir au moins un chiffre.") . '",
+                     message: "' . translate('Le mot de passe doit contenir au moins un chiffre.') . '",
                      meta:{score: score-3},
                   };
                }
                if (value.search(/[@\+\-!#$%&^~*_]/) < 0) {
                   return {
                      valid: false,
-                     message: "' . translate("Le mot de passe doit contenir au moins un caractère non alphanumérique.") . '",
+                     message: "' . translate('Le mot de passe doit contenir au moins un caractère non alphanumérique.') . '",
                      meta:{score: score-4},
                   };
                }
                if (value.length < 8) {
                   return {
                      valid: false,
-                     message: "' . translate("Le mot de passe doit contenir") . ' ' . $minpass . ' ' . translate("caractères au minimum") . '",
+                     message: "' . translate('Le mot de passe doit contenir') . ' ' . $minpass . ' ' . translate('caractères au minimum') . '",
                      meta:{score: score-5},
                   };
                }

@@ -29,12 +29,12 @@ else {
     member_menu($userdata['mns'], $userdata['uname']);
     echo '
    <div class="card card-body mt-3">
-      <h2><a href="replypmsg.php?send=1" title="' . translate("Ecrire un nouveau message privé") . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate("Message personnel") . " - </span>" . translate("Boîte de réception") . '</h2>
+      <h2><a href="replypmsg.php?send=1" title="' . translate('Ecrire un nouveau message privé') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate('Message personnel') . " - </span>" . translate('Boîte de réception') . '</h2>
       <form id="viewpmsg-dossier" action="viewpmsg.php" method="post">
          <div class="mb-3">
-            <label class="sr-only" for="dossier" >' . translate("Sujet") . '</label>
+            <label class="sr-only" for="dossier" >' . translate('Sujet') . '</label>
             <select class="form-select" name="dossier" onchange="document.forms[\'viewpmsg-dossier\'].submit()">
-               <option value="...">' . translate("Choisir un dossier/sujet") . '...</option>';
+               <option value="...">' . translate('Choisir un dossier/sujet') . '...</option>';
     $tempo["..."] = 0;
     while (list($dossierX) = sql_fetch_row($resultT)) {
         if (AddSlashes($dossierX) == $dossier) $sel = 'selected="selected"';
@@ -45,7 +45,7 @@ else {
     }
     $sel = (isset($dossier) and $dossier == 'All') ? 'selected="selected"' : '';
     echo '
-               <option ' . $sel . ' value="All">' . translate("Tous les sujets") . '</option>
+               <option ' . $sel . ' value="All">' . translate('Tous les sujets') . '</option>
             </select>
          </div>
       </form>';
@@ -61,7 +61,7 @@ else {
     if (!$total_messages = sql_num_rows($resultID)) {
         echo '
       <div class="alert alert-danger lead">
-         ' . translate("Vous n'avez aucun message.") . '
+         ' . translate('Vous n\'avez aucun message.') . '
       </div>';
         $display = 0;
     } else {
@@ -86,9 +86,9 @@ else {
                   <th class="n-t-col-xs-1" data-align="center" >&nbsp;</th>';
         }
         echo '
-                  <th data-halign="center" data-sortable="true" data-align="left">' . translate("de") . '</th>
-                  <th data-halign="center" data-sortable="true" >' . translate("Sujet") . '</th>
-                  <th data-halign="center" data-sortable="true" data-align="right">' . translate("Date") . '</th>
+                  <th data-halign="center" data-sortable="true" data-align="left">' . translate('de') . '</th>
+                  <th data-halign="center" data-sortable="true" >' . translate('Sujet') . '</th>
+                  <th data-halign="center" data-sortable="true" data-align="right">' . translate('Date') . '</th>
                </tr>
             </thead>
             <tbody>';
@@ -109,10 +109,10 @@ else {
                   </td>';
             if ($myrow['read_msg'] == "1")
                 echo '
-                  <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate("Lu") . '" data-bs-toggle="tooltip"><i class="far fa-envelope-open fa-lg "></i></a></td>';
+                  <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate('Lu') . '" data-bs-toggle="tooltip"><i class="far fa-envelope-open fa-lg "></i></a></td>';
             else
                 echo '
-                  <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate("Non lu") . '" data-bs-toggle="tooltip"><i class="fa fa-envelope fa-lg faa-shake animated"></i></a></td>';
+                  <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate('Non lu') . '" data-bs-toggle="tooltip"><i class="fa fa-envelope fa-lg faa-shake animated"></i></a></td>';
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
                     if ($ibid = theme_image("forum/subject/" . $myrow['msg_image'])) $imgtmp = $ibid;
@@ -139,7 +139,7 @@ else {
         if ($display) {
             echo '
          <div class="mb-3 mt-3">
-            <button class="btn btn-outline-danger btn-sm" type="submit" name="delete_messages" value="delete_messages" >' . translate("Effacer") . '</button>
+            <button class="btn btn-outline-danger btn-sm" type="submit" name="delete_messages" value="delete_messages" >' . translate('Effacer') . '</button>
             <input type="hidden" name="total_messages" value="' . $total_messages . '" />
             <input type="hidden" name="type" value="inbox" />
          </div>';
@@ -158,7 +158,7 @@ else {
 
     echo '
       <div class="card card-body mt-3">
-      <h2><a href="replypmsg.php?send=1" title="' . translate("Ecrire un nouveau message privé") . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate("Message personnel") . " - </span>" . translate("Boîte d'émission") . '<span class="badge bg-secondary float-end">' . $total_messages . '</span></h2>
+      <h2><a href="replypmsg.php?send=1" title="' . translate('Ecrire un nouveau message privé') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate('Message personnel') . " - </span>" . translate('Boîte d\'émission') . '<span class="badge bg-secondary float-end">' . $total_messages . '</span></h2>
       <form id="" name="prvmsgB" method="get" action="replypmsg.php">
          <table class="mb-3" data-toggle="table" data-show-toggle="true" data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons="icons" data-icons-prefix="fa">
             <thead class="thead-default">
@@ -173,9 +173,9 @@ else {
         echo '
                   <th class="n-t-col-xs-1" data-align="center" >&nbsp;</th>';
     echo '
-                  <th data-halign="center" data-sortable="true" data-align="center">' . translate("Envoyé à") . '</th>
-                  <th data-halign="center" data-sortable="true" align="center">' . translate("Sujet") . '</th>
-                  <th data-halign="center" data-align="right" data-sortable="true" align="center">' . translate("Date") . '</th>
+                  <th data-halign="center" data-sortable="true" data-align="center">' . translate('Envoyé à') . '</th>
+                  <th data-halign="center" data-sortable="true" align="center">' . translate('Sujet') . '</th>
+                  <th data-halign="center" data-align="right" data-sortable="true" align="center">' . translate('Date') . '</th>
             </tr>
          </thead>
          <tbody>';
@@ -183,7 +183,7 @@ else {
         $display = 0;
         echo '
             <tr>
-               <td colspan="6" align="center">' . translate("Vous n'avez aucun message.") . '</td>
+               <td colspan="6" align="center">' . translate('Vous n\'avez aucun message.') . '</td>
             </tr>';
     } else
         $display = 1;
@@ -221,7 +221,7 @@ else {
     if ($display) {
         echo '
          <div class="mb-3 mt-3">
-            <button class="btn btn-outline-danger btn-sm" type="submit" name="delete_messages" value="delete_messages" >' . translate("Effacer") . '</button>
+            <button class="btn btn-outline-danger btn-sm" type="submit" name="delete_messages" value="delete_messages" >' . translate('Effacer') . '</button>
             <input type="hidden" name="total_messages" value="' . $total_messages . '" />
             <input type="hidden" name="type" value="outbox" />
          </div>';

@@ -24,11 +24,11 @@ $f_titre = adm_translate('Faq');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = "manuels/$language/faqs.html";
+$hlpfile = 'manuels/' . $language . '/faqs.html';
 
 function FaqAdmin()
 {
-   global $hlpfile, sql_prefix(''), $f_meta_nom, $f_titre, $adminimg;
+   global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
    include 'header.php';
 
@@ -47,7 +47,7 @@ function FaqAdmin()
       </thead>
       <tbody>';
 
-   $result = sql_query("SELECT id_cat, categories FROM " . sql_prefix('') . "faqcategories order by id_cat ASC");
+   $result = sql_query("SELECT id_cat, categories FROM " . sql_prefix('faqcategories') . " order by id_cat ASC");
 
    while (list($id_cat, $categories) = sql_fetch_row($result)) {
       echo '
