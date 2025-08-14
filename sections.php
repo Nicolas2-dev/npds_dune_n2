@@ -29,7 +29,7 @@ function autorisation_section($userlevel)
 function listsections($rubric)
 {
     global $sitename, $admin;
-    include('header.php');
+    include 'header.php';
     if (file_exists("sections.config.php"))
         include("sections.config.php");
 
@@ -161,7 +161,7 @@ function listarticles($secid)
     if ($sections_chemin == 1)
         $chemin = '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a></span>';
     $title =  aff_langue($secname);
-    include('header.php');
+    include 'header.php';
 
     global $SuperCache;
     if ($SuperCache) {

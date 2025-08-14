@@ -35,7 +35,7 @@ function group_liste()
 {
    global $hlpfile, $al, $mes, $f_meta_nom, $f_titre, $adminimg;
 
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE groupe!='' ORDER BY uid ASC");
    $one_gp = false;
@@ -298,7 +298,7 @@ function group_liste()
 function membre_add($gp)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -456,7 +456,7 @@ function retiredugroupe_all($groupe_id, $tab_groupe)
 function groupe_edit($groupe_id)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_fetch_assoc(sql_query("SELECT groupe_name, groupe_description FROM " . sql_prefix('') . "groupes WHERE groupe_id='$groupe_id'"));
@@ -866,7 +866,7 @@ function groupe_member_ask()
       }
    }
 
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 

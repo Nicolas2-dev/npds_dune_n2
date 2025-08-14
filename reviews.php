@@ -39,7 +39,7 @@ function display_score($score)
 function write_review()
 {
     global $admin, $sitename, $user, $cookie, $short_review;
-    include('header.php');
+    include 'header.php';
     echo '
    <h2>' . translate('Ecrire une critique') . '</h2>
    <hr />
@@ -144,7 +144,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     $url_title = stripslashes(strip_tags($url_title));
     $error = '';
 
-    include('header.php');
+    include 'header.php';
     echo '<h2 class="mb-4">';
     echo $id != 0 ? translate('Modification d\'une critique') : translate('Ecrire une critique');
     echo '
@@ -268,7 +268,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 {
     global $admin, $user;
 
-    include('header.php');
+    include 'header.php';
     $title = stripslashes(FixQuotes(strip_tags($title)));
     $text = stripslashes(Fixquotes(urldecode(removeHack($text))));
 
@@ -308,7 +308,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 
 function reviews($field, $order)
 {
-    include('header.php');
+    include 'header.php';
     $r_result = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
     list($r_title, $r_description) = sql_fetch_row($r_result);
     if ($order != "ASC" and $order != "DESC") $order = "ASC";
@@ -415,7 +415,7 @@ function reviews($field, $order)
 function showcontent($id)
 {
     global $admin;
-    include('header.php');
+    include 'header.php';
     //settype($id,'integer');
     sql_query("UPDATE " . sql_prefix('') . "reviews SET hits=hits+1 WHERE id='$id'");
     $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id='$id'");
@@ -492,7 +492,7 @@ function showcontent($id)
 function mod_review($id)
 {
     global $admin;
-    include('header.php');
+    include 'header.php';
 
     settype($id, 'integer');
     if (($id != 0) && ($admin)) {

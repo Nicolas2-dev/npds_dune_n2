@@ -397,7 +397,7 @@ switch ($op) {
 // For IE ----------------------
 header("X-UA-Compatible: IE=8");
 // For IE ----------------------
-include('header.php');
+include 'header.php';
 // Head banner de présentation
 if (file_exists("modules/$ModPath/html/head.html")) {
    $Xcontent = join('', file("modules/$ModPath/html/head.html"));

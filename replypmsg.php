@@ -194,7 +194,7 @@ if (isset($user)) {
    </head>
    <body class="my-4 mx-4">';
     } else
-        include('header.php');
+        include 'header.php';
 
     if ($reply || $send || $to_user) {
         if ($allow_bbcode)

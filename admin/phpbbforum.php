@@ -823,7 +823,7 @@ function ForumGoDel($forum_id, $ok = 0)
       Ecr_Log('security', "DeleteForum($forum_id) by AID : $aid", '');
       Header("Location: admin.php?op=ForumAdmin");
    } else {
-      include('header.php');
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo '

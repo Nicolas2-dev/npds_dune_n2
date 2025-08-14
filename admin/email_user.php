@@ -27,7 +27,7 @@ function email_user()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -215,7 +215,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
    Ecr_Log('security', "SendEmailToUser($subject) by AID : $aid", '');
 
    global $hlpfile;
-   include('header.php');
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

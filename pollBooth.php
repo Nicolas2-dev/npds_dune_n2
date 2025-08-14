@@ -200,7 +200,7 @@ global $header;
 $header = 0;
 
 if (!isset($pollID)) {
-    include('header.php');
+    include 'header.php';
     pollList();
 }
 

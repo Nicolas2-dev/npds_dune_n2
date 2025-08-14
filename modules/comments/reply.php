@@ -55,7 +55,7 @@ if (isset($submitS)) {
    if (!$user) {
       if ($forum_access == 0) {
          $userdata = array('uid' => 1);
-         include('header.php');
+         include 'header.php';
       } else {
          if (($username == '') or ($password == ''))
             forumerror('0027');
@@ -65,7 +65,7 @@ if (isset($submitS)) {
             $passwd = (!$system) ? crypt($password, $pass) : $password;
             if ((strcmp($passwd, $pass) == 0) and ($pass != '')) {
                $userdata = get_userdata($username);
-               include('header.php');
+               include 'header.php';
             } else
                forumerror('0028');
          }
@@ -133,7 +133,7 @@ if (isset($submitS)) {
    <p><a href="javascript:history.go(-1)" class="btn btn-primary">' . translate("Retour en arrière") . '</a></p>';
    }
 } else {
-   include('header.php');
+   include 'header.php';
    if ($allow_bbcode == 1)
       include("lib/formhelp.java.php");
    echo '

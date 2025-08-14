@@ -99,7 +99,7 @@ else settype($Forum_passwd, 'string');
 $hrefX = $myrow['arbre'] ? 'viewtopicH.php' : 'viewtopic.php';
 
 if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($Forum_passwd != $myrow['forum_pass']))) {
-    include('header.php');
+    include 'header.php';
     echo '
    <h3 class="mb-3">' . stripslashes($forum_name) . '</h3>
       <p class="lead">' . translate('Modéré par : ') . '';
@@ -145,7 +145,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     if (($myrow['forum_type'] == 9) and (!$user))
         header("location: forum.php");
     $title = $forum_name;
-    include('header.php');
+    include 'header.php';
     if ($user) {
         $userX = base64_decode($user);
         $userR = explode(':', $userX);
