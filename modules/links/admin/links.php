@@ -50,7 +50,7 @@ function helpwindow()
 function links()
 {
    global $ModPath, $ModStart, $links_DB, $admin, $language, $NPDS_Prefix, $hlpfile;
-   include("header.php");
+   include 'header.php';
 
    /*
    echo '
@@ -420,7 +420,7 @@ function links()
    </form>
    </div>';
    }
-   include("footer.php");
+   include 'footer.php';
 }
 
 // ------ Links
@@ -429,29 +429,29 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
    global $ModPath, $ModStart, $links_DB;
    // Check if Title exist
    if ($title == '') {
-      include("header.php");
+      include 'header.php';
       echo '
       <div class="alert alert-danger">' . translate("Erreur : vous devez saisir un titre pour votre lien") . '</div>
       <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
-      include("footer.php");
+      include 'footer.php';
       exit();
    }
    // Check if URL exist
    global $links_url;
    if (($url == '') and ($links_url == 1)) {
-      include("header.php");
+      include 'header.php';
       echo "<br /><span class=\"rouge\">" . translate("Erreur : vous devez saisir une url pour votre lien") . "</span><br /><br />";
       echo "[ <a href=\"modules.php?ModStart=$ModStart&amp;ModPath=$ModPath\" class=\"noir\">" . translate("Retour en arrière") . "</a> ]<br />";
-      include("footer.php");
+      include 'footer.php';
       exit();
    }
    // Check if Description exist
    if ($description == '') {
-      include("header.php");
+      include 'header.php';
       echo '
       <div class="alert alert-danger">' . translate("Erreur : vous devez saisir une description pour votre lien") . '</div>
       <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
-      include("footer.php");
+      include 'footer.php';
       exit();
    }
    $cat = explode('-', $cat);
@@ -463,7 +463,7 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
    $name = stripslashes(FixQuotes($name));
    $email = stripslashes(FixQuotes($email));
    sql_query("INSERT INTO " . $links_DB . "links_links VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', now(), '$name', '$email', '0','$submitter',0,0,0,'$topicL')");
-   include("header.php");
+   include 'header.php';
    echo '
     <div class="alert alert-success">' . translate("Nouveau lien ajouté dans la base de données") . '</div>
     <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
@@ -477,13 +477,13 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
          send_email($email, $subject, $message, '', false, 'html', '');
       }
    }
-   include("footer.php");
+   include 'footer.php';
 }
 
 function LinksModLink($lid, $modifylinkrequest_adv_infos)
 {
    global $ModPath, $ModStart, $links_DB, $hlpfile, $NPDS_Prefix;
-   include("header.php");
+   include 'header.php';
    echo helpwindow();
 
    $result = sql_query("SELECT cid, sid, title, url, description, name, email, hits, topicid_card FROM " . $links_DB . "links_links WHERE lid='$lid'");
@@ -660,7 +660,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
       $browse_key = $lid;
       include("modules/sform/" . substr($ModPath, 0, $pos) . "/link_maj.php");
    }
-   include("footer.php");
+   include 'footer.php';
 }
 function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $cat, $topicL)
 {
@@ -724,13 +724,13 @@ function LinksAddSubCat($cid, $title)
    $result = sql_query("SELECT cid FROM " . $links_DB . "links_subcategories WHERE title='$title' AND cid='$cid'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
-      include("header.php");
+      include 'header.php';
       echo '
       <h2>' . translate("Liens") . '</h2>
       <hr />
       <div class="alert alert-danger">' . translate("Erreur : la sous-catégorie") . ' <span class="lead">' . $title . '</span> ' . translate("existe déjà") . '</div>
       <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
-      include("footer.php");
+      include 'footer.php';
    } else {
       sql_query("INSERT INTO " . $links_DB . "links_subcategories VALUES (NULL, '$cid', '$title')");
       Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
@@ -740,7 +740,7 @@ function LinksAddSubCat($cid, $title)
 function LinksModCat($cat)
 {
    global $ModPath, $ModStart, $links_DB;
-   include("header.php");
+   include 'header.php';
    $cat = explode('-', $cat);
    if (!array_key_exists(1, $cat))
       $cat[1] = 0;
@@ -811,7 +811,7 @@ function LinksModCat($cat)
       <input type="submit" class="btn btn-danger my-4" value="' . translate("Effacer") . '" />
       </form>';
    }
-   include("footer.php");
+   include 'footer.php';
 }
 
 function LinksAddCat($title, $cdescription)
@@ -820,13 +820,13 @@ function LinksAddCat($title, $cdescription)
    $result = sql_query("SELECT cid FROM " . $links_DB . "links_categories WHERE title='$title'");
    $numrows = sql_num_rows($result);
    if ($numrows > 0) {
-      include("header.php");
+      include 'header.php';
       echo '
       <h3>' . translate("Liens") . '</h3>
       <hr />
       <div class="alert alert-danger">' . translate("Erreur : la catégorie") . ' ' . $title . ' ' . translate("existe déjà") . '</div>
       <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Retour en arrière") . '</a>';
-      include("footer.php");
+      include 'footer.php';
    } else {
       sql_query("INSERT INTO " . $links_DB . "links_categories VALUES (NULL, '$title', '$cdescription')");
       Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
@@ -867,13 +867,13 @@ function LinksDelCat($cid, $sid, $sub, $ok = 0)
       }
       Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
    } else {
-      include("header.php");
+      include 'header.php';
       echo '
       <h3>' . translate("Liens") . '</h3>
       <hr />
       <div class="alert alert-danger">' . translate("ATTENTION : Etes-vous certain de vouloir effacer cette catégorie et tous ses Liens ?") . '</div>
       <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksDelCat&amp;cid=' . $cid . '&amp;sid=' . $sid . '&amp;sub=' . $sub . '&amp;ok=1" class="btn btn-danger me-2">' . translate("Oui") . '</a><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" class="btn btn-secondary">' . translate("Non") . '</a>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 
@@ -886,7 +886,7 @@ function LinksListModRequests()
    $totalmodrequests = sql_num_rows($resultX);
    if ($totalmodrequests == 0)
       Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
-   include("header.php");
+   include 'header.php';
    $x_mod = '';
    $x_ori = '';
    function clformodif($x_ori, $x_mod)
@@ -985,7 +985,7 @@ function LinksListModRequests()
    </div>';
    }
    sql_free_result($resultX);
-   include("footer.php");
+   include 'footer.php';
 }
 
 // ----- Broken
@@ -998,7 +998,7 @@ function LinksListBrokenLinks()
    if ($totalbrokenlinks == 0)
       Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
    else {
-      include("header.php");
+      include 'header.php';
       echo '
    <h3 class="mb-3">' . translate("Liens cassés rapportés par un ou plusieurs utilisateurs") . ' <span class="badge bg-danger float-end"> ' . $totalbrokenlinks . '</span></h3>
    <hr class="mb-0"/>
@@ -1051,7 +1051,7 @@ function LinksListBrokenLinks()
       echo '
       </tbody>
    </table>';
-      include("footer.php");
+      include 'footer.php';
    }
 }
 

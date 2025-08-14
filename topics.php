@@ -17,7 +17,7 @@ if (!function_exists("Mysql_Connexion"))
 
 settype($op, 'string');
 if ($op != "maj_subscribe") {
-    include("header.php");
+    include 'header.php';
     $inclusion = false;
     if (file_exists("themes/$theme/html/topics.html"))
         $inclusion = "themes/$theme/html/topics.html";
@@ -32,7 +32,7 @@ if ($op != "maj_subscribe") {
         ob_end_clean();
         echo meta_lang(aff_langue($Xcontent));
     }
-    include("footer.php");
+    include 'footer.php';
 } else {
     if ($subscribe) {
         if ($user) {

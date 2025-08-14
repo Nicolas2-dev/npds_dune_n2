@@ -26,7 +26,7 @@ $hlpfile = "manuels/$language/users.html";
 function displayUsers()
 {
    global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -107,7 +107,7 @@ function extractUserCSV()
 function modifyUser($chng_user)
 {
    global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT uid, uname, name, url, email, femail, user_from, user_occ, user_intrest, user_viewemail, user_avatar, user_sig, bio, pass, send_email, is_visible, mns, user_lnl FROM " . sql_prefix('') . "users WHERE uid='$chng_user' OR uname='$chng_user'");
@@ -191,7 +191,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 {
    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uid!='$chng_uid' AND uname='$chng_uname'")) > 0) {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
@@ -202,7 +202,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
    if ($chng_pass2 != '') {
       if ($chng_pass != $chng_pass2) {
          global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-         include("header.php");
+         include 'header.php';
          GraphicAdmin($hlpfile);
          adminhead($f_meta_nom, $f_titre, $adminimg);
          echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
@@ -214,7 +214,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
    include_once('functions.php');
    if (checkdnsmail($chng_email) === false) {
       global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
@@ -281,7 +281,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 function nonallowedUsers()
 {
    global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $newsuti = sql_query("SELECT u.uid, u.uname, u.name, u.user_regdate FROM " . sql_prefix('') . "users AS u LEFT JOIN " . sql_prefix('') . "users_status AS us ON u.uid = us.uid WHERE us.open='0' ORDER BY u.user_regdate DESC");
@@ -321,7 +321,7 @@ function nonallowedUsers()
 function checkdnsmailusers()
 {
    global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $adminmail, $page, $end, $autocont;
-   include("header.php");
+   include 'header.php';
    include_once('functions.php');
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -501,7 +501,7 @@ switch ($op) {
       break;
    case 'delUser':
       global $hlpfile;
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       echo '
       <h3 class="text-danger mb-3">' . adm_translate('Supprimer un utilisateur') . '</h3>
@@ -515,7 +515,7 @@ switch ($op) {
          <a class="btn btn-secondary mt-3" href="memberslist.php">' . adm_translate('Non') . '</a>';
       echo '
       </div>';
-      include("footer.php");
+      include 'footer.php';
       break;
 
    case 'delUserConf':
@@ -602,7 +602,7 @@ switch ($op) {
       settype($add_send_email, 'integer');
       if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uname='$add_uname'")) > 0) {
          global $hlpfile;
-         include("header.php");
+         include 'header.php';
          GraphicAdmin($hlpfile);
          adminhead($f_meta_nom, $f_titre, $adminimg);
          echo error_handler('<i class="fa fa-exclamation me-2"></i>' . adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
@@ -611,7 +611,7 @@ switch ($op) {
       }
       if (!($add_uname && $add_email && $add_pass) or (preg_match('#[^a-zA-Z0-9_-]#', $add_uname))) {
          global $hlpfile;
-         include("header.php");
+         include 'header.php';
          GraphicAdmin($hlpfile);
          adminhead($f_meta_nom, $f_titre, $adminimg);
          echo error_handler(adm_translate('Vous devez remplir tous les Champs') . '<br />'); // ce message n'est pas très précis ..
@@ -621,7 +621,7 @@ switch ($op) {
       include_once('functions.php');
       if (checkdnsmail($add_email) === false) {
          global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-         include("header.php");
+         include 'header.php';
          GraphicAdmin($hlpfile);
          adminhead($f_meta_nom, $f_titre, $adminimg);
          echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');

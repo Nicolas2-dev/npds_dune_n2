@@ -27,7 +27,7 @@ $hlpfile = "manuels/$language/configfiles.html";
 function ConfigFiles($contents, $files)
 {
    global $hlpfile, $language, $max_car, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    if ($contents == '') {
@@ -199,7 +199,7 @@ function ConfigFiles_save($Xtxt, $Xfiles)
 function delete_configfile($fileX)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -236,7 +236,7 @@ function ConfigFiles_delete($modele)
 function copy_sample($fileX)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $header;
-   if ($header != 1) include("header.php");
+   if ($header != 1) include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

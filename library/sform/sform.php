@@ -1049,7 +1049,7 @@ class form_handler
       echo $this->print_form_hidden();
       echo '<input class="btn btn-secondary" type="submit" name="sformret" value="Retour" />
       </form>';
-      include("footer.php");
+      include 'footer.php';
    }
 
    /**************************************************************************************/

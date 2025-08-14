@@ -52,7 +52,7 @@ function nmig_copyright()
 // e1
 function nmig_Start($name_module, $txtdeb)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $display = '
    <hr />
@@ -76,7 +76,7 @@ function nmig_Start($name_module, $txtdeb)
 // e2
 function nmig_License($licence_file, $name_module)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $myfile = fopen($licence_file, "r");
    $licence_text = fread($myfile, filesize($licence_file));
@@ -97,7 +97,7 @@ function nmig_License($licence_file, $name_module)
 //e3
 function nmig_AlertSql($sql, $name_module)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $reqsql = '';
    foreach ($sql as $v) {
@@ -129,7 +129,7 @@ function nmig_AlertSql($sql, $name_module)
 // e4
 function nmig_WriteSql($sql, $path_adm_module, $name_module, $affich, $icon)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display, $path_adm_module, $name_module, $affich, $icon;
    $reqsql = '';
    $display = '
@@ -185,7 +185,7 @@ function nmig_WriteSql($sql, $path_adm_module, $name_module, $affich, $icon)
 // e5
 function nmig_AlertConfig($list_fich)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $display = '
    <hr />
@@ -204,7 +204,7 @@ function nmig_AlertConfig($list_fich)
 // e6
 function nmig_WriteConfig($list_fich, $try_Chmod)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $writeAllFiles = 1;
    $display = '
@@ -288,7 +288,7 @@ function nmig_WriteConfig($list_fich, $try_Chmod)
 // e7
 function nmig_AlertBloc($blocs, $name_module)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $display = '
    <hr />
@@ -321,7 +321,7 @@ function nmig_AlertBloc($blocs, $name_module)
 // e8
 function nmig_WriteBloc($blocs, $posbloc, $name_module)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $display = '
    <hr />
@@ -377,7 +377,7 @@ function nmig_WriteBloc($blocs, $posbloc, $name_module)
 // e9 étape à fusionner avec la 10 ....
 function nmig_txt($txtfin)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    $display = '
    <hr />
@@ -389,7 +389,7 @@ function nmig_txt($txtfin)
 // e10 étape à fusionner avec la 9 ....
 function nmig_End($name_module, $end_link)
 {
-   include("header.php");
+   include 'header.php';
    global $ModInstall, $display;
    sql_query("UPDATE " . sql_prefix('') . "modules SET minstall='1' WHERE mnom='" . $ModInstall . "'");
    $display = '
@@ -537,7 +537,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
       sql_query("UPDATE " . sql_prefix('') . "modules SET minstall='0' WHERE mnom= '" . $ModDesinstall . "'");
       redirect_url("admin.php?op=modules");
    }
-   include("header.php");
+   include 'header.php';
    $display = '
          <hr />
          <h4 class="text-danger mb-3">' . adm_translate('Désinstaller le module') . ' ' . $ModDesinstall . '.</h4>';

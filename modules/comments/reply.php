@@ -74,7 +74,7 @@ if (isset($submitS)) {
       $userX = base64_decode($user);
       $userdata = explode(':', $userX);
       $userdata = get_userdata($userdata[1]);
-      include("header.php");
+      include 'header.php';
    }
 
    // Either valid user/pass, or valid session. continue with post.

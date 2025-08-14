@@ -97,7 +97,7 @@ function List_Meta_Lang()
    if (!empty($meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $meta . "' ORDER BY type_meta, def ASC");
    else if (!empty($type_meta)) $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE type_meta = '" . $type_meta . "' ORDER BY type_meta, def ASC");
    else $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang ORDER BY 'type_meta','def' ASC");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $tablmeta = '';
@@ -174,7 +174,7 @@ function Edit_Meta_Lang()
    $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire FROM " . sql_prefix('') . "metalang WHERE def = '" . $ml . "'");
    $Q = sql_fetch_assoc($Q);
    sql_free_result($Q);
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '<hr />';
@@ -296,7 +296,7 @@ function Edit_Meta_Lang()
 function Creat_Meta_Lang()
 {
    global $hlpfile, $type_meta, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -397,7 +397,7 @@ function kill_Meta_Lang($nbr, $action)
 function meta_exist($def)
 {
    global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

@@ -31,7 +31,7 @@ if (!isset($query)) {
     $query = $query_body;
     $limit = '';
 }
-include("header.php");
+include 'header.php';
 if ($topic > 0) {
     $result = sql_query("SELECT topicimage, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
     list($topicimage, $topictext) = sql_fetch_row($result);
@@ -436,4 +436,4 @@ if ($type == "stories" or $type == "archive" or !$type) {
       </p>';
     }
 }
-include("footer.php");
+include 'footer.php';

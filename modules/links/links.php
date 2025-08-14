@@ -117,7 +117,7 @@ function index()
 {
    global $ModPath, $ModStart, $links_DB;
    include("modules/$ModPath/links.conf.php");
-   include("header.php");
+   include 'header.php';
    // Include cache manager
    global $SuperCache;
    if ($SuperCache) {
@@ -199,7 +199,7 @@ function index()
       } else
          echo "<p align=\"center\"><span> -: [ <a href=\"modules.php?ModStart=create_tables&amp;ModPath=$ModPath/admin/\">" . translate("Créer") . "</a> Tables : $links_DB ] :-</span></p>";
    }
-   include("footer.php");
+   include 'footer.php';
 }
 
 function FooterOrderBy($cid, $sid, $orderbyTrans, $linkop)
@@ -236,7 +236,7 @@ function viewlink($cid, $min, $orderby, $show)
 {
    global $ModPath, $ModStart, $links_DB, $admin, $perpage;
    include('functions.php');
-   include("header.php");
+   include 'header.php';
    // Include cache manager
    global $SuperCache;
    if ($SuperCache) {
@@ -314,13 +314,13 @@ function viewlink($cid, $min, $orderby, $show)
    }
    if ($SuperCache)
       $cache_obj->endCachingPage();
-   include("footer.php");
+   include 'footer.php';
 }
 
 function viewslink($sid, $min, $orderby, $show)
 {
    global $ModPath, $ModStart, $links_DB, $admin, $perpage;
-   include("header.php");
+   include 'header.php';
    include_once('functions.php');
 
    // Include cache manager
@@ -373,13 +373,13 @@ function viewslink($sid, $min, $orderby, $show)
    }
    if ($SuperCache)
       $cache_obj->endCachingPage();
-   include("footer.php");
+   include 'footer.php';
 }
 
 function fiche_detail($Xlid)
 {
    global $ModPath, $ModStart;
-   include("header.php");
+   include 'header.php';
    // Include cache manager
    global $SuperCache;
    if ($SuperCache) {
@@ -396,7 +396,7 @@ function fiche_detail($Xlid)
    }
    if ($SuperCache)
       $cache_obj->endCachingPage();
-   include("footer.php");
+   include 'footer.php';
 }
 
 function categorynewlinkgraphic($cat)
@@ -481,7 +481,7 @@ function visit($lid)
 function viewlinkeditorial($lid, $ttitle)
 {
    global $ModPath, $ModStart, $links_DB;
-   include("header.php");
+   include 'header.php';
    mainheader();
    $result2 = sql_query("SELECT url FROM " . $links_DB . "links_links WHERE lid='$lid'");
    list($url) = sql_fetch_row($result2);
@@ -511,7 +511,7 @@ function viewlinkeditorial($lid, $ttitle)
       echo '<p class="text-center">' . translate("Aucun édito n'est disponible pour ce site") . '</p><br />';
    echo '
    </div>';
-   include("footer.php");
+   include 'footer.php';
 }
 
 settype($op, 'string');

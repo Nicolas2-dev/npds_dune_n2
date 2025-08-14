@@ -467,7 +467,7 @@ if ($inclusion) {
       </head>
       <body class="p-3">';
    } else
-      include("header.php");
+      include 'header.php';
 
    // Head banner de présentation F-Manager
    if (file_exists("themes/$Default_Theme/html/modules/f-manager/head.html")) {
@@ -497,5 +497,5 @@ if ($inclusion) {
       </body>
    </html>';
    else
-      include("footer.php");
+      include 'footer.php';
 }

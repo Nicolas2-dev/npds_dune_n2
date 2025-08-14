@@ -18,7 +18,7 @@ if (!stristr($_SERVER['PHP_SELF'], "modules.php")) die();
 function error_head($class)
 {
    global $ModPath, $ModStart;
-   include("header.php");
+   include 'header.php';
    $mainlink = 'ad_l';
    menu($mainlink);
    SearchForm();
@@ -29,13 +29,13 @@ function error_foot()
 {
    echo '
    </div>';
-   include("footer.php");
+   include 'footer.php';
 }
 
 function AddLink()
 {
    global $ModPath, $ModStart, $links_DB, $NPDS_Prefix, $links_anonaddlinklock, $op;
-   include("header.php");
+   include 'header.php';
    global $user, $ad_l;
    mainheader();
    if (autorisation($links_anonaddlinklock)) {
@@ -149,13 +149,13 @@ function AddLink()
       ';
       SearchForm();
       adminfoot('fv', '', $arg1, '1');
-      include("footer.php");
+      include 'footer.php';
    } else {
       echo '
         <div class="alert alert-warning">' . translate("Vous n'êtes pas (encore) enregistré ou vous n'êtes pas (encore) connecté.") . '<br />
         ' . translate("Si vous étiez enregistré, vous pourriez proposer des liens.") . '</div>';
       SearchForm();
-      include("footer.php");
+      include 'footer.php';
    }
 }
 
@@ -230,7 +230,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 function links_search($query, $topicL, $min, $max, $offset)
 {
    global $ModPath, $ModStart, $links_DB;
-   include("header.php");
+   include 'header.php';
    mainheader();
    $filen = "modules/$ModPath/links.ban_02.php";
    if (file_exists($filen)) {
@@ -255,5 +255,5 @@ function links_search($query, $topicL, $min, $max, $offset)
          echo translate("réponses suivantes") . "</a>";
       }
    }
-   include("footer.php");
+   include 'footer.php';
 }

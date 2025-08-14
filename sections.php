@@ -260,7 +260,7 @@ function viewarticle($artid, $page)
         if ($sections_chemin == 1)
             $chemin = '<span class="lead"><a href="sections.php">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a>&nbsp;/&nbsp;<a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . aff_langue($secname) . '</a></span>';
         $title = aff_langue($title);
-        include("header.php");
+        include 'header.php';
 
         global $SuperCache;
         if ($SuperCache) {

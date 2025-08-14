@@ -28,7 +28,7 @@ include("functions.php");
 function ForumAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -82,7 +82,7 @@ function ForumAdmin()
 function ForumGo($cat_id)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -353,7 +353,7 @@ function ForumGo($cat_id)
 function ForumGoEdit($forum_id, $ctg)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    $result = sql_query("SELECT forum_id, forum_name, forum_desc, forum_access, forum_moderator, cat_id, forum_type, forum_pass, arbre, attachement, forum_index FROM " . sql_prefix('') . "forums WHERE forum_id='$forum_id'");
    list($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id_1, $forum_type, $forum_pass, $arbre, $attachement, $forum_index) = sql_fetch_row($result);
@@ -632,7 +632,7 @@ function ForumGoEdit($forum_id, $ctg)
 function ForumCatEdit($cat_id)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $result = sql_query("SELECT cat_id, cat_title FROM " . sql_prefix('') . "catagories WHERE cat_id='$cat_id'");
@@ -710,11 +710,11 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
          $error_mod .= $moderator[$i] . ' ';
    }
    if ($error_mod != '') {
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       echo "<div><p align=\"center\">" . adm_translate('Le Modérateur sélectionné n\'existe pas.') . " : $error_mod<br />";
       echo "[ <a href=\"javascript:history.go(-1)\" >" . adm_translate('Retour en arrière') . "</a> ]</p></div>";
-      include("footer.php");
+      include 'footer.php';
    } else {
       $forum_mod = str_replace(' ', ',', chop($forum_mod));
       if ($arbre > 1) $arbre = 1;
@@ -758,14 +758,14 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
          $error_mod .= $moderator[$i] . ' ';
    }
    if ($error_mod != '') {
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       echo '
       <div class="alert alert-danger">
          <p>' . adm_translate('Le Modérateur sélectionné n\'existe pas.') . ' : ' . $error_mod . '</p>
          <a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>
       </div>';
-      include("footer.php");
+      include 'footer.php';
    } else {
       if ($arbre > 1) $arbre = 1;
       $forum_mod = str_replace(' ', ',', chop($forum_mod));
@@ -795,7 +795,7 @@ function ForumCatDel($cat_id, $ok = 0)
       Ecr_Log("security", "DeleteForumCat($cat_id) by AID : $aid", "");
       Header("Location: admin.php?op=ForumAdmin");
    } else {
-      include("header.php");
+      include 'header.php';
       GraphicAdmin($hlpfile);
       adminhead($f_meta_nom, $f_titre, $adminimg);
       echo '

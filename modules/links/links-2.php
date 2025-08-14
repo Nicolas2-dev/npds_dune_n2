@@ -20,7 +20,7 @@ function NewLinksDate($selectdate)
 {
    global $ModPath, $ModStart, $links_DB, $admin;
    $dateDB = (date("d-M-Y", $selectdate));
-   include("header.php");
+   include 'header.php';
    mainheader('nl');
    $filen = "modules/$ModPath/links.ban_01.php";
    if (file_exists($filen)) {
@@ -32,13 +32,13 @@ function NewLinksDate($selectdate)
    $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%' ORDER BY title ASC");
    $link_fiche_detail = '';
    include_once("modules/$ModPath/links-view.php");
-   include("footer.php");
+   include 'footer.php';
 }
 
 function NewLinks($newlinkshowdays)
 {
    global $ModPath, $ModStart, $links_DB;
-   include("header.php");
+   include 'header.php';
    mainheader('nl');
    $counter = 0;
    $allweeklinks = 0;
@@ -96,5 +96,5 @@ function NewLinks($newlinkshowdays)
    SearchForm();
    $counter = 0;
    $allmonthlinks = 0;
-   include("footer.php");
+   include 'footer.php';
 }

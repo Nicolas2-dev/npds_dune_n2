@@ -20,7 +20,7 @@ include_once('functions.php');
 include("modules/$ModPath/archive-stories.conf.php");
 include("modules/$ModPath/cache.timings.php");
 if (!isset($start)) $start = 0;
-include("header.php");
+include 'header.php';
 // Include cache manager
 if ($SuperCache) {
    $cache_obj = new cacheManager();
@@ -100,4 +100,4 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 }
 if ($SuperCache)
    $cache_obj->endCachingPage();
-include("footer.php");
+include 'footer.php';

@@ -149,7 +149,7 @@ function avatar($user_avatar)
     return ($imgtmp);
 }
 
-include("header.php");
+include 'header.php';
 $pagesize = $show_user;
 
 if (!isset($letter) or ($letter == '')) $letter = translate('Tous');
@@ -418,4 +418,4 @@ if ($letter != 'front') {
     } else
         echo '<div class="mt-3 lead align-middle"><span class="badge bg-secondary lead">' . $num_rows_per_order . '</span> ' . translate('Utilisateurs trouvés') . '</div>';
 }
-include("footer.php");
+include 'footer.php';

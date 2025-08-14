@@ -28,7 +28,7 @@ include("functions.php");
 function ForumMaintMarkTopics()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -79,7 +79,7 @@ function ForumMaintMarkTopics()
 function ForumMaintTopics($before, $forum_name)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $parse;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 
@@ -130,7 +130,7 @@ function ForumMaintTopics($before, $forum_name)
 function ForumMaintTopicDetail($topic, $topic_title)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $resultTT = sql_query("SELECT post_text, post_time FROM " . sql_prefix('') . "posts WHERE topic_id='$topic' ORDER BY post_time DESC LIMIT 0,1");
@@ -220,7 +220,7 @@ function SynchroForum()
 function MergeForum()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '
@@ -303,7 +303,7 @@ function MergeForumAction($oriforum, $destforum)
 function ForumMaintAdmin()
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

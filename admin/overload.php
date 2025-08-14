@@ -71,7 +71,7 @@ function save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt
 function main()
 {
    global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
 

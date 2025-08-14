@@ -121,7 +121,7 @@ function SelectCategory($cat)
 function autoStory()
 {
    global $hlpfile, $aid, $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    echo '

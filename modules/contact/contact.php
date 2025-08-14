@@ -12,6 +12,6 @@
 /************************************************************************/
 if (!function_exists("Mysql_Connexion"))
    include("mainfile.php");
-include("header.php");
+include 'header.php';
 include_once('modules/sform/contact/contact.php');
-include("footer.php");
+include 'footer.php';

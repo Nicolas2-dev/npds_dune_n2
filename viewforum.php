@@ -419,6 +419,6 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     }
     if ($SuperCache)
         $cache_obj->endCachingBlock($cache_clef);
-    include("footer.php");
+    include 'footer.php';
 } else
     header("location: forum.php");

@@ -35,7 +35,7 @@ function ListReseaux($ModPath, $ModStart)
    global $userdata;
    if (file_exists("modules/$ModPath/reseaux-sociaux.conf.php"))
       include("modules/$ModPath/reseaux-sociaux.conf.php");
-   include("header.php");
+   include 'header.php';
    echo '
    <h2>' . translate("Utilisateur") . '</h2>
    ' . member_menu($userdata['mns'], $userdata['uname']) . '
@@ -56,7 +56,7 @@ function ListReseaux($ModPath, $ModStart)
    }
    echo '
    </div>';
-   include("footer.php");
+   include 'footer.php';
 }
 
 function EditReseaux($ModPath, $ModStart)
@@ -66,7 +66,7 @@ function EditReseaux($ModPath, $ModStart)
    if (file_exists("modules/$ModPath/reseaux-sociaux.conf.php"))
       include("modules/$ModPath/reseaux-sociaux.conf.php");
    include_once("functions.php");
-   include("header.php");
+   include 'header.php';
    global $cookie;
    $posterdata_extend = get_userdata_extend_from_id($cookie[0]);
    if ($posterdata_extend['M2'] != '') {

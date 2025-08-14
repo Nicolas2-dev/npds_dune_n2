@@ -303,7 +303,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
     echo '
    </div>
    <a class="btn btn-secondary" href="reviews.php" title="' . translate('Retour à l\'index des critiques') . '">' . translate('Retour à l\'index des critiques') . '</a>';
-    include("footer.php");
+    include 'footer.php';
 }
 
 function reviews($field, $order)
@@ -409,7 +409,7 @@ function reviews($field, $order)
       </table>';
     }
     sql_free_result($result);
-    include("footer.php");
+    include 'footer.php';
 }
 
 function showcontent($id)
@@ -486,7 +486,7 @@ function showcontent($id)
         include("modules/comments/reviews.conf.php");
         include("modules/comments/comments.php");
     }
-    include("footer.php");
+    include 'footer.php';
 }
 
 function mod_review($id)

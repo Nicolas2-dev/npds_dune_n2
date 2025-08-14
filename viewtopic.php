@@ -616,4 +616,4 @@ if ((($Mmod) and ($forum_access != 9)) or ($adminforum == 1)) {
             </li>
          </ul>';
 }
-include("footer.php");
+include 'footer.php';

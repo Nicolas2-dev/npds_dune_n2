@@ -23,7 +23,7 @@ function MetaTagAdmin(bool $meta_saved = false)
 {
    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
    $tags = GetMetaTags("meta/meta.php");
-   include("header.php");
+   include 'header.php';
    GraphicAdmin($hlpfile);
    adminhead($f_meta_nom, $f_titre, $adminimg);
    $sel = ' selected="selected"';
