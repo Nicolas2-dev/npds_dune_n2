@@ -20,7 +20,7 @@ if (!function_exists('admindroits')) {
 $f_meta_nom = 'DownloadAdmin';
 $f_titre = adm_translate('Téléchargements');
 
-//==> controle droit
+// controle droit
 admindroits($aid, $f_meta_nom);
 
 include 'library/file/file.class.php';
