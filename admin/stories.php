@@ -111,7 +111,8 @@ function puthome($ihome)
 
 function SelectCategory($cat)
 {
-    $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
+    $selcat = sql_query("SELECT catid, title 
+                         FROM " . sql_prefix('stories_cat'));
 
     echo '<div class="mb-3 row">
             <label class="col-sm-4 col-form-label" for="catid">' . adm_translate('Catégorie') . '</label>
@@ -145,7 +146,7 @@ function SelectCategory($cat)
 // CATEGORIES
 function AddCategory()
 {
-    global $hlpfile, $language, $aid, $radminsuper, $adminimg;
+    global $aid, $adminimg;
 
     $f_meta_nom = 'adminStory';
     $f_titre = adm_translate('Articles');
@@ -194,14 +195,17 @@ function SaveCategory($title)
 
     $title = preg_replace('#"#', '', $title);
 
-    $check = sql_num_rows(sql_query("SELECT catid FROM " . sql_prefix('') . "stories_cat WHERE title='$title'"));
+    $check = sql_num_rows(sql_query("SELECT catid 
+                                     FROM " . sql_prefix('stories_cat') . " 
+                                     WHERE title='$title'"));
 
     if ($check) {
         $what1 = '<div class="alert alert-danger lead" role="alert">' . adm_translate('Cette Catégorie existe déjà !') . '<br /><a href="javascript:history.go(-1)" class="btn btn-secondary  mt-2">' . adm_translate('Retour en arrière, pour changer le Nom') . '</a></div>';
     } else {
         $what1 = '<div class="alert alert-success lead" role="alert">' . adm_translate('Nouvelle Catégorie ajoutée') . '</div>';
 
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "stories_cat VALUES (NULL, '$title', '0')");
+        $result = sql_query("INSERT INTO " . sql_prefix('stories_cat') . " 
+                             VALUES (NULL, '$title', '0')");
     }
 
     include 'header.php';
@@ -218,7 +222,7 @@ function SaveCategory($title)
 
 function EditCategory($catid)
 {
-    global $hlpfile, $language, $aid, $radminsuper, $adminimg;
+    global $aid, $adminimg;
 
     $f_meta_nom = 'adminStory';
     $f_titre = adm_translate('Articles');
@@ -234,12 +238,15 @@ function EditCategory($catid)
     echo '<hr />
     <h3 class="mb-3">' . adm_translate('Edition des Catégories') . '</h3>';
 
-    $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+    $result = sql_query("SELECT title 
+                         FROM " . sql_prefix('stories_cat') . " 
+                         WHERE catid='$catid'");
 
     list($title) = sql_fetch_row($result);
 
     if (!$catid) {
-        $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
+        $selcat = sql_query("SELECT catid, title 
+                             FROM " . sql_prefix('stories_cat'));
 
         echo '<form action="admin.php" method="post">
         <div class="mb-3 row">
@@ -297,17 +304,20 @@ function SaveEditCategory($catid, $title)
     $f_titre = adm_translate('Articles');
     $title = preg_replace('#"#', '', $title);
 
-    $check = sql_num_rows(sql_query("SELECT catid FROM " . sql_prefix('') . "stories_cat WHERE title='$title'"));
+    $check = sql_num_rows(sql_query("SELECT catid 
+                                     FROM " . sql_prefix('stories_cat') . " 
+                                     WHERE title='$title'"));
 
     if ($check) {
         $what1 = '<div class="alert alert-danger lead" role="alert">' . adm_translate('Cette Catégorie existe déjà !') . '<br /><a href="javascript:history.go(-2)" class="btn btn-secondary  mt-2">' . adm_translate('Retour en arrière, pour changer le Nom') . '</a></div>';
     } else {
         $what1 = '<div class="alert alert-success lead" role="alert">' . adm_translate('Catégorie sauvegardée') . '</div>';
 
-        $result = sql_query("UPDATE " . sql_prefix('') . "stories_cat SET title='$title' WHERE catid='$catid'");
+        $result = sql_query("UPDATE " . sql_prefix('stories_cat') . " 
+                             SET title='$title' WHERE catid='$catid'");
 
         global $aid;
-        Ecr_Log("security", "SaveEditCategory($catid, $title) by AID : $aid", "");
+        Ecr_Log('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
     }
 
     include 'header.php';
@@ -337,14 +347,18 @@ function DelCategory($cat)
     GraphicAdmin('');
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$cat'");
+    $result = sql_query("SELECT title 
+                         FROM " . sql_prefix('stories_cat') . " 
+                         WHERE catid='$cat'");
+
     list($title) = sql_fetch_row($result);
 
     echo '<hr />
     <h3 class="mb-3 text-danger">' . adm_translate('Supprimer une Catégorie') . '</h3>';
 
     if (!$cat) {
-        $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
+        $selcat = sql_query("SELECT catid, title 
+                             FROM " . sql_prefix('stories_cat'));
 
         echo '<form action="admin.php" method="post">
             <div class="mb-3 row">
@@ -367,15 +381,18 @@ function DelCategory($cat)
             </div>
         </form>';
     } else {
-        $result2 = sql_query("SELECT * FROM " . sql_prefix('') . "stories WHERE catid='$cat'");
+        $result2 = sql_query("SELECT * 
+                              FROM " . sql_prefix('stories') . " 
+                              WHERE catid='$cat'");
 
         $numrows = sql_num_rows($result2);
 
         if ($numrows == 0) {
-            sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$cat'");
+            sql_query("DELETE FROM " . sql_prefix('stories_cat') . " 
+                       WHERE catid='$cat'");
 
             global $aid;
-            Ecr_Log('security', "DelCategory($cat) by AID : $aid", '');
+            Ecr_Log('security', sprintf('DelCategory(%s) by AID : %s', $cat, $aid), '');
 
             echo '<div class="alert alert-success" role="alert">' . adm_translate('Suppression effectuée') . '</div>';
         } else {
@@ -396,26 +413,32 @@ function DelCategory($cat)
 }
 function YesDelCategory($catid)
 {
-    sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+    sql_query("DELETE FROM " . sql_prefix('stories_cat') . " 
+               WHERE catid='$catid'");
 
-    $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
+    $result = sql_query("SELECT sid 
+                         FROM " . sql_prefix('stories') . " 
+                         WHERE catid='$catid'");
 
     while (list($sid) = sql_fetch_row($result)) {
-        sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
+        sql_query("DELETE FROM " . sql_prefix('stories') . " 
+                   WHERE catid='$catid'");
 
         // commentaires
         if (file_exists('modules/comments/article.conf.php')) {
             include 'modules/comments/article.conf.php';
 
-            sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
+            sql_query("DELETE FROM " . sql_prefix('posts') . " 
+                       WHERE forum_id='$forum' AND topic_id='$topic'");
         }
     }
 
     global $aid;
-    Ecr_Log('security', "YesDelCategory($catid) by AID : $aid", '');
+    Ecr_Log('security', sprintf('YesDelCategory(%s) by AID : %s', $catid, $aid), '');
 
     Header('Location: admin.php');
 }
+
 function NoMoveCategory($catid, $newcat)
 {
     global $f_meta_nom, $f_titre, $adminimg, $aid;
@@ -431,7 +454,10 @@ function NoMoveCategory($catid, $newcat)
     GraphicAdmin('');
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    $result = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+    $result = sql_query("SELECT title 
+                         FROM " . sql_prefix('stories_cat') . " 
+                         WHERE catid='$catid'");
+
     list($title) = sql_fetch_row($result);
 
     echo '<hr />
@@ -440,7 +466,8 @@ function NoMoveCategory($catid, $newcat)
     if (!$newcat) {
         echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . aff_langue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
 
-        $selcat = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat");
+        $selcat = sql_query("SELECT catid, title 
+                             FROM " . sql_prefix('stories_cat'));
 
         echo '<form action="admin.php" method="post">
             <div class="mb-3 row">
@@ -465,16 +492,21 @@ function NoMoveCategory($catid, $newcat)
             </div>
         </form>';
     } else {
-        $resultm = sql_query("SELECT sid FROM " . sql_prefix('') . "stories WHERE catid='$catid'");
+        $resultm = sql_query("SELECT sid 
+                              FROM " . sql_prefix('stories') . " 
+                              WHERE catid='$catid'");
 
         while (list($sid) = sql_fetch_row($resultm)) {
-            sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$newcat' WHERE sid='$sid'");
+            sql_query("UPDATE " . sql_prefix('stories') . " 
+                       SET catid='$newcat' 
+                       WHERE sid='$sid'");
         }
 
-        sql_query("DELETE FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+        sql_query("DELETE FROM " . sql_prefix('stories_cat') . " 
+                   WHERE catid='$catid'");
 
         global $aid;
-        Ecr_Log("security", "NoMoveCategory($catid, $newcat) by AID : $aid", "");
+        Ecr_Log('security', sprintf('NoMoveCategory(%s, %s) by AID : %s', $catid, $newcat, $aid), '');
 
         echo '<div class="alert alert-success"><strong>' . adm_translate('La ré-affectation est terminée !') . '</strong></div>';
     }
@@ -492,7 +524,9 @@ function displayStory($qid)
 
     $hlpfile = 'manuels/' . $language . '/newarticle.html';
 
-    $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
+    $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur 
+                         FROM " . sql_prefix('queue') . " 
+                         WHERE qid='$qid'");
 
     list($qid, $uid, $uname, $subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur) = sql_fetch_row($result);
     sql_free_result($result);
@@ -507,7 +541,10 @@ function displayStory($qid)
 
     $affiche = false;
 
-    $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result2 = sql_query("SELECT topictext, topicimage, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          WHERE topicid='$topic'");
+
     list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
 
     if ($radminsuper) {
@@ -523,7 +560,7 @@ function displayStory($qid)
     }
 
     if (!$affiche) {
-        header("location: admin.php?op=submissions");
+        header('location: admin.php?op=submissions');
     }
 
     $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
@@ -573,7 +610,9 @@ function displayStory($qid)
             <div class="col-sm-8">
                 <select class="form-select" id="topic" name="topic">';
 
-    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
+    $toplist = sql_query("SELECT topicid, topictext, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          ORDER BY topictext");
 
     if ($radminsuper) {
         echo '<option value="">' . adm_translate('Tous les Sujets') . '</option>';
@@ -688,7 +727,10 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
 
     $affiche = false;
 
-    $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result2 = sql_query("SELECT topictext, topicimage, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          WHERE topicid='$topic'");
+
     list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
 
     if ($radminsuper) {
@@ -704,7 +746,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     }
 
     if (!$affiche) {
-        header("location: admin.php?op=submissions");
+        header('location: admin.php?op=submissions');
     }
 
     $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
@@ -753,7 +795,9 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
             <div class="col-sm-8">
                 <select class="form-select" id="topic" name="topic">';
 
-    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
+    $toplist = sql_query("SELECT topicid, topictext, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          ORDER BY topictext");
 
     if ($radminsuper) {
         echo '<option value="">' . adm_translate('Tous les Sujets') . '</option>';
@@ -887,20 +931,26 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
     }
 
     if ($type_pub == 'pub_immediate') {
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "stories VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
+        $result = sql_query("INSERT INTO " . sql_prefix('stories') . " 
+                             VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
 
-        Ecr_Log("security", "postStory (pub_immediate, $subject) by AID : $aid", "");
+        Ecr_Log('security', sprintf('postStory(pub_immediate, %s) by AID : %s', $subject, $aid), '');
     } else {
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "autonews VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
+        $result = sql_query("INSERT INTO " . sql_prefix('autonews') . " 
+                             VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
 
-        Ecr_Log("security", "postStory (autonews, $subject) by AID : $aid", "");
+        Ecr_Log('security', sprintf('postStory(autonews, %s) by AID : %s', $subject, $aid), '');
     }
 
     if (($uid != 1) and ($uid != '')) {
-        sql_query("UPDATE " . sql_prefix('') . "users SET counter=counter+1 WHERE uid='$uid'");
+        sql_query("UPDATE " . sql_prefix('users') . " 
+                   SET counter=counter+1 
+                   WHERE uid='$uid'");
     }
 
-    sql_query("UPDATE " . sql_prefix('') . "authors SET counter=counter+1 WHERE aid='$aid'");
+    sql_query("UPDATE " . sql_prefix('authors') . " 
+               SET counter=counter+1 
+               WHERE aid='$aid'");
 
     if ($ultramode) {
         ultramode();
@@ -950,12 +1000,15 @@ function editStory($sid)
     admindroits($aid, $f_meta_nom);
 
     if (($sid == '') or ($sid == '0')) {
-        header("location: admin.php");
+        header('location: admin.php');
     }
 
-    $hlpfile = "manuels/$language/newarticle.html";
+    $hlpfile = 'manuels/' . $language . '/newarticle.html';
 
-    $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+    $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur 
+                         FROM " . sql_prefix('stories') . " 
+                         WHERE sid='$sid'");
+
     list($catid, $subject, $hometext, $bodytext, $topic, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result);
 
     $subject = stripslashes($subject);
@@ -967,7 +1020,10 @@ function editStory($sid)
 
     $affiche = false;
 
-    $result2 = sql_query("SELECT topictext, topicname, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result2 = sql_query("SELECT topictext, topicname, topicimage, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          WHERE topicid='$topic'");
+
     list($topictext, $topicname, $topicimage, $topicadmin) = sql_fetch_row($result2);
 
     if ($radminsuper) {
@@ -983,7 +1039,7 @@ function editStory($sid)
     }
 
     if (!$affiche) {
-        header("location: admin.php");
+        header('location: admin.php');
     }
 
     $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topicname) . '</strong></span>';
@@ -993,7 +1049,10 @@ function editStory($sid)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    $result = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result = sql_query("SELECT topictext, topicimage 
+                         FROM " . sql_prefix('topics') . " 
+                         WHERE topicid='$topic'");
+
     list($topictext, $topicimage) = sql_fetch_row($result);
 
     echo '<hr />' . aff_local_langue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
@@ -1031,7 +1090,9 @@ function editStory($sid)
             <div class="col-sm-8">
                 <select class="form-select" id="topic" name="topic">';
 
-    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
+    $toplist = sql_query("SELECT topicid, topictext, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          ORDER BY topictext");
 
     if ($radminsuper) {
         echo '<option value="">' . adm_translate('Tous les Sujets') . '</option>';
@@ -1160,7 +1221,9 @@ function editStory($sid)
 
 function deleteStory($qid)
 {
-    $res = sql_query("SELECT story, bodytext FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
+    $res = sql_query("SELECT story, bodytext 
+                      FROM " . sql_prefix('queue') . " 
+                      WHERE qid='$qid'");
 
     list($story, $bodytext) = sql_fetch_row($res);
 
@@ -1173,26 +1236,33 @@ function deleteStory($qid)
         unlink($imagetodelete);
     }
 
-    $result = sql_query("DELETE FROM " . sql_prefix('') . "queue WHERE qid='$qid'");
+    $result = sql_query("DELETE FROM " . sql_prefix('queue') . " 
+                         WHERE qid='$qid'");
 
     global $aid;
-    Ecr_Log("security", "deleteStoryfromQueue($qid) by AID : $aid", "");
+    Ecr_Log('security', sprintf('deleteStoryfromQueue(%s) by AID : %s', $qid, $aid), '');
 }
 
 function removeStory($sid, $ok = 0)
 {
     if (($sid == '') or ($sid == '0')) {
-        header("location: admin.php");
+        header('location: admin.php');
     }
 
     global $ultramode, $aid, $radminsuper;
 
-    $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+    $result = sql_query("SELECT topic 
+                         FROM " . sql_prefix('stories') . " 
+                         WHERE sid='$sid'");
+
     list($topic) = sql_fetch_row($result);
 
     $affiche = false;
 
-    $result2 = sql_query("SELECT topicadmin, topicname FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result2 = sql_query("SELECT topicadmin, topicname 
+                          FROM " . sql_prefix('topics') . " 
+                          WHERE topicid='$topic'");
+
     list($topicadmin, $topicname) = sql_fetch_row($result2);
 
     if ($radminsuper) {
@@ -1208,11 +1278,14 @@ function removeStory($sid, $ok = 0)
     }
 
     if (!$affiche) {
-        header("location: admin.php");
+        header('location: admin.php');
     }
 
     if ($ok) {
-        $res = sql_query("SELECT hometext, bodytext, notes FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+        $res = sql_query("SELECT hometext, bodytext, notes 
+                          FROM " . sql_prefix('stories') . " 
+                          WHERE sid='$sid'");
+
         list($hometext, $bodytext, $notes) = sql_fetch_row($res);
 
         $artcomplet = $hometext . $bodytext . $notes;
@@ -1225,17 +1298,20 @@ function removeStory($sid, $ok = 0)
             unlink($imagetodelete);
         }
 
-        sql_query("DELETE FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+        sql_query("DELETE FROM " . sql_prefix('stories') . " 
+                   WHERE sid='$sid'");
 
         // commentaires
         if (file_exists('modules/comments/article.conf.php')) {
             include('modules/comments/article.conf.php');
 
-            sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$topic'");
+            sql_query("DELETE FROM " . sql_prefix('posts') . " 
+                       WHERE forum_id='$forum' 
+                       AND topic_id='$topic'");
         }
 
         global $aid;
-        Ecr_Log('security', "removeStory ($sid, $ok) by AID : $aid", '');
+        Ecr_Log('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
 
         if ($ultramode) {
             ultramode();
@@ -1277,31 +1353,44 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     }
 
     if ($Cdate) {
-        sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome',time=now(), date_finval='$date_finval', auto_epur='$epur', archive='0' WHERE sid='$sid'");
+        sql_query("UPDATE " . sql_prefix('stories') . " 
+                   SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome',time=now(), date_finval='$date_finval', auto_epur='$epur', archive='0' 
+                   WHERE sid='$sid'");
     } else {
-        sql_query("UPDATE " . sql_prefix('') . "stories SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_finval='$date_finval', auto_epur='$epur' WHERE sid='$sid'");
+        sql_query("UPDATE " . sql_prefix('stories') . " 
+                   SET catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', date_finval='$date_finval', auto_epur='$epur' 
+                   WHERE sid='$sid'");
     }
 
     if ($Csid) {
-        sql_query("UPDATE " . sql_prefix('') . "stories SET hometext='<i class=\"fa fa-thumb-tack fa-2x me-2 text-body-secondary\"></i> $hometext' WHERE sid='$sid'");
-        list($Lsid) = sql_fetch_row(sql_query("SELECT sid FROM " . sql_prefix('') . "stories ORDER BY sid DESC"));
+        sql_query("UPDATE " . sql_prefix('stories') . " 
+                   SET hometext='<i class=\"fa fa-thumb-tack fa-2x me-2 text-body-secondary\"></i> $hometext' 
+                   WHERE sid='$sid'");
+
+        list($Lsid) = sql_fetch_row(sql_query("SELECT sid 
+                                               FROM " . sql_prefix('stories') . " 
+                                               ORDER BY sid DESC"));
 
         $Lsid++;
 
-        sql_query("UPDATE " . sql_prefix('') . "stories SET sid='$Lsid' WHERE sid='$sid'");
+        sql_query("UPDATE " . sql_prefix('stories') . " 
+                   SET sid='$Lsid' WHERE sid='$sid'");
 
         // commentaires
         if (file_exists('modules/comments/article.conf.php')) {
             include('modules/comments/article.conf.php');
 
-            sql_query("UPDATE " . sql_prefix('') . "posts SET topic_id='$Lsid' WHERE forum_id='$forum' AND topic_id='$topic'");
+            sql_query("UPDATE " . sql_prefix('posts') . " 
+                       SET topic_id='$Lsid' 
+                       WHERE forum_id='$forum' 
+                       AND topic_id='$topic'");
         }
 
         $sid = $Lsid;
     }
 
     global $aid;
-    Ecr_Log('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval,$epur,$theme) by AID : $aid", '');
+    Ecr_Log('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
 
     if ($ultramode) {
         ultramode();
@@ -1370,7 +1459,9 @@ function adminStory()
             <div class="col-sm-8">
             <select class="form-select" id="topic" name="topic">';
 
-    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
+    $toplist = sql_query("SELECT topicid, topictext, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          ORDER BY topictext");
 
     //probablement ici aussi mettre les droits pour les gestionnaires de topics ??
     if ($radminsuper) {
@@ -1482,7 +1573,10 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
 
     $affiche = false;
 
-    $result2 = sql_query("SELECT topictext, topicimage, topicadmin FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result2 = sql_query("SELECT topictext, topicimage, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          WHERE topicid='$topic'");
+
     list($topictext, $topicimage, $topicadmin) = sql_fetch_row($result2);
 
     if ($radminsuper) {
@@ -1498,7 +1592,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     }
 
     if (!$affiche) {
-        header("location: admin.php");
+        header('location: admin.php');
     }
 
     $f_meta_nom = 'adminStory';
@@ -1551,7 +1645,9 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 <div class="col-sm-8">
                 <select class="form-select" id="topic" name="topic">';
 
-    $toplist = sql_query("SELECT topicid, topictext, topicadmin FROM " . sql_prefix('') . "topics ORDER BY topictext");
+    $toplist = sql_query("SELECT topicid, topictext, topicadmin 
+                          FROM " . sql_prefix('topics') . " 
+                          ORDER BY topictext");
 
     if ($radminsuper) {
         echo '<option value="">' . adm_translate('Tous les Sujets') . '</option>';
