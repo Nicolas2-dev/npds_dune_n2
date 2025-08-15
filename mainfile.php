@@ -13,16 +13,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-include("grab_globals.php");
-include("config/config.php");
-include("library/multi-langue.php");
-include("language/lang-$language.php");
-include("library/supercache/cache.class.php");
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-
+include 'grab_globals.php';
+include 'config/config.php';
+include 'library/multi-langue.php';
+include 'language/lang-$language.php';
+include 'library/supercache/cache.class.php';
 require 'library/PHPMailer/src/Exception.php';
 require 'library/PHPMailer/src/PHPMailer.php';
 require 'library/PHPMailer/src/SMTP.php';
@@ -46,7 +41,7 @@ $tab_langue = make_tab_langue();
 global $meta_glossaire;
 $meta_glossaire = charg_metalang();
 
-date_default_timezone_set("Europe/Paris");
+date_default_timezone_set('Europe/Paris');
 
 // charegement des blocks.
 load_blocks('blocks');
