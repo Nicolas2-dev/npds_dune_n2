@@ -61,27 +61,39 @@ function file_contents_exist($url, $response_code = 200)
 function session_manage()
 {
     global $cookie, $REQUEST_URI, $nuke_url;
+
     $guest = 0;
+
     $ip = getip();
+
     $username = isset($cookie[1]) ? $cookie[1] : $ip;
+
     if ($username == $ip)
         $guest = 1;
+
     //==> geoloc
     include("modules/geoloc/geoloc.conf");
+
     if ($geo_ip == 1)
         include "modules/geoloc/geoloc_refip.php";
+
     //<== geoloc
     $past = time() - 300;
+
     sql_query("DELETE FROM " . sql_prefix('') . "session WHERE time < '$past'");
 
     //==> proto en test badbotcontrol ...
     // bad robot limited at x connections ...
     $gulty_robots = array('facebookexternalhit', 'Amazonbot', 'ClaudeBot', 'bingbot', 'Applebot', 'AhrefsBot', 'SemrushBot'); // to be defined in config.php ...
+
     foreach ($gulty_robots as $robot) {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], $robot) !== false) {
+
             $result = sql_query("SELECT agent FROM " . sql_prefix('') . "session WHERE agent REGEXP '" . $robot . "'");
+
             if (sql_num_rows($result) > 5) {
                 header($_SERVER["SERVER_PROTOCOL"] . ' 429 Too Many Requests');
+
                 echo 'Too Many Requests';
                 die;
             }
@@ -90,9 +102,12 @@ function session_manage()
     //<== proto
 
     $result = sql_query("SELECT time FROM " . sql_prefix('') . "session WHERE username='$username'");
+
     if ($row = sql_fetch_assoc($result)) {
         if ($row['time'] < (time() - 30)) {
+
             sql_query("UPDATE " . sql_prefix('') . "session SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' WHERE username='$username'");
+
             if ($guest == 0) {
                 global $gmt;
                 sql_query("UPDATE " . sql_prefix('') . "users SET user_lastvisit='" . (time() + (int)$gmt * 3600) . "' WHERE uname='$username'");
@@ -106,11 +121,16 @@ function session_manage()
 function NightDay()
 {
     global $lever, $coucher;
+
     $Maintenant = strtotime("now");
+
     $Jour = strtotime($lever);
     $Nuit = strtotime($coucher);
-    if ($Maintenant - $Jour < 0 xor $Maintenant - $Nuit > 0) return "Nuit";
-    else return "Jour";
+
+    if ($Maintenant - $Jour < 0 xor $Maintenant - $Nuit > 0)
+        return "Nuit";
+    else
+        return "Jour";
 }
 
 #autodoc removeHack($Xstring) : Permet de rechercher et de remplacer "some bad words" dans une chaine // Preg_replace by Pascalp
@@ -326,8 +346,10 @@ function removeHack($Xstring)
             "'url\('i" => "!url(!",
             "'expression\('i" => "!expression(!"
         );
+
         $Xstring = preg_replace(array_keys($npds_forbidden_words), array_values($npds_forbidden_words), $Xstring);
     }
+
     return ($Xstring);
 }
 
@@ -339,12 +361,17 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
     $From_email = $from != '' ? $from : $adminmail;
 
     if (preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $From_email)) {
+
         include 'lib/PHPMailer/PHPmailer.conf.php';
+
         if ($dkim_auto == 2) {
+
             //Private key filename for this selector 
             $privatekeyfile = 'lib/PHPMailer/key/' . $NPDS_Key . '_dkim_private.pem';
+
             //Public key filename for this selector 
             $publickeyfile = 'lib/PHPMailer/key/' . $NPDS_Key . '_dkim_public.pem';
+
             if (!file_exists($privatekeyfile)) {
                 //Create a 2048-bit RSA key with an SHA256 digest 
                 $pk = openssl_pkey_new(
@@ -354,16 +381,21 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
                         'private_key_type' => OPENSSL_KEYTYPE_RSA,
                     ]
                 );
+
                 //Save private key 
                 openssl_pkey_export_to_file($pk, $privatekeyfile);
+
                 //Save public key 
                 $pubKey = openssl_pkey_get_details($pk);
                 $publickey = $pubKey['key'];
+
                 file_put_contents($publickeyfile, $publickey);
             }
         }
+
         $debug = false;
         $mail = new PHPMailer($debug);
+
         try {
             //Server settings config smtp 
             if ($mail_fonction == 2) {
@@ -372,24 +404,31 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
                 $mail->SMTPAuth   = $smtp_auth;
                 $mail->Username   = $smtp_username;
                 $mail->Password   = $smtp_password;
+
                 if ($smtp_secure) {
                     if ($smtp_crypt === 'tls')
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                     elseif ($smtp_crypt === 'ssl')
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                 }
+
                 $mail->Port       = $smtp_port;
             }
+
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
+
             if ($priority)
                 $mail->Priority = 2;
+
             //Recipients 
             $mail->setFrom($adminmail, $sitename);
             $mail->addAddress($email, $email);
+
             //Content 
             if ($mime == 'mixed') {
                 $mail->isHTML(true);
+
                 // pièce(s) jointe(s)) 
                 if (!is_null($file)) {
                     if (is_array($file))
@@ -398,39 +437,48 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
                         $mail->addAttachment($file);
                 }
             }
+
             if (($mime == 'html') or ($mime == 'html-nobr')) {
                 $mail->isHTML(true);
+
                 if ($mime != 'html-nobr')
                     $message = nl2br($message);
             }
+
             $mail->Subject = $subject;
             $stub_mail = "<html>\n<head>\n<style type='text/css'>\nbody {\nbackground: #FFFFFF;\nfont-family: Tahoma, Calibri, Arial;\nfont-size: 1 rem;\ncolor: #000000;\n}\na, a:visited, a:link, a:hover {\ntext-decoration: underline;\n}\n</style>\n</head>\n<body>\n %s \n</body>\n</html>";
+
             if ($mime == 'text') {
                 $mail->isHTML(false);
                 $mail->Body = $message;
             } else
                 $mail->Body = sprintf($stub_mail, $message);
+
             if ($dkim_auto == 2) {
                 $mail->DKIM_domain = str_replace(['http://', 'https://'], ['', ''], $nuke_url);
                 $mail->DKIM_private = $privatekeyfile;;
                 $mail->DKIM_selector = $NPDS_Key;
                 $mail->DKIM_identity = $mail->From;
             }
+
             if ($mail_fonction == 2) {
                 if ($debug) {
                     // on génère un journal détaillé après l'envoi du mail 
                     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
                 }
             }
+
             $mail->send();
 
             if ($debug) {
                 // stop l'exécution du script pour affichage du journal sur la page 
                 die();
             }
+
             $result = true;
         } catch (Exception $e) {
             Ecr_Log('smtpmail', "send Smtp mail by $email", "Message could not be sent. Mailer Error: $mail->ErrorInfo");
+
             $result = false;
         }
     }
@@ -442,7 +490,9 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 function copy_to_email($to_userid, $sujet, $message)
 {
     $result = sql_query("SELECT email,send_email FROM " . sql_prefix('') . "users WHERE uid='$to_userid'");
+
     list($mail, $avertir_mail) = sql_fetch_row($result);
+
     if (($mail) and ($avertir_mail == 1)) {
         send_email($mail, $sujet, $message, '', true, 'html', '');
     }
@@ -457,12 +507,18 @@ function Ecr_Log($fic_log, $req_log, $mot_log)
     // $req_log= a phrase describe the infos
     //
     // $mot_log= if "" the Ip is recorded, else extend status infos
+
     $logfile = "slogs/$fic_log.log";
+
     $fp = fopen($logfile, 'a');
     flock($fp, 2);
     fseek($fp, filesize($logfile));
-    if ($mot_log == "") $mot_log = "IP=>" . getip();
+
+    if ($mot_log == "")
+        $mot_log = "IP=>" . getip();
+
     $ibid = sprintf("%-10s %-60s %-10s\r\n", date("d/m/Y H:i:s", time()), basename($_SERVER['PHP_SELF']) . "=>" . strip_tags(urldecode($req_log)), strip_tags(urldecode($mot_log))); //pourquoi urldecode ici ?
+
     fwrite($fp, $ibid);
     flock($fp, 3);
     fclose($fp);
@@ -482,7 +538,9 @@ function redirect_url($urlx)
 function SC_infos()
 {
     global $SuperCache, $npds_sc;
+
     $infos = '';
+
     if ($SuperCache) {
         /*
       $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
@@ -493,6 +551,7 @@ function SC_infos()
             $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
         }
     }
+
     return $infos;
 }
 
@@ -502,28 +561,46 @@ function req_stat()
     // Les membres
     $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users");
     $xtab[0] = $result ? (sql_num_rows($result) - 1) : '0';
-    if ($result) sql_free_result($result);
+
+    if ($result)
+        sql_free_result($result);
+
     // Les Nouvelles (News)
     $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories");
     $xtab[1] = $result ? sql_num_rows($result) : '0';
-    if ($result) sql_free_result($result);
+
+    if ($result)
+        sql_free_result($result);
+
     // Les Critiques (Reviews))
     $result = sql_query("SELECT id FROM " . sql_prefix('') . "reviews");
     $xtab[2] = $result ? sql_num_rows($result) : '0';
-    if ($result) sql_free_result($result);
+
+    if ($result)
+        sql_free_result($result);
+
     // Les Forums
     $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums");
     $xtab[3] = $result ? sql_num_rows($result) : '0';
-    if ($result) sql_free_result($result);
+
+    if ($result)
+        sql_free_result($result);
+
     // Les Sujets (topics)
     $result = sql_query("SELECT topicid FROM " . sql_prefix('') . "topics");
     $xtab[4] = $result ? sql_num_rows($result) : '0';
-    if ($result) sql_free_result($result);
+
+    if ($result)
+        sql_free_result($result);
+
     // Nombre de pages vues
     $result = sql_query("SELECT count FROM " . sql_prefix('') . "counter WHERE type='total'");
     list($totalz) = sql_fetch_row($result);
+
     $xtab[5] = $totalz++;
+
     sql_free_result($result);
+
     return ($xtab);
 }
 
@@ -537,12 +614,16 @@ function Mess_Check_Mail($username)
 function Mess_Check_Mail_interface($username, $class)
 {
     global $anonymous;
+
     if ($ibid = theme_image("fle_b.gif")) {
         $imgtmp = $ibid;
     } else {
         $imgtmp = false;
     }
-    if ($class != "") $class = "class=\"$class\"";
+
+    if ($class != "")
+        $class = "class=\"$class\"";
+
     if ($username == $anonymous) {
         if ($imgtmp) {
             echo "<img alt=\"\" src=\"$imgtmp\" align=\"center\" />$username - <a href=\"user.php\" $class>" . translate('Votre compte') . "</a>";
@@ -562,33 +643,43 @@ function Mess_Check_Mail_interface($username, $class)
 function Mess_Check_Mail_Sub($username, $class)
 {
     global $user;
+
     if ($username) {
         $userdata = explode(':', base64_decode($user));
+
         $total_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userdata[0]' AND type_msg='0'"));
+
         $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userdata[0]' AND read_msg='0' AND type_msg='0'"));
+
         if ($total_messages > 0) {
             if ($new_messages > 0) {
                 $Xcheck_Nmail = $new_messages;
             } else {
                 $Xcheck_Nmail = '0';
             }
+
             $Xcheck_mail = $total_messages;
         } else {
             $Xcheck_Nmail = '0';
             $Xcheck_mail = '0';
         }
     }
+
     $YNmail = "$Xcheck_Nmail";
     $Ymail = "$Xcheck_mail";
+
     $Mel = "<a href=\"viewpmsg.php\" $class>Mel</a>";
+
     if ($Xcheck_Nmail > 0) {
         $YNmail = "<a href=\"viewpmsg.php\" $class>$Xcheck_Nmail</a>";
         $Mel = 'Mel';
     }
+
     if ($Xcheck_mail > 0) {
         $Ymail = "<a href=\"viewpmsg.php\" $class>$Xcheck_mail</a>";
         $Mel = 'Mel';
     }
+
     return ("$Mel : $YNmail / $Ymail");
 }
 
@@ -596,6 +687,7 @@ function Mess_Check_Mail_Sub($username, $class)
 function Who_Online()
 {
     list($content1, $content2) = Who_Online_Sub();
+
     return array($content1, $content2);
 }
 
@@ -603,13 +695,17 @@ function Who_Online()
 function Who_Online_Sub()
 {
     global $user, $cookie;
+
     list($member_online_num, $guest_online_num) = site_load();
+
     $content1 = "$guest_online_num " . translate('visiteur(s) et') . " $member_online_num " . translate('membre(s) en ligne.');
+
     if ($user) {
         $content2 = translate('Vous êtes connecté en tant que') . " <b>" . $cookie[1] . "</b>";
     } else {
         $content2 = translate('Devenez membre privilégié en cliquant') . " <a href=\"user.php?op=only_newuser\">" . translate('ici') . "</a>";
     }
+
     return array($content1, $content2);
 }
 
@@ -617,21 +713,28 @@ function Who_Online_Sub()
 function Site_Load()
 {
     global $SuperCache, $who_online_num;
+
     $guest_online_num = 0;
     $member_online_num = 0;
+
     $result = sql_query("SELECT COUNT(username) AS TheCount, guest FROM " . sql_prefix('') . "session GROUP BY guest");
+
     while ($TheResult = sql_fetch_assoc($result)) {
         if ($TheResult['guest'] == 0)
             $member_online_num = $TheResult['TheCount'];
         else
             $guest_online_num = $TheResult['TheCount'];
     }
+
     $who_online_num = $guest_online_num + $member_online_num;
+
     if ($SuperCache) {
         $file = fopen("cache/site_load.log", "w");
+
         fwrite($file, $who_online_num);
         fclose($file);
     }
+
     return array($member_online_num, $guest_online_num);
 }
 
@@ -639,12 +742,17 @@ function Site_Load()
 function AutoReg()
 {
     global $AutoRegUser, $user;
+
     if (!$AutoRegUser) {
         if (isset($user)) {
+
             $cookie = explode(':', base64_decode($user));
+
             list($test) = sql_fetch_row(sql_query("SELECT open FROM " . sql_prefix('') . "users_status WHERE uid='$cookie[0]'"));
+
             if (!$test) {
                 setcookie('user', '', 0);
+
                 return false;
             } else {
                 return true;
@@ -661,10 +769,13 @@ function AutoReg()
 function secur_static($sec_type)
 {
     global $user, $admin;
+
     switch ($sec_type) {
+
         case 'member':
             return isset($user);
             break;
+
         case 'admin':
             return isset($admin);
             break;
@@ -675,23 +786,35 @@ function secur_static($sec_type)
 function ultramode()
 {
     global $nuke_url, $storyhome;
+
     $ultra = "cache/ultramode.txt";
     $netTOzone = "cache/net2zone.txt";
+
     $file = fopen("$ultra", "w");
     $file2 = fopen("$netTOzone", "w");
+
     fwrite($file, "General purpose self-explanatory file with news headlines\n");
+
     $storynum = $storyhome;
+
     $xtab = news_aff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+
     $story_limit = 0;
+
     while (($story_limit < $storynum) and ($story_limit < sizeof($xtab))) {
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[$story_limit];
+
         $story_limit++;
+
         $rfile2 = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
         list($topictext, $topicimage) = sql_fetch_row($rfile2);
+
         $hometext = meta_lang(strip_tags($hometext));
+
         fwrite($file, "%%\n$title\n$nuke_url/article.php?sid=$sid\n$time\n$aid\n$topictext\n$hometext\n$topicimage\n");
         fwrite($file2, "<NEWS>\n<NBX>$topictext</NBX>\n<TITLE>" . stripslashes($title) . "</TITLE>\n<SUMMARY>$hometext</SUMMARY>\n<URL>$nuke_url/article.php?sid=$sid</URL>\n<AUTHOR>" . $aid . "</AUTHOR>\n</NEWS>\n\n");
     }
+
     fclose($file);
     fclose($file2);
 }
@@ -700,6 +823,7 @@ function ultramode()
 function cookiedecode($user)
 {
     global $language;
+
     $stop = false;
 
     if (array_key_exists("user", $_GET)) {
@@ -708,18 +832,23 @@ function cookiedecode($user)
             $user = "BAD-GET";
         }
     }
-    
+
     if ($user) {
         $cookie = explode(':', base64_decode($user));
+
         settype($cookie[0], "integer");
+
         if (trim($cookie[1]) != '') {
             $result = sql_query("SELECT pass, user_langue FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+
             if (sql_num_rows($result) == 1) {
                 list($pass, $user_langue) = sql_fetch_row($result);
+
                 if (($cookie[2] == md5($pass)) and ($pass != '')) {
                     if ($language != $user_langue) {
                         sql_query("UPDATE " . sql_prefix('') . "users SET user_langue='$language' WHERE uname='$cookie[1]'");
                     }
+
                     return $cookie;
                 } else {
                     $stop = true;
@@ -730,10 +859,13 @@ function cookiedecode($user)
         } else {
             $stop = true;
         }
+
         if ($stop) {
             setcookie('user', '', 0);
+
             unset($user);
             unset($cookie);
+
             header("Location: index.php");
         }
     }
@@ -743,17 +875,22 @@ function cookiedecode($user)
 function getusrinfo($user)
 {
     $cookie = explode(':', base64_decode($user));
+
     $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
     list($pass) = sql_fetch_row($result);
+
     $userinfo = '';
+
     if (($cookie[2] == md5($pass)) and ($pass != '')) {
         $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+
         if (sql_num_rows($result) == 1) {
             $userinfo = sql_fetch_assoc($result);
         } else {
             echo '<strong>' . translate('Un problème est survenu') . '.</strong>';
         }
     }
+
     return $userinfo;
 }
 
@@ -762,9 +899,11 @@ function FixQuotes($what = '')
 {
     $what = str_replace("&#39;", "'", $what);
     $what = str_replace("'", "''", $what);
+
     while (preg_match("#\\\\'#", $what)) {
         $what = preg_replace("#\\\\'#", "'", $what);
     }
+
     return $what;
 }
 
@@ -773,8 +912,10 @@ function formatTimes($time, $dateStyle = IntlDateFormatter::SHORT, $timeStyle = 
 {
     $locale = language_iso(1, '_', 1); // Utilise la langue de l'affichage du site
     $fmt = datefmt_create($locale, $dateStyle, $timeStyle, $timezone, IntlDateFormatter::GREGORIAN);
+
     $timestamp = is_numeric($time) ? $time : strtotime($time);
     $date_au_format = ucfirst(htmlentities($fmt->format($timestamp), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
+
     return $date_au_format;
 }
 
@@ -783,8 +924,10 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 {
     $locale = language_iso(1, '_', 1);
     $timestamp = is_numeric($time) ? $time : strtotime($time);
+
     $fmt = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone, IntlDateFormatter::GREGORIAN, $format);
     $date_au_format = $fmt->format($timestamp);
+
     return ucfirst(htmlentities($date_au_format, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
 }
 
@@ -792,8 +935,10 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 function formatAidHeader($aid)
 {
     $holder = sql_query("SELECT url, email FROM " . sql_prefix('') . "authors WHERE aid='$aid'");
+
     if ($holder) {
         list($url, $email) = sql_fetch_row($holder);
+
         if (isset($url)) {
             echo '<a href="' . $url . '" >' . $aid . '</a>';
         } elseif (isset($email)) {
@@ -808,15 +953,21 @@ function formatAidHeader($aid)
 function ctrl_aff($ihome, $catid = 0)
 {
     global $user;
+
     $affich = false;
+
     if ($ihome == -1 and (!$user))
         $affich = true;
+
     elseif ($ihome == 0)
         $affich = true;
+
     elseif ($ihome == 1)
         $affich = $catid > 0 ? false : true;
+
     elseif (($ihome > 1) and ($ihome <= 127)) {
         $tab_groupe = valid_group($user);
+
         if ($tab_groupe) {
             foreach ($tab_groupe as $groupevalue) {
                 if ($groupevalue == $ihome) {
@@ -826,78 +977,110 @@ function ctrl_aff($ihome, $catid = 0)
             }
         }
     } else
-      if ($user) $affich = true;
+      if ($user)
+        $affich = true;
+
     return ($affich);
 }
 
 #autodoc news_aff($type_req, $sel, $storynum, $oldnum) : Une des fonctions fondamentales de NPDS / assure la gestion de la selection des News en fonctions des critères de publication
 function news_aff($type_req, $sel, $storynum, $oldnum)
-{ // pas stabilisé ...!
+{
+    // pas stabilisé ...!
     // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
     // En fait on * le Nb de News par le Nb de groupes
     $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total FROM " . sql_prefix('') . "groupes", 86400);
     $NumG = $row_Q2[0];
 
-    if ($NumG['total'] < 2) $coef = 2;
-    else $coef = $NumG['total'];
+    if ($NumG['total'] < 2)
+        $coef = 2;
+    else
+        $coef = $NumG['total'];
+
     settype($storynum, "integer");
+
     if ($type_req == 'index') {
         $Xstorynum = $storynum * $coef;
+
         $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('') . "stories $sel ORDER BY sid DESC LIMIT $Xstorynum", 3600);
         $Znum = $storynum;
     }
+
     if ($type_req == 'old_news') {
-        //      $Xstorynum=$oldnum*$coef;
+        // $Xstorynum=$oldnum*$coef;
+
         $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('') . "stories $sel ORDER BY time DESC LIMIT $storynum", 3600);
         $Znum = $oldnum;
     }
+
     if (($type_req == 'big_story') or ($type_req == 'big_topic')) {
-        //      $Xstorynum=$oldnum*$coef;
+        // $Xstorynum=$oldnum*$coef;
+
         $result = Q_select("SELECT sid, catid, ihome, counter FROM " . sql_prefix('') . "stories $sel ORDER BY counter DESC LIMIT $storynum", 0);
         $Znum = $oldnum;
     }
+
     if ($type_req == 'libre') {
         $Xstorynum = $oldnum * $coef; //need for what ?
+
         $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('') . "stories $sel", 3600);
         $Znum = $oldnum;
     }
+
     if ($type_req == 'archive') {
         $Xstorynum = $oldnum * $coef; //need for what ?
         $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('') . "stories $sel", 3600);
         $Znum = $oldnum;
     }
+
     $ibid = 0;
+
     settype($tab, 'array');
 
     foreach ($result as $myrow) {
+
         $s_sid = $myrow['sid'];
         $catid = $myrow['catid'];
         $ihome = $myrow['ihome'];
+
         if (array_key_exists('time', $myrow))
             $time = $myrow['time'];
 
         if ($ibid == $Znum) {
             break;
         }
-        if ($type_req == "libre") $catid = 0;
-        if ($type_req == "archive") $ihome = 0;
+
+        if ($type_req == "libre")
+            $catid = 0;
+
+        if ($type_req == "archive")
+            $ihome = 0;
+
         if (ctrl_aff($ihome, $catid)) {
+
             if (($type_req == "index") or ($type_req == "libre"))
                 $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
+
             if ($type_req == "archive")
                 $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='1'");
+
             if ($type_req == "old_news")
                 $result2 = sql_query("SELECT sid, title, time, comments, counter FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
+
             if (($type_req == "big_story") or ($type_req == "big_topic"))
                 $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
 
             $tab[$ibid] = sql_fetch_row($result2);
+
             if (is_array($tab[$ibid]))
                 $ibid++;
+
             sql_free_result($result2);
         }
     }
+
     @sql_free_result($result);
+
     return ($tab);
 }
 
@@ -911,59 +1094,82 @@ function themepreview($title, $hometext, $bodytext = '', $notes = '')
 function prepa_aff_news($op, $catid, $marqeur)
 {
     global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
+
     if (isset($cookie[3]))
         $storynum = $cookie[3];
     else
         $storynum = $storyhome;
+
     if ($op == "categories") {
         sql_query("UPDATE " . sql_prefix('') . "stories_cat SET counter=counter+1 WHERE catid='$catid'");
+
         settype($marqeur, "integer");
+
         if (!isset($marqeur)) {
             $marqeur = 0;
         }
+
         $xtab = news_aff("libre", "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+
         $storynum = sizeof($xtab);
     } elseif ($op == "topics") {
         settype($marqeur, "integer");
+
         if (!isset($marqeur)) {
             $marqeur = 0;
         }
+
         $xtab = news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+
         $storynum = sizeof($xtab);
     } elseif ($op == "news") {
         settype($marqeur, "integer");
+
         if (!isset($marqeur)) {
             $marqeur = 0;
         }
+
         $xtab = news_aff("libre", "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+
         $storynum = sizeof($xtab);
     } elseif ($op == "article") {
         $xtab = news_aff("index", "WHERE ihome!='1' AND sid='$catid'", 1, "");
     } else {
         $xtab = news_aff("index", "WHERE ihome!='1' AND archive='0'", $storynum, "");
     }
+
     $story_limit = 0;
+
     while (($story_limit < $storynum) and ($story_limit < sizeof($xtab))) {
+
         list($s_sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[$story_limit];
+
         $story_limit++;
+
         $printP = '<a href="print.php?sid=' . $s_sid . '" class="me-3" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-print"></i></a>&nbsp;';
         $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $s_sid . '" class="me-3" title="' . translate('Envoyer cet article à un ami') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-at"></i></a>';
+
         getTopics($s_sid);
+
         $title = aff_langue(stripslashes($title));
         $hometext = aff_langue(stripslashes($hometext));
         $notes = aff_langue(stripslashes($notes));
         $bodycount = strlen(strip_tags(aff_langue($bodytext), '<img>'));
+
         if ($bodycount > 0) {
             $bodycount = strlen(strip_tags(aff_langue($bodytext)));
+
             if ($bodycount > 0)
                 $morelink[0] = wrh($bodycount) . ' ' . translate('caractères de plus');
             else
                 $morelink[0] = ' ';
+
             $morelink[1] = ' <a href="article.php?sid=' . $s_sid . '" >' . translate('Lire la suite...') . '</a>';
         } else {
             $morelink[0] = '';
             $morelink[1] = '';
         }
+
         if ($comments == 0) {
             $morelink[2] = 0;
             $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3"><i class="far fa-comment fa-lg" title="' . translate('Commentaires ?') . '" data-bs-toggle="tooltip"></i></a>';
@@ -974,17 +1180,23 @@ function prepa_aff_news($op, $catid, $marqeur)
             $morelink[2] = $comments;
             $morelink[3] = '<a href="article.php?sid=' . $s_sid . '" class="me-3" ><i class="far fa-comment fa-lg" title="' . translate('Commentaires') . '" data-bs-toggle="tooltip"></i></a>';
         }
+
         $morelink[4] = $printP;
         $morelink[5] = $sendF;
+
         $sid = $s_sid;
+
         if ($catid != 0) {
             $resultm = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
             list($title1) = sql_fetch_row($resultm);
+
             $title = $title;
+
             // Attention à cela aussi
             $morelink[6] = ' <a href="index.php?op=newcategory&amp;catid=' . $catid . '">&#x200b;' . aff_langue($title1) . '</a>';
         } else
             $morelink[6] = '';
+
         $news_tab[$story_limit]['aid'] = serialize($aid);
         $news_tab[$story_limit]['informant'] = serialize($informant);
         $news_tab[$story_limit]['datetime'] = serialize($time);
@@ -999,6 +1211,7 @@ function prepa_aff_news($op, $catid, $marqeur)
         $news_tab[$story_limit]['topictext'] = serialize($topictext);
         $news_tab[$story_limit]['id'] = serialize($s_sid);
     }
+
     if (isset($news_tab))
         return ($news_tab);
 }
@@ -1008,11 +1221,14 @@ function valid_group($xuser)
 {
     if ($xuser) {
         $userdata = explode(':', base64_decode($xuser));
+
         $user_temp = Q_select("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='$userdata[0]'", 3600);
         $groupe = $user_temp[0];
+
         $tab_groupe = explode(',', $groupe['groupe']);
     } else
         $tab_groupe = '';
+
     return ($tab_groupe);
 }
 
@@ -1020,11 +1236,15 @@ function valid_group($xuser)
 function liste_group()
 {
     $r = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
+
     $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
+
     while ($mX = sql_fetch_assoc($r)) {
         $tmp_groupe[$mX['groupe_id']] = aff_langue($mX['groupe_name']);
     }
+
     sql_free_result($r);
+
     return ($tmp_groupe);
 }
 
@@ -1032,6 +1252,7 @@ function liste_group()
 function groupe_forum($forum_groupeX, $tab_groupeX)
 {
     $ok_affich = groupe_autorisation($forum_groupeX, $tab_groupeX);
+
     return ($ok_affich);
 }
 
@@ -1039,7 +1260,9 @@ function groupe_forum($forum_groupeX, $tab_groupeX)
 function groupe_autorisation($groupeX, $tab_groupeX)
 {
     $tab_groupe = explode(',', $groupeX);
+
     $ok = false;
+
     if ($tab_groupeX) {
         foreach ($tab_groupe as $groupe) {
             foreach ($tab_groupeX as $groupevalue) {
@@ -1048,9 +1271,12 @@ function groupe_autorisation($groupeX, $tab_groupeX)
                     break;
                 }
             }
-            if ($ok) break;
+
+            if ($ok)
+                break;
         }
     }
+
     return ($ok);
 }
 
@@ -1058,55 +1284,71 @@ function groupe_autorisation($groupeX, $tab_groupeX)
 function block_fonction($title, $contentX)
 {
     global $block_title;
+
     $block_title = $title;
+
     //For including PHP functions in block
     if (stristr($contentX, "function#")) {
+
         $contentX = str_replace('<br />', '', $contentX);
         $contentX = str_replace('<BR />', '', $contentX);
         $contentX = str_replace('<BR>', '', $contentX);
         $contentY = trim(substr($contentX, 9));
+
         if (stristr($contentY, "params#")) {
             $pos = strpos($contentY, "params#");
             $contentII = trim(substr($contentY, 0, $pos));
             $params = substr($contentY, $pos + 7);
             $prm = explode(',', $params);
+
             // Remplace le param "False" par la valeur false (idem pour True)
             for ($i = 0; $i <= count($prm) - 1; $i++) {
                 if ($prm[$i] == "false") {
                     $prm[$i] = false;
                 }
+
                 if ($prm[$i] == "true") {
                     $prm[$i] = true;
                 }
             }
+
             // En fonction du nombre de params de la fonction : limite actuelle : 8
             if (function_exists($contentII)) {
                 switch (count($prm)) {
+
                     case 1:
                         $contentII($prm[0]);
                         break;
+
                     case 2:
                         $contentII($prm[0], $prm[1]);
                         break;
+
                     case 3:
                         $contentII($prm[0], $prm[1], $prm[2]);
                         break;
+
                     case 4:
                         $contentII($prm[0], $prm[1], $prm[2], $prm[3]);
                         break;
+
                     case 5:
                         $contentII($prm[0], $prm[1], $prm[2], $prm[3], $prm[4]);
                         break;
+
                     case 6:
                         $contentII($prm[0], $prm[1], $prm[2], $prm[3], $prm[4], $prm[5]);
                         break;
+
                     case 7:
                         $contentII($prm[0], $prm[1], $prm[2], $prm[3], $prm[4], $prm[5], $prm[6]);
                         break;
+
                     case 8:
                         $contentII($prm[0], $prm[1], $prm[2], $prm[3], $prm[4], $prm[5], $prm[6], $prm[7]);
                         break;
                 }
+
                 return (true);
             } else {
                 return (false);
@@ -1114,6 +1356,7 @@ function block_fonction($title, $contentX)
         } else {
             if (function_exists($contentY)) {
                 $contentY();
+
                 return (true);
             } else {
                 return (false);
@@ -1128,18 +1371,23 @@ function block_fonction($title, $contentX)
 function fab_block($title, $member, $content, $Xcache)
 {
     global $SuperCache, $CACHE_TIMINGS;
+
     // Multi-Langue
     $title = aff_langue($title);
+
     // Bloc caché
     $hidden = false;
+
     if (substr($content, 0, 7) == "hidden#") {
         $content = str_replace("hidden#", '', $content);
         $hidden = true;
     }
+
     // Si on cherche à charger un JS qui a déjà été chargé par pages.php alors on ne le charge pas ...
     global $pages_js;
     if ($pages_js != '') {
         preg_match('#src="([^"]*)#', $content, $jssrc);
+
         if (is_array($pages_js)) {
             foreach ($pages_js as $jsvalue) {
                 if (array_key_exists('1', $jssrc)) {
@@ -1155,7 +1403,9 @@ function fab_block($title, $member, $content, $Xcache)
             }
         }
     }
+
     $content = aff_langue($content);
+
     if (($SuperCache) and ($Xcache != 0)) {
         $cache_clef = md5($content);
         $CACHE_TIMINGS[$cache_clef] = $Xcache;
@@ -1163,18 +1413,25 @@ function fab_block($title, $member, $content, $Xcache)
         $cache_obj->startCachingBlock($cache_clef);
     } else
         $cache_obj = new SuperCacheEmpty();
+
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache) or ($Xcache == 0)) {
+
         global $user, $admin;
+
         // For including CLASS AND URI in Block
         global $B_class_title, $B_class_content;
+
         $B_class_title = '';
         $B_class_content = '';
         $R_uri = '';
+
         if (stristr($content, 'class-') or stristr($content, 'uri')) {
             $tmp = explode("\n", $content);
             $content = '';
+
             foreach ($tmp as $id => $class) {
                 $temp = explode("#", $class);
+
                 if ($temp[0] == "class-title")
                     $B_class_title = str_replace("\r", "", $temp[1]);
                 else if ($temp[0] == "class-content")
@@ -1182,27 +1439,36 @@ function fab_block($title, $member, $content, $Xcache)
                 else if ($temp[0] == "uri")
                     $R_uri = str_replace("\r", '', $temp[1]);
                 else {
-                    if ($content != '') $content .= "\n ";
+                    if ($content != '')
+                        $content .= "\n ";
+
                     $content .= str_replace("\r", '', $class);
                 }
             }
         }
+
         // For BLOC URIs
         if ($R_uri) {
             global $REQUEST_URI;
+
             $page_ref = basename($REQUEST_URI);
             $tab_uri = explode(" ", $R_uri);
+
             $R_content = false;
             $tab_pref = parse_url($page_ref);
             $racine_page = $tab_pref['path'];
+
             if (array_key_exists('query', $tab_pref))
                 $tab_pref = explode('&', $tab_pref['query']);
+
             foreach ($tab_uri as $RR_uri) {
                 $tab_puri = parse_url($RR_uri);
                 $racine_uri = $tab_puri['path'];
+
                 if ($racine_page == $racine_uri) {
                     if (array_key_exists('query', $tab_puri))
                         $tab_puri = explode('&', $tab_puri['query']);
+
                     foreach ($tab_puri as $idx => $RRR_uri) {
                         if (substr($RRR_uri, -1) == "*") {
                             // si le token contient *
@@ -1212,32 +1478,44 @@ function fab_block($title, $member, $content, $Xcache)
                             $R_content = array_key_exists($RRR_uri, $tab_pref) ? false : true;
                     }
                 }
-                if ($R_content == true) break;
+
+                if ($R_content == true)
+                    break;
             }
-            if (!$R_content) $content = '';
+
+            if (!$R_content)
+                $content = '';
         }
+
         // For Javascript in Block
         if (!stristr($content, 'javascript'))
             $content = nl2br($content);
+
         // For including externale file in block / the return MUST BE in $content
         if (stristr($content, 'include#')) {
             $Xcontent = false;
+
             // You can now, include AND cast a fonction with params in the same bloc !
             if (stristr($content, "function#")) {
                 $content = str_replace('<br />', '', $content);
                 $content = str_replace('<BR />', '', $content);
                 $content = str_replace('<BR>', '', $content);
+
                 $pos = strpos($content, 'function#');
+
                 $Xcontent = substr(trim($content), $pos);
                 $content = substr(trim($content), 8, $pos - 10);
             } else {
                 $content = substr(trim($content), 8);
             }
+
             include_once($content);
+
             if ($Xcontent) {
                 $content = $Xcontent;
             }
         }
+
         if (!empty($content)) {
             if (($member == 1) and (isset($user))) {
                 if (!block_fonction($title, $content)) {
@@ -1255,6 +1533,7 @@ function fab_block($title, $member, $content, $Xcache)
                 }
             } elseif (($member > 1) and (isset($user))) {
                 $tab_groupe = valid_group($user);
+
                 if (groupe_autorisation($member, $tab_groupe)) {
                     if (!block_fonction($title, $content)) {
                         if (!$hidden)
@@ -1279,6 +1558,7 @@ function fab_block($title, $member, $content, $Xcache)
                 }
             }
         }
+
         if (($SuperCache) and ($Xcache != 0)) {
             $cache_obj->endCachingBlock($cache_clef);
         }
@@ -1304,6 +1584,7 @@ function oneblock($Xid, $Xblock)
     Pre_fab_block($Xid, $Xblock, '');
     $tmp = ob_get_contents();
     ob_end_clean();
+
     return ($tmp);
 }
 
@@ -1311,6 +1592,7 @@ function oneblock($Xid, $Xblock)
 function Pre_fab_block($Xid, $Xblock, $moreclass)
 {
     global $htvar; // modif Jireck
+
     if ($Xid)
         $result = $Xblock == 'RB' ?
             sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "rblocks WHERE id='$Xid'") :
@@ -1319,19 +1601,24 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
         $result = $Xblock == 'RB' ?
             sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "rblocks ORDER BY Rindex ASC") :
             sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "lblocks ORDER BY Lindex ASC");
+
     global $bloc_side;
     $bloc_side = $Xblock == 'RB' ? 'RIGHT' : 'LEFT';
+
     while (list($title, $content, $member, $cache, $actif, $id, $css) = sql_fetch_row($result)) {
         if (($actif) or ($Xid)) {
+
             $htvar = ($css == 1) ?
                 '
                      <div class="' . $moreclass . '" id="' . $Xblock . '_' . $id . '">' :
                 '
                      <div class="' . $moreclass . ' ' . strtolower($bloc_side) . 'bloc">';
+
             fab_block($title, $member, $content, $cache);
             // echo "</div>"; // modif Jireck
         }
     }
+
     sql_free_result($result);
 }
 
@@ -1339,15 +1626,21 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
 function niv_block($Xcontent)
 {
     $result = sql_query("SELECT member, actif FROM " . sql_prefix('') . "rblocks WHERE content REGEXP '$Xcontent'");
+
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
+
         return ($member . ',' . $actif);
     }
+
     $result = sql_query("SELECT member, actif FROM " . sql_prefix('') . "lblocks WHERE content REGEXP '$Xcontent'");
+
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
+
         return ($member . ',' . $actif);
     }
+
     sql_free_result($result);
 }
 
@@ -1355,15 +1648,20 @@ function niv_block($Xcontent)
 function autorisation_block($Xcontent)
 {
     $autoX = array(); //notice .... to follow
+
     $auto = explode(',', niv_block($Xcontent));
+
     // le dernier indice indique si le bloc est actif
     $actif = $auto[count($auto) - 1];
+
     // on dépile le dernier indice
     array_pop($auto);
+
     foreach ($auto as $autovalue) {
         if (autorisation($autovalue))
             $autoX[] = $autovalue;
     }
+
     if ($actif)
         return ($autoX);
     else
@@ -1374,11 +1672,18 @@ function autorisation_block($Xcontent)
 function autorisation($auto)
 {
     global $user, $admin;
+
     $affich = false;
-    if (($auto == -1) and (!$user)) $affich = true;
-    if (($auto == 1) and (isset($user))) $affich = true;
+
+    if (($auto == -1) and (!$user))
+        $affich = true;
+
+    if (($auto == 1) and (isset($user)))
+        $affich = true;
+
     if ($auto > 1) {
         $tab_groupe = valid_group($user);
+
         if ($tab_groupe) {
             foreach ($tab_groupe as $groupevalue) {
                 if ($groupevalue == $auto) {
@@ -1388,8 +1693,13 @@ function autorisation($auto)
             }
         }
     }
-    if ($auto == 0) $affich = true;
-    if (($auto == -127) and ($admin)) $affich = true;
+
+    if ($auto == 0)
+        $affich = true;
+
+    if (($auto == -127) and ($admin))
+        $affich = true;
+
     return ($affich);
 }
 
@@ -1397,13 +1707,19 @@ function autorisation($auto)
 function getTopics($s_sid)
 {
     global $topicname, $topicimage, $topictext;
+
     $sid = $s_sid;
+
     $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+
     if ($result) {
         list($topic) = sql_fetch_row($result);
+
         $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+
         if ($result) {
             list($topicid, $topicname, $topicimage, $topictext) = sql_fetch_row($result);
+
             return (true);
         } else {
             return (false);
@@ -1418,47 +1734,62 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 {
     // $Xtype : topic, forum ... / $Xtopic clause WHERE / $Xforum id of forum / $Xresume Text passed / $Xsauf not this userid
     global $sitename, $nuke_url;
+
     if ($Xtype == 'topic') {
         $result = sql_query("SELECT topictext FROM " . sql_prefix('') . "topics WHERE topicid='$Xtopic'");
         list($abo) = sql_fetch_row($result);
+
         $result = sql_query("SELECT uid FROM " . sql_prefix('') . "subscribe WHERE topicid='$Xtopic'");
     }
+
     if ($Xtype == 'forum') {
         $result = sql_query("SELECT forum_name, arbre FROM " . sql_prefix('') . "forums WHERE forum_id='$Xforum'");
         list($abo, $arbre) = sql_fetch_row($result);
+
         if ($arbre)
             $hrefX = 'viewtopicH.php';
         else
             $hrefX = 'viewtopic.php';
+
         $resultZ = sql_query("SELECT topic_title FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$Xtopic'");
         list($title_topic) = sql_fetch_row($resultZ);
+
         $result = sql_query("SELECT uid FROM " . sql_prefix('') . "subscribe WHERE forumid='$Xforum'");
     }
+
     include_once("language/lang-multi.php");
+
     while (list($uid) = sql_fetch_row($result)) {
         if ($uid != $Xsauf) {
+
             $resultX = sql_query("SELECT email, user_langue FROM " . sql_prefix('') . "users WHERE uid='$uid'");
             list($email, $user_langue) = sql_fetch_row($resultX);
+
             if ($Xtype == 'topic') {
                 $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Sujet") . " => " . strip_tags($abo) . "\n\n";
                 $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => $Xresume\n\n";
                 $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/search.php?query=&topic=$Xtopic\">$nuke_url/search.php?query=&topic=$Xtopic</a>\n\n";
             }
+
             if ($Xtype == 'forum') {
                 $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Forum") . " => " . strip_tags($abo) . "\n\n";
                 $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999#lastpost\">$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999</a>\n\n";
                 $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => ";
+
                 if ($Xresume != '') {
                     $resume .= $Xresume . "\n\n";
                 } else {
                     $resume .= $title_topic . "\n\n";
                 }
             }
+
             $subject = html_entity_decode(translate_ml($user_langue, "Abonnement"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " / $sitename";
             $message = $entete;
             $message .= $resume;
             $message .= $url;
+
             include("signat.php");
+
             send_email($email, $subject, $message, '', true, 'html');
         }
     }
@@ -1470,10 +1801,13 @@ function subscribe_query($Xuser, $Xtype, $Xclef)
     if ($Xtype == 'topic') {
         $result = sql_query("SELECT topicid FROM " . sql_prefix('') . "subscribe WHERE uid='$Xuser' AND topicid='$Xclef'");
     }
+
     if ($Xtype == 'forum') {
         $result = sql_query("SELECT forumid FROM " . sql_prefix('') . "subscribe WHERE uid='$Xuser' AND forumid='$Xclef'");
     }
+
     list($Xtemp) = sql_fetch_row($result);
+
     if ($Xtemp != '') {
         return (true);
     } else {
@@ -1485,16 +1819,23 @@ function subscribe_query($Xuser, $Xtype, $Xclef)
 function pollSecur($pollID)
 {
     global $user;
+
     $pollIDX = false;
+
     $pollClose = '';
+
     $result = sql_query("SELECT pollType FROM " . sql_prefix('') . "poll_data WHERE pollID='$pollID'");
+
     if (sql_num_rows($result)) {
         list($pollType) = sql_fetch_row($result);
+
         $pollClose = (($pollType / 128) >= 1 ? 1 : 0);
         $pollType = $pollType % 128;
+
         if (($pollType == 1) and !isset($user))
             $pollClose = 99;
     }
+
     return (array($pollID, $pollClose));
 }
 
@@ -1502,50 +1843,73 @@ function pollSecur($pollID)
 function fab_edito()
 {
     global $cookie;
+
     if (isset($cookie[3])) {
         if (file_exists("static/edito_membres.txt")) {
             $fp = fopen("static/edito_membres.txt", "r");
+
             if (filesize("static/edito_membres.txt") > 0)
                 $Xcontents = fread($fp, filesize("static/edito_membres.txt"));
+
             fclose($fp);
         } else {
             if (file_exists("static/edito.txt")) {
                 $fp = fopen("static/edito.txt", "r");
+
                 if (filesize("static/edito.txt") > 0)
                     $Xcontents = fread($fp, filesize("static/edito.txt"));
+
                 fclose($fp);
             }
         }
     } else {
         if (file_exists("static/edito.txt")) {
             $fp = fopen("static/edito.txt", "r");
+
             if (filesize("static/edito.txt") > 0)
                 $Xcontents = fread($fp, filesize("static/edito.txt"));
+
             fclose($fp);
         }
     }
+
     $affich = false;
     $Xibid = strstr($Xcontents, 'aff_jours');
+
     if ($Xibid) {
         parse_str($Xibid, $Xibidout);
+
         if (($Xibidout['aff_date'] + ($Xibidout['aff_jours'] * 86400)) - time() > 0) {
+
             $affichJ = false;
             $affichN = false;
-            if ((NightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked')) $affichJ = true;
-            if ((NightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked')) $affichN = true;
+
+            if ((NightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked'))
+                $affichJ = true;
+
+            if ((NightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked'))
+                $affichN = true;
         }
+
         $XcontentsT = substr($Xcontents, 0, strpos($Xcontents, 'aff_jours'));
         $contentJ = substr($XcontentsT, strpos($XcontentsT, "[jour]") + 6, strpos($XcontentsT, "[/jour]") - 6);
         $contentN = substr($XcontentsT, strpos($XcontentsT, "[nuit]") + 6, strpos($XcontentsT, "[/nuit]") - 19 - strlen($contentJ));
+
         $Xcontents = '';
+
         if (isset($affichJ) and $affichJ === true)
             $Xcontents = $contentJ;
+
         if (isset($affichN) and $affichN === true)
             $Xcontents = $contentN != '' ? $contentN : $contentJ;
-        if ($Xcontents != '') $affich = true;
+
+        if ($Xcontents != '')
+            $affich = true;
     } else
         $affich = true;
+
     $Xcontents = meta_lang(aff_langue($Xcontents));
+
     return array($affich, $Xcontents);
 }
 
@@ -1553,40 +1917,58 @@ function fab_edito()
 function aff_langue($ibid)
 {
     global $language, $tab_langue;
+
     // copie du tableau + rajout de transl pour gestion de l'appel à translate(...); - Theme Dynamic
     $tab_llangue = $tab_langue;
     $tab_llangue[] = 'transl';
+
     reset($tab_llangue);
+
     $ok_language = false;
     $trouve_language = false;
 
     foreach ($tab_llangue as $key => $lang) {
+
         $pasfin = true;
         $pos_deb = false;
         $abs_pos_deb = false;
         $pos_fin = false;
+
         while ($pasfin) {
+
             // tags [langue] et [/langue]
             $pos_deb = strpos($ibid ?? '', "[$lang]", 0);
             $pos_fin = strpos($ibid ?? '', "[/$lang]", 0);
-            if ($pos_deb === false) $pos_deb = -1;
-            if ($pos_fin === false) $pos_fin = -1;
+
+            if ($pos_deb === false)
+                $pos_deb = -1;
+
+            if ($pos_fin === false)
+                $pos_fin = -1;
+
             // tags [!langue]
             $abs_pos_deb = strpos($ibid ?? '', "[!$lang]", 0);
+
             if ($abs_pos_deb !== false) {
                 $ibid = str_replace("[!$lang]", "[$lang]", $ibid);
+
                 $pos_deb = $abs_pos_deb;
+
                 if ($lang != $language)
                     $trouve_language = true;
             }
+
             $decal = strlen($lang) + 2;
+
             if (($pos_deb >= 0) and ($pos_fin >= 0)) {
                 $fragment = substr($ibid, $pos_deb + $decal, ($pos_fin - $pos_deb - $decal));
+
                 if ($trouve_language == false) {
                     if ($lang != 'transl')
                         $ibid = str_replace("[$lang]" . $fragment . "[/$lang]", $fragment, $ibid);
                     else
                         $ibid = str_replace("[$lang]" . $fragment . "[/$lang]", translate($fragment), $ibid);
+
                     $ok_language = true;
                 } else {
                     if ($lang != 'transl')
@@ -1597,9 +1979,11 @@ function aff_langue($ibid)
             } else
                 $pasfin = false;
         }
+
         if ($ok_language)
             $trouve_language = true;
     }
+
     return ($ibid);
 }
 
@@ -1607,9 +1991,11 @@ function aff_langue($ibid)
 function make_tab_langue()
 {
     global $language, $languageslist;
+
     $languageslocal = $language . ' ' . str_replace($language, '', $languageslist);
     $languageslocal = trim(str_replace('  ', ' ', $languageslocal));
     $tab_langue = explode(' ', $languageslocal);
+
     return ($tab_langue);
 }
 
@@ -1617,15 +2003,19 @@ function make_tab_langue()
 function aff_localzone_langue($ibid)
 {
     global $tab_langue;
+
     $flag = array('french' => '🇫🇷', 'spanish' => '🇪🇸', 'german' => '🇩🇪', 'english' => '🇺🇸', 'chinese' => '🇨🇳');
+
     $M_langue = '
                                  <div class="mb-3">
                                     <select name="' . $ibid . '" class="form-select" onchange="this.form.submit()" aria-label="' . translate('Choisir une langue') . '">
                                        <option value="">' . translate('Choisir une langue') . '</option>';
+
     foreach ($tab_langue as $bidon => $langue) {
         $M_langue .= '
                                        <option value="' . $langue . '">' . $flag[$langue] . ' ' . translate('$langue') . '</option>';
     }
+
     $M_langue .= '
                                        <option value="">- ' . translate('Aucune langue') . '</option>
                                     </select>
@@ -1633,6 +2023,7 @@ function aff_localzone_langue($ibid)
                                  <noscript>
                                     <input class="btn btn-primary" type="submit" name="local_sub" value="' . translate('Valider') . '" />
                                  </noscript>';
+
     return ($M_langue);
 }
 
@@ -1643,12 +2034,14 @@ function aff_local_langue($ibid_index, $ibid, $mess = '')
         global $REQUEST_URI;
         $ibid_index = $REQUEST_URI;
     }
+
     $M_langue = '
                               <form action="' . $ibid_index . '" name="local_user_language" method="post">';
     $M_langue .= $mess . aff_localzone_langue($ibid);
     $M_langue .= '
                               </form>
                            ';
+
     return ($M_langue);
 }
 
@@ -1656,13 +2049,18 @@ function aff_local_langue($ibid_index, $ibid, $mess = '')
 function preview_local_langue($local_user_language, $ibid)
 {
     if ($local_user_language) {
+
         global $language, $tab_langue;
+
         $old_langue = $language;
         $language = $local_user_language;
+
         $tab_langue = make_tab_langue();
         $ibid = aff_langue($ibid);
+
         $language = $old_langue;
     }
+
     return ($ibid);
 }
 
@@ -1677,6 +2075,7 @@ function af_cod($ibid)
     $pat = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
     $ibid = preg_replace_callback($pat, "change_cod", $ibid, -1, $nb);
     //   $ibid= str_replace(array("\r\n", "\r", "\n"), "<br />",$ibid);
+
     return $ibid;
 }
 
@@ -1684,11 +2083,14 @@ function af_cod($ibid)
 function desaf_cod($ibid)
 {
     $pat = '#(<)(\w+)\s+(class="language-)([^">]*)(">)(.*?)\1/\2>#';
+
     function rechange_cod($r)
     {
         return '[' . $r[2] . ' ' . $r[4] . ']' . $r[6] . '[/' . $r[2] . ']';
     }
+
     $ibid = preg_replace_callback($pat, 'rechange_cod', $ibid, -1);
+
     return $ibid;
 }
 
@@ -1696,25 +2098,31 @@ function desaf_cod($ibid)
 function aff_code($ibid)
 {
     $pasfin = true;
+
     while ($pasfin) {
         $pos_deb = strpos($ibid, "[code]", 0);
         $pos_fin = strpos($ibid, "[/code]", 0);
+
         // ne pas confondre la position ZERO et NON TROUVE !
         if ($pos_deb === false) {
             $pos_deb = -1;
         }
+
         if ($pos_fin === false) {
             $pos_fin = -1;
         }
+
         if (($pos_deb >= 0) and ($pos_fin >= 0)) {
             ob_start();
             highlight_string(substr($ibid, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
             $fragment = ob_get_contents();
             ob_end_clean();
+
             $ibid = str_replace(substr($ibid, $pos_deb, ($pos_fin - $pos_deb + 7)), $fragment, $ibid);
         } else
             $pasfin = false;
     }
+
     return ($ibid);
 }
 
@@ -1725,6 +2133,7 @@ function split_string_without_space($msg, $split)
     $Xmsg = explode(' ', $msg);
     array_walk($Xmsg, 'wrapper_f', $split);
     $Xmsg = implode(' ', $Xmsg);
+
     return ($Xmsg);
 }
 
@@ -1733,21 +2142,26 @@ function wrapper_f(&$string, $key, $cols)
 {
     //   if (!(stristr($string,'IMG src=') or stristr($string,'A href=') or stristr($string,'HTTP:') or stristr($string,'HTTPS:') or stristr($string,'MAILTO:') or stristr($string,'[CODE]'))) {
     $outlines = '';
+
     if (strlen($string) > $cols) {
         while (strlen($string) > $cols) {
             $cur_pos = 0;
+
             for ($num = 0; $num < $cols - 1; $num++) {
                 $outlines .= $string[$num];
                 $cur_pos++;
+
                 if ($string[$num] == "\n") {
                     $string = substr($string, $cur_pos, (strlen($string) - $cur_pos));
                     $cur_pos = 0;
                     $num = 0;
                 }
             }
+
             $outlines .= '<i class="fa fa-cut fa-lg"> </i>';
             $string = substr($string, $cur_pos, (strlen($string) - $cur_pos));
         }
+
         $string = $outlines . $string;
     }
     //   }
@@ -1765,7 +2179,9 @@ function anti_spam($str, $highcode = 0)
 {
     // Idée originale : Pomme (2004). Nouvelle version : David MARTINET alias Boris (2011)
     $str_encoded = "";
+
     mt_srand((float)microtime() * 1000000);
+
     for ($i = 0; $i < strlen($str); $i++) {
         if ($highcode == 1) {
             $alea = mt_rand(1, 400);
@@ -1774,24 +2190,31 @@ function anti_spam($str, $highcode = 0)
             $alea = mt_rand(1, 300);
             $modulo = 3;
         }
+
         switch (($alea % $modulo)) {
+
             case 0:
                 $str_encoded .= $str[$i];
                 break;
+
             case 1:
                 $str_encoded .= "&#" . ord($str[$i]) . ";";
                 break;
+
             case 2:
                 $str_encoded .= "&#x" . bin2hex($str[$i]) . ";";
                 break;
+
             case 3:
                 $str_encoded .= "%" . bin2hex($str[$i]) . "";
                 break;
+
             default:
                 $str_encoded = "Error";
                 break;
         }
     }
+
     return $str_encoded;
 }
 
@@ -1799,13 +2222,18 @@ function anti_spam($str, $highcode = 0)
 function aff_editeur($Xzone, $Xactiv)
 {
     global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl;
+
     $tmp = '';
+
     if ($tiny_mce) {
         static $tmp_Xzone;
+
         if ($Xzone == 'tiny_mce') {
             if ($Xactiv == 'end') {
+
                 if (substr((string) $tmp_Xzone, -1) == ',')
                     $tmp_Xzone = substr_replace((string) $tmp_Xzone, '', -1);
+
                 if ($tmp_Xzone) {
                     $tmp = "
       <script type=\"text/javascript\">
@@ -1815,7 +2243,9 @@ function aff_editeur($Xzone, $Xactiv)
                selector: 'textarea.tin',
                mobile: {menubar: true},
                language : '" . language_iso(1, '', '') . "',";
+
                     include("editeur/tinymce/themes/advanced/npds.conf.php");
+
                     $tmp .= '
                });
          });
@@ -1828,6 +2258,7 @@ function aff_editeur($Xzone, $Xactiv)
             $tmp_Xzone .= $Xzone != 'custom' ? $Xzone . ',' : $Xactiv . ',';
     } else
         $tmp = '';
+
     return ($tmp);
 }
 
@@ -1836,15 +2267,18 @@ function utf8_java($ibid)
 {
     // UTF8 = &#x4EB4;&#x6B63;&#7578; / javascript = \u4EB4\u6B63\u.dechex(7578)
     $tmp = explode('&#', $ibid);
+
     foreach ($tmp as $bidon) {
         if ($bidon) {
             $bidon = substr($bidon, 0, strpos($bidon, ";"));
             $hex = strpos($bidon, 'x');
+
             $ibid = ($hex === false) ?
                 str_replace('&#' . $bidon . ';', '\\u' . dechex((int)$bidon), $ibid) :
                 str_replace('&#' . $bidon . ';', '\\u' . substr($bidon, 1), $ibid);
         }
     }
+
     return ($ibid);
 }
 
@@ -1853,6 +2287,7 @@ function wrh($ibid)
 {
     $tmp = number_format($ibid, 0, ',', ' ');
     $tmp = str_replace(' ', '&nbsp;', $tmp);
+
     return ($tmp);
 }
 
@@ -1863,6 +2298,7 @@ function Q_spambot()
     // Rajout brouillage anti_spam() : David MARTINET, alias Boris (2011)
     // Other stuff : Dev 2012
     global $user;
+
     $asb_question = array(
         '4 - (3 / 1)'       => 1,
         '7 - 5 - 0'         => 2,
@@ -1898,6 +2334,7 @@ function Q_spambot()
 
     // START ALEA
     mt_srand((float)microtime() * 1000000);
+
     // choix de la question
     $asb_index = mt_rand(0, count($asb_question) - 1);
     $ibid = array_keys($asb_question);
@@ -1906,6 +2343,7 @@ function Q_spambot()
     // translate
     $tab = explode(' ', str_replace(')', '', str_replace('(', '', $aff)));
     $al1 = mt_rand(0, count($tab) - 1);
+
     if (function_exists("imagepng"))
         $aff = str_replace($tab[$al1], html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'UTF-8'), $aff);
     else
@@ -1955,16 +2393,21 @@ function Q_spambot()
    }
    */
     ##################################################################
+
     // mis en majuscule
     if ($asb_index % 2)
         $aff = ucfirst($aff);
+
     // END ALEA
+
     //Captcha - si GD
     if (function_exists("imagepng"))
         $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
     else
         $aff = anti_spam($aff . " = ", 0);
+
     $tmp = '';
+
     if ($user == '') {
         $tmp = '
       <div class="mb-3 row">
@@ -1981,6 +2424,7 @@ function Q_spambot()
       <input type="hidden" name="asb_question" value="" />
       <input type="hidden" name="asb_reponse" value="" />';
     }
+
     return ($tmp);
 }
 
@@ -1989,19 +2433,26 @@ function L_spambot($ip, $status)
 {
     $cpt_sup = 0;
     $maj_fic = false;
+
     if ($ip == '')
         $ip = getip();
+
     if (file_exists("slogs/spam.log")) {
         $tab_spam = str_replace("\r\n", '', file("slogs/spam.log"));
+
         if (in_array($ip . '|1', $tab_spam))
             $cpt_sup = 2;
+
         if (in_array($ip . '|2', $tab_spam))
             $cpt_sup = 3;
+
         if (in_array($ip . '|3', $tab_spam))
             $cpt_sup = 4;
+
         if (in_array($ip . '|4', $tab_spam))
             $cpt_sup = 5;
     }
+
     if ($cpt_sup) {
         if ($status == "false") {
             $tab_spam[array_search($ip . '|' . ($cpt_sup - 1), $tab_spam)] = $ip . '|' . $cpt_sup;
@@ -2010,6 +2461,7 @@ function L_spambot($ip, $status)
         } else {
             $tab_spam[array_search($ip . '|' . ($cpt_sup - 1), $tab_spam)] = '';
         }
+
         $maj_fic = true;
     } else {
         if ($status == "false") {
@@ -2022,12 +2474,15 @@ function L_spambot($ip, $status)
             }
         }
     }
+
     if ($maj_fic) {
         $file = fopen("slogs/spam.log", "w");
+
         foreach ($tab_spam as $key => $val) {
             if ($val)
                 fwrite($file, $val . "\r\n");
         }
+
         fclose($file);
     }
 }
@@ -2038,14 +2493,19 @@ function R_spambot($asb_question, $asb_reponse, $message = '')
     // idée originale, développement et intégration - Gérald MARINO alias neo-machine
     global $user;
     global $REQUEST_METHOD;
+
     if ($REQUEST_METHOD == "POST") {
         if ($user == '') {
             if (($asb_reponse != '') and (is_numeric($asb_reponse)) and (strlen($asb_reponse) <= 2)) {
+
                 $ibid = decrypt($asb_question);
                 $ibid = explode(',', $ibid);
+
                 $result = "\$arg=($ibid[0]);";
+
                 // submit intervient en moins de 5 secondes (trop vite) ou plus de 30 minutes (trop long)
                 $temp = time() - $ibid[1];
+
                 if (($temp < 1800) and ($temp > 5)) {
                     eval($result);
                 } else {
@@ -2054,26 +2514,33 @@ function R_spambot($asb_question, $asb_reponse, $message = '')
             } else {
                 $arg = uniqid(mt_rand());
             }
+
             if ($arg == $asb_reponse) {
                 // plus de 2 http:// dans le texte
                 preg_match_all('#http://#', $message, $regs);
+
                 if (count($regs[0]) > 2) {
                     L_spambot('', "false");
+
                     return (false);
                 } else {
                     L_spambot('', "true");
+
                     return (true);
                 }
             } else {
                 L_spambot('', "false");
+
                 return (false);
             }
         } else {
             L_spambot('', "true");
+
             return (true);
         }
     } else {
         L_spambot('', "false");
+
         return (false);
     }
 }
@@ -2084,11 +2551,15 @@ function keyED($txt, $encrypt_key)
     $encrypt_key = md5($encrypt_key);
     $ctr = 0;
     $tmp = '';
+
     for ($i = 0; $i < strlen($txt); $i++) {
-        if ($ctr == strlen($encrypt_key)) $ctr = 0;
+        if ($ctr == strlen($encrypt_key))
+            $ctr = 0;
+
         $tmp .= substr($txt, $i, 1) ^ substr($encrypt_key, $ctr, 1);
         $ctr++;
     }
+
     return $tmp;
 }
 
@@ -2096,6 +2567,7 @@ function keyED($txt, $encrypt_key)
 function encrypt($txt)
 {
     global $NPDS_Key;
+
     return (encryptK($txt, $NPDS_Key));
 }
 
@@ -2104,6 +2576,7 @@ function encryptK($txt, $C_key)
 {
     // Génération de la graine de manière compatible
     $microtime = microtime(true) * 1000000;
+
     // Pour PHP 8.1+ qui est strict sur les conversions de types
     if (PHP_VERSION_ID >= 80100) {
         srand((int)round($microtime));
@@ -2111,15 +2584,21 @@ function encryptK($txt, $C_key)
         // Pour les versions antérieures à PHP 8.1
         srand((float)$microtime);
     }
+
     $encrypt_key = md5(rand(0, 32000));
     $ctr = 0;
     $tmp = '';
+
     for ($i = 0; $i < strlen($txt); $i++) {
-        if ($ctr == strlen($encrypt_key)) $ctr = 0;
+        if ($ctr == strlen($encrypt_key))
+            $ctr = 0;
+
         $tmp .= substr($encrypt_key, $ctr, 1) .
             (substr($txt, $i, 1) ^ substr($encrypt_key, $ctr, 1));
+
         $ctr++;
     }
+
     return base64_encode(keyED($tmp, $C_key));
 }
 
@@ -2127,6 +2606,7 @@ function encryptK($txt, $C_key)
 function decrypt($txt)
 {
     global $NPDS_Key;
+
     return (decryptK($txt, $NPDS_Key));
 }
 
@@ -2135,11 +2615,13 @@ function decryptK($txt, $C_key)
 {
     $txt = keyED(base64_decode($txt), $C_key);
     $tmp = '';
+
     for ($i = 0; $i < strlen($txt); $i++) {
         $md5 = substr($txt, $i, 1);
         $i++;
         $tmp .= (substr($txt, $i, 1) ^ $md5);
     }
+
     return ($tmp);
 }
 
@@ -2151,6 +2633,7 @@ function conv2br($txt)
     $Xcontent = str_replace("\n", "<br />", $Xcontent);
     $Xcontent = str_replace("<BR />", "<br />", $Xcontent);
     $Xcontent = str_replace("<BR>", "<br />", $Xcontent);
+
     return ($Xcontent);
 }
 
@@ -2159,9 +2642,11 @@ function hexfromchr($txt)
 {
     $surlignage = substr(md5($txt), 0, 8);
     $tmp = 0;
+
     for ($ix = 0; $ix <= 5; $ix++) {
         $tmp += hexdec($surlignage[$ix]) + 1;
     }
+
     return ($tmp %= 16);
 }
 
@@ -2179,33 +2664,49 @@ function changetoampadm($r)
 function topdownload_data($form, $ordre)
 {
     global $top, $long_chain;
-    if (!$long_chain) $long_chain = 13;
+
+    if (!$long_chain)
+        $long_chain = 13;
+
     settype($top, 'integer');
+
     $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms FROM " . sql_prefix('') . "downloads ORDER BY $ordre DESC LIMIT 0,$top");
+
     $lugar = 1;
     $ibid = '';
+
     while (list($did, $dcounter, $dfilename, $dcategory, $ddate, $dperm) = sql_fetch_row($result)) {
         if ($dcounter > 0) {
             $okfile = autorisation($dperm);
+
             if ($ordre == 'dcounter')
                 $dd = wrh($dcounter);
+
             if ($ordre == 'ddate')
                 $dd = formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
+
             $ori_dfilename = $dfilename;
+
             if (strlen($dfilename) > $long_chain)
                 $dfilename = (substr($dfilename, 0, $long_chain)) . " ...";
+
             if ($form == 'short') {
-                if ($okfile) $ibid .= '
+                if ($okfile)
+                    $ibid .= '
                                  <li class="list-group-item list-group-item-action d-flex justify-content-start p-2 flex-wrap">' . $lugar . ' <a class="ms-2" href="download.php?op=geninfo&amp;did=' . $did . '&amp;out_template=1" title="' . $ori_dfilename . ' ' . $dd . '" data-bs-toggle="tooltip" >' . $dfilename . '</a><span class="badge bg-secondary ms-auto align-self-center">' . $dd . '</span></li>';
             } else {
-                if ($okfile) $ibid .= '
+                if ($okfile)
+                    $ibid .= '
                                  <li class="ms-4 my-1"><a href="download.php?op=mydown&amp;did=' . $did . '" >' . $dfilename . '</a> (' . translate('Catégorie') . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;<span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span></li>';
             }
+
             if ($okfile)
                 $lugar++;
         }
     }
+
     sql_free_result($result);
+
     return $ibid;
 }
 
@@ -2215,19 +2716,27 @@ function PollNewest(?int $id = null): void
     // snipe : multi-poll evolution
     if ($id != 0) {
         settype($id, "integer");
+
         list($ibid, $pollClose) = pollSecur($id);
-        if ($ibid) pollMain($ibid, $pollClose);
+
+        if ($ibid)
+            pollMain($ibid, $pollClose);
     } elseif ($result = sql_query("SELECT pollID FROM " . sql_prefix('') . "poll_data ORDER BY pollID DESC LIMIT 1")) {
         list($pollID) = sql_fetch_row($result);
+
         list($ibid, $pollClose) = pollSecur($pollID);
-        if ($ibid) pollMain($ibid, $pollClose);
+
+        if ($ibid)
+            pollMain($ibid, $pollClose);
     }
 }
 
 function fab_espace_groupe($gr, $t_gr, $i_gr)
 {
     global $short_user, $dblink;
+
     $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('') . "groupes WHERE groupe_id='$gr'"));
+
     $content = '
                               <script type="text/javascript">
                               //<![CDATA[
@@ -2245,84 +2754,125 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
     $content .= '
                               <div id="bloc_ws_' . $gr . '">';
+
     if ($t_gr == 1)
         $content .= '
                                  <span style="font-size: 120%; font-weight:bolder;">' . aff_langue($rsql['groupe_name']) . '</span>' . "\n";
+
     $content .= '
                                  <p>' . aff_langue($rsql['groupe_description']) . '</p>';
+
     if (file_exists('users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1))
         $content .= '
                                  <img src="users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
+
     //=> liste des membres
     $mysql_version = mysqli_get_server_info($dblink);
+
     $query = "SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE ";
+
     $query .= (version_compare($mysql_version, '8.0.4', '>=')) ?
         "groupe REGEXP '\\\\b$gr\\\\b'" :
         "groupe REGEXP '[[:<:]]" . $gr . "[[:>:]]'";
+
     $query .= " ORDER BY uid ASC";
+
     $result = sql_query($query);
+
     $li_mb = '';
     $li_ic = '';
+
     $nb_mb = sql_num_rows($result);
+
     $count = 0;
+
     $li_mb .= '
                                  <div class="my-4">
                                     <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
+
     $tab = online_members();
+
     $li_mb .= '
                                     <ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
+
     while (list($uid, $groupe) = sql_fetch_row($result)) {
+
         $socialnetworks = array();
         $posterdata_extend = array();
         $res_id = array();
         $my_rs = '';
+
         if (!$short_user) {
+
             include_once('functions.php');
+
             $posterdata_extend = get_userdata_extend_from_id($uid);
+
             include('modules/reseaux-sociaux/reseaux-sociaux.conf.php');
+
             if ($posterdata_extend['M2'] != '') {
                 $socialnetworks = explode(';', $posterdata_extend['M2']);
+
                 foreach ($socialnetworks as $socialnetwork) {
                     $res_id[] = explode('|', $socialnetwork);
                 }
+
                 sort($res_id);
                 sort($rs);
+
                 foreach ($rs as $v1) {
                     foreach ($res_id as $y1) {
                         $k = array_search($y1[0], $v1);
+
                         if (false !== $k) {
                             $my_rs .= '<a class="me-2" href="';
-                            if ($v1[2] == 'skype') $my_rs .= $v1[1] . $y1[1] . '?chat';
-                            else $my_rs .= $v1[1] . $y1[1];
+
+                            if ($v1[2] == 'skype')
+                                $my_rs .= $v1[1] . $y1[1] . '?chat';
+                            else
+                                $my_rs .= $v1[1] . $y1[1];
+
                             $my_rs .= '" target="_blank"><i class="fab fa-' . $v1[2] . ' fa-lg fa-fw mb-2"></i></a> ';
                             break;
-                        } else $my_rs .= '';
+                        } else
+                            $my_rs .= '';
                     }
                 }
+
                 $my_rsos[] = $my_rs;
-            } else $my_rsos[] = '';
+            } else
+                $my_rsos[] = '';
         }
 
         list($uname, $user_avatar, $mns, $url, $femail) = sql_fetch_row(sql_query("SELECT uname, user_avatar, mns, url, femail FROM " . sql_prefix('') . "users WHERE uid='$uid'"));
 
         include('modules/geoloc/geoloc.conf');
+
         settype($ch_lat, 'string');
+
         $useroutils = '';
+
         if ($uid != 1 and $uid != '')
             $useroutils .= '<a class="list-group-item text-primary" href="user.php?op=userinfo&amp;uname=' . $uname . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-user align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Profil') . '</span></a>';
+
         if ($uid != 1)
             $useroutils .= '<a class="list-group-item text-primary" href="powerpack.php?op=instant_message&amp;to_userid=' . $uname . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-2x fa-envelope align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Message') . '</span></a>';
+
         if ($femail != '')
             $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
+
         if ($url != '')
             $useroutils .= '<a class="list-group-item text-primary" href="' . $url . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-2x fa-external-link-alt align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visiter ce site web') . '</span></a>';
+
         if ($mns)
             $useroutils .= '<a class="list-group-item text-primary" href="minisite.php?op=' . $uname . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-desktop align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visitez le minisite') . '</span></a>';
+
         if (!$short_user)
             if ($posterdata_extend[$ch_lat] != '')
                 $useroutils .= '<a class="list-group-item text-primary" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&op=u' . $uid . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Localisation') . '</span></a>';
 
         $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" ></i>';
+
         if (!$user_avatar)
             $imgtmp = "images/forum/avatar/blank.gif";
         else if (stristr($user_avatar, "users_private"))
@@ -2333,24 +2883,31 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
             } else {
                 $imgtmp = "images/forum/avatar/$user_avatar";
             }
+
             if (!file_exists($imgtmp)) {
                 $imgtmp = "images/forum/avatar/blank.gif";
             }
         }
+
         $timex = false;
+
         for ($i = 1; $i <= $tab[0]; $i++) {
             if ($tab[$i]['username'] == $uname)
                 $timex = time() - $tab[$i]['time'];
         }
+
         if (($timex !== false) and ($timex < 60))
             $conn = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $uname . ' ' . translate('est connecté') . '" data-bs-toggle="tooltip" ></i>';
+
         $li_ic .= '<img class="n-smil" src="' . $imgtmp . '" alt="avatar" loading="lazy" />';
         $li_mb .= '
                                        <li class="list-group-item list-group-item-action d-flex flex-row p-2">
                                           <div id="li_mb_' . $uname . '_' . $gr . '" class="n-ellipses">
                                              ' . $conn . '<a class="ms-2" tabindex="0" data-bs-title="' . $uname . '" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-content=\'<div class="list-group mb-3">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">';
+
         if (!$short_user)
             $li_mb .= $my_rsos[$count];
+
         $li_mb .= '</div>\'>
                                              <img class=" btn-outline-primary img-thumbnail img-fluid n-ava-small " src="' . $imgtmp . '" alt="avatar" title="' . $uname . '" loading="lazy" /></a>
                                              <span class="ms-2">' . $uname . '</span>
@@ -2358,11 +2915,13 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
                                        </li>';
         $count++;
     }
+
     $li_mb .= '
                                        <li style="clear:left;line-height:6px; background:none;">&nbsp;</li>
                                        <li class="list-group-item" style="clear:left;line-height:24px;padding:6px; margin-top:0px;">' . $li_ic . '</li>
                                     </ul>
                                  </div>';
+
     $content .= $li_mb;
     //<== liste des membres
 
@@ -2370,48 +2929,61 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     $lst_for = '';
     $lst_for_tog = '';
     $nb_for_gr = '';
+
     if ($rsql['groupe_forum'] == 1) {
         $res_forum = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums WHERE forum_pass REGEXP '$gr'");
         $nb_foru = sql_num_rows($res_forum);
+
         if ($nb_foru >= 1) {
             $lst_for_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_for_gr_' . $gr . '" class="text-primary" id="show_lst_for_' . $gr . '" title="' . translate('Déplier la liste') . '" ><i id="i_lst_for_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
             $lst_for .= '
                                     <ul id="lst_for_gr_' . $gr . '" class="list-group ul_bloc_ws collapse" style ="list-style-type:none;">';
             $nb_for_gr = '  <span class="badge bg-secondary float-end">' . $nb_foru . '</span>';
+
             while (list($id_fo, $fo_name) = sql_fetch_row($res_forum)) {
                 $lst_for .= '
                                        <li class="list-group-item list-group-item-action"><a href="viewforum.php?forum=' . $id_fo . '">' . $fo_name . '</a></li>';
             }
+
             $lst_for .= '
                                     </ul>';
         }
+
         $content .= '
                                  <hr />
                                  <div>
                                     ' . $lst_for_tog . '<i class="fa fa-list-alt fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Groupe') . '(' . $gr . '): ' . translate('forum') . '." data-bs-toggle="tooltip" ></i>&nbsp;<a class="text-uppercase" href="forum.php">' . translate('Forum') . '</a>' . $nb_for_gr . $lst_for . '
                                  </div>';
     }
+
     //=> wspad
+
     if ($rsql['groupe_pad'] == 1) {
         settype($lst_doc, 'string');
         settype($nb_doc_gr, 'string');
         settype($lst_doc_tog, 'string');
+
         include("modules/wspad/config.php");
+
         $docs_gr = sql_query("SELECT page, editedby, modtime, ranq FROM " . sql_prefix('') . "wspad WHERE (ws_id) IN (SELECT MAX(ws_id) FROM " . sql_prefix('') . "wspad WHERE member='$gr' GROUP BY page) ORDER BY page ASC");
         $nb_doc = sql_num_rows($docs_gr);
+
         if ($nb_doc >= 1) {
             $lst_doc_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_doc_gr_' . $gr . '" class="text-primary" id="show_lst_doc_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_doc_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
             $lst_doc .= '
                                     <ul id="lst_doc_gr_' . $gr . '" class="list-group ul_bloc_ws mt-3 collapse">';
             $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
+
             while (list($p, $e, $m, $r) = sql_fetch_row($docs_gr)) {
                 $surlignage = $couleur[hexfromchr($e)];
                 $lst_doc .= '
                                        <li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
             }
+
             $lst_doc .= '
                                     </ul>';
         }
+
         $content .= '
                                  <hr />
                                  <div>
@@ -2422,15 +2994,20 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
     //=> bloc-notes
     if ($rsql['groupe_blocnote'] == 1) {
+
         settype($lst_blocnote_tog, 'string');
         settype($lst_blocnote, 'string');
+
         include_once("modules/bloc-notes/bloc-notes.php");
+
         $lst_blocnote_tog = '
                                     <a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate('Déplier la liste') . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
+
         $lst_blocnote = '
                                     <div id="lst_blocnote_' . $gr . '" class="mt-3 collapse">
                                     ' . blocnotes("shared", 'WS-BN' . $gr, '', '7', 'bg-dark text-light', false) . '
                                     </div>';
+
         $content .= '
                                  <hr />
                                  <div class="mb-2">' . $lst_blocnote_tog . $lst_blocnote . '
@@ -2440,84 +3017,116 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
     $content .= '
                               <div class="px-1 card card-body d-flex flex-row mt-3 flex-wrap text-center">';
+
     //=> Filemanager
     if (file_exists('modules/f-manager/users/groupe_' . $gr . '.conf.php'))
         $content .= '
                                  <a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate('Gestionnaire fichiers') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
+
     //=> Minisite
     if ($rsql['groupe_mns'] == 1)
         $content .= '
                                  <a class="mx-2" href="minisite.php?op=groupe/' . $gr . '" target="_blank" title= "' . translate('MiniSite') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-desktop fa-2x"></i></a>';
+
     //=> Chat
+
     settype($chat_img, 'string');
+
     if ($rsql['groupe_chat'] == 1) {
         $PopUp = JavaPopUp("chat.php?id=$gr&amp;auto=" . encrypt(serialize($gr)), "chat" . $gr, 380, 480);
+
         if (array_key_exists('chat_info_' . $gr, $_COOKIE))
-            if ($_COOKIE['chat_info_' . $gr]) $chat_img = 'faa-pulse animated faa-slow';
+            if ($_COOKIE['chat_info_' . $gr])
+                $chat_img = 'faa-pulse animated faa-slow';
+
         $content .= '
                                  <a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Ouvrir un salon de chat pour le groupe.') . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
     }
+
     //=> admin
     if (autorisation(-127))
         $content .= '
                                  <a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
+
     $content .= '
                               </div>
                            </div>
                         ';
+
     return ($content);
 }
 
 function fab_groupes_bloc($user, $im)
 {
     $user;
+
     $lstgr = array();
+
     $userdata = explode(':', base64_decode($user));
     $result = sql_query("SELECT DISTINCT `groupe` FROM " . sql_prefix('') . "`users_status` WHERE `groupe` > 1;");
+
     while (list($groupe) = sql_fetch_row($result)) {
+
         $pos = strpos($groupe, ',');
+
         if ($pos === false)
             $lstgr[] = $groupe;
         else {
             $arg = explode(',', $groupe);
+
             foreach ($arg as $v) {
                 if (!in_array($v, $lstgr, true))
                     $lstgr[] = $v;
             }
         }
     }
+
     $ids_gr = join("','", $lstgr);
+
     sql_free_result($result);
+
     $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM `" . sql_prefix('') . "groupes` WHERE groupe_id IN ('$ids_gr')");
     $nb_groupes = sql_num_rows($result);
+
     $content = '
       <div id="bloc_groupes" class="">
          <ul id="lst_groupes" class="list-group list-group-flush mb-3">
             <li class="list-group-item d-flex justify-content-between align-items-start px-0">
                <div class="me-auto">
                   <div class="fw-bold"><i class="fa fa-users fa-2x text-body-secondary me-2"></i>' . translate('Groupes') . '</div>';
+
     $content .= $nb_groupes > 0 ? translate('Groupe ouvert') : translate('Pas de groupe ouvert');
+
     $content .= '
                </div>
                <span class="badge bg-primary rounded-pill">' . $nb_groupes . '</span>
             </li>';
+
     while (list($groupe_id, $groupe_name, $groupe_description) = sql_fetch_row($result)) {
         $content .= '
             <li class="list-group-item px-0">' . $groupe_name . '<div class="small">' . $groupe_description . '</div>';
+
         $content .= $im == 1 ? '<div class="text-center my-2"><img class="img-fluid" src="users_private/groupe/' . $groupe_id . '/groupe.png" loading="lazy"></div>' : '';
+
         if (!file_exists('users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !autorisation($groupe_id))
             if (!autorisation(-1))
                 $content .= '<div class="text-end small"><a href="user.php?op=askforgroupe&amp;askedgroup=' . $groupe_id . '" title="' . translate('Envoi une demande aux administrateurs pour rejoindre ce groupe. Un message privé vous informera du résultat de votre demande.') . '" data-bs-toggle="tooltip">' . translate('Rejoindre ce groupe') . '</a></div>';
+
         $content .= '</li>';
     }
+
     $content .= '
          </ul>';
+
     if (autorisation(-127))
         $content .= '
          <div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
+
     $content .= '
       </div>';
+
     sql_free_result($result);
+
     return ($content);
 }
 #autodoc:</Mainfile.php>
@@ -2526,8 +3135,10 @@ function fab_groupes_bloc($user, $im)
 function theme_image($theme_img)
 {
     global $theme;
+
     if (@file_exists("themes/$theme/images/$theme_img"))
         return ("themes/$theme/images/$theme_img");
+
     return false;
 }
 
@@ -2535,9 +3146,11 @@ function theme_image($theme_img)
 function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = '', $css = '')
 {
     $tmp = '';
+
     // CSS framework
     if (file_exists("themes/_skins/$fw_css/bootstrap.min.css"))
         $tmp .= "      <link href='themes/_skins/$fw_css/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
+
     // CSS standard 
     if (file_exists("themes/$tmp_theme/style/$language-style.css")) {
         $tmp .= "
@@ -2560,15 +3173,21 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
     } else
         $tmp .= "
      <link href='themes/default/style/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
+
     // Chargeur CSS spécifique
     if ($css_pages_ref) {
+
         include("themes/pages.php");
+
         if (is_array($PAGES[$css_pages_ref]['css'])) {
             foreach ($PAGES[$css_pages_ref]['css'] as $tab_css) {
+
                 $admtmp = '';
                 $op = substr($tab_css, -1);
+
                 if ($op == '+' or $op == '-')
                     $tab_css = substr($tab_css, 0, -1);
+
                 if (stristr($tab_css, 'http://') || stristr($tab_css, 'https://'))
                     $admtmp = "
       <link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
@@ -2580,6 +3199,7 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
                         $admtmp = "
       <link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
                 }
+
                 if ($op == '-')
                     $tmp = $admtmp;
                 else
@@ -2587,9 +3207,12 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
             }
         } else {
             $oups = $PAGES[$css_pages_ref]['css'];
+
             settype($oups, 'string');
+
             $op = substr($oups, -1);
             $css = substr($oups, 0, -1);
+
             if (($css != '') and (file_exists("themes/$tmp_theme/style/$css"))) {
                 if ($op == '-')
                     $tmp = "
@@ -2600,6 +3223,7 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
             }
         }
     }
+
     return ($tmp);
 }
 
@@ -2614,7 +3238,9 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
 {
     $list_json = '';
     $list_json .= 'var ' . $nom_array_js . ' = [';
+
     $res = Q_select("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl, $temps_cache);
+
     foreach ($res as $ar_data) {
         foreach ($ar_data as $val_champ) {
             if ($id_inpu == '')
@@ -2623,9 +3249,11 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
                 $list_json .= '"' . $val_champ . '",';
         }
     }
+
     $list_json = rtrim($list_json, ',');
     $list_json .= '];';
     $scri_js = '';
+
     if ($id_inpu == '')
         $scri_js .= $list_json;
     else {
@@ -2644,6 +3272,7 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
    //]]>
    </script>';
     }
+
     return ($scri_js);
 }
 
@@ -2652,13 +3281,17 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
 {
     $list_json = '';
     $list_json .= $nom_array_js . ' = [';
+
     $res = sql_query("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl . " " . $req);
+
     while (list($nom_champ) = sql_fetch_row($res)) {
         $list_json .= '\'' . $nom_champ . '\',';
     }
+
     $list_json = rtrim($list_json, ',');
     $list_json .= '];';
     $scri_js = '';
+
     $scri_js .= '
    <script type="text/javascript">
    //<![CDATA[
@@ -2700,6 +3333,7 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
    });
    //]]>
    </script>' . "\n";
+
     return ($scri_js);
 }
 
@@ -2707,40 +3341,59 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
 function language_iso($l, $s, $c)
 {
     global $language, $user_language;
+
     $iso_lang = '';
     $iso_country = '';
     $ietf = '';
     $select_lang = '';
     $select_lang = !empty($user_language) ? $user_language : $language;
+
     switch ($select_lang) {
+
         case "french":
             $iso_lang = 'fr';
             $iso_country = 'FR';
             break;
+
         case "english":
             $iso_lang = 'en';
             $iso_country = 'US';
             break;
+
         case "spanish":
             $iso_lang = 'es';
             $iso_country = 'ES';
             break;
+
         case "german":
             $iso_lang = 'de';
             $iso_country = 'DE';
             break;
+
         case "chinese":
             $iso_lang = 'zh';
             $iso_country = 'CN';
             break;
+
         default:
             break;
     }
-    if ($c !== 1) $ietf = $iso_lang;
-    if (($l == 1) and ($c == 1)) $ietf = $iso_lang . $s . $iso_country;
-    if (($l !== 1) and ($c == 1)) $ietf = $iso_country;
-    if (($l !== 1) and ($c !== 1)) $ietf = '';
-    if (($l == 1) and ($c !== 1)) $ietf = $iso_lang;
+
+    if ($c !== 1)
+        $ietf = $iso_lang;
+
+    if (($l == 1) and ($c == 1))
+        $ietf = $iso_lang . $s . $iso_country;
+
+    if (($l !== 1) and ($c == 1))
+        $ietf = $iso_country;
+
+    if (($l !== 1) and ($c !== 1))
+        $ietf = '';
+
+    if (($l == 1) and ($c !== 1))
+        $ietf = $iso_lang;
+
     return ($ietf);
 }
 
@@ -2748,8 +3401,12 @@ function language_iso($l, $s, $c)
 function adminfoot($fv, $fv_parametres, $arg1, $foo)
 {
     global $minpass;
+
     if ($fv == 'fv') {
-        if ($fv_parametres != '') $fv_parametres = explode('!###!', $fv_parametres);
+
+        if ($fv_parametres != '')
+            $fv_parametres = explode('!###!', $fv_parametres);
+
         echo '
    <script type="text/javascript" src="lib/js/es6-shim.min.js"></script>
    <script type="text/javascript" src="lib/formvalidation/dist/js/FormValidation.full.min.js"></script>
@@ -2829,9 +3486,11 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
                locale: "' . language_iso(1, "_", 1) . '",
                localization: FormValidation.locales.' . language_iso(1, "_", 1) . ',
                fields: {';
+
         if ($fv_parametres != '')
             echo '
             ' . $fv_parametres[0];
+
         echo '
                },
                plugins: {
@@ -2877,22 +3536,27 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
                   }
                }
             });';
+
         if ($fv_parametres != '')
             if (array_key_exists(1, $fv_parametres))
                 echo '
                ' . $fv_parametres[1];
+
         echo '
          })
       });
    //]]>
    </script>';
     }
+
     switch ($foo) {
+
         case '':
             echo '
       </div>';
             include('footer.php');
             break;
+
         case 'foo':
             include('footer.php');
             break;
@@ -2905,8 +3569,11 @@ function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
     for ($i = 8; $i < 13; $i++) {
         $calculCost = ['cost' => $i];
         $time_start = microtime(true);
+
         password_hash($pass, $AlgoCrypt, $calculCost);
+
         $time_end = microtime(true);
+
         if (($time_end - $time_start) * 1000 > $min_ms)
             return $i;
     }
@@ -2916,39 +3583,55 @@ function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
 function dataimagetofileurl($base_64_string, $output_path)
 {
     $rechdataimage = '#src=\\\"(data:image/[^"]+)\\\"#m';
+
     preg_match_all($rechdataimage, $base_64_string, $dataimages);
+
     $j = 0;
     $timgw = 800;
     $timgh = 600;
     $ra = rand(1, 999);
+
     foreach ($dataimages[1] as $imagedata) {
+
         $datatodecode = explode(',', $imagedata);
         $bin = base64_decode($datatodecode[1]);
         $im = imageCreateFromString($bin);
+
         if (!$im)
             die('Image non valide');
+
         $size = getImageSizeFromString($bin);
         $ext = substr($size['mime'], 6);
+
         if (!in_array($ext, ['png', 'gif', 'jpeg']))
             die('Image non supportée');
+
         $output_file = $output_path . $j . "_" . $ra . "_" . time() . "." . $ext;
         $base_64_string = preg_replace($rechdataimage, 'class="img-fluid" src="' . $output_file . '" loading="lazy"', $base_64_string, 1);
+
         if ($size[0] > $timgw or $size[1] > $timgh) {
             $timgh = round(($timgw / $size[0]) * $size[1]);
             $timgw = round(($timgh / $size[1]) * $size[0]);
+
             $th = imagecreatetruecolor($timgw, $timgh);
             imagecopyresampled($th, $im, 0, 0, 0, 0, $timgw, $timgh, $size[0], $size[1]);
+
             $args = [$th, $output_file];
         } else
             $args = [$im, $output_file];
+
         if ($ext == 'png')
             $args[] = 0;
-        else if ($ext == 'jpeg')
+        elseif ($ext == 'jpeg')
             $args[] = 100;
+
         $fonc = "image{$ext}";
+
         call_user_func_array($fonc, $args);
+
         $j++;
     }
+
     return $base_64_string;
 }
 
@@ -2974,6 +3657,7 @@ function import_meta($title = 'NPDS')
 {
     $Titlesitename = $title;
 
-    if (file_exists('storage/meta/meta.php'))
+    if (file_exists('storage/meta/meta.php')) {
         include 'storage/meta/meta.php';
+    }
 }

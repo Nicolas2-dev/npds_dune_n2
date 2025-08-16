@@ -19,7 +19,8 @@
 /************************************************************************/
 
 // Bloque le lancement de l'install si IZ-Xinstall.ok existe
-if (file_exists('IZ-Xinstall.ok')) include('admin/die.php');
+if (file_exists('IZ-Xinstall.ok')) 
+    include('admin/die.php');
 
 /*
 # Inclusions des lib et contrôle versions
@@ -28,8 +29,10 @@ include('grab_globals.php');
 include('install/libraries/graphIZm.php');
 include('install/libraries/lib-inc.php');
 include('config.php');
+
 verif_php();
 //verif_sql();//
+
 $sqlver = '';
 
 /*
@@ -37,9 +40,11 @@ $sqlver = '';
 */
 $cms_logo = 'install/images/header.png';
 $cms_name = 'NPDS REvolution 16';
+
 global $cms_logo, $cms_name, $Version_Num, $Version_Sub, $phpver;
 
-if (!isset($stage)) $stage = 0;
+if (!isset($stage)) 
+    $stage = 0;
 
 /*
 # install/etape_0.php
@@ -50,7 +55,9 @@ if (!isset($stage)) $stage = 0;
 */
 if ($stage == 0) {
     entete();
+
     require('install/etape_0.php');
+
     etape_0();
     pied_depage('success');
 }
@@ -64,24 +71,33 @@ if ($stage == 1) {
     $file = file("config.php");
     $file[173] = "\$language = \"$langue\";\n";
     $fic = fopen("config.php", "w");
+
     foreach ($file as $n => $ligne) {
         fwrite($fic, $ligne);
     }
+
     fclose($fic);
 
     $colorst1 = '-success';
     $colorst2 = ' active';
+
     entete();
     menu();
     echo $menu;
+
     require('install/etape_1.php');
-    if (!isset($op)) $op = 'etape_1';
+
+    if (!isset($op)) 
+        $op = 'etape_1';
+
     switch ($op) {
+
         case 'etape_1':
         default:
             etape_1();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -91,22 +107,30 @@ if ($stage == 1) {
 #   => install/languages/english/licence-eng.txt
 #   => install/languages/french/licence-fra.txt
 */
+
 settype($qi, 'integer');
+
 if ($stage == 2 and $qi != 1) {
     $colorst1 = '-success';
     $colorst2 = '-success';
     $colorst3 = ' active';
+
     entete();
     menu();
     echo $menu;
+
     require('install/etape_2.php');
-    if (!isset($op)) $op = 'etape_2';
+
+    if (!isset($op)) 
+        $op = 'etape_2';
+
     switch ($op) {
         case 'etape_2':
         default:
             etape_2();
             break;
     }
+
     pied_depage('success');
 };
 
@@ -119,7 +143,10 @@ if ($stage == 2 and $qi != 1) {
 */
 if (($stage == 3) or ($stage == 2 and $qi == 1)) {
     require('install/etape_3.php');
-    if (!isset($op)) $op = 'etape_3';
+
+    if (!isset($op)) 
+        $op = 'etape_3';
+
     switch ($op) {
         case 'etape_3':
         default:
@@ -136,23 +163,34 @@ if (($stage == 3) or ($stage == 2 and $qi == 1)) {
 */
 if ($stage == 4) {
     $out = '';
+
     for ($i = 1; $i <= 4; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst5 = ' active';
+
     require('install/etape_4.php');
-    if (!isset($op)) $op = 'etape_4';
+
+    if (!isset($op)) 
+        $op = 'etape_4';
+
     switch ($op) {
         case 'write_parameters':
+
             global $stage, $langue, $stage4_ok, $qi;
             write_parameters($new_dbhost, $new_dbuname, $new_dbpass, $new_dbname, $new_NPDS_Prefix, $new_mysql_p, $new_adminmail);
+
             if ($stage4_ok == 1) {
                 $msg = '
             <div class="alert alert-success">' . ins_translate('Le fichier de configuration a été écrit avec succès !') . '</div>';
+
                 $Xinst_log = date('d/m/y  H:j:s') . ' : Ecriture paramètres de config pour ' . $cms_name . "\n";
                 $file = fopen('slogs/install.log', 'a');
+
                 fwrite($file, $Xinst_log);
                 fclose($file);
+
                 if ($qi == 1) {
                     Header('Location: install.php?stage=5&qi=1&langue=' . $langue);
                     exit;
@@ -160,11 +198,14 @@ if ($stage == 4) {
             } elseif ($stage4_ok == 0)
                 $msg = '
             <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
+            
             entete();
             menu();
             echo $menu;
+
             $out .= '
                   <h3 class="mb-3">' . ins_translate('Paramètres de connexion') . '</h3>' . $msg;
+
             if ($stage4_ok == 1 and $qi != 1)
                 $out .= '
                   <form name="submit" method="post" action="install.php">
@@ -172,11 +213,14 @@ if ($stage == 4) {
                      <input type="hidden" name="stage" value="5" />
                      <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                   </form>';
+
             $out .= '
                </div>';
+
             echo $out;
             unset($stage4_ok);
             break;
+
         case 'etape_4':
         default:
             entete();
@@ -185,6 +229,7 @@ if ($stage == 4) {
             etape_4();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -196,19 +241,28 @@ if ($stage == 4) {
 */
 if ($stage == 5) {
     $out = '';
+
     for ($i = 1; $i <= 5; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst6 = ' active';
+
     require('install/etape_5.php');
-    if (!isset($op)) $op = 'etape_5';
+
+    if (!isset($op)) 
+        $op = 'etape_5';
+
     switch ($op) {
         case 'write_others':
             global $stage, $langue, $stage5_ok, $qi;
+
             write_others($new_nuke_url, $new_sitename, $new_Titlesitename, $new_slogan, $new_Default_Theme, $new_startdate);
+
             if ($stage5_ok == 1) {
                 $msg = '
                <div class="alert alert-success">' . ins_translate('Le fichier de configuration a été écrit avec succès !') . '</div>';
+
                 if ($qi == 1) {
                     Header('Location: install.php?stage=6&qi=1&langue=' . $langue);
                     exit;
@@ -216,11 +270,14 @@ if ($stage == 5) {
             } elseif ($stage5_ok == 0)
                 $msg = '
                <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
+            
             entete();
             menu();
             echo $menu;
+
             $out .= '
                <h3 class="mb-3">' . ins_translate('Fichier de configuration') . '</h3>' . $msg;
+
             if ($stage5_ok == 1 and $qi != 1)
                 $out .= '
                <form name="next" method="post" action="install.php">
@@ -230,11 +287,14 @@ if ($stage == 5) {
                      <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                   </div>
                </form>';
+
             $out .= '
             </div>';
+
             echo $out;
             unset($stage5_ok);
             break;
+
         case 'etape_5':
         default:
             entete();
@@ -243,6 +303,7 @@ if ($stage == 5) {
             etape_5();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -252,27 +313,41 @@ if ($stage == 5) {
 */
 if ($stage == 6) {
     require('install/etape_6.php');
-    if (!isset($op)) $op = 'etape_6';
+
+    if (!isset($op)) 
+        $op = 'etape_6';
+
     for ($i = 1; $i <= 6; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst7 = ' active';
 
     switch ($op) {
         case 'write_database':
+
             global $stage, $langue, $stage6_ok, $pre_tab, $sql_com, $qi;
+
             settype($out, 'string');
+
             require('install/sql/build_sql-create.php');
+
             build_sql_create(sql_prefix(''));
             Mysql_Connexion();
+
             require('install/sql/sql-create.php');
+
             write_database();
+
             if ($stage6_ok == 1) {
                 $Xinst_log = date('d/m/y  H:j:s') . ' : Création tables de la base de donnée pour ' . $cms_name . "\n";
                 $file = fopen("slogs/install.log", "a");
+
                 fwrite($file, $Xinst_log);
                 fclose($file);
+
                 $colorst7 = ' active';
+
                 $msg = '
                   <div class="alert alert-success">' . ins_translate('La base de données a été mise à jour avec succès !') . '</div>';
                 if ($qi == 1) {
@@ -281,14 +356,18 @@ if ($stage == 6) {
                 };
             } elseif ($stage6_ok == 0) {
                 $colorst7 = '-danger';
+
                 $msg = '
                   <div class="alert alert-danger">' . ins_translate('La base de données n\'a pas pu être modifiée. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.') . '</div>';
             }
+
             entete();
             menu();
             echo $menu;
+
             $out .= '
                <h3 class="mb-3">' . ins_translate('Base de données') . '</h3>' . $msg;
+
             if ($stage6_ok == 1 and $qi != 1) {
                 $out .= '
                <form name="next" method="post" action="install.php">
@@ -297,11 +376,14 @@ if ($stage == 6) {
                   <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                </form>';
             }
+
             $out .= '
       </div>';
+
             echo $out;
             unset($stage6_ok);
             break;
+
         case 'etape_6':
         default:
             entete();
@@ -310,6 +392,7 @@ if ($stage == 6) {
             etape_6();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -321,17 +404,26 @@ if ($stage == 7) {
     for ($i = 1; $i <= 7; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst8 = ' active';
 
     require('install/etape_7.php');
-    if (!isset($op)) $op = 'etape_7';
+
+    if (!isset($op)) 
+        $op = 'etape_7';
+
     switch ($op) {
         case 'write_users':
             global $stage, $langue, $stage7_ok;
+
             if (($adminpass1 != '') and ($adminpass2 != '')) {
+
                 settype($out, 'string');
+
                 include('config.php');
+
                 write_users($adminlogin, $adminpass1, $adminpass2, sql_prefix(''));
+
                 if ($stage7_ok == 2) {
                     echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'install.php?op=etape_7&stage=7&classe=0&langue=' . $langue . '\';' . "\n" . '//]]>' . "\n" . '</script>';
                 } else {
@@ -350,11 +442,14 @@ if ($stage == 7) {
                         $msg = '
                <div class="alert alert-danger">' . ins_translate('Le compte Admin n\'a pas pu être modifié. Vérifiez les paramètres ainsi que vos fichiers, puis réessayez à nouveau.') . '</div>';
                     }
+
                     entete();
                     menu();
                     echo $menu;
+
                     $out .= '
                <h3 class="mb-3">' . ins_translate('Compte Admin') . '</h3>' . $msg;
+
                     if ($stage7_ok == 1 and $qi != 1) {
                         $out .= '
                 <form name="next" method="post" action="install.php">
@@ -373,15 +468,18 @@ if ($stage == 7) {
                 echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'install.php?op=etape_7&stage=7&classe=0&langue=' . $langue . '\';' . "\n" . '//]]>' . "\n" . '</script>';
             }
             break;
+
         case 'etape_7':
         default:
             include('config.php');
+
             entete();
             menu();
             echo $menu;
             etape_7();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -393,19 +491,29 @@ if ($stage == 8) {
     for ($i = 1; $i <= 8; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst9 = ' active';
 
     require('install/etape_8.php');
-    if (!isset($op)) $op = 'etape_8';
+
+    if (!isset($op)) 
+        $op = 'etape_8';
+
     switch ($op) {
         case 'write_upload':
+
             global $stage, $langue, $stage8_ok, $qi;
+
             settype($out, 'string');
+
             include('config.php');
+
             write_upload($new_max_size, $new_DOCUMENTROOT, $new_autorise_upload_p, $new_racine, $new_rep_upload, $new_rep_cache, $new_rep_log, $new_url_upload);
+           
             if ($stage8_ok == 1) {
                 $msg = '
                <div class="alert alert-success">' . ins_translate('Le fichier de configuration a été écrit avec succès !') . '</div>';
+
                 if ($qi == 1) {
                     Header('Location: install.php?stage=9&qi=1&op=write_ok&langue=' . $langue);
                     exit;
@@ -414,12 +522,14 @@ if ($stage == 8) {
                 $msg = '
                <div class="alert alert-danger">' . ins_translate('Le fichier de configuration n\'a pas pu être modifié. Vérifiez les droits d\'accès au fichier \'config.php\', puis réessayez à nouveau.') . '</div>';
             }
+
             entete();
             menu();
             echo $menu;
 
             $out .=  '
                <h3 class="mb-3">' . ins_translate('Configuration du module UPload') . '</h3>' . $msg;
+
             if ($stage8_ok == 1 and $qi != 1)
                 $out .= '
                <form name="next" method="post" action="install.php">
@@ -427,12 +537,15 @@ if ($stage == 8) {
                   <input type="hidden" name="stage" value="9" />
                   <button type="submit" class="btn btn-success">' . ins_translate('Etape suivante') . '</button>
                </form>';
+
             $out .= '
          </div>';
+
             echo $out;
 
             unset($stage8_ok);
             break;
+
         case 'etape_8':
         default:
             entete();
@@ -441,6 +554,7 @@ if ($stage == 8) {
             etape_8();
             break;
     }
+
     pied_depage('success');
 }
 
@@ -452,13 +566,18 @@ if ($stage == 9) {
     for ($i = 1; $i <= 9; $i++) {
         ${"colorst" . $i} = '-success';
     }
+
     $colorst10 = ' active';
 
     entete();
     menu();
     echo $menu;
+
     require('install/etape_9.php');
-    if (!isset($op)) $op = 'etape_9';
+
+    if (!isset($op)) 
+        $op = 'etape_9';
+
     switch ($op) {
         case 'write_ok':
             $fp = fopen('IZ-Xinstall.ok', 'w');
@@ -469,6 +588,7 @@ if ($stage == 9) {
             {
                 $dir = opendir($rep);
                 chdir($rep);
+
                 while ($nom = readdir($dir)) {
                     if ($nom != '.' && $nom != '..' && $nom != '') {
                         if (is_dir($nom)) {
@@ -479,15 +599,18 @@ if ($stage == 9) {
                         }
                     }
                 }
+
                 chdir('..');
                 closedir($dir);
             }
+
             if (file_exists('IZ-Xinstall.ok'))
                 if (file_exists('install.php') or is_dir('install')) {
                     icare_delete_Dir('install');
                     @rmdir('install');
                     @unlink('install.php');
                 }
+
             echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'index.php\';' . "\n" . '//]]>' . "\n" . '</script>';
             break;
 
@@ -496,5 +619,6 @@ if ($stage == 9) {
             etape_9();
             break;
     }
+    
     pied_depage('success');
 }
