@@ -327,35 +327,33 @@ function smilie($message)
     return $message;
 }
 
-// reprendre içi !!!!
-
 function smile($message)
 {
     // Tranforme une IMG en :-)
     global $theme;
 
-    if ($ibid = theme_image("forum/smilies/smilies.php")) {
-        $imgtmp = "themes/$theme/images/forum/smilies/";
+    if ($ibid = theme_image('forum/smilies/smilies.php')) {
+        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/';
     } else {
-        $imgtmp = "images/forum/smilies/";
+        $imgtmp = 'images/forum/smilies/';
     }
 
-    if (file_exists($imgtmp . "smilies.php")) {
-        include($imgtmp . "smilies.php");
+    if (file_exists($imgtmp . 'smilies.php')) {
+        include($imgtmp . 'smilies.php');
 
         foreach ($smilies as $tab_smilies) {
             $message = str_replace("<img class='n-smil' src='" . $imgtmp . $tab_smilies[1] . "' loading='lazy' />", $tab_smilies[0], $message);
         }
     }
 
-    if ($ibid = theme_image("forum/smilies/more/smilies.php")) {
-        $imgtmp = "themes/$theme/images/forum/smilies/more/";
+    if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
+        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/more/';
     } else {
-        $imgtmp = "images/forum/smilies/more/";
+        $imgtmp = 'images/forum/smilies/more/';
     }
 
-    if (file_exists($imgtmp . "smilies.php")) {
-        include($imgtmp . "smilies.php");
+    if (file_exists($imgtmp . 'smilies.php')) {
+        include($imgtmp . 'smilies.php');
 
         foreach ($smilies as $tab_smilies) {
             $message = str_replace("<img class='n-smil' src='" . $imgtmp . $tab_smilies[1] . "' loading='lazy' />", $tab_smilies[0],  $message);
@@ -440,20 +438,20 @@ function putitems_more()
 {
     global $theme, $tmp_theme;
 
-    if (stristr($_SERVER['PHP_SELF'], "more_emoticon.php")) {
+    if (stristr($_SERVER['PHP_SELF'], 'more_emoticon.php')) {
         $theme = $tmp_theme;
     }
 
     echo '<p align="center">' . translate('Cliquez pour insérer des émoticons dans votre message') . '</p>';
 
-    if ($ibid = theme_image("forum/smilies/more/smilies.php")) {
-        $imgtmp = "themes/$theme/images/forum/smilies/more/";
+    if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
+        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/more/';
     } else {
-        $imgtmp = "images/forum/smilies/more/";
+        $imgtmp = 'images/forum/smilies/more/';
     }
 
-    if (file_exists($imgtmp . "smilies.php")) {
-        include($imgtmp . "smilies.php");
+    if (file_exists($imgtmp . 'smilies.php')) {
+        include($imgtmp . 'smilies.php');
 
         echo '<div>';
 
@@ -551,7 +549,7 @@ function emotion_add($image_subject)
     global $theme;
 
     if ($ibid = theme_image('forum/subject/index.html')) {
-        $imgtmp = "themes/$theme/images/forum/subject";
+        $imgtmp = 'themes/'. $theme .'/images/forum/subject';
     } else {
         $imgtmp = 'images/forum/subject';
     }
@@ -611,10 +609,10 @@ function make_clickable($text)
 
 function undo_htmlspecialchars($input)
 {
-    $input = preg_replace("/&gt;/i", ">", $input);
-    $input = preg_replace("/&lt;/i", "<", $input);
-    $input = preg_replace("/&quot;/i", "\"", $input);
-    $input = preg_replace("/&amp;/i", "&", $input);
+    $input = preg_replace('/&gt;/i', '>', $input);
+    $input = preg_replace('/&lt;/i', '<', $input);
+    $input = preg_replace('/&quot;/i', '\'', $input);
+    $input = preg_replace('/&amp;/i', '&', $input);
 
     return $input;
 }
@@ -676,10 +674,10 @@ function member_qualif($poster, $posts, $rank)
         }
 
         if ($rank) {
-            if ($ibid = theme_image("forum/rank/" . $rank . ".gif") or $ibid = theme_image("forum/rank/" . $rank . ".png")) {
+            if ($ibid = theme_image('forum/rank/' . $rank . '.gif') or $ibid = theme_image('forum/rank/' . $rank . '.png')) {
                 $imgtmpA = $ibid;
             } else {
-                $imgtmpA = "images/forum/rank/" . $rank . ".png";
+                $imgtmpA = 'images/forum/rank/' . $rank . '.png';
             }
 
             $rank = 'rank' . $rank;
@@ -696,139 +694,139 @@ function forumerror($e_code)
 {
     global $sitename, $header;
 
-    if ($e_code == "0001") {
+    if ($e_code == '0001') {
         $error_msg = translate('Pas de connexion à la base forums.');
     }
 
-    if ($e_code == "0002") {
+    if ($e_code == '0002') {
         $error_msg = translate('Le forum sélectionné n\'existe pas.');
     }
 
-    if ($e_code == "0004") {
+    if ($e_code == '0004') {
         $error_msg = translate('Pas de connexion à la base topics.');
     }
 
-    if ($e_code == "0005") {
+    if ($e_code == '0005') {
         $error_msg = translate('Erreur lors de la récupération des messages depuis la base.');
     }
 
-    if ($e_code == "0006") {
+    if ($e_code == '0006') {
         $error_msg = translate('Entrer votre pseudonyme et votre mot de passe.');
     }
 
-    if ($e_code == "0007") {
+    if ($e_code == '0007') {
         $error_msg = translate('Vous n\'êtes pas le modérateur de ce forum, vous ne pouvez utiliser cette fonction.');
     }
 
-    if ($e_code == "0008") {
+    if ($e_code == '0008') {
         $error_msg = translate('Mot de passe erroné, refaites un essai.');
     }
 
-    if ($e_code == "0009") {
+    if ($e_code == '0009') {
         $error_msg = translate('Suppression du message impossible.');
     }
 
-    if ($e_code == "0010") {
+    if ($e_code == '0010') {
         $error_msg = translate('Impossible de déplacer le topic dans le Forum, refaites un essai.');
     }
 
-    if ($e_code == "0011") {
+    if ($e_code == '0011') {
         $error_msg = translate('Impossible de verrouiller le topic, refaites un essai.');
     }
 
-    if ($e_code == "0012") {
+    if ($e_code == '0012') {
         $error_msg = translate('Impossible de déverrouiller le topic, refaites un essai.');
     }
 
-    if ($e_code == "0013") {
-        $error_msg = translate('Impossible d\'interroger la base.') . "<br />Error: sql_error()";
+    if ($e_code == '0013') {
+        $error_msg = translate('Impossible d\'interroger la base.') . '<br />Error: sql_error()';
     }
 
-    if ($e_code == "0014") {
+    if ($e_code == '0014') {
         $error_msg = translate('Utilisateur ou message inexistant dans la base.');
     }
 
-    if ($e_code == "0015") {
+    if ($e_code == '0015') {
         $error_msg = translate('Le moteur de recherche ne trouve pas la base forum.');
     }
 
-    if ($e_code == "0016") {
+    if ($e_code == '0016') {
         $error_msg = translate('Cet utilisateur n\'existe pas, refaites un essai.');
     }
 
-    if ($e_code == "0017") {
+    if ($e_code == '0017') {
         $error_msg = translate('Vous devez obligatoirement saisir un sujet, refaites un essai.');
     }
 
-    if ($e_code == "0018") {
+    if ($e_code == '0018') {
         $error_msg = translate('Vous devez choisir un icône pour votre message, refaites un essai.');
     }
 
-    if ($e_code == "0019") {
+    if ($e_code == '0019') {
         $error_msg = translate('Message vide interdit, refaites un essai.');
     }
 
-    if ($e_code == "0020") {
+    if ($e_code == '0020') {
         $error_msg = translate('Mise à jour de la base impossible, refaites un essai.');
     }
 
-    if ($e_code == "0021") {
+    if ($e_code == '0021') {
         $error_msg = translate('Suppression du message sélectionné impossible.');
     }
 
-    if ($e_code == "0022") {
+    if ($e_code == '0022') {
         $error_msg = translate('Une erreur est survenue lors de l\'interrogation de la base.');
     }
 
-    if ($e_code == "0023") {
+    if ($e_code == '0023') {
         $error_msg = translate('Le message sélectionné n\'existe pas dans la base forum.');
     }
 
-    if ($e_code == "0024") {
+    if ($e_code == '0024') {
         $error_msg = translate('Vous ne pouvez répondre à ce message, vous n\'en êtes pas le destinataire.');
     }
 
-    if ($e_code == "0025") {
+    if ($e_code == '0025') {
         $error_msg = translate('Vous ne pouvez répondre à ce topic il est verrouillé. Contacter l\'administrateur du site.');
     }
 
-    if ($e_code == "0026") {
+    if ($e_code == '0026') {
         $error_msg = translate('Le forum ou le topic que vous tentez de publier n\'existe pas, refaites un essai.');
     }
 
-    if ($e_code == "0027") {
+    if ($e_code == '0027') {
         $error_msg = translate('Vous devez vous identifier.');
     }
 
-    if ($e_code == "0028") {
+    if ($e_code == '0028') {
         $error_msg = translate('Mot de passe erroné, refaites un essai.');
     }
 
-    if ($e_code == "0029") {
+    if ($e_code == '0029') {
         $error_msg = translate('Mise à jour du compteur des envois impossible.');
     }
 
-    if ($e_code == "0030") {
+    if ($e_code == '0030') {
         $error_msg = translate('Le forum dans lequel vous tentez de publier n\'existe pas, merci de recommencez');
     }
 
-    if ($e_code == "0031") {
+    if ($e_code == '0031') {
         return 0;
     }
 
-    if ($e_code == "0035") {
+    if ($e_code == '0035') {
         $error_msg = translate('Vous ne pouvez éditer ce message, vous n\'en êtes pas le destinataire.');
     }
 
-    if ($e_code == "0036") {
+    if ($e_code == '0036') {
         $error_msg = translate('Vous n\'avez pas l\'autorisation d\'éditer ce message.');
     }
 
-    if ($e_code == "0037") {
+    if ($e_code == '0037') {
         $error_msg = translate('Votre mot de passe est erroné ou vous n\'avez pas l\'autorisation d\'éditer ce message, refaites un essai.');
     }
 
-    if ($e_code == "0101") {
+    if ($e_code == '0101') {
         $error_msg = translate('Vous ne pouvez répondre à ce message.');
     }
 
@@ -942,16 +940,16 @@ function anti_flood($modoX, $paramAFX, $poster_ipX, $userdataX, $gmtX)
         list($time90) = sql_fetch_row(sql_query($sql . $timebase . $sql2));
 
         if ($time90 > ($paramAFX * 2)) {
-            Ecr_Log("security", "Forum Anti-Flood : " . $compte, '');
+            Ecr_Log('security', 'Forum Anti-Flood : ' . $compte, '');
 
             forumerror(translate('Vous n\'êtes pas autorisé à participer à ce forum'));
         } else {
-            $timebase = date("Y-m-d H:i", time() + ($gmtX * 3600) - 1800);
+            $timebase = date('Y-m-d H:i', time() + ($gmtX * 3600) - 1800);
 
             list($time30) = sql_fetch_row(sql_query($sql . $timebase . $sql2));
 
             if ($time30 > $paramAFX) {
-                Ecr_Log("security", "Forum Anti-Flood : " . $compte, '');
+                Ecr_Log('security', 'Forum Anti-Flood : ' . $compte, '');
 
                 forumerror(translate('Vous n\'êtes pas autorisé à participer à ce forum'));
             }
@@ -998,16 +996,16 @@ function forum($rowQ1)
         $tab_groupe = valid_group($user);
     }
 
-    if ($ibid = theme_image("forum/icons/red_folder.gif")) {
+    if ($ibid = theme_image('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = "images/forum/icons/red_folder.gif";
+        $imgtmpR = 'images/forum/icons/red_folder.gif';
     }
 
-    if ($ibid = theme_image("forum/icons/folder.gif")) {
+    if ($ibid = theme_image('forum/icons/folder.gif')) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = "images/forum/icons/folder.gif";
+        $imgtmp = 'images/forum/icons/folder.gif';
     }
 
     // preparation de la gestion des folders
@@ -1064,10 +1062,10 @@ function forum($rowQ1)
                 foreach ($rowQ2 as $myrow) {
 
                     // Gestion des Forums Cachés aux non-membres
-                    if (($myrow['forum_type'] != "9") or ($userR)) {
+                    if (($myrow['forum_type'] != '9') or ($userR)) {
 
                         // Gestion des Forums réservés à un groupe de membre
-                        if (($myrow['forum_type'] == "7") or ($myrow['forum_type'] == "5")) {
+                        if (($myrow['forum_type'] == '7') or ($myrow['forum_type'] == '5')) {
                             $ok_affich = groupe_forum($myrow['forum_pass'], $tab_groupe);
 
                             // to see when admin mais pas assez precis
@@ -1082,7 +1080,8 @@ function forum($rowQ1)
                             if ($title_aff) {
                                 $title = stripslashes($row['cat_title']);
 
-                                if ((file_exists("themes/$theme/html/forum-cat" . $row['cat_id'] . ".html")) or (file_exists("themes/default/html/forum-cat" . $row['cat_id'] . ".html"))) {
+                                if ((file_exists('themes/'. $theme .'/html/forum-cat' . $row['cat_id'] . '.html')) 
+                                or (file_exists('themes/default/html/forum-cat' . $row['cat_id'] . '.html'))) {
                                     $ibid .= '<div class=" mt-3" id="catfo_' . $row['cat_id'] . '" >
                                     <a class="list-group-item list-group-item-action active" href="forum.php?catid=' . $row['cat_id'] . '"><h5 class="my-0">' . $title . '</h5></a>';
                                 } else {
@@ -1144,39 +1143,39 @@ function forum($rowQ1)
                                     $ibid .= translate('Accessible à tous');
                                 }
 
-                                if ($myrow['forum_type'] == "1") {
+                                if ($myrow['forum_type'] == '1') {
                                     $ibid .= translate('Privé');
                                 }
 
-                                if ($myrow['forum_type'] == "5") {
-                                    $ibid .= "PHP Script + " . translate('Groupe');
+                                if ($myrow['forum_type'] == '5') {
+                                    $ibid .= 'PHP Script + ' . translate('Groupe');
                                 }
 
-                                if ($myrow['forum_type'] == "6") {
-                                    $ibid .= "PHP Script";
+                                if ($myrow['forum_type'] == '6') {
+                                    $ibid .= 'PHP Script';
                                 }
 
-                                if ($myrow['forum_type'] == "7") {
+                                if ($myrow['forum_type'] == '7') {
                                     $ibid .= translate('Groupe');
                                 }
 
-                                if ($myrow['forum_type'] == "8") {
+                                if ($myrow['forum_type'] == '8') {
                                     $ibid .= translate('Texte étendu');
                                 }
 
-                                if ($myrow['forum_type'] == "9") {
+                                if ($myrow['forum_type'] == '9') {
                                     $ibid .= translate('Caché');
                                 }
 
-                                if ($myrow['forum_access'] == "1" && $myrow['forum_type'] == "0") {
+                                if ($myrow['forum_access'] == '1' && $myrow['forum_type'] == '0') {
                                     $ibid .= translate('Utilisateur enregistré');
                                 }
 
-                                if ($myrow['forum_access'] == "2" && $myrow['forum_type'] == "0") {
+                                if ($myrow['forum_access'] == '2' && $myrow['forum_type'] == '0') {
                                     $ibid .= translate('Modérateur');
                                 }
 
-                                if ($myrow['forum_access'] == "9") {
+                                if ($myrow['forum_access'] == '9') {
                                     $ibid .= '<span class="text-danger mx-2"><i class="fa fa-lock me-2"></i>' . translate('Fermé') . '</span>';
                                 }
 
@@ -1255,16 +1254,16 @@ function sub_forum_folder($forum)
 
     list($totalF) = sql_fetch_row($result);
 
-    if ($ibid = theme_image("forum/icons/red_sub_folder.gif")) {
+    if ($ibid = theme_image('forum/icons/red_sub_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = "images/forum/icons/red_sub_folder.gif";
+        $imgtmpR = 'images/forum/icons/red_sub_folder.gif';
     }
 
-    if ($ibid = theme_image("forum/icons/sub_folder.gif")) {
+    if ($ibid = theme_image('forum/icons/sub_folder.gif')) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = "images/forum/icons/sub_folder.gif";
+        $imgtmp = 'images/forum/icons/sub_folder.gif';
     }
 
     if (($totalT - $totalF) > 0) {
@@ -1491,7 +1490,7 @@ function isbadmailuser($utilisateur)
 {
     $contents = '';
 
-    $filename = "users_private/usersbadmail.txt";
+    $filename = 'users_private/usersbadmail.txt';
 
     $handle = fopen($filename, "r");
 
@@ -1533,12 +1532,12 @@ function member_menu($mns, $qui)
             </ul>
         </li>';
 
-    include("modules/upload/upload.conf.php");
+    include 'modules/upload/upload.conf.php';
 
     if (($mns) and ($autorise_upload_p)) {
-        include_once("modules/blog/upload_minisite.php");
+        include_once 'modules/blog/upload_minisite.php';
 
-        $PopUp = win_upload("popup");
+        $PopUp = win_upload('popup');
 
         echo '<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle tooltipbyclass" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="' . translate('Gérer votre miniSite') . '"><i class="fas fa-desktop fa-2x d-xl-none me-2"></i><span class="d-none d-xl-inline">' . translate('MiniSite') . '</span></a>

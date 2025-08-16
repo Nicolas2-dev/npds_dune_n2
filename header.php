@@ -330,11 +330,11 @@ if (array_key_exists($pages_ref, $PAGES)) {
 } else
     $js = '';
 head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords);
-global $httpref, $nuke_url, $httprefmax, $admin, sql_prefix('');
+global $httpref, $nuke_url, $httprefmax, $admin;
 if ($httpref == 1) {
     $referer = htmlentities(strip_tags(removeHack(getenv("HTTP_REFERER"))), ENT_QUOTES, 'UTF-8');
     if ($referer != '' and !strstr($referer, "unknown") and !stristr($referer, $_SERVER['SERVER_NAME']))
-        sql_query("INSERT INTO " . sql_prefix('') . "referer VALUES (NULL, '$referer')");
+        sql_query("INSERT INTO " . sql_prefix('referer') . " VALUES (NULL, '$referer')");
 }
 
 include("counter.php");
