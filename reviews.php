@@ -12,6 +12,7 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 if (!function_exists("Mysql_Connexion"))
     include("mainfile.php");
 
@@ -20,17 +21,21 @@ function display_score($score)
     $image = '<i class="fa fa-star"></i>';
     $halfimage = '<i class="fas fa-star-half-alt"></i>';
     $full = '<i class="fa fa-star"></i>';
+
     if ($score == 10) {
         for ($i = 0; $i < 5; $i++)
             echo $full;
     } else if ($score % 2) {
         $score -= 1;
         $score /= 2;
+
         for ($i = 0; $i < $score; $i++)
             echo $image;
+
         echo $halfimage;
     } else {
         $score /= 2;
+
         for ($i = 0; $i < $score; $i++)
             echo $image;
     }
@@ -39,7 +44,9 @@ function display_score($score)
 function write_review()
 {
     global $admin, $sitename, $user, $cookie, $short_review;
+
     include 'header.php';
+
     echo '
    <h2>' . translate('Ecrire une critique') . '</h2>
    <hr />
@@ -58,6 +65,7 @@ function write_review()
     if ($user) {
         $result = sql_query("SELECT uname, email FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
         list($uname, $email) = sql_fetch_row($result);
+
         echo '
       <div class="form-floating mb-3">
          <input type="text" class="form-control" id="reviewer_rev" name="reviewer" value="' . $uname . '" maxlength="25" required="required" />
@@ -79,6 +87,7 @@ function write_review()
          <label for="email_rev">' . translate('Votre adresse Email') . '</label>
          <span class="help-block text-end" id="countcar_email_rev"></span>
       </div>';
+
     echo '
       <div class="form-floating mb-3">
          <select class="form-select" id="score_rev" name="score">
@@ -109,6 +118,7 @@ function write_review()
          <label for="url_title_rev">' . translate('Titre du lien') . '</label>
          <span class="help-block">' . translate('Obligatoire seulement si vous soumettez un lien relatif') . '<span class="float-end" id="countcar_url_title_rev"></span></span>
       </div>';
+
         if ($admin) {
             echo '
       <div class="form-floating mb-3">
@@ -118,12 +128,14 @@ function write_review()
       </div>';
         }
     }
+
     echo '
       <input type="hidden" name="op" value="preview_review" />
       <button type="submit" class="btn btn-primary my-3 me-2" >' . translate('Prévisualiser') . '</button>
       <button onclick="history.go(-1)" class="btn btn-secondary my-3">' . translate('Retour en arrière') . '</button>
       <p class="help-block">' . translate('Assurez-vous de l\'exactitude de votre information avant de la communiquer. N\'écrivez pas en majuscules, votre texte serait automatiquement rejeté') . '</p>
    </form>';
+
     $arg1 = '
       var formulid = ["writereview"];
       inpandfieldlen("title_rev",150);
@@ -131,6 +143,7 @@ function write_review()
       inpandfieldlen("url_rev",320);
       inpandfieldlen("url_title_rev",50);
       inpandfieldlen("cover_rev",100);';
+
     adminfoot('fv', '', $arg1, 'foo');
 }
 
@@ -145,27 +158,34 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     $error = '';
 
     include 'header.php';
+
     echo '<h2 class="mb-4">';
     echo $id != 0 ? translate('Modification d\'une critique') : translate('Ecrire une critique');
+
     echo '
    </h2>
    <form id="prevreview" method="post" action="reviews.php">';
+
     if ($title == '') {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Titre non valide... Il ne peut pas être vide') . '</div>';
     }
+
     if ($text == '') {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Texte de critique non valide... Il ne peut pas être vide') . '</div>';
     }
+
     if (($score < 1) || ($score > 10)) {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Note non valide... Elle doit se situer entre 1 et 10') . '</div>';
     }
+
     if (($hits < 0) && ($id != 0)) {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Le nombre de hits doit être un entier positif') . '</div>';
     }
+
     if ($reviewer == '' || $email == '') {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Vous devez entrer votre nom et votre adresse Email') . '</div>';
@@ -174,12 +194,15 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
             $error = 1;
             echo '<div class="alert alert-danger">' . translate('Email non valide (ex.: prenom.nom@hotmail.com)') . '</div>';
         }
+
         include_once('functions.php');
+
         if (checkdnsmail($email) === false) {
             $error = 1;
             echo '<div class="alert alert-danger">' . translate('Erreur : DNS ou serveur de mail incorrect') . '</div>';
         }
     }
+
     if ((($url_title != '' && $url == '') || ($url_title == "" && $url != "")) and (!$short_reviews)) {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Vous devez entrer un titre de lien et une adresse relative, ou laisser les deux zones vides') . '</div>';
@@ -192,26 +215,35 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
         echo '<button class="btn btn-secondary" type="button" onclick="history.go(-1)"><i class="fa fa-lg fa-undo"></i></button>';
     else {
         $fdate = formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
+
         echo translate('Critique') . '
       <br />' . translate('Ajouté :') . ' ' . $fdate . '
       <hr />
       <h3>' . stripslashes($title) . '</h3>';
+
         if ($cover != '')
             echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="img_" loading="lazy" />';
+
         echo $text . '
       <hr />
       <strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . $email . '" target="_blank">' . $reviewer . '</a><br />
       <strong>' . translate('Note') . '</strong>
       <span class="text-success">';
+
         display_score($score);
+
         echo '</span>';
+
         if ($url != '')
             echo '<br /><strong>' . translate('Lien relatif') . ' :</strong> <a href="' . $url . '" target="_blank">' . $url_title . '</a>';
+
         if ($id != 0) {
             echo '<br /><strong>' . translate('ID de la critique') . ' :</strong> ' . $id . '<br />
          <strong>' . translate('Hits') . ' :</strong> ' . $hits . '<br />';
         }
+
         $text = urlencode($text);
+
         echo '
             <input type="hidden" name="id" value="' . $id . '" />
             <input type="hidden" name="hits" value="' . $hits . '" />
@@ -226,9 +258,14 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
             <input type="hidden" name="cover" value="' . $cover . '" />
             <input type="hidden" name="op" value="add_reviews" />
             <p class="my-3">' . translate('Cela semble-t-il correct ?') . '</p>';
-        if (!$admin) echo Q_spambot();
+
+        if (!$admin)
+            echo Q_spambot();
+
         $consent = '[french]Pour conna&icirc;tre et exercer vos droits notamment de retrait de votre consentement &agrave; l\'utilisation des donn&eacute;es collect&eacute;es veuillez consulter notre <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">politique de confidentialit&eacute;</a>.[/french][english]To know and exercise your rights, in particular to withdraw your consent to the use of the data collected, please consult our <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">privacy policy</a>.[/english][spanish]Para conocer y ejercer sus derechos, en particular para retirar su consentimiento para el uso de los datos recopilados, consulte nuestra <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">pol&iacute;tica de privacidad</a>.[/spanish][german]Um Ihre Rechte zu kennen und auszu&uuml;ben, insbesondere um Ihre Einwilligung zur Nutzung der erhobenen Daten zu widerrufen, konsultieren Sie bitte unsere <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">Datenschutzerkl&auml;rung</a>.[/german][chinese]&#x8981;&#x4E86;&#x89E3;&#x5E76;&#x884C;&#x4F7F;&#x60A8;&#x7684;&#x6743;&#x5229;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x8981;&#x64A4;&#x56DE;&#x60A8;&#x5BF9;&#x6240;&#x6536;&#x96C6;&#x6570;&#x636E;&#x7684;&#x4F7F;&#x7528;&#x7684;&#x540C;&#x610F;&#xFF0C;&#x8BF7;&#x67E5;&#x9605;&#x6211;&#x4EEC;<a href="static.php?op=politiqueconf.html&#x26;npds=1&#x26;metalang=1">&#x7684;&#x9690;&#x79C1;&#x653F;&#x7B56;</a>&#x3002;[/chinese]';
+
         $accept = "[french]En soumettant ce formulaire j'accepte que les informations saisies soient exploit&#xE9;es dans le cadre de l'utilisation et du fonctionnement de ce site.[/french][english]By submitting this form, I accept that the information entered will be used in the context of the use and operation of this website.[/english][spanish]Al enviar este formulario, acepto que la informaci&oacute;n ingresada se utilizar&aacute; en el contexto del uso y funcionamiento de este sitio web.[/spanish][german]Mit dem Absenden dieses Formulars erkl&auml;re ich mich damit einverstanden, dass die eingegebenen Informationen im Rahmen der Nutzung und des Betriebs dieser Website verwendet werden.[/german][chinese]&#x63D0;&#x4EA4;&#x6B64;&#x8868;&#x683C;&#x5373;&#x8868;&#x793A;&#x6211;&#x63A5;&#x53D7;&#x6240;&#x8F93;&#x5165;&#x7684;&#x4FE1;&#x606F;&#x5C06;&#x5728;&#x672C;&#x7F51;&#x7AD9;&#x7684;&#x4F7F;&#x7528;&#x548C;&#x64CD;&#x4F5C;&#x8303;&#x56F4;&#x5185;&#x4F7F;&#x7528;&#x3002;[/chinese]";
+
         echo '
        <div class="mb-3 row">
            <div class="col-sm-12">
@@ -251,13 +288,17 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
          <div class="col small" >' . aff_langue($consent) . '
          </div>
       </div>';
+
         $word = ($id != 0) ? translate('modifié') : translate('ajouté');
+
         if ($admin)
             echo '
          <div class="alert alert-success"><strong>' . translate('Note :') . '</strong> ' . translate('Actuellement connecté en administrateur... Cette critique sera') . ' ' . $word . ' ' . translate('immédiatement') . '.</div>';
     }
+
     echo '
    </form>';
+
     $arg1 = '
       var formulid = ["prevreview"];';
 
@@ -269,6 +310,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
     global $admin, $user;
 
     include 'header.php';
+
     $title = stripslashes(FixQuotes(strip_tags($title)));
     $text = stripslashes(Fixquotes(urldecode(removeHack($text))));
 
@@ -276,62 +318,84 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, $text)) {
             Ecr_Log('security', 'Review Anti-Spam : title=' . $title, '');
+
             redirect_url("index.php");
             die();
         }
     }
+
     echo ($id != 0) ?
         '<h2>' . translate('Modification d\'une critique') . '</h2>' :
         '<h2>' . translate('Ecrire une critique') . '</h2>';
+
     echo '
    <hr />
    <div class="alert alert-success">';
+
     echo ($id != 0) ?
         translate('Merci d\'avoir modifié cette critique') . '.' :
         translate('Merci d\'avoir posté cette critique') . ', ' . $reviewer;
+
     echo '<br />';
+
     if (($admin) && ($id == 0)) {
         sql_query("INSERT INTO " . sql_prefix('') . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
+
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
     } else if (($admin) && ($id != 0)) {
         sql_query("UPDATE " . sql_prefix('') . "reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
+
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
     } else {
         sql_query("INSERT INTO " . sql_prefix('') . "reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
+
         echo translate('Nous allons vérifier votre contribution. Elle devrait bientôt être disponible !');
     }
+
     echo '
    </div>
    <a class="btn btn-secondary" href="reviews.php" title="' . translate('Retour à l\'index des critiques') . '">' . translate('Retour à l\'index des critiques') . '</a>';
+
     include 'footer.php';
 }
 
 function reviews($field, $order)
 {
     include 'header.php';
+
     $r_result = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
     list($r_title, $r_description) = sql_fetch_row($r_result);
-    if ($order != "ASC" and $order != "DESC") $order = "ASC";
+
+    if ($order != "ASC" and $order != "DESC")
+        $order = "ASC";
+
     switch ($field) {
+
         case 'reviewer':
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY reviewer $order");
             break;
+
         case 'score':
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY score $order");
             break;
+
         case 'hits':
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY hits $order");
             break;
+
         case 'id':
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY id $order");
             break;
+
         case 'date':
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY date $order");
             break;
+
         default:
             $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY title $order");
             break;
     }
+
     $numresults = sql_num_rows($result);
 
     echo '
@@ -391,37 +455,53 @@ function reviews($field, $order)
             $score = $myrow['score'];
             $hits = $myrow['hits'];
             $date = $myrow['date'];
+
             echo '
             <tr>
                <td>' . formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
                <td><a href="reviews.php?op=showcontent&amp;id=' . $id . '">' . ucfirst($title) . '</a></td>
                <td>';
-            if ($reviewer != '') echo $reviewer;
+
+            if ($reviewer != '')
+                echo $reviewer;
+
             echo '</td>
                <td><span class="text-success">';
+
             display_score($score);
+
             echo '</span></td>
                <td>' . $hits . '</td>
             </tr>';
         }
+
         echo '
          </tbody>
       </table>';
     }
+
     sql_free_result($result);
+
     include 'footer.php';
 }
 
 function showcontent($id)
 {
     global $admin;
+
     include 'header.php';
+
     //settype($id,'integer');
+
     sql_query("UPDATE " . sql_prefix('') . "reviews SET hits=hits+1 WHERE id='$id'");
+
     $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id='$id'");
     $myrow = sql_fetch_assoc($result);
+
     $id =  $myrow['id'];
+
     $fdate = formatTimes($myrow['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+
     $title = $myrow['title'];
     $text = $myrow['text'];
     $cover = $myrow['cover'];
@@ -442,25 +522,35 @@ function showcontent($id)
       </div>
    <hr />
    <h3 class="mb-3">' . $title . '</h3><br />';
+
     if ($cover != '')
         echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="reviews image" loading="lazy" />';
+
     echo $text;
 
     echo '
       <br /><br />
       <div class="card card-body mb-3">';
+
     if ($reviewer != '')
         echo '<div class="mb-2"><strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . anti_spam($email, 1) . '" >' . $reviewer . '</a></div>';
+
     if ($score != '')
         echo '<div class="mb-2"><strong>' . translate('Note') . ' : </strong>';
+
     echo '<span class="text-success">';
+
     display_score($score);
+
     echo '</span>
    </div>';
+
     if ($url != '')
         echo '<div class="mb-2"><strong>' . translate('Lien relatif') . ' : </strong> <a href="' . $url . '" target="_blank">' . $url_title . '</a></div>';
+
     echo '<div><strong>' . translate('Hits : ') . '</strong><span class="badge bg-secondary">' . $hits . '</span></div>
       </div>';
+
     if ($admin)
         echo '
       <nav class="d-flex justify-content-center">
@@ -476,6 +566,7 @@ function showcontent($id)
             </li>
          </ul>
       </nav>';
+
     echo '
    </div>';
 
@@ -486,18 +577,22 @@ function showcontent($id)
         include("modules/comments/reviews.conf.php");
         include("modules/comments/comments.php");
     }
+
     include 'footer.php';
 }
 
 function mod_review($id)
 {
     global $admin;
+
     include 'header.php';
 
     settype($id, 'integer');
     if (($id != 0) && ($admin)) {
+
         $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id = '$id'");
         $myrow =  sql_fetch_assoc($result);
+
         $id =  $myrow['id'];
         $date = $myrow['date'];
         $title = $myrow['title'];
@@ -540,15 +635,22 @@ function mod_review($id)
       </div>
       <div class="form-floating mb-3">
          <select class="form-select" id="score_modrev" name="score">';
+
         $i = 1;
         $sel = '';
+
         do {
-            if ($i == $score) $sel = 'selected="selected" ';
-            else $sel = '';
+            if ($i == $score)
+                $sel = 'selected="selected" ';
+            else
+                $sel = '';
+
             echo '
             <option value="' . $i . '" ' . $sel . '>' . $i . '</option>';
+
             $i++;
         } while ($i <= 10);
+
         echo '
          </select>
          <label for="score_modrev">' . translate('Evaluation') . '</label>
@@ -584,9 +686,9 @@ function mod_review($id)
          $(document).ready(function() {
             $("<link>").appendTo("head").attr({type: "text/css", rel: "stylesheet",href: "lib/flatpickr/dist/themes/npds.css"});
          })
-         
       //]]>
       </script>';
+
         $fv_parametres = '
       date:{},
       hits: {
@@ -613,6 +715,7 @@ function mod_review($id)
          }
       });
       ';
+
         $arg1 = '
       var formulid = ["modreview"];
       inpandfieldlen("title_modrev",150);
@@ -624,6 +727,7 @@ function mod_review($id)
 
         sql_free_result($result);
     }
+
     adminfoot('fv', $fv_parametres, $arg1, 'foo');
 }
 
@@ -632,46 +736,60 @@ function del_review($id_del)
     global $admin;
 
     settype($id_del, "integer");
+
     if ($admin) {
         sql_query("DELETE FROM " . sql_prefix('') . "reviews WHERE id='$id_del'");
+
         // commentaires
         if (file_exists("modules/comments/reviews.conf.php")) {
             include("modules/comments/reviews.conf.php");
+
             sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$id_del'");
         }
     }
+
     redirect_url("reviews.php");
 }
 
 settype($op, 'string');
 settype($hits, 'integer');
+
 $id = isset($id) ? $id : 0;
+
 settype($cover, 'string');
 settype($asb_question, 'string');
 settype($asb_reponse, 'string');
 
 switch ($op) {
+
     case 'showcontent':
         showcontent($id);
         break;
+
     case 'write_review':
         write_review();
         break;
+
     case 'preview_review':
         preview_review($title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id);
         break;
+
     case 'add_reviews':
         send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $asb_question, $asb_reponse);
         break;
+
     case 'del_review':
         del_review($id_del);
         break;
+
     case 'mod_review':
         mod_review($id);
         break;
+
     case 'sort':
         reviews($field, $order);
         break;
+
     default:
         reviews('date', 'DESC');
         break;
