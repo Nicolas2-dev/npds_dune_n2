@@ -85,8 +85,6 @@ if (file_exists("filemanager.conf")) {
 
 function login()
 {
-    global $adminimg;
-
     include 'header.php';
 
     echo '
@@ -135,12 +133,17 @@ function GraphicAdmin($hlpfile)
     $bloc_foncts = '';
     $bloc_foncts_A = '';
 
-    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('authors') . " WHERE aid='$aid' LIMIT 1"));
+    $Q = sql_fetch_assoc(sql_query("SELECT * 
+                                    FROM " . sql_prefix('authors') . " 
+                                    WHERE aid='$aid' 
+                                    LIMIT 1"));
 
     // recupérations des états des fonctions d'ALERTE ou activable et maj (faire une fonction avec cache court dev ..)
 
     //article à valider
-    $newsubs = sql_num_rows(sql_query("SELECT qid FROM " . sql_prefix('queue')));
+    $newsubs = sql_num_rows(sql_query("SELECT qid 
+                                       FROM " . sql_prefix('queue')));
+
     if ($newsubs) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
                    SET fetat='1', fretour='" . $newsubs . "',fretour_h='" . adm_translate('Articles en attente de validation !') . "' 
@@ -152,7 +155,9 @@ function GraphicAdmin($hlpfile)
     }
 
     //news auto
-    $newauto = sql_num_rows(sql_query("SELECT anid FROM " . sql_prefix('autonews')));
+    $newauto = sql_num_rows(sql_query("SELECT anid 
+                                       FROM " . sql_prefix('autonews')));
+
     if ($newauto) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
                    SET fetat='1', fretour='" . $newauto . "',fretour_h='" . adm_translate('Articles programmés pour la publication.') . "' 
@@ -219,13 +224,13 @@ function GraphicAdmin($hlpfile)
             $ibid = explode('|', $v);
             $fico = $ibid[0] != 'Note' ? 'message_npds_a' : 'message_npds_i';
 
-            $QM = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('fonctions') . " WHERE fnom='mes_npds_" . $o . "'"));
+            $QM = sql_num_rows(sql_query("SELECT * 
+                                          FROM " . sql_prefix('fonctions') . " 
+                                          WHERE fnom='mes_npds_" . $o . "'"));
 
             if ($QM == 0) {
-                sql_query("INSERT INTO " . sql_prefix('fonctions') . " 
-                          (fnom, fretour_h, fcategorie, fcategorie_nom, ficone, fetat, finterface, fnom_affich, furlscript) 
-                          VALUES 
-                          ('mes_npds_" . $o . "', '" . addslashes($ibid[1]) . "', '9','Alerte', '" . $fico . "', '1', '1', '" . addslashes($ibid[2]) . "', 'data-bs-toggle=\"modal\" data-bs-target=\"#messageModal\"');\n");
+                sql_query("INSERT INTO " . sql_prefix('fonctions') . " (fnom, fretour_h, fcategorie, fcategorie_nom, ficone, fetat, finterface, fnom_affich, furlscript) 
+                          VALUES ('mes_npds_" . $o . "', '" . addslashes($ibid[1]) . "', '9','Alerte', '" . $fico . "', '1', '1', '" . addslashes($ibid[2]) . "', 'data-bs-toggle=\"modal\" data-bs-target=\"#messageModal\"');\n");
             }
 
             $o++;
@@ -287,7 +292,8 @@ function GraphicAdmin($hlpfile)
 
     // référants à gérer
     if ($httpref == 1) {
-        $result = sql_fetch_assoc(sql_query("SELECT COUNT(*) AS total FROM " . sql_prefix('referer')));
+        $result = sql_fetch_assoc(sql_query("SELECT COUNT(*) AS total 
+                                             FROM " . sql_prefix('referer')));
 
         if ($result['total'] >= $httprefmax) {
             sql_query("UPDATE " . sql_prefix('fonctions') . " 
@@ -301,7 +307,9 @@ function GraphicAdmin($hlpfile)
     }
 
     // critique en attente
-    $critsubs = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('reviews_add')));
+    $critsubs = sql_num_rows(sql_query("SELECT * 
+                                        FROM " . sql_prefix('reviews_add')));
+
     if ($critsubs) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
                    SET fetat='1', fretour='" . $critsubs . "', fretour_h='" . adm_translate('Critique en attente de validation.') . "' 
@@ -313,7 +321,9 @@ function GraphicAdmin($hlpfile)
     }
 
     // nouveau lien à valider
-    $newlink = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('links_newlink')));
+    $newlink = sql_num_rows(sql_query("SELECT * 
+                                       FROM " . sql_prefix('links_newlink')));
+
     if ($newlink) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
                    SET fetat='1', fretour='" . $newlink . "', fretour_h='" . adm_translate('Liens à valider.') . "' 
@@ -325,7 +335,9 @@ function GraphicAdmin($hlpfile)
     }
 
     // lien rompu à valider
-    $brokenlink = sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('links_modrequest') . " where brokenlink='1'"));
+    $brokenlink = sql_num_rows(sql_query("SELECT * 
+                                          FROM " . sql_prefix('links_modrequest') . " where brokenlink='1'"));
+
     if ($brokenlink) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
                    SET fetat='1', fretour='" . $brokenlink . "', fretour_h='" . adm_translate('Liens rompus à valider.') . "' 
@@ -338,8 +350,12 @@ function GraphicAdmin($hlpfile)
 
     // nouvelle publication
     $newpubli = $Q['radminsuper'] == 1
-        ? sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('seccont_tempo')))
-        : sql_num_rows(sql_query("SELECT * FROM " . sql_prefix('seccont_tempo') . " WHERE author='$aid'"));
+        ? sql_num_rows(sql_query("SELECT * 
+                                  FROM " . sql_prefix('seccont_tempo')))
+
+        : sql_num_rows(sql_query("SELECT * 
+                                  FROM " . sql_prefix('seccont_tempo') . " 
+                                  WHERE author='$aid'"));
 
     if ($newpubli) {
         sql_query("UPDATE " . sql_prefix('fonctions') . " 
@@ -920,7 +936,9 @@ if ($admintest) {
             break;
 
         case 'deleteNotice':
-            sql_query("DELETE FROM " . sql_prefix('reviews_add') . " WHERE id='$id'");
+            sql_query("DELETE FROM " . sql_prefix('reviews_add') . " 
+                       WHERE id='$id'");
+                       
             Header('Location: admin.php?op='. $op_back);
             break;
 

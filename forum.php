@@ -38,7 +38,8 @@ if ($op == 'maj_subscribe') {
         while (list($forumid) = sql_fetch_row($result)) {
             if (is_array($Subforumid)) {
                 if (array_key_exists($forumid, $Subforumid)) {
-                    $resultX = sql_query("INSERT INTO " . sql_prefix('subscribe') . " (forumid, uid) VALUES ('$forumid','$cookie[0]')");
+                    $resultX = sql_query("INSERT INTO " . sql_prefix('subscribe') . " (forumid, uid) 
+                                          VALUES ('$forumid','$cookie[0]')");
                 }
             }
         }

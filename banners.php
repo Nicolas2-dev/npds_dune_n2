@@ -96,8 +96,11 @@ function viewbanner()
             list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date) = sql_fetch_row($aborrar);
 
             if ($imptotal == $impmade) {
-                sql_query("INSERT INTO " . sql_prefix('bannerfinish') . " VALUES (NULL, '$cid', '$impmade', '$clicks', '$date', now())");
-                sql_query("DELETE FROM " . sql_prefix('banner') . " WHERE bid='$bid'");
+                sql_query("INSERT INTO " . sql_prefix('bannerfinish') . " 
+                           VALUES (NULL, '$cid', '$impmade', '$clicks', '$date', now())");
+
+                sql_query("DELETE FROM " . sql_prefix('banner') . " 
+                           WHERE bid='$bid'");
             }
 
             if ($imageurl != ''){

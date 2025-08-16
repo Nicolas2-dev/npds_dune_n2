@@ -53,9 +53,12 @@ function fab_feed($type, $filename, $timeout)
         $item = new FeedItem();
         $item->title = preview_local_langue($backend_language, str_replace('&quot;', '\"', $title));
         $item->link = $nuke_url . '/article.php?sid=' . $sid;
+
         $item->description = meta_lang(preview_local_langue($backend_language, $hometext));
         $item->descriptionHtmlSyndicated = true;
+
         $item->date = strtotime(getPartOfTime($time, 'yyyy-MM-dd H:m:s'));
+        
         $item->source = $nuke_url;
         $item->author = $aid;
         $rss->addItem($item);

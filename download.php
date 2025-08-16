@@ -164,7 +164,7 @@ function dl_tableheader()
 
 function popuploader($did, $ddescription, $dcounter, $dfilename, $aff)
 {
-    global $dcategory, $sortby;
+    //global $dcategory, $sortby;
 
     $out_template = 0;
 

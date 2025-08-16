@@ -95,7 +95,7 @@ if (!$myfaq) {
 
     include 'footer.php';
 } else {
-    $title = "FAQ : " . removeHack(StripSlashes($categories));
+    $title = 'FAQ : ' . removeHack(StripSlashes($categories));
 
     include 'header.php';
 

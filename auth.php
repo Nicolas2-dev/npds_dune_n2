@@ -17,7 +17,8 @@ if (!function_exists('Mysql_Connexion')) {
     header('location: index.php');
 }
 
-$rowQ1 = Q_Select("SELECT * FROM " . sql_prefix('config'), 3600);
+$rowQ1 = Q_Select("SELECT * 
+                   FROM " . sql_prefix('config'), 3600);
 
 if ($rowQ1) {
     foreach ($rowQ1[0] as $key => $value) {
