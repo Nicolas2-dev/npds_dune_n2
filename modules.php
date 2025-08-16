@@ -12,28 +12,41 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
-include("grab_globals.php");
+
+include 'grab_globals.php';
 
 function Access_Error()
 {
-    include("admin/die.php");
+    include 'admin/die.php';
 }
 
 function filtre_module($strtmp)
 {
-    if (strstr($strtmp, '..') || stristr($strtmp, 'script') || stristr($strtmp, 'cookie') || stristr($strtmp, 'iframe') || stristr($strtmp, 'applet') || stristr($strtmp, 'object'))
+    if (
+        strstr($strtmp, '..')
+        || stristr($strtmp, 'script')
+        || stristr($strtmp, 'cookie')
+        || stristr($strtmp, 'iframe')
+        || stristr($strtmp, 'applet')
+        || stristr($strtmp, 'object')
+    ) {
         Access_Error();
-    else
+    } else {
         return $strtmp != '' ? true : false;
+    }
 }
 
 if (filtre_module($ModPath) and filtre_module($ModStart)) {
-    if (!function_exists("Mysql_Connexion"))
-        include("mainfile.php");
-    if (file_exists("modules/$ModPath/$ModStart.php")) {
-        include("modules/$ModPath/$ModStart.php");
+    if (!function_exists('Mysql_Connexion')) {
+        include 'mainfile.php';
+    }
+
+    if (file_exists('modules/' . $ModPath . '/' . $ModStart . '.php')) {
+        include 'modules/' . $ModPath . '/' . $ModStart . '.php';
         die();
-    } else
+    } else {
         Access_Error();
-} else
+    }
+} else {
     Access_Error();
+}
