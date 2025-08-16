@@ -314,7 +314,8 @@ echo '
          </thead>
          <tbody>';
 
-$resultX = sql_query("SELECT DISTINCT(theme) FROM " . sql_prefix('users'));
+$resultX = sql_query("SELECT DISTINCT(theme) 
+                      FROM " . sql_prefix('users'));
 
 global $Default_Theme;
 
@@ -326,10 +327,16 @@ while (list($themelist) = sql_fetch_row($resultX)) {
       $T_exist = is_dir("themes/$ibix[0]") ? '' : '<span class="text-danger">' . translate('Ce fichier n\'existe pas ...') . '</span>';
 
       if ($themelist == $Default_Theme) {
-         $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE theme='$themelist'");
+         $result = sql_query("SELECT uid 
+                              FROM " . sql_prefix('users') . " 
+                              WHERE theme='$themelist'");
+
          $themeD1 = $result ? sql_num_rows($result) : 0;
 
-         $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE theme=''");
+         $result = sql_query("SELECT uid 
+                              FROM " . sql_prefix('users') . " 
+                              WHERE theme=''");
+
          $themeD2 = $result ? sql_num_rows($result) : 0;
 
          echo '<tr>
@@ -338,7 +345,10 @@ while (list($themelist) = sql_fetch_row($resultX)) {
             <td>' . $T_exist . '</td>
          </tr>';
       } else {
-         $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE theme='$themelist'");
+         $result = sql_query("SELECT uid 
+                              FROM " . sql_prefix('users') . " 
+                              WHERE theme='$themelist'");
+
          $themeU = $result ? sql_num_rows($result) : 0;
 
          echo '<tr>';
@@ -357,40 +367,65 @@ while (list($themelist) = sql_fetch_row($resultX)) {
 echo '</tbody>
 </table>';
 
-$result = sql_query("SELECT uid FROM " . sql_prefix('users'));
+$result = sql_query("SELECT uid 
+                     FROM " . sql_prefix('users'));
+
 $unum = $result ? sql_num_rows($result) - 1 : 0;
 
-$result = sql_query("SELECT groupe_id FROM " . sql_prefix('groupes'));
+$result = sql_query("SELECT groupe_id 
+                     FROM " . sql_prefix('groupes'));
+
 $gnum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT sid FROM " . sql_prefix('stories'));
+$result = sql_query("SELECT sid 
+                     FROM " . sql_prefix('stories'));
+
 $snum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT aid FROM " . sql_prefix('authors'));
+$result = sql_query("SELECT aid 
+                     FROM " . sql_prefix('authors'));
+
 $anum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT post_id FROM " . sql_prefix('posts') . " WHERE forum_id<0");
+$result = sql_query("SELECT post_id 
+                     FROM " . sql_prefix('posts') . " 
+                     WHERE forum_id<0");
+
 $cnum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT secid FROM " . sql_prefix('sections'));
+$result = sql_query("SELECT secid 
+                     FROM " . sql_prefix('sections'));
+
 $secnum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT artid FROM " . sql_prefix('seccont'));
+$result = sql_query("SELECT artid 
+                     FROM " . sql_prefix('seccont'));
+
 $secanum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT qid FROM " . sql_prefix('queue'));
+$result = sql_query("SELECT qid 
+                     FROM " . sql_prefix('queue'));
+
 $subnum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT topicid FROM " . sql_prefix('topics'));
+$result = sql_query("SELECT topicid 
+                     FROM " . sql_prefix('topics'));
+
 $tnum = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT lid FROM " . sql_prefix('links_links'));
+$result = sql_query("SELECT lid 
+                     FROM " . sql_prefix('links_links'));
+
 $links = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT cid FROM " . sql_prefix('links_categories'));
+$result = sql_query("SELECT cid 
+                     FROM " . sql_prefix('links_categories'));
+
 $cat1 = $result ? sql_num_rows($result) : 0;
 
-$result = sql_query("SELECT sid FROM " . sql_prefix('links_subcategories'));
+$result = sql_query("SELECT sid 
+                     FROM " . sql_prefix('links_subcategories'));
+                     
 $cat2 = $result ? sql_num_rows($result) : 0;
 
 $cat = $cat1 + $cat2;

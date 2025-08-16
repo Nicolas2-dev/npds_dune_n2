@@ -12,32 +12,42 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 if (!function_exists("Mysql_Connexion"))
     include("mainfile.php");
 
 settype($op, 'string');
+
 if ($op != "maj_subscribe") {
+
     include 'header.php';
+
     $inclusion = false;
+
     if (file_exists("themes/$theme/html/topics.html"))
         $inclusion = "themes/$theme/html/topics.html";
     elseif (file_exists("themes/default/html/topics.html"))
         $inclusion = "themes/default/html/topics.html";
     else
         echo 'html/topics.html / not find !<br />';
+
     if ($inclusion) {
         ob_start();
         include($inclusion);
+
         $Xcontent = ob_get_contents();
         ob_end_clean();
         echo meta_lang(aff_langue($Xcontent));
     }
+
     include 'footer.php';
 } else {
     if ($subscribe) {
         if ($user) {
             $result = sql_query("DELETE FROM " . sql_prefix('') . "subscribe WHERE uid='$cookie[0]' AND topicid IS NOT NULL");
+
             $selection = sql_query("SELECT topicid FROM " . sql_prefix('') . "topics ORDER BY topicid");
+
             while (list($topicid) = sql_fetch_row($selection)) {
                 if (isset($Subtopicid)) {
                     if (array_key_exists($topicid, $Subtopicid)) {
@@ -47,6 +57,7 @@ if ($op != "maj_subscribe") {
                     }
                 }
             }
+
             redirect_url("topics.php");
         }
     }

@@ -271,6 +271,7 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, '')) {
             Ecr_Log('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
+            
             redirect_url('index.php');
             die();
         }
