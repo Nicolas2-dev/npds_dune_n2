@@ -1,115 +1,270 @@
+markdown# Documentation des fonctions de thème
 
-# Documentation des fonctions du thème
+## Vue d'ensemble
 
-## local_var($Xcontent)
-Extrait une variable spéciale définie dans le texte avec le format !var!VariableName.
+Ce fichier contient les fonctions principales pour la gestion des thèmes et l'affichage du contenu dans un CMS PHP. Ces fonctions permettent de traiter et d'afficher les articles, blocs latéraux, éditoriaux et informations utilisateur avec un système de templates HTML.
 
-**Paramètres :**  
-- $Xcontent (string) : Le texte contenant potentiellement la variable.
+---
 
-**Retour :**  
-- (string|void) : Le nom de la variable extraite, ou rien si aucune variable trouvée.
+## Fonctions disponibles
 
-**Exemple :**  
-local_var("Hello !var!MyVar world") // retourne "MyVar"
+### `local_var($Xcontent)`
 
-## themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $id)
-Génère l’affichage d’un article sur la page d’index en utilisant le template HTML du thème.
+**Description :** Extrait une variable locale depuis le contenu en cherchant le pattern `!var!`.
 
-**Paramètres :**  
-- $aid : ID du publicateur  
-- $informant : Nom de l’émetteur  
-- $time : Timestamp de publication  
-- $title : Titre de l’article  
-- $counter : Nombre de lectures  
-- $topic : ID du topic  
-- $thetext : Contenu de l’article  
-- $notes : Notes éventuelles  
-- $morelink : Tableau contenant les informations pour “Lire la suite”, commentaire, catégorie  
-- $topicname : Nom du topic  
-- $topicimage : Image du topic  
-- $topictext : Texte descriptif du topic  
-- $id : ID de l’article
+**Paramètres :**
+- `$Xcontent` (string) : Le contenu dans lequel chercher la variable
 
-**Retour :**  
-- Affiche directement le rendu HTML.
+**Retour :** `string` - Le nom de la variable trouvée ou `null`
 
-**Fonctionnalités :**  
-- Extraction des variables !var!  
-- Construction des liens “Lire la suite” et “Commentaires”  
-- Intégration d’une image ou badge pour le topic  
-- Remplacement des métamots !N_*!  
+**Utilisation :**
+```php
+$content = "Ceci est un texte avec !var!mavariable et du contenu";
+$variable = local_var($content);
+// Résultat : "mavariable"
+```
 
-## themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicname, $topicimage, $topictext, $id, $previous_sid, $next_sid, $archive)
-Génère l’affichage détaillé d’un article individuel.
+---
 
-**Paramètres :**  
-- $aid : ID du publicateur  
-- $informant : Nom de l’émetteur  
-- $time : Timestamp de publication  
-- $title : Titre de l’article  
-- $thetext : Contenu de l’article  
-- $topic : ID du topic  
-- $topicname : Nom du topic  
-- $topicimage : Image du topic  
-- $topictext : Texte descriptif du topic  
-- $id : ID de l’article  
-- $previous_sid : ID de l’article précédent  
-- $next_sid : ID de l’article suivant  
-- $archive : Indicateur d’archive
+### `themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $id)`
 
-**Retour :**  
-- Affiche directement le rendu HTML détaillé.
+**Description :** Affiche un article dans la page d'accueil avec le template `index-news.html`.
 
-**Fonctionnalités :**  
-- Extraction des variables !var!  
-- Génération des liens “Précédent” et “Suivant”  
-- Ajout des boutons d’impression et d’envoi à un ami  
-- Intégration du sujet avec image  
-- Remplacement des métamots !N_*!  
+**Paramètres :**
+- `$aid` (string) : ID de l'auteur/publicateur
+- `$informant` (string) : Nom de l'émetteur
+- `$time` (timestamp) : Date/heure de publication
+- `$title` (string) : Titre de l'article
+- `$counter` (int) : Nombre de lectures
+- `$topic` (int) : ID du sujet/catégorie
+- `$thetext` (string) : Contenu de l'article
+- `$notes` (string) : Notes additionnelles
+- `$morelink` (array) : Liens supplémentaires [caractères, lien_suite, nb_commentaires, lien_commentaires, print, friend, catégorie]
+- `$topicname` (string) : Nom du sujet
+- `$topicimage` (string) : Image du sujet
+- `$topictext` (string) : Description du sujet
+- `$id` (int) : ID de l'article
 
-## themesidebox($title, $content)
-Génère un bloc latéral (sidebar) selon le thème et la position (gauche/droite).
+**Variables de template disponibles :**
+- `!N_publicateur!` : Nom du publicateur
+- `!N_emetteur!` : Émetteur avec popover et lien profil
+- `!N_date!` : Date complète formatée
+- `!N_date_y!` : Année
+- `!N_date_m!` : Mois
+- `!N_date_d!` : Jour
+- `!N_date_h!` : Heure
+- `!N_titre!` : Titre de l'article
+- `!N_texte!` : Contenu de l'article
+- `!N_sujet!` : Image/badge du sujet avec lien recherche
+- `!N_suite!` : Liens "Lire la suite", commentaires, etc.
 
-**Paramètres :**  
-- $title : Titre du bloc  
-- $content : Contenu HTML ou texte du bloc
+**Utilisation :**
+```php
+$morelink = [120, "Lire la suite", 5, "commentaires", "print", "friend", "Tech"];
+themeindex(
+    "admin", 
+    "john_doe", 
+    time(), 
+    "Mon titre d'article", 
+    150, 
+    1, 
+    "Contenu de l'article...", 
+    "Note importante", 
+    $morelink, 
+    "Technologie", 
+    "tech.png", 
+    "Articles sur la technologie", 
+    123
+);
+```
 
-**Retour :**  
-- Affiche directement le rendu HTML du bloc
+---
 
-**Fonctionnalités :**  
-- Détection du template correct en fonction du thème (bloc-right.html, bloc-left.html, bloc.html)  
-- Intégration du titre et du contenu dans le template  
+### `themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicname, $topicimage, $topictext, $id, $previous_sid, $next_sid, $archive)`
 
-## themefootbox($content)
-Génère un bloc dans le pied de page.
+**Description :** Affiche un article complet avec le template `detail-news.html`.
 
-**Paramètres :**  
-- $content : Contenu HTML ou texte du bloc
+**Paramètres :**
+- Paramètres identiques à `themeindex` plus :
+- `$previous_sid` (int) : ID de l'article précédent
+- `$next_sid` (int) : ID de l'article suivant
+- `$archive` (int) : Indicateur d'archive
 
-**Retour :**  
-- Affiche directement le rendu HTML
+**Variables de template supplémentaires :**
+- `!N_previous_article!` : Lien vers l'article précédent
+- `!N_next_article!` : Lien vers l'article suivant
+- `!N_print!` : Lien d'impression
+- `!N_friend!` : Lien d'envoi à un ami
+- `!N_boxrel_title!` : Titre des boîtes associées
+- `!N_boxrel_stuff!` : Contenu des boîtes associées
 
-**Fonctionnalités :**  
-- Utilise le template bloc-foot.html ou celui du thème par défaut  
+**Utilisation :**
+```php
+themearticle(
+    "admin", 
+    "john_doe", 
+    time(), 
+    "Article détaillé", 
+    "Contenu complet...", 
+    1, 
+    "Technologie", 
+    "tech.png", 
+    "Articles tech", 
+    123, 
+    122,  // Article précédent
+    124,  // Article suivant
+    0     // Pas d'archive
+);
+```
 
-## themesidebox_adv($title, $content, $htvar = '')
-Version avancée de themesidebox permettant de passer une variable de type htvar.
+---
 
-**Paramètres :**  
-- $title : Titre du bloc  
-- $content : Contenu HTML ou texte  
-- $htvar (optionnel) : Variable supplémentaire pour le template
+### `themesidebox($title, $content)`
 
-**Retour :**  
-- Affiche directement le rendu HTML
+**Description :** Affiche un bloc latéral avec les templates `bloc-left.html`, `bloc-right.html` ou `bloc.html`.
 
-**Fonctionnalités :**  
-- Détection du template correct selon le thème  
-- Possibilité d’utiliser $htvar dans le template  
+**Paramètres :**
+- `$title` (string) : Titre du bloc (utiliser "no-title" pour masquer)
+- `$content` (string) : Contenu HTML du bloc
 
-## Notes générales
-- Les fonctions themeindex et themearticle utilisent un système de métalang (!N_!*) pour remplacer dynamiquement les balises dans les templates.  
-- Les templates sont recherchés dans themes/<theme>/html/ et sinon dans themes/default/html/.  
-- Dépendances : theme_image, translate, formatTimes, getPartOfTime, userpopover, meta_lang, aff_langue.
+**Variables de template :**
+- `!B_title!` : Titre du bloc
+- `!B_content!` : Contenu du bloc
+- `!B_class_title!` : Classe CSS pour le titre
+- `!B_class_content!` : Classe CSS pour le contenu
+
+**Utilisation :**
+```php
+// Bloc avec titre
+themesidebox("Menu Navigation", "<ul><li>Accueil</li><li>Articles</li></ul>");
+
+// Bloc sans titre
+themesidebox("no-title", "<div>Contenu sans titre</div>");
+```
+
+---
+
+### `themedito($content)`
+
+**Description :** Affiche un éditorial avec le template `editorial.html`.
+
+**Paramètres :**
+- `$content` (string) : Contenu de l'éditorial
+
+**Variables de template :**
+- `!editorial_content!` : Contenu de l'éditorial
+
+**Retour :** `string` - Chemin du fichier template utilisé
+
+**Utilisation :**
+```php
+$template_used = themedito("<p>Message éditorial important...</p>");
+```
+
+---
+
+### `userpopover($who, $dim, $avpop)`
+
+**Description :** Génère un avatar utilisateur avec popover d'informations.
+
+**Paramètres :**
+- `$who` (string) : Nom d'utilisateur
+- `$dim` (int) : Dimension de l'avatar (définit la classe CSS n-ava-{dim})
+- `$avpop` (int) : Type d'affichage
+  - `1` : Avatar simple
+  - `2` : Avatar avec popover interactif
+
+**Fonctionnalités du popover :**
+- Profil utilisateur
+- Envoi de message interne
+- Email (si autorisé)
+- Localisation géographique
+- Site web personnel
+- Minisite
+- Réseaux sociaux
+
+**Utilisation :**
+```php
+// Avatar simple 40px
+echo userpopover("john_doe", 40, 1);
+
+// Avatar avec popover 64px
+echo userpopover("john_doe", 64, 2);
+```
+
+---
+
+## Variables globales utilisées
+
+- `$theme` : Nom du thème actuel
+- `$tipath` : Chemin vers les images de sujets
+- `$nuke_url` : URL de base du site
+- `$user` : Informations de l'utilisateur connecté
+- `$short_user` : Mode utilisateur simplifié
+- `$NPDS_Prefix` : Préfixe des tables de base de données
+
+---
+
+## Fichiers de templates requis
+
+### Pour les articles :
+- `themes/{theme}/html/index-news.html` ou `themes/default/html/index-news.html`
+- `themes/{theme}/html/detail-news.html` ou `themes/default/html/detail-news.html`
+
+### Pour les blocs :
+- `themes/{theme}/html/bloc-right.html` (bloc droit)
+- `themes/{theme}/html/bloc-left.html` (bloc gauche)  
+- `themes/{theme}/html/bloc.html` (bloc générique)
+- `themes/default/html/bloc.html` (fallback)
+
+### Pour l'éditorial :
+- `themes/{theme}/html/editorial.html` ou `themes/default/html/editorial.html`
+
+---
+
+## Notes importantes
+
+1. **Sécurité :** Les fonctions utilisent `preg_replace()` pour le remplacement des variables de template
+2. **Fallback :** Si un template n'existe pas dans le thème, le système utilise le thème par défaut
+3. **Multilangue :** Support des fonctions `translate()` et `aff_langue()`
+4. **Cache :** Utilisation d'`ob_start()` et `ob_get_contents()` pour la gestion des templates
+5. **Permissions :** Certaines fonctionnalités dépendent des droits utilisateur (`autorisation()`)
+
+---
+
+## Exemple complet d'utilisation
+
+```php
+// Affichage d'un article sur la page d'accueil
+$morelink = [
+    250,           // Nombre de caractères
+    "Lire plus",   // Texte du lien "lire la suite"  
+    3,             // Nombre de commentaires
+    "commentaires", // Texte des commentaires
+    "Imprimer",    // Texte impression
+    "Partager",    // Texte partage ami
+    "Actualités"   // Catégorie
+];
+
+themeindex(
+    "editeur1",
+    "redacteur_chef", 
+    time(),
+    "Nouvelle fonctionnalité disponible",
+    75,
+    2,
+    "Nous sommes heureux d'annoncer... !var!highlight",
+    "Mise à jour importante",
+    $morelink,
+    "Développement", 
+    "dev.png",
+    "Articles sur le développement",
+    456
+);
+
+// Affichage d'un bloc latéral
+themesidebox(
+    "Derniers articles", 
+    "<ul><li><a href='#'>Article 1</a></li><li><a href='#'>Article 2</a></li></ul>"
+);
+```
