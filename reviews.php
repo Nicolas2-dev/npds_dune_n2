@@ -67,7 +67,7 @@ function write_review()
       </div>';
 
     if ($user) {
-        $result = sql_query("SELECT uname, email FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+        $result = sql_query("SELECT uname, email FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
         list($uname, $email) = sql_fetch_row($result);
 
         echo '
@@ -346,15 +346,15 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
     echo '<br />';
 
     if (($admin) && ($id == 0)) {
-        sql_query("INSERT INTO " . sql_prefix('') . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
+        sql_query("INSERT INTO " . sql_prefix('reviews') . " VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
     } elseif (($admin) && ($id != 0)) {
-        sql_query("UPDATE " . sql_prefix('') . "reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
+        sql_query("UPDATE " . sql_prefix('reviews') . " SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
     } else {
-        sql_query("INSERT INTO " . sql_prefix('') . "reviews_add VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
+        sql_query("INSERT INTO " . sql_prefix('reviews_add') . " VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
 
         echo translate('Nous allons vérifier votre contribution. Elle devrait bientôt être disponible !');
     }
@@ -370,7 +370,7 @@ function reviews($field, $order)
 {
     include 'header.php';
 
-    $r_result = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
+    $r_result = sql_query("SELECT title, description FROM " . sql_prefix('reviews_main'));
     list($r_title, $r_description) = sql_fetch_row($r_result);
 
     if ($order != "ASC" and $order != "DESC") {
@@ -380,27 +380,27 @@ function reviews($field, $order)
     switch ($field) {
 
         case 'reviewer':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY reviewer $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY reviewer $order");
             break;
 
         case 'score':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY score $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY score $order");
             break;
 
         case 'hits':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY hits $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY hits $order");
             break;
 
         case 'id':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY id $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY id $order");
             break;
 
         case 'date':
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY date $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY date $order");
             break;
 
         default:
-            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('') . "reviews ORDER BY title $order");
+            $result = sql_query("SELECT id, title, hits, reviewer, score, date FROM " . sql_prefix('reviews') . " ORDER BY title $order");
             break;
     }
 
@@ -502,9 +502,9 @@ function showcontent($id)
 
     //settype($id,'integer');
 
-    sql_query("UPDATE " . sql_prefix('') . "reviews SET hits=hits+1 WHERE id='$id'");
+    sql_query("UPDATE " . sql_prefix('reviews') . " SET hits=hits+1 WHERE id='$id'");
 
-    $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id='$id'");
+    $result = sql_query("SELECT * FROM " . sql_prefix('reviews') . " WHERE id='$id'");
     $myrow = sql_fetch_assoc($result);
 
     $id =  $myrow['id'];
@@ -600,7 +600,7 @@ function mod_review($id)
     settype($id, 'integer');
     if (($id != 0) && ($admin)) {
 
-        $result = sql_query("SELECT * FROM " . sql_prefix('') . "reviews WHERE id = '$id'");
+        $result = sql_query("SELECT * FROM " . sql_prefix('reviews') . " WHERE id = '$id'");
         $myrow =  sql_fetch_assoc($result);
 
         $id =  $myrow['id'];
@@ -749,13 +749,13 @@ function del_review($id_del)
     settype($id_del, "integer");
 
     if ($admin) {
-        sql_query("DELETE FROM " . sql_prefix('') . "reviews WHERE id='$id_del'");
+        sql_query("DELETE FROM " . sql_prefix('reviews') . " WHERE id='$id_del'");
 
         // commentaires
         if (file_exists("modules/comments/reviews.conf.php")) {
             include("modules/comments/reviews.conf.php");
 
-            sql_query("DELETE FROM " . sql_prefix('') . "posts WHERE forum_id='$forum' AND topic_id='$id_del'");
+            sql_query("DELETE FROM " . sql_prefix('posts') . " WHERE forum_id='$forum' AND topic_id='$id_del'");
         }
     }
 

@@ -52,9 +52,9 @@ function file_contents_exist($url, $response_code = 200)
     $headers = get_headers($url);
 
     if (substr($headers[0], 9, 3) == $response_code) {
-        return TRUE;
+        return true;
     } else {
-        return FALSE;
+        return false;
     }
 }
 
@@ -83,7 +83,7 @@ function session_manage()
     //<== geoloc
     $past = time() - 300;
 
-    sql_query("DELETE FROM " . sql_prefix('') . "session WHERE time < '$past'");
+    sql_query("DELETE FROM " . sql_prefix('session') . " WHERE time < '$past'");
 
     //==> proto en test badbotcontrol ...
     // bad robot limited at x connections ...
@@ -92,7 +92,7 @@ function session_manage()
     foreach ($gulty_robots as $robot) {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], $robot) !== false) {
 
-            $result = sql_query("SELECT agent FROM " . sql_prefix('') . "session WHERE agent REGEXP '" . $robot . "'");
+            $result = sql_query("SELECT agent FROM " . sql_prefix('session') . " WHERE agent REGEXP '" . $robot . "'");
 
             if (sql_num_rows($result) > 5) {
                 header($_SERVER["SERVER_PROTOCOL"] . ' 429 Too Many Requests');
@@ -104,20 +104,20 @@ function session_manage()
     }
     //<== proto
 
-    $result = sql_query("SELECT time FROM " . sql_prefix('') . "session WHERE username='$username'");
+    $result = sql_query("SELECT time FROM " . sql_prefix('session') . " WHERE username='$username'");
 
     if ($row = sql_fetch_assoc($result)) {
         if ($row['time'] < (time() - 30)) {
 
-            sql_query("UPDATE " . sql_prefix('') . "session SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' WHERE username='$username'");
+            sql_query("UPDATE " . sql_prefix('session') . " SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' WHERE username='$username'");
 
             if ($guest == 0) {
                 global $gmt;
-                sql_query("UPDATE " . sql_prefix('') . "users SET user_lastvisit='" . (time() + (int)$gmt * 3600) . "' WHERE uname='$username'");
+                sql_query("UPDATE " . sql_prefix('users') . " SET user_lastvisit='" . (time() + (int)$gmt * 3600) . "' WHERE uname='$username'");
             }
         }
     } else {
-        sql_query("INSERT INTO " . sql_prefix('') . "session (username, time, host_addr, guest, uri, agent) VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
+        sql_query("INSERT INTO " . sql_prefix('session') . " (username, time, host_addr, guest, uri, agent) VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
     }
 }
 
@@ -499,7 +499,7 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 #autodoc copy_to_email($to_userid,$sujet,$message) : Pour copier un subject+message dans un email ($to_userid)
 function copy_to_email($to_userid, $sujet, $message)
 {
-    $result = sql_query("SELECT email,send_email FROM " . sql_prefix('') . "users WHERE uid='$to_userid'");
+    $result = sql_query("SELECT email,send_email FROM " . sql_prefix('users') . " WHERE uid='$to_userid'");
 
     list($mail, $avertir_mail) = sql_fetch_row($result);
 
@@ -570,7 +570,7 @@ function SC_infos()
 function req_stat()
 {
     // Les membres
-    $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users");
+    $result = sql_query("SELECT uid FROM " . sql_prefix('users'));
     $xtab[0] = $result ? (sql_num_rows($result) - 1) : '0';
 
     if ($result) {
@@ -578,7 +578,7 @@ function req_stat()
     }
 
     // Les Nouvelles (News)
-    $result = sql_query("SELECT sid FROM " . sql_prefix('') . "stories");
+    $result = sql_query("SELECT sid FROM " . sql_prefix('stories'));
     $xtab[1] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -586,7 +586,7 @@ function req_stat()
     }
 
     // Les Critiques (Reviews))
-    $result = sql_query("SELECT id FROM " . sql_prefix('') . "reviews");
+    $result = sql_query("SELECT id FROM " . sql_prefix('reviews'));
     $xtab[2] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -594,7 +594,7 @@ function req_stat()
     }
 
     // Les Forums
-    $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums");
+    $result = sql_query("SELECT forum_id FROM " . sql_prefix('forums'));
     $xtab[3] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -602,7 +602,7 @@ function req_stat()
     }
 
     // Les Sujets (topics)
-    $result = sql_query("SELECT topicid FROM " . sql_prefix('') . "topics");
+    $result = sql_query("SELECT topicid FROM " . sql_prefix('topics'));
     $xtab[4] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -610,7 +610,7 @@ function req_stat()
     }
 
     // Nombre de pages vues
-    $result = sql_query("SELECT count FROM " . sql_prefix('') . "counter WHERE type='total'");
+    $result = sql_query("SELECT count FROM " . sql_prefix('counter') . " WHERE type='total'");
     list($totalz) = sql_fetch_row($result);
 
     $xtab[5] = $totalz++;
@@ -664,9 +664,9 @@ function Mess_Check_Mail_Sub($username, $class)
     if ($username) {
         $userdata = explode(':', base64_decode($user));
 
-        $total_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userdata[0]' AND type_msg='0'"));
+        $total_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('priv_msgs') . " WHERE to_userid = '$userdata[0]' AND type_msg='0'"));
 
-        $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userdata[0]' AND read_msg='0' AND type_msg='0'"));
+        $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('priv_msgs') . " WHERE to_userid = '$userdata[0]' AND read_msg='0' AND type_msg='0'"));
 
         if ($total_messages > 0) {
             if ($new_messages > 0) {
@@ -734,7 +734,7 @@ function Site_Load()
     $guest_online_num = 0;
     $member_online_num = 0;
 
-    $result = sql_query("SELECT COUNT(username) AS TheCount, guest FROM " . sql_prefix('') . "session GROUP BY guest");
+    $result = sql_query("SELECT COUNT(username) AS TheCount, guest FROM " . sql_prefix('session') . " GROUP BY guest");
 
     while ($TheResult = sql_fetch_assoc($result)) {
         if ($TheResult['guest'] == 0) {
@@ -766,7 +766,7 @@ function AutoReg()
 
             $cookie = explode(':', base64_decode($user));
 
-            list($test) = sql_fetch_row(sql_query("SELECT open FROM " . sql_prefix('') . "users_status WHERE uid='$cookie[0]'"));
+            list($test) = sql_fetch_row(sql_query("SELECT open FROM " . sql_prefix('users_status') . " WHERE uid='$cookie[0]'"));
 
             if (!$test) {
                 setcookie('user', '', 0);
@@ -824,7 +824,7 @@ function ultramode()
 
         $story_limit++;
 
-        $rfile2 = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+        $rfile2 = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('topics') . " WHERE topicid='$topic'");
         list($topictext, $topicimage) = sql_fetch_row($rfile2);
 
         $hometext = meta_lang(strip_tags($hometext));
@@ -857,14 +857,14 @@ function cookiedecode($user)
         settype($cookie[0], "integer");
 
         if (trim($cookie[1]) != '') {
-            $result = sql_query("SELECT pass, user_langue FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+            $result = sql_query("SELECT pass, user_langue FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
 
             if (sql_num_rows($result) == 1) {
                 list($pass, $user_langue) = sql_fetch_row($result);
 
                 if (($cookie[2] == md5($pass)) and ($pass != '')) {
                     if ($language != $user_langue) {
-                        sql_query("UPDATE " . sql_prefix('') . "users SET user_langue='$language' WHERE uname='$cookie[1]'");
+                        sql_query("UPDATE " . sql_prefix('users') . " SET user_langue='$language' WHERE uname='$cookie[1]'");
                     }
 
                     return $cookie;
@@ -894,13 +894,13 @@ function getusrinfo($user)
 {
     $cookie = explode(':', base64_decode($user));
 
-    $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+    $result = sql_query("SELECT pass FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
     list($pass) = sql_fetch_row($result);
 
     $userinfo = '';
 
     if (($cookie[2] == md5($pass)) and ($pass != '')) {
-        $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+        $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
 
         if (sql_num_rows($result) == 1) {
             $userinfo = sql_fetch_assoc($result);
@@ -952,7 +952,7 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
 function formatAidHeader($aid)
 {
-    $holder = sql_query("SELECT url, email FROM " . sql_prefix('') . "authors WHERE aid='$aid'");
+    $holder = sql_query("SELECT url, email FROM " . sql_prefix('authors') . " WHERE aid='$aid'");
 
     if ($holder) {
         list($url, $email) = sql_fetch_row($holder);
@@ -1006,7 +1006,7 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
     // pas stabilisé ...!
     // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
     // En fait on * le Nb de News par le Nb de groupes
-    $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total FROM " . sql_prefix('') . "groupes", 86400);
+    $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total FROM " . sql_prefix('groupes') . "", 86400);
     $NumG = $row_Q2[0];
 
     if ($NumG['total'] < 2) {
@@ -1020,34 +1020,34 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
     if ($type_req == 'index') {
         $Xstorynum = $storynum * $coef;
 
-        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('') . "stories $sel ORDER BY sid DESC LIMIT $Xstorynum", 3600);
+        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('stories') . " $sel ORDER BY sid DESC LIMIT $Xstorynum", 3600);
         $Znum = $storynum;
     }
 
     if ($type_req == 'old_news') {
         // $Xstorynum=$oldnum*$coef;
 
-        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('') . "stories $sel ORDER BY time DESC LIMIT $storynum", 3600);
+        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('stories') . " $sel ORDER BY time DESC LIMIT $storynum", 3600);
         $Znum = $oldnum;
     }
 
     if (($type_req == 'big_story') or ($type_req == 'big_topic')) {
         // $Xstorynum=$oldnum*$coef;
 
-        $result = Q_select("SELECT sid, catid, ihome, counter FROM " . sql_prefix('') . "stories $sel ORDER BY counter DESC LIMIT $storynum", 0);
+        $result = Q_select("SELECT sid, catid, ihome, counter FROM " . sql_prefix('stories') . " $sel ORDER BY counter DESC LIMIT $storynum", 0);
         $Znum = $oldnum;
     }
 
     if ($type_req == 'libre') {
         $Xstorynum = $oldnum * $coef; //need for what ?
 
-        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('') . "stories $sel", 3600);
+        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('stories') . " $sel", 3600);
         $Znum = $oldnum;
     }
 
     if ($type_req == 'archive') {
         $Xstorynum = $oldnum * $coef; //need for what ?
-        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('') . "stories $sel", 3600);
+        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('stories') . " $sel", 3600);
         $Znum = $oldnum;
     }
 
@@ -1080,16 +1080,16 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
         if (ctrl_aff($ihome, $catid)) {
 
             if (($type_req == "index") or ($type_req == "libre")) {
-                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
             }
             if ($type_req == "archive") {
-                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='1'");
+                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='1'");
             }
             if ($type_req == "old_news") {
-                $result2 = sql_query("SELECT sid, title, time, comments, counter FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, title, time, comments, counter FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
             }
             if (($type_req == "big_story") or ($type_req == "big_topic")) {
-                $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('') . "stories WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
             }
             $tab[$ibid] = sql_fetch_row($result2);
 
@@ -1124,7 +1124,7 @@ function prepa_aff_news($op, $catid, $marqeur)
     }
 
     if ($op == "categories") {
-        sql_query("UPDATE " . sql_prefix('') . "stories_cat SET counter=counter+1 WHERE catid='$catid'");
+        sql_query("UPDATE " . sql_prefix('stories_cat') . " SET counter=counter+1 WHERE catid='$catid'");
 
         settype($marqeur, "integer");
 
@@ -1211,7 +1211,7 @@ function prepa_aff_news($op, $catid, $marqeur)
         $sid = $s_sid;
 
         if ($catid != 0) {
-            $resultm = sql_query("SELECT title FROM " . sql_prefix('') . "stories_cat WHERE catid='$catid'");
+            $resultm = sql_query("SELECT title FROM " . sql_prefix('stories_cat') . " WHERE catid='$catid'");
             list($title1) = sql_fetch_row($resultm);
 
             $title = $title;
@@ -1248,7 +1248,7 @@ function valid_group($xuser)
     if ($xuser) {
         $userdata = explode(':', base64_decode($xuser));
 
-        $user_temp = Q_select("SELECT groupe FROM " . sql_prefix('') . "users_status WHERE uid='$userdata[0]'", 3600);
+        $user_temp = Q_select("SELECT groupe FROM " . sql_prefix('users_status') . " WHERE uid='$userdata[0]'", 3600);
         $groupe = $user_temp[0];
 
         $tab_groupe = explode(',', $groupe['groupe']);
@@ -1262,7 +1262,7 @@ function valid_group($xuser)
 #autodoc liste_group() : Retourne une liste des groupes disponibles dans un tableau
 function liste_group()
 {
-    $r = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes ORDER BY groupe_id ASC");
+    $r = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('groupes') . " ORDER BY groupe_id ASC");
 
     $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
 
@@ -1638,12 +1638,12 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
 
     if ($Xid) {
         $result = $Xblock == 'RB' ?
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "rblocks WHERE id='$Xid'") :
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "lblocks WHERE id='$Xid'");
+            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('rblocks') . " WHERE id='$Xid'") :
+            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('lblocks') . " WHERE id='$Xid'");
     } else {
         $result = $Xblock == 'RB' ?
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "rblocks ORDER BY Rindex ASC") :
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('') . "lblocks ORDER BY Lindex ASC");
+            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('rblocks') . " ORDER BY Rindex ASC") :
+            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('lblocks') . " ORDER BY Lindex ASC");
     }
     global $bloc_side;
     $bloc_side = $Xblock == 'RB' ? 'RIGHT' : 'LEFT';
@@ -1668,7 +1668,7 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
 #autodoc niv_block($Xcontent) : Retourne le niveau d'autorisation d'un block (et donc de certaines fonctions) / le paramètre (une expression régulière) est le contenu du bloc (function#....)
 function niv_block($Xcontent)
 {
-    $result = sql_query("SELECT member, actif FROM " . sql_prefix('') . "rblocks WHERE content REGEXP '$Xcontent'");
+    $result = sql_query("SELECT member, actif FROM " . sql_prefix('rblocks') . " WHERE content REGEXP '$Xcontent'");
 
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
@@ -1676,7 +1676,7 @@ function niv_block($Xcontent)
         return ($member . ',' . $actif);
     }
 
-    $result = sql_query("SELECT member, actif FROM " . sql_prefix('') . "lblocks WHERE content REGEXP '$Xcontent'");
+    $result = sql_query("SELECT member, actif FROM " . sql_prefix('lblocks') . " WHERE content REGEXP '$Xcontent'");
 
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
@@ -1759,12 +1759,12 @@ function getTopics($s_sid)
 
     $sid = $s_sid;
 
-    $result = sql_query("SELECT topic FROM " . sql_prefix('') . "stories WHERE sid='$sid'");
+    $result = sql_query("SELECT topic FROM " . sql_prefix('stories') . " WHERE sid='$sid'");
 
     if ($result) {
         list($topic) = sql_fetch_row($result);
 
-        $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+        $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('topics') . " WHERE topicid='$topic'");
 
         if ($result) {
             list($topicid, $topicname, $topicimage, $topictext) = sql_fetch_row($result);
@@ -1785,14 +1785,14 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
     global $sitename, $nuke_url;
 
     if ($Xtype == 'topic') {
-        $result = sql_query("SELECT topictext FROM " . sql_prefix('') . "topics WHERE topicid='$Xtopic'");
+        $result = sql_query("SELECT topictext FROM " . sql_prefix('topics') . " WHERE topicid='$Xtopic'");
         list($abo) = sql_fetch_row($result);
 
-        $result = sql_query("SELECT uid FROM " . sql_prefix('') . "subscribe WHERE topicid='$Xtopic'");
+        $result = sql_query("SELECT uid FROM " . sql_prefix('subscribe') . " WHERE topicid='$Xtopic'");
     }
 
     if ($Xtype == 'forum') {
-        $result = sql_query("SELECT forum_name, arbre FROM " . sql_prefix('') . "forums WHERE forum_id='$Xforum'");
+        $result = sql_query("SELECT forum_name, arbre FROM " . sql_prefix('forums') . " WHERE forum_id='$Xforum'");
         list($abo, $arbre) = sql_fetch_row($result);
 
         if ($arbre) {
@@ -1801,10 +1801,10 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
             $hrefX = 'viewtopic.php';
         }
 
-        $resultZ = sql_query("SELECT topic_title FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$Xtopic'");
+        $resultZ = sql_query("SELECT topic_title FROM " . sql_prefix('forumtopics') . " WHERE topic_id='$Xtopic'");
         list($title_topic) = sql_fetch_row($resultZ);
 
-        $result = sql_query("SELECT uid FROM " . sql_prefix('') . "subscribe WHERE forumid='$Xforum'");
+        $result = sql_query("SELECT uid FROM " . sql_prefix('subscribe') . " WHERE forumid='$Xforum'");
     }
 
     include_once("language/lang-multi.php");
@@ -1812,7 +1812,7 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
     while (list($uid) = sql_fetch_row($result)) {
         if ($uid != $Xsauf) {
 
-            $resultX = sql_query("SELECT email, user_langue FROM " . sql_prefix('') . "users WHERE uid='$uid'");
+            $resultX = sql_query("SELECT email, user_langue FROM " . sql_prefix('users') . " WHERE uid='$uid'");
             list($email, $user_langue) = sql_fetch_row($resultX);
 
             if ($Xtype == 'topic') {
@@ -1849,11 +1849,11 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 function subscribe_query($Xuser, $Xtype, $Xclef)
 {
     if ($Xtype == 'topic') {
-        $result = sql_query("SELECT topicid FROM " . sql_prefix('') . "subscribe WHERE uid='$Xuser' AND topicid='$Xclef'");
+        $result = sql_query("SELECT topicid FROM " . sql_prefix('subscribe') . " WHERE uid='$Xuser' AND topicid='$Xclef'");
     }
 
     if ($Xtype == 'forum') {
-        $result = sql_query("SELECT forumid FROM " . sql_prefix('') . "subscribe WHERE uid='$Xuser' AND forumid='$Xclef'");
+        $result = sql_query("SELECT forumid FROM " . sql_prefix('subscribe') . " WHERE uid='$Xuser' AND forumid='$Xclef'");
     }
 
     list($Xtemp) = sql_fetch_row($result);
@@ -1874,7 +1874,7 @@ function pollSecur($pollID)
 
     $pollClose = '';
 
-    $result = sql_query("SELECT pollType FROM " . sql_prefix('') . "poll_data WHERE pollID='$pollID'");
+    $result = sql_query("SELECT pollType FROM " . sql_prefix('poll_data') . " WHERE pollID='$pollID'");
 
     if (sql_num_rows($result)) {
         list($pollType) = sql_fetch_row($result);
@@ -2752,7 +2752,7 @@ function topdownload_data($form, $ordre)
 
     settype($top, 'integer');
 
-    $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms FROM " . sql_prefix('') . "downloads ORDER BY $ordre DESC LIMIT 0,$top");
+    $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms FROM " . sql_prefix('downloads') . " ORDER BY $ordre DESC LIMIT 0,$top");
 
     $lugar = 1;
     $ibid = '';
@@ -2810,7 +2810,7 @@ function PollNewest(?int $id = null): void
         if ($ibid) {
             pollMain($ibid, $pollClose);
         }
-    } elseif ($result = sql_query("SELECT pollID FROM " . sql_prefix('') . "poll_data ORDER BY pollID DESC LIMIT 1")) {
+    } elseif ($result = sql_query("SELECT pollID FROM " . sql_prefix('poll_data') . " ORDER BY pollID DESC LIMIT 1")) {
         list($pollID) = sql_fetch_row($result);
 
         list($ibid, $pollClose) = pollSecur($pollID);
@@ -2825,7 +2825,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 {
     global $short_user, $dblink;
 
-    $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('') . "groupes WHERE groupe_id='$gr'"));
+    $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('groupes') . " WHERE groupe_id='$gr'"));
 
     $content = '
                               <script type="text/javascript">
@@ -2859,7 +2859,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     //=> liste des membres
     $mysql_version = mysqli_get_server_info($dblink);
 
-    $query = "SELECT uid, groupe FROM " . sql_prefix('') . "users_status WHERE ";
+    $query = "SELECT uid, groupe FROM " . sql_prefix('users_status') . " WHERE ";
 
     $query .= (version_compare($mysql_version, '8.0.4', '>=')) ?
         "groupe REGEXP '\\\\b$gr\\\\b'" :
@@ -2937,7 +2937,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
             }
         }
 
-        list($uname, $user_avatar, $mns, $url, $femail) = sql_fetch_row(sql_query("SELECT uname, user_avatar, mns, url, femail FROM " . sql_prefix('') . "users WHERE uid='$uid'"));
+        list($uname, $user_avatar, $mns, $url, $femail) = sql_fetch_row(sql_query("SELECT uname, user_avatar, mns, url, femail FROM " . sql_prefix('users') . " WHERE uid='$uid'"));
 
         include('modules/geoloc/geoloc.conf');
 
@@ -3027,7 +3027,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     $nb_for_gr = '';
 
     if ($rsql['groupe_forum'] == 1) {
-        $res_forum = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('') . "forums WHERE forum_pass REGEXP '$gr'");
+        $res_forum = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('forums') . " WHERE forum_pass REGEXP '$gr'");
         $nb_foru = sql_num_rows($res_forum);
 
         if ($nb_foru >= 1) {
@@ -3061,7 +3061,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
         include("modules/wspad/config.php");
 
-        $docs_gr = sql_query("SELECT page, editedby, modtime, ranq FROM " . sql_prefix('') . "wspad WHERE (ws_id) IN (SELECT MAX(ws_id) FROM " . sql_prefix('') . "wspad WHERE member='$gr' GROUP BY page) ORDER BY page ASC");
+        $docs_gr = sql_query("SELECT page, editedby, modtime, ranq FROM " . sql_prefix('wspad') . " WHERE (ws_id) IN (SELECT MAX(ws_id) FROM " . sql_prefix('') . "wspad WHERE member='$gr' GROUP BY page) ORDER BY page ASC");
         $nb_doc = sql_num_rows($docs_gr);
 
         if ($nb_doc >= 1) {
@@ -3161,7 +3161,7 @@ function fab_groupes_bloc($user, $im)
     $lstgr = array();
 
     $userdata = explode(':', base64_decode($user));
-    $result = sql_query("SELECT DISTINCT `groupe` FROM " . sql_prefix('') . "`users_status` WHERE `groupe` > 1;");
+    $result = sql_query("SELECT DISTINCT `groupe` FROM " . sql_prefix('users_status') . " WHERE `groupe` > 1;");
 
     while (list($groupe) = sql_fetch_row($result)) {
 
@@ -3184,7 +3184,7 @@ function fab_groupes_bloc($user, $im)
 
     sql_free_result($result);
 
-    $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM `" . sql_prefix('') . "groupes` WHERE groupe_id IN ('$ids_gr')");
+    $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM " . sql_prefix('groupes') . " WHERE groupe_id IN ('$ids_gr')");
     $nb_groupes = sql_num_rows($result);
 
     $content = '
@@ -3350,7 +3350,7 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
     $list_json = '';
     $list_json .= 'var ' . $nom_array_js . ' = [';
 
-    $res = Q_select("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl, $temps_cache);
+    $res = Q_select("SELECT " . $nom_champ . " FROM " . sql_prefix($nom_tabl), $temps_cache);
 
     foreach ($res as $ar_data) {
         foreach ($ar_data as $val_champ) {
@@ -3394,7 +3394,7 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
     $list_json = '';
     $list_json .= $nom_array_js . ' = [';
 
-    $res = sql_query("SELECT " . $nom_champ . " FROM " . sql_prefix('') . $nom_tabl . " " . $req);
+    $res = sql_query("SELECT " . $nom_champ . " FROM " . sql_prefix($nom_tabl) . " " . $req);
 
     while (list($nom_champ) = sql_fetch_row($res)) {
         $list_json .= '\'' . $nom_champ . '\',';

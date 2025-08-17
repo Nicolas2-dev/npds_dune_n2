@@ -49,7 +49,7 @@ if (!isset($query)) {
 include 'header.php';
 
 if ($topic > 0) {
-    $result = sql_query("SELECT topicimage, topictext FROM " . sql_prefix('') . "topics WHERE topicid='$topic'");
+    $result = sql_query("SELECT topicimage, topictext FROM " . sql_prefix('topics') . " WHERE topicid='$topic'");
     list($topicimage, $topictext) = sql_fetch_row($result);
 } else {
     $topictext = translate('Tous les sujets');
@@ -86,7 +86,7 @@ echo '
          <input class="form-control" type="text" name="query" value="' . $query . '" />
       </div>';
 
-$toplist = sql_query("SELECT topicid, topictext FROM " . sql_prefix('') . "topics ORDER BY topictext");
+$toplist = sql_query("SELECT topicid, topictext FROM " . sql_prefix('topics') . " ORDER BY topictext");
 
 echo '
    <div class="mb-3">
@@ -113,7 +113,7 @@ echo '
       <select class="form-select" name="category">
          <option value="0">' . translate('Articles') . '</option>';
 
-$catlist = sql_query("SELECT catid, title FROM " . sql_prefix('') . "stories_cat ORDER BY title");
+$catlist = sql_query("SELECT catid, title FROM " . sql_prefix('stories_cat') . " ORDER BY title");
 
 settype($category, "integer");
 
@@ -132,7 +132,7 @@ echo '
       </select>
    </div>';
 
-$thing = sql_query("SELECT aid FROM " . sql_prefix('') . "authors ORDER BY aid");
+$thing = sql_query("SELECT aid FROM " . sql_prefix('authors') . " ORDER BY aid");
 
 echo '
    <div class="mb-3">
@@ -246,9 +246,9 @@ if ($type == "stories" or $type == "archive" or !$type) {
     }
 
     if ($type == 'stories' or !$type) {
-        $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('') . "stories s, " . sql_prefix('') . "authors a WHERE s.archive='0' AND s.aid=a.aid $categ";
+        $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('stories') . " s, " . sql_prefix('') . "authors a WHERE s.archive='0' AND s.aid=a.aid $categ";
     } else {
-        $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('') . "stories s, " . sql_prefix('') . "authors a WHERE s.archive='1' AND s.aid=a.aid $categ";
+        $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('stories') . " s, " . sql_prefix('') . "authors a WHERE s.archive='1' AND s.aid=a.aid $categ";
     }
     if (isset($query)) {
         $q .= "AND (s.title LIKE '%$query_title%' OR s.hometext LIKE '%$query_body%' OR s.bodytext LIKE '%$query_body%' OR s.notes LIKE '%$query_body%') ";
@@ -379,7 +379,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
     // reviews
 } elseif ($type == 'reviews') {
-    $result = sql_query("SELECT id, title, text, reviewer FROM " . sql_prefix('') . "reviews WHERE (title LIKE '%$query_title%' OR text LIKE '%$query_body%') ORDER BY date DESC LIMIT $min,$offset");
+    $result = sql_query("SELECT id, title, text, reviewer FROM " . sql_prefix('reviews') . " WHERE (title LIKE '%$query_title%' OR text LIKE '%$query_body%') ORDER BY date DESC LIMIT $min,$offset");
 
     if ($result) {
         $nrows  = sql_num_rows($result);
@@ -440,7 +440,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
     $t = '';
 
-    $result = sql_query("SELECT artid, secid, title, content FROM " . sql_prefix('') . "seccont WHERE (title LIKE '%$query_title%' OR content LIKE '%$query_body%') ORDER BY artid DESC LIMIT $min,$offset");
+    $result = sql_query("SELECT artid, secid, title, content FROM " . sql_prefix('seccont') . " WHERE (title LIKE '%$query_title%' OR content LIKE '%$query_body%') ORDER BY artid DESC LIMIT $min,$offset");
 
     if ($result) {
         $nrows  = sql_num_rows($result);
@@ -460,10 +460,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
         while (list($artid, $secid, $title, $content) = sql_fetch_row($result)) {
 
-            $rowQ2 = Q_Select("SELECT secname, rubid FROM " . sql_prefix('') . "sections WHERE secid='$secid'", 3600);
+            $rowQ2 = Q_Select("SELECT secname, rubid FROM " . sql_prefix('sections') . " WHERE secid='$secid'", 3600);
             $row2 = $rowQ2[0];
 
-            $rowQ3 = Q_Select("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='" . $row2['rubid'] . "'", 3600);
+            $rowQ3 = Q_Select("SELECT rubname FROM " . sql_prefix('rubriques') . " WHERE rubid='" . $row2['rubid'] . "'", 3600);
             $row3 = $rowQ3[0];
 
             if ($row3['rubname'] != 'Divers' and $row3['rubname'] != 'Presse-papiers') {
@@ -513,7 +513,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
 } elseif ($type == 'users') {
     if (($member_list and $user) or $admin) {
 
-        $result = sql_query("SELECT uname, name FROM " . sql_prefix('') . "users WHERE (uname LIKE '%$query_title%' OR name LIKE '%$query_title%' OR bio LIKE '%$query_title%') ORDER BY uname ASC LIMIT $min,$offset");
+        $result = sql_query("SELECT uname, name FROM " . sql_prefix('users') . " WHERE (uname LIKE '%$query_title%' OR name LIKE '%$query_title%' OR bio LIKE '%$query_title%') ORDER BY uname ASC LIMIT $min,$offset");
 
         if ($result) {
             $nrows  = sql_num_rows($result);

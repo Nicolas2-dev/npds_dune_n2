@@ -63,10 +63,10 @@ function listsections($rubric)
         }
 
         if ($admin) {
-            $result = sql_query("SELECT rubid, rubname, intro FROM " . sql_prefix('') . "rubriques WHERE rubname<>'Divers' AND rubname<>'Presse-papiers' $sqladd ORDER BY ordre");
+            $result = sql_query("SELECT rubid, rubname, intro FROM " . sql_prefix('rubriques') . " WHERE rubname<>'Divers' AND rubname<>'Presse-papiers' $sqladd ORDER BY ordre");
             $nb_r = sql_num_rows($result);
         } else {
-            $result = sql_query("SELECT rubid, rubname, intro FROM " . sql_prefix('') . "rubriques WHERE enligne='1' AND rubname<>'Divers' AND rubname<>'Presse-papiers' $sqladd ORDER BY ordre");
+            $result = sql_query("SELECT rubid, rubname, intro FROM " . sql_prefix('rubriques') . " WHERE enligne='1' AND rubname<>'Divers' AND rubname<>'Presse-papiers' $sqladd ORDER BY ordre");
             $nb_r = sql_num_rows($result);
         }
 
@@ -80,7 +80,7 @@ function listsections($rubric)
 
         if (sql_num_rows($result) > 0) {
             while (list($rubid, $rubname, $intro) = sql_fetch_row($result)) {
-                $result2 = sql_query("SELECT secid, secname, image, userlevel, intro FROM " . sql_prefix('') . "sections WHERE rubid='$rubid' ORDER BY ordre");
+                $result2 = sql_query("SELECT secid, secname, image, userlevel, intro FROM " . sql_prefix('sections') . " WHERE rubid='$rubid' ORDER BY ordre");
                 $nb_section = sql_num_rows($result2);
 
                 $aff .= '
@@ -110,7 +110,7 @@ function listsections($rubric)
                     $aff2 = '';
 
                     if ($okprintLV1) {
-                        $result3 = sql_query("SELECT artid, title, counter, userlevel, timestamp FROM " . sql_prefix('') . "seccont WHERE secid='$secid' ORDER BY ordre");
+                        $result3 = sql_query("SELECT artid, title, counter, userlevel, timestamp FROM " . sql_prefix('seccont') . " WHERE secid='$secid' ORDER BY ordre");
                         $nb_art = sql_num_rows($result3);
 
                         $aff .= '
@@ -212,10 +212,10 @@ function listarticles($secid)
         include("sections.config.php");
     }
 
-    $result = sql_query("SELECT secname, rubid, image, intro, userlevel FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
+    $result = sql_query("SELECT secname, rubid, image, intro, userlevel FROM " . sql_prefix('sections') . " WHERE secid='$secid'");
     list($secname, $rubid, $image, $intro, $userlevel) = sql_fetch_row($result);
 
-    list($rubname) = sql_fetch_row(sql_query("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'"));
+    list($rubname) = sql_fetch_row(sql_query("SELECT rubname FROM " . sql_prefix('rubriques') . " WHERE rubid='$rubid'"));
 
     if ($sections_chemin == 1) {
         $chemin = '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a></span>';
@@ -236,7 +236,7 @@ function listarticles($secid)
         $okprint1 = autorisation_section($userlevel);
 
         if ($okprint1) {
-            $result = sql_query("SELECT artid, secid, title, content, userlevel, counter, timestamp FROM " . sql_prefix('') . "seccont WHERE secid='$secid' ORDER BY ordre");
+            $result = sql_query("SELECT artid, secid, title, content, userlevel, counter, timestamp FROM " . sql_prefix('seccont') . " WHERE secid='$secid' ORDER BY ordre");
             $nb_art = sql_num_rows($result);
 
             if ($prev == 1) {
@@ -328,15 +328,15 @@ function viewarticle($artid, $page)
     }
 
     if ($page == '') {
-        sql_query("UPDATE " . sql_prefix('') . "seccont SET counter=counter+1 WHERE artid='$artid'");
+        sql_query("UPDATE " . sql_prefix('seccont') . " SET counter=counter+1 WHERE artid='$artid'");
     }
-    $result_S = sql_query("SELECT artid, secid, title, content, counter, userlevel FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
+    $result_S = sql_query("SELECT artid, secid, title, content, counter, userlevel FROM " . sql_prefix('seccont') . " WHERE artid='$artid'");
 
     list($artid, $secid, $title, $Xcontent, $counter, $userlevel) = sql_fetch_row($result_S);
 
-    list($secid, $secname, $rubid) = sql_fetch_row(sql_query("SELECT secid, secname, rubid FROM " . sql_prefix('') . "sections WHERE secid='$secid'"));
+    list($secid, $secname, $rubid) = sql_fetch_row(sql_query("SELECT secid, secname, rubid FROM " . sql_prefix('sections') . " WHERE secid='$secid'"));
 
-    list($rubname) = sql_fetch_row(sql_query("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'"));
+    list($rubname) = sql_fetch_row(sql_query("SELECT rubname FROM " . sql_prefix('rubriques') . " WHERE rubid='$rubid'"));
 
     $tmp_auto = explode(',', $userlevel);
 
@@ -440,7 +440,7 @@ function viewarticle($artid, $page)
             echo '<ul class="list-group"><li class="list-group-item"><a href="sections.php?op=listarticles&amp;secid='.$secid.'">'.aff_langue($secname).'</a></li></ul>';
 */
 
-                $result3 = sql_query("SELECT artid, secid, title, userlevel FROM " . sql_prefix('') . "seccont WHERE (artid<>'$artid' AND secid='$secid') ORDER BY ordre");
+                $result3 = sql_query("SELECT artid, secid, title, userlevel FROM " . sql_prefix('seccont') . " WHERE (artid<>'$artid' AND secid='$secid') ORDER BY ordre");
                 $nb_article = sql_num_rows($result3);
 
                 if ($nb_article > 0) {
@@ -464,7 +464,7 @@ function viewarticle($artid, $page)
 
             $artid = $artidtempo;
 
-            $resultconnexe = sql_query("SELECT id2 FROM " . sql_prefix('') . "compatsujet WHERE id1='$artid'");
+            $resultconnexe = sql_query("SELECT id2 FROM " . sql_prefix('compatsujet') . " WHERE id1='$artid'");
 
             if (sql_num_rows($resultconnexe) > 0) {
                 echo '
@@ -472,7 +472,7 @@ function viewarticle($artid, $page)
             <ul class="list-group">';
 
                 while (list($connexe) = sql_fetch_row($resultconnexe)) {
-                    $resultpdtcompat = sql_query("SELECT artid, title, userlevel FROM " . sql_prefix('') . "seccont WHERE artid='$connexe'");
+                    $resultpdtcompat = sql_query("SELECT artid, title, userlevel FROM " . sql_prefix('seccont') . " WHERE artid='$connexe'");
                     list($artid2, $title, $userlevel) = sql_fetch_row($resultpdtcompat);
 
                     $okprint2 = autorisation_section($userlevel);
@@ -518,7 +518,7 @@ function PrintSecPage($artid)
         '<img src="' . $site_logo . '" alt="logo" />' :
         '<img src="images/' . $site_logo . '" alt="logo" />';
 
-    $result = sql_query("SELECT title, content FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
+    $result = sql_query("SELECT title, content FROM " . sql_prefix('seccont') . " WHERE artid='$artid'");
     list($title, $content) = sql_fetch_row($result);
 
     echo '<strong class="my-3 d-block">' . aff_langue($title) . '</strong></p>';
@@ -548,10 +548,10 @@ function PrintSecPage($artid)
 
 function verif_aff($artid)
 {
-    $result = sql_query("SELECT secid FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
+    $result = sql_query("SELECT secid FROM " . sql_prefix('seccont') . " WHERE artid='$artid'");
     list($secid) = sql_fetch_row($result);
 
-    $result = sql_query("SELECT userlevel FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
+    $result = sql_query("SELECT userlevel FROM " . sql_prefix('sections') . " WHERE secid='$secid'");
     list($userlevel) = sql_fetch_row($result);
 
     $okprint = false;

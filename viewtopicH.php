@@ -25,7 +25,7 @@ if ($allow_upload_forum) {
     include("modules/upload/upload_forum.php");
 }
 
-$rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('') . "forumtopics WHERE topic_id='$topic'", 3600);
+$rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('forumtopics') . " WHERE topic_id='$topic'", 3600);
 
 if (!$rowQ1) {
     forumerror('0001');
@@ -34,7 +34,7 @@ if (!$rowQ1) {
 $myrow = $rowQ1[0];
 $forum = $myrow['forum_id'];
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('forums') . " WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
     forumerror('0001');
@@ -87,7 +87,7 @@ if (isset($user)) {
     }
 }
 
-$sql = "SELECT topic_title, topic_status, topic_poster FROM " . sql_prefix('') . "forumtopics WHERE topic_id = '$topic'";
+$sql = "SELECT topic_title, topic_status, topic_poster FROM " . sql_prefix('forumtopics') . " WHERE topic_id = '$topic'";
 
 $total = get_total_posts($forum, $topic, "topic", $Mmod);
 
@@ -594,7 +594,7 @@ if (isset($user)) {
     $time_actu = time() + ((int)$gmt * 3600);
 
     $sqlR = "SELECT last_read 
-             FROM " . sql_prefix('') . "forum_read 
+             FROM " . sql_prefix('forum_read') . " 
              WHERE forum_id='$forum' 
              AND uid='$userdata[0]' 
              AND topicid='$topic'";
@@ -604,14 +604,14 @@ if (isset($user)) {
     $last_read = '';
 
     if (sql_num_rows($result_LR) == 0) {
-        $sqlR = "INSERT INTO " . sql_prefix('') . "forum_read (forum_id, topicid, uid, last_read, status) 
+        $sqlR = "INSERT INTO " . sql_prefix('forum_read') . " (forum_id, topicid, uid, last_read, status) 
                  VALUES ('$forum', '$topic', '$userdata[0]', '$time_actu', '1')";
 
         $resultR = sql_query($sqlR);
     } else {
         list($last_read) = sql_fetch_row($result_LR);
 
-        $sqlR = "UPDATE " . sql_prefix('') . "forum_read 
+        $sqlR = "UPDATE " . sql_prefix('forum_read') . " 
                  SET last_read='$time_actu', status='1' 
                  WHERE forum_id='$forum' 
                  AND uid='$userdata[0]' 
@@ -647,12 +647,12 @@ if (isset($start)) {
         }
     }
 
-    $sql = "SELECT * FROM " . sql_prefix('') . "posts 
+    $sql = "SELECT * FROM " . sql_prefix('posts') . " 
             WHERE topic_id='$topic' 
             AND forum_id='$forum'" . $post_aff . " 
             ORDER BY post_id";
 } else {
-    $sql = "SELECT * FROM " . sql_prefix('') . "posts 
+    $sql = "SELECT * FROM " . sql_prefix('posts') . " 
             WHERE topic_id='$topic' 
             AND forum_id='$forum'" . $post_aff . " ORDER BY post_id";
 }
@@ -673,7 +673,7 @@ if ($allow_upload_forum) {
 
 echo maketree(0, $sql, 0);
 
-$sql = "UPDATE " . sql_prefix('') . "forumtopics 
+$sql = "UPDATE " . sql_prefix('forumtopics') . " 
         SET topic_views = topic_views + 1 
         WHERE topic_id = '$topic'";
 
@@ -720,7 +720,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
                 <option value="index">' . translate('Index du forum') . '</option>';
 
     $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass 
-                FROM " . sql_prefix('') . "forums 
+                FROM " . sql_prefix('forums') . " 
                 ORDER BY cat_id, forum_index, forum_id";
 
     if ($res = sql_query($sub_sql)) {

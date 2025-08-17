@@ -22,7 +22,7 @@ function sitemapforum($prio)
 
     $tmp = '';
 
-    $result = sql_query("SELECT forum_id FROM " . sql_prefix('') . "forums WHERE forum_access='0' ORDER BY forum_id");
+    $result = sql_query("SELECT forum_id FROM " . sql_prefix('forums') . " WHERE forum_access='0' ORDER BY forum_id");
 
     while (list($forum_id) = sql_fetch_row($result)) {
         // Forums
@@ -33,7 +33,7 @@ function sitemapforum($prio)
         $tmp .= "<priority>$prio</priority>\n";
         $tmp .= "</url>\n\n";
 
-        $sub_result = sql_query("SELECT topic_id, topic_time FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum_id' AND topic_status!='2' ORDER BY topic_id");
+        $sub_result = sql_query("SELECT topic_id, topic_time FROM " . sql_prefix('forumtopics') . " WHERE forum_id='$forum_id' AND topic_status!='2' ORDER BY topic_id");
 
         while (list($topic_id, $topic_time) = sql_fetch_row($sub_result)) {
             // Topics
@@ -55,7 +55,7 @@ function sitemaparticle($prio)
 
     $tmp = '';
 
-    $result = sql_query("SELECT sid,time FROM " . sql_prefix('') . "stories WHERE ihome='0' AND archive='0' ORDER BY sid");
+    $result = sql_query("SELECT sid,time FROM " . sql_prefix('stories') . " WHERE ihome='0' AND archive='0' ORDER BY sid");
 
     while (list($sid, $time) = sql_fetch_row($result)) {
         // Articles
@@ -84,7 +84,7 @@ function sitemaprub($prio)
     $tmp .= "<priority>$prio</priority>\n";
     $tmp .= "</url>\n\n";
 
-    $result = sql_query("SELECT artid, timestamp FROM " . sql_prefix('') . "seccont WHERE userlevel='0' ORDER BY artid");
+    $result = sql_query("SELECT artid, timestamp FROM " . sql_prefix('seccont') . " WHERE userlevel='0' ORDER BY artid");
 
     while (list($artid, $timestamp) = sql_fetch_row($result)) {
         // Rubriques
@@ -113,7 +113,7 @@ function sitemapdown($prio)
     $tmp .= "<priority>$prio</priority>\n";
     $tmp .= "</url>\n\n";
 
-    $result = sql_query("SELECT did, ddate FROM " . sql_prefix('') . "downloads WHERE perms='0' ORDER BY did");
+    $result = sql_query("SELECT did, ddate FROM " . sql_prefix('downloads') . " WHERE perms='0' ORDER BY did");
 
     while (list($did, $ddate) = sql_fetch_row($result)) {
         $tmp .= "<url>\n";

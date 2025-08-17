@@ -32,7 +32,7 @@ if (!$user) {
     $userdata = explode(':', $userX);
     $userdata = get_userdata($userdata[1]);
 
-    $sqlT = "SELECT DISTINCT dossier FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '" . $userdata['uid'] . "' AND dossier!='...' AND type_msg='0' ORDER BY dossier";
+    $sqlT = "SELECT DISTINCT dossier FROM " . sql_prefix('priv_msgs') . " WHERE to_userid = '" . $userdata['uid'] . "' AND dossier!='...' AND type_msg='0' ORDER BY dossier";
     $resultT = sql_query($sqlT);
 
     member_menu($userdata['mns'], $userdata['uname']);
@@ -77,7 +77,7 @@ if (!$user) {
         $ibid = "AND dossier='...'";
     }
 
-    $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' $ibid ORDER BY msg_id DESC";
+    $sql = "SELECT * FROM " . sql_prefix('priv_msgs') . " WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' $ibid ORDER BY msg_id DESC";
     $resultID = sql_query($sql);
 
     if (!$resultID) {
@@ -204,7 +204,7 @@ if (!$user) {
     echo '
    </div>';
 
-    $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE from_userid = '" . $userdata['uid'] . "' AND type_msg='1' ORDER BY msg_id DESC";
+    $sql = "SELECT * FROM " . sql_prefix('priv_msgs') . " WHERE from_userid = '" . $userdata['uid'] . "' AND type_msg='1' ORDER BY msg_id DESC";
     $resultID = sql_query($sql);
 
     if (!$resultID) {

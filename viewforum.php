@@ -33,12 +33,12 @@ if ($admin) {
     $adminX = base64_decode($admin);
     $adminR = explode(':', $adminX);
 
-    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('') . "authors WHERE aid='$adminR[0]' LIMIT 1"));
+    $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('authors') . " WHERE aid='$adminR[0]' LIMIT 1"));
 
     if ($Q['radminsuper'] == 1) {
         $adminforum = 1;
     } else {
-        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('') . "authors a LEFT JOIN " . sql_prefix('') . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
+        $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('authors') . " a LEFT JOIN " . sql_prefix('droits') . " d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
 
         if (sql_num_rows($R) >= 1) {
             $adminforum = 1;
@@ -55,17 +55,17 @@ if (($op == "mark") and ($forum)) {
         $userX = base64_decode($user);
         $userR = explode(':', $userX);
 
-        $resultT = sql_query("SELECT topic_id FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum' ORDER BY topic_id ASC");
+        $resultT = sql_query("SELECT topic_id FROM " . sql_prefix('forumtopics') . " WHERE forum_id='$forum' ORDER BY topic_id ASC");
         $time_actu = time() + ((int)$gmt * 3600);
 
         while (list($topic_id) = sql_fetch_row($resultT)) {
-            $r = sql_query("SELECT rid FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='$topic_id'");
+            $r = sql_query("SELECT rid FROM " . sql_prefix('forum_read') . " WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='$topic_id'");
 
             if ($r) {
                 if (!list($rid) = sql_fetch_row($r)) {
-                    $r = sql_query("INSERT INTO " . sql_prefix('') . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum', '$topic_id', '$userR[0]', $time_actu, '1')");
+                    $r = sql_query("INSERT INTO " . sql_prefix('forum_read') . " (forum_id, topicid, uid, last_read, status) VALUES ('$forum', '$topic_id', '$userR[0]', $time_actu, '1')");
                 } else {
-                    $r = sql_query("UPDATE " . sql_prefix('') . "forum_read SET last_read='$time_actu', status='1' WHERE rid='$rid'");
+                    $r = sql_query("UPDATE " . sql_prefix('forum_read') . " SET last_read='$time_actu', status='1' WHERE rid='$rid'");
                 }
             }
         }
@@ -80,7 +80,7 @@ if ($forum == "index") {
 
 settype($forum, "integer");
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('forums') . " WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
     forumerror('0002');
@@ -98,7 +98,7 @@ if (($op == "solved") and ($topic_id) and ($forum) and ($sec_clef)) {
         $local_sec_clef = md5($forum . $topic_id . md5($NPDS_Key));
 
         if ($local_sec_clef == $sec_clef) {
-            $sqlS = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status='2', topic_title='[" . translate('Résolu') . "] - " . removehack($topic_title) . "' WHERE topic_id='$topic_id'";
+            $sqlS = "UPDATE " . sql_prefix('forumtopics') . " SET topic_status='2', topic_title='[" . translate('Résolu') . "] - " . removehack($topic_title) . "' WHERE topic_id='$topic_id'";
 
             if (!$r = sql_query($sqlS)) {
                 forumerror('0011');
@@ -283,7 +283,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     settype($start, "integer");
     settype($topics_per_page, "integer");
 
-    $sql = "SELECT * FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum' $closol ORDER BY topic_first,topic_time DESC LIMIT $start, $topics_per_page";
+    $sql = "SELECT * FROM " . sql_prefix('forumtopics') . " WHERE forum_id='$forum' $closol ORDER BY topic_first,topic_time DESC LIMIT $start, $topics_per_page";
 
     if (!$result = sql_query($sql)) {
         forumerror('0004');
@@ -329,7 +329,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
 
                 global $smilies;
                 if ($smilies) {
-                    $rowQ1 = Q_Select("SELECT image FROM " . sql_prefix('') . "posts WHERE topic_id='" . $myrow['topic_id'] . "' AND forum_id='$forum' LIMIT 0,1", 86400);
+                    $rowQ1 = Q_Select("SELECT image FROM " . sql_prefix('posts') . " WHERE topic_id='" . $myrow['topic_id'] . "' AND forum_id='$forum' LIMIT 0,1", 86400);
                     $image_subject = $rowQ1[0]['image'];
                 }
 
@@ -345,7 +345,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     $last_post_url = "$hrefX?topic=" . $myrow['topic_id'] . "&amp;forum=$forum";
                 }
                 if ($user) {
-                    $sqlR = "SELECT rid FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='" . $myrow['topic_id'] . "' AND status!='0'";
+                    $sqlR = "SELECT rid FROM " . sql_prefix('forum_read') . " WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='" . $myrow['topic_id'] . "' AND status!='0'";
 
                     if ($replys >= $hot_threshold) {
                         $image = sql_num_rows(sql_query($sqlR)) == 0 ?
@@ -414,7 +414,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     if ($myrow['topic_poster'] == 1) {
                         echo '<td></td>';
                     } else {
-                        $rowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('') . "users WHERE uid='" . $myrow['topic_poster'] . "'", 3600);
+                        $rowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('users') . " WHERE uid='" . $myrow['topic_poster'] . "'", 3600);
 
                         if ($rowQ1) {
                             echo '<td>' . userpopover($rowQ1[0]['uname'], 40, 2) . $rowQ1[0]['uname'] . '</td>';
@@ -453,7 +453,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         }
     }
 
-    $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum' $closol";
+    $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('forumtopics') . " WHERE forum_id='$forum' $closol";
     if (!$r = sql_query($sql)) {
         forumerror('0001');
     }
@@ -521,7 +521,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                <option value="index">' . translate('Sauter à : ') . '</option>
                <option value="index">' . translate('Index du forum') . '</option>';
 
-        $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass FROM " . sql_prefix('') . "forums ORDER BY cat_id,forum_index,forum_id";
+        $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass FROM " . sql_prefix('forums') . " ORDER BY cat_id,forum_index,forum_id";
 
         if ($res = sql_query($sub_sql)) {
             while (list($forum_id, $forum_name, $forum_type, $forum_pass) = sql_fetch_row($res)) {

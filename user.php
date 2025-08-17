@@ -80,11 +80,11 @@ function userCheck($uname, $email)
     if (strrpos($uname, ' ') > 0) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Il ne peut pas y avoir d\'espace dans le surnom.');
     }
-    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uname='$uname'")) > 0) {
+    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('users') . " WHERE uname='$uname'")) > 0) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : cet identifiant est déjà utilisé"');
     }
     if ($uname != 'edituser') {
-        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE email='$email'")) > 0) {
+        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('users') . " WHERE email='$email'")) > 0) {
             $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : adresse Email déjà utilisée');
         }
     }
@@ -319,17 +319,17 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
 
         $hashkey = 1;
 
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "users VALUES (NULL,'$name','$uname','$email','','','$user_avatar','$user_regdate','$user_occ','$user_from','$user_intrest','$user_sig','$user_viewemail','','','$cryptpass', '1', '10','','0','0','0','','0','','$Default_Theme+$Default_Skin','10','0','0','1','0','','','$user_lnl')");
+        $result = sql_query("INSERT INTO " . sql_prefix('users') . " VALUES (NULL,'$name','$uname','$email','','','$user_avatar','$user_regdate','$user_occ','$user_from','$user_intrest','$user_sig','$user_viewemail','','','$cryptpass', '1', '10','','0','0','0','','0','','$Default_Theme+$Default_Skin','10','0','0','1','0','','','$user_lnl')");
 
         list($usr_id) = sql_fetch_row(sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$uname'"));
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "users_extend VALUES ('$usr_id','$C1','$C2','$C3','$C4','$C5','$C6','$C7','$C8','$M1','$M2','$T1','$T2', '$B1')");
+        $result = sql_query("INSERT INTO " . sql_prefix('users_extend') . " VALUES ('$usr_id','$C1','$C2','$C3','$C4','$C5','$C6','$C7','$C8','$M1','$M2','$T1','$T2', '$B1')");
 
         $attach = $user_sig ? 1 : 0;
 
         if (($AutoRegUser == 1) or (!isset($AutoRegUser))) {
-            $result = sql_query("INSERT INTO " . sql_prefix('') . "users_status VALUES ('$usr_id','0','$attach','0','1','1','')");
+            $result = sql_query("INSERT INTO " . sql_prefix('users_status') . " VALUES ('$usr_id','0','$attach','0','1','1','')");
         } else {
-            $result = sql_query("INSERT INTO " . sql_prefix('') . "users_status VALUES ('$usr_id','0','$attach','0','1','0','')");
+            $result = sql_query("INSERT INTO " . sql_prefix('users_status') . " VALUES ('$usr_id','0','$attach','0','1','0','')");
         }
         if ($result) {
             if ($memberpass) {
@@ -400,7 +400,7 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
 
                 $message = meta_lang(AddSlashes(str_replace("\n", "<br />", $message)));
 
-                $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
+                $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
                 $sql .= "VALUES ('', '$sujet', '$emetteur_id', '$usr_id', '$time', '$message')";
 
                 sql_query($sql);
@@ -428,7 +428,7 @@ function userinfo($uname)
 
     $uname = removeHack($uname);
 
-    $result = sql_query("SELECT uid, name, femail, url, bio, user_avatar, user_from, user_occ, user_intrest, user_sig, user_journal, mns FROM " . sql_prefix('') . "users WHERE uname='$uname'");
+    $result = sql_query("SELECT uid, name, femail, url, bio, user_avatar, user_from, user_occ, user_intrest, user_sig, user_journal, mns FROM " . sql_prefix('users') . " WHERE uname='$uname'");
     list($uid, $name, $femail, $url, $bio, $user_avatar, $user_from, $user_occ, $user_intrest, $user_sig, $user_journal, $mns) = sql_fetch_row($result);
 
     if (!$uid) {
@@ -748,7 +748,7 @@ function userinfo($uname)
 
     $url = '';
 
-    $result = sql_query("SELECT topic_id, forum_id, post_text, post_time FROM " . sql_prefix('') . "posts WHERE forum_id<0 and poster_id='$uid' ORDER BY post_time DESC LIMIT 0,10");
+    $result = sql_query("SELECT topic_id, forum_id, post_text, post_time FROM " . sql_prefix('posts') . " WHERE forum_id<0 and poster_id='$uid' ORDER BY post_time DESC LIMIT 0,10");
 
     while (list($topic_id, $forum_id, $post_text, $post_time) = sql_fetch_row($result)) {
         $url = str_replace("#topic#", $topic_id, $filelist[$forum_id]);
@@ -791,7 +791,7 @@ function userinfo($uname)
     $nbp = 10;
     $content = '';
 
-    $result = sql_query("SELECT * FROM " . sql_prefix('') . "posts WHERE forum_id > 0 AND poster_id=$uid ORDER BY post_time DESC LIMIT 0,50");
+    $result = sql_query("SELECT * FROM " . sql_prefix('posts') . " WHERE forum_id > 0 AND poster_id=$uid ORDER BY post_time DESC LIMIT 0,50");
 
     $j = 1;
 
@@ -828,12 +828,12 @@ function userinfo($uname)
         if ($ok_affich) {
 
             // Nbre de postes par sujet
-            $TableRep = sql_query("SELECT * FROM " . sql_prefix('') . "posts WHERE forum_id > 0 AND topic_id = '$topic_id'");
+            $TableRep = sql_query("SELECT * FROM " . sql_prefix('posts') . " WHERE forum_id > 0 AND topic_id = '$topic_id'");
             $replys = sql_num_rows($TableRep) - 1;
 
             $id_lecteur = isset($cookie[0]) ? $cookie[0] : '0';
 
-            $sqlR = "SELECT rid FROM " . sql_prefix('') . "forum_read WHERE topicid = '$topic_id' AND uid = '$id_lecteur' AND status != '0'";
+            $sqlR = "SELECT rid FROM " . sql_prefix('forum_read') . " WHERE topicid = '$topic_id' AND uid = '$id_lecteur' AND status != '0'";
 
             if (sql_num_rows(sql_query($sqlR)) == 0) {
                 $image = '<a href="" title="' . translate('Non lu') . '" data-bs-toggle="tooltip"><i class="far fa-file-alt fa-lg faa-shake animated text-primary "></i></a>';
@@ -930,7 +930,7 @@ function logout()
     global $user, $cookie;
 
     if ($cookie[1] != '') {
-        sql_query("DELETE FROM " . sql_prefix('') . "session WHERE username='$cookie[1]'");
+        sql_query("DELETE FROM " . sql_prefix('session') . " WHERE username='$cookie[1]'");
     }
 
     setcookie('user', '', 0);
@@ -995,7 +995,7 @@ function mail_password($uname, $code)
 
     $uname = removeHack(stripslashes(htmlspecialchars(urldecode($uname), ENT_QUOTES, 'UTF-8')));
 
-    $result = sql_query("SELECT uname,email,pass FROM " . sql_prefix('') . "users WHERE uname='$uname'");
+    $result = sql_query("SELECT uname,email,pass FROM " . sql_prefix('users') . " WHERE uname='$uname'");
     $tmp_result = sql_fetch_row($result);
 
     if (!$tmp_result) {
@@ -1027,7 +1027,7 @@ function valid_password($code)
 {
     $ibid = explode("#fpwd#", $code);
 
-    $result = sql_query("SELECT email,pass FROM " . sql_prefix('') . "users WHERE uname='" . decrypt($ibid[0]) . "'");
+    $result = sql_query("SELECT email,pass FROM " . sql_prefix('users') . " WHERE uname='" . decrypt($ibid[0]) . "'");
     list($email, $pass) = sql_fetch_row($result);
 
     if ($email != '') {
@@ -1082,7 +1082,7 @@ function update_password($code, $passwd)
 
     $uname = urlencode(decrypt($ibid[0]));
 
-    $result = sql_query("SELECT email,pass FROM " . sql_prefix('') . "users WHERE uname='$uname'");
+    $result = sql_query("SELECT email,pass FROM " . sql_prefix('users') . " WHERE uname='$uname'");
     list($email, $pass) = sql_fetch_row($result);
 
     if ($email != '') {
@@ -1102,7 +1102,7 @@ function update_password($code, $passwd)
                     $hashpass = password_hash($ibid[1], $AlgoCrypt, $options);
                     $cryptpass = crypt($ibid[1], $hashpass);
 
-                    sql_query("UPDATE " . sql_prefix('') . "users SET pass='$cryptpass', hashkey='1' WHERE uname='$uname'");
+                    sql_query("UPDATE " . sql_prefix('users') . " SET pass='$cryptpass', hashkey='1' WHERE uname='$uname'");
 
                     message_pass('<div class="alert alert-success lead text-center"><a class="alert-link" href="user.php"><i class="fa fa-exclamation me-2"></i>' . translate('Mot de passe mis à jour. Merci de vous re-connecter') . '<i class="fas fa-sign-in-alt fa-lg ms-2"></i></a></div>');
 
@@ -1152,12 +1152,12 @@ function login($uname, $pass)
 {
     global $setinfo;
 
-    $result = sql_query("SELECT pass, hashkey, uid, uname, storynum, umode, uorder, thold, noscore, ublockon, theme, commentmax, user_langue FROM " . sql_prefix('') . "users WHERE uname = '$uname'");
+    $result = sql_query("SELECT pass, hashkey, uid, uname, storynum, umode, uorder, thold, noscore, ublockon, theme, commentmax, user_langue FROM " . sql_prefix('users') . " WHERE uname = '$uname'");
 
     if (sql_num_rows($result) == 1) {
         $setinfo = sql_fetch_assoc($result);
 
-        $result = sql_query("SELECT open FROM " . sql_prefix('') . "users_status WHERE uid='" . $setinfo['uid'] . "'");
+        $result = sql_query("SELECT open FROM " . sql_prefix('users_status') . " WHERE uid='" . $setinfo['uid'] . "'");
         list($open_user) = sql_fetch_row($result);
 
         if ($open_user == 0) {
@@ -1180,9 +1180,9 @@ function login($uname, $pass)
                 $hashpass = password_hash($pass, $AlgoCrypt, $options);
                 $pass = crypt($pass, $hashpass);
 
-                sql_query("UPDATE " . sql_prefix('') . "users SET pass='$pass', hashkey='1' WHERE uname='$uname'");
+                sql_query("UPDATE " . sql_prefix('users') . " SET pass='$pass', hashkey='1' WHERE uname='$uname'");
 
-                $result = sql_query("SELECT pass, hashkey, uid, uname, storynum, umode, uorder, thold, noscore, ublockon, theme, commentmax, user_langue FROM " . sql_prefix('') . "users WHERE uname = '$uname'");
+                $result = sql_query("SELECT pass, hashkey, uid, uname, storynum, umode, uorder, thold, noscore, ublockon, theme, commentmax, user_langue FROM " . sql_prefix('users') . " WHERE uname = '$uname'");
 
                 if (sql_num_rows($result) == 1) {
                     $setinfo = sql_fetch_assoc($result);
@@ -1208,10 +1208,10 @@ function login($uname, $pass)
 
         $ip = getip();
 
-        $result = sql_query("SELECT * FROM " . sql_prefix('') . "session WHERE host_addr='$ip' AND guest='1'");
+        $result = sql_query("SELECT * FROM " . sql_prefix('session') . " WHERE host_addr='$ip' AND guest='1'");
 
         if (sql_num_rows($result) == 1) {
-            sql_query("DELETE FROM " . sql_prefix('') . "session WHERE host_addr='$ip' AND guest='1'");
+            sql_query("DELETE FROM " . sql_prefix('session') . " WHERE host_addr='$ip' AND guest='1'");
         }
 
         Header("Location: index.php");
@@ -1234,7 +1234,7 @@ function edituser()
 
     global $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1;
 
-    $result = sql_query("SELECT C1, C2, C3, C4, C5, C6, C7, C8, M1, M2, T1, T2, B1 FROM " . sql_prefix('') . "users_extend WHERE uid='" . $userinfo['uid'] . "'");
+    $result = sql_query("SELECT C1, C2, C3, C4, C5, C6, C7, C8, M1, M2, T1, T2, B1 FROM " . sql_prefix('users_extend') . " WHERE uid='" . $userinfo['uid'] . "'");
     list($C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1) = sql_fetch_row($result);
 
     showimage();
@@ -1250,7 +1250,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
     $cookie = cookiedecode($user);
     $check = $cookie[1];
 
-    $result = sql_query("SELECT uid, email FROM " . sql_prefix('') . "users WHERE uname='$check'");
+    $result = sql_query("SELECT uid, email FROM " . sql_prefix('users') . " WHERE uname='$check'");
     list($vuid, $vemail) = sql_fetch_row($result);
 
     if (($check == $uname) and ($uid == $vuid)) {
@@ -1368,7 +1368,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                     $hashpass = password_hash($pass, PASSWORD_BCRYPT, $options);
                     $pass = crypt($pass, $hashpass);
 
-                    sql_query("UPDATE " . sql_prefix('') . "users SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', pass='$pass', hashkey='1', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' WHERE uid='$uid'");
+                    sql_query("UPDATE " . sql_prefix('users') . " SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', pass='$pass', hashkey='1', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' WHERE uid='$uid'");
                     $result = sql_query("SELECT uid, uname, pass, storynum, umode, uorder, thold, noscore, ublockon, theme FROM " . sql_prefix('') . "users WHERE uname='$uname' AND pass='$pass'");
 
                     if (sql_num_rows($result) == 1) {
@@ -1376,16 +1376,16 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                         docookie($userinfo['uid'], $userinfo['uname'], $userinfo['pass'], $userinfo['storynum'], $userinfo['umode'], $userinfo['uorder'], $userinfo['thold'], $userinfo['noscore'], $userinfo['ublockon'], $userinfo['theme'], $userinfo['commentmax'], "", $skin);
                     }
                 } else {
-                    sql_query("UPDATE " . sql_prefix('') . "users SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' WHERE uid='$uid'");
+                    sql_query("UPDATE " . sql_prefix('users') . " SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' WHERE uid='$uid'");
                 }
-                sql_query("UPDATE " . sql_prefix('') . "users_status SET attachsig='$t' WHERE uid='$uid'");
+                sql_query("UPDATE " . sql_prefix('users_status') . " SET attachsig='$t' WHERE uid='$uid'");
 
-                $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users_extend WHERE uid='$uid'");
+                $result = sql_query("SELECT uid FROM " . sql_prefix('users_extend') . " WHERE uid='$uid'");
 
                 if (sql_num_rows($result) == 1) {
-                    sql_query("UPDATE " . sql_prefix('') . "users_extend SET C1='" . removeHack($C1) . "', C2='" . removeHack($C2) . "', C3='" . removeHack($C3) . "', C4='" . removeHack($C4) . "', C5='" . removeHack($C5) . "', C6='" . removeHack($C6) . "', C7='" . removeHack($C7) . "', C8='" . removeHack($C8) . "', M1='" . removeHack($M1) . "', M2='" . removeHack($M2) . "', T1='" . removeHack($T1) . "', T2='" . removeHack($T2) . "', B1='$B1' WHERE uid='$uid'");
+                    sql_query("UPDATE " . sql_prefix('users_extend') . " SET C1='" . removeHack($C1) . "', C2='" . removeHack($C2) . "', C3='" . removeHack($C3) . "', C4='" . removeHack($C4) . "', C5='" . removeHack($C5) . "', C6='" . removeHack($C6) . "', C7='" . removeHack($C7) . "', C8='" . removeHack($C8) . "', M1='" . removeHack($M1) . "', M2='" . removeHack($M2) . "', T1='" . removeHack($T1) . "', T2='" . removeHack($T2) . "', B1='$B1' WHERE uid='$uid'");
                 } else {
-                    $result = sql_query("INSERT INTO " . sql_prefix('') . "users_extend VALUES ('$uid','" . removeHack($C1) . "', '" . removeHack($C2) . "', '" . removeHack($C3) . "', '" . removeHack($C4) . "', '" . removeHack($C5) . "', '" . removeHack($C6) . "', '" . removeHack($C7) . "', '" . removeHack($C8) . "', '" . removeHack($M1) . "', '" . removeHack($M2) . "', '" . removeHack($T1) . "', '" . removeHack($T2) . "', '$B1')");
+                    $result = sql_query("INSERT INTO " . sql_prefix('users_extend') . " VALUES ('$uid','" . removeHack($C1) . "', '" . removeHack($C2) . "', '" . removeHack($C3) . "', '" . removeHack($C4) . "', '" . removeHack($C5) . "', '" . removeHack($C6) . "', '" . removeHack($C7) . "', '" . removeHack($C8) . "', '" . removeHack($M1) . "', '" . removeHack($M2) . "', '" . removeHack($T1) . "', '" . removeHack($T2) . "', '$B1')");
                 }
                 if ($pass != '') {
                     logout();
@@ -1485,7 +1485,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
     $cookie = cookiedecode($user);
     $check = $cookie[1];
 
-    $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$check'");
+    $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE uname='$check'");
     list($vuid) = sql_fetch_row($result);
 
     if (($check == $uname) and ($uid == $vuid)) {
@@ -1493,7 +1493,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
 
         $ublock = removeHack(FixQuotes($ublock));
 
-        sql_query("UPDATE " . sql_prefix('') . "users SET storynum='$storynum', ublockon='$ublockon', ublock='$ublock' WHERE uid='$uid'");
+        sql_query("UPDATE " . sql_prefix('users') . " SET storynum='$storynum', ublockon='$ublockon', ublock='$ublock' WHERE uid='$uid'");
 
         $userinfo = getusrinfo($user);
 
@@ -1637,11 +1637,11 @@ function savetheme($uid, $theme)
 
     $cookie = cookiedecode($user);
 
-    $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+    $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
     list($vuid) = sql_fetch_row($result);
 
     if ($uid == $vuid) {
-        sql_query("UPDATE " . sql_prefix('') . "users SET theme='$theme' WHERE uid='$uid'");
+        sql_query("UPDATE " . sql_prefix('users') . " SET theme='$theme' WHERE uid='$uid'");
 
         $userinfo = getusrinfo($user);
 
@@ -1704,7 +1704,7 @@ function savejournal($uid, $journal, $datetime)
 
     $cookie = cookiedecode($user);
 
-    $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$cookie[1]'");
+    $result = sql_query("SELECT uid FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
     list($vuid) = sql_fetch_row($result);
 
     if ($uid == $vuid) {
@@ -1732,9 +1732,9 @@ function savejournal($uid, $journal, $datetime)
             $journalentry .= '<br /><br />';
             $journalentry .= formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
-            sql_query("UPDATE " . sql_prefix('') . "users SET user_journal='$journalentry' WHERE uid='$uid'");
+            sql_query("UPDATE " . sql_prefix('users') . " SET user_journal='$journalentry' WHERE uid='$uid'");
         } else {
-            sql_query("UPDATE " . sql_prefix('') . "users SET user_journal='$journal' WHERE uid='$uid'");
+            sql_query("UPDATE " . sql_prefix('users') . " SET user_journal='$journal' WHERE uid='$uid'");
         }
         Header("Location: user.php");
     } else
@@ -1822,9 +1822,9 @@ switch ($op) {
     case 'saveuser':
         $past = time() - 300;
 
-        sql_query("DELETE FROM " . sql_prefix('') . "session WHERE time < $past");
+        sql_query("DELETE FROM " . sql_prefix('session') . " WHERE time < $past");
 
-        $result = sql_query("SELECT time FROM " . sql_prefix('') . "session WHERE username='$cookie[1]'");
+        $result = sql_query("SELECT time FROM " . sql_prefix('session') . " WHERE username='$cookie[1]'");
 
         if (sql_num_rows($result) == 1) {
 
