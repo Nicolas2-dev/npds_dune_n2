@@ -50,6 +50,7 @@ $tmp = array(
   's6' => array('en' => 'OS2', 'selected' => false),
   's7' => array('en' => 'Autres : BeOs, Prologue ...', 'selected' => false)
 );
+
 $m->add_select('f4', 'Comp&eacute;tences techniques', $tmp, false, 5, true);
 
 // Champ Combo : hauteur = 1 / Pas d'option par défaut / titre 'Niveau de service'
@@ -58,6 +59,7 @@ $tmp = array(
   't2' => array('en' => 'Administration / Exploitation', 'selected' => false),
   't3' => array('en' => 'Maintenance', 'selected' => false),
 );
+
 $m->add_select('f5', 'Niveau de service', $tmp, false, 1, false);
 
 // Champ Radio : Option par défaut = 'Hot Line' / titre 'Type d'Option''
@@ -65,6 +67,7 @@ $tmp = array(
   's1' => array('en' => 'Hot Line', 'checked' => true),
   's2' => array('en' => 'Maintenance sur Site', 'checked' => false)
 );
+
 $m->add_radio('f6', "Type d'Option", $tmp, false);
 
 // Champ Boite à cocher / Valeur de retour 100 / coché
