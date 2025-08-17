@@ -14,8 +14,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
    include("mainfile.php");
+}
 
 include("functions.php");
 
@@ -30,14 +31,16 @@ function ancre($forum_id, $topic_id, $post_id, $posts_per_page)
 {
    $rowQ1 = Q_Select("SELECT post_id FROM " . sql_prefix('') . "posts WHERE forum_id='$forum_id' AND topic_id='$topic_id' ORDER BY post_id ASC", 600);
 
-   if (!$rowQ1)
+   if (!$rowQ1) {
       forumerror('0015');
+   }
 
    $i = 0;
 
    foreach ($rowQ1 as $row) {
-      if ($row['post_id'] == $post_id)
+      if ($row['post_id'] == $post_id) {
          break;
+      }
 
       $i++;
    }
@@ -99,8 +102,9 @@ echo '
 
 $rowQ1 = Q_Select("SELECT forum_name,forum_id FROM " . sql_prefix('') . "forums", 3600);
 
-if (!$rowQ1)
+if (!$rowQ1) {
    forumerror('0015');
+}
 
 foreach ($rowQ1 as $row) {
    echo '<option value="' . $row['forum_id'] . '">' . $row['forum_name'] . '</option>';
@@ -127,8 +131,9 @@ echo '
             <div class="form-check form-check-inline mt-2">
                <input type="radio" name="sortby" id="sbpt" class="form-check-input" value="0" ';
 
-if ($sortby == "0")
+if ($sortby == "0") {
    echo 'checked="checked" ';
+}
 
 echo '/>
                <label class="form-check-label" for="sbpt">' . translate('Heure de la soumission') . '</label>
@@ -136,8 +141,9 @@ echo '/>
             <div class="form-check form-check-inline  mt-2">
                <input type="radio" name="sortby" id="sbto" class="form-check-input" value="1" ';
 
-if ($sortby == "1")
+if ($sortby == "1") {
    echo 'checked="checked" ';
+}
 
 echo '/>
                <label class="form-check-label" for="sbto">' . translate('Sujets') . '</label>
@@ -145,8 +151,9 @@ echo '/>
             <div class="form-check form-check-inline  mt-2">
                <input type="radio" name="sortby" id="sbfo" class="form-check-input" value="2" ';
 
-if ($sortby == "2")
+if ($sortby == "2") {
    echo 'checked="checked" ';
+}
 
 echo '/>
                <label class="form-check-label" for="sbfo">' . translate('Forum') . '</label>
@@ -154,9 +161,10 @@ echo '/>
             <div class="form-check form-check-inline  mt-2">
                <input type="radio" name="sortby" id="sbau" class="form-check-input" value="3" ';
 
-if ($sortby == "3")
+if ($sortby == "3") {
 
    echo 'checked="checked" ';
+}
 
 echo '/>
                <label class="form-check-label" for="sbau">' . translate('Auteur') . '</label>
@@ -180,29 +188,33 @@ if (isset($term) && $term != '') {
 
    $addquery = "( (p.post_text LIKE '%$terms[0]%' OR strcmp(soundex(p.post_text), soundex('$terms[0]'))=0)";
 
-   if (isset($addterm))
+   if (isset($addterm)) {
       $andor = $addterm == 'any' ? 'OR' : 'AND';
+   }
 
    $size = sizeof($terms);
 
-   for ($i = 1; $i < $size; $i++)
+   for ($i = 1; $i < $size; $i++) {
       $addquery .= " $andor (p.post_text LIKE '%$terms[$i]%' OR strcmp(soundex(p.post_text), soundex('$terms[$i]'))=0)";
+   }
 
    $addquery .= ")";
 }
 
 if (isset($forum) && $forum != 'all' && $forum != 0) {
-   if (isset($addquery))
+   if (isset($addquery)) {
       $addquery .= " AND p.forum_id='$forum' AND f.forum_id='$forum'";
-   else
+   } else {
       $addquery = " p.forum_id='$forum' AND f.forum_id='$forum'";
+   }
 }
 
 if (isset($username) && $username != '') {
    $username = removeHack(stripslashes(htmlspecialchars(urldecode($username), ENT_QUOTES, 'UTF-8'))); // electrobug
 
-   if (!$result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$username'"))
+   if (!$result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='$username'")) {
       forumerror('0001');
+   }
 
    list($userid) = sql_fetch_row($result);
 
@@ -212,8 +224,9 @@ if (isset($username) && $username != '') {
 }
 
 if (!$user) {
-   if (!isset($addquery))
+   if (!isset($addquery)) {
       $addquery = '';
+   }
 
    $addquery .= " AND f.forum_type!='5' AND f.forum_type!='7' AND f.forum_type!='9'";
 }
@@ -222,17 +235,21 @@ $query .= isset($addquery) ? " WHERE $addquery AND  " : ' WHERE ';
 
 settype($sortby, "integer");
 
-if ($sortby == 0)
+if ($sortby == 0) {
    $sortbyR = "p.post_id";
+}
 
-if ($sortby == 1)
+if ($sortby == 1) {
    $sortbyR = "t.topic_title";
+}
 
-if ($sortby == 2)
+if ($sortby == 2) {
    $sortbyR = "f.forum_name";
+}
 
-if ($sortby == 3)
+if ($sortby == 3) {
    $sortbyR = "u.uname";
+}
 
 $query .= isset($only_solved) ?
    " p.topic_id = t.topic_id AND p.forum_id = f.forum_id AND p.poster_id = u.uid AND t.topic_status='2' GROUP BY t.topic_title, u.uid, p.topic_id, p.post_id ORDER BY $sortbyR DESC" :
@@ -268,11 +285,12 @@ if ($affiche) {
 
          $tab_groupe = valid_group($user);
          $ok_affich = groupe_forum($row['forum_pass'], $tab_groupe);
-      } else
+      } else {
          $ok_affich = true;
+      }
 
       if ($ok_affich) {
-         if ($count == 0)
+         if ($count == 0) {
             echo '
          <thead>
             <tr>
@@ -284,6 +302,7 @@ if ($affiche) {
             </tr>
          </thead>
          <tbody>';
+         }
 
          echo '
             <tr>

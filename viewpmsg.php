@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 include("functions.php");
 
@@ -22,9 +23,9 @@ $cache_obj =  $SuperCache ? new cacheManager() : new SuperCacheEmpty();
 
 include("auth.php");
 
-if (!$user)
+if (!$user) {
     Header("Location: user.php");
-else {
+} else {
     include 'header.php';
 
     $userX = base64_decode($user);
@@ -48,10 +49,11 @@ else {
     $tempo["..."] = 0;
 
     while (list($dossierX) = sql_fetch_row($resultT)) {
-        if (AddSlashes($dossierX) == $dossier)
+        if (AddSlashes($dossierX) == $dossier) {
             $sel = 'selected="selected"';
-        else
+        } else {
             $sel = '';
+        }
 
         echo '
                <option ' . $sel . ' value="' . $dossierX . '">' . $dossierX . '</option>';
@@ -71,14 +73,16 @@ else {
 
     $ibid = $dossier == "All" ? '' : "AND dossier='$dossier'";
 
-    if (!$dossier)
+    if (!$dossier) {
         $ibid = "AND dossier='...'";
+    }
 
     $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND type_msg='0' $ibid ORDER BY msg_id DESC";
     $resultID = sql_query($sql);
 
-    if (!$resultID)
+    if (!$resultID) {
         forumerror('0005');
+    }
 
     if (!$total_messages = sql_num_rows($resultID)) {
 
@@ -125,11 +129,13 @@ else {
             $myrow['subject'] = strip_tags($myrow['subject']);
             $posterdata = get_userdata_from_id($myrow['from_userid']);
 
-            if ($dossier == "All")
+            if ($dossier == "All") {
                 $myrow['dossier'] = "All";
+            }
 
-            if (!array_key_exists($myrow['dossier'], $tempo))
+            if (!array_key_exists($myrow['dossier'], $tempo)) {
                 $tempo[$myrow['dossier']] = 0;
+            }
 
             echo '
                <tr>
@@ -140,25 +146,27 @@ else {
                      </div>
                   </td>';
 
-            if ($myrow['read_msg'] == "1")
+            if ($myrow['read_msg'] == "1") {
                 echo '
                   <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate('Lu') . '" data-bs-toggle="tooltip"><i class="far fa-envelope-open fa-lg "></i></a></td>';
-            else
+            } else {
                 echo '
                   <td><a href="readpmsg.php?start=' . $tempo[$myrow['dossier']] . '&amp;total_messages=' . $total_messages . '&amp;dossier=' . urlencode($myrow['dossier']) . '" title="' . translate('Non lu') . '" data-bs-toggle="tooltip"><i class="fa fa-envelope fa-lg faa-shake animated"></i></a></td>';
-
+            }
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
-                    if ($ibid = theme_image("forum/subject/" . $myrow['msg_image']))
+                    if ($ibid = theme_image("forum/subject/" . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
-                    else
+                    } else {
                         $imgtmp = "images/forum/subject/" . $myrow['msg_image'];
+                    }
 
                     echo '
                   <td><img class="n-smil" src="' . $imgtmp . '" alt="" /></td>';
-                } else
+                } else {
                     echo '
                   <td></td>';
+                }
             }
 
             echo '
@@ -199,8 +207,9 @@ else {
     $sql = "SELECT * FROM " . sql_prefix('') . "priv_msgs WHERE from_userid = '" . $userdata['uid'] . "' AND type_msg='1' ORDER BY msg_id DESC";
     $resultID = sql_query($sql);
 
-    if (!$resultID)
+    if (!$resultID) {
         forumerror('0005');
+    }
 
     $total_messages = sql_num_rows($resultID);
 
@@ -218,10 +227,10 @@ else {
                      </div>
                   </th>';
 
-    if ($smilies)
+    if ($smilies) {
         echo '
                   <th class="n-t-col-xs-1" data-align="center" >&nbsp;</th>';
-
+    }
     echo '
                   <th data-halign="center" data-sortable="true" data-align="center">' . translate('Envoyé à') . '</th>
                   <th data-halign="center" data-sortable="true" align="center">' . translate('Sujet') . '</th>
@@ -237,8 +246,9 @@ else {
             <tr>
                <td colspan="6" align="center">' . translate('Vous n\'avez aucun message.') . '</td>
             </tr>';
-    } else
+    } else {
         $display = 1;
+    }
 
     $count = 0;
 
@@ -254,11 +264,11 @@ else {
 
         if ($smilies) {
             if ($myrow['msg_image'] != '') {
-                if ($ibid = theme_image("forum/subject/" . $myrow['msg_image']))
+                if ($ibid = theme_image("forum/subject/" . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
-                else
+                } else {
                     $imgtmp = "images/forum/subject/" . $myrow['msg_image'];
-
+                }
                 echo '<td width="5%" align="center"><img class="n-smil" src="' . $imgtmp . '" alt="Image du topic" /></td>';
             } else {
                 echo '<td width="5%" align="center">&nbsp;</td>';

@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 function message_error($ibid, $op)
 {
@@ -33,9 +34,9 @@ function message_error($ibid, $op)
          <input type="hidden" name="op" value="only_newuser" />
          <button class="btn btn-secondary mt-2" type="submit">' . translate('Retour en arrière') . '</button>
       </form>';
-    } else
+    } else {
         echo '<a class="btn btn-secondary mt-4" href="javascript:history.go(-1)" title="' . translate('Retour en arrière') . '">' . translate('Retour en arrière') . '</a>';
-
+    }
     echo '
    </div>';
 
@@ -57,33 +58,36 @@ function userCheck($uname, $email)
 
     $stop = '';
 
-    if ((!$email) || ($email == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email)))
+    if ((!$email) || ($email == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email))) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : Email invalide');
+    }
 
-    if (strrpos($email, ' ') > 0)
+    if (strrpos($email, ' ') > 0) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : une adresse Email ne peut pas contenir d\'espaces');
-
-    if (checkdnsmail($email) === false)
+    }
+    if (checkdnsmail($email) === false) {
         $stop = translate('Erreur : DNS ou serveur de mail incorrect') . '!<br />';
-
-    if ((!$uname) || ($uname == '') || (preg_match('#[^a-zA-Z0-9_-]#', $uname)))
+    }
+    if ((!$uname) || ($uname == '') || (preg_match('#[^a-zA-Z0-9_-]#', $uname))) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : identifiant invalide');
-
-    if (strlen($uname) > 25)
+    }
+    if (strlen($uname) > 25) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Votre surnom est trop long. Il doit faire moins de 25 caractères.');
-
-    if (preg_match('#^(root|adm|linux|webmaster|admin|god|administrator|administrador|nobody|anonymous|anonimo|an€nimo|operator|dune|netadm)$#i', $uname))
+    }
+    if (preg_match('#^(root|adm|linux|webmaster|admin|god|administrator|administrador|nobody|anonymous|anonimo|an€nimo|operator|dune|netadm)$#i', $uname)) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : nom existant.');
-
-    if (strrpos($uname, ' ') > 0)
+    }
+    if (strrpos($uname, ' ') > 0) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Il ne peut pas y avoir d\'espace dans le surnom.');
-
-    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uname='$uname'")) > 0)
+    }
+    if (sql_num_rows(sql_query("SELECT uname FROM " . sql_prefix('') . "users WHERE uname='$uname'")) > 0) {
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : cet identifiant est déjà utilisé"');
-
-    if ($uname != 'edituser')
-        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE email='$email'")) > 0)
+    }
+    if ($uname != 'edituser') {
+        if (sql_num_rows(sql_query("SELECT email FROM " . sql_prefix('') . "users WHERE email='$email'")) > 0) {
             $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : adresse Email déjà utilisée');
+        }
+    }
 
     return ($stop);
 }
@@ -98,10 +102,11 @@ function makePass()
     srand((float)microtime() * 1000000);
 
     for ($count = 1; $count <= 4; $count++) {
-        if (rand() % 10 == 1)
+        if (rand() % 10 == 1) {
             $makepass .= sprintf("%0.0f", (rand() % 50) + 1);
-        else
+        } else {
             $makepass .= sprintf("%s", $syllable_array[rand() % 62]);
+        }
     }
 
     return ($makepass);
@@ -117,10 +122,11 @@ function showimage()
       return
       document.images.avatar.src=\n";
 
-    if ($ibid = theme_image("forum/avatar/blank.gif"))
+    if ($ibid = theme_image("forum/avatar/blank.gif")) {
         $imgtmp = substr($ibid, 0, strrpos($ibid, "/") + 1);
-    else
+    } else {
         $imgtmp = "images/forum/avatar/";
+    }
 
     echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
     echo "}
@@ -159,10 +165,10 @@ function Only_NewUser()
          </ul>
       </p>';
 
-        if (!$memberpass)
+        if (!$memberpass) {
             echo '
       <div class="alert alert-success lead"><i class="fa fa-exclamation me-2"></i>' . translate('Le mot de passe vous sera envoyé à l\'adresse Email indiquée.') . '</div>';
-
+        }
         echo '
    </div>
    <div class="card card-body mb-3">';
@@ -173,8 +179,9 @@ function Only_NewUser()
    </div>';
 
         adminfoot('fv', $fv_parametres, $arg1, '');
-    } else
+    } else {
         header("location: user.php");
+    }
 }
 
 function hidden_form()
@@ -219,16 +226,18 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
 
     $uname = strip_tags($uname);
 
-    if ($user_viewemail != 1)
+    if ($user_viewemail != 1) {
         $user_viewemail = '0';
+    }
 
     $stop = userCheck($uname, $email);
 
     if ($memberpass) {
-        if ((isset($pass)) and ($pass != $vpass))
+        if ((isset($pass)) and ($pass != $vpass)) {
             $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Les mots de passe sont différents. Ils doivent être identiques.');
-        elseif (strlen($pass) < $minpass)
+        } elseif (strlen($pass) < $minpass) {
             $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Désolé, votre mot de passe doit faire au moins') . ' <strong>' . $minpass . '</strong> ' . translate('caractères');
+        }
     }
 
     if (!$stop) {
@@ -250,7 +259,7 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
         hidden_form();
 
         global $charte;
-        if (!$charte)
+        if (!$charte) {
             echo '
                <div class="alert alert-danger lead mt-3">
                   <i class="fa fa-exclamation me-2"></i>' . translate('Vous devez accepter la charte d\'utilisation du site') . '
@@ -258,15 +267,16 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
                <input type="hidden" name="op" value="only_newuser" />
                <input class="btn btn-secondary mt-1" type="submit" value="' . translate('Retour en arrière') . '" />
             </form>';
-        else
+        } else {
             echo '
                <input type="hidden" name="op" value="finish" /><br />
                <input class="btn btn-primary mt-2" type="submit" value="' . translate('Terminer') . '" />
             </form>';
-
+        }
         include 'footer.php';
-    } else
+    } else {
         message_error($stop, "new user");
+    }
 }
 
 function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1)
@@ -295,10 +305,11 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
     if (!$stop) {
         include 'header.php';
 
-        if (!$memberpass)
+        if (!$memberpass) {
             $makepass = makepass();
-        else
+        } else {
             $makepass = $pass;
+        }
 
         $AlgoCrypt = PASSWORD_BCRYPT;
         $min_ms = 100;
@@ -315,11 +326,11 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
 
         $attach = $user_sig ? 1 : 0;
 
-        if (($AutoRegUser == 1) or (!isset($AutoRegUser)))
+        if (($AutoRegUser == 1) or (!isset($AutoRegUser))) {
             $result = sql_query("INSERT INTO " . sql_prefix('') . "users_status VALUES ('$usr_id','0','$attach','0','1','1','')");
-        else
+        } else {
             $result = sql_query("INSERT INTO " . sql_prefix('') . "users_status VALUES ('$usr_id','0','$attach','0','1','0','')");
-
+        }
         if ($result) {
             if ($memberpass) {
                 echo '
@@ -334,30 +345,30 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
                     translate('ID utilisateur (pseudo)') . ' : ' . $uname . "\n" .
                     translate('Véritable adresse Email') . ' : ' . $email . "\n";
 
-                if ($name != '')
+                if ($name != '') {
                     $message .= translate('Votre véritable identité') . ' : ' . $name . "\n";
-
-                if ($user_from != '')
+                }
+                if ($user_from != '') {
                     $message .= translate('Votre situation géographique') . ' : ' . $user_from . "\n";
-
-                if ($user_occ != '')
+                }
+                if ($user_occ != '') {
                     $message .= translate('Votre activité') . ' : ' . $user_occ . "\n";
-
-                if ($user_intrest != '')
+                }
+                if ($user_intrest != '') {
                     $message .= translate('Vos centres d\'intérêt') . ' : ' . $user_intrest . "\n";
-
-                if ($user_sig != '')
+                }
+                if ($user_sig != '') {
                     $message .= translate('Signature') . ' : ' . $user_sig . "\n";
-
-                if (isset($C1) and $C1 != '')
+                }
+                if (isset($C1) and $C1 != '') {
                     $message .= aff_langue('[french]Activit&#x00E9; professionnelle[/french][english]Professional activity[/english][spanish]Actividad profesional[/spanish][german]Berufliche T&#xE4;tigkeit[/german]') . ' : ' . $C1 . "\n";
-
-                if (isset($C2) and $C2 != '')
+                }
+                if (isset($C2) and $C2 != '') {
                     $message .= aff_langue('[french]Code postal[/french][english]Postal code[/english][spanish]C&#xF3;digo postal[/spanish][german]Postleitzahl[/german]') . ' : ' . $C2 . "\n";
-
-                if (isset($T1) and $T1 != '')
+                }
+                if (isset($T1) and $T1 != '') {
                     $message .= aff_langue('[french]Date de naissance[/french][english]Birth date[/english][spanish]Fecha de nacimiento[/spanish][german]Geburtsdatum[/german]') . ' : ' . $T1 . "\n";
-
+                }
                 $message .= "\n\n\n" . aff_langue("[french]Conform&eacute;ment aux articles 38 et suivants de la loi fran&ccedil;aise n&deg; 78-17 du 6 janvier 1978 relative &agrave; l'informatique, aux fichiers et aux libert&eacute;s, tout membre dispose d&rsquo; un droit d&rsquo;acc&egrave;s, peut obtenir communication, rectification et/ou suppression des informations le concernant.[/french][english]In accordance with Articles 38 et seq. Of the French law n &deg; 78-17 of January 6, 1978 relating to data processing, files and freedoms, any member has a right of access, can obtain communication, rectification and / or deletion of information about him.[/english][chinese]&#26681;&#25454;1978&#24180;1&#26376;6&#26085;&#20851;&#20110;&#25968;&#25454;&#22788;&#29702;&#65292;&#26723;&#26696;&#21644;&#33258;&#30001;&#30340;&#27861;&#22269;78-17&#21495;&#27861;&#24459;&#65292;&#20219;&#20309;&#25104;&#21592;&#37117;&#26377;&#26435;&#36827;&#20837;&#65292;&#21487;&#20197;&#33719;&#24471;&#36890;&#20449;&#65292;&#32416;&#27491;&#21644;/&#25110; &#21024;&#38500;&#26377;&#20851;&#20182;&#30340;&#20449;&#24687;&#12290;[/chinese][spanish]De conformidad con los art&iacute;culos 38 y siguientes de la ley francesa n &deg; 78-17 del 6 de enero de 1978, relativa al procesamiento de datos, archivos y libertades, cualquier miembro tiene derecho de acceso, puede obtener comunicaci&oacute;n, rectificaci&oacute;n y / o supresi&oacute;n de informaci&oacute;n sobre &eacute;l.[/spanish][german]Gem&auml;&szlig; den Artikeln 38 ff. Des franz&ouml;sischen Gesetzes Nr. 78-17 vom 6. Januar 1978 in Bezug auf Datenverarbeitung, Akten und Freiheiten hat jedes Mitglied ein Recht auf Zugang, kann Kommunikation, Berichtigung und / oder L&ouml;schung von Informationen &uuml;ber ihn.[/german]");
                 $message .= "\n\n\n" . aff_langue("[french]Ce message et les pi&egrave;ces jointes sont confidentiels et &eacute;tablis &agrave; l'attention exclusive de leur destinataire (aux adresses sp&eacute;cifiques auxquelles il a &eacute;t&eacute; adress&eacute;). Si vous n'&ecirc;tes pas le destinataire de ce message, vous devez imm&eacute;diatement en avertir l'exp&eacute;diteur et supprimer ce message et les pi&egrave;ces jointes de votre syst&egrave;me.[/french][english]This message and any attachments are confidential and intended to be received only by the addressee. If you are not the intended recipient, please notify immediately the sender by reply and delete the message and any attachments from your system.[/english][chinese]&#27492;&#28040;&#24687;&#21644;&#20219;&#20309;&#38468;&#20214;&#37117;&#26159;&#20445;&#23494;&#30340;&#65292;&#24182;&#19988;&#25171;&#31639;&#30001;&#25910;&#20214;&#20154;&#25509;&#25910;&#12290; &#22914;&#26524;&#24744;&#19981;&#26159;&#39044;&#26399;&#25910;&#20214;&#20154;&#65292;&#35831;&#31435;&#21363;&#36890;&#30693;&#21457;&#20214;&#20154;&#24182;&#22238;&#22797;&#37038;&#20214;&#21644;&#31995;&#32479;&#20013;&#30340;&#25152;&#26377;&#38468;&#20214;&#12290;[/chinese][spanish]Este mensaje y cualquier adjunto son confidenciales y est&aacute;n destinados a ser recibidos por el destinatario. Si no es el destinatario deseado, notif&iacute;quelo al remitente de inmediato y responda al mensaje y cualquier archivo adjunto de su sistema.[/spanish][german]Diese Nachricht und alle Anh&auml;nge sind vertraulich und sollen vom Empf&auml;nger empfangen werden. Wenn Sie nicht der beabsichtigte Empf&auml;nger sind, benachrichtigen Sie bitte sofort den Absender und antworten Sie auf die Nachricht und alle Anlagen von Ihrem System.[/german]") . "\n\n\n";
 
@@ -405,8 +416,9 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
         }
 
         include 'footer.php';
-    } else
+    } else {
         message_error($stop, 'finish');
+    }
 }
 
 function userinfo($uname)
@@ -419,8 +431,9 @@ function userinfo($uname)
     $result = sql_query("SELECT uid, name, femail, url, bio, user_avatar, user_from, user_occ, user_intrest, user_sig, user_journal, mns FROM " . sql_prefix('') . "users WHERE uname='$uname'");
     list($uid, $name, $femail, $url, $bio, $user_avatar, $user_from, $user_occ, $user_intrest, $user_sig, $user_journal, $mns) = sql_fetch_row($result);
 
-    if (!$uid)
+    if (!$uid) {
         header("location: index.php");
+    }
 
     global $cookie;
 
@@ -439,15 +452,16 @@ function userinfo($uname)
 
     $op = 'userinfo';
 
-    if (stristr($user_avatar, "users_private"))
+    if (stristr($user_avatar, "users_private")) {
         $direktori = '';
-    else {
+    } else {
         global $theme;
         $direktori = 'images/forum/avatar/';
 
         if (function_exists("theme_image")) {
-            if (theme_image("forum/avatar/blank.gif"))
+            if (theme_image("forum/avatar/blank.gif")) {
                 $direktori = "themes/$theme/images/forum/avatar/";
+            }
         }
     }
 
@@ -479,15 +493,17 @@ function userinfo($uname)
                     if (false !== $k) {
                         $my_rs .= '<a class="me-3" href="';
 
-                        if ($v1[2] == 'skype')
+                        if ($v1[2] == 'skype') {
                             $my_rs .= $v1[1] . $y1[1] . '?chat';
-                        else
+                        } else {
                             $my_rs .= $v1[1] . $y1[1];
+                        }
 
                         $my_rs .= '" target="_blank"><i class="fab fa-' . $v1[2] . ' fa-2x"></i></a> ';
                         break;
-                    } else
+                    } else {
                         $my_rs .= '';
+                    }
                 }
             }
         }
@@ -496,46 +512,54 @@ function userinfo($uname)
     $posterdata = get_userdata_from_id($uid);
     $useroutils = '';
 
-    if (($user) and ($uid != 1))
+    if (($user) and ($uid != 1)) {
         $useroutils .= '<a class=" text-primary me-3" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" ><i class="far fa-envelope fa-2x" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
-
-    if (array_key_exists('femail', $posterdata))
-        if ($posterdata['femail'] != '')
+    }
+    if (array_key_exists('femail', $posterdata)) {
+        if ($posterdata['femail'] != '') {
             $useroutils .= '<a class=" text-primary me-3" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" ><i class="fa fa-at fa-2x" title="' . translate('Email') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
-
-    if (array_key_exists('url', $posterdata))
-        if ($posterdata['url'] != '')
+        }
+    }
+    if (array_key_exists('url', $posterdata)) {
+        if ($posterdata['url'] != '') {
             $useroutils .= '<a class=" text-primary me-3" href="' . $posterdata['url'] . '" target="_blank" ><i class="fas fa-external-link-alt fa-2x" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
-
-    if (array_key_exists('mns', $posterdata))
-        if ($posterdata['mns'])
+        }
+    }
+    if (array_key_exists('mns', $posterdata)) {
+        if ($posterdata['mns']) {
             $useroutils .= '<a class=" text-primary me-3" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" ><i class="fa fa-desktop fa-2x" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
-
+        }
+    }
     echo '
    <div class="d-flex flex-row flex-wrap">
       <div class="me-2 my-auto"><img src="' . $direktori . $user_avatar . '" class=" rounded-circle center-block n-ava-64 align-middle" /></div>
       <div class="align-self-center">
          <h2>' . translate('Utilisateur') . '<span class="d-inline-block text-body-secondary ms-1">' . $uname . '</span></h2>';
 
-    if (isset($cookie[1]))
-        if ($uname !== $cookie[1])
+    if (isset($cookie[1])) {
+        if ($uname !== $cookie[1]) {
             echo $useroutils;
+        }
+    }
 
     echo $my_rs;
 
-    if (isset($cookie[1]))
-        if ($uname == $cookie[1])
+    if (isset($cookie[1])) {
+        if ($uname == $cookie[1]) {
             echo '
          <p class="lead">' . translate('Si vous souhaitez personnaliser un peu le site, c\'est l\'endroit indiqué. ') . '</p>';
-
+        }
+    }
     echo '
       </div>
    </div>
    <hr />';
 
-    if (isset($cookie[1]))
-        if ($uname == $cookie[1])
+    if (isset($cookie[1])) {
+        if ($uname == $cookie[1]) {
             member_menu($mns, $uname);
+        }
+    }
 
     include('modules/geoloc/geoloc.conf');
 
@@ -549,9 +573,10 @@ function userinfo($uname)
             $C8 = $posterdata_extend[$ch_lon];
             echo '
          <div class="col-md-6">';
-        } else
+        } else {
             echo '
          <div class="col-md-12">';
+        }
 
     include("modules/sform/extend-user/aff_extend-user.php");
 
@@ -676,10 +701,10 @@ function userinfo($uname)
          <div class="mt-3">
             <a href="modules.php?ModPath=geoloc&amp;ModStart=geoloc"><i class="fa fa-globe fa-lg"></i>&nbsp;[french]Carte[/french][english]Map[/english][chinese]&#x5730;&#x56FE;[/chinese][spanish]Mapa[/spanish][german]Karte[/german]</a>';
 
-            if ($admin)
+            if ($admin) {
                 $content .= '
             <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=geoloc&amp;ModStart=admin/geoloc_set"><i class="fa fa-cogs fa-lg ms-3"></i>&nbsp;[french]Admin[/french][english]Admin[/english][chinese]Admin[/chinese][spanish]Admin[/spanish][german]Admin[/german]</a>';
-
+            }
             $content .= '
             </div>
          </div>';
@@ -694,19 +719,20 @@ function userinfo($uname)
       </div>
    </div>';
 
-    if ($uid != 1)
+    if ($uid != 1) {
         echo '
       <br />
       <h4>' . translate('Journal en ligne de ') . ' ' . $uname . '.</h4>
       <div id="online_user_journal" class="card card-body mb-3">' . meta_lang($user_journal) . '</div>';
-
+    }
     $file = '';
 
     $handle = opendir('modules/comments');
 
     while (false !== ($file = readdir($handle))) {
-        if (!preg_match('#\.conf\.php$#i', $file))
+        if (!preg_match('#\.conf\.php$#i', $file)) {
             continue;
+        }
 
         $topic = "#topic#";
 
@@ -795,8 +821,9 @@ function userinfo($uname)
 
             $tab_groupe = valid_group($user);
             $ok_affich = groupe_forum($forum_pass, $tab_groupe);
-        } else
+        } else {
             $ok_affich = true;
+        }
 
         if ($ok_affich) {
 
@@ -808,11 +835,11 @@ function userinfo($uname)
 
             $sqlR = "SELECT rid FROM " . sql_prefix('') . "forum_read WHERE topicid = '$topic_id' AND uid = '$id_lecteur' AND status != '0'";
 
-            if (sql_num_rows(sql_query($sqlR)) == 0)
+            if (sql_num_rows(sql_query($sqlR)) == 0) {
                 $image = '<a href="" title="' . translate('Non lu') . '" data-bs-toggle="tooltip"><i class="far fa-file-alt fa-lg faa-shake animated text-primary "></i></a>';
-            else
+            } else {
                 $image = '<a title="' . translate('Lu') . '" data-bs-toggle="tooltip"><i class="far fa-file-alt fa-lg text-primary"></i></a>';
-
+            }
             $content .= '
          <p class="mb-0 list-group-item list-group-item-action flex-column align-items-start border-bottom pb-1" >
             <span class="d-flex w-100 mt-1">
@@ -832,9 +859,10 @@ function userinfo($uname)
    </div>
    <hr />';
 
-    if ($posterdata['attachsig'] == 1)
+    if ($posterdata['attachsig'] == 1) {
         echo '
    <p class="n-signature">' . $user_sig . '</p>';
+    }
 
     include 'footer.php';
 }
@@ -849,11 +877,11 @@ function main($user)
 
         echo '<h2>' . translate('Utilisateur') . '</h2>';
 
-        if ($stop == 99)
+        if ($stop == 99) {
             echo '<p class="alert alert-danger"><i class="fa fa-exclamation me-2"></i>' . translate('Vous n\'êtes pas encore autorisé à vous connecter.') . '</p>';
-        elseif ($stop)
+        } elseif ($stop) {
             echo '<p class="alert alert-danger"><i class="fa fa-exclamation me-2"></i>' . translate('Identifiant incorrect !') . '<br />' . translate('ou') . '<br /><i class="fa fa-exclamation me-2"></i>' . translate('Mot de passe erroné, refaites un essai.') . '</p>';
-
+        }
         if (!$user) {
             echo '
          <div class="card card-body mb-3">
@@ -884,8 +912,9 @@ function main($user)
          <script type="text/javascript">//<![CDATA[document.userlogin.uname.focus();//]]></script>';
 
             // include externe file from modules/include for functions, codes ...
-            if (file_exists("modules/include/user.inc"))
+            if (file_exists("modules/include/user.inc")) {
                 include("modules/include/user.inc");
+            }
         }
 
         include 'footer.php';
@@ -900,8 +929,9 @@ function logout()
 {
     global $user, $cookie;
 
-    if ($cookie[1] != '')
+    if ($cookie[1] != '') {
         sql_query("DELETE FROM " . sql_prefix('') . "session WHERE username='$cookie[1]'");
+    }
 
     setcookie('user', '', 0);
     unset($user);
@@ -968,9 +998,9 @@ function mail_password($uname, $code)
     $result = sql_query("SELECT uname,email,pass FROM " . sql_prefix('') . "users WHERE uname='$uname'");
     $tmp_result = sql_fetch_row($result);
 
-    if (!$tmp_result)
+    if (!$tmp_result) {
         message_error(translate('Désolé, aucune information correspondante pour cet utlilisateur n\'a été trouvée') . "<br /><br />", '');
-    else {
+    } else {
         $host_name = getip();
 
         list($uname, $email, $pass) = $tmp_result;
@@ -1105,15 +1135,17 @@ function docookie($setuid, $setuname, $setpass, $setstorynum, $setumode, $setuor
 
     global $user_cook_duration;
 
-    if ($user_cook_duration <= 0)
+    if ($user_cook_duration <= 0) {
         $user_cook_duration = 1;
+    }
 
     $timeX = time() + (3600 * $user_cook_duration);
 
     setcookie("user", "$info", $timeX);
 
-    if ($user_langue != '')
+    if ($user_langue != '') {
         setcookie('user_language', "$user_langue", $timeX);
+    }
 }
 
 function login($uname, $pass)
@@ -1152,20 +1184,22 @@ function login($uname, $pass)
 
                 $result = sql_query("SELECT pass, hashkey, uid, uname, storynum, umode, uorder, thold, noscore, ublockon, theme, commentmax, user_langue FROM " . sql_prefix('') . "users WHERE uname = '$uname'");
 
-                if (sql_num_rows($result) == 1)
+                if (sql_num_rows($result) == 1) {
                     $setinfo = sql_fetch_assoc($result);
+                }
 
                 $dbpass = $setinfo['pass'];
                 $scryptPass = crypt($dbpass, $hashpass);
             }
-        } else
+        } else {
             $scryptPass = '';
+        }
 
-        if (password_verify(urldecode($pass), $dbpass) or password_verify($pass, $dbpass))
+        if (password_verify(urldecode($pass), $dbpass) or password_verify($pass, $dbpass)) {
             $CryptpPWD = $dbpass;
-        elseif (password_verify($dbpass, $scryptPass) or strcmp($dbpass, $pass) == 0)
+        } elseif (password_verify($dbpass, $scryptPass) or strcmp($dbpass, $pass) == 0) {
             $CryptpPWD = $pass;
-        else {
+        } else {
             Header("Location: user.php?stop=1");
             return;
         }
@@ -1176,12 +1210,14 @@ function login($uname, $pass)
 
         $result = sql_query("SELECT * FROM " . sql_prefix('') . "session WHERE host_addr='$ip' AND guest='1'");
 
-        if (sql_num_rows($result) == 1)
+        if (sql_num_rows($result) == 1) {
             sql_query("DELETE FROM " . sql_prefix('') . "session WHERE host_addr='$ip' AND guest='1'");
+        }
 
         Header("Location: index.php");
-    } else
+    } else {
         Header("Location: user.php?stop=1");
+    }
 }
 
 function edituser()
@@ -1218,11 +1254,11 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
     list($vuid, $vemail) = sql_fetch_row($result);
 
     if (($check == $uname) and ($uid == $vuid)) {
-        if ((isset($pass)) && ("$pass" != "$vpass"))
+        if ((isset($pass)) && ("$pass" != "$vpass")) {
             message_error('<i class="fa fa-exclamation me-2"></i>' . translate('Les mots de passe sont différents. Ils doivent être identiques.') . '<br />', '');
-        elseif (($pass != '') && (strlen($pass) < $minpass))
+        } elseif (($pass != '') && (strlen($pass) < $minpass)) {
             message_error('<i class="fa fa-exclamation me-2"></i>' . translate('Désolé, votre mot de passe doit faire au moins') . ' <strong>' . $minpass . '</strong> ' . translate('caractères') . '<br />', '');
-        else {
+        } else {
             $stop = userCheck('edituser', $email);
 
             if (!$stop) {
@@ -1230,8 +1266,9 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 $filename = "users_private/usersbadmail.txt";
                 $handle = fopen($filename, "r");
 
-                if (filesize($filename) > 0)
+                if (filesize($filename) > 0) {
                     $contents = fread($handle, filesize($filename));
+                }
 
                 fclose($handle);
 
@@ -1242,8 +1279,9 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 fwrite($file, $maj);
                 fclose($file);
 
-                if ($bio)
+                if ($bio) {
                     $bio = FixQuotes(strip_tags($bio));
+                }
 
                 $t = $attach ? 1 : 0;
                 $a = $user_viewemail ? 1 : 0;
@@ -1254,8 +1292,9 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 include_once("modules/upload/upload.conf.php");
 
                 global $avatar_size;
-                if (!$avatar_size)
+                if (!$avatar_size) {
                     $avatar_size = '80*100';
+                }
 
                 $avatar_limit = explode("*", $avatar_size);
                 $rep = $DOCUMENTROOT != '' ? $DOCUMENTROOT : $_SERVER['DOCUMENT_ROOT'];
@@ -1286,21 +1325,26 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                                     if (@mkdir($rep . $user_dir, 0777)) {
                                         $fp = fopen($rep . $user_dir . 'index.html', 'w');
                                         fclose($fp);
-                                    } else
+                                    } else {
                                         $user_dir = $racine . '/users_private/';
+                                    }
                                 }
-                            } else
+                            } else {
                                 $user_dir = $racine . '/users_private/';
+                            }
 
                             if ($upload->saveAs($uname . '.' . $suffix, $rep . $user_dir, 'B1', true)) {
                                 $old_user_avatar = $user_avatar;
                                 $user_avatar = $user_dir . $uname . '.' . $suffix;
                                 $img_size = @getimagesize($rep . $user_avatar);
 
-                                if (($img_size[0] > $avatar_limit[0]) or ($img_size[1] > $avatar_limit[1]))
+                                if (($img_size[0] > $avatar_limit[0]) or ($img_size[1] > $avatar_limit[1])) {
                                     $raz_avatar = true;
+                                }
 
-                                if ($racine == '') $user_avatar = substr($user_avatar, 1);
+                                if ($racine == '') {
+                                    $user_avatar = substr($user_avatar, 1);
+                                }
                             }
                         }
                     }
@@ -1331,27 +1375,30 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                         $userinfo = sql_fetch_assoc($result);
                         docookie($userinfo['uid'], $userinfo['uname'], $userinfo['pass'], $userinfo['storynum'], $userinfo['umode'], $userinfo['uorder'], $userinfo['thold'], $userinfo['noscore'], $userinfo['ublockon'], $userinfo['theme'], $userinfo['commentmax'], "", $skin);
                     }
-                } else
+                } else {
                     sql_query("UPDATE " . sql_prefix('') . "users SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' WHERE uid='$uid'");
-
+                }
                 sql_query("UPDATE " . sql_prefix('') . "users_status SET attachsig='$t' WHERE uid='$uid'");
 
                 $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users_extend WHERE uid='$uid'");
 
-                if (sql_num_rows($result) == 1)
+                if (sql_num_rows($result) == 1) {
                     sql_query("UPDATE " . sql_prefix('') . "users_extend SET C1='" . removeHack($C1) . "', C2='" . removeHack($C2) . "', C3='" . removeHack($C3) . "', C4='" . removeHack($C4) . "', C5='" . removeHack($C5) . "', C6='" . removeHack($C6) . "', C7='" . removeHack($C7) . "', C8='" . removeHack($C8) . "', M1='" . removeHack($M1) . "', M2='" . removeHack($M2) . "', T1='" . removeHack($T1) . "', T2='" . removeHack($T2) . "', B1='$B1' WHERE uid='$uid'");
-                else
+                } else {
                     $result = sql_query("INSERT INTO " . sql_prefix('') . "users_extend VALUES ('$uid','" . removeHack($C1) . "', '" . removeHack($C2) . "', '" . removeHack($C3) . "', '" . removeHack($C4) . "', '" . removeHack($C5) . "', '" . removeHack($C6) . "', '" . removeHack($C7) . "', '" . removeHack($C8) . "', '" . removeHack($M1) . "', '" . removeHack($M2) . "', '" . removeHack($T1) . "', '" . removeHack($T2) . "', '$B1')");
-
-                if ($pass != '')
+                }
+                if ($pass != '') {
                     logout();
-                else
+                } else {
                     header("location: user.php?op=edituser");
-            } else
+                }
+            } else {
                 message_error($stop, '');
+            }
         }
-    } else
+    } else {
         Header("Location: index.php");
+    }
 }
 
 function edithome()
@@ -1365,8 +1412,9 @@ function edithome()
 
     member_menu($userinfo['mns'], $userinfo['uname']);
 
-    if ($userinfo['theme'] == '')
+    if ($userinfo['theme'] == '') {
         $userinfo['theme'] = "$Default_Theme+$Default_Skin";
+    }
 
     echo '
    <h2 class="mb-3">' . translate('Editer votre page principale') . '</h2>
@@ -1456,8 +1504,9 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
         $cache_obj->UsercacheCleanup();
 
         Header("Location: user.php?op=edithome");
-    } else
+    } else {
         Header("Location: index.php");
+    }
 }
 
 function chgtheme()
@@ -1472,10 +1521,11 @@ function chgtheme()
     $ibid = explode('+', $userinfo['theme']);
     $theme = $ibid[0];
 
-    if (array_key_exists(1, $ibid))
+    if (array_key_exists(1, $ibid)) {
         $skin = $ibid[1];
-    else
+    } else {
         $skin = '';
+    }
 
     member_menu($userinfo['mns'], $userinfo['uname']);
 
@@ -1497,8 +1547,9 @@ function chgtheme()
             echo '
                   <option value="' . $themelist[$i] . '" ';
 
-            if ((($theme == '') && ($themelist[$i] == $Default_Theme)) || ($theme == $themelist[$i]))
+            if ((($theme == '') && ($themelist[$i] == $Default_Theme)) || ($theme == $themelist[$i])) {
                 echo 'selected="selected"';
+            }
 
             echo '>' . $themelist[$i] . '</option>';
         }
@@ -1533,10 +1584,11 @@ function chgtheme()
     foreach ($skins as $k => $v) {
         echo '<option value="' . $skins[$k]['name'] . '" ';
 
-        if ($skins[$k]['name'] == $skin)
+        if ($skins[$k]['name'] == $skin) {
             echo 'selected="selected"';
-        elseif ($skin == '' and $skins[$k]['name'] == 'default')
+        } elseif ($skin == '' and $skins[$k]['name'] == 'default') {
             echo 'selected="selected"';
+        }
 
         echo '>' . $skins[$k]['name'] . '</option>';
     }
@@ -1600,8 +1652,9 @@ function savetheme($uid, $theme)
         $cache_obj->UsercacheCleanup();
 
         Header("Location: user.php");
-    } else
+    } else {
         Header("Location: index.php");
+    }
 }
 
 function editjournal()
@@ -1680,9 +1733,9 @@ function savejournal($uid, $journal, $datetime)
             $journalentry .= formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
             sql_query("UPDATE " . sql_prefix('') . "users SET user_journal='$journalentry' WHERE uid='$uid'");
-        } else
+        } else {
             sql_query("UPDATE " . sql_prefix('') . "users SET user_journal='$journal' WHERE uid='$uid'");
-
+        }
         Header("Location: user.php");
     } else
         Header("Location: index.php");
@@ -1716,36 +1769,42 @@ switch ($op) {
 
     case "mailpasswd":
         if ($uname != '' and $code != '') {
-            if (strlen($code) >= $minpass)
+            if (strlen($code) >= $minpass) {
                 mail_password($uname, $code);
-            else
+            } else {
                 message_error("<i class=\"fa fa-exclamation\"></i>&nbsp;" . translate('Mot de passe erroné, refaites un essai.') . "<br /><br />", "");
-        } else
+            }
+        } else {
             main($user);
+        }
         break;
 
     case 'validpasswd':
-        if ($code != '')
+        if ($code != '') {
             valid_password($code);
-        else
+        } else {
             main($user);
+        }
         break;
 
     case 'updatepasswd':
-        if ($code != '' and $passwd != '')
+        if ($code != '' and $passwd != '') {
             update_password($code, $passwd);
-        else
+        } else {
             main($user);
+        }
         break;
 
     case 'userinfo':
-        if (($member_list == 1) and ((!isset($user)) and (!isset($admin))))
+        if (($member_list == 1) and ((!isset($user)) and (!isset($admin)))) {
             Header("Location: index.php");
+        }
 
-        if ($uname != '')
+        if ($uname != '') {
             userinfo($uname);
-        else
+        } else {
             main($user);
+        }
         break;
 
     case 'login':
@@ -1753,10 +1812,11 @@ switch ($op) {
         break;
 
     case 'edituser':
-        if ($user)
+        if ($user) {
             edituser();
-        else
+        } else {
             Header("Location: index.php");
+        }
         break;
 
     case 'saveuser':
@@ -1777,15 +1837,17 @@ switch ($op) {
             settype($raz_avatar, 'integer');
 
             saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bio, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $attach, $usend_email, $uis_visible, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $MAX_FILE_SIZE, $raz_avatar);
-        } else
+        } else {
             Header("Location: user.php");
+        }
         break;
 
     case 'edithome':
-        if ($user)
+        if ($user) {
             edithome();
-        else
+        } else {
             Header("Location: index.php");
+        }
         break;
 
     case 'savehome':
@@ -1795,10 +1857,11 @@ switch ($op) {
         break;
 
     case 'chgtheme':
-        if ($user)
+        if ($user) {
             chgtheme();
-        else
+        } else {
             Header("Location: index.php");
+        }
         break;
 
     case 'savetheme':
@@ -1808,10 +1871,11 @@ switch ($op) {
         break;
 
     case 'editjournal':
-        if ($user)
+        if ($user) {
             editjournal();
-        else
+        } else {
             Header("Location: index.php");
+        }
         break;
 
     case 'savejournal':
@@ -1822,13 +1886,14 @@ switch ($op) {
 
     case 'only_newuser':
         global $CloseRegUser;
-        if ($CloseRegUser == 0)
+        if ($CloseRegUser == 0) {
             Only_NewUser();
-        else {
+        } else {
             include 'header.php';
 
-            if (file_exists("static/closed.txt"))
+            if (file_exists("static/closed.txt")) {
                 include("static/closed.txt");
+            }
 
             include 'footer.php';
         }
@@ -1838,17 +1903,19 @@ switch ($op) {
         if ($user) {
             $userdata = explode(':', base64_decode($user));
 
-            if (!file_exists('users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt'))
+            if (!file_exists('users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt')) {
                 fopen('users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt', 'w');
-
+            }
             Header("Location: index.php");
-        } else
+        } else {
             Header("Location: index.php");
+        }
         break;
 
     default:
-        if (!AutoReg())
+        if (!AutoReg()) {
             unset($user);
+        }
 
         main($user);
         break;

@@ -12,8 +12,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (stristr($_SERVER['PHP_SELF'], 'sitemap.php'))
+if (stristr($_SERVER['PHP_SELF'], 'sitemap.php')) {
     die();
+}
 
 function sitemapforum($prio)
 {
@@ -157,17 +158,21 @@ function sitemap_create($PAGES, $filename)
     $ibid .= "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n";
     $ibid .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\n http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\n\n";
 
-    if (isset($PAGES['article.php']['sitemap']))
+    if (isset($PAGES['article.php']['sitemap'])) {
         $ibid .= sitemaparticle($PAGES['article.php']['sitemap']);
+    }
 
-    if (isset($PAGES['forum.php']['sitemap']))
+    if (isset($PAGES['forum.php']['sitemap'])) {
         $ibid .= sitemapforum($PAGES['forum.php']['sitemap']);
+    }
 
-    if (isset($PAGES['sections.php']['sitemap']))
+    if (isset($PAGES['sections.php']['sitemap'])) {
         $ibid .= sitemaprub($PAGES['sections.php']['sitemap']);
+    }
 
-    if (isset($PAGES['download.php']['sitemap']))
+    if (isset($PAGES['download.php']['sitemap'])) {
         $ibid .= sitemapdown($PAGES['download.php']['sitemap']);
+    }
 
     $ibid .= sitemapothers($PAGES);
     $ibid .= "</urlset>";
@@ -191,5 +196,6 @@ if (file_exists($filename)) {
     if (time() - filemtime($filename) - $refresh > 0) {
         sitemap_create($PAGES, $filename);
     }
-} else
+} else {
     sitemap_create($PAGES, $filename);
+}

@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 function display_score($score)
 {
@@ -23,21 +24,24 @@ function display_score($score)
     $full = '<i class="fa fa-star"></i>';
 
     if ($score == 10) {
-        for ($i = 0; $i < 5; $i++)
+        for ($i = 0; $i < 5; $i++) {
             echo $full;
+        }
     } else if ($score % 2) {
         $score -= 1;
         $score /= 2;
 
-        for ($i = 0; $i < $score; $i++)
+        for ($i = 0; $i < $score; $i++) {
             echo $image;
+        }
 
         echo $halfimage;
     } else {
         $score /= 2;
 
-        for ($i = 0; $i < $score; $i++)
+        for ($i = 0; $i < $score; $i++) {
             echo $image;
+        }
     }
 }
 
@@ -76,7 +80,7 @@ function write_review()
          <label for="email_rev">' . translate('Votre adresse Email') . '</label>
          <span class="help-block text-end" id="countcar_email_rev"></span>
       </div>';
-    } else
+    } else {
         echo '
       <div class="form-floating mb-3">
          <input class="form-control" type="text" id="reviewer_rev" name="reviewer" required="required" />
@@ -87,6 +91,7 @@ function write_review()
          <label for="email_rev">' . translate('Votre adresse Email') . '</label>
          <span class="help-block text-end" id="countcar_email_rev"></span>
       </div>';
+    }
 
     echo '
       <div class="form-floating mb-3">
@@ -211,9 +216,9 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
         echo '<div class="alert alert-danger">' . translate('Site web officiel. Veillez à ce que votre url commence bien par') . ' http(s)://</div>';
     }
 
-    if ($error == 1)
+    if ($error == 1) {
         echo '<button class="btn btn-secondary" type="button" onclick="history.go(-1)"><i class="fa fa-lg fa-undo"></i></button>';
-    else {
+    } else {
         $fdate = formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
 
         echo translate('Critique') . '
@@ -221,9 +226,9 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
       <hr />
       <h3>' . stripslashes($title) . '</h3>';
 
-        if ($cover != '')
+        if ($cover != '') {
             echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="img_" loading="lazy" />';
-
+        }
         echo $text . '
       <hr />
       <strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . $email . '" target="_blank">' . $reviewer . '</a><br />
@@ -234,9 +239,9 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
         echo '</span>';
 
-        if ($url != '')
+        if ($url != '') {
             echo '<br /><strong>' . translate('Lien relatif') . ' :</strong> <a href="' . $url . '" target="_blank">' . $url_title . '</a>';
-
+        }
         if ($id != 0) {
             echo '<br /><strong>' . translate('ID de la critique') . ' :</strong> ' . $id . '<br />
          <strong>' . translate('Hits') . ' :</strong> ' . $hits . '<br />';
@@ -259,8 +264,9 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
             <input type="hidden" name="op" value="add_reviews" />
             <p class="my-3">' . translate('Cela semble-t-il correct ?') . '</p>';
 
-        if (!$admin)
+        if (!$admin) {
             echo Q_spambot();
+        }
 
         $consent = '[french]Pour conna&icirc;tre et exercer vos droits notamment de retrait de votre consentement &agrave; l\'utilisation des donn&eacute;es collect&eacute;es veuillez consulter notre <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">politique de confidentialit&eacute;</a>.[/french][english]To know and exercise your rights, in particular to withdraw your consent to the use of the data collected, please consult our <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">privacy policy</a>.[/english][spanish]Para conocer y ejercer sus derechos, en particular para retirar su consentimiento para el uso de los datos recopilados, consulte nuestra <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">pol&iacute;tica de privacidad</a>.[/spanish][german]Um Ihre Rechte zu kennen und auszu&uuml;ben, insbesondere um Ihre Einwilligung zur Nutzung der erhobenen Daten zu widerrufen, konsultieren Sie bitte unsere <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">Datenschutzerkl&auml;rung</a>.[/german][chinese]&#x8981;&#x4E86;&#x89E3;&#x5E76;&#x884C;&#x4F7F;&#x60A8;&#x7684;&#x6743;&#x5229;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x8981;&#x64A4;&#x56DE;&#x60A8;&#x5BF9;&#x6240;&#x6536;&#x96C6;&#x6570;&#x636E;&#x7684;&#x4F7F;&#x7528;&#x7684;&#x540C;&#x610F;&#xFF0C;&#x8BF7;&#x67E5;&#x9605;&#x6211;&#x4EEC;<a href="static.php?op=politiqueconf.html&#x26;npds=1&#x26;metalang=1">&#x7684;&#x9690;&#x79C1;&#x653F;&#x7B56;</a>&#x3002;[/chinese]';
 
@@ -291,9 +297,10 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
         $word = ($id != 0) ? translate('modifié') : translate('ajouté');
 
-        if ($admin)
+        if ($admin) {
             echo '
          <div class="alert alert-success"><strong>' . translate('Note :') . '</strong> ' . translate('Actuellement connecté en administrateur... Cette critique sera') . ' ' . $word . ' ' . translate('immédiatement') . '.</div>';
+        }
     }
 
     echo '
@@ -342,7 +349,7 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
         sql_query("INSERT INTO " . sql_prefix('') . "reviews VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
-    } else if (($admin) && ($id != 0)) {
+    } elseif (($admin) && ($id != 0)) {
         sql_query("UPDATE " . sql_prefix('') . "reviews SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' WHERE id='$id'");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
@@ -366,8 +373,9 @@ function reviews($field, $order)
     $r_result = sql_query("SELECT title, description FROM " . sql_prefix('') . "reviews_main");
     list($r_title, $r_description) = sql_fetch_row($r_result);
 
-    if ($order != "ASC" and $order != "DESC")
+    if ($order != "ASC" and $order != "DESC") {
         $order = "ASC";
+    }
 
     switch ($field) {
 
@@ -462,8 +470,9 @@ function reviews($field, $order)
                <td><a href="reviews.php?op=showcontent&amp;id=' . $id . '">' . ucfirst($title) . '</a></td>
                <td>';
 
-            if ($reviewer != '')
+            if ($reviewer != '') {
                 echo $reviewer;
+            }
 
             echo '</td>
                <td><span class="text-success">';
@@ -523,21 +532,21 @@ function showcontent($id)
    <hr />
    <h3 class="mb-3">' . $title . '</h3><br />';
 
-    if ($cover != '')
+    if ($cover != '') {
         echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="reviews image" loading="lazy" />';
-
+    }
     echo $text;
 
     echo '
       <br /><br />
       <div class="card card-body mb-3">';
 
-    if ($reviewer != '')
+    if ($reviewer != '') {
         echo '<div class="mb-2"><strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . anti_spam($email, 1) . '" >' . $reviewer . '</a></div>';
-
-    if ($score != '')
+    }
+    if ($score != '') {
         echo '<div class="mb-2"><strong>' . translate('Note') . ' : </strong>';
-
+    }
     echo '<span class="text-success">';
 
     display_score($score);
@@ -545,13 +554,13 @@ function showcontent($id)
     echo '</span>
    </div>';
 
-    if ($url != '')
+    if ($url != '') {
         echo '<div class="mb-2"><strong>' . translate('Lien relatif') . ' : </strong> <a href="' . $url . '" target="_blank">' . $url_title . '</a></div>';
-
+    }
     echo '<div><strong>' . translate('Hits : ') . '</strong><span class="badge bg-secondary">' . $hits . '</span></div>
       </div>';
 
-    if ($admin)
+    if ($admin) {
         echo '
       <nav class="d-flex justify-content-center">
          <ul class="pagination pagination-sm">
@@ -566,6 +575,7 @@ function showcontent($id)
             </li>
          </ul>
       </nav>';
+    }
 
     echo '
    </div>';
@@ -640,10 +650,11 @@ function mod_review($id)
         $sel = '';
 
         do {
-            if ($i == $score)
+            if ($i == $score) {
                 $sel = 'selected="selected" ';
-            else
+            } else {
                 $sel = '';
+            }
 
             echo '
             <option value="' . $i . '" ' . $sel . '>' . $i . '</option>';

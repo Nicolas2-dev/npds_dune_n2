@@ -14,8 +14,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 include('functions.php');
 
@@ -39,8 +40,9 @@ if ($admin) {
     } else {
         $R = sql_query("SELECT fnom, fid, radminsuper FROM " . sql_prefix('') . "authors a LEFT JOIN " . sql_prefix('') . "droits d ON a.aid = d.d_aut_aid LEFT JOIN " . sql_prefix('') . "fonctions f ON d.d_fon_fid = f.fid WHERE a.aid='$adminR[0]' AND f.fid BETWEEN 13 AND 15");
 
-        if (sql_num_rows($R) >= 1)
+        if (sql_num_rows($R) >= 1) {
             $adminforum = 1;
+        }
     }
 }
 //<== droits des admin sur les forums (superadmin et admin avec droit gestion forum)
@@ -60,10 +62,11 @@ if (($op == "mark") and ($forum)) {
             $r = sql_query("SELECT rid FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='$topic_id'");
 
             if ($r) {
-                if (!list($rid) = sql_fetch_row($r))
+                if (!list($rid) = sql_fetch_row($r)) {
                     $r = sql_query("INSERT INTO " . sql_prefix('') . "forum_read (forum_id, topicid, uid, last_read, status) VALUES ('$forum', '$topic_id', '$userR[0]', $time_actu, '1')");
-                else
+                } else {
                     $r = sql_query("UPDATE " . sql_prefix('') . "forum_read SET last_read='$time_actu', status='1' WHERE rid='$rid'");
+                }
             }
         }
 
@@ -71,15 +74,17 @@ if (($op == "mark") and ($forum)) {
     }
 }
 
-if ($forum == "index")
+if ($forum == "index") {
     header("location: forum.php");
+}
 
 settype($forum, "integer");
 
 $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
 
-if (!$rowQ1)
+if (!$rowQ1) {
     forumerror('0002');
+}
 
 $myrow = $rowQ1[0];
 
@@ -95,8 +100,9 @@ if (($op == "solved") and ($topic_id) and ($forum) and ($sec_clef)) {
         if ($local_sec_clef == $sec_clef) {
             $sqlS = "UPDATE " . sql_prefix('') . "forumtopics SET topic_status='2', topic_title='[" . translate('Résolu') . "] - " . removehack($topic_title) . "' WHERE topic_id='$topic_id'";
 
-            if (!$r = sql_query($sqlS))
+            if (!$r = sql_query($sqlS)) {
                 forumerror('0011');
+            }
         }
 
         unset($local_sec_clef);
@@ -115,14 +121,16 @@ if (($myrow['forum_type'] == 5) or ($myrow['forum_type'] == 7)) {
         $ok_affiche = groupe_forum($myrow['forum_pass'], $tab_groupe);
     }
 
-    if ($ok_affiche)
+    if ($ok_affiche) {
         $Forum_passwd = $myrow['forum_pass'];
+    }
 }
 
-if ($myrow['forum_type'] == 8)
+if ($myrow['forum_type'] == 8) {
     $Forum_passwd = $myrow['forum_pass'];
-else
+} else {
     settype($Forum_passwd, 'string');
+}
 
 $hrefX = $myrow['arbre'] ? 'viewtopicH.php' : 'viewtopic.php';
 
@@ -140,12 +148,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         $modera = get_userdata($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
-            if (stristr($modera['user_avatar'], "users_private"))
+            if (stristr($modera['user_avatar'], "users_private")) {
                 $imgtmp = $modera['user_avatar'];
-            else
+            } else {
                 $imgtmp = ($ibid = theme_image("forum/avatar/" . $modera['user_avatar'])) ?
                     $ibid :
                     "images/forum/avatar/" . $modera['user_avatar'];
+            }
         }
 
         echo '<a href="user.php?op=userinfo&amp;uname=' . $moderator_data[$i] . '"><img width="48" height="48" class=" img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $modera['uname'] . '" title="' . $modera['uname'] . '" data-bs-toggle="tooltip" loading="lazy" /></a>';
@@ -180,8 +189,9 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     adminfoot('fv', '', $arg1, '');
 } elseif (($Forum_passwd == $myrow['forum_pass']) or ($adminforum == 1)) {
 
-    if (($myrow['forum_type'] == 9) and (!$user))
+    if (($myrow['forum_type'] == 9) and (!$user)) {
         header("location: forum.php");
+    }
 
     $title = $forum_name;
 
@@ -214,12 +224,15 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     if ($forum_access != 9) {
         $allow_to_post = true;
 
-        if ($forum_access == 2)
-            if (!user_is_moderator($userR[0], $userR[2], $forum_access))
+        if ($forum_access == 2) {
+            if (!user_is_moderator($userR[0], $userR[2], $forum_access)) {
                 $allow_to_post = false;
+            }
+        }
 
-        if ($allow_to_post)
+        if ($allow_to_post) {
             echo '<a href="newtopic.php?forum=' . $forum . '" title="' . translate('Nouveau') . '"><i class="fa fa-plus-square me-2"></i><span class="d-none d-sm-inline">' . translate('Nouveau sujet') . '<br /></span></a>';
+        }
     }
 
     echo stripslashes($forum_name) . '<span class="text-body-secondary">&nbsp;#' . $forum . '</span>
@@ -241,9 +254,9 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         $modera = get_userdata($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
-            if (stristr($modera['user_avatar'], 'users_private'))
+            if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
-            else {
+            } else {
                 if ($ibid = theme_image("forum/avatar/" . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
@@ -252,9 +265,11 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             }
         }
 
-        if ($user)
-            if (($userR[1] == $moderator_data[$i]))
+        if ($user) {
+            if (($userR[1] == $moderator_data[$i])) {
                 $Mmod = true;
+            }
+        }
 
         echo '<a href="user.php?op=userinfo&amp;uname=' . $moderator_data[$i] . '"><img class=" img-thumbnail img-fluid n-ava-small me-1" src="' . $imgtmp . '" alt="' . $modera['uname'] . '" title="' . translate('Modéré par : ') . ' ' . $modera['uname'] . '" data-bs-toggle="tooltip" loading="lazy" /></a>';
     }
@@ -270,8 +285,9 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
 
     $sql = "SELECT * FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum' $closol ORDER BY topic_first,topic_time DESC LIMIT $start, $topics_per_page";
 
-    if (!$result = sql_query($sql))
+    if (!$result = sql_query($sql)) {
         forumerror('0004');
+    }
 
     if ($ibid = theme_image("forum/icons/red_folder.gif")) {
         $imgtmpR = $ibid;
@@ -320,31 +336,34 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 if (($replys + 1) > $posts_per_page) {
                     $pages = 0;
 
-                    for ($x = 0; $x < ($replys + 1); $x += $posts_per_page)
+                    for ($x = 0; $x < ($replys + 1); $x += $posts_per_page) {
                         $pages++;
+                    }
 
                     $last_post_url = "$hrefX?topic=" . $myrow['topic_id'] . "&amp;forum=$forum&amp;start=" . (($pages - 1) * $posts_per_page);
-                } else
+                } else {
                     $last_post_url = "$hrefX?topic=" . $myrow['topic_id'] . "&amp;forum=$forum";
-
+                }
                 if ($user) {
                     $sqlR = "SELECT rid FROM " . sql_prefix('') . "forum_read WHERE forum_id='$forum' AND uid='$userR[0]' AND topicid='" . $myrow['topic_id'] . "' AND status!='0'";
 
-                    if ($replys >= $hot_threshold)
+                    if ($replys >= $hot_threshold) {
                         $image = sql_num_rows(sql_query($sqlR)) == 0 ?
                             '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt faa-shake animated"></i></a>' :
                             '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt"></i></a>';
-                    else
+                    } else {
                         $image = sql_num_rows(sql_query($sqlR)) == 0 ?
                             '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt faa-shake animated"></i></a>' :
                             '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt"></i></a>';
-                } else
+                    }
+                } else {
                     $image = ($replys >= $hot_threshold) ?
                         '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt"></i></a>' :
                         '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt"></i></a>';
-
-                if ($myrow['topic_status'] != 0)
+                }
+                if ($myrow['topic_status'] != 0) {
                     $image = '<i class="fa fa-lg fa-lock text-danger"></i>';
+                }
 
                 echo '
                <td>' . $image . '</td>';
@@ -358,10 +377,10 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
 
                     echo '
                <td><img class="n-smil" src="' . $imgtmp . '" alt="" /></td>';
-                } else
+                } else {
                     echo '
                <td><img class="n-smil" src="' . $imgtmpP . '" alt="" /></td>';
-
+                }
                 $topic_title = stripslashes($myrow['topic_title']);
 
                 if (!stristr($topic_title, '<a href=')) {
@@ -375,12 +394,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     $Sredirection = true;
                 }
 
-                if ($Sredirection)
+                if ($Sredirection) {
                     echo '
                <td>&nbsp;</td>';
-                else
+                } else {
                     echo '
                <td>' . $replys . '</td>';
+                }
 
                 if ($Sredirection) {
                     if (!$Mmod) {
@@ -391,9 +411,9 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
 
                     echo '<td>&nbsp;</td>';
                 } else {
-                    if ($myrow['topic_poster'] == 1)
+                    if ($myrow['topic_poster'] == 1) {
                         echo '<td></td>';
-                    else {
+                    } else {
                         $rowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('') . "users WHERE uid='" . $myrow['topic_poster'] . "'", 3600);
 
                         if ($rowQ1) {
@@ -405,14 +425,15 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     echo '<td>' . $myrow['topic_views'] . '</td>';
                 }
 
-                if ($Sredirection)
+                if ($Sredirection) {
                     echo '
                   <td>&nbsp;</td>
                </tr>';
-                else
+                } else {
                     echo '
                   <td class="small">' . get_last_post($myrow['topic_id'], "topic", "infos", $Mmod) . '</td>
                </tr>';
+                }
             }
         } while ($myrow = sql_fetch_assoc($result));
 
@@ -422,37 +443,43 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
          </tbody>
       </table>';
 
-        if ($user)
+        if ($user) {
             echo '<p class="mt-1"><a href="viewforum.php?op=mark&amp;forum=' . $forum . '"><i class="far fa-check-square fa-lg"></i></a>&nbsp;' . translate('Marquer tous les messages comme lus') . '</p>';
+        }
     } else {
-        if ($forum_access != 9)
+        if ($forum_access != 9) {
             echo '
       <div class="alert alert-danger my-3">' . translate('Il n\'y a aucun sujet pour ce forum. ') . '<br /><a href="newtopic.php?forum=' . $forum . '" >' . translate('Vous pouvez en poster un ici.') . '</a></div>';
+        }
     }
 
     $sql = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "forumtopics WHERE forum_id='$forum' $closol";
-    if (!$r = sql_query($sql)) forumerror('0001');
+    if (!$r = sql_query($sql)) {
+        forumerror('0001');
+    }
 
     list($all_topics) = sql_fetch_row($r);
 
     sql_free_result($r);
 
-    if (isset($closoled))
+    if (isset($closoled)) {
         $closol = '&amp;closoled=on';
-    else
+    } else {
         $closol = '';
+    }
 
     $count = 1;
     $nbPages = ceil($all_topics / $topics_per_page);
 
     $current = 1;
 
-    if ($start >= 1)
+    if ($start >= 1) {
         $current = $start / $topics_per_page;
-    elseif ($start < 1)
+    } elseif ($start < 1) {
         $current = 0;
-    else
+    } else {
         $current = $nbPages;
+    }
 
     echo '<div class="mb-2"></div>' . paginate('viewforum.php?forum=' . $forum . '&amp;start=', $closol, $nbPages, $current, 1, $topics_per_page, $start);
 
@@ -461,17 +488,17 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     echo '
    <blockquote class="blockquote my-3">';
 
-    if ($user)
+    if ($user) {
         echo '
       <i class="far fa-file-alt fa-lg faa-shake animated text-primary"></i> = ' . translate('Les nouvelles contributions depuis votre dernière visite.') . '<br />
       <i class="fas fa-file-alt fa-lg faa-shake animated text-primary"></i> = ' . translate('Plus de') . ' ' . $hot_threshold . ' ' . translate('Contributions') . '<br />
       <i class="far fa-file-alt fa-lg text-primary"></i> = ' . translate('Aucune nouvelle contribution depuis votre dernière visite.') . '<br />
       <i class="fas fa-file-alt fa-lg text-primary"></i> = ' . translate('Plus de') . ' ' . $hot_threshold . ' ' . translate('Contributions') . '<br />';
-    else
+    } else {
         echo '
       <i class="fas fa-file-alt fa-lg text-primary"></i> = ' . translate('Plus de') . ' ' . $hot_threshold . ' ' . translate('Contributions') . '<br />
       <i class="far fa-file-alt fa-lg text-primary"></i> = ' . translate('Contributions') . '.<br />';
-
+    }
     echo '
       <i class="fa fa-lock fa-lg text-danger"></i> = ' . translate('Ce sujet est verrouillé : il ne peut accueillir aucune nouvelle contribution.') . '<br />
    </blockquote>';
@@ -501,9 +528,10 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 if ($forum_type != '9') {
                     $ok_affich = (($forum_type == '7') or ($forum_type == '5')) ? false : true;
 
-                    if ($ok_affich)
+                    if ($ok_affich) {
                         echo '
                <option value="' . $forum_id . '">&nbsp;&nbsp;' . stripslashes($forum_name) . '</option>';
+                    }
                 }
             }
         }
@@ -515,9 +543,11 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
    </form>';
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingBlock($cache_clef);
+    }
 
     include 'footer.php';
-} else
+} else {
     header("location: forum.php");
+}

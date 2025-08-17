@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 settype($op, 'string');
 
@@ -24,12 +25,13 @@ if ($op != "maj_subscribe") {
 
     $inclusion = false;
 
-    if (file_exists("themes/$theme/html/topics.html"))
+    if (file_exists("themes/$theme/html/topics.html")) {
         $inclusion = "themes/$theme/html/topics.html";
-    elseif (file_exists("themes/default/html/topics.html"))
+    } elseif (file_exists("themes/default/html/topics.html")) {
         $inclusion = "themes/default/html/topics.html";
-    else
+    } else {
         echo 'html/topics.html / not find !<br />';
+    }
 
     if ($inclusion) {
         ob_start();

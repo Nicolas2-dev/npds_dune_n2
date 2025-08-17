@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 include('functions.php');
 
@@ -33,10 +34,11 @@ settype($sig, 'string');
 settype($copie, 'string');
 
 if ($cancel) {
-    if ($full_interface != 'short')
+    if ($full_interface != 'short') {
         header("Location: viewpmsg.php");
-    else
+    } else {
         header("Location: readpmsg_imm.php?op=new_msg");
+    }
     die();
 }
 
@@ -47,29 +49,36 @@ if (isset($user)) {
     $usermore = get_userdata_from_id($cookie[0]);
 
     if ($submitS) {
-        if ($subject == '')
+        if ($subject == '') {
             forumerror('0017');
+        }
+
         $subject = removeHack($subject);
 
         if ($smilies) {
-            if ($image_subject == '')
+            if ($image_subject == '') {
                 forumerror('0018');
+            }
         }
 
-        if ($message == '')
+        if ($message == '') {
             forumerror('0019');
+        }
 
-        if ($allow_html == 0 || isset($html))
+        if ($allow_html == 0 || isset($html)) {
             $message = htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        }
 
-        if ($sig)
+        if ($sig) {
             $message .= '<br /><br />' . $userdata['user_sig'];
+        }
 
         $message = aff_code($message);
         $message = str_replace("\n", '<br />', $message);
 
-        if ($allow_bbcode)
+        if ($allow_bbcode) {
             $message = smile($message);
+        }
 
         $message = make_clickable($message);
         $message = removeHack(addslashes($message));
@@ -88,15 +97,17 @@ if (isset($user)) {
                     $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
                     $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
-                    if (!$result = sql_query($sql))
+                    if (!$result = sql_query($sql)) {
                         forumerror('0020');
+                    }
 
                     if ($copie) {
                         $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
                         $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
-                        if (!$result = sql_query($sql))
+                        if (!$result = sql_query($sql)) {
                             forumerror('0020');
+                        }
                     }
 
                     global $nuke_url, $subscribe, $sitename;;
@@ -118,21 +129,23 @@ if (isset($user)) {
             $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_user'");
             list($to_userid, $user_langue) = sql_fetch_row($res);
 
-            if (($to_userid == '') or ($to_userid == 1))
+            if (($to_userid == '') or ($to_userid == 1)) {
                 forumerror('0016');
-            else {
+            } else {
                 $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
                 $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
-                if (!$result = sql_query($sql))
+                if (!$result = sql_query($sql)) {
                     forumerror('0020');
+                }
 
                 if ($copie) {
                     $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
                     $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
-                    if (!$result = sql_query($sql))
+                    if (!$result = sql_query($sql)) {
                         forumerror('0020');
+                    }
                 }
 
                 global $nuke_url, $subscribe, $sitename;
@@ -151,10 +164,11 @@ if (isset($user)) {
         unset($message);
         unset($sujet);
 
-        if ($full_interface != 'short')
+        if ($full_interface != 'short') {
             header("Location: viewpmsg.php");
-        else
+        } else {
             header("Location: readpmsg_imm.php?op=new_msg");
+        }
     }
 
     settype($delete_messages, 'string');
@@ -163,49 +177,54 @@ if (isset($user)) {
         settype($status, 'integer');
 
         foreach ($msg_id as $v) {
-            if ($type == 'outbox')
+            if ($type == 'outbox') {
                 $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='" . $v . "' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
-            else
+            } else {
                 $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='" . $v . "' AND to_userid='" . $userdata['uid'] . "'";
-
-            if (!sql_query($sql))
+            }
+            if (!sql_query($sql)) {
                 forumerror('0021');
-            else
+            } else {
                 $status = 1;
+            }
         }
 
-        if ($status == 1)
+        if ($status == 1) {
             header("Location: viewpmsg.php");
+        }
     } else if ($delete_messages = '' and !$msg_id) {
         header("Location: viewpmsg.php");
     }
 
     //   settype($delete,'integer');
     if (isset($delete)) {
-        if (isset($type) and $type == 'outbox')
+        if (isset($type) and $type == 'outbox') {
             $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='$msg_id' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
-        else
+        } else {
             $sql = "DELETE FROM " . sql_prefix('') . "priv_msgs WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
-
-        if (!sql_query($sql))
+        }
+        if (!sql_query($sql)) {
             forumerror('0021');
-        else
+        } else {
             header("Location: viewpmsg.php");
+        }
     }
 
     settype($classement, 'string');
 
     if ($classement) {
-        if ($nouveau_dossier != '')
+        if ($nouveau_dossier != '') {
             $dossier = $nouveau_dossier;
+        }
 
         $dossier = strip_tags($dossier);
 
         $sql = "UPDATE " . sql_prefix('') . "priv_msgs SET dossier='$dossier' WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
         $result = sql_query($sql);
 
-        if (!$result)
+        if (!$result) {
             forumerror('0005');
+        }
 
         header("Location: viewpmsg.php");
     }
@@ -217,22 +236,26 @@ if (isset($user)) {
         if ($userdataX[9] != '') {
             $ibix = explode('+', urldecode($userdataX[9]));
 
-            if (array_key_exists(0, $ibix))
+            if (array_key_exists(0, $ibix)) {
                 $theme = $ibix[0];
-            else
+            } else {
                 $theme = $Default_Theme;
+            }
 
-            if (array_key_exists(1, $ibix))
+            if (array_key_exists(1, $ibix)) {
                 $skin = $ibix[1];
-            else
+            } else {
                 $skin = $Default_Skin;
+            }
 
             $tmp_theme = $theme;
 
-            if (!$file = @opendir("themes/$theme"))
+            if (!$file = @opendir("themes/$theme")) {
                 $tmp_theme = $Default_Theme;
-        } else
+            }
+        } else {
             $tmp_theme = $Default_Theme;
+        }
 
         $skin = $skin == '' ? 'default' : $skin;
 
@@ -246,36 +269,42 @@ if (isset($user)) {
         echo '
    </head>
    <body class="my-4 mx-4">';
-    } else
+    } else {
         include 'header.php';
+    }
 
     if ($reply || $send || $to_user) {
-        if ($allow_bbcode)
+        if ($allow_bbcode) {
             include("lib/formhelp.java.php");
+        }
 
         if ($reply) {
             $sql = "SELECT msg_image, subject, from_userid, to_userid FROM " . sql_prefix('') . "priv_msgs WHERE to_userid='" . $userdata['uid'] . "' AND msg_id='$msg_id' AND type_msg='0'";
             $result = sql_query($sql);
 
-            if (!$result)
+            if (!$result) {
                 forumerror('0022');
+            }
 
             $row = sql_fetch_assoc($result);
 
-            if (!$row)
+            if (!$row) {
                 forumerror('0023');
+            }
 
             $fromuserdata = get_userdata_from_id($row['from_userid']);
 
             if (array_key_exists(0, $fromuserdata)) {
-                if ($fromuserdata[0] == 1)
+                if ($fromuserdata[0] == 1) {
                     forumerror('0101');
+                }
             }
 
             $touserdata = get_userdata_from_id($row['to_userid']);
 
-            if (($user) and ($userdata['uid'] != $touserdata['uid']))
+            if (($user) and ($userdata['uid'] != $touserdata['uid'])) {
                 forumerror('0024');
+            }
         }
 
         echo '
@@ -294,11 +323,13 @@ if (isset($user)) {
 
             $Xmessage = $message = StripSlashes($message);
 
-            if ($allow_html == 0 || isset($html))
+            if ($allow_html == 0 || isset($html)) {
                 $Xmessage = htmlspecialchars($Xmessage, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+            }
 
-            if ($sig == 'on')
+            if ($sig == 'on') {
                 $Xmessage .= '<div class="n-signature">' . nl2br($userdata['user_sig']) . '</div>';
+            }
 
             $Xmessage = aff_code($Xmessage);
             $Xmessage = str_replace("\n", '<br />', $Xmessage);
@@ -320,17 +351,19 @@ if (isset($user)) {
             <label class="col-form-label col-sm-3" for="to_user">' . translate('Destinataire') . '</label>
             <div class="col-sm-9">';
 
-        if ($reply)
+        if ($reply) {
             echo userpopover($fromuserdata['uname'], 48, 2) . '
                <input class="form-control-plaintext d-inline-block w-75" type="text" id="to_user" name="to_user" value="' . $fromuserdata['uname'] . '" readonly="readonly" />';
-        else {
+        } else {
             settype($Xto_user, 'string');
 
-            if ($send != 1)
+            if ($send != 1) {
                 $Xto_user = $send;
+            }
 
-            if ($to_user)
+            if ($to_user) {
                 $Xto_user = $to_user;
+            }
 
             echo '
                <input class="form-control" type="text" id="to_user" name="to_user" value="' . $Xto_user . '" maxlength="100" required="required"/>';
@@ -349,10 +382,11 @@ if (isset($user)) {
 
         settype($copie, 'string');
 
-        if ($copie)
+        if ($copie) {
             $checked = 'checked="checked"';
-        else
+        } else {
             $checked = '';
+        }
 
         echo '
          <div class="mb-3 row">
@@ -372,10 +406,11 @@ if (isset($user)) {
         if ($subject) {
             $tmp = StripSlashes($subject);
         } else {
-            if ($reply)
+            if ($reply) {
                 $tmp = "Re: " . StripSlashes($row['subject']);
-            else
+            } else {
                 $tmp = '';
+            }
         }
 
         echo '
@@ -405,11 +440,11 @@ if (isset($user)) {
             <div class="card">
                <div class="card-header">';
 
-        if ($allow_html == 1)
+        if ($allow_html == 1) {
             echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
-        else
+        } else {
             echo '<span class="text-danger float-end" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
-
+        }
         echo '
             </div>
             <div class="card-body">';
@@ -428,24 +463,26 @@ if (isset($user)) {
                 $text = str_replace("<BR>", "\n", $text);
                 $text = stripslashes($text);
 
-                if ($row['msg_time'] != '' && $row['uname'] != '')
+                if ($row['msg_time'] != '' && $row['uname'] != '') {
                     $Xreply = $row['msg_time'] . ', ' . $row['uname'] . ' ' . translate('a écrit :') . "\n$text\n";
-                else
+                } else {
                     $Xreply = $text;
+                }
 
                 $Xreply = '
                <div class="blockquote">
                ' . $Xreply . '
                </div>';
-            } else
+            } else {
                 $Xreply = translate('Pas de connexion à la base forums.') . "\n";
+            }
         } elseif ($message != '') {
             $Xreply = $message;
         }
 
-        if ($allow_bbcode)
+        if ($allow_bbcode) {
             $xJava = 'name="message" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="storeForm(this)"';
-
+        }
         echo '
          <textarea id="ta_replypm" class="form-control" ' . $xJava . ' name="message" rows="15">';
 
@@ -459,8 +496,9 @@ if (isset($user)) {
                </div>
                <div class="card-footer text-body-secondary">';
 
-        if ($allow_bbcode)
+        if ($allow_bbcode) {
             putitems('ta_replypm');
+        }
 
         echo '
                </div>
@@ -473,10 +511,11 @@ if (isset($user)) {
         if ($allow_html == 1) {
             settype($html, 'string');
 
-            if ($html == 'on')
+            if ($html == 'on') {
                 $checked = 'checked="checked"';
-            else
+            } else {
                 $checked = '';
+            }
 
             echo '
          <div class="col-sm-9 my-2">
@@ -492,10 +531,11 @@ if (isset($user)) {
             settype($sig, 'string');
 
             if ($submitP) {
-                if ($sig == 'on')
+                if ($sig == 'on') {
                     $checked = 'checked="checked"';
-                else
+                } else {
                     $checked = '';
+                }
             }
 
             echo '
@@ -518,24 +558,25 @@ if (isset($user)) {
 
         settype($send, 'integer');
 
-        if ($send == 1)
+        if ($send == 1) {
             echo '
             <input type="hidden" name="send" value="1" />';
+        }
 
         settype($reply, 'integer');
 
-        if ($reply == 1)
+        if ($reply == 1) {
             echo '
             <input type="hidden" name="reply" value="1" />';
+        }
 
         echo '
             <input class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" />&nbsp;';
 
-        if ($reply)
+        if ($reply) {
             echo '
             <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler la réponse') . '" />';
-
-        else {
+        } else {
             echo '
             <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
 

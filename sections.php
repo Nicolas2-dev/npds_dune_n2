@@ -13,8 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 function autorisation_section($userlevel)
 {
@@ -24,8 +25,9 @@ function autorisation_section($userlevel)
     foreach ($tmp_auto as $userlevel) {
         $okprint = autorisation($userlevel);
 
-        if ($okprint)
+        if ($okprint) {
             break;
+        }
     }
 
     return ($okprint);
@@ -37,25 +39,28 @@ function listsections($rubric)
 
     include 'header.php';
 
-    if (file_exists("sections.config.php"))
+    if (file_exists("sections.config.php")) {
         include("sections.config.php");
+    }
 
     global $SuperCache;
     if ($SuperCache) {
         $cache_obj = new cacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
         settype($rubric, 'integer');
         settype($nb_r, 'integer');
 
-        if ($rubric)
+        if ($rubric) {
             $sqladd = "AND rubid='" . $rubric . "'";
-        else
+        } else {
             $sqladd = '';
+        }
 
         if ($admin) {
             $result = sql_query("SELECT rubid, rubname, intro FROM " . sql_prefix('') . "rubriques WHERE rubname<>'Divers' AND rubname<>'Presse-papiers' $sqladd ORDER BY ordre");
@@ -67,9 +72,9 @@ function listsections($rubric)
 
         $aff = '';
 
-        if ($rubric)
+        if ($rubric) {
             $aff .= '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a></span><hr />';
-
+        }
         $aff .= '
       <h2>' . translate('Rubriques') . '<span class="float-end badge bg-secondary">' . $nb_r . '</span></h2>';
 
@@ -82,19 +87,19 @@ function listsections($rubric)
       <hr />
       <h3>';
 
-                if ($nb_section !== 0)
+                if ($nb_section !== 0) {
                     $aff .= '
          <a href="#" class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#rub-' . $rubid . '" ><i class="toggle-icon fa fa-caret-down"></i></a>';
-                else
+                } else {
                     $aff .= '<i class="fa fa-caret-down text-body-secondary invisible "></i>';
-
+                }
                 $aff .= '
          <a class="ms-2" href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a><span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Sous-rubrique') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_section . '</span></span>
       </h3>';
 
-                if ($intro != '')
+                if ($intro != '') {
                     $aff .= '<p class="text-body-secondary">' . aff_langue($intro) . '</p>';
-
+                }
                 $aff .= '
       <div id="rub-' . $rubid . '" class="collapse" >';
 
@@ -112,10 +117,10 @@ function listsections($rubric)
          <div class="card card-body mb-2" id="rub_' . $rubid . 'sec_' . $secid . '">
             <h4 class="mb-2">';
 
-                        if ($nb_art !== 0)
+                        if ($nb_art !== 0) {
                             $aff .= '
                <a href="#" class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#sec' . $secid . '" aria-expanded="true" aria-controls="sec' . $secid . '"><i class="toggle-icon fa fa-caret-up"></i></a>&nbsp;';
-
+                        }
                         $aff1 = aff_langue($secname) . '<span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Articles') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_art . '</span></span>';
 
                         if ($image != '') {
@@ -133,9 +138,9 @@ function listsections($rubric)
                         $aff1 .= '
             </h4>';
 
-                        if ($intro != '')
+                        if ($intro != '') {
                             $aff1 .= '<p class="">' . aff_langue($intro) . '</p>';
-
+                        }
                         $aff2 = '
             <div id="sec' . $secid . '" class="collapse show">
                <div class="">';
@@ -152,8 +157,9 @@ function listsections($rubric)
 
                                 $nouveau = 'oo';
 
-                                if ((time() - $timestamp) < (86400 * 7))
+                                if ((time() - $timestamp) < (86400 * 7)) {
                                     $nouveau = '';
+                                }
 
                                 $aff2 .= '<a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . aff_langue($title) . '</a><span class="float-end"><small>' . translate('lu : ') . ' ' . $counter . ' ' . translate('Fois') . '</small>';
 
@@ -191,8 +197,9 @@ function listsections($rubric)
         sql_free_result($result);
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     include('footer.php');
 }
@@ -201,17 +208,18 @@ function listarticles($secid)
 {
     global $user, $prev;
 
-    if (file_exists("sections.config.php"))
+    if (file_exists("sections.config.php")) {
         include("sections.config.php");
+    }
 
     $result = sql_query("SELECT secname, rubid, image, intro, userlevel FROM " . sql_prefix('') . "sections WHERE secid='$secid'");
     list($secname, $rubid, $image, $intro, $userlevel) = sql_fetch_row($result);
 
     list($rubname) = sql_fetch_row(sql_query("SELECT rubname FROM " . sql_prefix('') . "rubriques WHERE rubid='$rubid'"));
 
-    if ($sections_chemin == 1)
+    if ($sections_chemin == 1) {
         $chemin = '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a></span>';
-
+    }
     $title =  aff_langue($secname);
 
     include 'header.php';
@@ -220,8 +228,9 @@ function listarticles($secid)
     if ($SuperCache) {
         $cache_obj = new cacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
         $okprint1 = autorisation_section($userlevel);
@@ -242,8 +251,9 @@ function listarticles($secid)
             <h3 class="mb-3">' . $title . '<span class="float-end"><span class="badge bg-secondary" title="' . translate('Articles') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_art . '</span></h3>';
             }
 
-            if ($intro != '')
+            if ($intro != '') {
                 echo aff_langue($intro);
+            }
 
             if ($image != '') {
                 if (file_exists("images/sections/$image")) {
@@ -293,14 +303,16 @@ function listarticles($secid)
          echo '
          <a class="btn btn-secondary" href="sections.php">'.translate('Return to Sections Index").'</a>';
 */
-        } else
+        } else {
             redirect_url("sections.php");
+        }
 
         sql_free_result($result);
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     include('footer.php');
 }
@@ -311,12 +323,13 @@ function viewarticle($artid, $page)
 
     $numpage = $page;
 
-    if (file_exists("sections.config.php"))
+    if (file_exists("sections.config.php")) {
         include("sections.config.php");
+    }
 
-    if ($page == '')
+    if ($page == '') {
         sql_query("UPDATE " . sql_prefix('') . "seccont SET counter=counter+1 WHERE artid='$artid'");
-
+    }
     $result_S = sql_query("SELECT artid, secid, title, content, counter, userlevel FROM " . sql_prefix('') . "seccont WHERE artid='$artid'");
 
     list($artid, $secid, $title, $Xcontent, $counter, $userlevel) = sql_fetch_row($result_S);
@@ -329,19 +342,21 @@ function viewarticle($artid, $page)
 
     foreach ($tmp_auto as $userlevel) {
         $okprint = autorisation_section($userlevel);
-        if ($okprint)
+        if ($okprint) {
             break;
+        }
     }
 
     if ($okprint) {
         $pindex = substr(substr($page, 5), 0, -1);
 
-        if ($pindex != '')
+        if ($pindex != '') {
             $pindex = translate('Page') . ' ' . $pindex;
+        }
 
-        if ($sections_chemin == 1)
+        if ($sections_chemin == 1) {
             $chemin = '<span class="lead"><a href="sections.php">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . aff_langue($rubname) . '</a>&nbsp;/&nbsp;<a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . aff_langue($secname) . '</a></span>';
-
+        }
         $title = aff_langue($title);
 
         include 'header.php';
@@ -350,8 +365,9 @@ function viewarticle($artid, $page)
         if ($SuperCache) {
             $cache_obj = new cacheManager();
             $cache_obj->startCachingPage();
-        } else
+        } else {
             $cache_obj = new SuperCacheEmpty();
+        }
 
         if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
             $words = sizeof(explode(' ', $Xcontent));
@@ -362,13 +378,13 @@ function viewarticle($artid, $page)
 
             if (function_exists("themesection_title")) {
                 themesection_title($title);
-            } else
+            } else {
                 echo $chemin . '
             <hr />
             <h3 class="mb-2">' . $title . '<span class="small text-body-secondary"> - ' . $pindex . '</span></h3>
             <p><span class="text-body-secondary small">(' . $words . ' ' . translate('mots dans ce texte )') . '&nbsp;-&nbsp;
             ' . translate('lu : ') . ' ' . $counter . ' ' . translate('Fois') . '</span><span class="float-end"><a href="sections.php?op=printpage&amp;artid=' . $artid . '" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fa fa-print fa-lg ms-3"></i></a></span></p><hr />';
-
+            }
             preg_match_all('#\[page.*\]#', $Xcontent, $rs);
 
             $ndepages = count($rs[0]);
@@ -377,8 +393,9 @@ function viewarticle($artid, $page)
                 $Xcontent = substr($Xcontent, strpos($Xcontent, $page) + strlen($page));
 
                 $multipage = true;
-            } else
+            } else {
                 $multipage = false;
+            }
 
             $pos_page = strpos($Xcontent, '[page');
             $longueur = mb_strpos($Xcontent, ']', $pos_page, 'iso-8859-1') - $pos_page + 1;
@@ -392,16 +409,16 @@ function viewarticle($artid, $page)
                <ul class="mx-auto pagination pagination-sm">
                <li class="page-item disabled"><a class="page-link" href="#">' . $ndepages . ' pages</a></li>';
 
-                if ($pageS !== '[page0]')
+                if ($pageS !== '[page0]') {
                     $Xcontent .= '
                   <li class="page-item"><a class="page-link" href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . translate('Début de l\'article') . '</a></li>';
-
+                }
                 $Xcontent .= '
                   <li class="page-item active"><a class="page-link">' . preg_replace('#\[(page)(.*)(\])#', '\1 \2', $pageS) . '</a></li>
                   <li class="page-item"><a class="page-link" href="sections.php?op=viewarticle&amp;artid=' . $artid . '&amp;page=' . $pageS . '" >' . translate('Page suivante') . '</a></li>
                </ul>
             </nav>';
-            } else if ($multipage) {
+            } elseif ($multipage) {
                 $Xcontent .= '
             <nav class="d-flex mt-3">
                <ul class="mx-auto pagination pagination-sm">
@@ -473,8 +490,9 @@ function viewarticle($artid, $page)
 
         sql_free_result($result_S);
 
-        if ($SuperCache)
+        if ($SuperCache) {
             $cache_obj->endCachingPage();
+        }
 
         include('footer.php');
     } else
@@ -508,9 +526,9 @@ function PrintSecPage($artid)
     $content = aff_code(aff_langue($content));
     $pos_page = strpos($content, "[page");
 
-    if ($pos_page)
+    if ($pos_page) {
         $content = str_replace("[page", str_repeat("-", 50) . "&nbsp;[page", $content);
-
+    }
     echo meta_lang($content);
 
     echo '
@@ -551,8 +569,9 @@ switch ($op) {
             settype($page, 'string');
 
             viewarticle($artid, $page);
-        } else
+        } else {
             header('location: sections.php');
+        }
         break;
 
     case 'listarticles':
@@ -560,10 +579,11 @@ switch ($op) {
         break;
 
     case 'printpage':
-        if (verif_aff($artid))
+        if (verif_aff($artid)) {
             PrintSecPage($artid);
-        else
+        } else {
             header('location: sections.php');
+        }
         break;
 
     default:

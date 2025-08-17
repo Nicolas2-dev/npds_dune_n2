@@ -13,20 +13,24 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
+if (!function_exists("Mysql_Connexion")) {
     include("mainfile.php");
+}
 
 $offset = 25;
 $limit_full_search = 250;
 
-if (!isset($min))
+if (!isset($min)) {
     $min = 0;
+}
 
-if (!isset($max))
+if (!isset($max)) {
     $max = $min + $offset;
+}
 
-if (!isset($member))
+if (!isset($member)) {
     $member = '';
+}
 
 if (!isset($query)) {
     $query_title = '';
@@ -54,17 +58,17 @@ if ($topic > 0) {
 
 settype($type, 'string');
 
-if ($type == 'users')
+if ($type == 'users') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans la base des utilisateurs') . '</h2><hr />';
-elseif ($type == 'sections')
+} elseif ($type == 'sections') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans les rubriques') . '</h2><hr />';
-elseif ($type == 'reviews')
+} elseif ($type == 'reviews') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans les critiques') . '</h2><hr />';
-elseif ($type == 'archive')
+} elseif ($type == 'archive') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' <span class="text-lowercase">' . translate('Archives') . '</span></h2><hr />';
-else
+} else {
     echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' ' . aff_langue($topictext) . '</h2><hr />';
-
+}
 echo '
    <form action="search.php" method="get">';
 /*
@@ -92,8 +96,9 @@ echo '
 $sel = '';
 
 while (list($topicid, $topics) = sql_fetch_row($toplist)) {
-    if ($topicid == $topic)
+    if ($topicid == $topic) {
         $sel = 'selected="selected" ';
+    }
 
     echo '
          <option ' . $sel . ' value="' . $topicid . '">' . substr_replace(aff_langue($topics), '...', 25, -1) . '</option>';
@@ -114,8 +119,9 @@ settype($category, "integer");
 
 $sel = '';
 while (list($catid, $title) = sql_fetch_row($catlist)) {
-    if ($catid == $category)
+    if ($catid == $category) {
         $sel = 'selected="selected" ';
+    }
 
     echo '<option ' . $sel . ' value="' . $catid . '">' . aff_langue($title) . '</option>';
 
@@ -138,8 +144,9 @@ settype($author, 'string');
 $sel = '';
 
 while (list($authors) = sql_fetch_row($thing)) {
-    if ($authors == $author)
+    if ($authors == $author) {
         $sel = 'selected="selected" ';
+    }
 
     echo '
          <option ' . $sel . ' value="' . $authors . '">' . $authors . '</option>';
@@ -160,18 +167,19 @@ $sel4 = '';
 $sel5 = '';
 $sel6 = '';
 
-if ($days == '0')
+if ($days == '0') {
     $sel1 = 'selected="selected"';
-elseif ($days == "7")
+} elseif ($days == "7") {
     $sel2 = 'selected="selected"';
-elseif ($days == "14")
+} elseif ($days == "14") {
     $sel3 = 'selected="selected"';
-elseif ($days == "30")
+} elseif ($days == "30") {
     $sel4 = 'selected="selected"';
-elseif ($days == "60")
+} elseif ($days == "60") {
     $sel5 = 'selected="selected"';
-elseif ($days == "90")
+} elseif ($days == "90") {
     $sel6 = 'selected="selected"';
+}
 
 echo '
       <div class="mb-3">
@@ -185,16 +193,17 @@ echo '
          </select>
       </div>';
 
-if (($type == 'stories') or ($type == ''))
+if (($type == 'stories') or ($type == '')) {
     $sel1 = 'checked="checked"';
-elseif ($type == 'sections')
+} elseif ($type == 'sections') {
     $sel3 = 'checked="checked"';
-elseif ($type == 'users')
+} elseif ($type == 'users') {
     $sel4 = 'checked="checked"';
-elseif ($type == 'reviews')
+} elseif ($type == 'reviews') {
     $sel5 = 'checked="checked"';
-elseif ($type == 'archive')
+} elseif ($type == 'archive') {
     $sel6 = 'checked="checked"';
+}
 
 echo '
       <div class="mb-3">
@@ -230,30 +239,36 @@ settype($min, 'integer');
 settype($offset, 'integer');
 
 if ($type == "stories" or $type == "archive" or !$type) {
-    if ($category > 0)
+    if ($category > 0) {
         $categ = "AND catid='$category' ";
-    elseif ($category == 0)
+    } elseif ($category == 0) {
         $categ = '';
+    }
 
-    if ($type == 'stories' or !$type)
+    if ($type == 'stories' or !$type) {
         $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('') . "stories s, " . sql_prefix('') . "authors a WHERE s.archive='0' AND s.aid=a.aid $categ";
-    else
+    } else {
         $q = "SELECT s.sid, s.aid, s.title, s.time, a.url, s.topic, s.informant, s.ihome FROM " . sql_prefix('') . "stories s, " . sql_prefix('') . "authors a WHERE s.archive='1' AND s.aid=a.aid $categ";
-
-    if (isset($query))
+    }
+    if (isset($query)) {
         $q .= "AND (s.title LIKE '%$query_title%' OR s.hometext LIKE '%$query_body%' OR s.bodytext LIKE '%$query_body%' OR s.notes LIKE '%$query_body%') ";
-
+    }
     // Membre OU Auteur
-    if ($member != '')
+    if ($member != '') {
         $q .= "AND s.informant='$member' ";
-    else
-         if ($author != '') $q .= "AND s.aid='$author' ";
+    } else {
+        if ($author != '') {
+            $q .= "AND s.aid='$author' ";
+        }
+    }
 
-    if ($topic != '')
+    if ($topic != '') {
         $q .= "AND s.topic='$topic' ";
+    }
 
-    if ($days != '' && $days != 0)
+    if ($days != '' && $days != 0) {
         $q .= "AND TO_DAYS(NOW()) - TO_DAYS(time) <= '$days' ";
+    }
 
     $q .= " ORDER BY s.time DESC" . $limit;
 
@@ -267,10 +282,12 @@ if ($type == "stories" or $type == "archive" or !$type) {
         $cache_obj = new cacheManager();
         $tab_sid = $cache_obj->startCachingObjet($cache_clef);
 
-        if ($tab_sid != '')
+        if ($tab_sid != '') {
             $x = count($tab_sid);
-    } else
+        }
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
@@ -350,8 +367,9 @@ if ($type == "stories" or $type == "archive" or !$type) {
     }
 
     if ($min + $increment < $x) {
-        if ($prev >= 0)
+        if ($prev >= 0) {
             echo "&nbsp;|&nbsp;";
+        }
 
         echo "<a href=\"search.php?author=$author&amp;topic=$t&amp;min=$max&amp;query=$query&amp;type=$type&amp;category=$category&amp;member=$member&amp;days=$days\">";
         echo translate('réponses suivantes"') . "</a>";
@@ -363,8 +381,9 @@ if ($type == "stories" or $type == "archive" or !$type) {
 } elseif ($type == 'reviews') {
     $result = sql_query("SELECT id, title, text, reviewer FROM " . sql_prefix('') . "reviews WHERE (title LIKE '%$query_title%' OR text LIKE '%$query_body%') ORDER BY date DESC LIMIT $min,$offset");
 
-    if ($result)
+    if ($result) {
         $nrows  = sql_num_rows($result);
+    }
 
     $x = 0;
 
@@ -392,10 +411,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
         echo '
          </tbody>
       </table>';
-    } else
+    } else {
         echo '
       <div class="alert alert-danger lead">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
-
+    }
     $prev = $min - $offset;
 
     echo '
@@ -423,8 +442,9 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
     $result = sql_query("SELECT artid, secid, title, content FROM " . sql_prefix('') . "seccont WHERE (title LIKE '%$query_title%' OR content LIKE '%$query_body%') ORDER BY artid DESC LIMIT $min,$offset");
 
-    if ($result)
+    if ($result) {
         $nrows  = sql_num_rows($result);
+    }
 
     $x = 0;
 
@@ -466,10 +486,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
         if ($x == 0)
             echo '
       <div class="alert alert-danger lead">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
-    } else
+    } else {
         echo '
       <div class="alert alert-danger lead">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
-
+    }
     $prev = $min - $offset;
 
     echo '
@@ -477,14 +497,14 @@ if ($type == "stories" or $type == "archive" or !$type) {
          <ul class="pagination pagination-sm">
             <li class="page-item disabled"><a class="page-link" href="#">' . $nrows . '</a></li>';
 
-    if ($prev >= 0)
+    if ($prev >= 0) {
         echo '
             <li class="page-item"><a class="page-link" href="search.php?author=' . $author . '&amp;topic=' . $t . '&amp;min=' . $prev . '&amp;query=' . $query . '&amp;type=' . $type . '">' . $offset . ' ' . translate('réponses précédentes') . '</a></li>';
-
-    if ($x >= ($offset - 1))
+    }
+    if ($x >= ($offset - 1)) {
         echo '
             <li class="page-item"><a class="page-link" href="search.php?author=' . $author . '&amp;topic=' . $t . '&amp;min=' . $max . '&amp;query=' . $query . '&amp;type=' . $type . '">' . translate('réponses suivantes') . '</a></li>';
-
+    }
     echo '
          </ul>
       </p>';
@@ -514,8 +534,9 @@ if ($type == "stories" or $type == "archive" or !$type) {
             while (list($uname, $name) = sql_fetch_row($result)) {
                 $furl = "user.php?op=userinfo&amp;uname=$uname";
 
-                if ($name == '')
+                if ($name == '') {
                     $name = translate('Aucun nom n\'a été entré');
+                }
 
                 echo '
                <tr>
@@ -528,10 +549,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
             echo '
          <tbody>
       </table>';
-        } else
+        } else {
             echo '
       <div class="alert alert-danger lead" role="alert">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
-
+        }
         $prev = $min - $offset;
 
         echo '
@@ -539,14 +560,14 @@ if ($type == "stories" or $type == "archive" or !$type) {
          <ul class="pagination pagination-sm">
             <li class="page-item disabled"><a class="page-link" href="#">' . $nrows . '</a></li>';
 
-        if ($prev >= 0)
+        if ($prev >= 0) {
             echo '
             <li class="page-item"><a class="page-link" href="search.php?author=' . $author . '&amp;min=' . $prev . '&amp;query=' . $query . '&amp;type=' . $type . '">' . $offset . ' ' . translate('réponses précédentes') . '</a></li>';
-
-        if ($x >= ($offset - 1))
+        }
+        if ($x >= ($offset - 1)) {
             echo '
             <li class="page-item"><a class="page-link" href="search.php?author=' . $author . '&amp;min=' . $max . '&amp;query=' . $query . '&amp;type=' . $type . '" >' . translate('réponses suivantes') . '</a></li>';
-
+        }
         echo '
          </ul>
       </p>';
