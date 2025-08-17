@@ -11,106 +11,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-//------------
-// SYNTAXE 1 :
-//------------
-// $PAGES['index.php']['title']="TITRE de la page";
-//   => Votre_titre+ : rajoute le titre de la page devant le titre du site
-//   => Votre_titre- : ne rajoute pas le titre du site
-//   => "" ou pas +- : n'affiche que le titre du site
-// TITRE ALTERNATIF :
-//   => Il est possible de mettre un titre de cette forme :
-//      $PAGES['index.php']['title']="Index du site+|$title-";
-//      Dans ce cas SI $title n'est pas vide ALORS "$title-" sera utilisé SINON se sera "Index du site+"
-//      le | représente donc un OU (OR)
-// TITRE MUTLI-LANGUE :
-//   Les titres supportent le Multi-langue comme par exemple :
-//   $PAGES['index.php']['title']="[french]Index[/french][english]Home[/english]+";
-
-// $PAGES['index.php']['blocs']="valeur d'affichage des blocs";
-//   => -1 : pas de blocs de Gauche ET pas de blocs de Droite
-//   =>  0 : blocs de Gauche ET pas de blocs Droite
-//   =>  1 : blocs de Gauche ET blocs de Droite
-//   =>  2 : pas de blocs Gauche ET blocs de Droite
-//   --> Nouveau --- Ajout Canasson --- Nouveau --- Ajout Canasson --- Nouveau <--
-//   => 3 : Colonne gauche (Blocs) + Colonne Droite (Blocs) + Central
-//   => 4 : Central + Colonne Gauche(Blocs) + Colonne Droite (Blocs)
-//      Si Aucune variable n'est renseignée : Affichage par défaut = 0
-//   ATTENTION cette valeur n'aura d'effet que si elle n'est pas définie dans votre thème ($pdst) !
-
-// $PAGES['index.php']['run']="yes or no or script";
-//   => "" ou "yes" : le script aura l'autorisation de s'executer
-//   => "no"        : le script sera redirigé sur index.php
-//   $PAGES['index.php']['run']="no" affichera un message : "Site Web fermé"
-//   => "script like xxxx.php : autorise le re-routage vers un autre script / exemple : user.php reroute vers user2.php
-//
-// Pour les modules il existe deux formes d'écriture :
-// la syntaxe : $PAGES['modules.php?ModPath=links&ModStart=links']['title']=... qui permet d'affecter un titre, le run et le type de bloc pour chaque 'sous-url' du module
-// la syntaxe : $PAGES['modules.php?ModPath=links&ModStart=links*']['title']=... (rajout d'une * à la fin) qui permet de faire la même chose mais en indiquant que TOUTES les pages du module seront traitées de la même manière
-
-// TinyMCE
-// $PAGES['index.php']['TinyMce']=1 or 0;
-//   => Permet d'indiquer que TinyMCE doit être initialisé pour ce script
-// $PAGES['index.php']['TinyMce-theme']="full or short";
-//   => Permet d'indiquer le thème qui sera utilisé
-//
-// => Si ces deux lignes ne sont pas présentes : TinyMce ne sera pas initialisé
-//
-// $PAGES['index.php']['TinyMceRelurl']="true or false";
-//   => Permet d'indiquer si TinyMCE utilise - "fabrique" un chemins relatif (par défaut) ou un chemin absolu (par exemple pour le script LNL de l'admin)
-
-// CSS
-// $PAGES['index.php']['css']="css-specifique.css+-"; OU $PAGES['index.php']['css']=array("css-specifique.css+-","http://www.exemple.com/css/.min.css+-","... ...");
-//   => Permet de charger une ou plusieurs css spécifiques (aussi bien local que distant) en complément ou en remplacement de la CSS du thème de NPDS
-//
-//   si "css-specifique.css+" => La CSS sera rajoutée en PLUS de la CSS de base
-//   si "css-specifique.css-" => La CSS specifique sera LA SEULE chargée (dans le cas d'un tableau - les options sont cumulatives)
-//   => La CSS LOCALE DOIT IMPERATIVEMENT se trouver dans le répertoire style de votre thème (theme/votre_theme/style) OU LE CHEMIN doit-être explicite depuis la racine du site("themes/.../style/specif.css")
-//   => La CSS DISTANTE DOIT IMPERATIVEMENT se charger via http(s):// et l'URL ne doit pas contenir d'erreur
-
-// JS
-// $PAGES['index.php']['js']="javascript"; OU $PAGES['index.php']['js']=array("javascript","http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js","... ...");
-//   => Permet de charger un ou plusieurs javascript spécifiques (aussi bien local que distant)
-//
-//   => Le JS LOCAL DOIT IMPERATIVEMENT se trouver dans le répertoire js de votre thème (theme/votre_theme/js) OU LE CHEMIN doit-être explicite depuis la racine du site("lib/yui/build/...")
-//   => Le JS DISTANT DOIT IMPERATIVEMENT se charger via http:// et l'URL ne doit pas contenir d'erreur
-
-/// --- SEO ---///
-
-// SITEMAP
-// $PAGES['index.php']['sitemap']="priorité";
-//   => Priorité = 0.1 à 1 
-//   => Permet de configurer le sitemap.xml généré par le fichier sitemap.php
-//   => Pour article.php, forum.php, sections.php et download.php - sitemap.php génère un ensemble de paragraphes correspondant à l'intégralité des données disponibles.
-
-// META-DESCRIPTION
-// $PAGES['index.php']['meta-description']="votre phrase de description";
-//   => Permet de remplacer le contenu du meta-tags 'description'
-
-// META-KEYWORDS
-// $PAGES['index.php']['meta-keywords']="vos mots clefs";
-//   => Permet de remplacer le contenu du meta-tags 'keywords'
-
-//------------
-// SYNTAXE 2 :
-//------------
-// L'objectif est de permettre de filtrer l'usage d'un script, d'un module pour les user, les admin ou en fonction de la valeur d'une variable en s'appuyant sur un composant de l'URI
-//$PAGES['forum=1']['title']="script vers lequel je serais dirigé si je ne vérifie pas le paramètre run";
-//$PAGES['forum=1']['run']="variable X"; (user, admin ou le nom de votre variable)
-//
-// Par exemple : le forum 1 doit être réservé aux membres
-//     $PAGES['forum=1']['title']="forum.php";
-//     $PAGES['forum=1']['run']="user";
-
-// Attention cette faculté n'est pas aussi parfaite que l'intégration de la gestion des droits de NPDS mais rend bien des services
-// ---------------
-
 // DEFINITION et CAST VARIABLES
 settype($title, 'string');
 settype($post, 'string');
 settype($nuke_url, 'string');
 settype($ModPath, 'string');
 settype($title, 'string');
+
 global $nuke_url, $language;
 // ----------------------------
 
@@ -187,11 +94,13 @@ $PAGES['admin.php']['title'] = ""; // obligatoirement à vide
 $PAGES['admin.php']['blocs'] = "0";
 $PAGES['admin.php']['run'] = "yes";
 $PAGES['admin.php']['css'] = array($nuke_url . "/themes/default/style/admin.css+");
+
 /*
 $PAGES['admin.php']['TinyMce']=1;
 $PAGES['admin.php']['TinyMce-theme']="full";
 $PAGES['admin.php']['TinyMceRelurl']="false";
 */
+
 // ==> éviter un chargement de tiny à toutes les pages admin //
 // page nécessitant tiny appelée par l'url admin.php + variable op transmise par POST
 if (isset($_POST['op'])) {
@@ -201,8 +110,33 @@ if (isset($_POST['op'])) {
       $PAGES['admin.php']['TinyMceRelurl'] = "false";
    }
 }
+
 // page nécessitant tiny appelée par l'url admin.php + variable op transmise dans l'url
-$adm_op_url = array('adminStory', 'DisplayStory', 'PreviewAgain', 'EditStory', 'autoEdit', 'Edito_load', 'sections', 'sectionedit', 'new_rub_section', 'rubriquedit', 'secartedit', 'secartupdate', 'DownloadAdmin', 'DownloadEdit', 'email_user', 'FaqCatGo', 'lnl_Shw_Body', 'lnl_Shw_Footer', 'lnl_Shw_Header', 'links', 'LinksModLink', 'Add_Footer');
+$adm_op_url = array(
+   'adminStory', 
+   'DisplayStory', 
+   'PreviewAgain', 
+   'EditStory', 
+   'autoEdit', 
+   'Edito_load', 
+   'sections', 
+   'sectionedit', 
+   'new_rub_section', 
+   'rubriquedit', 
+   'secartedit', 
+   'secartupdate', 
+   'DownloadAdmin', 
+   'DownloadEdit', 
+   'email_user', 
+   'FaqCatGo', 
+   'lnl_Shw_Body', 
+   'lnl_Shw_Footer', 
+   'lnl_Shw_Header', 
+   'links', 
+   'LinksModLink', 
+   'Add_Footer'
+);
+
 foreach ($adm_op_url as $v) {
    $PAGES['admin.php?op=' . $v]['title'] = ""; // obligatoirement à vide
    $PAGES['admin.php?op=' . $v]['blocs'] = "0";
@@ -212,7 +146,6 @@ foreach ($adm_op_url as $v) {
    $PAGES['admin.php?op=' . $v]['css'] = array($nuke_url . "/themes/default/style/admin.css+");
    $PAGES['admin.php?op=' . $v]['TinyMceRelurl'] = "false";
 }
-// <== éviter un chargement de tiny à toutes les pages admin //
 
 $PAGES['forum.php']['title'] = "[french]Les forums de discussion[/french][english]Forums[/english][spanish]Foros de discusi&oacute;n[/spanish][german]Diskussionsforen[/german][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese]+";
 $PAGES['forum.php']['run'] = "yes";
