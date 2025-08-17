@@ -17,20 +17,25 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
-if (!stristr($_SERVER['PHP_SELF'], 'install.php')) die();
+
+if (!stristr($_SERVER['PHP_SELF'], 'install.php')) {
+    die();
+}
 
 function etape_9()
 {
-   global $langue, $stage, $izx, $qi;
-   $stage = 9;
-   echo '
-      <h3 class="mb-3">' . ins_translate('Fin') . '</h3>
-         <div class="alert alert-success">' . ins_translate('Félicitations, vous avez à présent votre portail NPDS.') . '</div>
-         <form name="ended" method="post" action="install.php">
+    global $langue, $stage, $izx, $qi;
+
+    $stage = 9;
+
+    echo '
+    <h3 class="mb-3">' . ins_translate('Fin') . '</h3>
+        <div class="alert alert-success">' . ins_translate('Félicitations, vous avez à présent votre portail NPDS.') . '</div>
+        <form name="ended" method="post" action="install.php">
             <input type="hidden" name="langue" value="' . $langue . '" />
             <input type="hidden" name="stage" value="' . $stage . '" />
             <input type="hidden" name="op" value="write_ok" />
-            <button type="submit" class="btn btn-success">' . ins_translate("Quitter") . '</button>
-         </form>
-      </div>';
+            <button type="submit" class="btn btn-success">' . ins_translate('Quitter') . '</button>
+        </form>
+    </div>';
 }
