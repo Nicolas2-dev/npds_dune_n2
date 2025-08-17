@@ -3679,3 +3679,30 @@ function theme_list()
 
     return implode(' ', $themelist);
 }
+
+function language_list()
+{
+    $local_path = '';
+    $languageslist = '';
+
+    if (isset($module_mark)) {
+        $local_path = '../../';
+    }
+
+    $handle = opendir($local_path . 'languages');
+
+    while (false !== ($file = readdir($handle))) {
+        if (!strstr($file, '.')) {
+            $languageslist .= "$file ";
+        }
+    }
+
+    closedir($handle);
+
+    $file = fopen($local_path . 'storage/locale/language.php', 'w');
+
+    fwrite($file, "<?php \$languageslist=\"" . trim($languageslist) . "\"; ?>");
+    fclose($file);
+
+    return $languageslist;
+}
