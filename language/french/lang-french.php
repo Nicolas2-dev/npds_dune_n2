@@ -18,7 +18,7 @@
 
 function translate($phrase) {
    $tmp = translate_pass1($phrase);
-   include("language/lang-mods.php");
+   include("language/french/lang-mods.php");
    return (htmlentities($tmp,ENT_QUOTES|ENT_SUBSTITUTE|ENT_HTML401,'UTF-8'));
 }
 
