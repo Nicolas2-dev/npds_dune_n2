@@ -10,8 +10,9 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
-if (!function_exists("Mysql_Connexion")) {
-    header("location: index.php");
+
+if (!function_exists('Mysql_Connexion')) {
+    header('location: index.php');
 }
 
 #autodoc Form_instant_message($to_userid) : Ouvre la page d'envoi d'un MI (Message Interne)
@@ -27,7 +28,10 @@ function Form_instant_message($to_userid)
 #autodoc online_members () : liste des membres connect&eacute;s <br /> Retourne un tableau dont la position 0 est le nombre, puis la liste des username | time <br />Appel : $xx=online_members(); puis $xx[x]['username'] $xx[x]['time'] ...
 function online_members()
 {
-    $result = sql_query("SELECT username, guest, time FROM " . sql_prefix('') . "session WHERE guest='0' ORDER BY username ASC");
+    $result = sql_query("SELECT username, guest, time 
+                         FROM " . sql_prefix('session') . " 
+                         WHERE guest='0' 
+                         ORDER BY username ASC");
 
     $i = 0;
 
@@ -48,7 +52,10 @@ function online_members()
 #autodoc writeDB_private_message($to_userid,$image,$subject,$from_userid,$message, $copie) : Insère un MI dans la base et le cas échéant envoi un mail
 function writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie)
 {
-    $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('') . "users WHERE uname='$to_userid'");
+    $res = sql_query("SELECT uid, user_langue 
+                      FROM " . sql_prefix('users') . " 
+                      WHERE uname='$to_userid'");
+
     list($to_useridx, $user_languex) = sql_fetch_row($res);
 
     if ($to_useridx == '') {
@@ -56,23 +63,23 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
     } else {
         $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
-        include_once("language/lang-multi.php");
+        include_once 'language/lang-multi.php';
 
         $subject = removeHack($subject);
 
         $message = str_replace("\n", "<br />", $message);
         $message = addslashes(removeHack($message));
 
-        $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
-        $sql .= "VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message')";
+        $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
+                VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message')";
 
         if (!$result = sql_query($sql)) {
             forumerror('0020');
         }
 
         if ($copie) {
-            $sql = "INSERT INTO " . sql_prefix('') . "priv_msgs (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
-            $sql .= "VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message', '1', '1')";
+            $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg)
+                    VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message', '1', '1')";
 
             if (!$result = sql_query($sql)) {
                 forumerror('0020');
@@ -85,7 +92,7 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
 
             $message = $time . '<br />' . translate_ml($user_languex, 'Bonjour') . '<br />' . translate_ml($user_languex, 'Vous avez un nouveau message.') . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_languex, 'Cliquez ici pour lire votre nouveau message.') . '</a><br />';
 
-            include("signat.php");
+            include 'config/signat.php';
 
             copy_to_email($to_useridx, $sujet, stripslashes($message));
         }
@@ -95,54 +102,57 @@ function writeDB_private_message($to_userid, $image, $subject, $from_userid, $me
 #autodoc write_short_private_message($to_userid) : Formulaire d'écriture d'un MI
 function write_short_private_message($to_userid)
 {
-    echo '
-   <h2>' . translate('Message à un membre') . '</h2>
-   <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>
-   <form id="sh_priv_mess" action="powerpack.php" method="post">
-      <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="subject" >' . translate('Sujet') . '</label>
-         <div class="col-sm-12">
-            <input class="form-control" type="text" id="subject" name="subject" maxlength="100" />
-         </div>
-      </div>
-      <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="message" >' . translate('Message') . '</label>
-         <div class="col-sm-12">
-            <textarea class="form-control"  id="message" name="message" rows="10"></textarea>
-         </div>
-      </div>
-      <div class="mb-3 row">
-         <div class="col-sm-12">
-            <div class="form-check" >
-               <input class="form-check-input" type="checkbox" id="copie" name="copie" />
-               <label class="form-check-label" for="copie">' . translate('Conserver une copie') . '</label>
+    echo '<h2>' . translate('Message à un membre') . '</h2>
+    <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>
+    <form id="sh_priv_mess" action="powerpack.php" method="post">
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-12" for="subject" >' . translate('Sujet') . '</label>
+            <div class="col-sm-12">
+                <input class="form-control" type="text" id="subject" name="subject" maxlength="100" />
             </div>
-         </div>
-      </div>
-      <div class="mb-3 row">
-         <input type="hidden" name="to_userid" value="' . $to_userid . '" />
-         <input type="hidden" name="op" value="write_instant_message" />
-         <div class="col-sm-12">
-            <input class="btn btn-primary" type="submit" name="submit" value="' . translate('Valider') . '" accesskey="s" />&nbsp;
-            <button class="btn btn-secondary" type="reset">' . translate('Annuler') . '</button>
-         </div>
-      </div>
-   </form>';
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-12" for="message" >' . translate('Message') . '</label>
+            <div class="col-sm-12">
+                <textarea class="form-control"  id="message" name="message" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-sm-12">
+                <div class="form-check" >
+                <input class="form-check-input" type="checkbox" id="copie" name="copie" />
+                <label class="form-check-label" for="copie">' . translate('Conserver une copie') . '</label>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <input type="hidden" name="to_userid" value="' . $to_userid . '" />
+            <input type="hidden" name="op" value="write_instant_message" />
+            <div class="col-sm-12">
+                <input class="btn btn-primary" type="submit" name="submit" value="' . translate('Valider') . '" accesskey="s" />&nbsp;
+                <button class="btn btn-secondary" type="reset">' . translate('Annuler') . '</button>
+            </div>
+        </div>
+    </form>';
 }
 
 #autodoc if_chat() : Retourne le nombre de connecté au Chat
 function if_chat($pour)
 {
-    $auto = autorisation_block("params#" . $pour);
+    $auto = autorisation_block('params#' . $pour);
     $dimauto = count($auto);
     $numofchatters = 0;
 
     if ($dimauto <= 1) {
-        $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 3)) . "");
+        $result = sql_query("SELECT DISTINCT ip 
+                             FROM " . sql_prefix('chatbox') . " 
+                             WHERE id='" . $auto[0] . "' 
+                             AND date >= " . (time() - (60 * 3)) . "");
+
         $numofchatters = sql_num_rows($result);
     }
 
-    return ($numofchatters);
+    return $numofchatters;
 }
 
 #autodoc insertChat($username, $message, $dbname, $id) : Insère un record dans la table Chat / on utilise id pour filtrer les messages - id = l'id du groupe
@@ -157,7 +167,8 @@ function insertChat($username, $message, $dbname, $id)
         settype($id, 'integer');
         settype($dbname, 'integer');
 
-        $result = sql_query("INSERT INTO " . sql_prefix('') . "chatbox VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
+        $result = sql_query("INSERT INTO " . sql_prefix('chatbox') . " 
+                             VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
     }
 }
 
@@ -165,8 +176,8 @@ function insertChat($username, $message, $dbname, $id)
 function JavaPopUp($F, $T, $W, $H)
 {
     // 01.feb.2002 by GaWax
-    if ($T == "") {
-        $T = "@ " . time() . " ";
+    if ($T == '') {
+        $T = '@ ' . time() . ' ';
     }
 
     $PopUp = "'$F','$T','menubar=no,location=no,directories=no,status=no,copyhistory=no,height=$H,width=$W,toolbar=no,scrollbars=yes,resizable=yes'";
@@ -210,6 +221,7 @@ function instant_members_message()
             } else {
                 $timex = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $ibid[$i]['username'] . ' ' . translate('est connecté') . '" data-bs-toggle="tooltip" data-bs-placement="right" ></i>&nbsp;';
             }
+
             global $member_invisible;
             if ($member_invisible) {
                 if ($admin) {
@@ -221,20 +233,25 @@ function instant_members_message()
                 $and = '';
             }
 
-            $result = sql_query("SELECT uid FROM " . sql_prefix('') . "users WHERE uname='" . $ibid[$i]['username'] . "' $and");
+            $result = sql_query("SELECT uid 
+                                 FROM " . sql_prefix('users') . " 
+                                 WHERE uname='" . $ibid[$i]['username'] . "' $and");
+
             list($userid) = sql_fetch_row($result);
 
             if ($userid) {
-                $rowQ1 = Q_Select("SELECT rang FROM " . sql_prefix('') . "users_status WHERE uid='$userid'", 3600);
+                $rowQ1 = Q_Select("SELECT rang 
+                                   FROM " . sql_prefix('users_status') . " 
+                                   WHERE uid='$userid'", 3600);
+
                 $myrow = $rowQ1[0];
 
                 $rank = $myrow['rang'];
 
-                $tmpR = '';
-
                 if ($rank) {
                     if ($rank1 == '') {
-                        if ($rowQ2 = Q_Select("SELECT rank1, rank2, rank3, rank4, rank5 FROM " . sql_prefix('') . "config", 86400)) {
+                        if ($rowQ2 = Q_Select("SELECT rank1, rank2, rank3, rank4, rank5 
+                                               FROM " . sql_prefix('config') . "", 86400)) {
 
                             $myrow = $rowQ2[0];
 
@@ -246,10 +263,10 @@ function instant_members_message()
                         }
                     }
 
-                    if ($ibidR = theme_image("forum/rank/" . $rank . ".gif")) {
+                    if ($ibidR = theme_image('forum/rank/' . $rank . '.gif')) {
                         $imgtmpA = $ibidR;
                     } else {
-                        $imgtmpA = "images/forum/rank/" . $rank . ".gif";
+                        $imgtmpA = 'images/forum/rank/' . $rank . '.gif';
                     }
 
                     $messR = 'rank' . $rank;
@@ -258,10 +275,15 @@ function instant_members_message()
                 } else {
                     $tmpR = '&nbsp;';
                 }
-                $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userid' AND read_msg='0' AND type_msg='0'"));
+
+                $new_messages = sql_num_rows(sql_query("SELECT msg_id 
+                                                        FROM " . sql_prefix('priv_msgs') . " 
+                                                        WHERE to_userid = '$userid' 
+                                                        AND read_msg='0' 
+                                                        AND type_msg='0'"));
 
                 if ($new_messages > 0) {
-                    $PopUp = JavaPopUp("readpmsg_imm.php?op=new_msg", "IMM", 600, 500);
+                    $PopUp = JavaPopUp('readpmsg_imm.php?op=new_msg', 'IMM', 600, 500);
                     $PopUp = "<a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">";
 
                     $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
@@ -271,10 +293,14 @@ function instant_members_message()
                         $icon .= '</a>';
                     }
                 } else {
-                    $messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('') . "priv_msgs WHERE to_userid = '$userid' AND type_msg='0' AND dossier='...'"));
+                    $messages = sql_num_rows(sql_query("SELECT msg_id 
+                                                        FROM " . sql_prefix('priv_msgs') . " 
+                                                        WHERE to_userid = '$userid' 
+                                                        AND type_msg='0' 
+                                                        AND dossier='...'"));
 
                     if ($messages > 0) {
-                        $PopUp = JavaPopUp("readpmsg_imm.php?op=msg", "IMM", 600, 500);
+                        $PopUp = JavaPopUp('readpmsg_imm.php?op=msg', 'IMM', 600, 500);
                         $PopUp = '<a href="javascript:void(0);" onclick="window.open(' . $PopUp . ');">';
 
                         $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
@@ -316,7 +342,7 @@ function makeChatBox($pour)
 {
     global $user, $admin, $member_list, $long_chain;
 
-    include_once('functions.php');
+    include_once 'functions.php';
 
     $auto = autorisation_block('params#' . $pour);
     $dimauto = count($auto);
@@ -329,13 +355,19 @@ function makeChatBox($pour)
     $une_ligne = false;
 
     if ($dimauto <= 1) {
-        $counter = sql_num_rows(sql_query("SELECT message FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "'")) - 6;
+        $counter = sql_num_rows(sql_query("SELECT message 
+                                           FROM " . sql_prefix('chatbox') . " 
+                                           WHERE id='" . $auto[0] . "'")) - 6;
 
         if ($counter < 0) {
             $counter = 0;
         }
 
-        $result = sql_query("SELECT username, message, dbname FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' ORDER BY date ASC LIMIT $counter,6");
+        $result = sql_query("SELECT username, message, dbname 
+                             FROM " . sql_prefix('chatbox') . " 
+                             WHERE id='" . $auto[0] . "' 
+                             ORDER BY date ASC 
+                             LIMIT $counter, 6");
 
         if ($result) {
             while (list($username, $message, $dbname) = sql_fetch_row($result)) {
@@ -363,7 +395,11 @@ function makeChatBox($pour)
             $thing .= '<hr />';
         }
 
-        $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $auto[0] . "' AND date >= " . (time() - (60 * 2)) . "");
+        $result = sql_query("SELECT DISTINCT ip 
+                             FROM " . sql_prefix('chatbox') . " 
+                             WHERE id='" . $auto[0] . "' 
+                             AND date >= " . (time() - (60 * 2)) . "");
+
         $numofchatters = sql_num_rows($result);
 
         $thing .= $numofchatters > 0
@@ -376,14 +412,21 @@ function makeChatBox($pour)
             $thing .= '<ul>';
 
             foreach ($auto as $autovalue) {
-                $result = Q_select("SELECT groupe_id, groupe_name FROM " . sql_prefix('') . "groupes WHERE groupe_id='$autovalue'", 3600);
+                $result = Q_select("SELECT groupe_id, groupe_name 
+                                    FROM " . sql_prefix('groupes') . " 
+                                    WHERE groupe_id='$autovalue'", 3600);
+
                 $autovalueX = $result[0];
 
-                $PopUp = JavaPopUp("chat.php?id=" . $autovalueX['groupe_id'] . "&auto=" . encrypt(serialize($autovalueX['groupe_id'])), "chat" . $autovalueX['groupe_id'], 380, 480);
+                $PopUp = JavaPopUp('chat.php?id=' . $autovalueX['groupe_id'] . '&auto=' . encrypt(serialize($autovalueX['groupe_id'])), 'chat' . $autovalueX['groupe_id'], 380, 480);
 
                 $thing .= "<li><a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">" . $autovalueX['groupe_name'] . "</a>";
 
-                $result = sql_query("SELECT DISTINCT ip FROM " . sql_prefix('') . "chatbox WHERE id='" . $autovalueX['groupe_id'] . "' AND date >= " . (time() - (60 * 3)) . "");
+                $result = sql_query("SELECT DISTINCT ip 
+                                     FROM " . sql_prefix('chatbox') . " 
+                                     WHERE id='" . $autovalueX['groupe_id'] . "' 
+                                     AND date >= " . (time() - (60 * 3)) . "");
+
                 $numofchatters = sql_num_rows($result);
 
                 if ($numofchatters) {
@@ -427,14 +470,20 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
 
     $topics = 0;
 
-    settype($maxforums, "integer");
-    settype($maxtopics, "integer");
+    settype($maxforums, 'integer');
+    settype($maxtopics, 'integer');
 
-    $lim = $maxforums == 0 ? '' : " LIMIT $maxforums";
+    $lim = $maxforums == 0 ? '' : ' LIMIT ' . $maxforums;
 
     $query = $user
-        ? "SELECT * FROM " . sql_prefix('') . "forums ORDER BY cat_id,forum_index,forum_id" . $lim
-        : "SELECT * FROM " . sql_prefix('') . "forums WHERE forum_type!='9' AND forum_type!='7' AND forum_type!='5' ORDER BY cat_id,forum_index,forum_id" . $lim;
+        ? "SELECT * FROM " . sql_prefix('forums') . " 
+           ORDER BY cat_id,forum_index, forum_id" . $lim
+
+        : "SELECT * FROM " . sql_prefix('forums') . " 
+           WHERE forum_type!='9' 
+           AND forum_type!='7' 
+           AND forum_type!='5' 
+           ORDER BY cat_id, forum_index, forum_id" . $lim;
 
     $result = sql_query($query);
 
@@ -445,7 +494,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
     $boxstuff = '<ul>';
 
     while ($row = sql_fetch_row($result)) {
-        if (($row[6] == "5") or ($row[6] == "7")) {
+        if (($row[6] == '5') or ($row[6] == '7')) {
             $ok_affich = false;
 
             $tab_groupe = valid_group($user);
@@ -471,7 +520,11 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
                 $forum_desc = stripslashes($forum_desc);
             }
 
-            $res = sql_query("SELECT * FROM " . sql_prefix('') . "forumtopics WHERE forum_id = '$forumid' ORDER BY topic_time DESC");
+            $res = sql_query("SELECT * 
+                              FROM " . sql_prefix('forumtopics') . " 
+                              WHERE forum_id = '$forumid' 
+                              ORDER BY topic_time DESC");
+
             $ibidx = sql_num_rows($res);
 
             $boxstuff .= '<li class="list-unstyled border-0 p-2 mt-1"><h6><a href="viewforum.php?forum=' . $forumid . '" title="' . strip_tags($forum_desc) . '" data-bs-toggle="tooltip">' . $forumname . '</a><span class="float-end badge bg-primary" title="' . translate('Sujets') . '" data-bs-toggle="tooltip">' . $ibidx . '</span></h6></li>';
@@ -482,11 +535,13 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
 
                 $topicid = $topicrow[0];
                 $tt = $topictitle = $topicrow[1];
-                $date = $topicrow[3];
+                // $date = $topicrow[3]; // ???
 
                 $replies = 0;
 
-                $postquery = "SELECT COUNT(*) AS total FROM " . sql_prefix('') . "posts WHERE topic_id = '$topicid'";
+                $postquery = "SELECT COUNT(*) AS total 
+                              FROM " . sql_prefix('posts') . " 
+                              WHERE topic_id = '$topicid'";
 
                 if ($pres = sql_query($postquery)) {
                     if ($myrow = sql_fetch_assoc($pres)) {
@@ -501,7 +556,10 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
 
                 if ($displayposter) {
                     $posterid = $topicrow[2];
-                    $RowQ1 = Q_Select("SELECT uname FROM " . sql_prefix('') . "users WHERE uid = '$posterid'", 3600);
+                    $RowQ1 = Q_Select("SELECT uname 
+                                       FROM " . sql_prefix('users') . " 
+                                       WHERE uid = '$posterid'", 3600);
+                                       
                     $myrow = $RowQ1[0];
                     $postername = $myrow['uname'];
                 }

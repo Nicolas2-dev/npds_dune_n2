@@ -10,10 +10,11 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
-if (!function_exists("Mysql_Connexion"))
-    include "mainfile.php";
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
+}
 
-include "functions.php";
+include 'functions.php';
 
 settype($gr_name, 'string');
 settype($new_pages, 'string');
@@ -250,7 +251,7 @@ function MNSremoveHack($Xstring)
 
     $Xstring = preg_replace(array_keys($npds_forbidden_words), array_values($npds_forbidden_words), $Xstring);
 
-    return ($Xstring);
+    return $Xstring;
 }
 
 function convert_ressources($Xcontent)
@@ -258,15 +259,16 @@ function convert_ressources($Xcontent)
     global $op;
 
     for ($i = 0; $i < strlen($Xcontent); $i++) {
-        if (strtoupper(substr($Xcontent, $i, 4)) == "src=") {
-            if ((strtoupper(substr($Xcontent, $i + 4, 3)) != "HTT") and (strtoupper(substr($Xcontent, $i + 4, 4)) != "\"HTT")) {
+        if (strtoupper(substr($Xcontent, $i, 4)) == 'src=') {
+            if ((strtoupper(substr($Xcontent, $i + 4, 3)) != 'HTT') and (strtoupper(substr($Xcontent, $i + 4, 4)) != "\"HTT")) {
                 $Xcontent = substr_replace($Xcontent, "src=getfile.php?att_id=$op&amp;apli=minisite&amp;att_type=&amp;att_size=&amp;att_name=", $i, 4);
             }
+
             $i = $i + 4;
         }
     }
 
-    return (aff_langue($Xcontent));
+    return aff_langue($Xcontent);
 }
 
 // NPDS copyright ... don't remove !
@@ -276,12 +278,21 @@ $copyright = '<span class="blog_sname">' . $sitename . '</span>&nbsp;<span class
 $affich = false;
 
 if (($op != '') and ($op)) {
-    if (preg_match('#^[a-z0-9_\.-]#i', $op) and !stristr($op, ".*://") and !stristr($op, "..") and !stristr($op, "../") and !stristr($op, "script") and !stristr($op, "cookie") and !stristr($op, "iframe") and  !stristr($op, "applet") and !stristr($op, "object") and !stristr($op, "meta")) {
-        
+    if (preg_match('#^[a-z0-9_\.-]#i', $op) 
+    and !stristr($op, ".*://") 
+    and !stristr($op, "..") 
+    and !stristr($op, "../") 
+    and !stristr($op, "script") 
+    and !stristr($op, "cookie") 
+    and !stristr($op, "iframe") 
+    and  !stristr($op, "applet") 
+    and !stristr($op, "object") 
+    and !stristr($op, "meta")) {
+
         global $user, $super_admintest;
         $adminblog = ($super_admintest) ? true : false;
 
-        $dir = "users_private/$op/mns/";
+        $dir = 'users_private/' . $op . '/mns/';
 
         if (dirname($op) != 'groupe') {
 
@@ -291,15 +302,16 @@ if (($op != '') and ($op)) {
             if (array_key_exists('mns', $userdata) and $userdata['mns'] == true) {
                 $affich = true;
 
-                if (stristr($userdata['user_avatar'], "users_private"))
+                if (stristr($userdata['user_avatar'], 'users_private')) {
                     $direktori = '';
-                else {
+                } else {
                     global $theme;
                     $direktori = 'images/forum/avatar/';
 
-                    if (function_exists("theme_image")) {
-                        if (theme_image("forum/avatar/blank.gif"))
-                            $direktori = "themes/$theme/images/forum/avatar/";
+                    if (function_exists('theme_image')) {
+                        if (theme_image('forum/avatar/blank.gif')) {
+                            $direktori = 'themes/' . $theme . '/images/forum/avatar/';
+                        }
                     }
                 }
 
@@ -310,10 +322,10 @@ if (($op != '') and ($op)) {
             $userdataX = explode(':', $userX);
 
             if (array_key_exists(1, $userdataX)) {
-                if ($userdataX[1] == $op)
+                if ($userdataX[1] == $op) {
                     $adminblog = true;
+                }
             }
-
         } else {
             // groupe
             if (is_dir($dir)) {
@@ -326,7 +338,9 @@ if (($op != '') and ($op)) {
                 $gX = liste_group();
 
                 foreach ($gX as $g_id => $g_name) {
-                    if ($g_id == basename($op)) $gr_name = $g_name;
+                    if ($g_id == basename($op)) {
+                        $gr_name = $g_name;
+                    }
                 }
             }
 
@@ -334,8 +348,9 @@ if (($op != '') and ($op)) {
 
             if (is_array($tabgp)) {
                 foreach ($tabgp as $auto) {
-                    if ($auto == basename($op))
+                    if ($auto == basename($op)) {
                         $adminblog = true;
+                    }
                 }
             }
         }
@@ -346,64 +361,62 @@ if ($affich) {
     $fic = $dir . 'index.html';
 
     if (file_exists($fic)) {
-        $Titlesitename = "Minisite - $op";
+        $Titlesitename = 'Minisite - ' . $op;
         $nuke_url = $nuke_url . '/minisite.php?op=' . $op;
 
-        include "meta/meta.php";
+        include 'storage/meta/meta.php';
 
-        echo '
-         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-         <script type="text/javascript" src="lib/js/jquery.min.js"></script>
-         <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
+        echo '<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+        <script type="text/javascript" src="lib/js/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
 
         echo '<style type="text/css">';
 
-        readfile($dir . "style.css");
+        readfile($dir . 'style.css');
 
         echo '</style>';
 
         if (defined('CITRON')) {
-            echo '
-            <script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
+            echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
             <script type="text/javascript" src="lib/tarteaucitron/tarteaucitron.min.js"></script>
             <script type="text/javascript" src="lib/js/npds_tarteaucitron.js"></script>';
         }
 
-        $Xcontent = '
-         </head>
-         <body>';
+        $Xcontent = '</head>
+        <body>';
 
         $fp = fopen($fic, "r");
 
-        if (filesize($fic) > 0)
+        if (filesize($fic) > 0) {
             $Xcontent .= fread($fp, filesize($fic));
+        }
 
         fclose($fp);
 
         //compteur
-        $compteur = $dir . "compteur.txt";
+        $compteur = $dir . 'compteur.txt';
 
         if (!file_exists($compteur)) {
-            $fp = fopen($compteur, "w");
-            fwrite($fp, "1");
+            $fp = fopen($compteur, 'w');
+            fwrite($fp, '1');
             fclose($fp);
         } else {
             $cpt = file($compteur);
             $cpt = $cpt[0] + 1;
-            $fp = fopen($compteur, "w");
+            $fp = fopen($compteur, 'w');
             fwrite($fp, $cpt);
             fclose($fp);
         }
 
         // Analyse et convertion des liens et images, blog, header, footer ...
 
-        $perpage = strstr($Xcontent, '!blog_page!') 
-            ? substr($Xcontent, strpos($Xcontent, "!blog_page!", 0) + 11, 2) 
+        $perpage = strstr($Xcontent, '!blog_page!')
+            ? substr($Xcontent, strpos($Xcontent, '!blog_page!', 0) + 11, 2)
             : 4;
 
         if (strstr($Xcontent, '!blog!')) {
 
-            include "modules/blog/readnews.php";
+            include 'modules/blog/readnews.php';
 
             settype($startpage, 'integer');
             settype($perpage, 'integer');
@@ -412,8 +425,8 @@ if ($affich) {
             $content = readnews($dir, $op, $perpage, $startpage, $action, $adminblog);
 
             if (strstr($content, '!l_new_pages!')) {
-                $new_pages = substr($content, strpos($content, "!l_new_pages!") + 13);
-                $content = substr($content, 0, strpos($content, "!l_new_pages!"));
+                $new_pages = substr($content, strpos($content, '!l_new_pages!') + 13);
+                $content = substr($content, 0, strpos($content, '!l_new_pages!'));
             }
         }
 
@@ -425,8 +438,9 @@ if ($affich) {
             if (file_exists($l_fic)) {
                 $fp = fopen($l_fic, 'r');
 
-                if (filesize($l_fic) > 0)
+                if (filesize($l_fic) > 0) {
                     $Hcontent = convert_ressources(fread($fp, filesize($l_fic)));
+                }
 
                 fclose($fp);
             }
@@ -440,8 +454,9 @@ if ($affich) {
             if (file_exists($l_fic)) {
                 $fp = fopen($l_fic, 'r');
 
-                if (filesize($l_fic) > 0)
+                if (filesize($l_fic) > 0) {
                     $Fcontent = convert_ressources(fread($fp, filesize($l_fic)));
+                }
 
                 fclose($fp);
             }
@@ -452,17 +467,17 @@ if ($affich) {
 
         // Meta-lang et removehack local
         $MNS_METALANG_words = array(
-            "'!l_header!'i" => "$Hcontent",
-            "'!l_footer!'i" => "$Fcontent",
-            "'!blog_page!$perpage'i" => '',
-            "'!l_compteur!'i" => $cpt,
-            "'!l_new_pages!'i" => $new_pages,
-            "'!l_blog_ajouter!'i" => $blog_ajouter,
-            "'!blog!'i" => $content,
-            "'!copyright!'i" => $copyright,
-            "'!avatar!'i" => $avatar_mns,
-            "'!id_mns!'i" => $op,
-            "'!gr_name!'i" => aff_langue($gr_name)
+            "'!l_header!'i"             => "$Hcontent",
+            "'!l_footer!'i"             => "$Fcontent",
+            "'!blog_page!$perpage'i"    => '',
+            "'!l_compteur!'i"           => $cpt,
+            "'!l_new_pages!'i"          => $new_pages,
+            "'!l_blog_ajouter!'i"       => $blog_ajouter,
+            "'!blog!'i"                 => $content,
+            "'!copyright!'i"            => $copyright,
+            "'!avatar!'i"               => $avatar_mns,
+            "'!id_mns!'i"               => $op,
+            "'!gr_name!'i"              => aff_langue($gr_name)
         );
 
         $Xcontent = preg_replace(array_keys($MNS_METALANG_words), array_values($MNS_METALANG_words), $Xcontent);
@@ -474,25 +489,25 @@ if ($affich) {
         echo substr($Xcontent, 0, $rupt);
         echo aff_video_yt(substr($Xcontent, $rupt + 6));
 
-        if ($adminblog)
-            echo '
-               <script type="text/javascript">
-                  //<![CDATA[
-                     $(".modal-body").load("modules/blog/matrice/readme.' . $language . '.txt"
-                     , function(dataaide, textStatus, jqxhr) {
-                        $("#aide_mns").html(dataaide.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"));
-                     });
-                  //]]>
-               </script>';
+        if ($adminblog) {
+            echo '<script type="text/javascript">
+                    //<![CDATA[
+                        $(".modal-body").load("modules/blog/matrice/readme.' . $language . '.txt"
+                        , function(dataaide, textStatus, jqxhr) {
+                            $("#aide_mns").html(dataaide.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"));
+                        });
+                    //]]>
+                </script>';
+        }
 
-        echo (defined('CITRON')) 
-            ? '<script type="text/javascript" src="lib/js/npds_tarteaucitron_service.js"></script>' 
+        echo (defined('CITRON'))
+            ? '<script type="text/javascript" src="lib/js/npds_tarteaucitron_service.js"></script>'
             : '';
 
-        echo '
-               <script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+        echo '<script type="text/javascript" src="lib/js/npds_adapt.js"></script>
             </body>
          </html>';
     }
-} else
-    include "admin/die.php";
+} else {
+    include 'admin/die.php';
+}

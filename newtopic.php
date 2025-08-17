@@ -17,11 +17,11 @@
 settype($cancel, 'string');
 
 if ($cancel) {
-    header("Location: viewforum.php?forum=$forum");
+    header('Location: viewforum.php?forum='. $forum);
 }
 
-if (!function_exists("Mysql_Connexion")) {
-    include "mainfile.php";
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
 }
 
 include 'functions.php';
@@ -30,7 +30,9 @@ $cache_obj = ($SuperCache) ? new cacheManager() : new SuperCacheEmpty();
 
 include 'auth.php';
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('') . "forums WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre 
+                   FROM " . sql_prefix('forums') . " 
+                   WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
     forumerror('0001');
@@ -64,14 +66,14 @@ if (isset($user)) {
 }
 
 if (($myrow['forum_type'] == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
-    header("Location: forum.php");
+    header('Location: forum.php');
 }
 
 if ($forum_access == 9) {
-    header("Location: forum.php");
+    header('Location: forum.php');
 }
 
-if (!does_exists($forum, "forum")) {
+if (!does_exists($forum, 'forum')) {
     forumerror('0030');
 }
 
@@ -91,7 +93,7 @@ if (isset($submitS)) {
 
     if (!isset($user)) {
         if ($forum_access == 0) {
-            $userdata = array("uid" => 1);
+            $userdata = array('uid' => 1);
             $modo = '';
 
             include 'header.php';
@@ -101,7 +103,10 @@ if (isset($submitS)) {
             } else {
                 $modo = '';
 
-                $result = sql_query("SELECT pass FROM " . sql_prefix('') . "users WHERE uname='$username'");
+                $result = sql_query("SELECT pass 
+                                     FROM " . sql_prefix('users') . " 
+                                     WHERE uname='$username'");
+
                 list($pass) = sql_fetch_row($result);
 
                 if ((password_verify($password, $pass)) and ($pass != '')) {
@@ -132,28 +137,29 @@ if (isset($submitS)) {
         if (!R_spambot($asb_question, $asb_reponse, $message)) {
             Ecr_Log('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic_title=' . $subject, '');
 
-            redirect_url("index.php");
+            redirect_url('index.php');
             die();
         }
 
         if ($myrow['forum_type'] == 8) {
             $formulaire = $myrow['forum_pass'];
 
-            include "modules/sform/forum/forum_extender.php";
+            include 'modules/sform/forum/forum_extender.php';
         }
 
         /*
-        if ($allow_html == 0 || isset($html)){
-            $message = htmlspecialchars($message,ENT_COMPAT|ENT_HTML401,'UTF-8');}
+        if ($allow_html == 0 || isset($html)) {
+            $message = htmlspecialchars($message, ENT_COMPAT|ENT_HTML401, 'UTF-8');
+        }
         */
 
         if (isset($sig) && $userdata['uid'] != 1 && $myrow['forum_type'] != 6 && $myrow['forum_type'] != 5) {
-            $message .= " [addsig]";
+            $message .= ' [addsig]';
         }
 
-        if (($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
-            // $message = af_cod($message);
-        }
+        //if (($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
+        //    // $message = af_cod($message);
+        //}
 
         if (($allow_bbcode) and ($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
             $message = smile($message);
@@ -172,9 +178,11 @@ if (isset($submitS)) {
 
         $Msubject = $subject;
 
-        $time = date("Y-m-d H:i", time() + ((int)$gmt * 3600));
+        $time = date('Y-m-d H:i', time() + ((int)$gmt * 3600));
 
-        $sql = "INSERT INTO " . sql_prefix('') . "forumtopics (topic_title, topic_poster, current_poster, forum_id, topic_time, topic_notify) VALUES ('$subject', '" . $userdata['uid'] . "', '" . $userdata['uid'] . "', '$forum', '$time'";
+        $sql = "INSERT INTO " . sql_prefix('forumtopics') . " (topic_title, topic_poster, current_poster, forum_id, topic_time, topic_notify) 
+                VALUES ('$subject', '" . $userdata['uid'] . "', '" . $userdata['uid'] . "', '$forum', '$time'";
+
         $sql .= (isset($notify2) && $userdata['uid'] != 1) ? ", '1'" : ", '0'";
         $sql .= ')';
 
@@ -185,7 +193,8 @@ if (isset($submitS)) {
         $topic_id = sql_last_id();
 
         $image_subject = isset($image_subject) ? $image_subject : '00.png';
-        $sql = "INSERT INTO " . sql_prefix('') . "posts (topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) VALUES ('$topic_id', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
+        $sql = "INSERT INTO " . sql_prefix('posts') . " (topic_id, image, forum_id, poster_id, post_text, post_time, poster_ip, poster_dns) 
+                VALUES ('$topic_id', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
 
         if (!$result = sql_query($sql)) {
             forumerror('0020');
@@ -193,7 +202,10 @@ if (isset($submitS)) {
             $IdPost = sql_last_id();
         }
 
-        $sql = "UPDATE " . sql_prefix('') . "users_status SET posts=posts+1 WHERE (uid='" . $userdata['uid'] . "')";
+        $sql = "UPDATE " . sql_prefix('users_status') . " 
+                SET posts=posts+1 
+                WHERE (uid='" . $userdata['uid'] . "')";
+
         $result = sql_query($sql);
 
         if (!$result) {
@@ -204,13 +216,13 @@ if (isset($submitS)) {
 
         global $subscribe;
         if ($subscribe) {
-            subscribe_mail("forum", $topic, stripslashes($forum), stripslashes($Msubject), $userdata['uid']);
+            subscribe_mail('forum', $topic, stripslashes($forum), stripslashes($Msubject), $userdata['uid']);
         }
 
         if (isset($upload)) {
-            include "modules/upload/upload_forum.php";
+            include 'modules/upload/upload_forum.php';
 
-            win_upload("forum_npds", $IdPost, $forum, $topic, "win");
+            win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
 
         redirect_url($hrefX . "?forum=$forum&topic=$topic");
@@ -224,7 +236,7 @@ if (isset($submitS)) {
     include 'header.php';
 
     if ($allow_bbcode) {
-        include "lib/formhelp.java.php";
+        include 'lib/formhelp.java.php';
     }
 
     $userX = base64_decode($user);
@@ -235,21 +247,21 @@ if (isset($submitS)) {
     if ($smilies) {
         if (isset($user)) {
             if ($posterdata['user_avatar'] != '') {
-                if (stristr($posterdata['user_avatar'], "users_private")) {
+                if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgava = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = theme_image("forum/avatar/" . $posterdata['user_avatar'])) {
+                    if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
-                        $imgava = "images/forum/avatar/" . $posterdata['user_avatar'];
+                        $imgava = 'images/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
         } else {
-            if ($ibid = theme_image("forum/avatar/blank.gif")) {
+            if ($ibid = theme_image('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
-                $imgava = "images/forum/avatar/blank.gif";
+                $imgava = 'images/forum/avatar/blank.gif';
             }
         }
     }
@@ -267,13 +279,13 @@ if (isset($submitS)) {
         $modera = get_userdata($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
-            if (stristr($modera['user_avatar'], "users_private")) {
+            if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = theme_image("forum/avatar/" . $modera['user_avatar'])) {
+                if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = "images/forum/avatar/" . $modera['user_avatar'];
+                    $imgtmp = 'images/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -341,7 +353,7 @@ if (isset($submitS)) {
             $username = (isset($username)) ? stripslashes($username) : '';
             $password = (isset($password)) ? stripslashes($password) : '';
 
-            include "preview.php";
+            include 'preview.php';
         } else {
             $username = '';
             $password = '';
@@ -352,7 +364,7 @@ if (isset($submitS)) {
         if ($myrow['forum_type'] == 8) {
             $formulaire = $myrow['forum_pass'];
 
-            include "modules/sform/forum/forum_extender.php";
+            include 'modules/sform/forum/forum_extender.php';
         } else {
             echo '<div class="mb-3 row">
                 <label class="form-label" for="subject">' . translate('Sujet') . '</label>
@@ -374,7 +386,7 @@ if (isset($submitS)) {
                 </div>';
             }
 
-            echo ' <div class="mb-3 row">
+            echo '<div class="mb-3 row">
                 <label class="form-label" for="message">' . translate('Message') . '</label>';
 
             if ($allow_bbcode) {
@@ -425,7 +437,10 @@ if (isset($submitS)) {
             if ($user) {
                 if ($allow_sig == 1 || $sig == 'on') {
 
-                    $asig = sql_query("SELECT attachsig FROM " . sql_prefix('') . "users_status WHERE uid='$cookie[0]'");
+                    $asig = sql_query("SELECT attachsig 
+                                       FROM " . sql_prefix('users_status') . " 
+                                       WHERE uid='$cookie[0]'");
+                                       
                     list($attachsig) = sql_fetch_row($asig);
 
                     $s = ($attachsig == 1) ? 'checked="checked"' : '';
@@ -442,7 +457,7 @@ if (isset($submitS)) {
                 settype($upload, 'string');
 
                 if ($allow_upload_forum) {
-                    if ($upload == "on") {
+                    if ($upload == 'on') {
                         $up = 'checked="checked"';
                     }
 
