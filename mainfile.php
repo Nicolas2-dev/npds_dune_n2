@@ -13,9 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-include 'grab_globals.php';
+include 'bootstrap/grab_globals.php';
 include 'config/config.php';
-include 'library/multi-langue.php';
+include 'bootstrap/multi-langue.php';
 include 'language/lang-$language.php';
 include 'library/supercache/cache.class.php';
 require 'library/PHPMailer/src/Exception.php';
