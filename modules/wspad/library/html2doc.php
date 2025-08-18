@@ -13,16 +13,35 @@
  * @version 1.0.0
  * @name HTML_TO_DOC
  */
-
 class HTML_TO_DOC
 {
-    var $docFile = '';
+    /**
+     * 
+     *
+     * @var [type]
+     */
+    private $docFile = '';
 
-    var $title = '';
+    /**
+     * 
+     *
+     * @var [type]
+     */
+    private $title = '';
 
-    var $htmlHead = '';
+    /**
+     * 
+     *
+     * @var [type]
+     */
+    private $htmlHead = '';
 
-    var $htmlBody = '';
+    /**
+     * 
+     *
+     * @var [type]
+     */
+    private $htmlBody = '';
 
 
     /**
@@ -30,15 +49,9 @@ class HTML_TO_DOC
      *
      * @return void
      */
-
-    public function HTML_TO_DOC()
-    {
-        self::__construct();
-    }
-
     public function __construct()
     {
-        $this->title = "Untitled Document";
+        $this->title = 'Untitled Document';
         $this->htmlHead = '';
         $this->htmlBody = '';
     }
@@ -54,8 +67,9 @@ class HTML_TO_DOC
         //echo 'setDocFileName Entered.<br>';
         $this->docFile = $docfile;
 
-        if (!preg_match("/\.doc$/i", $this->docFile))
-            $this->docFile .= ".doc";
+        if (!preg_match('/\.doc$/i', $this->docFile)) {
+            $this->docFile .= '.doc';
+        }
 
         return;
     }
@@ -93,7 +107,7 @@ class HTML_TO_DOC
             .shape {behavior:url(#default#VML);}
             </style>
             <![endif]-->
-            <title>$this->title</title>
+            <title>{$this->title}</title>
             <!--[if gte mso 9]><xml>
             <w:WordDocument>
             <w:View>Print</w:View>
@@ -149,7 +163,7 @@ class HTML_TO_DOC
             <o:shapelayout v:ext="edit">
             <o:idmap v:ext="edit" data="1"/>
             </o:shapelayout></xml><![endif]-->
-            $this->htmlHead
+            {$this->htmlHead}
             </head>
             <body>
     EOH;
@@ -165,7 +179,7 @@ class HTML_TO_DOC
     function getFotter()
     {
         //echo 'getFotter Entered.<br>';
-        return "</body></html>";
+        return '</body></html>';
     }
 
     /**
@@ -180,8 +194,10 @@ class HTML_TO_DOC
     function createDocFromURL($url, $file, $download = false)
     {
         //echo 'createDocFromURL Entered.<br>';
-        if (!preg_match("/^http:/", $url))
-            $url = "http://" . $url;
+
+        if (!preg_match('/^http:/', $url)) {
+            $url = 'http://' . $url;
+        }
 
         $f = fopen($url, 'rb');
 
@@ -205,8 +221,10 @@ class HTML_TO_DOC
     {
         //echo 'createDoc Entered.<br>';
 
-        if (is_file($html)) // ?? can not be too long $html est il juste ??? et pourquoi ???
+        // ?? can not be too long $html est il juste ??? et pourquoi ???
+        if (is_file($html)) {
             $html = @file_get_contents($html);
+        }
 
         $this->_parseHtml($html);
         $this->setDocFileName($file);
@@ -217,16 +235,17 @@ class HTML_TO_DOC
 
         if ($download) {
             //$this->write_file($this->docFile,$doc);
-            header("Cache-Control: "); // leave blank to avoid IE errors
-            header("Pragma: "); // leave blank to avoid IE errors
-            header("Content-type: application/octet-stream");
-            header("Content-Disposition: attachment; filename=\"$this->docFile\"");
+            header('Cache-Control: '); // leave blank to avoid IE errors
+            header('Pragma: '); // leave blank to avoid IE errors
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $this->docFile . '"');
 
             echo $doc;
 
             return true;
-        } else
+        } else {
             return $this->write_file($this->docFile, $doc);
+        }
     }
 
     /**
@@ -240,21 +259,21 @@ class HTML_TO_DOC
     function _parseHtml($html)
     {
         //echo '_parseHtml Entered.<br>';
-        $html = preg_replace("/<!DOCTYPE((.|\n)*?)>/ims", "", $html);
-        $html = preg_replace("/<script((.|\n)*?)>((.|\n)*?)<\/script>/ims", "", $html);
+        $html = preg_replace('/<!DOCTYPE((.|\n)*?)>/ims', '', $html);
+        $html = preg_replace('/<script((.|\n)*?)>((.|\n)*?)<\/script>/ims', '', $html);
 
-        preg_match("/<head>((.|\n)*?)<\/head>/ims", $html, $matches);
+        preg_match('/<head>((.|\n)*?)<\/head>/ims', $html, $matches);
 
         $head = $matches[1];
 
-        preg_match("/<title>((.|\n)*?)<\/title>/ims", $head, $matches);
+        preg_match('/<title>((.|\n)*?)<\/title>/ims', $head, $matches);
 
         $this->title = $matches[1];
 
-        $html = preg_replace("/<head>((.|\n)*?)<\/head>/ims", "", $html);
-        $head = preg_replace("/<title>((.|\n)*?)<\/title>/ims", "", $head);
-        $head = preg_replace("/<\/?head>/ims", "", $head);
-        $html = preg_replace("/<\/?body((.|\n)*?)>/ims", "", $html);
+        $html = preg_replace('/<head>((.|\n)*?)<\/head>/ims', '', $html);
+        $head = preg_replace('/<title>((.|\n)*?)<\/title>/ims', '', $head);
+        $head = preg_replace('/<\/?head>/ims', '', $head);
+        $html = preg_replace('/<\/?body((.|\n)*?)>/ims', '', $html);
 
         $this->htmlHead = $head;
         $this->htmlBody = $html;
@@ -272,13 +291,14 @@ class HTML_TO_DOC
      * @access boolean True on success else false
      */
 
-    function write_file($file, $content, $mode = "w")
+    function write_file($file, $content, $mode = 'w')
     {
         //echo 'write_file entered!<br>';
         $fp = @fopen($file, $mode);
 
-        if (!is_resource($fp))
+        if (!is_resource($fp)) {
             return false;
+        }
 
         fwrite($fp, $content);
         fclose($fp);

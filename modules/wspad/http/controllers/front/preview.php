@@ -14,8 +14,9 @@
 /************************************************************************/
 
 // For More security
-if (!stristr($_SERVER['PHP_SELF'], 'modules.php'))
+if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
+}
 
 if (
     strstr($ModPath, '..')
@@ -32,12 +33,13 @@ if (
     || stristr($ModStart, 'applet')
     || stristr($ModStart, 'object')
     || stristr($ModStart, 'meta')
-)
+) {
     die();
+}
 
-global $language, $NPDS_Prefix, $Default_Theme, $Default_Skin, $user;
+global $language, $Default_Theme, $Default_Skin, $user;
 
-include_once("modules/$ModPath/lang/$language.php");
+include_once('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php');
 
 // For More security
 if (isset($user) and $user != '') {
@@ -46,49 +48,59 @@ if (isset($user) and $user != '') {
     if ($cookie[9] != '') {
         $ibix = explode('+', urldecode($cookie[9]));
 
-        if (array_key_exists(0, $ibix))
+        if (array_key_exists(0, $ibix)) {
             $theme = $ibix[0];
-        else
+        } else {
             $theme = $Default_Theme;
+        }
 
-        if (array_key_exists(1, $ibix))
+        if (array_key_exists(1, $ibix)) {
             $skin = $ibix[1];
-        else
+        } else {
             $skin = $Default_Skin;
+        }
 
         $tmp_theme = $theme;
 
-        if (!$file = @opendir("themes/$theme"))
+        if (!$file = @opendir('themes/' . $theme)) {
             $tmp_theme = $Default_Theme;
-    } else
+        }
+    } else {
         $tmp_theme = $Default_Theme;
+    }
 } else {
     $theme = $Default_Theme;
     $skin = $Default_Skin;
     $tmp_theme = $theme;
 }
 
-$Titlesitename = "NPDS wspad";
+$Titlesitename = 'NPDS wspad';
 
-include("meta/meta.php");
+include 'storage/meta/meta.php';
 
-echo '<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />';
+echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />';
 
 echo import_css($tmp_theme, $language, $skin, '', '');
 
-echo '
-    </head>
+echo '</head>
     <body style="padding: 10px; background:#ffffff;">';
 
 $wspad = rawurldecode(decrypt($pad));
-$wspad = explode("#wspad#", $wspad);
+$wspad = explode('#wspad#', $wspad);
 
-$row = sql_fetch_assoc(sql_query("SELECT content, modtime, editedby, ranq  FROM " . $NPDS_Prefix . "wspad WHERE page='" . $wspad[0] . "' AND member='" . $wspad[1] . "' AND ranq='" . $wspad[2] . "'"));
+$row = sql_fetch_assoc(sql_query("SELECT content, modtime, editedby, ranq  
+                                  FROM " . sql_prefix('wspad') . " 
+                                  WHERE page='" . $wspad[0] . "' 
+                                  AND member='" . $wspad[1] . "' 
+                                  AND ranq='" . $wspad[2] . "'"));
 
-echo '
-        <h2>' . $wspad[0] . '</h2>
-        <span>[ ' . wspad_trans("révision") . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . " / " . formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . ' ]</span>
-        <hr />
-        ' . aff_langue($row['content']) . '
-    </body>
-    </html>';
+$time = formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+
+echo '<h2>' . $wspad[0] . '</h2>
+    <span>
+        [ ' . wspad_trans("révision") . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . " / " . $time . ' ]
+    </span>
+    <hr />
+    ' . aff_langue($row['content']) . '
+</body>
+</html>';
