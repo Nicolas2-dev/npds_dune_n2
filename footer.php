@@ -61,7 +61,7 @@ function foot()
         $theme = $Default_Theme;
     }
 
-    include 'themes/' . $theme . '/footer.php';
+    include 'themes/' . $theme . '/views/footer.php';
 
     if ($user) {
         $cookie9 = $ibix[0];
@@ -70,10 +70,10 @@ function foot()
 
 function footer_after($theme)
 {
-    if (file_exists($path_theme = 'themes/' . $theme . '/include/footer_after.inc')) {
+    if (file_exists($path_theme = 'themes/' . $theme . '/bootstrap/footer_after.php')) {
         include $path_theme;
     } else {
-        if (file_exists($path_module = 'modules/include/footer_after.inc')) {
+        if (file_exists($path_module = 'themes/base/bootstrap/footer_after.php')) {
             include $path_module;
         }
     }
@@ -81,7 +81,7 @@ function footer_after($theme)
 
 function footer_before()
 {
-    if (file_exists($path_module = 'modules/include/footer_before.inc')) {
+    if (file_exists($path_module = 'themes/base/bootstrap/footer_before.php')) {
         include $path_module;
     }
 }

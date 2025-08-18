@@ -236,7 +236,7 @@ include 'header.php';
 // Include cache manager classe
 global $SuperCache;
 if ($SuperCache) {
-    $cache_obj = new cacheManager();
+    $cache_obj = new SuperCacheManager();
     $CACHE_TIMINGS['map.php'] = 3600;
     $CACHE_QUERYS['map.php'] = '^';
     $cache_obj->startCachingPage();

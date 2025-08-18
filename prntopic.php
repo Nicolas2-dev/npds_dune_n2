@@ -19,7 +19,7 @@ if (!function_exists('Mysql_Connexion')) {
 }
 
 include 'functions.php';
-$cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
+$cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
 include 'auth.php';
 

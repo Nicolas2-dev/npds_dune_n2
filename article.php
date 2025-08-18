@@ -47,7 +47,7 @@ include 'header.php';
 // Include cache manager
 global $SuperCache;
 if ($SuperCache) {
-    $cache_obj = new cacheManager();
+    $cache_obj = new SuperCacheManager();
     $cache_obj->startCachingPage();
 } else {
     $cache_obj = new SuperCacheEmpty();

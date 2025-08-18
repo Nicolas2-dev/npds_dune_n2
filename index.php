@@ -15,7 +15,7 @@
 
 // Modification pour IZ-Xinstall - EBH - JPB & PHR
 if (file_exists('IZ-Xinstall.ok')) {
-    if (file_exists('install.php') or is_dir('install')) {
+    if (file_exists('install.php') || is_dir('install')) {
         echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
@@ -34,7 +34,7 @@ if (file_exists('IZ-Xinstall.ok')) {
         die();
     }
 } else {
-    if (file_exists('install.php') and is_dir('install')) {
+    if (file_exists('install.php') && is_dir('install')) {
         header('location: install.php');
     }
 }
@@ -330,7 +330,7 @@ function theindex($op, $catid, $marqeur)
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else {
         $cache_obj = new SuperCacheEmpty();
@@ -348,8 +348,8 @@ function theindex($op, $catid, $marqeur)
         || ($op == 'edito-newindex')) {
             aff_news($op, $catid, $marqeur);
         } else {
-            if (file_exists('themes/' . $theme . '/central.php')) {
-                include 'themes/' . $theme . '/central.php';
+            if (file_exists('themes/' . $theme . '/views/central.php')) {
+                include 'themes/' . $theme . '/Views/central.php';
             } else {
                 if (($op == 'edito') || ($op == 'edito-nonews')) {
                     aff_edito();

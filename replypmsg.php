@@ -13,19 +13,20 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion")) {
-    include("mainfile.php");
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
 }
 
-include('functions.php');
+include 'functions.php';
 
-$cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
+$cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
 include('auth.php');
 
+//$msg_id = array('');// voir si c'est le bon type
+
 settype($cancel, 'string');
 settype($submitS, 'string');
-//$msg_id = array('');// voir si c'est le bon type
 settype($reply, 'string');
 settype($Xreply, 'string');
 settype($to_user, 'string');
@@ -35,16 +36,18 @@ settype($copie, 'string');
 
 if ($cancel) {
     if ($full_interface != 'short') {
-        header("Location: viewpmsg.php");
+        header('Location: viewpmsg.php');
     } else {
-        header("Location: readpmsg_imm.php?op=new_msg");
+        header('Location: readpmsg_imm.php?op=new_msg');
     }
+
     die();
 }
 
 if (isset($user)) {
-    $userX = base64_decode($user);
-    $userdataX = explode(':', $userX);
+    $userX      = base64_decode($user);
+    $userdataX  = explode(':', $userX);
+
     $userdata = get_userdata($userdataX[1]);
     $usermore = get_userdata_from_id($cookie[0]);
 
@@ -84,26 +87,29 @@ if (isset($user)) {
         $message = removeHack(addslashes($message));
         $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
-        include_once("language/lang-multi.php");
+        include_once 'language/lang-multi.php';
 
         if (strstr($to_user, ',')) {
             $tempo = explode(',', $to_user);
 
             foreach ($tempo as $to_user) {
-                $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('users') . " WHERE uname='$to_user'");
+                $res = sql_query("SELECT uid, user_langue 
+                                  FROM " . sql_prefix('users') . " 
+                                  WHERE uname='$to_user'");
+
                 list($to_userid, $user_langue) = sql_fetch_row($res);
 
                 if (($to_userid != '') and ($to_userid != 1)) {
-                    $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
-                    $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
+                    $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
+                            VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                     if (!$result = sql_query($sql)) {
                         forumerror('0020');
                     }
 
                     if ($copie) {
-                        $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
-                        $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
+                        $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) 
+                                VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                         if (!$result = sql_query($sql)) {
                             forumerror('0020');
@@ -117,7 +123,7 @@ if (isset($user)) {
                         $sujet = html_entity_decode(translate_ml($user_langue, "Notification message privé."), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $usermore['uname'] . '] / ' . $sitename;
                         $message = translate_ml($user_langue, 'Bonjour') . '<br />' . translate_ml($user_langue, 'Vous avez un nouveau message.') . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, 'Cliquez ici pour lire votre nouveau message.') . '</a><br /><br />';
 
-                        include("signat.php");
+                        include 'config/signat.php';
 
                         copy_to_email($to_userid, $sujet, stripslashes($message));
 
@@ -126,22 +132,25 @@ if (isset($user)) {
                 }
             }
         } else {
-            $res = sql_query("SELECT uid, user_langue FROM " . sql_prefix('users') . " WHERE uname='$to_user'");
+            $res = sql_query("SELECT uid, user_langue 
+                              FROM " . sql_prefix('users') . " 
+                              WHERE uname='$to_user'");
+
             list($to_userid, $user_langue) = sql_fetch_row($res);
 
             if (($to_userid == '') or ($to_userid == 1)) {
                 forumerror('0016');
             } else {
-                $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) ";
-                $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
+                $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
+                        VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                 if (!$result = sql_query($sql)) {
                     forumerror('0020');
                 }
 
                 if ($copie) {
-                    $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) ";
-                    $sql .= "VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
+                    $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text, type_msg, read_msg) 
+                            VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                     if (!$result = sql_query($sql)) {
                         forumerror('0020');
@@ -154,7 +163,7 @@ if (isset($user)) {
 
                     $message = translate_ml($user_langue, 'Bonjour') . '<br />' . translate_ml($user_langue, 'Vous avez un nouveau message.') . '<br />' . $time . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_langue, 'Cliquez ici pour lire votre nouveau message.') . '</a><br /><br />';
 
-                    include("signat.php");
+                    include 'config/signat.php';
 
                     copy_to_email($to_userid, $sujet, stripslashes($message));
                 }
@@ -165,9 +174,9 @@ if (isset($user)) {
         unset($sujet);
 
         if ($full_interface != 'short') {
-            header("Location: viewpmsg.php");
+            header('Location: viewpmsg.php');
         } else {
-            header("Location: readpmsg_imm.php?op=new_msg");
+            header('Location: readpmsg_imm.php?op=new_msg');
         }
     }
 
@@ -178,10 +187,16 @@ if (isset($user)) {
 
         foreach ($msg_id as $v) {
             if ($type == 'outbox') {
-                $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " WHERE msg_id='" . $v . "' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
+                $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " 
+                        WHERE msg_id='" . $v . "' 
+                        AND from_userid='" . $userdata['uid'] . "' 
+                        AND type_msg='1'";
             } else {
-                $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " WHERE msg_id='" . $v . "' AND to_userid='" . $userdata['uid'] . "'";
+                $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " 
+                        WHERE msg_id='" . $v . "' 
+                        AND to_userid='" . $userdata['uid'] . "'";
             }
+
             if (!sql_query($sql)) {
                 forumerror('0021');
             } else {
@@ -190,23 +205,28 @@ if (isset($user)) {
         }
 
         if ($status == 1) {
-            header("Location: viewpmsg.php");
+            header('Location: viewpmsg.php');
         }
     } else if ($delete_messages = '' and !$msg_id) {
-        header("Location: viewpmsg.php");
+        header('Location: viewpmsg.php');
     }
 
     //   settype($delete,'integer');
     if (isset($delete)) {
         if (isset($type) and $type == 'outbox') {
-            $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " WHERE msg_id='$msg_id' AND from_userid='" . $userdata['uid'] . "' AND type_msg='1'";
+            $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " 
+                    WHERE msg_id='$msg_id' 
+                    AND from_userid='" . $userdata['uid'] . "' 
+                    AND type_msg='1'";
         } else {
-            $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
+            $sql = "DELETE FROM " . sql_prefix('priv_msgs') . " 
+                    WHERE msg_id='$msg_id' 
+                    AND to_userid='" . $userdata['uid'] . "'";
         }
         if (!sql_query($sql)) {
             forumerror('0021');
         } else {
-            header("Location: viewpmsg.php");
+            header('Location: viewpmsg.php');
         }
     }
 
@@ -219,14 +239,18 @@ if (isset($user)) {
 
         $dossier = strip_tags($dossier);
 
-        $sql = "UPDATE " . sql_prefix('priv_msgs') . " SET dossier='$dossier' WHERE msg_id='$msg_id' AND to_userid='" . $userdata['uid'] . "'";
+        $sql = "UPDATE " . sql_prefix('priv_msgs') . " 
+                SET dossier='$dossier' 
+                WHERE msg_id='$msg_id' 
+                AND to_userid='" . $userdata['uid'] . "'";
+
         $result = sql_query($sql);
 
         if (!$result) {
             forumerror('0005');
         }
 
-        header("Location: viewpmsg.php");
+        header('Location: viewpmsg.php');
     }
 
     // Interface
@@ -250,7 +274,7 @@ if (isset($user)) {
 
             $tmp_theme = $theme;
 
-            if (!$file = @opendir("themes/$theme")) {
+            if (!$file = @opendir('themes/'. $theme)) {
                 $tmp_theme = $Default_Theme;
             }
         } else {
@@ -259,27 +283,31 @@ if (isset($user)) {
 
         $skin = $skin == '' ? 'default' : $skin;
 
-        include("themes/$tmp_theme/theme.php");
-        include("meta/meta.php");
-        include("modules/include/header_before.inc");
-        include("modules/include/header_head.inc");
+        include 'themes/'. $tmp_theme .'/views/theme.php';
+        include 'storage/meta/meta.php';
+        include 'themes/base/bootstrap/header_before.php';
+        include 'themes/base/bootstrap/header_head.php';
 
         echo import_css($tmp_theme, $language, $skin, '', '');
 
-        echo '
-   </head>
-   <body class="my-4 mx-4">';
+        echo '</head>
+        <body class="my-4 mx-4">';
     } else {
         include 'header.php';
     }
 
     if ($reply || $send || $to_user) {
         if ($allow_bbcode) {
-            include("lib/formhelp.java.php");
+            include 'library/formhelp.java.php';
         }
 
         if ($reply) {
-            $sql = "SELECT msg_image, subject, from_userid, to_userid FROM " . sql_prefix('priv_msgs') . " WHERE to_userid='" . $userdata['uid'] . "' AND msg_id='$msg_id' AND type_msg='0'";
+            $sql = "SELECT msg_image, subject, from_userid, to_userid 
+                    FROM " . sql_prefix('priv_msgs') . " 
+                    WHERE to_userid='" . $userdata['uid'] . "' 
+                    AND msg_id='$msg_id' 
+                    AND type_msg='0'";
+
             $result = sql_query($sql);
 
             if (!$result) {
@@ -307,19 +335,17 @@ if (isset($user)) {
             }
         }
 
-        echo '
-      <h2><a href="viewpmsg.php"><i class="me-2 fa fa-inbox"></i></a>' . translate('Message personnel') . '</h2>
-      <hr />
-      <blockquote class="blockquote">' . translate('A propos des messages publiés :') . '<br />' .
-            translate('Tous les utilisateurs enregistrés peuvent poster des messages privés.') . '</blockquote>';
+        echo '<h2><a href="viewpmsg.php"><i class="me-2 fa fa-inbox"></i></a>' . translate('Message personnel') . '</h2>
+        <hr />
+        <blockquote class="blockquote">' . translate('A propos des messages publiés :') . '<br />' .
+        translate('Tous les utilisateurs enregistrés peuvent poster des messages privés.') . '</blockquote>';
 
         settype($submitP, 'string');
 
         if ($submitP) {
-            echo '
-         <hr />
-         <h3>' . translate('Prévisualiser') . '</h3>
-         <p class="lead">' . StripSlashes($subject) . '</p>';
+            echo '<hr />
+            <h3>' . translate('Prévisualiser') . '</h3>
+            <p class="lead">' . StripSlashes($subject) . '</p>';
 
             $Xmessage = $message = StripSlashes($message);
 
@@ -345,11 +371,10 @@ if (isset($user)) {
             echo '<hr />';
         }
 
-        echo '
-         <form id="pmessage" action="replypmsg.php" method="post" name="coolsus">
-         <div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="to_user">' . translate('Destinataire') . '</label>
-            <div class="col-sm-9">';
+        echo '<form id="pmessage" action="replypmsg.php" method="post" name="coolsus">
+            <div class="mb-3 row">
+                <label class="col-form-label col-sm-3" for="to_user">' . translate('Destinataire') . '</label>
+                <div class="col-sm-9">';
 
         if ($reply) {
             echo userpopover($fromuserdata['uname'], 48, 2) . '
@@ -365,8 +390,7 @@ if (isset($user)) {
                 $Xto_user = $to_user;
             }
 
-            echo '
-               <input class="form-control" type="text" id="to_user" name="to_user" value="' . $Xto_user . '" maxlength="100" required="required"/>';
+            echo '<input class="form-control" type="text" id="to_user" name="to_user" value="' . $Xto_user . '" maxlength="100" required="required"/>';
         }
 
         if (!$reply) {
@@ -376,9 +400,8 @@ if (isset($user)) {
             echo $carnet . '<span class="small">' . translate('Carnet d\'adresses') . '</span></a>';
         }
 
-        echo '
-            </div>
-         </div>';
+        echo '</div>
+        </div>';
 
         settype($copie, 'string');
 
@@ -388,18 +411,17 @@ if (isset($user)) {
             $checked = '';
         }
 
-        echo '
-         <div class="mb-3 row">
-            <div class="col-sm-9 ms-auto">
-            <div class="form-check">
-               <input class="form-check-input" type="checkbox" id="copie" name="copie" ' . $checked . ' />
-               <label class="form-check-label" for="copie"> ' . translate('Conserver une copie') . '</label>
+        echo '<div class="mb-3 row">
+                <div class="col-sm-9 ms-auto">
+                <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="copie" name="copie" ' . $checked . ' />
+                <label class="form-check-label" for="copie"> ' . translate('Conserver une copie') . '</label>
+                </div>
+                </div>
             </div>
-            </div>
-         </div>
-         <div class="mb-3 row">
-            <label class="col-form-label col-sm-12" for="subject">' . translate('Sujet') . '</label>
-            <div class="col-sm-12">';
+            <div class="mb-3 row">
+                <label class="col-form-label col-sm-12" for="subject">' . translate('Sujet') . '</label>
+                <div class="col-sm-12">';
 
         settype($subject, 'string');
 
@@ -413,54 +435,57 @@ if (isset($user)) {
             }
         }
 
-        echo '
-               <input class="form-control" type="text" id="subject" name="subject" value="' . $tmp . '" maxlength="100" required="required" />
-               <span class="help-block" id ="countcar_subject"></span>
-            </div>
-         </div>';
+        echo '<input class="form-control" type="text" id="subject" name="subject" value="' . $tmp . '" maxlength="100" required="required" />
+                <span class="help-block" id ="countcar_subject"></span>
+                </div>
+            </div>';
 
         settype($image_subject, 'string');
 
         if ($smilies) {
-            echo '
-         <div class="mb-3 row">
-            <label class="col-form-label col-sm-12">' . translate('Icone du message') . '</label>
-            <div class="col-sm-12">
-               <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
-               ' . emotion_add($image_subject) . '
-               </div>
-            </div>
-         </div>';
+            echo '<div class="mb-3 row">
+                <label class="col-form-label col-sm-12">' . translate('Icone du message') . '</label>
+                <div class="col-sm-12">
+                <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
+                ' . emotion_add($image_subject) . '
+                </div>
+                </div>
+            </div>';
         }
 
-        echo '
-      <div class="mb-3 row">
-         <label class="col-form-label col-sm-12" for="message">' . translate('Message') . '</label>
-         <div class="col-sm-12">
-            <div class="card">
-               <div class="card-header">';
+        echo '<div class="mb-3 row">
+            <label class="col-form-label col-sm-12" for="message">' . translate('Message') . '</label>
+            <div class="col-sm-12">
+                <div class="card">
+                <div class="card-header">';
 
         if ($allow_html == 1) {
             echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
         } else {
             echo '<span class="text-danger float-end" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         }
-        echo '
-            </div>
-            <div class="card-body">';
+
+        echo '</div>
+        <div class="card-body">';
 
         settype($message, 'string');
 
         if ($reply and $message == '') {
-            $sql = "SELECT p.msg_text, p.msg_time, u.uname FROM " . sql_prefix('priv_msgs') . " p, " . sql_prefix('users') . " u ";
-            $sql .= "WHERE (p.msg_id='$msg_id') AND (p.from_userid=u.uid) AND (p.type_msg='0')";
+            $sql = "SELECT p.msg_text, p.msg_time, u.uname 
+                    FROM " . sql_prefix('priv_msgs') . " p, " . sql_prefix('users') . " u 
+                    WHERE (p.msg_id='$msg_id') 
+                    AND (p.from_userid=u.uid) 
+                    AND (p.type_msg='0')";
 
             if ($result = sql_query($sql)) {
                 $row = sql_fetch_assoc($result);
+
                 $text = smile($row['msg_text']);
-                $text = str_replace("<br />", "\n", $text);
-                $text = str_replace("<BR />", "\n", $text);
-                $text = str_replace("<BR>", "\n", $text);
+
+                $text = str_replace('<br />', "\n", $text);
+                $text = str_replace('<BR />', "\n", $text);
+                $text = str_replace('<BR>', "\n", $text);
+
                 $text = stripslashes($text);
 
                 if ($row['msg_time'] != '' && $row['uname'] != '') {
@@ -469,10 +494,9 @@ if (isset($user)) {
                     $Xreply = $text;
                 }
 
-                $Xreply = '
-               <div class="blockquote">
-               ' . $Xreply . '
-               </div>';
+                $Xreply = '<div class="blockquote">
+                ' . $Xreply . '
+                </div>';
             } else {
                 $Xreply = translate('Pas de connexion à la base forums.') . "\n";
             }
@@ -483,30 +507,31 @@ if (isset($user)) {
         if ($allow_bbcode) {
             $xJava = 'name="message" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="storeForm(this)"';
         }
-        echo '
-         <textarea id="ta_replypm" class="form-control" ' . $xJava . ' name="message" rows="15">';
 
-        if ($Xreply) echo $Xreply;
-        echo '
-         </textarea>
-         <span class="help-block text-end">
-            <button class="btn btn-outline-danger btn-sm" type="reset" value="' . translate('Annuler') . '" title="' . translate('Annuler') . '" data-bs-toggle="tooltip" ><i class="fas fa-times " ></i></button>
-            <button class="btn btn-outline-primary btn-sm" type="submit" value="' . translate('Prévisualiser') . '" name="submitP" title="' . translate('Prévisualiser') . '" data-bs-toggle="tooltip" ><i class="fa fa-eye "></i></button>
-         </span>
-               </div>
-               <div class="card-footer text-body-secondary">';
+        echo '<textarea id="ta_replypm" class="form-control" ' . $xJava . ' name="message" rows="15">';
+
+        if ($Xreply) {
+            echo $Xreply;
+        }
+
+        echo '</textarea>
+            <span class="help-block text-end">
+                <button class="btn btn-outline-danger btn-sm" type="reset" value="' . translate('Annuler') . '" title="' . translate('Annuler') . '" data-bs-toggle="tooltip" ><i class="fas fa-times " ></i></button>
+                <button class="btn btn-outline-primary btn-sm" type="submit" value="' . translate('Prévisualiser') . '" name="submitP" title="' . translate('Prévisualiser') . '" data-bs-toggle="tooltip" ><i class="fa fa-eye "></i></button>
+            </span>
+                </div>
+                <div class="card-footer text-body-secondary">';
 
         if ($allow_bbcode) {
             putitems('ta_replypm');
         }
 
-        echo '
-               </div>
+        echo '</div>
+                </div>
             </div>
-         </div>
-      </div>
-      <div class="mb-3 row">
-         <label class="col-form-label col-sm-3">' . translate('Options') . '</label>';
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-3">' . translate('Options') . '</label>';
 
         if ($allow_html == 1) {
             settype($html, 'string');
@@ -517,12 +542,11 @@ if (isset($user)) {
                 $checked = '';
             }
 
-            echo '
-         <div class="col-sm-9 my-2">
-            <div class="form-check">
-               <input class="form-check-input" type="checkbox" id="html" name="html" ' . $checked . ' />
-               <label class="form-check-label" for="html">' . translate('Désactiver le html pour cet envoi') . '</label>
-            </div>';
+            echo '<div class="col-sm-9 my-2">
+                <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="html" name="html" ' . $checked . ' />
+                <label class="form-check-label" for="html">' . translate('Désactiver le html pour cet envoi') . '</label>
+                </div>';
         }
 
         if ($usermore['attachsig'] == '1') {
@@ -538,8 +562,7 @@ if (isset($user)) {
                 }
             }
 
-            echo '
-            <div class="form-check">
+            echo '<div class="form-check">
                <input class="form-check-input" type="checkbox" id="sig" name="sig" ' . $checked . ' />
                <label class="form-check-label" for="sig">' . translate('Afficher la signature') . '</label>
             </div>
@@ -548,51 +571,44 @@ if (isset($user)) {
 
         settype($msg_id, 'integer');
 
-        echo '
-         </div>
-      </div>
-      <div class="mb-3 row">
-         <div class="col-sm-12">
-            <input type="hidden" name="msg_id" value="' . $msg_id . '" />
-            <input type="hidden" name="full_interface" value="' . $full_interface . '" />';
+        echo '</div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-sm-12">
+                <input type="hidden" name="msg_id" value="' . $msg_id . '" />
+                <input type="hidden" name="full_interface" value="' . $full_interface . '" />';
 
         settype($send, 'integer');
 
         if ($send == 1) {
-            echo '
-            <input type="hidden" name="send" value="1" />';
+            echo '<input type="hidden" name="send" value="1" />';
         }
 
         settype($reply, 'integer');
 
         if ($reply == 1) {
-            echo '
-            <input type="hidden" name="reply" value="1" />';
+            echo '<input type="hidden" name="reply" value="1" />';
         }
 
-        echo '
-            <input class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" />&nbsp;';
+        echo '<input class="btn btn-primary" type="submit" name="submitS" value="' . translate('Valider') . '" />&nbsp;';
 
         if ($reply) {
-            echo '
-            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler la réponse') . '" />';
+            echo '<input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler la réponse') . '" />';
         } else {
-            echo '
-            <input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
+            echo '<input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
 
             echo auto_complete('membre', 'uname', 'users', 'to_user', '86400');
         }
 
-        echo '
-         </div>
-      </div>
-   </form>';
+        echo '</div>
+            </div>
+        </form>';
 
-        $arg1 = '
-         var formulid=["pmessage"]
-         inpandfieldlen("subject",100);';
+        $arg1 = 'var formulid=["pmessage"]
+            inpandfieldlen("subject",100);';
 
         adminfoot('', '', $arg1, 'foo');
     }
-} else
-    Header("Location: user.php");
+} else {
+    Header('Location: user.php');
+}

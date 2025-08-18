@@ -65,7 +65,7 @@ if (!$myfaq) {
 
     // Include cache manager
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else {
         $cache_obj = new SuperCacheEmpty();
@@ -101,7 +101,7 @@ if (!$myfaq) {
 
     // Include cache manager
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else {
         $cache_obj = new SuperCacheEmpty();

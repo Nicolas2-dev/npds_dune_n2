@@ -701,7 +701,7 @@ if ($forum_access != 9) {
 }
 
 
-$cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
+$cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
 if ($SuperCache) {
     $cache_clef = "forum-jump-to";

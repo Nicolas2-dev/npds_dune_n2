@@ -17,7 +17,7 @@ if (!function_exists('Mysql_Connexion')) {
 
 include 'header.php';
 
-$cache_obj = $SuperCache ? new cacheManager() : new SuperCacheEmpty();
+$cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
 if (($SuperCache) and (!$user)) {
     $cache_obj->startCachingPage();
@@ -25,13 +25,13 @@ if (($SuperCache) and (!$user)) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache) or ($user)) {
     $inclusion = false;
-    if (file_exists($path = 'themes/' . $theme . '/html/top.html')) {
+    if (file_exists($path = 'themes/' . $theme . '/views/partials/topn/top.php')) {
         $inclusion = $path;
 
-    } elseif (file_exists($path = 'themes/default/html/top.html')) {
+    } elseif (file_exists($path = 'themes/base/views/partials/top/top.php')) {
         $inclusion = $path;
     } else {
-        echo 'html/top.html / not find !<br />';
+        echo 'views/partials/top/top.php / not find !<br />';
     }
 
     if ($inclusion) {

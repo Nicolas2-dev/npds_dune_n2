@@ -29,7 +29,7 @@ if (file_exists('IZ-Xinstall.ok')) {
 include 'grab_globals.php';
 include 'install/libraries/graphIZm.php';
 include 'install/libraries/lib-inc.php';
-include 'config.php';
+include 'config/config.php';
 
 verif_php();
 //verif_sql();
@@ -39,7 +39,7 @@ $sqlver = '';
 /*
  * Paramètres install
  */
-$cms_logo = 'install/images/header.png';
+$cms_logo = 'install/assets/images/header.png';
 $cms_name = 'NPDS REvolution 16';
 
 global $cms_logo, $cms_name, $Version_Num, $Version_Sub, $phpver;
@@ -341,6 +341,7 @@ if ($stage == 6) {
 
             require 'install/sql/sql-create.php';
 
+            // function creer par le fichier sql-create.php
             write_database(); 
 
             if ($stage6_ok == 1) {

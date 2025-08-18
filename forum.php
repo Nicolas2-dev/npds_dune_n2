@@ -18,7 +18,7 @@ if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
-$cache_obj = ($SuperCache) ? new cacheManager() :  new SuperCacheEmpty();
+$cache_obj = ($SuperCache) ? new SuperCacheManager() :  new SuperCacheEmpty();
 
 settype($op, 'string');
 settype($Subforumid, 'array');
@@ -59,22 +59,26 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     settype($catid, 'integer');
 
     if ($catid != '') {
-        if (file_exists('themes/' . $theme . '/html/forum-cat$catid.html')) {
-            $inclusion = 'themes/' . $theme . '/html/forum-cat$catid.html';
-        } elseif (file_exists('themes/default/html/forum-cat$catid.html')) {
-            $inclusion = 'themes/default/html/forum-cat$catid.html';
+        if (file_exists('themes/' . $theme . '/views/partials/forum/forum-cat$catid.php')) {
+            $inclusion = 'themes/' . $theme . '/views/partials/forum/forum-cat$catid.php';
+
+        } elseif (file_exists('themes/base/views/partials/forum/forum-cat$catid.php')) {
+            $inclusion = 'themes/base/views/partials/forum/forum-cat$catid.php';
         }
     }
 
     if ($inclusion == false) {
-        if (file_exists('themes/' . $theme . '/html/forum-adv.html')) {
-            $inclusion = 'themes/' . $theme . '/html/forum-adv.html';
-        } elseif (file_exists('themes/' . $theme . '/html/forum.html')) {
-            $inclusion = 'themes/' . $theme . '/html/forum.html';
-        } elseif (file_exists('themes/default/html/forum.html')) {
-            $inclusion = 'themes/default/html/forum.html';
+        if (file_exists('themes/' . $theme . '/views/partials/forum/forum-adv.php')) {
+            $inclusion = 'themes/' . $theme . '/views/partials/forum/forum-adv.php';
+
+        } elseif (file_exists('themes/' . $theme . '/views/partials/forum/forum.php')) {
+            $inclusion = 'themes/' . $theme . '/views/partials/forum/forum.php';
+
+        } elseif (file_exists('themes/base/views/partials/forum/forum.php')) {
+            $inclusion = 'themes/base/views/partials/forum/forum.php';
+
         } else {
-            echo "'html/forum.html / not find !<br />'";
+            echo 'views/partials/forum/forum.php / not find !<br />';
         }
     }
 

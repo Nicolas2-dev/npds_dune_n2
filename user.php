@@ -1500,7 +1500,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
         docookie($userinfo['uid'], $userinfo['uname'], $userinfo['pass'], $userinfo['storynum'], $userinfo['umode'], $userinfo['uorder'], $userinfo['thold'], $userinfo['noscore'], $userinfo['ublockon'], $userinfo['theme'], $userinfo['commentmax'], '');
 
         // Include cache manager for purge cache Page
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->UsercacheCleanup();
 
         Header("Location: user.php?op=edithome");
@@ -1648,7 +1648,7 @@ function savetheme($uid, $theme)
         docookie($userinfo['uid'], $userinfo['uname'], $userinfo['pass'], $userinfo['storynum'], $userinfo['umode'], $userinfo['uorder'], $userinfo['thold'], $userinfo['noscore'], $userinfo['ublockon'], $theme, $userinfo['commentmax'], '');
 
         // Include cache manager for purge cache Page
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->UsercacheCleanup();
 
         Header("Location: user.php");

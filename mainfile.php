@@ -1439,7 +1439,7 @@ function fab_block($title, $member, $content, $Xcache)
     if (($SuperCache) and ($Xcache != 0)) {
         $cache_clef = md5($content);
         $CACHE_TIMINGS[$cache_clef] = $Xcache;
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingBlock($cache_clef);
     } else {
         $cache_obj = new SuperCacheEmpty();

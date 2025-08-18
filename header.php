@@ -33,7 +33,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
     if ($gzhandler == 1)
         ob_start('ob_gzhandler');
 
-    include 'themes/' . $tmp_theme . '/theme.php';
+    include 'themes/' . $tmp_theme . '/views/theme.php';
 
     // Meta
     if (file_exists('storage/meta/meta.php')) {
@@ -42,9 +42,9 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
     }
 
     // Favicon
-    $favico = (file_exists('themes/' . $tmp_theme . '/images/favicon.ico'))
-        ? 'themes/' . $tmp_theme . '/images/favicon.ico'
-        : 'images/favicon.ico';
+    $favico = (file_exists('themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'))
+        ? 'themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'
+        : 'assets/images/favicon/favicon.ico';
 
     echo '
     <link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
@@ -88,36 +88,36 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         //]]>
     </script>';
 
-    if (file_exists('modules/include/body_onload.inc')) {
+    if (file_exists('themes/base/bootstrap/body_onload.php')) {
         echo $body_onloadH;
-        include 'modules/include/body_onload.inc';
+        include 'themes/base/bootstrap/body_onload.php';
         echo $body_onloadF;
     }
 
-    if (file_exists('themes/' . $tmp_theme . '/include/body_onload.inc')) {
+    if (file_exists('themes/' . $tmp_theme . '/bootstrap/body_onload.php')) {
         echo $body_onloadH;
-        include 'themes/' . $tmp_theme . '/include/body_onload.inc';
+        include 'themes/' . $tmp_theme . '/bootstrap/body_onload.php';
         echo $body_onloadF;
     }
 
-    // include externe file from modules/include or themes/.../include for functions, codes ... - skin motor
-    if (file_exists('modules/include/header_head.inc')) {
+    // include externe file from themes/base/bootstrap/ || themes/.../bootstrap/ for functions, codes ... - skin motor
+    if (file_exists('themes/base/bootstrap/header_head.php')) {
 
         ob_start();
-        include 'modules/include/header_head.inc';
+        include 'themes/base/bootstrap/header_head.php';
         $hH = ob_get_contents();
         ob_end_clean();
 
         if ($skin != '' and substr($tmp_theme, -3) == '_sk') {
-            $hH = str_replace('assets/shared/bootstrap/dist/css/bootstrap.min.css', 'themes/_skins/' . $skin . '/bootstrap.min.css', $hH);
-            $hH = str_replace('assets/shared/bootstrap/dist/css/extra.css', 'themes/_skins/' . $skin . '/extra.css', $hH);
+            $hH = str_replace('assets/shared/bootstrap/dist/css/bootstrap.min.css', 'assets/skins/' . $skin . '/bootstrap.min.css', $hH);
+            $hH = str_replace('assets/shared/bootstrap/dist/css/extra.css', 'assets/skins/' . $skin . '/extra.css', $hH);
         }
 
         echo $hH;
     }
 
-    if (file_exists('themes/' . $tmp_theme . '/include/header_head.inc')) {
-        include 'themes/' . $tmp_theme . '/include/header_head.inc';
+    if (file_exists('themes/' . $tmp_theme . '/bootstrap/header_head.php')) {
+        include 'themes/' . $tmp_theme . '/bootstrap/header_head.php';
     }
 
     echo import_css($tmp_theme, $language, '', $css_pages_ref, $css);
@@ -128,17 +128,20 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
             foreach ($js as $k => $tab_js) {
                 if (stristr($tab_js, 'http://') || stristr($tab_js, 'https://')) {
                     echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
+
                 } else {
-                    if (file_exists('themes/' . $tmp_theme . '/js/' . $tab_js) and ($tab_js != '')) {
-                        echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/js/' . $tab_js . '"></script>';
+                    if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
+                        echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
+
                     } elseif (file_exists("$tab_js") and ($tab_js != "")) {
                         echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
                     }
                 }
             }
         } else {
-            if (file_exists('themes/' . $tmp_theme . '/js/' . $js)) {
-                echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/js/' . $js . '"></script>';
+            if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
+                echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
+
             } elseif (file_exists($js)) {
                 echo '<script type="text/javascript" src="' . $js . '"></script>';
             }
@@ -147,16 +150,16 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
 
     echo '</head>';
 
-    include 'themes/' . $tmp_theme . '/header.php';
+    include 'themes/' . $tmp_theme . '/views/header.php';
 }
 
 // -----------------------
 $header = 1;
 // -----------------------
 
-// include externe file from modules/include for functions, codes ...
-if (file_exists('modules/include/header_before.inc')) {
-    include 'modules/include/header_before.inc';
+// include externe file from themes/base/bootstrap/ for functions, codes ...
+if (file_exists('themees/base/bootstrap/header_before.php')) {
+    include 'themes/base/bootstrap/header_before.php';
 }
 
 // take the right theme location !
@@ -198,11 +201,11 @@ settype($PAGES, 'array');
 
 global $pdst, $Titlesitename, $PAGES;
 
-require_once 'themes/pages.php';
+require_once 'routing/pages.php';
 
-// import pages.php specif values from theme (toutes valeurs déjà définies dans themes/pages.php seront donc modifiées !)
-if (file_exists('themes/' . $tmp_theme . '/pages.php')) {
-    include 'themes/' . $tmp_theme . '/pages.php';
+// import pages.php specif values from theme (toutes valeurs déjà définies dans themes/routing/pages.php seront donc modifiées !)
+if (file_exists('themes/' . $tmp_theme . '/routing/pages.php')) {
+    include 'themes/' . $tmp_theme . '/routing/pages.php';
 }
 
 $page_uri = preg_split('#(&|\?)#', $_SERVER['REQUEST_URI']);
@@ -423,7 +426,7 @@ if ($httpref == 1) {
 
 include 'counter.php';
 
-// include externe file from modules/include for functions, codes ...
-if (file_exists('modules/include/header_after.inc')) {
-    include 'modules/include/header_after.inc';
+// include externe file from themes/base/bootstrap/ for functions, codes ...
+if (file_exists('themes/base/bootstrap/header_after.inc')) {
+    include 'themes/base/bootstrap/header_after.inc';
 }

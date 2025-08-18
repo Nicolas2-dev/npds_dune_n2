@@ -58,20 +58,20 @@ include 'header.php';
 
 echo '<div id="static_cont">';
 
-if (($op != '') and ($op)) {
+if (($op != '') && ($op)) {
 
     // Troll Control for security
     if (
         preg_match('#^[a-z0-9_\.-]#i', $op)
-        and !stristr($op, '.*://')
-        and !stristr($op, '..')
-        and !stristr($op, '../')
-        and !stristr($op, 'script')
-        and !stristr($op, 'cookie')
-        and !stristr($op, 'iframe')
-        and  !stristr($op, 'applet')
-        and !stristr($op, 'object')
-        and !stristr($op, 'meta')
+        && !stristr($op, '.*://')
+        && !stristr($op, '..')
+        && !stristr($op, '../')
+        && !stristr($op, 'script')
+        && !stristr($op, 'cookie')
+        && !stristr($op, 'iframe')
+        && !stristr($op, 'applet')
+        && !stristr($op, 'object')
+        && !stristr($op, 'meta')
     ) {
 
         if (file_exists('static/'. $op)) {
