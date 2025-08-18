@@ -13,13 +13,27 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (strstr($bnid, '..') || strstr($bnid, './') || stristr($bnid, 'script') || stristr($bnid, 'cookie') || stristr($bnid, 'iframe') || stristr($bnid, 'applet') || stristr($bnid, 'object') || stristr($bnid, 'meta'))
-   die();
+if (
+    strstr($bnid, '..')
+    || strstr($bnid, './')
+    || stristr($bnid, 'script')
+    || stristr($bnid, 'cookie')
+    || stristr($bnid, 'iframe')
+    || stristr($bnid, 'applet')
+    || stristr($bnid, 'object')
+    || stristr($bnid, 'meta')
+) {
+    die();
+}
+
 global $NPDS_Prefix;
 $result = sql_query("SELECT texte FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='$bnid'");
+
 if (sql_num_rows($result) > 0) {
-   list($texte) = sql_fetch_row($result);
-   $texte = stripslashes($texte);
-   $texte = str_replace(chr(13) . chr(10), "\\n", str_replace("'", "\'", $texte));
-   echo '$(function(){ $("#texteBlocNote_' . $bnid . '").val(unescape("' . str_replace('"', '\\"', $texte) . '")); })';
+    list($texte) = sql_fetch_row($result);
+
+    $texte = stripslashes($texte);
+    $texte = str_replace(chr(13) . chr(10), "\\n", str_replace("'", "\'", $texte));
+
+    echo '$(function(){ $("#texteBlocNote_' . $bnid . '").val(unescape("' . str_replace('"', '\\"', $texte) . '")); })';
 }

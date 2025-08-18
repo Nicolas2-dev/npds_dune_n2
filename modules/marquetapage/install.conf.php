@@ -1,4 +1,5 @@
 <?php
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /*                                                                      */
@@ -29,7 +30,7 @@ $path_adm_module = '';
 $affich = '';
 
 #autodoc $icon: icon pour l'admin : c'est un nom de fichier(sans extension) !! #required SI admin avec interface
-$icon='';
+$icon = '';
 
 #autodoc $list_fich : Modifications de fichiers: Dans le premier tableau, tapez le nom du fichier
 #autodoc et dans le deuxième, A LA MEME POSITION D'INDEX QUE LE PREMIER, tapez le code à insérer dans le fichier.
@@ -43,7 +44,7 @@ $list_fich = array(array(''), array(''));
 #autodoc Syntaxe création de table : 'CREATE TABLE "' ou 'CREATE TABLE IF NOT EXISTS "' <br /> tout les noms de table(s) utilisés doivent être concatené à gauche avec la variable $NPDS_Prefix
 
 global $NPDS_Prefix;
-$sql = array("CREATE TABLE ".$NPDS_Prefix."marquetapage (uid int(11) NOT NULL default '0',
+$sql = array("CREATE TABLE " . $NPDS_Prefix . "marquetapage (uid int(11) NOT NULL default '0',
  uri varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
  topic varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
  PRIMARY KEY (uid,uri(100)),
@@ -64,4 +65,3 @@ $txtfin = '';
 #autodoc $end_link: Lien sur lequel sera redirigé l'utilisateur à la fin de l'install (si laissé vide, redirigé sur index.php)
 #autodoc N'oubliez pas les '\' si vous utilisez des guillemets !!!
 $end_link = '';
-?>

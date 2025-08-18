@@ -18,6 +18,7 @@
 /*                                                                      */
 /* version 1.0 17/02/2016                                               */
 /************************************************************************/
+
 // Do not change if you dont know what you do ;-)
 // $rs=[['rs name','rs url',rs class fontawesome for rs icon],[...]]
 $rs = [

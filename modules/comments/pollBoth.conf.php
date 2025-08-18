@@ -10,6 +10,7 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 // Don't remove this line !
 global $C_start;
 
@@ -20,7 +21,9 @@ $file_name = "pollBoth";
 $forum = -2;
 
 // $topic : permet d'allouer un numéro UNIQUE pour chaque publication sur laquelle un commentaire peut être réalisé (article numéro X, sondage numéro Y, ...)
-if (isset($pollID)) $topic = $pollID;
+if (isset($pollID)) {
+    $topic = $pollID;
+}
 
 // $url_ret : URL de retour lorsque la soumission du commentaire est OK
 $url_ret = "pollBooth.php?op=results&pollID=$topic";

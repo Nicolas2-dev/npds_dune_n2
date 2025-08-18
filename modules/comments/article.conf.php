@@ -20,7 +20,8 @@ $file_name = 'article';
 $forum = -1;
 
 // $topic : permet d'allouer un numéro UNIQUE pour chaque publication sur laquelle un commentaire peut être réalisé (article numéro X, sondage numéro Y, ...)
-if (isset($sid)) $topic = $sid;
+if (isset($sid)) {
+    $topic = $sid;}
 
 // $url_ret : URL de retour lorsque la soumission du commentaire est OK
 global $archive;
