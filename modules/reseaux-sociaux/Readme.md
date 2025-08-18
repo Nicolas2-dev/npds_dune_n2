@@ -1,7 +1,5 @@
 # Module Npds Réseaux-Sociaux
 
-# Installation du module Réseaux-Sociaux
-
 ## Installation
 
 **Module :** Réseaux-Sociaux  
