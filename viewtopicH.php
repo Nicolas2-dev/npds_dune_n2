@@ -14,18 +14,20 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion")) {
-    include("mainfile.php");
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
 }
 
-include('functions.php');
-include('auth.php');
+include 'functions.php';
+include 'auth.php';
 
 if ($allow_upload_forum) {
-    include("modules/upload/upload_forum.php");
+    include 'modules/upload/upload_forum.php';
 }
 
-$rowQ1 = Q_Select("SELECT forum_id FROM " . sql_prefix('forumtopics') . " WHERE topic_id='$topic'", 3600);
+$rowQ1 = Q_Select("SELECT forum_id 
+                   FROM " . sql_prefix('forumtopics') . " 
+                   WHERE topic_id='$topic'", 3600);
 
 if (!$rowQ1) {
     forumerror('0001');
@@ -34,20 +36,23 @@ if (!$rowQ1) {
 $myrow = $rowQ1[0];
 $forum = $myrow['forum_id'];
 
-$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre FROM " . sql_prefix('forums') . " WHERE forum_id = '$forum'", 3600);
+$rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre 
+                   FROM " . sql_prefix('forums') . " 
+                   WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
     forumerror('0001');
 }
 
 $myrow = $rowQ1[0];
-$forum_name = $myrow['forum_name'];
-$mod = $myrow['forum_moderator'];
-$forum_type = $myrow['forum_type'];
-$forum_access = $myrow['forum_access'];
+
+$forum_name     = $myrow['forum_name'];
+$mod            = $myrow['forum_moderator'];
+$forum_type     = $myrow['forum_type'];
+$forum_access   = $myrow['forum_access'];
 
 if (($forum_type == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
-    redirect_url("forum.php");
+    redirect_url('forum.php');
 }
 
 if (($forum_type == 5) or ($forum_type == 7)) {
@@ -57,12 +62,12 @@ if (($forum_type == 5) or ($forum_type == 7)) {
     $ok_affiche = groupe_forum($myrow['forum_pass'], $tab_groupe);
 
     if (!$ok_affiche) {
-        redirect_url("forum.php");
+        redirect_url('forum.php');
     }
 }
 
 if (($forum_type == 9) and (!$user)) {
-    redirect_url("forum.php");
+    redirect_url('forum.php');
 }
 
 // Moderator
@@ -87,9 +92,11 @@ if (isset($user)) {
     }
 }
 
-$sql = "SELECT topic_title, topic_status, topic_poster FROM " . sql_prefix('forumtopics') . " WHERE topic_id = '$topic'";
+$sql = "SELECT topic_title, topic_status, topic_poster 
+        FROM " . sql_prefix('forumtopics') . " 
+        WHERE topic_id = '$topic'";
 
-$total = get_total_posts($forum, $topic, "topic", $Mmod);
+$total = get_total_posts($forum, $topic, 'topic', $Mmod);
 
 if ($total > $posts_per_page) {
     $times = 0;
@@ -106,12 +113,15 @@ if (!$result = sql_query($sql)) {
 }
 
 $myrow = sql_fetch_assoc($result);
+
 $topic_subject = stripslashes($myrow['topic_title']);
-$lock_state = $myrow['topic_status'];
-$original_poster = $myrow['topic_poster'];
+
+$lock_state         = $myrow['topic_status'];
+$original_poster    = $myrow['topic_poster'];
 
 $contributeurs = get_contributeurs($forum, $topic);
 $contributeurs = explode(' ', $contributeurs);
+
 $total_contributeurs = count($contributeurs);
 
 function maketree($rootcatid, $sql, $maxlevel)
@@ -133,7 +143,7 @@ function maketree($rootcatid, $sql, $maxlevel)
     $resultX = '';
     $resultX .= makebranch($rootcatid, $table, 0, $maxlevel, $max_post_id, $clas, $idtog);
 
-    return ($resultX);
+    return $resultX;
 }
 
 function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $idtog)
@@ -144,7 +154,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
 
     settype($result, 'string');
 
-    $my_rsos = array();
+    // $my_rsos = array();
 
     $count = 0;
 
@@ -182,8 +192,8 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if (!$short_user) {
                 $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
 
-                include('modules/reseaux-sociaux/reseaux-sociaux.conf.php');
-                include('modules/geoloc/geoloc.conf');
+                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
+                include 'modules/geoloc/geoloc.conf';
 
                 if ($user or autorisation(-127)) {
                     if (array_key_exists('M2', $posterdata_extend)) {
@@ -232,12 +242,15 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                 if ($posterdata['uid'] != 1 and $posterdata['uid'] != '') {
                     $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
                 }
+
                 if ($posterdata['uid'] != 1) {
                     $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Message') . '</span></a>';
                 }
+
                 if ($posterdata['femail'] != '') {
                     $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                 }
+
                 if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
                     if ($posterdata_extend[$ch_lat] != '') {
                         $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&amp;op=u' . $posterdata['uid'] . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw">&nbsp;</i><span class="ms-3 d-none d-md-inline">' . translate('Localisation') . '</span></a>';
@@ -248,14 +261,14 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if ($posterdata['url'] != '') {
                 $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="' . $posterdata['url'] . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-external-link-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visiter ce site web') . '</span></a>';
             }
+
             if ($posterdata['mns']) {
                 $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-desktop fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visitez le minisite') . '</span></a>';
             }
         }
 
-        echo '
-      <div id="tog_' . $idtog . '" class="row  ' . $clas . '">
-         <a name="' . $forum . $topic . $myrow['post_id'] . '"></a>';
+        echo '<div id="tog_' . $idtog . '" class="row  ' . $clas . '">
+            <a name="' . $forum . $topic . $myrow['post_id'] . '"></a>';
 
         if ($myrow['post_id'] == $max_post_id) {
             echo '<a name="lastpost"></a>';
@@ -272,65 +285,62 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
         }
 
         if ($idtog != 11 and $count != 0) {
-            echo '
-         <div class="d-flex justify-content-between pe-4 ">
-            <div class="border-right" style="margin-left:4rem;height:2rem"></div>
-         </div>';
+            echo '<div class="d-flex justify-content-between pe-4 ">
+                <div class="border-right" style="margin-left:4rem;height:2rem"></div>
+            </div>';
         }
-        echo '
-         <div class="col-12">
+
+        echo '<div class="col-12">
             <div class="card ' . $cardcla . ' border-dark">
-               <div class="card-header">';
+            <div class="card-header">';
 
         if ($smilies) {
             if ($myrow['poster_id'] !== '0') {
                 if ($posterdata['user_avatar'] != '') {
-                    if (stristr($posterdata['user_avatar'], "users_private")) {
+                    if (stristr($posterdata['user_avatar'], 'users_private')) {
                         $imgtmp = $posterdata['user_avatar'];
                     } else {
-                        if ($ibid = theme_image("forum/avatar/" . $posterdata['user_avatar'])) {
+                        if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
-                            $imgtmp = "images/forum/avatar/" . $posterdata['user_avatar'];
+                            $imgtmp = 'images/forum/avatar/' . $posterdata['user_avatar'];
                         }
                     }
                 }
 
-                echo '
-            <a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
-            <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
+                <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
             } else {
-                echo '
-               <a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
-               <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
+                echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+                <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
             }
         } else {
-            echo ($myrow['poster_id'] !== '0') ?
-                '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>' :
-                '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
+            echo ($myrow['poster_id'] !== '0') 
+                ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>' 
+                : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
         echo '<span class="float-end">';
 
         if ($myrow['image'] != '') {
-            if ($ibid = theme_image("forum/subject/" . $myrow['image'])) {
+            if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = "images/forum/subject/" . $myrow['image'];
+                $imgtmp = 'images/forum/subject/' . $myrow['image'];
             }
 
             echo '<img class="n-smil" src="' . $imgtmp . '" alt="" />';
         } else {
             echo '<img class="n-smil" src="' . $imgtmpPI . '" alt="" />';
         }
+
         echo '</span>
-               </div>';
+            </div>';
 
         $message = stripslashes($myrow['post_text']);
 
-        echo '
-               <div class="card-body">
-                  <div class="card-text pt-2">';
+        echo '<div class="card-body">
+            <div class="card-text pt-2">';
 
         $date_post = strtotime(getPartOfTime($myrow['post_time'], 'yyyy-MM-dd H:m:s'));
 
@@ -341,9 +351,8 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             }
         }
 
-        echo '
-                  </div>
-                  <div class="card-text pt-2">';
+        echo '</div>
+            <div class="card-text pt-2">';
 
         if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
             $message = smilie($message);
@@ -356,6 +365,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if (array_key_exists('user_sig', $posterdata)) {
                 $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', $message);
             }
+
             echo $message;
         }
 
@@ -367,13 +377,12 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             echo '</div>';
         }
 
-        echo '
-                  </div>
-               </div>
-               <div class="card-footer">
-                  <div class="row">
-                     <div class=" col-sm-6 text-body-secondary small">' . formatTimes($myrow['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>
-                     <div class=" col-sm-6 text-end">';
+        echo '</div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class=" col-sm-6 text-body-secondary small">' . formatTimes($myrow['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>
+                    <div class=" col-sm-6 text-end">';
 
         if ($forum_access != 9) {
             if ($allow_to_post) {
@@ -387,6 +396,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
 
                 if ($allow_upload_forum) {
                     $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
+                    
                     echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
                 }
             }
@@ -408,8 +418,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             }
         }
 
-        echo '
-                </div>
+        echo '</div>
             </div>
         </div>';
 
@@ -427,15 +436,14 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             echo '</div>';
         }
 
-        echo '
-                </div>
+        echo '</div>
             </div>
         </div>';
 
         $count++;
     }
 
-    return ($result);
+    return $result;
 }
 
 function aff_pub($lock_state, $topic, $forum, $post, $bouton)
@@ -472,10 +480,11 @@ function aff_pub_in($lock_state, $topic, $forum, $post)
 
 $contributeurs = get_contributeurs($forum, $topic);
 $contributeurs = explode(' ', $contributeurs);
+
 $total_contributeurs = count($contributeurs);
 
-$title = $forum_name;
-$post = $topic_subject;
+$title  = $forum_name;
+$post   = $topic_subject;
 
 include 'header.php';
 
@@ -487,10 +496,12 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
+
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
+
     } elseif ($forum_access == 2) {
         if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
@@ -503,26 +514,25 @@ if ($forum_access != 9) {
     }
 }
 
-echo '
-   <a name="topofpage"></a>
-   <p class="lead">
-      <a href="forum.php">' . translate('Index du forum') . '</a>&nbsp;&raquo;&raquo;&nbsp;
-      <a href="viewforum.php?forum=' . $forum . '">' . stripslashes($forum_name) . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $topic_subject . '
-   </p>
-   <h3 class="mb-3">' . $n_to . $topic_subject . ' <span class="text-body-secondary">&nbsp;#' . $topic . '</span> ' . $r_to . '</h3>
-      <div class="card mb-3">
-         <div class="card-body p-2">
-         <div class="d-flex ">
-            <div class=" align-self-center badge bg-secondary mx-2 col-2 col-md-3 col-xl-2 bg-white text-body-secondary py-2">
-                <span class=" me-1 lead">
-                    ' . $total_contributeurs . '
-                    <i class="fa fa-edit fa-fw fa-lg ms-1 d-inline d-md-none" title="' . translate('Contributeur(s)') . '" data-bs-toggle="tooltip"></i>
-                </span>
-                <span class=" d-none d-md-inline">
-                    ' . translate('Contributeur(s)') . '
-                </span>
-            </div>
-            <div class=" align-self-center me-auto">';
+echo '<a name="topofpage"></a>
+    <p class="lead">
+        <a href="forum.php">' . translate('Index du forum') . '</a>&nbsp;&raquo;&raquo;&nbsp;
+        <a href="viewforum.php?forum=' . $forum . '">' . stripslashes($forum_name) . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $topic_subject . '
+    </p>
+    <h3 class="mb-3">' . $n_to . $topic_subject . ' <span class="text-body-secondary">&nbsp;#' . $topic . '</span> ' . $r_to . '</h3>
+        <div class="card mb-3">
+            <div class="card-body p-2">
+            <div class="d-flex ">
+                <div class=" align-self-center badge bg-secondary mx-2 col-2 col-md-3 col-xl-2 bg-white text-body-secondary py-2">
+                    <span class=" me-1 lead">
+                        ' . $total_contributeurs . '
+                        <i class="fa fa-edit fa-fw fa-lg ms-1 d-inline d-md-none" title="' . translate('Contributeur(s)') . '" data-bs-toggle="tooltip"></i>
+                    </span>
+                    <span class=" d-none d-md-inline">
+                        ' . translate('Contributeur(s)') . '
+                    </span>
+                </div>
+                <div class=" align-self-center me-auto">';
 
 for ($i = 0; $i < $total_contributeurs; $i++) {
 
@@ -547,22 +557,21 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
 }
 
 echo '</div>
-</div>';
+    </div>';
 
 $ibidcountmod = count($moderator);
 
-echo '
-         <div class="d-flex">
-            <div class="badge bg-secondary align-self-center mx-2 col-2 col-md-3 col-xl-2 bg-white text-body-secondary py-2">
-                <span class="me-1 lead">
-                    ' . $ibidcountmod . ' 
-                    <i class="fa fa-balance-scale fa-fw fa-lg ms-1 d-inline d-md-none" title="' . translate('Modérateur(s)') . '" data-bs-toggle="tooltip"></i>
-                </span>
-                <span class=" d-none d-md-inline">
-                    ' . translate('Modérateur(s)') . '
-                </span>
-            </div>
-            <div class=" align-self-center me-auto">';
+echo '<div class="d-flex">
+    <div class="badge bg-secondary align-self-center mx-2 col-2 col-md-3 col-xl-2 bg-white text-body-secondary py-2">
+        <span class="me-1 lead">
+            ' . $ibidcountmod . ' 
+            <i class="fa fa-balance-scale fa-fw fa-lg ms-1 d-inline d-md-none" title="' . translate('Modérateur(s)') . '" data-bs-toggle="tooltip"></i>
+        </span>
+        <span class=" d-none d-md-inline">
+            ' . translate('Modérateur(s)') . '
+        </span>
+    </div>
+    <div class=" align-self-center me-auto">';
 
 for ($i = 0; $i < $ibidcountmod; $i++) {
     $modera = get_userdata($moderator[$i]);
@@ -710,14 +719,13 @@ if ($SuperCache) {
 }
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
-    echo '
-    <form action="viewforum.php" method="post">
-    <div class="mb-3 row">
-        <div class="col-12">
-            <label class="visually-hidden" for="forum">' . translate('Sauter à : ') . '</label>
-            <select class="form-select" id="forum" name="forum" onchange="submit();">
-                <option value="index">' . translate('Sauter à : ') . '</option>
-                <option value="index">' . translate('Index du forum') . '</option>';
+    echo '<form action="viewforum.php" method="post">
+        <div class="mb-3 row">
+            <div class="col-12">
+                <label class="visually-hidden" for="forum">' . translate('Sauter à : ') . '</label>
+                <select class="form-select" id="forum" name="forum" onchange="submit();">
+                    <option value="index">' . translate('Sauter à : ') . '</option>
+                    <option value="index">' . translate('Index du forum') . '</option>';
 
     $sub_sql = "SELECT forum_id, forum_name, forum_type, forum_pass 
                 FROM " . sql_prefix('forums') . " 
