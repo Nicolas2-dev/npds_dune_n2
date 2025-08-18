@@ -13,45 +13,55 @@
 /************************************************************************/
 
 include("modules/upload/upload.conf.php");
+
 // Répertoire serveur de la racine du site (avec le / terminal)
 if ($DOCUMENTROOT == '') {
-   global $DOCUMENT_ROOT;
-   if ($DOCUMENT_ROOT)
-      $DOCUMENTROOT = $DOCUMENT_ROOT;
-   else
-      $DOCUMENTROOT = $_SERVER['DOCUMENT_ROOT'];
+    global $DOCUMENT_ROOT;
+    if ($DOCUMENT_ROOT) {
+        $DOCUMENTROOT = $DOCUMENT_ROOT;
+    } else {
+        $DOCUMENTROOT = $_SERVER['DOCUMENT_ROOT'];
+    }
 }
 
 // Répertoire de téléchargement (avec le / terminal)
 if (isset($groupe)) {
-   settype($groupe, 'integer');
-   $rep_upload_editeur =  $racine . "/users_private/groupe/" . $groupe . "/";
-   $path_upload_editeur = "users_private/groupe/" . $groupe . "/";
+    settype($groupe, 'integer');
+
+    $rep_upload_editeur =  $racine . "/users_private/groupe/" . $groupe . "/";
+    $path_upload_editeur = "users_private/groupe/" . $groupe . "/";
 } else {
-   if ($user) {
-      $userX = base64_decode($user);
-      $userdata = explode(":", $userX);
-      if (trim($userdata[1]) != '') {
-         $uname = $cookie[1];
-      }
-      if ($autorise_upload_p) {
-         $user_dir = $racine . "/users_private/" . $uname;
-         $path_upload_editeur = "users_private/" . $uname . "/";
-         if (!is_dir($DOCUMENTROOT . $user_dir)) {
-            @umask("0000");
-            if (@mkdir($DOCUMENTROOT . $user_dir, 0777)) {
-               $fp = fopen($DOCUMENTROOT . $user_dir . "/index.html", 'w');
-               fclose($fp);
-            } else
-               Access_Error();
-         }
-      } else
-         Access_Error();
-      $rep_upload_editeur = $user_dir . "/";
-   } else {
-      $rep_upload_editeur = $racine . "/modules/upload/upload/";
-      $path_upload_editeur = "modules/upload/upload/";
-   }
+    if ($user) {
+        $userX = base64_decode($user);
+        $userdata = explode(":", $userX);
+
+        if (trim($userdata[1]) != '') {
+            $uname = $cookie[1];
+        }
+
+        if ($autorise_upload_p) {
+            $user_dir = $racine . "/users_private/" . $uname;
+            $path_upload_editeur = "users_private/" . $uname . "/";
+
+            if (!is_dir($DOCUMENTROOT . $user_dir)) {
+                @umask("0000");
+
+                if (@mkdir($DOCUMENTROOT . $user_dir, 0777)) {
+                    $fp = fopen($DOCUMENTROOT . $user_dir . "/index.html", 'w');
+                    fclose($fp);
+                } else {
+                    Access_Error();
+                }
+            }
+        } else {
+            Access_Error();
+        }
+
+        $rep_upload_editeur = $user_dir . "/";
+    } else {
+        $rep_upload_editeur = $racine . "/modules/upload/upload/";
+        $path_upload_editeur = "modules/upload/upload/";
+    }
 }
 
 // Max size
@@ -72,6 +82,7 @@ $MAX_FILE_SIZE = $max_size;
 /************************************************************************/
 $bn_allowed_extensions = "." . str_replace(" ", " .", $extension_autorise) . " .html .bak";
 $bn_banned_extensions = ".php .php3 .phps .htpasswd";
+
 /************************************************************************/
 /* $bn_allowed_mimetypes : Autoriser les utilisateurs à uploader des    */
 /* fichier dans la rédaction des messages. Dans les champs suivants,    */

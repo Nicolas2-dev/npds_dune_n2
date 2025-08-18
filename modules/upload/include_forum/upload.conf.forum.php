@@ -12,17 +12,20 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-include("modules/upload/upload.conf.php");
+include 'modules/upload/upload.conf.php';
+
 // Répertoire serveur de la racine du site (avec le / terminal)
 if ($DOCUMENTROOT == '') {
-   global $DOCUMENT_ROOT;
-   if ($DOCUMENT_ROOT)
-      $DOCUMENTROOT = $DOCUMENT_ROOT;
-   else
-      $DOCUMENTROOT = $_SERVER['DOCUMENT_ROOT'];
+    global $DOCUMENT_ROOT;
+    if ($DOCUMENT_ROOT) {
+        $DOCUMENTROOT = $DOCUMENT_ROOT;
+    } else {
+        $DOCUMENTROOT = $_SERVER['DOCUMENT_ROOT'];
+    }
 }
+
 // Répertoire de téléchargement (avec le / terminal)
-$rep_upload_forum = $racine . "/modules/upload/upload_forum/";
+$rep_upload_forum = $racine . '/modules/upload/upload_forum/';
 
 // Max size
 $MAX_FILE_SIZE_TOTAL = $quota;
@@ -47,6 +50,7 @@ $visible_forum = 1;
 /************************************************************************/
 $bn_allowed_extensions = '.' . str_replace(' ', ' .', $extension_autorise);
 $bn_banned_extensions = '.php .php3 .phps .htpasswd';
+
 /************************************************************************/
 /* $bn_allowed_mimetypes : Autoriser les utilisateurs à uploader des    */
 /* fichier dans la rédaction des messages. Dans les champs suivants,    */
@@ -63,5 +67,5 @@ $bn_banned_extensions = '.php .php3 .phps .htpasswd';
 $bn_allowed_mimetypes = '';
 $bn_banned_mimetypes = '';
 
-// --------------
+// 
 $upload_conf = 1;

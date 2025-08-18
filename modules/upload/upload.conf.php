@@ -44,14 +44,25 @@ $url_upload = 'http://localhost';
 // URL de la feuille de style à utiliser pour la présentation de la fenetre d'upload (ou "")
 
 global $cookie, $user, $Default_Theme, $theme;
+
 if (isset($user)) {
-   if ($cookie[9] == '') $cookie[9] = $Default_Theme;
-   if (isset($theme)) $cookie[9] = $theme;
-   $tmp_theme = $cookie[9];
-   if (!$file = @opendir("themes/$cookie[9]")) $tmp_theme = $Default_Theme;
+    if ($cookie[9] == '') {
+        $cookie[9] = $Default_Theme;
+    }
+
+    if (isset($theme)) {
+        $cookie[9] = $theme;
+    }
+
+    $tmp_theme = $cookie[9];
+
+    if (!$file = @opendir("themes/$cookie[9]")) {
+        $tmp_theme = $Default_Theme;
+    }
 } else {
-   $tmp_theme = $Default_Theme;
+    $tmp_theme = $Default_Theme;
 }
+
 /*
 pour une css dans le theme courant utiliser :
 $url_upload_css = $racine."/themes/".$tmp_theme."/style/style.css";

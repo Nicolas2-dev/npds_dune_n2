@@ -1,4 +1,5 @@
 <?php
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -19,10 +20,11 @@
 //function wp_fill() {
     $wp_jso = $_POST['wp_json'];
     $wp_use = $_POST['wp_user'];
-    $file = fopen($wp_use.'_wp.json','w');
+
+    $file = fopen($wp_use . '_wp.json', 'w');
+
     fwrite($file, $wp_jso);
     fclose($file);
 
-//echo 'debug';
+    //echo 'debug';
 //}
-?>

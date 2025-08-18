@@ -12,10 +12,15 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 include_once('../../grab_globals.php');
+
 // For More security
-if (!stristr($_SERVER['HTTP_REFERER'], "modules.php?ModPath=wspad&ModStart=wspad")) die();
+if (!stristr($_SERVER['HTTP_REFERER'], "modules.php?ModPath=wspad&ModStart=wspad"))
+    die();
+
 settype($verrou_groupe, 'integer');
+
 $verrou_page = stripslashes(htmlspecialchars(urldecode($verrou_page), ENT_QUOTES, 'UTF-8'));
 $verrou_user = stripslashes(htmlspecialchars(urldecode($verrou_user), ENT_QUOTES, 'UTF-8'));
 // For More security
@@ -27,5 +32,6 @@ header("Pragma: no-cache");
 // For IE cache control
 
 $fp = fopen("locks/$verrou_page-vgp-$verrou_groupe.txt", 'w');
+
 fwrite($fp, $verrou_user);
 fclose($fp);
