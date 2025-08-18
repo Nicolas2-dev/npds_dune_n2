@@ -119,7 +119,7 @@ function colsyst($coltarget)
 $ContainerGlobal = '<div id="container">';
 
 // Ne supprimez pas cette ligne / Don't remove this line
-require_once 'themes/base/views/partials/header.php';
+require_once 'themes/base/views/header.php';
 
 global $powerpack;
 if (!isset($powerpack)) {

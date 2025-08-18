@@ -28,4 +28,4 @@ $theme_darkness = 'auto';
 $long_chain     = '34';
 
 // ne pas supprimer cette ligne / Don't remove this line
-require_once 'themes/base/views/partials/theme.php';
+require_once 'themes/base/views/theme.php';
