@@ -13,24 +13,25 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion")) {
-    include("mainfile.php");
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
 }
 
 settype($op, 'string');
 
-if ($op != "maj_subscribe") {
+if ($op != 'maj_subscribe') {
 
     include 'header.php';
 
     $inclusion = false;
 
-    if (file_exists("themes/$theme/html/topics.html")) {
-        $inclusion = "themes/$theme/html/topics.html";
-    } elseif (file_exists("themes/default/html/topics.html")) {
-        $inclusion = "themes/default/html/topics.html";
+    if (file_exists('themes/'. $theme .'/views/partials/news/topics.php')) {
+        $inclusion = 'themes/'. $theme .'/views/partials/news/topics.php';
+
+    } elseif (file_exists('themes/base/views/partials/news/topics.php')) {
+        $inclusion = 'themes/base/views/partials/news/topics.php';
     } else {
-        echo 'html/topics.html / not find !<br />';
+        echo 'views/partials/news/topics.html / not find !<br />';
     }
 
     if ($inclusion) {
@@ -46,21 +47,26 @@ if ($op != "maj_subscribe") {
 } else {
     if ($subscribe) {
         if ($user) {
-            $result = sql_query("DELETE FROM " . sql_prefix('subscribe') . " WHERE uid='$cookie[0]' AND topicid IS NOT NULL");
+            $result = sql_query("DELETE FROM " . sql_prefix('subscribe') . " 
+                                 WHERE uid='$cookie[0]' 
+                                 AND topicid IS NOT NULL");
 
-            $selection = sql_query("SELECT topicid FROM " . sql_prefix('topics') . " ORDER BY topicid");
+            $selection = sql_query("SELECT topicid 
+                                    FROM " . sql_prefix('topics') . " 
+                                    ORDER BY topicid");
 
             while (list($topicid) = sql_fetch_row($selection)) {
                 if (isset($Subtopicid)) {
                     if (array_key_exists($topicid, $Subtopicid)) {
                         if ($Subtopicid[$topicid] == "on") {
-                            $resultX = sql_query("INSERT INTO " . sql_prefix('subscribe') . " (topicid, uid) VALUES ('$topicid','$cookie[0]')");
+                            $resultX = sql_query("INSERT INTO " . sql_prefix('subscribe') . " (topicid, uid) 
+                                                  VALUES ('$topicid','$cookie[0]')");
                         }
                     }
                 }
             }
 
-            redirect_url("topics.php");
+            redirect_url('topics.php');
         }
     }
 }
