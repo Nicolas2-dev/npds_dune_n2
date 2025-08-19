@@ -10,6 +10,7 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
 // Don't remove this line !
 global $C_start;
 
@@ -21,7 +22,8 @@ $forum = -1;
 
 // $topic : permet d'allouer un numéro UNIQUE pour chaque publication sur laquelle un commentaire peut être réalisé (article numéro X, sondage numéro Y, ...)
 if (isset($sid)) {
-    $topic = $sid;}
+    $topic = $sid;
+}
 
 // $url_ret : URL de retour lorsque la soumission du commentaire est OK
 global $archive;
@@ -37,6 +39,6 @@ $comments_per_page = 2;
 // $req_add = opération à effectuer lorsque je rajoute un commentaire
 // $req_del = opération à effectuer lorsque je cache un commentaire
 // $req_raz = opération à effectuer lorsque je supprime tous les commentaires
-$comments_req_add = "stories SET comments=comments+1 WHERE sid='$topic'";
-$comments_req_del = "stories SET comments=comments-1 WHERE sid='$topic'";
-$comments_req_raz = "stories SET comments=0 WHERE sid='$topic'";
+$comments_req_add = sql_prefix('stories') . " SET comments=comments+1 WHERE sid='$topic'";
+$comments_req_del = sql_prefix('stories') . " SET comments=comments-1 WHERE sid='$topic'";
+$comments_req_raz = sql_prefix('stories') . " SET comments=0 WHERE sid='$topic'";
