@@ -1,2 +1,8 @@
 # Ignorer le dossier npds/dev
 __archives/dev/
+
+# ignorer tout dans npds/
+npds/*
+
+# mais pas ce fichier spécial
+!npds/.gitkeep
