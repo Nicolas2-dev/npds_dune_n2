@@ -26,7 +26,7 @@ modules.php?ModPath=contact&ModStart=contact
 
 Le contenu du formulaire est modifiable dans le fichier :
 ```
-sform/contact/formulaire.php
+modules/contact/support/sform/formulaire.php
 ```
 
 ### 2. Créer d'autres formulaires
