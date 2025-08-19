@@ -26,8 +26,9 @@ if (
     die();
 }
 
-global $NPDS_Prefix;
-$result = sql_query("SELECT texte FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='$bnid'");
+$result = sql_query("SELECT texte 
+                     FROM " . sql_prefix('blocnotes') . " 
+                     WHERE bnid='$bnid'");
 
 if (sql_num_rows($result) > 0) {
     list($texte) = sql_fetch_row($result);

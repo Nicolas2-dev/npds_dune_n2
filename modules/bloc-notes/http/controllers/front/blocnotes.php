@@ -16,9 +16,9 @@
 global $NPDS_Prefix;
 
 if ($uriBlocNote) {
-    if ($typeBlocNote == "shared") {
+    if ($typeBlocNote == 'shared') {
         $bnid = md5($nomBlocNote);
-    } elseif ($typeBlocNote == "context") {
+    } elseif ($typeBlocNote == 'context') {
         if ($nomBlocNote == "\$username") {
 
             global $cookie, $admin;
@@ -31,8 +31,8 @@ if ($uriBlocNote) {
             }
         }
 
-        if (stristr(urldecode($uriBlocNote), "article.php")) {
-            $bnid = md5($nomBlocNote . substr(urldecode($uriBlocNote), 0, strpos(urldecode($uriBlocNote), "&")));
+        if (stristr(urldecode($uriBlocNote), 'article.php')) {
+            $bnid = md5($nomBlocNote . substr(urldecode($uriBlocNote), 0, strpos(urldecode($uriBlocNote), '&')));
         } else {
             $bnid = md5($nomBlocNote . urldecode($uriBlocNote));
         }
@@ -42,29 +42,36 @@ if ($uriBlocNote) {
 
     if ($bnid) {
         if ($supBlocNote == 'RAZ') {
-            sql_query("DELETE FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='$bnid'");
+            sql_query("DELETE FROM " . sql_prefix('blocnotes') . " 
+                       WHERE bnid='$bnid'");
         } else {
-            sql_query("LOCK TABLES " . $NPDS_Prefix . "blocnotes WRITE");
+            sql_query("LOCK TABLES " . sql_prefix('blocnotes') . " WRITE");
 
-            $result = sql_query("SELECT texte FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='$bnid'");
+            $result = sql_query("SELECT texte 
+                                 FROM " . sql_prefix('blocnotes') . " 
+                                 WHERE bnid='$bnid'");
 
             if (sql_num_rows($result) > 0) {
                 if ($texteBlocNote != '') {
-                    sql_query("UPDATE " . $NPDS_Prefix . "blocnotes SET texte='" . removeHack($texteBlocNote) . "' WHERE bnid='$bnid'");
+                    sql_query("UPDATE " . sql_prefix('blocnotes') . " 
+                               SET texte='" . removeHack($texteBlocNote) . "' 
+                               WHERE bnid='$bnid'");
                 } else {
-                    sql_query("DELETE FROM " . $NPDS_Prefix . "blocnotes WHERE bnid='$bnid'");
+                    sql_query("DELETE FROM " . sql_prefix('blocnotes') . " 
+                               WHERE bnid='$bnid'");
                 }
             } else {
                 if ($texteBlocNote != '') {
-                    sql_query("INSERT INTO " . $NPDS_Prefix . "blocnotes (bnid, texte) VALUES ('$bnid', '" . removeHack($texteBlocNote) . "')");
+                    sql_query("INSERT INTO " . sql_prefix('blocnotes') . " (bnid, texte) 
+                               VALUES ('$bnid', '" . removeHack($texteBlocNote) . "')");
                 }
             }
 
-            sql_query("UNLOCK TABLES");
+            sql_query('UNLOCK TABLES');
         }
     }
 
-    header("location: " . urldecode($uriBlocNote));
+    header('location: ' . urldecode($uriBlocNote));
 } else {
-    header("location: index.php");
+    header('location: index.php');
 }
