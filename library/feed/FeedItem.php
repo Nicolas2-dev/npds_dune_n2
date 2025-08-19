@@ -8,6 +8,7 @@
  */
 class FeedItem extends HtmlDescribable
 {
+
    /**
     * Mandatory attributes of an item.
     */

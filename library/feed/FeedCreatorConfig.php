@@ -5,7 +5,8 @@ class FeedCreatorConfig
     
     private static $timeZone = '';
 
-    private static $version = "FeedCreator 2.0 for NPDS";
+    
+    private static $version = 'FeedCreator 2.0 for NPDS';
     
     /**
      * Getter pour TIME_ZONE

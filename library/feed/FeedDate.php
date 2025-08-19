@@ -6,7 +6,9 @@
  */
 class FeedDate
 {
+
     var $unix;
+
 
     /**
      * Creates a new instance of FeedDate representing a given date.

@@ -6,6 +6,7 @@
  */
 class HtmlDescribable
 {
+
    /**
     * Indicates whether the description field should be rendered in HTML.
     */
@@ -15,6 +16,7 @@ class HtmlDescribable
     * Indicates whether and to how many characters a description should be truncated.
     */
    var $descriptionTruncSize;
+
 
    /**
     * Returns a formatted description field, depending on descriptionHtmlSyndicated and
@@ -26,6 +28,7 @@ class HtmlDescribable
       $descriptionField = new FeedHtmlField($this->description);
       $descriptionField->syndicateHtml = $this->descriptionHtmlSyndicated;
       $descriptionField->truncSize = $this->descriptionTruncSize;
+
       return $descriptionField->output();
    }
 }

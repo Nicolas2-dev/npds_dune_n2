@@ -9,6 +9,7 @@
  */
 class FeedHtmlField
 {
+
    /**
     * Mandatory attributes of a FeedHtmlField.
     */
@@ -20,6 +21,7 @@ class FeedHtmlField
     */
    var $truncSize, $syndicateHtml;
 
+
    /**
     * Creates a new instance of FeedHtmlField.
     * @param  $string: if given, sets the rawFieldContent property
@@ -27,9 +29,11 @@ class FeedHtmlField
 
    public function __construct($parFieldContent)
    {
-      if ($parFieldContent)
+      if ($parFieldContent) {
          $this->rawFieldContent = $parFieldContent;
+      }
    }
+
    public function FeedHtmlField($parFieldContent)
    {
       self::__construct($parFieldContent);
@@ -45,9 +49,9 @@ class FeedHtmlField
       // - valid html in $rawFieldContent and we enclose in CDATA tags
       // - no truncation (truncating risks producing invalid html)
       if (!$this->rawFieldContent) {
-         $result = "";
+         $result = '';
       } elseif ($this->syndicateHtml) {
-         $result = "<![CDATA[" . $this->rawFieldContent . "]]>";
+         $result = '<![CDATA[' . $this->rawFieldContent . ']]>';
       } else {
          if ($this->truncSize and is_int($this->truncSize)) {
             $result = FeedCreator::iTrunc(htmlspecialchars($this->rawFieldContent, ENT_COMPAT | ENT_HTML401, 'UTF-8'), $this->truncSize);
@@ -55,6 +59,7 @@ class FeedHtmlField
             $result = htmlspecialchars($this->rawFieldContent, ENT_COMPAT | ENT_HTML401, 'UTF-8');
          }
       }
+
       return $result;
    }
 }

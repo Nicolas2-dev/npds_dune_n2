@@ -7,6 +7,7 @@
  */
 class FeedImage extends HtmlDescribable
 {
+
    /**
     * Mandatory attributes of an image.
     */

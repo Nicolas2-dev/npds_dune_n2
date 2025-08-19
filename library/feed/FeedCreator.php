@@ -10,6 +10,7 @@
  */
 class FeedCreator extends HtmlDescribable
 {
+   
    /**
     * Mandatory attributes of a feed.
     */
@@ -24,8 +25,9 @@ class FeedCreator extends HtmlDescribable
     * The url of the external xsl css stylesheet used to format the naked rss feed.
     * Ignored in the output when empty.
     */
-   var $xslStyleSheet = "";
-   var $cssStyleSheet = "http://www.w3.org/2000/08/w3c-synd/style.css";
+   var $xslStyleSheet = '';
+
+   var $cssStyleSheet = 'http://www.w3.org/2000/08/w3c-synd/style.css';
 
    /**
     * @access private
@@ -37,7 +39,7 @@ class FeedCreator extends HtmlDescribable
     * @since 1.4
     * @access private
     */
-   var $contentType = "application/xml";
+   var $contentType = 'application/xml';
 
    /**
     * This feed's character encoding.
@@ -84,25 +86,29 @@ class FeedCreator extends HtmlDescribable
          return $string;
       }
 
-      $pos = strrpos($string, ".");
+      $pos = strrpos($string, '.');
+
       if ($pos >= $length - 4) {
          $string = substr($string, 0, $length - 4);
-         $pos = strrpos($string, ".");
-      }
-      if ($pos >= $length * 0.4) {
-         return substr($string, 0, $pos + 1) . " ...";
+         $pos = strrpos($string, '.');
       }
 
-      $pos = strrpos($string, " ");
+      if ($pos >= $length * 0.4) {
+         return substr($string, 0, $pos + 1) . ' ...';
+      }
+
+      $pos = strrpos($string, ' ');
+
       if ($pos >= $length - 4) {
          $string = substr($string, 0, $length - 4);
-         $pos = strrpos($string, " ");
-      }
-      if ($pos >= $length * 0.4) {
-         return substr($string, 0, $pos) . " ...";
+         $pos = strrpos($string, ' ');
       }
 
-      return substr($string, 0, $length - 4) . " ...";
+      if ($pos >= $length * 0.4) {
+         return substr($string, 0, $pos) . ' ...';
+      }
+
+      return substr($string, 0, $length - 4) . ' ...';
    }
 
    /**
@@ -124,20 +130,29 @@ class FeedCreator extends HtmlDescribable
     */
    function _createAdditionalElements($elements, $indentString = "")
    {
-      $ae = "";
+      $ae = '';
+
       if (is_array($elements)) {
          foreach ($elements as $key => $value) {
             $ae .= $indentString . "<$key>$value</$key>\n";
          }
       }
+
       return $ae;
    }
 
    function _createStylesheetReferences()
    {
-      $xml = "";
-      if ($this->cssStyleSheet) $xml .= "<?xml-stylesheet href=\"" . $this->cssStyleSheet . "\" type=\"text/css\"?>\n";
-      if ($this->xslStyleSheet) $xml .= "<?xml-stylesheet href=\"" . $this->xslStyleSheet . "\" type=\"text/xsl\"?>\n";
+      $xml = '';
+
+      if ($this->cssStyleSheet) {
+         $xml .= "<?xml-stylesheet href=\"" . $this->cssStyleSheet . "\" type=\"text/css\"?>\n";
+      }
+
+      if ($this->xslStyleSheet) {
+         $xml .= "<?xml-stylesheet href=\"" . $this->xslStyleSheet . "\" type=\"text/xsl\"?>\n";
+      }
+
       return $xml;
    }
 
@@ -157,7 +172,8 @@ class FeedCreator extends HtmlDescribable
    function _generateFilename()
    {
       $fileInfo = pathinfo($_SERVER['PHP_SELF']);
-      return substr($fileInfo["basename"], 0, - (strlen($fileInfo["extension"]) + 1)) . ".xml";
+
+      return substr($fileInfo['basename'], 0, - (strlen($fileInfo['extension']) + 1)) . '.xml';
    }
 
    /**
@@ -166,9 +182,11 @@ class FeedCreator extends HtmlDescribable
     */
    function _redirect($filename)
    {
-      Header("Content-Type: " . $this->contentType . "; filename=" . basename($filename));
-      Header("Content-Disposition: inline; filename=" . basename($filename));
-      readfile($filename, "r");
+      Header('Content-Type: ' . $this->contentType . '; filename=' . basename($filename));
+      Header('Content-Disposition: inline; filename=' . basename($filename));
+
+      readfile($filename, 'r');
+
       die();
    }
 
@@ -182,11 +200,12 @@ class FeedCreator extends HtmlDescribable
     * @param filename   string   optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER["PHP_SELF"] with the extension changed to .xml (see _generateFilename()).
     * @param timeout int      optional the timeout in seconds before a cached version is refreshed (defaults to 3600 = 1 hour)
     */
-   function useCached($filename = "", $timeout = 3600)
+   function useCached($filename = '', $timeout = 3600)
    {
-      if ($filename == "") {
+      if ($filename == '') {
          $filename = $this->_generateFilename();
       }
+
       if (file_exists($filename) and (time() - filemtime($filename) < $timeout)) {
          $this->_redirect($filename);
       }
@@ -200,20 +219,23 @@ class FeedCreator extends HtmlDescribable
     * @param filename   string   optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER["PHP_SELF"] with the extension changed to .xml (see _generateFilename()).
     * @param redirect   boolean  optional send an HTTP redirect header or not. If true, the user will be automatically redirected to the created file.
     */
-   function saveFeed($filename = "", $displayContents = true)
+   function saveFeed($filename = '', $displayContents = true)
    {
-      if ($filename == "") {
+      if ($filename == '') {
          $filename = $this->_generateFilename();
       }
-      $feedFile = fopen($filename, "w+");
+
+      $feedFile = fopen($filename, 'w+');
+
       if ($feedFile) {
          fputs($feedFile, $this->createFeed());
          fclose($feedFile);
+
          if ($displayContents) {
             $this->_redirect($filename);
          }
       } else {
-         echo "<br /><b>Erreur de cr�ation du fichier de canal / Error creating feed file</b><br />";
+         echo '<br /><b>Erreur de cr�ation du fichier de canal / Error creating feed file</b><br />';
       }
    }
 }

@@ -11,39 +11,41 @@
  */
 class UniversalFeedCreator extends FeedCreator
 {
+
    var $_feed;
+
 
    function _setFormat($format)
    {
       switch (strtoupper($format)) {
 
-         case "2.0":
+         case '2.0':
             // fall through
-         case "RSS2.0":
+         case 'RSS2.0':
             $this->_feed = new RSSCreator20();
             break;
 
-         case "1.0":
+         case '1.0':
             // fall through
-         case "RSS1.0":
+         case 'RSS1.0':
             $this->_feed = new RSSCreator10();
             break;
 
-         case "0.91":
+         case '0.91':
             // fall through
-         case "RSS0.91":
+         case 'RSS0.91':
             $this->_feed = new RSSCreator091();
             break;
 
-         case "MBOX":
+         case 'MBOX':
             $this->_feed = new MBOXCreator();
             break;
 
-         case "OPML":
+         case 'OPML':
             $this->_feed = new OPMLCreator();
             break;
 
-         case "ATOM":
+         case 'ATOM':
             $this->_feed = new AtomCreator03();
             break;
 
@@ -53,9 +55,10 @@ class UniversalFeedCreator extends FeedCreator
       }
 
       $vars = get_object_vars($this);
+
       foreach ($vars as $key => $value) {
-         // prevent overwriting of properties "contentType", "encoding"; do not copy "_feed" itself
-         if (!in_array($key, array("_feed", "contentType", "encoding"))) {
+         // prevent overwriting of properties 'contentType', 'encoding'; do not copy '_feed' itself
+         if (!in_array($key, array('_feed', 'contentType', 'encoding'))) {
             $this->_feed->{$key} = $this->{$key};
          }
       }
@@ -67,9 +70,10 @@ class UniversalFeedCreator extends FeedCreator
     * @see      FeedCreator::addItem()
     * @return   string    the contents of the feed.
     */
-   function createFeed($format = "RSS0.91")
+   function createFeed($format = 'RSS0.91')
    {
       $this->_setFormat($format);
+
       return $this->_feed->createFeed();
    }
 
@@ -81,9 +85,10 @@ class UniversalFeedCreator extends FeedCreator
     * @param   string   filename optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER["PHP_SELF"] with the extension changed to .xml (see _generateFilename()).
     * @param   boolean  displayContents   optional send the content of the file or not. If true, the file will be sent in the body of the response.
     */
-   function saveFeed($format = "RSS0.91", $filename = "", $displayContents = true)
+   function saveFeed($format = 'RSS0.91', $filename = '', $displayContents = true)
    {
       $this->_setFormat($format);
+
       $this->_feed->saveFeed($filename, $displayContents);
    }
 
@@ -97,9 +102,10 @@ class UniversalFeedCreator extends FeedCreator
     * @param filename   string   optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER["PHP_SELF"] with the extension changed to .xml (see _generateFilename()).
     * @param timeout int      optional the timeout in seconds before a cached version is refreshed (defaults to 3600 = 1 hour)
     */
-   function useCached($format = "RSS0.91", $filename = "", $timeout = 3600)
+   function useCached($format = 'RSS0.91', $filename = '', $timeout = 3600)
    {
       $this->_setFormat($format);
+
       $this->_feed->useCached($filename, $timeout);
    }
 }
