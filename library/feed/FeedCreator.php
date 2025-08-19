@@ -112,7 +112,7 @@ class FeedCreator extends HtmlDescribable
     */
    function _createGeneratorComment()
    {
-      return "<!-- generator=\"" . FeedCreatorConfig::VERSION . "\" -->\n";
+      return "<!-- generator=\"" . FeedCreatorConfig::getVersion() . "\" -->\n";
    }
 
    /**

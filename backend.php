@@ -19,7 +19,10 @@ function fab_feed($type, $filename, $timeout)
 {
     global $sitename, $slogan, $nuke_url, $backend_image, $backend_title, $backend_width, $backend_height, $backend_language, $storyhome;
 
-    include 'library/feed/feedcreator.class.php';
+    //include 'library/feed/feedcreator.class.php';
+
+    FeedCreatorConfig::setTimeZone('Europe/Paris');
+    FeedCreatorConfig::setVersion('FeedCreator 2.1 for NPDS');
 
     $rss = new UniversalFeedCreator();
     $rss->useCached($type, $filename, $timeout);

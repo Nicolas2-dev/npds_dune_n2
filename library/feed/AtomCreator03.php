@@ -21,8 +21,8 @@ class AtomCreator03 extends FeedCreator
 
     public function __construct()
     {
-        $this->contentType = "application/atom+xml";
-        $this->encoding = "utf-8";
+        $this->contentType = 'application/atom+xml';
+        $this->encoding = 'utf-8';
     }
 
     function createFeed()
@@ -31,7 +31,7 @@ class AtomCreator03 extends FeedCreator
         $feed .= $this->_createGeneratorComment();
         $feed .= "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
 
-        if ($this->language != "") {
+        if ($this->language != '') {
             $feed .= " xml:lang=\"" . $this->language . "\"";
         }
 
@@ -45,18 +45,18 @@ class AtomCreator03 extends FeedCreator
 
         $feed .= "    <updated>" . htmlspecialchars($now->iso8601(), ENT_COMPAT | ENT_HTML401, $this->encoding) . "</updated>\n";
 
-        if ($this->editor != "") {
+        if ($this->editor != '') {
             $feed .= "    <author>\n";
             $feed .= "        <name>" . $this->editor . "</name>\n";
 
-            if ($this->editorEmail != "") {
+            if ($this->editorEmail != '') {
                 $feed .= "        <email>" . $this->editorEmail . "</email>\n";
             }
 
             $feed .= "    </author>\n";
         }
 
-        $feed .= "    <generator>" . FeedCreatorConfig::VERSION . "</generator>\n";
+        $feed .= "    <generator>" . FeedCreatorConfig::getVersion() . "</generator>\n";
         $feed .= $this->_createAdditionalElements($this->additionalElements, "    ");
 
         for ($i = 0; $i < count($this->items); $i++) {
@@ -64,7 +64,7 @@ class AtomCreator03 extends FeedCreator
             $feed .= "        <title>" . htmlspecialchars(strip_tags($this->items[$i]->title), ENT_COMPAT | ENT_HTML401, $this->encoding) . "</title>\n";
             $feed .= "        <link rel=\"alternate\" type=\"text/html\" href=\"" . htmlspecialchars($this->items[$i]->link, ENT_COMPAT | ENT_HTML401, $this->encoding) . "\"/>\n";
 
-            if ($this->items[$i]->date == "") {
+            if ($this->items[$i]->date == '') {
                 $this->items[$i]->date = time();
             }
 
@@ -79,13 +79,13 @@ class AtomCreator03 extends FeedCreator
             $feed .= "        <id>" . htmlspecialchars($this->items[$i]->link, ENT_COMPAT | ENT_HTML401, $this->encoding) . "</id>\n";
             $feed .= $this->_createAdditionalElements($this->items[$i]->additionalElements, "        ");
 
-            if ($this->items[$i]->author != "") {
+            if ($this->items[$i]->author != '') {
                 $feed .= "        <author>\n";
                 $feed .= "            <name>" . htmlspecialchars($this->items[$i]->author, ENT_COMPAT | ENT_HTML401, $this->encoding) . "</name>\n";
                 $feed .= "        </author>\n";
             }
 
-            if ($this->items[$i]->description != "") {
+            if ($this->items[$i]->description != '') {
                 $feed .= "        <summary type=\"html\">" . htmlspecialchars($this->items[$i]->description, ENT_COMPAT | ENT_HTML401, $this->encoding) . "</summary>\n";
             }
 
