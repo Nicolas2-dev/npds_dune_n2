@@ -11,9 +11,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Mysql_Connexion"))
-    include("mainfile.php");
+if (!function_exists('Mysql_Connexion')) { 
+    include 'mainfile.php';
+}
 
 include 'header.php';
-include_once('modules/sform/contact/contact.php');
+
+include_once 'modules/contact/http/controllers/front/contact.php';
+
 include 'footer.php';
