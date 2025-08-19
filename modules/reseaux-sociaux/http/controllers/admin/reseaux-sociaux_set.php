@@ -17,8 +17,9 @@
 /************************************************************************/
 
 // For More security
-if (!function_exists('admindroits'))
+if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');
+}
 
 if (
     strstr($ModPath, '..')
@@ -35,60 +36,82 @@ if (
     || stristr($ModStart, 'applet')
     || stristr($ModStart, 'object')
     || stristr($ModStart, 'meta')
-)
+) {
     die();
+}
 
 // For More security
 $f_meta_nom = 'reseaux-sociaux';
 
-$f_titre = adm_translate("Module") . ' : ' . $ModPath;
+$f_titre = adm_translate('Module') . ' : ' . $ModPath;
 
-$hlpfile = 'manuels/' . $language . '/social.html';
+$hlpfile = 'modules/' . $ModPath . '/views/manuels/' . $language . '/social.php';
 
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 //<== controle droit
 
-$ModStart = 'admin/reseaux-sociaux_set';
+$ModStart = 'http/controllers/admin/reseaux-sociaux_set';
 
 GraphicAdmin($hlpfile);
 
 function ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
 {
-    if (file_exists("modules/$ModPath/reseaux-sociaux.conf.php"))
-        include("modules/$ModPath/reseaux-sociaux.conf.php");
+    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
+        include 'modules/'. $ModPath .'/config/config.php';
+    }
 
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
-    <h3><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=AddReseaux"><i class="fa fa-plus-square"></i></a>&nbsp;' . adm_translate("Ajouter") . '</h3>
+    echo '<hr />
+    <h3>
+        <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=AddReseaux">
+            <i class="fa fa-plus-square"></i>
+        </a>
+        &nbsp;' . adm_translate('Ajouter') . '
+    </h3>
     <table id ="lst_rs_adm" data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons-prefix="fa" data-icons="icons">
         <thead>
             <tr>
-                <th class="n-t-col-xs-3" data-sortable="true" data-halign="center" data-align="right">' . adm_translate("Nom") . '</th>
-                <th class="n-t-col-xs-5" data-sortable="true" data-halign="center">' . adm_translate("URL") . '</th>
-                <th class="n-t-col-xs-1" data-halign="center" data-align="center">' . adm_translate("Icône") . '</th>
-                <th class="n-t-col-xs-2" data-halign="center" data-align="center">' . adm_translate("Fonctions") . '</th>
+                <th class="n-t-col-xs-3" data-sortable="true" data-halign="center" data-align="right">
+                    ' . adm_translate('Nom') . '
+                </th>
+                <th class="n-t-col-xs-5" data-sortable="true" data-halign="center">
+                    ' . adm_translate('URL') . '
+                </th>
+                <th class="n-t-col-xs-1" data-halign="center" data-align="center">
+                    ' . adm_translate('Icône') . '
+                </th>
+                <th class="n-t-col-xs-2" data-halign="center" data-align="center">
+                    ' . adm_translate('Fonctions') . '
+                </th>
             </tr>
         </thead>
         <tbody>';
 
     foreach ($rs as $v1) {
-        echo '
-            <tr>
-                <td>' . $v1[0] . '</td>
-                <td>' . $v1[1] . '</td>
-                <td><i class="fab fa-' . $v1[2] . ' fa-2x text-body-secondary align-middle"></i></td>
+        echo '<tr>
                 <td>
-                <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=EditReseaux&amp;rs_id=' . urlencode($v1[0]) . '&amp;rs_url=' . urlencode($v1[1]) . '&amp;rs_ico=' . urlencode($v1[2]) . '" ><i class="fa fa-edit fa-lg me-2 align-middle" title="' . adm_translate("Editer") . '" data-bs-toggle="tooltip" data-bs-placement="left"></i></a>
-                <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=DeleteReseaux&amp;rs_id=' . urlencode($v1[0]) . '&amp;rs_url=' . urlencode($v1[1]) . '&amp;rs_ico=' . urlencode($v1[2]) . '" ><i class="fas fa-trash fa-lg text-danger align-middle" title="' . adm_translate("Effacer") . '" data-bs-toggle="tooltip"></i></a>
+                    ' . $v1[0] . '
+                </td>
+                <td>
+                    ' . $v1[1] . '
+                </td>
+                <td>
+                    <i class="fab fa-' . $v1[2] . ' fa-2x text-body-secondary align-middle"></i>
+                </td>
+                <td>
+                    <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=EditReseaux&amp;rs_id=' . urlencode($v1[0]) . '&amp;rs_url=' . urlencode($v1[1]) . '&amp;rs_ico=' . urlencode($v1[2]) . '" >
+                        <i class="fa fa-edit fa-lg me-2 align-middle" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" data-bs-placement="left"></i>
+                    </a>
+                    <a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;subop=DeleteReseaux&amp;rs_id=' . urlencode($v1[0]) . '&amp;rs_url=' . urlencode($v1[1]) . '&amp;rs_ico=' . urlencode($v1[2]) . '" >
+                        <i class="fas fa-trash fa-lg text-danger align-middle" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"></i>
+                    </a>
                 </td>
             </tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>';
 
     adminfoot('', '', '', '');
@@ -96,46 +119,46 @@ function ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
 
 function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
 {
-    if (file_exists("modules/$ModPath/reseaux-sociaux.conf.php"))
-        include("modules/$ModPath/reseaux-sociaux.conf.php");
+    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
+        include 'modules/'. $ModPath .'/config/config.php';
+    }
 
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    if ($subop == 'AddReseaux')
-        echo '
-    <hr />
-    <h3 class="mb-3">' . adm_translate("Ajouter") . '</h3>';
-    else
-        echo '
-    <hr />
-    <h3 class="mb-3">' . adm_translate("Editer") . '</h3>';
+    if ($subop == 'AddReseaux') {
+        echo '<hr />
+        <h3 class="mb-3">' . adm_translate('Ajouter') . '</h3>';
+    } else {
+        echo '<hr />
+        <h3 class="mb-3">' . adm_translate('Editer') . '</h3>';
+    }
 
-    echo '
-    <form id="reseauxadm" action="admin.php" method="post">
+    echo '<form id="reseauxadm" action="admin.php" method="post">
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="rs_id">' . adm_translate("Nom") . '</label>
+            <label class="col-form-label col-sm-3" for="rs_id">' . adm_translate('Nom') . '</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="rs_id" name="rs_id"  maxlength="50"  placeholder="' . adm_translate("") . '" value="' . urldecode($rs_id) . '" required="required" />
+                <input class="form-control" type="text" id="rs_id" name="rs_id"  maxlength="50" value="' . urldecode($rs_id) . '" required="required" />
                 <span class="help-block text-end"><span id="countcar_rs_id"></span></span>
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="rs_url">' . adm_translate("URL") . '</label>
+            <label class="col-form-label col-sm-3" for="rs_url">' . adm_translate('URL') . '</label>
             <div class="col-sm-9">
-                <input class="form-control" type="url" id="rs_url" name="rs_url"  maxlength="100" placeholder="' . adm_translate("") . '" value="' . urldecode($rs_url) . '" required="required" />
+                <input class="form-control" type="url" id="rs_url" name="rs_url"  maxlength="100" value="' . urldecode($rs_url) . '" required="required" />
                 <span class="help-block text-end"><span id="countcar_rs_url"></span></span>
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="rs_ico">' . adm_translate("Icône") . '</label>
+            <label class="col-form-label col-sm-3" for="rs_ico">' . adm_translate('Icône') . '</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="rs_ico" name="rs_ico"  maxlength="40" placeholder="' . adm_translate("") . '" value="' . stripcslashes(urldecode($rs_ico)) . '" required="required" />
+                <input class="form-control" type="text" id="rs_ico" name="rs_ico"  maxlength="40" value="' . stripcslashes(urldecode($rs_ico)) . '" required="required" />
                 <span class="help-block text-end"><span id="countcar_rs_ico"></span></span>
             </div>
         </div>
         <div class="mb-3 row">
             <div class="col-sm-9 ms-sm-auto">
-                <button class="btn btn-primary col-12" type="submit"><i class="fa fa-check-square fa-lg"></i>&nbsp;' . adm_translate("Sauver") . '</button>
+                <button class="btn btn-primary col-12" type="submit">
+                    <i class="fa fa-check-square fa-lg"></i>&nbsp;' . adm_translate('Sauver') . '</button>
                 <input type="hidden" name="op" value="Extend-Admin-SubModule" />
                 <input type="hidden" name="ModPath" value="' . $ModPath . '" />
                 <input type="hidden" name="ModStart" value="' . $ModStart . '" />
@@ -146,8 +169,7 @@ function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_
         </div>
     </form>';
 
-    $arg1 = '
-        var formulid = ["reseauxadm"];
+    $arg1 = 'var formulid = ["reseauxadm"];
         inpandfieldlen("rs_id",50);
         inpandfieldlen("rs_url",100);
         inpandfieldlen("rs_ico",40);';
@@ -155,10 +177,11 @@ function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_
     adminfoot('fv', '', $arg1, '');
 }
 
-function SaveSetReseaux($ModPath, $ModStart, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
+function SaveSetReseaux($ModPath, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
 {
-    if (file_exists("modules/$ModPath/reseaux-sociaux.conf.php"))
-        include("modules/$ModPath/reseaux-sociaux.conf.php");
+    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
+        include 'modules/'. $ModPath .'/config/config.php';
+    }
 
     $newar = array($rs_id, $rs_url, $rs_ico);
     $newrs = array();
@@ -166,21 +189,24 @@ function SaveSetReseaux($ModPath, $ModStart, $rs_id, $rs_url, $rs_ico, $subop, $
     $j = 0;
 
     foreach ($rs as $v1) {
-        if (in_array($old_id, $v1, true))
+        if (in_array($old_id, $v1, true)) {
             unset($rs[$j]);
+        }
 
         $j++;
     }
 
     foreach ($rs as $v1) {
-        if (!in_array($rs_id, $v1, true))
+        if (!in_array($rs_id, $v1, true)) {
             $newrs[] = $v1;
+        }
     }
 
-    if ($subop !== 'DeleteReseaux')
+    if ($subop !== 'DeleteReseaux') {
         $newrs[] = $newar;
+    }
 
-    $file = fopen("modules/$ModPath/reseaux-sociaux.conf.php", "w+");
+    $file = fopen('modules/' . $ModPath . '/config/config.php', 'w+');
 
     $content = "<?php \n";
     $content .= "/************************************************************************/\n";
@@ -220,7 +246,7 @@ function SaveSetReseaux($ModPath, $ModStart, $rs_id, $rs_url, $rs_ico, $subop, $
     fwrite($file, $content);
     fclose($file);
 
-    @chmod("modules/$ModPath/reseaux-sociaux.conf.php", 0666);
+    @chmod('modules/' . $ModPath . '/config/config.php', 0666);
 }
 
 settype($subop, 'string');
@@ -233,7 +259,8 @@ switch ($subop) {
 
     case "SaveSetReseaux":
     case "DeleteReseaux":
-        SaveSetReseaux($ModPath, $ModStart, $rs_id, $rs_url, $rs_ico, $subop, $old_id);
+        SaveSetReseaux($ModPath, $rs_id, $rs_url, $rs_ico, $subop, $old_id);
+
         ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg);
         break;
 
