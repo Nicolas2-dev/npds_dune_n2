@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Administration - Archive-stories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h3></h3>
+        <nav class="my-3">
+            <ol class="breadcrumb bg-transparent">
+                <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+                <li class="breadcrumb-item"> <a href="men_gen.html">Menu</a></li>
+                <li class="breadcrumb-item"><a href="men_contenu.html">Contenu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Archivage</li>
+            </ol>
+        </nav>
+        <hr class="mt-n3" />
+        <p>Ce module du core permet un affichage synthétique des articles. Il est installé par défaut et donc disponible.</p>
+        <p>Vous pouvez définir ici :
+        <ul>
+            <li>l'entête de la page :<br />tout ce qui se trouvera au dessus du tableau de présentation. (html et multi-langue supporté)</li>
+            <li>le type d'article affiché : <br />
+                - les articles en ligne<br />
+                ou <br />
+                - les articles archivés
+            </li>
+            <li>le nombre d'articles dans le tableau de présentation</li>
+            <li>le temps de rétention de cache de la page (dans supercache, opérationel quand supercache est activé)</li>
+        </ul>
+        </p>
+        <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Manuel administration</span></p>
+    </div>
+</body>
+
+</html>
