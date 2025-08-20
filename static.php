@@ -74,12 +74,12 @@ if (($op != '') && ($op)) {
         && !stristr($op, 'meta')
     ) {
 
-        if (file_exists('static/'. $op)) {
+        if (file_exists('storage/static/'. $op)) {
             if (!$metalang and !$nl) {
-                include 'static/'. $op;
+                include 'storage/static/'. $op;
             } else {
                 ob_start();
-                    include 'static/'. $op;
+                    include 'storage/static/'. $op;
                     $remp = ob_get_contents();
                 ob_end_clean();
 

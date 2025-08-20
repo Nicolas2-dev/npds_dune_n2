@@ -11,8 +11,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
-    die();
+//if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
+//    die();
+//}
+
+if (!function_exists('Mysql_Connexion')) {
+    include 'mainfile.php';
 }
 
 global $Default_Theme, $Default_Skin, $user, $language;
@@ -49,7 +53,7 @@ if (isset($user) and $user != '') {
     $tmp_theme = $theme;
 }
 
-include 'themes/' . $tmp_theme . '/theme.php';
+include 'themes/' . $tmp_theme . '/views/theme.php';
 
 $Titlesitename = 'META-LANG';
 

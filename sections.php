@@ -548,7 +548,7 @@ function PrintSecPage($artid)
 
     echo $pos 
         ? '<img src="' . $site_logo . '" alt="logo" />' 
-        : '<img src="assets/shared/' . $site_logo . '" alt="logo" />';
+        : '<img src="assets/images/npds/' . $site_logo . '" alt="logo" />';
 
     $result = sql_query("SELECT title, content 
                          FROM " . sql_prefix('seccont') . " 

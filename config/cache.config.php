@@ -18,7 +18,7 @@
 /************************************************************************/
 
 // Be sure that apache user have the permission to Read/Write/Delete in the Dir
-$CACHE_CONFIG['data_dir'] = 'cache/';
+$CACHE_CONFIG['data_dir'] = 'storage/cache/';
 
 // How the Auto_Cleanup process is run
 // 0 no cleanup - 1 auto_cleanup

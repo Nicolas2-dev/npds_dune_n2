@@ -18,6 +18,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+require __DIR__ . '/vendor/autoload.php';
+
 // Bloque le lancement de l'install si IZ-Xinstall.ok existe
 if (file_exists('IZ-Xinstall.ok')) {
     include 'admin/die.php';

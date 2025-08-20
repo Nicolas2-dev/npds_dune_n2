@@ -13,6 +13,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+require __DIR__ . '/vendor/autoload.php';
+
 include 'bootstrap/grab_globals.php';
 include 'config/config.php';
 include 'bootstrap/multi-langue.php';
@@ -2319,7 +2321,7 @@ function aff_editeur($Xzone, $Xactiv)
                mobile: {menubar: true},
                language : '" . language_iso(1, '', '') . "',";
 
-                    include("editeur/tinymce/themes/advanced/npds.conf.php");
+                    include("shared/tinymce/themes/advanced/npds.conf.php");
 
                     $tmp .= '
                });
@@ -2328,7 +2330,7 @@ function aff_editeur($Xzone, $Xactiv)
       </script>';
                 }
             } else {
-                $tmp .= '<script type="text/javascript" src="editeur/tinymce/tinymce.min.js"></script>';
+                $tmp .= '<script type="text/javascript" src="shared/tinymce/tinymce.min.js"></script>';
             }
         } else {
             $tmp_Xzone .= $Xzone != 'custom' ? $Xzone . ',' : $Xactiv . ',';

@@ -165,7 +165,7 @@ $pos = strpos($site_logo, '/');
 if ($pos) {
     echo '<img class="img-fluid d-block mx-auto" src="' . $site_logo . '" alt="website logo" loading="lazy" />';
 } else {
-    echo '<img class="img-fluid d-block mx-auto" src="assets/shared/' . $site_logo . '" alt="website logo" loading="lazy" />';
+    echo '<img class="img-fluid d-block mx-auto" src="assets/images/npds/' . $site_logo . '" alt="website logo" loading="lazy" />';
 }
 
 echo '<div class="row mt-4">

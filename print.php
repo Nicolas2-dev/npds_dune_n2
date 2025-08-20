@@ -79,10 +79,10 @@ function PrintPage($oper, $DB, $nl, $sid)
         and  !stristr($sid, 'applet') 
         and !stristr($sid, 'object') 
         and !stristr($sid, 'meta')) {
-            if (file_exists('static/'. $sid)) {
+            if (file_exists('storage/static/'. $sid)) {
 
                 ob_start();
-                    include 'static/'. $sid;
+                    include 'storage/static/'. $sid;
                     $remp = ob_get_contents();
                 ob_end_clean();
 
@@ -139,7 +139,7 @@ function PrintPage($oper, $DB, $nl, $sid)
         if ($pos) {
             echo '<img class="img-fluid d-block mx-auto" src="' . $site_logo . '" alt="website logo" />';
         } else {
-            echo '<img class="img-fluid d-block mx-auto" src="assets/shared/' . $site_logo . '" alt="website logo" />';
+            echo '<img class="img-fluid d-block mx-auto" src="assets/images/npds/' . $site_logo . '" alt="website logo" />';
         }
 
         echo '<h1 class="d-block text-center my-4">' . aff_langue($title) . '</h1>';

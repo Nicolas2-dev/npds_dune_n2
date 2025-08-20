@@ -17,8 +17,6 @@
 /* variables from them                                                  */
 /************************************************************************/
 
-require __DIR__ . '/../vendor/autoload.php';
-
 if (stristr($_SERVER['PHP_SELF'], 'grab_globals.php') and strlen($_SERVER['QUERY_STRING']) != '') {
     include 'admin/die.php';
 }

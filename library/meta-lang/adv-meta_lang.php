@@ -26,7 +26,7 @@ function MM_img($ibid)
     if ($ibidX) {
         $ret = '<img src="' . $ibidX . '" alt="smiley" loading="lazy" />';
     } else {
-        if (@file_exists('assets/shared/'. $ibid)) {
+        if (@file_exists('assets/shared/' . $ibid)) {
             $ret = '<img src="assets/shared/' . $ibid . '" alt="smiley" loading="lazy" />';
         } else {
             $ret = false;
@@ -168,26 +168,25 @@ function meta_lang($Xcontent)
     global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle;
 
     // Reduction
-    $Xcontent = str_replace('<!--meta', '', $Xcontent);
-    $Xcontent = str_replace('meta-->', '', $Xcontent);
-    $Xcontent = str_replace('!PHP!', '', $Xcontent);
+    $Xcontent = str_replace("<!--meta", '', $Xcontent);
+    $Xcontent = str_replace("meta-->", '', $Xcontent);
+    $Xcontent = str_replace("!PHP!", '', $Xcontent);
 
     // Sauvegarde le contenu original / analyse et transformation
     $Ycontent = $Xcontent;
-    $Xcontent = str_replace('\r', ' ', $Xcontent);
-    $Xcontent = str_replace('\n', ' ', $Xcontent);
-    $Xcontent = str_replace('\t', ' ', $Xcontent);
-    $Xcontent = str_replace('<br />', ' ', $Xcontent);
-    $Xcontent = str_replace('<BR />', ' ', $Xcontent);
-    $Xcontent = str_replace('<BR>', ' ', $Xcontent);
-    $Xcontent = str_replace('&nbsp;', ' ', $Xcontent);
+    $Xcontent = str_replace("\r", ' ', $Xcontent);
+    $Xcontent = str_replace("\n", ' ', $Xcontent);
+    $Xcontent = str_replace("\t", ' ', $Xcontent);
+    $Xcontent = str_replace("<br />", ' ', $Xcontent);
+    $Xcontent = str_replace("<BR />", ' ', $Xcontent);
+    $Xcontent = str_replace("<BR>", ' ', $Xcontent);
+    $Xcontent = str_replace("&nbsp;", ' ', $Xcontent);
     $Xcontent = strip_tags($Xcontent);
 
     if (trim($Xcontent)) {
         $Xcontent .= ' ';
-
         // for compatibility only with old dyna-theme !
-        $Xcontent .= '!theme! ';
+        $Xcontent .= "!theme! ";
     } else {
         return $Ycontent;
     }
@@ -203,7 +202,6 @@ function meta_lang($Xcontent)
         // longueur minimale du mot : 2 semble un bon compromis sauf pour les smilies ... (1 est donc le choix par défaut)
         if (strlen($word) > 1) {
             $op = 0;
-
             $arguments = '';
             $cmd = '';
 
@@ -212,14 +210,8 @@ function meta_lang($Xcontent)
 
             // entité HTML
             if ($car_deb != '&' and $car_fin != ';') {
-
                 // Mot 'pure'
-                if (($car_fin == '.' 
-                || $car_fin == ',' 
-                || $car_fin == ';' 
-                || $car_fin == '?' 
-                || $car_fin == ':') 
-                && ($word != '...')) {
+                if (($car_fin == '.' || $car_fin == ',' || $car_fin == ';' || $car_fin == '?' || $car_fin == ':') && ($word != '...')) {
                     $op = 1;
                     $Rword = substr($word, 0, -1);
                 }
@@ -230,10 +222,8 @@ function meta_lang($Xcontent)
 
                     if ($ibid) {
                         $op = 2;
-
                         $Rword = substr($word, 0, $ibid);
                         $arg = substr($word, $ibid + 1, strlen($word) - ($ibid + 2));
-
                         $arguments = ana_args($arg);
                     } else {
                         $op = 1;
@@ -242,11 +232,7 @@ function meta_lang($Xcontent)
                 }
 
                 // peut être un mot encadré par deux balises
-                if (($car_deb == '[' 
-                && $car_fin == ']' 
-                && $word != '[code]') 
-                || ($car_deb == '{' 
-                && $car_fin == '}')) {
+                if (($car_deb == '[' && $car_fin == ']' && $word != '[code]') || ($car_deb == '{' && $car_fin == '}')) {
                     $op = 5;
                     $Rword = substr($word, 1, -1);
                 }
@@ -255,12 +241,12 @@ function meta_lang($Xcontent)
                 $Rword = $word;
             }
 
-            if ($car_deb == '(' && $op != 2) {
+            if ($car_deb == '(' and $op != 2) {
                 $op = 3;
                 $Rword = substr($word, 1);
             }
 
-            if ($op == 3 && $car_fin == ')') {
+            if ($op == 3 and $car_fin == ')') {
                 $op = 4;
                 $Rword = substr($Rword, 0, -1);
             }
@@ -273,17 +259,16 @@ function meta_lang($Xcontent)
             $type_meta = '';
 
             if (array_key_exists($Rword, $meta_glossaire)) {
-                $Cword      = $meta_glossaire[$Rword]['content'];
-                $type_meta  = $meta_glossaire[$Rword]['type'];
-
+                $Cword = $meta_glossaire[$Rword]['content'];
+                $type_meta = $meta_glossaire[$Rword]['type'];
             } elseif (array_key_exists($Rword . $car_fin, $meta_glossaire)) {
-                $Cword      = $meta_glossaire[$Rword . $car_fin]['content'];
-                $type_meta  = $meta_glossaire[$Rword . $car_fin]['type'];
+                $Cword = $meta_glossaire[$Rword . $car_fin]['content'];
+                $type_meta = $meta_glossaire[$Rword . $car_fin]['type'];
 
-                $Rword      = $Rword . $car_fin;
-                $car_fin    = '';
+                $Rword = $Rword . $car_fin;
+                $car_fin = '';
             } else {
-                $Cword      = $Rword;
+                $Cword = $Rword;
             }
 
             // Cword est un meta-mot ? (il en reste qui n'ont pas été interprétés par la passe du dessus ... ceux avec params !)
@@ -291,17 +276,16 @@ function meta_lang($Xcontent)
                 $car_meta = strpos($Cword, '!', 1);
 
                 if ($car_meta) {
-                    $Rword  = substr($Cword, 1, $car_meta - 1);
-                    $arg    = substr($Cword, $car_meta + 1);
-
+                    $Rword = substr($Cword, 1, $car_meta - 1);
+                    $arg = substr($Cword, $car_meta + 1);
                     $arguments = ana_args($arg);
 
                     if (array_key_exists('!' . $Rword . '!', $meta_glossaire)) {
-                        $Cword      = $meta_glossaire['!' . $Rword . '!']['content'];
-                        $type_meta  = $meta_glossaire['!' . $Rword . '!']['type'];
+                        $Cword = $meta_glossaire['!' . $Rword . '!']['content'];
+                        $type_meta = $meta_glossaire['!' . $Rword . '!']['type'];
                     } else {
-                        $Cword      = '';
-                        $type_meta  = '';
+                        $Cword = '';
+                        $type_meta = '';
                     }
                 }
             }
@@ -309,7 +293,6 @@ function meta_lang($Xcontent)
             // Cword commence par $cmd ?
             if (substr($Cword, 0, 4) == "\$cmd") {
                 @eval($Cword);
-
                 if ($cmd === false) {
                     $Cword = "<span style=\"color: red; font-weight: bold;\" title=\"Meta-lang : bad return for function\">$Rword</span>";
                 } else {
@@ -347,7 +330,7 @@ function meta_lang($Xcontent)
             }
 
             if ($NPDS_debug and $admin) {
-                $NPDS_debug_str .= '=> $word<br />';
+                $NPDS_debug_str .= "=> $word<br />";
             }
         }
     }
