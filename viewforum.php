@@ -171,9 +171,9 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                $imgtmp = ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) 
-                    ? $ibid 
-                    : 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                $imgtmp = ($ibid = theme_image('forum/avatar/' . $modera['user_avatar']))
+                    ? $ibid
+                    : 'assets/images/forum/avatar/' . $modera['user_avatar'];
             }
         }
 
@@ -205,7 +205,6 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         inpandfieldlen("forum_pass",60);';
 
     adminfoot('fv', '', $arg1, '');
-
 } elseif (($Forum_passwd == $myrow['forum_pass']) or ($adminforum == 1)) {
 
     if (($myrow['forum_type'] == 9) and (!$user)) {
@@ -277,7 +276,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -312,13 +311,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     if ($ibid = theme_image('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = 'assets/shared/forum/icons/red_folder.gif';
+        $imgtmpR = 'assets/images/forum/icons/red_folder.gif';
     }
 
     if ($ibid = theme_image('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
-        $imgtmpP = 'assets/shared/forum/icons/posticon.gif';
+        $imgtmpP = 'assets/images/forum/icons/posticon.gif';
     }
 
     if ($myrow = sql_fetch_assoc($result)) {
@@ -376,17 +375,17 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                              AND status!='0'";
 
                     if ($replys >= $hot_threshold) {
-                        $image = sql_num_rows(sql_query($sqlR)) == 0 
-                            ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt faa-shake animated"></i></a>' 
+                        $image = sql_num_rows(sql_query($sqlR)) == 0
+                            ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt faa-shake animated"></i></a>'
                             : '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt"></i></a>';
                     } else {
-                        $image = sql_num_rows(sql_query($sqlR)) == 0 
-                            ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt faa-shake animated"></i></a>' 
+                        $image = sql_num_rows(sql_query($sqlR)) == 0
+                            ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt faa-shake animated"></i></a>'
                             : '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt"></i></a>';
                     }
                 } else {
-                    $image = ($replys >= $hot_threshold) 
-                        ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt"></i></a>' 
+                    $image = ($replys >= $hot_threshold)
+                        ? '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fas fa-lg fa-file-alt"></i></a>'
                         : '<a href="' . $last_post_url . '#lastpost" title="' . translate('Dernières contributions') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="far fa-lg fa-file-alt"></i></a>';
                 }
 
@@ -397,10 +396,10 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 echo '<td>' . $image . '</td>';
 
                 if ($image_subject != '') {
-                    if ($ibid = theme_image('forum/subject/'. $image_subject)) {
+                    if ($ibid = theme_image('forum/subject/' . $image_subject)) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'assets/shared/forum/subject/'. $image_subject;
+                        $imgtmp = 'assets/images/forum/subject/' . $image_subject;
                     }
 
                     echo '<td><img class="n-smil" src="' . $imgtmp . '" alt="" /></td>';

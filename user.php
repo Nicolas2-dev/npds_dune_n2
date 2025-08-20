@@ -133,7 +133,7 @@ function showimage()
     if ($ibid = theme_image('forum/avatar/blank.gif')) {
         $imgtmp = substr($ibid, 0, strrpos($ibid, '/') + 1);
     } else {
-        $imgtmp = 'assets/shared/forum/avatar/';
+        $imgtmp = 'assets/images/forum/avatar/';
     }
 
     echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
@@ -350,8 +350,8 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
                 <p class="lead">' . translate('Vous pourrez le modifier après vous être connecté sur') . ' : <br /><a href="user.php?op=login&amp;uname=' . $uname . '&amp;pass=' . urlencode($makepass) . '"><i class="fas fa-sign-in-alt fa-lg me-2"></i><strong>' . $sitename . '</strong></a></p>';
 
                 $message = translate('Bienvenue sur') . " $sitename !\n\n" . translate('Vous, ou quelqu\'un d\'autre, a utilisé votre Email identifiant votre compte') . " ($email) " . translate('pour enregistrer un compte sur') . " $sitename.\n\n" . translate('Informations sur l\'utilisateur :') . " : \n\n";
-                
-                $message .=translate('ID utilisateur (pseudo)') . ' : ' . $uname . "\n" .
+
+                $message .= translate('ID utilisateur (pseudo)') . ' : ' . $uname . "\n" .
                     translate('Véritable adresse Email') . ' : ' . $email . "\n";
 
                 if ($name != '') {
@@ -425,11 +425,18 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
             //------------------------------------------------
             $subject = html_entity_decode(translate('Inscription'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : ' . $sitename;
 
-            send_email($adminmail, $subject, 
+            send_email(
+                $adminmail,
+                $subject,
                 "Infos :
                 Nom : $name
                 ID : $uname
-                Email : $email", '', false, "text", '');
+                Email : $email",
+                '',
+                false,
+                "text",
+                ''
+            );
         }
 
         include 'footer.php';
@@ -476,11 +483,11 @@ function userinfo($uname)
         $direktori = '';
     } else {
         global $theme;
-        $direktori = 'assets/shared/forum/avatar/';
+        $direktori = 'assets/images/forum/avatar/';
 
         if (function_exists('theme_image')) {
             if (theme_image('forum/avatar/blank.gif')) {
-                $direktori = 'themes/'. $theme .'/assets/shared/forum/avatar/';
+                $direktori = 'themes/' . $theme . '/assets/images/forum/avatar/';
             }
         }
     }
@@ -749,7 +756,7 @@ function userinfo($uname)
 
         $topic = '#topic#';
 
-        include 'modules/comments/'. $file;
+        include 'modules/comments/' . $file;
 
         $filelist[$forum] = $url_ret;
     }
@@ -1199,8 +1206,8 @@ function login($uname, $pass)
 
         $dbpass = $setinfo['pass'];
 
-        $pass = (PHP_VERSION_ID >= 80200) 
-            ? mb_convert_encoding($pass, 'ISO-8859-1', 'UTF-8') 
+        $pass = (PHP_VERSION_ID >= 80200)
+            ? mb_convert_encoding($pass, 'ISO-8859-1', 'UTF-8')
             : utf8_decode($pass);
 
         if (password_verify($pass, $dbpass) or (strcmp($dbpass, $pass) == 0)) {
@@ -1303,10 +1310,8 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
     if (($check == $uname) and ($uid == $vuid)) {
         if ((isset($pass)) && ("$pass" != "$vpass")) {
             message_error('<i class="fa fa-exclamation me-2"></i>' . translate('Les mots de passe sont différents. Ils doivent être identiques.') . '<br />', '');
-        
         } elseif (($pass != '') && (strlen($pass) < $minpass)) {
             message_error('<i class="fa fa-exclamation me-2"></i>' . translate('Désolé, votre mot de passe doit faire au moins') . ' <strong>' . $minpass . '</strong> ' . translate('caractères') . '<br />', '');
-        
         } else {
             $stop = userCheck('edituser', $email);
 
@@ -1351,7 +1356,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 if ($B1 != 'none') {
                     global $language;
 
-                    include_once 'modules/upload/lang/upload.lang-'. $language .'.php';
+                    include_once 'modules/upload/lang/upload.lang-' . $language . '.php';
                     include_once 'modules/upload/clsUpload.php';
 
                     $upload = new Upload();
@@ -1432,18 +1437,18 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                         $userinfo = sql_fetch_assoc($result);
 
                         docookie(
-                            $userinfo['uid'], 
-                            $userinfo['uname'], 
-                            $userinfo['pass'], 
-                            $userinfo['storynum'], 
-                            $userinfo['umode'], 
-                            $userinfo['uorder'], 
-                            $userinfo['thold'], 
-                            $userinfo['noscore'], 
-                            $userinfo['ublockon'], 
-                            $userinfo['theme'], 
-                            $userinfo['commentmax'], 
-                            '', 
+                            $userinfo['uid'],
+                            $userinfo['uname'],
+                            $userinfo['pass'],
+                            $userinfo['storynum'],
+                            $userinfo['umode'],
+                            $userinfo['uorder'],
+                            $userinfo['thold'],
+                            $userinfo['noscore'],
+                            $userinfo['ublockon'],
+                            $userinfo['theme'],
+                            $userinfo['commentmax'],
+                            '',
                             $skin
                         );
                     }
@@ -1647,20 +1652,22 @@ function chgtheme()
     $handle = opendir('themes/_skins');
 
     while (false !== ($file = readdir($handle))) {
-        if (($file[0] !== '_') 
-        && (!strstr($file, '.')) 
-        && (!strstr($file, 'assets')) 
-        && (!strstr($file, 'fonts'))) {
+        if (($file[0] !== '_')
+            && (!strstr($file, '.'))
+            && (!strstr($file, 'assets'))
+            && (!strstr($file, 'fonts'))
+        ) {
             $skins[] = array(
-                'name'          => $file, 
-                'description'   => '', 
-                'thumbnail'     => $file . '/thumbnail', 
-                'preview'       => $file . '/', 
-                'css'           => $file . '/bootstrap.css', 
-                'cssMin'        => $file . '/bootstrap.min.css', 
-                'cssxtra'       => $file . '/extra.css', 
-                'scss'          => $file . '/_bootswatch.scss', 
-                'scssVariables' => $file . '/_variables.scss');
+                'name'          => $file,
+                'description'   => '',
+                'thumbnail'     => $file . '/thumbnail',
+                'preview'       => $file . '/',
+                'css'           => $file . '/bootstrap.css',
+                'cssMin'        => $file . '/bootstrap.min.css',
+                'cssxtra'       => $file . '/extra.css',
+                'scss'          => $file . '/_bootswatch.scss',
+                'scssVariables' => $file . '/_variables.scss'
+            );
         }
     }
 
@@ -1740,17 +1747,18 @@ function savetheme($uid, $theme)
         $userinfo = getusrinfo($user);
 
         docookie(
-            $userinfo['uid'], 
-            $userinfo['uname'], 
-            $userinfo['pass'], 
-            $userinfo['storynum'], 
-            $userinfo['umode'], 
-            $userinfo['uorder'], 
-            $userinfo['thold'], 
-            $userinfo['noscore'], 
-            $userinfo['ublockon'], 
-            $theme, 
-            $userinfo['commentmax'], ''
+            $userinfo['uid'],
+            $userinfo['uname'],
+            $userinfo['pass'],
+            $userinfo['storynum'],
+            $userinfo['umode'],
+            $userinfo['uorder'],
+            $userinfo['thold'],
+            $userinfo['noscore'],
+            $userinfo['ublockon'],
+            $theme,
+            $userinfo['commentmax'],
+            ''
         );
 
         // Include cache manager for purge cache Page
@@ -1779,7 +1787,7 @@ function editjournal()
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <textarea class="tin form-control" rows="25" name="journal">' . $userinfo['user_journal'] . '</textarea>'
-            . aff_editeur('journal', '') . '
+        . aff_editeur('journal', '') . '
             </div>
         </div>
         <input type="hidden" name="uname" value="' . $userinfo['uname'] . '" />

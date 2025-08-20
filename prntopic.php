@@ -112,7 +112,7 @@ if (isset($user)) {
     $cookie[9] = explode('+', urldecode($cookie[9]));
     $tmp_theme = $cookie[9][0];
 
-    if (!$file = @opendir('themes/'. $cookie[9][0])) {
+    if (!$file = @opendir('themes/' . $cookie[9][0])) {
         $tmp_theme = $Default_Theme;
     }
 } else {
@@ -181,14 +181,14 @@ if ($smilies) {
                 if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                 }
             }
 
             echo '<img class="n-ava-48 border my-2" src="' . $imgtmp . '" alt="avatar" /><br />';
         }
     } else {
-        echo '<img class="n-ava-48 border my-2" src="assets/shared/forum/avatar/blank.gif" alt="avatar" /><br />';
+        echo '<img class="n-ava-48 border my-2" src="assets/images/forum/avatar/blank.gif" alt="avatar" /><br />';
     }
 }
 
@@ -206,12 +206,12 @@ if ($myrow['image'] != '') {
     if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
+        $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
     }
 
     echo '<img class="n-smil" src="' . $imgtmp . '" alt="icone du post" />';
 } else {
-    echo '<img class="n-smil" src="assets/shared/forum/subject/00.png" alt="icone du post" />';
+    echo '<img class="n-smil" src="assets/images/forum/subject/00.png" alt="icone du post" />';
 }
 
 echo '</p>';

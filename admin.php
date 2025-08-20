@@ -16,7 +16,7 @@ if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
-include 'language/lang-adm-'. $language .'.php';
+include 'language/lang-adm-' . $language . '.php';
 
 function Access_Error()
 {
@@ -60,7 +60,6 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
     if (file_exists($adminimg . $ficone . '.' . $admf_ext)) {
         $img_adm = '<img src="' . $adminimg . $ficone . '.' . $admf_ext . '" class="me-2" alt="' . $f_titre . '" loading="lazy" />';
-
     } elseif (stristr($_SERVER['QUERY_STRING'], "Extend-Admin-SubModule") || $adm_img_mod == 1) {
 
         $img_adm = (file_exists('modules/' . $ModPath . '/' . $ModPath . '.' . $admf_ext))
@@ -425,7 +424,7 @@ function GraphicAdmin($hlpfile)
     // Pour les modules installés produisant des notifications
 
     // construction des blocs menu : selection de fonctions actives ayant une interface graphique de premier niveau et dont l'administrateur connecté en posséde les droits d'accès
-    
+
     // on prend tout ce qui a une interface 
     $R = $Q['radminsuper'] == 1
         ? sql_query("SELECT * FROM " . sql_prefix('fonctions') . " f 
@@ -726,7 +725,7 @@ function adminMain($deja_affiches)
 {
     global $language, $admart, $hlpfile, $aid, $admf_ext;
 
-    $hlpfile = 'manuels/'. $language .'/admin.html';
+    $hlpfile = 'manuels/' . $language . '/admin.html';
 
     include 'header.php';
     include_once 'functions.php';
@@ -825,7 +824,7 @@ function adminMain($deja_affiches)
                 echo $title . ' <i>(archive)</i>';
             } else {
                 if ($affiche) {
-                    echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/shared/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
+                    echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/images/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
                     if ($ihome == 1) {
                         echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . aff_langue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
                     } else {
@@ -913,7 +912,7 @@ if ($admintest) {
         // FILES MANAGER
         case 'FileManager':
             if ($admintest and $filemanager) {
-                header('location: modules.php?ModPath=f-manager&ModStart=f-manager&FmaRep='. $aid);
+                header('location: modules.php?ModPath=f-manager&ModStart=f-manager&FmaRep=' . $aid);
             }
             break;
 
@@ -938,8 +937,8 @@ if ($admintest) {
         case 'deleteNotice':
             sql_query("DELETE FROM " . sql_prefix('reviews_add') . " 
                        WHERE id='$id'");
-                       
-            Header('Location: admin.php?op='. $op_back);
+
+            Header('Location: admin.php?op=' . $op_back);
             break;
 
         // FORUMS

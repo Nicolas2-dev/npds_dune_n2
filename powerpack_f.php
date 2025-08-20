@@ -266,7 +266,7 @@ function instant_members_message()
                     if ($ibidR = theme_image('forum/rank/' . $rank . '.gif')) {
                         $imgtmpA = $ibidR;
                     } else {
-                        $imgtmpA = 'assets/shared/forum/rank/' . $rank . '.gif';
+                        $imgtmpA = 'assets/images/forum/rank/' . $rank . '.gif';
                     }
 
                     $messR = 'rank' . $rank;
@@ -559,7 +559,7 @@ function RecentForumPosts_fab($title, $maxforums, $maxtopics, $displayposter, $t
                     $RowQ1 = Q_Select("SELECT uname 
                                        FROM " . sql_prefix('users') . " 
                                        WHERE uid = '$posterid'", 3600);
-                                       
+
                     $myrow = $RowQ1[0];
                     $postername = $myrow['uname'];
                 }

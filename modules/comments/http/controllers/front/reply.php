@@ -23,14 +23,14 @@ include 'auth.php';
 
 filtre_module($file_name);
 
-if (file_exists('modules/comments/config/'. $file_name .'.php')) {
-    include 'modules/comments/config/'. $file_name .'.php';
+if (file_exists('modules/comments/config/' . $file_name . '.php')) {
+    include 'modules/comments/config/' . $file_name . '.php';
 } else {
     die();
 }
 
 if (isset($cancel)) {
-    header('Location: '. $url_ret);
+    header('Location: ' . $url_ret);
 }
 
 settype($forum, 'integer');
@@ -253,7 +253,7 @@ if (isset($submitS)) {
                         if ($ibid = theme_image('forum/avatar/' . $theposterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
-                            $imgtmp = 'assets/shared/forum/avatar/' . $theposterdata['user_avatar'];
+                            $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
                         }
                     }
 
@@ -455,7 +455,7 @@ if (isset($submitS)) {
                 <div class="card-header">';
 
                 if ($smilies) {
-                    echo $posterdata['uid'] != 1 ? userpopover($posterdata['uname'], '48', 2) : '<img class=" btn-outline-primary img-fluid n-ava-48 me-0" src="assets/shared/forum/avatar/blank.gif" alt="KellyP" loading="lazy">';
+                    echo $posterdata['uid'] != 1 ? userpopover($posterdata['uname'], '48', 2) : '<img class=" btn-outline-primary img-fluid n-ava-48 me-0" src="assets/images/forum/avatar/blank.gif" alt="KellyP" loading="lazy">';
                 }
 
                 echo $posterdata['uid'] != 1 ? $posterdata['uname'] : $anonymous;

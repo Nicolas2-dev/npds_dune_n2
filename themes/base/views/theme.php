@@ -38,10 +38,8 @@ function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext,
 
     if (file_exists('themes/' . $theme . '/views/partials/news/index-news.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/news/index-news.php';
-
     } elseif (file_exists('themes/base/views/partials/news/index-news.php')) {
         $inclusion = 'themes/base/views/partials/news/index-news.php';
-
     } else {
         echo 'index-news.php manquant / not find !<br />';
         die();
@@ -60,8 +58,8 @@ function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext,
     }
 
     ob_start();
-        include $inclusion;
-        $Xcontent = ob_get_contents();
+    include $inclusion;
+    $Xcontent = ob_get_contents();
     ob_end_clean();
 
     $lire_la_suite = '';
@@ -133,10 +131,8 @@ function themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicn
 
     if (file_exists("themes/" . $theme . "/views/partials/news/detail-news.php")) {
         $inclusion = "themes/" . $theme . "/views/partials/news/detail-news.php";
-
     } elseif (file_exists("themes/base/views/partials/news/detail-news.php")) {
         $inclusion = "themes/base/views/partials/news/detail-news.php";
-
     } else {
         echo 'detail-news.php manquant / not find !<br />';
         die();
@@ -151,8 +147,8 @@ function themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicn
     }
 
     ob_start();
-        include $inclusion;
-        $Xcontent = ob_get_contents();
+    include $inclusion;
+    $Xcontent = ob_get_contents();
     ob_end_clean();
 
     if ($previous_sid) {
@@ -217,10 +213,8 @@ function themesidebox($title, $content)
     if (!$inclusion) {
         if (file_exists('themes/' . $theme . '/views/partials/block/bloc.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/block/bloc.php';
-
         } elseif (file_exists('themes/base/views/partials/block/bloc.php')) {
             $inclusion = 'themes/base/views/partials/block/bloc.php';
-
         } else {
             echo 'bloc.php manquant / not find !<br />';
             die();
@@ -228,8 +222,8 @@ function themesidebox($title, $content)
     }
 
     ob_start();
-        include $inclusion;
-        $Xcontent = ob_get_contents();
+    include $inclusion;
+    $Xcontent = ob_get_contents();
     ob_end_clean();
 
     if ($title == 'no-title') {
@@ -259,10 +253,8 @@ function themedito($content)
 
     if (file_exists('themes/' . $theme . '/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/edito/editorial.php';
-
     } elseif (file_exists('themes/base/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/base/views/partials/edito/editorial.php';
-
     } else {
         echo 'editorial.php manquant / not find !<br />';
         die();
@@ -270,8 +262,8 @@ function themedito($content)
 
     if ($inclusion) {
         ob_start();
-            include $inclusion;
-            $Xcontent = ob_get_contents();
+        include $inclusion;
+        $Xcontent = ob_get_contents();
         ob_end_clean();
 
         $npds_METALANG_words = array(
@@ -383,7 +375,7 @@ function userpopover($who, $dim, $avpop)
         if (stristr($temp_user['user_avatar'], 'users_private')) {
             $imgtmp = $temp_user['user_avatar'];
         } else {
-            $imgtmp = theme_image('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/shared/forum/avatar/' . $temp_user['user_avatar'];
+            $imgtmp = theme_image('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/images/forum/avatar/' . $temp_user['user_avatar'];
         }
 
         $userpop = $avpop == 1

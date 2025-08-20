@@ -194,18 +194,18 @@ function group_liste()
                     $lst_gr_json .= '\'mbgr_' . $gp . '\': { gp: \'' . $gp . '\'},';
 
                     if (!$user_avatar) {
-                        $imgtmp = 'assets/shared/forum/avatar/blank.gif';
+                        $imgtmp = 'assets/images/forum/avatar/blank.gif';
                     } elseif (stristr($user_avatar, 'users_private')) {
                         $imgtmp = $user_avatar;
                     } else {
-                        if ($ibid = theme_image('forum/avatar/'.$user_avatar)) {
+                        if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
                             $imgtmp = $ibid;
                         } else {
-                            $imgtmp = 'assets/shared/forum/avatar/'.$user_avatar;
+                            $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
                         }
 
                         if (!file_exists($imgtmp)) {
-                            $imgtmp = 'assets/shared/forum/avatar/blank.gif';
+                            $imgtmp = 'assets/images/forum/avatar/blank.gif';
                         }
                     }
 
@@ -473,7 +473,7 @@ function membre_add_finish($groupe_id, $luname)
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_id, $luname ,$aid), '');
+    Ecr_Log('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_id, $luname, $aid), '');
 
     Header('Location: admin.php?op=groupes');
 }
@@ -830,7 +830,7 @@ function workspace_create($groupe_id)
     @unlink('users_private/groupe/' . $groupe_id . '/delete');
 
     global $aid;
-    Ecr_Log('security', sprintf('CreateWS(%s) by AID : %s', $groupe_id ,$aid), '');
+    Ecr_Log('security', sprintf('CreateWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // PAD

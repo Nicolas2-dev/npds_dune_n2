@@ -32,11 +32,11 @@ $m->add_checkbox('user_viewemail', translate('Autoriser les autres utilisateurs 
 if ($smilies) {
     global $theme;
 
-    $direktori = 'assets/shared/forum/avatar';
+    $direktori = 'assets/images/forum/avatar';
 
     if (function_exists('theme_image')) {
         if (theme_image('forum/avatar/blank.gif')) {
-            $direktori = 'themes/'. $theme .'/assets/shared/forum/avatar';
+            $direktori = 'themes/' . $theme . '/assets/images/forum/avatar';
         }
     }
 

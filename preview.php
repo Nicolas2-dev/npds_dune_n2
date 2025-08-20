@@ -168,14 +168,14 @@ if ($smilies) {
                 if ($ibid = theme_image('forum/avatar/' . $theposterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $theposterdata['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
                 }
             }
 
             echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . member_qualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
         }
     } else {
-        echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $anonymous . '" data-bs-content=\'' . $anonymous . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="icone ' . $anonymous . '" /></a>';
+        echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $anonymous . '" data-bs-content=\'' . $anonymous . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="icone ' . $anonymous . '" /></a>';
     }
 }
 
@@ -185,10 +185,10 @@ echo '&nbsp;<span style="position:absolute; left:6rem;" class="text-body-seconda
     <span class="float-end">';
 
 if (isset($image_subject)) {
-    if ($ibid = theme_image('forum/subject/'. $image_subject)) {
+    if ($ibid = theme_image('forum/subject/' . $image_subject)) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = 'assets/shared/forum/subject/'. $image_subject;
+        $imgtmp = 'assets/images/forum/subject/' . $image_subject;
     }
 
     echo '<img class="n-smil" src="' . $imgtmp . '" alt="icone du post" />';
@@ -196,7 +196,7 @@ if (isset($image_subject)) {
     if ($ibid = theme_image('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
-        $imgtmpP = 'assets/shared/forum/icons/posticon.gif';
+        $imgtmpP = 'assets/images/forum/icons/posticon.gif';
     }
 
     echo '<img class="n-smil" src="' . $imgtmpP . '" alt="icone du post" />';

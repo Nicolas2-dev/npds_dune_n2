@@ -27,7 +27,7 @@ include('auth.php');
 settype($cancel, 'string');
 
 if ($cancel) {
-    header('Location: viewtopic.php?topic='. $topic .'&forum='. $forum);
+    header('Location: viewtopic.php?topic=' . $topic . '&forum=' . $forum);
 }
 
 $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre 
@@ -254,12 +254,12 @@ if ($submitS) {
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
 
-            redirect_url('viewtopic.php?forum='. $forum .'&topic='. $topic .'&start=9999#lastpost');
+            redirect_url('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
 
             die();
         }
 
-        redirect_url('viewforum.php?forum='. $forum);
+        redirect_url('viewforum.php?forum=' . $forum);
     } else {
         echo '<h4 class="my-3">' . translate('Poster une réponse dans le sujet') . '</h4>
         <p class="alert alert-danger">' . translate('Vous devez taper un message à poster.') . '</p>
@@ -294,7 +294,7 @@ if ($submitS) {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
-                        $imgava = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgava = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
@@ -302,7 +302,7 @@ if ($submitS) {
             if ($ibid = theme_image('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
-                $imgava = 'assets/shared/forum/avatar/blank.gif';
+                $imgava = 'assets/images/forum/avatar/blank.gif';
             }
         }
     }
@@ -330,7 +330,7 @@ if ($submitS) {
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -353,10 +353,8 @@ if ($submitS) {
 
     if ($forum_access == 0) {
         echo translate('Les utilisateurs anonymes peuvent poster de nouveaux sujets et des réponses dans ce forum.');
-
     } else if ($forum_access == 1) {
         echo translate('Tous les utilisateurs enregistrés peuvent poster de nouveaux sujets et répondre dans ce forum.');
-
     } else if ($forum_access == 2) {
         echo translate('Seuls les modérateurs peuvent poster de nouveaux sujets et répondre dans ce forum.');
     }
@@ -447,8 +445,8 @@ if ($submitS) {
 
                 $text = stripslashes($text);
 
-                $reply = ($m['post_time'] != '' && $m['uname'] != '') 
-                    ? '<blockquote class="blockquote">' . translate('Citation') . ' : <strong>' . $m['uname'] . '</strong><br />' . $text . '</blockquote>' 
+                $reply = ($m['post_time'] != '' && $m['uname'] != '')
+                    ? '<blockquote class="blockquote">' . translate('Citation') . ' : <strong>' . $m['uname'] . '</strong><br />' . $text . '</blockquote>'
                     : $text . "\n";
 
                 $reply = preg_replace("#\[hide\](.*?)\[\/hide\]#si", '', $reply);
@@ -681,7 +679,7 @@ if ($submitS) {
                             if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                                 $imgtmp = $ibid;
                             } else {
-                                $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                                $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                             }
                         }
                     }
@@ -689,12 +687,12 @@ if ($submitS) {
                     echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
                     <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
                 } else {
-                    echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+                    echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
                     <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
                 }
             } else {
-                echo $myrow['poster_id'] !== '0' 
-                    ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>' 
+                echo $myrow['poster_id'] !== '0'
+                    ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>'
                     : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
             }
 
@@ -704,7 +702,7 @@ if ($submitS) {
                 if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
+                    $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmp . '"  alt="" />';
@@ -712,7 +710,7 @@ if ($submitS) {
                 if ($ibid = theme_image('forum/subject/icons/posticon.gif')) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/icons/posticon.gif';
+                    $imgtmp = 'assets/images/forum/icons/posticon.gif';
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmp . '" alt="" />';
@@ -735,7 +733,6 @@ if ($submitS) {
 
             if (($forum_type == '6') or ($forum_type == '5')) {
                 highlight_string(stripslashes($myrow['post_text'])) . '<br /><br />';
-
             } else {
                 if (array_key_exists('user_sig', $posterdata)) {
                     $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', $message);

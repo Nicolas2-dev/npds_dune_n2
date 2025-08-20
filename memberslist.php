@@ -39,8 +39,8 @@ if (isset($gr_from_ws) and ($gr_from_ws != 0)) {
     $query = "SELECT uid, groupe 
               FROM " . sql_prefix('users_status') . " WHERE ";
 
-    $query .= (version_compare($mysql_version, '8.0.4', '>=')) 
-        ? "groupe REGEXP '\\\\b$gr_from_ws\\\\b'" 
+    $query .= (version_compare($mysql_version, '8.0.4', '>='))
+        ? "groupe REGEXP '\\\\b$gr_from_ws\\\\b'"
         : "groupe REGEXP '[[:<:]]" . $gr_from_ws . "[[:>:]]'";
 
     $query .= ' ORDER BY uid ASC';
@@ -185,18 +185,18 @@ function SortLinks($letter)
 function avatar($user_avatar)
 {
     if (!$user_avatar) {
-        $imgtmp = 'assets/shared/forum/avatar/blank.gif';
+        $imgtmp = 'assets/images/forum/avatar/blank.gif';
     } else if (stristr($user_avatar, 'users_private')) {
         $imgtmp = $user_avatar;
     } else {
         if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = 'assets/shared/forum/avatar/' . $user_avatar;
+            $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
         }
 
         if (!file_exists($imgtmp)) {
-            $imgtmp = 'assets/shared/forum/avatar/blank.gif';
+            $imgtmp = 'assets/images/forum/avatar/blank.gif';
         }
     }
 
@@ -495,7 +495,7 @@ if ($letter != 'front') {
                 if ($temp_user['url'] != '') {
                     echo '<a href="' . $temp_user['url'] . '" target="_blank">' . $temp_user['url'] . '</a>';
                 }
-                
+
                 echo '</small></td>';
 
                 if ($admin) {

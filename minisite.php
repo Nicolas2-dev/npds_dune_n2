@@ -278,16 +278,18 @@ $copyright = '<span class="blog_sname">' . $sitename . '</span>&nbsp;<span class
 $affich = false;
 
 if (($op != '') and ($op)) {
-    if (preg_match('#^[a-z0-9_\.-]#i', $op) 
-    and !stristr($op, ".*://") 
-    and !stristr($op, "..") 
-    and !stristr($op, "../") 
-    and !stristr($op, "script") 
-    and !stristr($op, "cookie") 
-    and !stristr($op, "iframe") 
-    and  !stristr($op, "applet") 
-    and !stristr($op, "object") 
-    and !stristr($op, "meta")) {
+    if (
+        preg_match('#^[a-z0-9_\.-]#i', $op)
+        and !stristr($op, ".*://")
+        and !stristr($op, "..")
+        and !stristr($op, "../")
+        and !stristr($op, "script")
+        and !stristr($op, "cookie")
+        and !stristr($op, "iframe")
+        and  !stristr($op, "applet")
+        and !stristr($op, "object")
+        and !stristr($op, "meta")
+    ) {
 
         global $user, $super_admintest;
         $adminblog = ($super_admintest) ? true : false;
@@ -306,11 +308,11 @@ if (($op != '') and ($op)) {
                     $direktori = '';
                 } else {
                     global $theme;
-                    $direktori = 'assets/shared/forum/avatar/';
+                    $direktori = 'assets/images/forum/avatar/';
 
                     if (function_exists('theme_image')) {
                         if (theme_image('forum/avatar/blank.gif')) {
-                            $direktori = 'themes/' . $theme . '/assets/shared/forum/avatar/';
+                            $direktori = 'themes/' . $theme . '/assets/images/forum/avatar/';
                         }
                     }
                 }
@@ -366,7 +368,7 @@ if ($affich) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="assets/shared/favicon.ico" type="image/x-icon" />
+        echo '<link rel="shortcut icon" href="assets/shared/favicon/favicon.ico" type="image/x-icon" />
         <script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
 

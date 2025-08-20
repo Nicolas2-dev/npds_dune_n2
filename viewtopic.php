@@ -186,7 +186,6 @@ function aff_pub($lock_state, $topic, $forum, $mod)
 {
     if ($lock_state == 0) {
         echo '<a class="" href="newtopic.php?forum=' . $forum . '" title="' . translate('Nouveau sujet') . '" data-bs-toggle="tooltip" ><i class="fa fa-plus-square me-2"></i><span class="d-none d-md-inline">' . translate('Nouveau sujet') . '<br /></span></a>&nbsp;';
-    
     } else if ($lock_state == 1) {
         echo '<i class="fa fa-lock fa-lg text-danger me-2" aria-hidden="true" title="' . translate('Vous ne pouvez répondre à ce topic il est verrouillé. Contacter l\'administrateur du site.') . '" data-bs-toggle="tooltip"></i>';
     }
@@ -221,12 +220,10 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
-
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
-
     } elseif ($forum_access == 2) {
         if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
@@ -245,12 +242,10 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
-
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
-
     } elseif ($forum_access == 2) {
         if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
@@ -280,14 +275,14 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
                 if ($ibid = theme_image('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $contri['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $contri['user_avatar'];
                 }
             }
         }
 
         echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="' . $imgtmp . '" alt="' . $contri['uname'] . '" title="' . $contri['uname'] . '" data-bs-toggle="tooltip" />';
     } else {
-        echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" title="' . $anonymous . '" data-bs-toggle="tooltip" />';
+        echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" title="' . $anonymous . '" data-bs-toggle="tooltip" />';
     }
 }
 
@@ -310,7 +305,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
             if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
             }
         }
     }
@@ -394,7 +389,7 @@ if ($allow_upload_forum) {
     $sql = "SELECT att_id FROM $upload_table 
             WHERE apli='forum_npds' 
             AND topic_id = '$topic' $visible";
-            
+
     $att = sql_num_rows(sql_query($sql));
 
     if ($att > 0) {
@@ -437,19 +432,19 @@ if (isset($user)) {
 if ($ibid = theme_image('forum/rank/post.gif')) {
     $imgtmpP = $ibid;
 } else {
-    $imgtmpP = 'assets/shared/forum/rank/post.gif';
+    $imgtmpP = 'assets/images/forum/rank/post.gif';
 }
 
 if ($ibid = theme_image('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
-    $imgtmpPI = 'assets/shared/forum/icons/posticon.gif';
+    $imgtmpPI = 'assets/images/forum/icons/posticon.gif';
 }
 
 if ($ibid = theme_image('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
-    $imgtmpNE = 'assets/shared/forum/icons/new.gif';
+    $imgtmpNE = 'assets/images/forum/icons/new.gif';
 }
 
 do {
@@ -557,7 +552,7 @@ do {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
@@ -565,7 +560,7 @@ do {
             echo '<a style="position:absolute; top:0.5rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div> \'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
             <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
         } else {
-            echo '<a style="position:absolute; top:0.5rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+            echo '<a style="position:absolute; top:0.5rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
             <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
     } else {
@@ -582,7 +577,7 @@ do {
         if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
+            $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
         }
 
         echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';
@@ -649,12 +644,10 @@ do {
 
         if ($forum_access == 0) {
             $allow_to_post = true;
-
         } elseif ($forum_access == 1) {
             if (isset($user)) {
                 $allow_to_post = true;
             }
-
         } elseif ($forum_access == 2) {
             if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
                 $allow_to_post = true;
@@ -736,7 +729,7 @@ if ($total > $posts_per_page) {
                 </li>
                 </ul>
             </nav>'
-            . paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start) . '
+        . paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start) . '
         </div>';
 }
 

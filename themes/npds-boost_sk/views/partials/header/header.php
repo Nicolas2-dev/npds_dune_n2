@@ -1,114 +1,121 @@
 <?php
-   global $cookie, $anonymous, $NPDS_Prefix, $Default_Skin;
-   $ava=''; $cha=''; $bal=''; $menuser='';
-   if ($user) {
-      include_once('functions.php');
-      $userdata = get_userdata_from_id($cookie[0]);
-      $username = $cookie[1];
-      $ibix=explode('+', urldecode($cookie[9]));
-      $skinname = array_key_exists(1, $ibix) ? $ibix[1] : "default";
-   }
+global $cookie, $anonymous, $NPDS_Prefix, $Default_Skin;
+$ava = '';
+$cha = '';
+$bal = '';
+$menuser = '';
+if ($user) {
+   include_once('functions.php');
+   $userdata = get_userdata_from_id($cookie[0]);
+   $username = $cookie[1];
+   $ibix = explode('+', urldecode($cookie[9]));
+   $skinname = array_key_exists(1, $ibix) ? $ibix[1] : "default";
+} else {
+   $skinname = $Default_Skin;
+   $username = '';
+}
+$headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
+
+if (!isset($powerpack)) include_once("powerpack.php");
+
+if (autorisation(-1)) {
+   $btn_con = '<a class="dropdown-item" href="user.php"><i class="fas fa-sign-in-alt fa-lg me-2 align-middle"></i>' . translate("Connexion") . '</a>';
+   $ava = '<a class="dropdown-item" href="user.php"><i class="fa fa-user fa-3x text-body-secondary"></i></a>';
+} elseif (autorisation(1)) {
+   list($nbmes) = sql_fetch_row(sql_query("SELECT COUNT(*) FROM " . $NPDS_Prefix . "priv_msgs WHERE to_userid='" . $cookie[0] . "' AND read_msg='0'"));
+   $cl = $nbmes > 0 ? ' faa-shake animated ' : '';
+   $menuser .= '
+                           <li><a class="dropdown-item" href="user.php?op=edituser" title="' . translate("Vous") . '"  ><i class="fa fa-user-edit fa-lg me-2"></i>' . translate("Vous") . '</a></li>
+                           <li><a class="dropdown-item" href="user.php?op=editjournal" title="' . translate("Editer votre journal") . '" ><i class="fa fa-edit fa-lg me-2"></i>' . translate("Journal") . '</a></li>
+                           <li><a class="dropdown-item" href="user.php?op=edithome" title="' . translate("Editer votre page principale") . '" ><i class="fa fa-edit fa-lg me-2 "></i>' . translate("Page") . '</a></li>
+                           <li><a class="dropdown-item" href="user.php?op=chgtheme" title="' . translate("Changer le thème") . '" ><i class="fa fa-paint-brush fa-lg me-2"></i>' . translate("Thème") . '</a></li>
+                           <li><a class="dropdown-item" href="modules.php?ModPath=reseaux-sociaux&amp;ModStart=reseaux-sociaux" title="' . translate("Réseaux sociaux") . '" ><i class="fa fa-share-alt-square fa-lg me-2"></i>' . translate("Réseaux sociaux") . '</a></li>
+                           <li><a class="dropdown-item" href="viewpmsg.php" title="' . translate("Message personnel") . '" ><i class="fa fa-envelope fa-lg me-2 ' . $cl . '"></i>' . translate("Message") . '</a></li>';
+   settype($cookie[0], 'integer');
+   list($user_avatar) = sql_fetch_row(sql_query("SELECT user_avatar FROM " . $NPDS_Prefix . "users WHERE uname='" . $username . "'"));
+
+   if (!$user_avatar)
+      $imgtmp = 'assets/images/forum/avatar/blank.gif';
+   else if (stristr($user_avatar, "users_private"))
+      $imgtmp = $user_avatar;
    else {
-      $skinname = $Default_Skin;
-      $username='';
-   }
-   $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
-
-   if (!isset($powerpack)) include_once ("powerpack.php");
-
-   if (autorisation(-1)) {
-      $btn_con = '<a class="dropdown-item" href="user.php"><i class="fas fa-sign-in-alt fa-lg me-2 align-middle"></i>'.translate("Connexion").'</a>';
-      $ava='<a class="dropdown-item" href="user.php"><i class="fa fa-user fa-3x text-body-secondary"></i></a>';
-   }
-   elseif (autorisation(1)) {
-      list($nbmes)=sql_fetch_row(sql_query("SELECT COUNT(*) FROM ".$NPDS_Prefix."priv_msgs WHERE to_userid='".$cookie[0]."' AND read_msg='0'"));
-      $cl = $nbmes>0 ? ' faa-shake animated ' : '';
-      $menuser .='
-                           <li><a class="dropdown-item" href="user.php?op=edituser" title="'.translate("Vous").'"  ><i class="fa fa-user-edit fa-lg me-2"></i>'.translate("Vous").'</a></li>
-                           <li><a class="dropdown-item" href="user.php?op=editjournal" title="'.translate("Editer votre journal").'" ><i class="fa fa-edit fa-lg me-2"></i>'.translate("Journal").'</a></li>
-                           <li><a class="dropdown-item" href="user.php?op=edithome" title="'.translate("Editer votre page principale").'" ><i class="fa fa-edit fa-lg me-2 "></i>'.translate("Page").'</a></li>
-                           <li><a class="dropdown-item" href="user.php?op=chgtheme" title="'.translate("Changer le thème").'" ><i class="fa fa-paint-brush fa-lg me-2"></i>'.translate("Thème").'</a></li>
-                           <li><a class="dropdown-item" href="modules.php?ModPath=reseaux-sociaux&amp;ModStart=reseaux-sociaux" title="'.translate("Réseaux sociaux").'" ><i class="fa fa-share-alt-square fa-lg me-2"></i>'.translate("Réseaux sociaux").'</a></li>
-                           <li><a class="dropdown-item" href="viewpmsg.php" title="'.translate("Message personnel").'" ><i class="fa fa-envelope fa-lg me-2 '.$cl.'"></i>'.translate("Message").'</a></li>';
-      settype($cookie[0], 'integer');
-      list($user_avatar)=sql_fetch_row(sql_query("SELECT user_avatar FROM ".$NPDS_Prefix."users WHERE uname='".$username."'"));
-
-      if (!$user_avatar)
-         $imgtmp='assets/shared/forum/avatar/blank.gif';
-      else if (stristr($user_avatar,"users_private"))
-         $imgtmp=$user_avatar;
-      else {
-         if ($ibid=theme_image("forum/avatar/$user_avatar")) {$imgtmp=$ibid;} else {$imgtmp="assets/shared/forum/avatar/$user_avatar";}
-         if (!file_exists($imgtmp)) {$imgtmp="assets/shared/forum/avatar/blank.gif";}
+      if ($ibid = theme_image("forum/avatar/$user_avatar")) {
+         $imgtmp = $ibid;
+      } else {
+         $imgtmp = "assets/images/forum/avatar/$user_avatar";
       }
-
-      if ($nbmes>0)
-         $bal = '
-                     <li class="nav-item"><a class="nav-link" href="viewpmsg.php"><i class="fa fa-envelope fs-4 faa-shake animated" title="'.translate("Message personnel").' <span class=\'badge rounded-pill bg-danger ms-2\'>'.$nbmes.'</span>" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right"></i></a></li>';
-
-      $ava='<a class="dropdown-item" href="user.php" ><img src="'.$imgtmp.'" class="n-ava-64" alt="avatar" title="'.translate("Votre compte").'" data-bs-toggle="tooltip" data-bs-placement="right" /></a><li class="dropdown-divider"></li>';
-      $btn_con='<a class="dropdown-item" href="user.php?op=logout"><i class="fas fa-sign-out-alt fa-lg text-danger me-2"></i>'.translate("Déconnexion").'</a>';
+      if (!file_exists($imgtmp)) {
+         $imgtmp = "assets/images/forum/avatar/blank.gif";
+      }
    }
+
+   if ($nbmes > 0)
+      $bal = '
+                     <li class="nav-item"><a class="nav-link" href="viewpmsg.php"><i class="fa fa-envelope fs-4 faa-shake animated" title="' . translate("Message personnel") . ' <span class=\'badge rounded-pill bg-danger ms-2\'>' . $nbmes . '</span>" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right"></i></a></li>';
+
+   $ava = '<a class="dropdown-item" href="user.php" ><img src="' . $imgtmp . '" class="n-ava-64" alt="avatar" title="' . translate("Votre compte") . '" data-bs-toggle="tooltip" data-bs-placement="right" /></a><li class="dropdown-divider"></li>';
+   $btn_con = '<a class="dropdown-item" href="user.php?op=logout"><i class="fas fa-sign-out-alt fa-lg text-danger me-2"></i>' . translate("Déconnexion") . '</a>';
+}
 ?>
 
-         <nav id="uppernavbar" class=" <?php echo $headerclasses; ?>" data-bs-theme="dark">
-            <div class="container-fluid">
-               <a class="navbar-brand" href="index.php" ><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
-               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse" id="barnav">
-                  <ul class="navbar-nav me-auto">
-                     <li class="nav-item dropdown" data-bs-theme="light"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">News</a>
-                        <ul class="dropdown-menu" role="menu" aria-label="list news">
-                           <li><a class="dropdown-item" href="index.php?op=index.php">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
-                           <li><a class="dropdown-item" href="search.php">[french]Les archives[/french][english]Archives[/english][chinese]&#x6863;&#x6848;&#x9986;[/chinese][spanish]Los archivos[/spanish][german]Die Archive[/german]</a></li>
-                           <li><a class="dropdown-item" href="submit.php">[french]Soumettre un article[/french][english]Submit a New[/english][chinese]&#x63D0;&#x8BAE;&#x51FA;&#x7248;&#x4E00;&#x4EFD;&#x51FA;&#x7248;&#x7269;[/chinese][spanish]Enviar un artículo[/spanish][german]Publikation vorschlagen[/german]</a></li>
-                        </ul>
-                     </li>
-                     <li class="nav-item"><a class="nav-link" href="forum.php">[french]Forums[/french][english]Forums[/english][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese][spanish]Foros[/spanish][german]Foren[/german]</a></li>
-                     <li class="nav-item"><a class="nav-link" href="download.php">[french]T&eacute;l&eacute;chargements[/french][english]Downloads[/english][chinese]Downloads[/chinese][spanish]Descargas[/spanish][german]Downloads[/german]</a></li>
-                     <li class="nav-item"><a class="nav-link" href="modules.php?ModPath=links&amp;ModStart=links">[french]Liens[/french][english]Links[/english][chinese]&#x7F51;&#x9875;&#x94FE;&#x63A5;[/chinese][spanish]Enlaces web[/spanish][german]Internetlinks[/german]</a></li>
-                     <li class="nav-item dropdown" data-bs-theme="light">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user fa-lg me-1"></i><?php echo $username; ?></a>
-                        <ul class="dropdown-menu">
-                           <li class="text-center"><?php echo $ava; ?></li>
-                           <?php echo $menuser; ?>
-                           <li class="dropdown-divider"></li>
-                           <li><?php echo $btn_con; ?></li>
-                        </ul>
-                     </li>
-                     <?php print $bal; ?>
-                  </ul>
-                  <?php if (autorisation(-127))
-                  echo '<div class="d-flex float-end"><a href="admin.php" title="[french]Administration[/french][english]Administration[/english][chinese]&#31649;&#29702;[/chinese][spanish]Administraci&oacute;n[/spanish][german]Verwaltung[/german]" data-bs-toggle="tooltip" data-bs-placement="left"><i id="cogs" class="fa fa-cogs fa-lg"></i></a></div>'; ?>
-               </div>
-            </div>
-         </nav>
-         <div class="page-header">
-            <div class="row">
-               <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/shared/header.png" loading="lazy" alt="logo" /></div>
-               <div id="logo_header" class="col-sm-6">
-                  <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
-               </div>
-               <div id="ban" class="col-sm-4 text-end">!banner!</div>
-            </div>
-            <div class="row">
-               <div id="slogan" class="col-sm-8 text-body-secondary slogan"><strong>!slogan!</strong></div>
-               <div id="online" class="col-sm-4 text-body-secondary text-end">!nb_online! <br />!date!</div>
-            </div>
-         </div>
-         <script type="text/javascript">
-         //<![CDATA[
-            $(document).ready(function() {
-               var chat_pour=['chat_tous','chat_membres','chat_anonyme','chat_admin'];
-               chat_pour.forEach(function(ele) {
-                  if ($('#'+ele+'_encours').length) {
-                     var clon = $('#'+ele+'_encours').clone().attr('id',ele+'_ico');
-                     $( ".navbar-nav" ).append( clon );
-                     $('#'+ele+'_ico').wrapAll('<li class="nav-item" />');
-                  }
-               })
-            })
-         //]]>
-         </script>
+<nav id="uppernavbar" class=" <?php echo $headerclasses; ?>" data-bs-theme="dark">
+   <div class="container-fluid">
+      <a class="navbar-brand" href="index.php"><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barnav">
+         <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown" data-bs-theme="light"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">News</a>
+               <ul class="dropdown-menu" role="menu" aria-label="list news">
+                  <li><a class="dropdown-item" href="index.php?op=index.php">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
+                  <li><a class="dropdown-item" href="search.php">[french]Les archives[/french][english]Archives[/english][chinese]&#x6863;&#x6848;&#x9986;[/chinese][spanish]Los archivos[/spanish][german]Die Archive[/german]</a></li>
+                  <li><a class="dropdown-item" href="submit.php">[french]Soumettre un article[/french][english]Submit a New[/english][chinese]&#x63D0;&#x8BAE;&#x51FA;&#x7248;&#x4E00;&#x4EFD;&#x51FA;&#x7248;&#x7269;[/chinese][spanish]Enviar un artículo[/spanish][german]Publikation vorschlagen[/german]</a></li>
+               </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="forum.php">[french]Forums[/french][english]Forums[/english][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese][spanish]Foros[/spanish][german]Foren[/german]</a></li>
+            <li class="nav-item"><a class="nav-link" href="download.php">[french]T&eacute;l&eacute;chargements[/french][english]Downloads[/english][chinese]Downloads[/chinese][spanish]Descargas[/spanish][german]Downloads[/german]</a></li>
+            <li class="nav-item"><a class="nav-link" href="modules.php?ModPath=links&amp;ModStart=links">[french]Liens[/french][english]Links[/english][chinese]&#x7F51;&#x9875;&#x94FE;&#x63A5;[/chinese][spanish]Enlaces web[/spanish][german]Internetlinks[/german]</a></li>
+            <li class="nav-item dropdown" data-bs-theme="light">
+               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user fa-lg me-1"></i><?php echo $username; ?></a>
+               <ul class="dropdown-menu">
+                  <li class="text-center"><?php echo $ava; ?></li>
+                  <?php echo $menuser; ?>
+                  <li class="dropdown-divider"></li>
+                  <li><?php echo $btn_con; ?></li>
+               </ul>
+            </li>
+            <?php print $bal; ?>
+         </ul>
+         <?php if (autorisation(-127))
+            echo '<div class="d-flex float-end"><a href="admin.php" title="[french]Administration[/french][english]Administration[/english][chinese]&#31649;&#29702;[/chinese][spanish]Administraci&oacute;n[/spanish][german]Verwaltung[/german]" data-bs-toggle="tooltip" data-bs-placement="left"><i id="cogs" class="fa fa-cogs fa-lg"></i></a></div>'; ?>
+      </div>
+   </div>
+</nav>
+<div class="page-header">
+   <div class="row">
+      <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/shared/header.png" loading="lazy" alt="logo" /></div>
+      <div id="logo_header" class="col-sm-6">
+         <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
+      </div>
+      <div id="ban" class="col-sm-4 text-end">!banner!</div>
+   </div>
+   <div class="row">
+      <div id="slogan" class="col-sm-8 text-body-secondary slogan"><strong>!slogan!</strong></div>
+      <div id="online" class="col-sm-4 text-body-secondary text-end">!nb_online! <br />!date!</div>
+   </div>
+</div>
+<script type="text/javascript">
+   //<![CDATA[
+   $(document).ready(function() {
+      var chat_pour = ['chat_tous', 'chat_membres', 'chat_anonyme', 'chat_admin'];
+      chat_pour.forEach(function(ele) {
+         if ($('#' + ele + '_encours').length) {
+            var clon = $('#' + ele + '_encours').clone().attr('id', ele + '_ico');
+            $(".navbar-nav").append(clon);
+            $('#' + ele + '_ico').wrapAll('<li class="nav-item" />');
+         }
+      })
+   })
+   //]]>
+</script>

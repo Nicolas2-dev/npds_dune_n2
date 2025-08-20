@@ -169,7 +169,7 @@ function display_upload($apli, $post_id, $Mmod)
       $attachments = '
       <div class="list-group">
          <div class="list-group-item d-flex justify-content-start align-items-center mt-2">
-            <img class="n-smil" src="assets/shared/forum/subject/07.png" alt="icon_pieces jointes" />
+            <img class="n-smil" src="assets/images/forum/subject/07.png" alt="icon_pieces jointes" />
             <span class="text-body-secondary p-2">' . upload_translate("Pièces jointes") . '</span><a data-bs-toggle="collapse" href="#lst_pj' . $post_id . '"><i data-bs-toggle="tooltip" data-bs-placement="top" title="" class="toggle-icon fa fa-lg me-2 fa-caret-up"></i></a>
             <span class="badge bg-secondary ms-auto">' . $att_count . '</span>
          </div>

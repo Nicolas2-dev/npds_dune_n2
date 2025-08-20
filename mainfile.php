@@ -16,7 +16,7 @@
 include 'bootstrap/grab_globals.php';
 include 'config/config.php';
 include 'bootstrap/multi-langue.php';
-include 'language/'. $language .'/lang-'. $language .'.php';
+include 'language/' . $language . '/lang-' . $language . '.php';
 
 include 'library/supercache/SuperCacheManager.php';
 include 'library/supercache/SuperCacheEmpty.php';
@@ -2975,18 +2975,18 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" ></i>';
 
         if (!$user_avatar) {
-            $imgtmp = "assets/shared/forum/avatar/blank.gif";
+            $imgtmp = "assets/images/forum/avatar/blank.gif";
         } else if (stristr($user_avatar, "users_private")) {
             $imgtmp = $user_avatar;
         } else {
             if ($ibid = theme_image("forum/avatar/$user_avatar")) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = "assets/shared/forum/avatar/$user_avatar";
+                $imgtmp = "assets/images/forum/avatar/$user_avatar";
             }
 
             if (!file_exists($imgtmp)) {
-                $imgtmp = "assets/shared/forum/avatar/blank.gif";
+                $imgtmp = "assets/images/forum/avatar/blank.gif";
             }
         }
 
@@ -3256,8 +3256,8 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
     $tmp = '';
 
     // CSS framework
-    if (file_exists("assets/skins/". $fw_css ."/bootstrap.min.css")) {
-        $tmp .= "<link href='assets/skins/". $fw_css ."/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
+    if (file_exists("assets/skins/" . $fw_css . "/bootstrap.min.css")) {
+        $tmp .= "<link href='assets/skins/" . $fw_css . "/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
     }
 
     // CSS standard 
@@ -3271,7 +3271,6 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
         if (file_exists("themes/$tmp_theme/assets/css/$language-print.css")) {
             $tmp .= "<link href='themes/$tmp_theme/assets/css/$language-print.css' rel='stylesheet' type='text/css' media='print' />";
         }
-
     } else if (file_exists("themes/$tmp_theme/assets/css/style.css")) {
         $tmp .= "<link href='themes/$tmp_theme/assets/css/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
 
@@ -3303,11 +3302,9 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
 
                 if (stristr($tab_css, 'http://') || stristr($tab_css, 'https://')) {
                     $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
-
                 } else {
-                    if (file_exists("themes/". $tmp_theme ."/assets/css/". $tab_css) and ($tab_css != '')) {
-                        $admtmp = "<link href='themes/". $tmp_theme ."/assets/css/". $tab_css ."' rel='stylesheet' type='text/css' media='all' />";
-
+                    if (file_exists("themes/" . $tmp_theme . "/assets/css/" . $tab_css) and ($tab_css != '')) {
+                        $admtmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $tab_css . "' rel='stylesheet' type='text/css' media='all' />";
                     } elseif (file_exists("$tab_css") and ($tab_css != '')) {
                         $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
                     }
@@ -3327,11 +3324,11 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
             $op = substr($oups, -1);
             $css = substr($oups, 0, -1);
 
-            if (($css != '') and (file_exists('themes/'. $tmp_theme .'/assets/css/'. $css))) {
+            if (($css != '') and (file_exists('themes/' . $tmp_theme . '/assets/css/' . $css))) {
                 if ($op == '-') {
-                    $tmp = "<link href='themes/". $tmp_theme ."/assets/css/". $css ."' rel='stylesheet' type='text/css' media='all' />";
+                    $tmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $css . "' rel='stylesheet' type='text/css' media='all' />";
                 } else {
-                    $tmp .= "<link href='themes/". $tmp_theme ."/assets/css/". $css ."' rel='stylesheet' type='text/css' media='all' />";
+                    $tmp .= "<link href='themes/" . $tmp_theme . "/assets/css/" . $css . "' rel='stylesheet' type='text/css' media='all' />";
                 }
             }
         }

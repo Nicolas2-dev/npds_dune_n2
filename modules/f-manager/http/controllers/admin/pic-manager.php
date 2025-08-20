@@ -400,7 +400,7 @@ if ($inclusion) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="assets/shared/favicon.ico" type="image/x-icon" />
+        echo '<link rel="shortcut icon" href="assets/shared/favicon/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
             <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
             <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />

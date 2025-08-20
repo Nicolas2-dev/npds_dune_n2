@@ -176,25 +176,25 @@ if (!$user) {
         }
 
         // if ($smilies) {
-            if ($posterdata['user_avatar'] != '') {
-                if (stristr($posterdata['user_avatar'], 'users_private')) {
-                    $imgtmp = $posterdata['user_avatar'];
+        if ($posterdata['user_avatar'] != '') {
+            if (stristr($posterdata['user_avatar'], 'users_private')) {
+                $imgtmp = $posterdata['user_avatar'];
+            } else {
+                if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                    $imgtmp = $ibid;
                 } else {
-                    if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
-                        $imgtmp = $ibid;
-                    } else {
-                        $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
-                    }
-                }
-
-                if ($posterdata['uid'] <> 1) {
-                    $aff_reso = isset($my_rsos[0]) ? $my_rsos[0] : '';
-
-                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
-                } else {
-                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title=\'<i class="fa fa-cogs fa-lg"></i>\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
+                    $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                 }
             }
+
+            if ($posterdata['uid'] <> 1) {
+                $aff_reso = isset($my_rsos[0]) ? $my_rsos[0] : '';
+
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
+            } else {
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title=\'<i class="fa fa-cogs fa-lg"></i>\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
+            }
+        }
         // }
 
         if ($posterdata['uid'] <> 1) {
@@ -210,7 +210,7 @@ if (!$user) {
                 if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
+                    $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';
@@ -218,7 +218,7 @@ if (!$user) {
                 if ($ibid = theme_image('forum/subject/00.png')) {
                     $imgtmpPI = $ibid;
                 } else {
-                    $imgtmpPI = 'assets/shared/forum/subject/00.png';
+                    $imgtmpPI = 'assets/images/forum/subject/00.png';
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmpPI . '" alt="icon_post" />';
@@ -297,8 +297,8 @@ if (!$user) {
             <a class="page-link" data-bs-toggle="collapse" href="#sortbox"><i class="fa fa-solid fa-wrench" title="' . translate('Classer ce message') . '" data-bs-toggle="tooltip"></i></a>
         </li>';
 
-        echo ($type != 'outbox') 
-            ? '<li class="page-item"><a class="page-link " href="replypmsg.php?delete=1&amp;msg_id=' . $myrow['msg_id'] . '" title="' . translate('Supprimer ce message') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a></li>' 
+        echo ($type != 'outbox')
+            ? '<li class="page-item"><a class="page-link " href="replypmsg.php?delete=1&amp;msg_id=' . $myrow['msg_id'] . '" title="' . translate('Supprimer ce message') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a></li>'
             : '<li class="page-item"><a class="page-link " href="replypmsg.php?delete=1&amp;msg_id=' . $myrow['msg_id'] . '&amp;type=outbox"  title="' . translate('Supprimer ce message') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a></li>';
 
         echo '</ul>';
@@ -309,7 +309,7 @@ if (!$user) {
                     WHERE to_userid='" . $userdata['uid'] . "' 
                     AND type_msg='0' 
                     ORDER BY dossier";
-                    
+
             $result = sql_query($sql);
 
             echo '<div class="collapse" id="sortbox">

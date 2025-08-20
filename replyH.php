@@ -27,7 +27,7 @@ include 'auth.php';
 settype($cancel, 'string');
 
 if ($cancel) {
-    header('Location: viewtopicH.php?topic='. $topic .'&forum='. $forum);
+    header('Location: viewtopicH.php?topic=' . $topic . '&forum=' . $forum);
 }
 
 $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, forum_access, arbre 
@@ -259,7 +259,7 @@ if ($submitS) {
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
 
-        redirect_url('viewtopicH.php?forum='. $forum .'&topic='. $topic);
+        redirect_url('viewtopicH.php?forum=' . $forum . '&topic=' . $topic);
     } else {
         echo "<p align=\"center\">" . translate('Vous devez taper un message à poster.') . "<br /><br />";
         echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate('Retour en arrière') . "</a> ]</p>";
@@ -306,7 +306,7 @@ if ($submitS) {
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -328,10 +328,8 @@ if ($submitS) {
 
     if ($forum_access == 0) {
         echo translate('Les utilisateurs anonymes peuvent poster de nouveaux sujets et des réponses dans ce forum.');
-
     } else if ($forum_access == 1) {
         echo translate('Tous les utilisateurs enregistrés peuvent poster de nouveaux sujets et répondre dans ce forum.');
-
     } else if ($forum_access == 2) {
         echo translate('Seuls les modérateurs peuvent poster de nouveaux sujets et répondre dans ce forum.');
     }
@@ -507,7 +505,7 @@ if ($submitS) {
 
         echo '</div>
         </div>'
-                . Q_spambot() . '
+            . Q_spambot() . '
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <input type="hidden" name="forum" value="' . $forum . '" />

@@ -17,7 +17,7 @@
 settype($cancel, 'string');
 
 if ($cancel) {
-    header('Location: viewforum.php?forum='. $forum);
+    header('Location: viewforum.php?forum=' . $forum);
 }
 
 if (!function_exists('Mysql_Connexion')) {
@@ -253,7 +253,7 @@ if (isset($submitS)) {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
-                        $imgava = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgava = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
@@ -261,7 +261,7 @@ if (isset($submitS)) {
             if ($ibid = theme_image('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
-                $imgava = 'assets/shared/forum/avatar/blank.gif';
+                $imgava = 'assets/images/forum/avatar/blank.gif';
             }
         }
     }
@@ -285,7 +285,7 @@ if (isset($submitS)) {
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -440,7 +440,7 @@ if (isset($submitS)) {
                     $asig = sql_query("SELECT attachsig 
                                        FROM " . sql_prefix('users_status') . " 
                                        WHERE uid='$cookie[0]'");
-                                       
+
                     list($attachsig) = sql_fetch_row($asig);
 
                     $s = ($attachsig == 1) ? 'checked="checked"' : '';

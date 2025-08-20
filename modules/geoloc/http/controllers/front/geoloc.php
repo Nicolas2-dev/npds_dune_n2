@@ -302,7 +302,7 @@ while ($row = sql_fetch_array($result)) {
     if (preg_match('#\/#', $user_avatar) === 1) {
         $the_av_ch = $user_avatar;
     } else {
-        $the_av_ch = 'assets/shared/forum/avatar/' . $user_avatar;
+        $the_av_ch = 'assets/images/forum/avatar/' . $user_avatar;
     }
 }
 //<== georeferencement utilisateur
@@ -357,7 +357,7 @@ while ($row = sql_fetch_array($result)) {
     //determine si c un avatar perso ou standard et fixe l'url de l'image
     $av_ch = preg_match('#\/#', $users_user_avatar) === 1 ?
         $users_user_avatar :
-        'assets/shared/forum/avatar/' . $users_user_avatar;
+        'assets/images/forum/avatar/' . $users_user_avatar;
 
     $socialnetworks = array();
     $res_id = array();
@@ -549,7 +549,7 @@ while ($row = sql_fetch_array($membre)) {
     if (preg_match('#\/#', $us_user_avatar) === 1) {
         $av_ch = $us_user_avatar;
     } else {
-        $av_ch = 'assets/shared/forum/avatar/' . $us_user_avatar;
+        $av_ch = 'assets/images/forum/avatar/' . $us_user_avatar;
     }
 
     //==> les membres géoréferencés
@@ -1618,7 +1618,7 @@ $ecr_scr .= '
 
 if ($op) {
     //pour zoom sur user back with u1
-    if ($op[0] == 'u') { 
+    if ($op[0] == 'u') {
         $ecr_scr .= '
     map.getView().setCenter(src_user.getFeatureById("' . $op . '").getGeometry().getFlatCoordinates());
     map.getView().setZoom(15);';

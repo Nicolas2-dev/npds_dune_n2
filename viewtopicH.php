@@ -303,7 +303,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                         if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
-                            $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
+                            $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
                         }
                     }
                 }
@@ -311,12 +311,12 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                 echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
             } else {
-                echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+                echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
             }
         } else {
-            echo ($myrow['poster_id'] !== '0') 
-                ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>' 
+            echo ($myrow['poster_id'] !== '0')
+                ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>'
                 : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
@@ -326,7 +326,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
+                $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
             }
 
             echo '<img class="n-smil" src="' . $imgtmp . '" alt="" />';
@@ -396,7 +396,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
 
                 if ($allow_upload_forum) {
                     $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
-                    
+
                     echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
                 }
             }
@@ -404,7 +404,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if ($allow_to_post and !$lock_state and $posterdata['uid'] != '') {
                 echo '<a class="me-3" href="replyH.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $myrow['post_id'] . '&amp;citation=1" title="' . translate('Citation') . '" data-bs-toggle="tooltip"><i class="fa fa-quote-left fa-lg"></i></a>';
             }
-            
+
             echo '<a class="me-3" href="prntopic.php?forum=' . $forum . '&amp;topic=' . $topic . '&amp;post_id=' . $myrow['post_id'] . '" title="' . translate('Imprimer') . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
 
             if ($Mmod) {
@@ -496,12 +496,10 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
-
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
-
     } elseif ($forum_access == 2) {
         if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
@@ -546,7 +544,7 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
                 if ($ibid = theme_image('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/avatar/' . $contri['user_avatar'];
+                    $imgtmp = 'assets/images/forum/avatar/' . $contri['user_avatar'];
                 }
             }
         }
@@ -583,7 +581,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
             if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
+                $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
             }
         }
     }
@@ -633,13 +631,13 @@ if (isset($user)) {
 if ($ibid = theme_image('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
-    $imgtmpPI = 'asstes/assets/shared/forum/icons/posticon.gif';
+    $imgtmpPI = 'asstes/assets/images/forum/icons/posticon.gif';
 }
 
 if ($ibid = theme_image('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
-    $imgtmpNE = 'assets/assets/shared/forum/icons/new.gif';
+    $imgtmpNE = 'assets/assets/images/forum/icons/new.gif';
 }
 
 $post_aff = ($Mmod) ? '' : " AND post_aff='1' ";

@@ -146,7 +146,7 @@ function show_imm($op)
                     if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
+                        $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
                     }
 
                     echo '<img class="n-smil float-end" src="' . $imgtmp . '" alt="icon-message" />';

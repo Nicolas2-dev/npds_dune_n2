@@ -122,7 +122,7 @@ function ForumGo($cat_id)
                 <th data-sortable="true" data-halign="center">' . adm_translate('Accès') . '&nbsp;</th>
                 <th data-sortable="true" data-halign="center">' . adm_translate('Type') . '&nbsp;</th>
                 <th data-sortable="true" data-halign="center">' . adm_translate('Mode') . '&nbsp;</th>
-                <th class="n-t-col-xs-1" data-sortable="true" data-halign="center" data-align="center"><img class="n-smil" src="assets/shared/forum/subject/07.png" alt="icon_pieces jointes" title="' . adm_translate('Attachement') . '" data-bs-toggle="tooltip"></th>
+                <th class="n-t-col-xs-1" data-sortable="true" data-halign="center" data-align="center"><img class="n-smil" src="assets/images/forum/subject/07.png" alt="icon_pieces jointes" title="' . adm_translate('Attachement') . '" data-bs-toggle="tooltip"></th>
                 <th data-sortable="true" data-halign="center" data-align="center">' . adm_translate('Fonctions') . '&nbsp;</th>
             </tr>
         </thead>

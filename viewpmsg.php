@@ -161,7 +161,7 @@ if (!$user) {
                     if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
+                        $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
                     }
 
                     echo '<td><img class="n-smil" src="' . $imgtmp . '" alt="" /></td>';
@@ -264,7 +264,7 @@ if (!$user) {
                 if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
+                    $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
                 }
                 echo '<td width="5%" align="center"><img class="n-smil" src="' . $imgtmp . '" alt="Image du topic" /></td>';
             } else {
@@ -296,67 +296,67 @@ if (!$user) {
 
     echo '</form>
         </div>';
-        
-    ?>
+
+?>
     <script type="text/javascript">
         //<![CDATA[
-            function CheckAll() {
-                for (var i = 0; i < document.prvmsg.elements.length; i++) {
-                    var e = document.prvmsg.elements[i];
-                    if ((e.name != 'allbox') && (e.type == 'checkbox'))
-                        e.checked = document.prvmsg.allbox.checked;
-                }
+        function CheckAll() {
+            for (var i = 0; i < document.prvmsg.elements.length; i++) {
+                var e = document.prvmsg.elements[i];
+                if ((e.name != 'allbox') && (e.type == 'checkbox'))
+                    e.checked = document.prvmsg.allbox.checked;
             }
+        }
 
-            function CheckCheckAll() {
-                var TotalBoxes = 0,
-                    TotalOn = 0;
-                for (var i = 0; i < document.prvmsg.elements.length; i++) {
-                    var e = document.prvmsg.elements[i];
-                    if ((e.name != 'allbox') && (e.type == 'checkbox')) {
-                        TotalBoxes++;
-                        if (e.checked) {
-                            TotalOn++;
-                        }
+        function CheckCheckAll() {
+            var TotalBoxes = 0,
+                TotalOn = 0;
+            for (var i = 0; i < document.prvmsg.elements.length; i++) {
+                var e = document.prvmsg.elements[i];
+                if ((e.name != 'allbox') && (e.type == 'checkbox')) {
+                    TotalBoxes++;
+                    if (e.checked) {
+                        TotalOn++;
                     }
                 }
-                if (TotalBoxes == TotalOn) {
-                    document.prvmsg.allbox.checked = true;
-                } else {
-                    document.prvmsg.allbox.checked = false;
-                }
             }
-
-            function CheckAllB() {
-                for (var i = 0; i < document.prvmsgB.elements.length; i++) {
-                    var e = document.prvmsgB.elements[i];
-                    if ((e.name != 'allbox') && (e.type == 'checkbox'))
-                        e.checked = document.prvmsgB.allbox.checked;
-                }
+            if (TotalBoxes == TotalOn) {
+                document.prvmsg.allbox.checked = true;
+            } else {
+                document.prvmsg.allbox.checked = false;
             }
+        }
 
-            function CheckCheckAllB() {
-                var TotalBoxes = 0,
-                    TotalOn = 0;
-                for (var i = 0; i < document.prvmsgB.elements.length; i++) {
-                    var e = document.prvmsgB.elements[i];
-                    if ((e.name != 'allbox') && (e.type == 'checkbox')) {
-                        TotalBoxes++;
-                        if (e.checked) {
-                            TotalOn++;
-                        }
+        function CheckAllB() {
+            for (var i = 0; i < document.prvmsgB.elements.length; i++) {
+                var e = document.prvmsgB.elements[i];
+                if ((e.name != 'allbox') && (e.type == 'checkbox'))
+                    e.checked = document.prvmsgB.allbox.checked;
+            }
+        }
+
+        function CheckCheckAllB() {
+            var TotalBoxes = 0,
+                TotalOn = 0;
+            for (var i = 0; i < document.prvmsgB.elements.length; i++) {
+                var e = document.prvmsgB.elements[i];
+                if ((e.name != 'allbox') && (e.type == 'checkbox')) {
+                    TotalBoxes++;
+                    if (e.checked) {
+                        TotalOn++;
                     }
                 }
-                if (TotalBoxes == TotalOn) {
-                    document.prvmsgB.allbox.checked = true;
-                } else {
-                    document.prvmsgB.allbox.checked = false;
-                }
             }
+            if (TotalBoxes == TotalOn) {
+                document.prvmsgB.allbox.checked = true;
+            } else {
+                document.prvmsgB.allbox.checked = false;
+            }
+        }
         //]]>
     </script>
 
-    <?php
+<?php
 
     include 'footer.php';
 }
