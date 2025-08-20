@@ -1,7 +1,7 @@
 <?php
 
 /************************************************************************/
-/* NPDS DUNE : Net Portal Dynamic System .                              */
+/* NPDS DUNE : Net Portal Dynamic System                                */
 /* ===========================                                          */
 /*                                                                      */
 /* This version name NPDS Copyright (c) 2001-2024 by Philippe Brunier   */
@@ -13,12 +13,13 @@
 
 // cette variable fonctionne si $url_fma_modifier=true;
 // $url_modifier permet de modifier le comportement du lien (a href ....) se trouvant sur les fichiers affichés par FMA
+$repw = str_replace($basedir_fma, '', $cur_nav);
 
-if (($obj->FieldView == "jpg") or ($obj->FieldView == "gif") or ($obj->FieldView == "png") or ($obj->FieldView == "jpeg"))
-   $url_modifier = $tiny_mce ?
-      "\"#\" onclick=\"javascript:parent.tinymce.activeEditor.selection.setContent('<img class=img-fluid src=getfile.php?att_id=$ibid&amp;apli=f-manager border=0 />');\"" :
-      "\"#\"";
-else
-   $url_modifier = $tiny_mce ?
-      "\"#\" onclick=\"javascript:parent.tinymce.activeEditor.selection.setContent('<a href=getfile.php?att_id=$ibid&amp;apli=f-manager target=_blank>" . $obj->FieldName . "</a>');\"" :
-      "\"getfile.php?att_id=$ibid&amp;apli=f-manager\"";
+if ($repw != '')
+   if (substr($repw, 0, 1) == '/') {
+      $repw = substr($repw, 1) . '/' . $obj->FieldName;
+   } else {
+      $repw = $obj->FieldName;
+   }
+
+$url_modifier = "\"#\" onclick=\"javascript:window.opener.document.adminForm.durl.value='" . $repw . "'; window.opener.document.adminForm.dfilename.value='" . extend_ascii($obj->FieldName) . "';\"";
