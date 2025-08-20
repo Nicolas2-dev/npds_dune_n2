@@ -24,13 +24,14 @@ if (!stristr($_SERVER['PHP_SELF'], "modules.php"))
 global $language, $links_DB, $NPDS_Prefix;
 
 $pos = strpos($ModPath, '/admin');
-
-include_once('modules/' . substr($ModPath, 0, $pos) . '/links.conf.php');
+include_once('modules/' . substr($ModPath, 0, $pos) . '/config/config.php');
+//include_once('modules/' . $ModPath . '/config/config.php');
 
 if ($links_DB == '')
     $links_DB = $NPDS_Prefix;
 
-$hlpfile = "modules/" . substr($ModPath, 0, $pos) . "/manual/$language/mod-weblinks.html";
+$hlpfile = "modules/" . substr($ModPath, 0, $pos) . "/manuels/$language/mod-weblinks.html";
+//$hlpfile = "modules/" . $ModPath . "/manuels/$language/mod-weblinks.html";
 
 if (autorisation(-127)) {
     $result = sql_query("SELECT radminsuper FROM " . $NPDS_Prefix . "authors WHERE aid='$aid'");

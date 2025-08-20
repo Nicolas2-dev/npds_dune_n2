@@ -41,27 +41,19 @@ if (filtre_module($ModPath) and filtre_module($ModStart)) {
         include 'mainfile.php';
     }
 
-    //dump(
-    //    file_exists('modules/' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php'), 
-    //    'modules/' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php',
-    //    file_exists('modules/' . $ModPath . '/http/controllers/front/' . $ModStart . '.php'), 
-    //    'modules/' . $ModPath . '/http/controllers/front/' . $ModStart . '.php',
-    //);
+    $isControllerAdmin = (strpos($ModStart, 'admin') !== false);
 
-    if (file_exists('modules/' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php')) {
-        include 'modules/' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php';
-        die();
+    $controllerPath = $isControllerAdmin
+        ? "modules/{$ModPath}/http/controllers/admin/{$ModStart}.php"
+        : "modules/{$ModPath}/http/controllers/front/{$ModStart}.php";
 
-    } elseif (file_exists('modules/' . $ModPath . '/http/controllers/front/' . $ModStart . '.php')) {
-        include 'modules/' . $ModPath . '/http/controllers/front/' . $ModStart . '.php';
-        die();
-
-    //} elseif (file_exists('modules/' . $ModPath . '/' . $ModStart . '.php')) {
-    //    include 'modules/' . $ModPath . '/' . $ModStart . '.php';
-    //    die();
-    } else {
-        Access_Error();
+    if (file_exists($controllerPath)) {
+        include $controllerPath;
+        exit;
     }
+
+    Access_Error();
+
 } else {
     Access_Error();
 }

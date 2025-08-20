@@ -35,7 +35,7 @@ if (
 
 global $links_DB, $NPDS_Prefix;
 
-include_once("modules/$ModPath/links.conf.php");
+include_once("modules/$ModPath/config/config.php");
 
 if ($links_DB == '') $links_DB = $NPDS_Prefix;
 
@@ -154,14 +154,14 @@ function index()
 {
     global $ModPath, $ModStart, $links_DB;
 
-    include("modules/$ModPath/links.conf.php");
+    include("modules/$ModPath/config/config.php");
 
     include 'header.php';
 
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else
         $cache_obj = new SuperCacheEmpty();
@@ -317,7 +317,7 @@ function viewlink($cid, $min, $orderby, $show)
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else
         $cache_obj = new SuperCacheEmpty();
@@ -436,7 +436,7 @@ function viewslink($sid, $min, $orderby, $show)
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else
         $cache_obj = new SuperCacheEmpty();
@@ -516,7 +516,7 @@ function fiche_detail($Xlid)
     // Include cache manager
     global $SuperCache;
     if ($SuperCache) {
-        $cache_obj = new cacheManager();
+        $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
     } else
         $cache_obj = new SuperCacheEmpty();
