@@ -17,21 +17,21 @@ if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
 
 global $ModPath, $ModStart, $language, $Default_Theme, $Default_Skin, $NPDS_Key;
 
-if (file_exists('modules/'. $ModPath .'/language/'. $language .'/'. $language .'.php')) {
-    include 'modules/'. $ModPath .'/language/'. $language .'/'. $language .'.php';
+if (file_exists('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php')) {
+    include 'modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php';
 } else {
-    include 'modules/'. $ModPath .'/language/english/english.php';
+    include 'modules/' . $ModPath . '/language/english/english.php';
 }
 
-include 'modules/'. $ModPath .'/library/navigator.php';
-include 'modules/'. $ModPath .'/support/fmanager.php';
+include 'modules/' . $ModPath . '/library/navigator.php';
+include 'modules/' . $ModPath . '/support/fmanager.php';
 
 // Lancement sur un Répertoire en fonction d'un fichier de conf particulier
 if ($FmaRep) {
     if (filtre_module($FmaRep)) {
 
         // Si je ne trouve pas de fichier - est-ce que l'utilisateur fait partie d'un groupe ?
-        if (!file_exists('modules/'. $ModPath .'/storage/users/' . strtolower($FmaRep) . '.php')) {
+        if (!file_exists('modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php')) {
             $tab_groupe = valid_group($user);
 
             if ($tab_groupe) {
@@ -43,7 +43,7 @@ if ($FmaRep) {
                                             WHERE groupe_id='$gp' 
                                             ORDER BY groupe_id ASC", 3600);
 
-                    if (file_exists('modules/'. $ModPath .'/storage/users/' . $groupename[0]['groupe_name'] . '.php')) {
+                    if (file_exists('modules/' . $ModPath . '/storage/users/' . $groupename[0]['groupe_name'] . '.php')) {
                         $FmaRep = $groupename[0]['groupe_name'];
                         break;
                     }
@@ -51,7 +51,7 @@ if ($FmaRep) {
             }
         }
 
-        if (file_exists('modules/'. $ModPath .'/storage/users/' . strtolower($FmaRep) . '.php')) {
+        if (file_exists('modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php')) {
 
             // Est ce que je doit récupérer le theme si un utilisateur est connecté ?
             if (isset($user)) {
@@ -64,7 +64,7 @@ if ($FmaRep) {
                 }
             }
 
-            include 'modules/'. $ModPath .'/storage/users/' . strtolower($FmaRep) . '.php';
+            include 'modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php';
 
             if (fma_autorise('a', '')) {
                 $theme_fma = $themeG_fma;
@@ -133,7 +133,7 @@ switch ($op) {
             if ($userfile != 'none') {
                 global $language;
 
-                include_once 'modules/upload/language/'. $language .'/'. $language .'.php';
+                include_once 'modules/upload/language/' . $language . '/' . $language . '.php';
                 include_once 'modules/upload/library/clsUpload.php';
 
                 $upload = new Upload();
@@ -859,7 +859,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
 }
 
 // gestion des types d'extension de fichiers
-$extensions = include 'modules/'. $ModPath .'/config/extensions.php';
+$extensions = include 'modules/' . $ModPath . '/config/extensions.php';
 
 foreach ($extensions as $extens) {
     $att_icons[$extens] = '<span class="fa-stack">
@@ -1044,7 +1044,7 @@ while ($obj->NextFile()) {
         if ($ficpres_fma[1]) {
             if ($url_fma_modifier) {
 
-                include $racine_fma .'/modules/'. $ModPath .'/support/mod/'. $FmaRep .'.php';
+                include $racine_fma . '/modules/' . $ModPath . '/support/mod/' . $FmaRep . '.php';
 
                 $pop = $url_modifier;
                 $target = '';
@@ -1204,10 +1204,8 @@ $inclusion = false;
 
 if (file_exists("themes/$Default_Theme/html/modules/f-manager/$theme_fma")) {
     $inclusion = "themes/$Default_Theme/html/modules/f-manager/$theme_fma";
-
 } elseif (file_exists("themes/default/html/modules/f-manager/$theme_fma")) {
     $inclusion = "themes/default/html/modules/f-manager/$theme_fma";
-
 } else {
     echo "html/modules/f-manager/$theme_fma manquant / not find !";
 }
@@ -1305,10 +1303,10 @@ if ($inclusion) {
         // utilisation de pages.php
         settype($PAGES, 'array');
 
-        if (file_exists('themes/'. $Default_Theme .'/routing/pages.php')) {
-            require_once 'themes/'. $Default_Theme .'/routing/pages.php'; 
+        if (file_exists('themes/' . $Default_Theme . '/routing/pages.php')) {
+            require_once 'themes/' . $Default_Theme . '/routing/pages.php';
         } else {
-            require_once 'modules/f-manager/routes/pages/pages.php'; 
+            require_once 'modules/f-manager/routes/pages/pages.php';
         }
 
         $Titlesitename = aff_langue($PAGES["modules.php?ModPath=$ModPath&ModStart=$ModStart*"]['title']);
@@ -1325,7 +1323,7 @@ if ($inclusion) {
 
                 $tmp_theme = $theme;
 
-                if (!$file = @opendir('themes/'. $theme)) {
+                if (!$file = @opendir('themes/' . $theme)) {
                     $tmp_theme = $Default_Theme;
                 }
             } else {
@@ -1341,7 +1339,7 @@ if ($inclusion) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="assets/shared/favicon/favicon.ico" type="image/x-icon" />
+        echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
         <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
         <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />
@@ -1368,18 +1366,17 @@ if ($inclusion) {
     }
 
     // Head banner de présentation F-Manager
-    if (file_exists('themes/'. $Default_Theme .'/overrides/modules/f-manager/views/head.php')) {
+    if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/head.php')) {
         echo "\n";
-        include 'themes/'. $Default_Theme .'/overrides/modules/f-manager/views/head.php';
+        include 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/head.php';
         echo "\n";
-
     } else if (file_exists('modules/f-manager/views/head.php')) {
         echo "\n";
         include 'modules/f-manager/views/head.php';
         echo "\n";
     }
 
-    ?>
+?>
     <script type="text/javascript">
         //<![CDATA[
         function previewImage(fileInfo) {
@@ -1396,7 +1393,7 @@ if ($inclusion) {
         }
         //]]>
     </script>
-    <?php
+<?php
 
     // l'insertion de la FORM d'édition doit intervenir à la fin du calcul de l'interface ... sinon on modifie le contenu
     // Meta_lang n'est pas chargé car trop lent pour une utilisation sur de gros répertoires
@@ -1406,11 +1403,10 @@ if ($inclusion) {
     echo $Xcontent;
 
     // Foot banner de présentation F-Manager
-    if (file_exists('themes/'. $Default_Theme .'/overrides/modules/f-manager/views/foot.php')) {
+    if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php')) {
         echo "\n";
-        include 'themes/'. $Default_Theme .'/overrides/modules/f-manager/views/foot.php';
+        include 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php';
         echo "\n";
-
     } else if (file_exists('modules/f-manager/views/foot.php')) {
         echo "\n";
         include 'modules/f-manager/views/foot.php';

@@ -17,10 +17,10 @@ if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
 
 global $ModPath, $ModStart, $language, $Default_Theme, $Default_Skin, $NPDS_Key, $nuke_url;
 
-if (file_exists('modules/'. $ModPath .'/language/'. $language .'/'. $language .'.php')) {
-    include 'modules/'. $ModPath .'/language/'. $language .'/'. $language .'.php';
+if (file_exists('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php')) {
+    include 'modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php';
 } else {
-    include 'modules/'. $ModPath .'/language/english/english.php';
+    include 'modules/' . $ModPath . '/language/english/english.php';
 }
 
 include 'modules/' . $ModPath . '/library/navigator.php';
@@ -31,9 +31,9 @@ settype($curn_nav, 'string');
 // Lancement sur un Répertoire en fonction d'un fichier de conf particulier
 if ($FmaRep) {
     if (filtre_module($FmaRep)) {
-        if (file_exists('modules/'. $ModPath .'/storage/users/' . strtolower($FmaRep) . '.php')) {
+        if (file_exists('modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php')) {
 
-            include 'modules/'. $ModPath .'/storage/users/' . strtolower($FmaRep) . '.php';
+            include 'modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php';
 
             if (fma_autorise('a', '')) {
                 $theme_fma = $themeG_fma;
@@ -100,7 +100,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
 }
 
 // gestion des types d'extension de fichiers
-$handle = opendir($racine_fma .'/assets/shared/upload/file_types');
+$handle = opendir($racine_fma . '/assets/shared/upload/file_types');
 
 while (false !== ($file = readdir($handle))) {
     if ($file != '.' && $file != '..') {
@@ -197,9 +197,10 @@ if ($Max_thumb > 0) {
                     $ibid = rawurlencode(encrypt(rawurldecode($cur_nav_encrypt) . '#fma#' . encrypt($obj->FieldName)));
                     $imagette = '';
 
-                    if (($suf == 'gif') 
-                    or ($suf == 'jpg') 
-                    or ($suf == 'jpeg')) {
+                    if (($suf == 'gif')
+                        or ($suf == 'jpg')
+                        or ($suf == 'jpeg')
+                    ) {
                         if ((function_exists('gd_info')) or extension_loaded('gd')) {
 
                             //cached or not ?
@@ -308,7 +309,7 @@ if ($Max_thumb > 0) {
     $files .= '</div>';
 }
 
-chdir($racine_fma .'/');
+chdir($racine_fma . '/');
 
 // Génération de l'interface
 
@@ -326,7 +327,6 @@ $inclusion = false;
 
 if (file_exists("themes/ '. $Default_Theme .'/html/modules/f-manager/pic-manager.php")) {
     $inclusion = "themes/'. $Default_Theme .'/html/modules/f-manager/pic-manager.php";
-
 } elseif (file_exists("modules/f-manager/views/pic-manager.php")) {
     $inclusion = "modules/f-manager/views/pic-manager.php";
 } else {
@@ -334,8 +334,8 @@ if (file_exists("themes/ '. $Default_Theme .'/html/modules/f-manager/pic-manager
 }
 
 if ($inclusion) {
-    $browse = isset($browse) 
-        ? $browse 
+    $browse = isset($browse)
+        ? $browse
         : '';
 
     $Xcontent = join('', file($inclusion));
@@ -355,8 +355,8 @@ if ($inclusion) {
         ? str_replace('_fileM', '<a class="nav-link" href="modules.php?ModPath=' . $ModPath . '&amp;ModStart=f-manager&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode($browse) . '"><i class="bi bi-folder fs-1 d-sm-none" data-bs-toggle="tooltip" title="' . fma_translate('Gestionnaire de fichiers') . '"></i><span class="d-none d-sm-block mt-2">' . fma_translate('Gestionnaire de fichiers') . '</span></a>', $Xcontent)
         : str_replace('_fileM', '', $Xcontent);
 
-    $Xcontent = (isset($files)) 
-        ? str_replace('_files', $files, $Xcontent) 
+    $Xcontent = (isset($files))
+        ? str_replace('_files', $files, $Xcontent)
         : str_replace('_files', '', $Xcontent);
 
     if (!$NPDS_fma) {
@@ -400,7 +400,7 @@ if ($inclusion) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="assets/shared/favicon/favicon.ico" type="image/x-icon" />
+        echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
             <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
             <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />
@@ -419,7 +419,6 @@ if ($inclusion) {
         echo "\n";
         include("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/head.php");
         echo "\n";
-
     } else if (file_exists("modules/f-manager/views/head.php")) {
         echo "\n";
         include("modules/f-manager/views/f-manager/head.php");
@@ -433,7 +432,6 @@ if ($inclusion) {
         echo "\n";
         include("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/foot.php");
         echo "\n";
-
     } else if (file_exists("modules/f-manager/views/foot.php")) {
         echo "\n";
         include("modules/f-manager/views/foot.php");

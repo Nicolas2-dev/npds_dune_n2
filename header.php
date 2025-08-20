@@ -48,9 +48,9 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
 
     echo '
     <link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
-    <link rel="apple-touch-icon" sizes="120x120" href="assets/shared/favicon/favicon-120.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="assets/shared/favicon/favicon-152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/shared/favicon/favicon-180.png" />';
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/favicon-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/favicon-152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/favicon-180.png" />';
 
     // Syndication RSS & autres
     global $sitename, $nuke_url;
@@ -128,11 +128,9 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
             foreach ($js as $k => $tab_js) {
                 if (stristr($tab_js, 'http://') || stristr($tab_js, 'https://')) {
                     echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
-
                 } else {
                     if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
                         echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
-
                     } elseif (file_exists("$tab_js") and ($tab_js != "")) {
                         echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
                     }
@@ -141,7 +139,6 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         } else {
             if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
                 echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
-
             } elseif (file_exists($js)) {
                 echo '<script type="text/javascript" src="' . $js . '"></script>';
             }

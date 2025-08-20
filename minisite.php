@@ -368,7 +368,7 @@ if ($affich) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="assets/shared/favicon/favicon.ico" type="image/x-icon" />
+        echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />
         <script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
 
