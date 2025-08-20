@@ -14,28 +14,43 @@
 /* twi_conf.php file 2015 by Jean Pierre Barbary (jpb)                  */
 /* dev team :                                                           */
 /************************************************************************/
-$npds_twi_arti = 0; // activation publication auto des news sur twitter
 
-$npds_twi_post = 0; // activation publication auto des posts sur twitter
+// activation publication auto des news sur twitter
+$npds_twi_arti = 0; 
 
-$npds_twi_urshort = 3; // activation du raccourciceur d'url
+// activation publication auto des posts sur twitter
+$npds_twi_post = 0; 
 
-$consumer_key = ""; //
+// activation du raccourciceur d'url
+$npds_twi_urshort = 3; 
 
-$consumer_secret = ""; //
+//
+$consumer_key = '';
 
-$oauth_token = ""; //
+//
+$consumer_secret = '';
 
-$oauth_token_secret = ""; //
+//
+$oauth_token = ''; 
+
+//
+$oauth_token_secret = ''; 
 
 // interface bloc 
-$tbox_width = ""; // largeur de la tweet box
 
-$tbox_height = ""; // hauteur de la tweet box
+// largeur de la tweet box
+$tbox_width = ''; 
+
+// hauteur de la tweet box
+$tbox_height = ''; 
 
 // style 
-$class_sty_1 = ""; // titre de la page
 
-$class_sty_2 = ""; // sous-titre de la page
+// titre de la page
+$class_sty_1 = ''; 
 
-$npds_twi_versus = "v.1.0";
+// sous-titre de la page
+$class_sty_2 = ''; 
+
+//
+$npds_twi_versus = 'v.1.0';

@@ -13,25 +13,28 @@
 /* module npds_twi version 1.0                                          */
 /* npds_to_twi.php file 2015 by Jean Pierre Barbary jpb                 */
 /************************************************************************/
-if (!function_exists("Mysql_Connexion"))
+
+if (!function_exists('Mysql_Connexion')) {
     die();
+}
 
 // Initialisation
-global $nuke_url, $npds_twi, $NPDS_Prefix;
+global $nuke_url, $npds_twi;
 
 if (!isset($sid)) {
-    $result = sql_query("SELECT max(sid) FROM " . $NPDS_Prefix . "stories");
+    $result = sql_query("SELECT max(sid) 
+                         FROM " . sql_prefix('stories'));
 
     list($sid) = sql_fetch_row($result);
 }
 
 if ($npds_twi === 1) {
-    require_once('modules/npds_twi/include/ab-twitteroauth/twitteroauth/twitteroauth.php');
-    require_once('modules/npds_twi/twi_conf.php');
+    require_once 'modules/npds_twi/library/twitteroauth/twitteroauth.php';
+    require_once 'modules/npds_twi/config/config.php';
 
     /*Crée un objet TwitterOauth*/
     $connection = new TwitterOAuth($consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret);
-    $connection->host = "https://api.twitter.com/1.1/";
+    $connection->host = 'https://api.twitter.com/1.1/';
 
     /* parametres */
     $max_twi = 280;
@@ -96,7 +99,7 @@ if ($npds_twi === 1) {
         $status = $connection->post('statuses/update', $parameters);
     }
 
-    //if ($npds_twi_post===1) {
+    //if ($npds_twi_post === 1) {
     // a developper
     //}
 }

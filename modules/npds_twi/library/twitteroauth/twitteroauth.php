@@ -14,6 +14,7 @@ require_once('OAuth.php');
  */
 class TwitterOAuth
 {
+
     /* Contains the last HTTP status code returned. */
     public $http_code;
 
@@ -43,6 +44,7 @@ class TwitterOAuth
 
     /* Set the useragnet. */
     public $useragent = 'TwitterOAuth v0.2.0-beta2';
+    
     /* Immediately retry the API call if the response was not successful. */
     //public $retry = TRUE;
 
