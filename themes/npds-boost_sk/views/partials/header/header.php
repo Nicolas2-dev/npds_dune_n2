@@ -94,7 +94,7 @@ if (autorisation(-1)) {
 </nav>
 <div class="page-header">
    <div class="row">
-      <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/shared/header.png" loading="lazy" alt="logo" /></div>
+      <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/images/header.png" loading="lazy" alt="logo" /></div>
       <div id="logo_header" class="col-sm-6">
          <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
       </div>
