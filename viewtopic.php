@@ -280,14 +280,14 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
                 if ($ibid = theme_image('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/avatar/' . $contri['user_avatar'];
+                    $imgtmp = 'assets/shared/forum/avatar/' . $contri['user_avatar'];
                 }
             }
         }
 
         echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="' . $imgtmp . '" alt="' . $contri['uname'] . '" title="' . $contri['uname'] . '" data-bs-toggle="tooltip" />';
     } else {
-        echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="images/forum/avatar/blank.gif" alt="' . $anonymous . '" title="' . $anonymous . '" data-bs-toggle="tooltip" />';
+        echo '<img class="img-thumbnail img-fluid n-ava-small mb-1" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" title="' . $anonymous . '" data-bs-toggle="tooltip" />';
     }
 }
 
@@ -310,7 +310,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
             if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = 'images/forum/avatar/' . $modera['user_avatar'];
+                $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
             }
         }
     }
@@ -437,19 +437,19 @@ if (isset($user)) {
 if ($ibid = theme_image('forum/rank/post.gif')) {
     $imgtmpP = $ibid;
 } else {
-    $imgtmpP = 'images/forum/rank/post.gif';
+    $imgtmpP = 'assets/shared/forum/rank/post.gif';
 }
 
 if ($ibid = theme_image('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
-    $imgtmpPI = 'images/forum/icons/posticon.gif';
+    $imgtmpPI = 'assets/shared/forum/icons/posticon.gif';
 }
 
 if ($ibid = theme_image('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
-    $imgtmpNE = 'images/forum/icons/new.gif';
+    $imgtmpNE = 'assets/shared/forum/icons/new.gif';
 }
 
 do {
@@ -557,7 +557,7 @@ do {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'images/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
@@ -565,7 +565,7 @@ do {
             echo '<a style="position:absolute; top:0.5rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div> \'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
             <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
         } else {
-            echo '<a style="position:absolute; top:0.5rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+            echo '<a style="position:absolute; top:0.5rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
             <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
     } else {
@@ -582,7 +582,7 @@ do {
         if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = 'images/forum/subject/' . $myrow['image'];
+            $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
         }
 
         echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';

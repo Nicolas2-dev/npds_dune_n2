@@ -45,19 +45,19 @@ function entete()
         <meta name="resource-type" content="document" />
         <meta name="robots" content="none" />
         <meta name="generator" content="NPDS IZ-Xinstall" />
-        <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />
-        <link rel="stylesheet" href="themes/_skins/cosmo/bootstrap.min.css" />
-        <link rel="stylesheet" href="lib/formvalidation/dist/css/formValidation.min.css">
-        <link rel="stylesheet" href="themes/npds-boost_sk/style/style.css">
-        <link rel="shortcut icon" href="install/images/favicon.ico" type="image/x-icon">
-        <script type="text/javascript" src="lib/js/jquery.min.js"></script>
-        <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+        <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" href="assets/skins/cosmo/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/shared/formvalidation/dist/css/formValidation.min.css">
+        <link rel="stylesheet" href="themes/npds-boost_sk/assets/css/style.css">
+        <link rel="shortcut icon" href="install/assets/images/favicon.ico" type="image/x-icon">
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="assets/js/npds_adapt.js"></script>
     </head>
     <body>
         <div class="p-2 mb-4 bg-light">
             <div class="row">
-                <div class="col-sm-2 d-none d-md-inline-block"><img class="img-fluid" src="install/images/header.png" alt="NPDS logo" /></div>
+                <div class="col-sm-2 d-none d-md-inline-block"><img class="img-fluid" src="install/assets/images/header.png" alt="NPDS logo" /></div>
                 <div id="logo_header" class="col my-auto ps-3 ps-md-0">
                 <h1 class="display-4">NPDS<br /><small class="text-body-secondary">' . ins_translate("Installation automatique") . ' <em> ' . NEW_VERSION . '</em></small></h1>
                 </div>

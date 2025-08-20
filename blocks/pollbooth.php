@@ -78,7 +78,7 @@ if (! function_exists('pollMain'))
                 <li class="list-group-item">' . translate('Votes : ') . ' <span class="badge rounded-pill bg-secondary float-end">' . $sum . '</span></li>';
         
         if ($pollcomm) {
-            if (file_exists($path = 'modules/comments/pollBoth.conf.php')) {
+            if (file_exists($path = 'modules/comments/config/pollBoth.php')) {
                 include $path;
             }
 

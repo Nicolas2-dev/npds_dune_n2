@@ -65,7 +65,7 @@
                 $.each(exportTypes, function (i, type) {
                     if (TYPE_NAME.hasOwnProperty(type)) {
                         $menu.append(['<li data-type="' + type + '">',
-                                '<a href="javascript:void(0)"><img src="lib/tableExport.jquery.plugin-master/icons/'+TYPE_NAME[type]+'.png"/>',
+                                '<a href="javascript:void(0)"><img src="assets/shared/jquery/plugins/tableExport/tableExport.jquery.plugin-master/icons/'+TYPE_NAME[type]+'.png"/>',
                                     TYPE_NAME[type],
                                 '</a>',
                             '</li>'].join(''));

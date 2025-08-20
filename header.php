@@ -48,9 +48,9 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
 
     echo '
     <link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon-120.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon-152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png" />';
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/shared/favicon-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/shared/favicon-152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/shared/favicon-180.png" />';
 
     // Syndication RSS & autres
     global $sitename, $nuke_url;

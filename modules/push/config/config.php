@@ -36,7 +36,7 @@ $push_member_limit = 9;
 $push_titre = '-: NPDS :-';
 
 // Logo (gif or jpg)
-$push_logo = 'modules/push/images/pushlogo.gif';
+$push_logo = 'modules/push/assets/shared/pushlogo.gif';
 
 // Number of Web links per page (2 or more)
 $push_view_perpage = 6;

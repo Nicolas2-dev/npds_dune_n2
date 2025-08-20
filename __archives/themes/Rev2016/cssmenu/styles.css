@@ -115,7 +115,7 @@
   text-transform: uppercase;
   text-decoration: none;
   color: #fd8a17;
-  background: url('images/bg.png');
+  background: url('assets/shared/bg.png');
 }
 #cssmenu.small-screen #menu-button.menu-opened {
   color: #444444;

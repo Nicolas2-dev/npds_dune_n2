@@ -185,18 +185,18 @@ function SortLinks($letter)
 function avatar($user_avatar)
 {
     if (!$user_avatar) {
-        $imgtmp = 'images/forum/avatar/blank.gif';
+        $imgtmp = 'assets/shared/forum/avatar/blank.gif';
     } else if (stristr($user_avatar, 'users_private')) {
         $imgtmp = $user_avatar;
     } else {
         if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = 'images/forum/avatar/' . $user_avatar;
+            $imgtmp = 'assets/shared/forum/avatar/' . $user_avatar;
         }
 
         if (!file_exists($imgtmp)) {
-            $imgtmp = 'images/forum/avatar/blank.gif';
+            $imgtmp = 'assets/shared/forum/avatar/blank.gif';
         }
     }
 
@@ -237,7 +237,7 @@ $result = sql_query("SELECT u.uname, u.user_avatar
 
 list($lastuser, $lastava) = sql_fetch_row($result);
 
-echo '<h2><img src="images/admin/users.png" alt="' . translate('Liste des membres') . '" />' . translate('Liste des membres');
+echo '<h2><img src="assets/shared/admin/users.png" alt="' . translate('Liste des membres') . '" />' . translate('Liste des membres');
 
 if (isset($uid_from_ws) and ($uid_from_ws != '')) {
     echo '<span class="text-body-secondary"> ' . translate('pour le groupe') . ' #' . $gr_from_ws . '</span>';
@@ -504,9 +504,9 @@ if ($letter != 'front') {
                     <a href="admin.php?op=delUser&amp;chng_uid=' . $temp_user['uid'] . '" ><i class="fas fa-trash fa-lg text-danger" title="' . translate('Effacer') . '" data-bs-toggle="tooltip"></i></a>';
 
                     if (!$temp_user['is_visible']) {
-                        echo '<img src="images/admin/ws/user_invisible.gif" alt="' . translate('Membre invisible') . '" title="' . translate('Membre invisible') . '" />';
+                        echo '<img src="assets/shared/admin/ws/user_invisible.gif" alt="' . translate('Membre invisible') . '" title="' . translate('Membre invisible') . '" />';
                     } else {
-                        echo '<img src="images/admin/ws/blank.gif" alt="" />';
+                        echo '<img src="assets/shared/admin/ws/blank.gif" alt="" />';
                     }
 
                     echo '</td>';

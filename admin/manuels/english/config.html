@@ -1,256 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8" />
-         <title>Administration - Preferences</title>
-         <meta name="viewport" content="width=device-width, initial-scale=1" />
-         <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-         <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li>
-               <li class="breadcrumb-item"><a href="men_syst.html">System</a></li>
-               <li class="breadcrumb-item active">Preferences</li>
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3 class="mb-3">Preferences</h3>
 
-         <p>This feature is most important when starting a site with NPDS.You can modify all the important information on your site and above all give it the look and feeling you want. <br />Below is an explanation for important NPDS settings.</p> 
-         <h5>Parse algorithm</h5> 
-         <p>For your site preferences, you can choose either of the Parse functions.</p>
-         <ul> 
-            <li>FixQuotes is the original function that doubles the ['] (ex: art becomes art)</li> 
-            <li>StripSlashes allows you not to touch the text (eg: art remains art) but can pose other problems.</li> 
-         </ul> 
-         <p></p> 
-         <h5>OB_Gzhandler</h5> 
-         <p>Allows the use of sending compressed data to browsers that support compressed pages. <br />Before ob_gzhandler() sends the compressed data, it determines which encoding types are supported by the browser ("gzip", "deflate" or none) and returns the contents of the buffers appropriately.All browsers are processed, because it is up to the browsers to send a header indicating the supported page types. <br /> <span class="text-danger"><strong>Only works with active Zlib (do a phpinfo();) and for Apache, mod_gzip activated.</strong></span></p> 
-         <h5>FileManager</h5> 
-         <p>Enables or removes access to the FileManager.Please note, only activate the FileManager when you need it.</p> 
-         <h5>Lifespan of admin and user cookies</h5> 
-         <p>No comments (1 year = 8760 hours)</p> 
-         <h5>name of the site</h5> 
-         <p>Your site has a name, so enter it here.</p> 
-         <h5>Site name for Title tag</h5> 
-         <p>Title of the HTML pages of your site (especially for search engines)</p> 
-         <h5>Site URL</h5> 
-         <p>http://www.xxx.com or http://www.xxx.xom/~homepage/...</p> 
-         <h5>Website logo</h5> 
-         <p>.gif or .jpg file located in the <b>images</b> directory of your server (by default) or in one of your themes (full path: themes/mon_theme/..../logo.jpg for example). <br />This file is only used in NPDS printing functions.A good thing is to make an image in black and white.</p> 
-         <h5>Site slogan</h5> 
-         <p>If your site has a tagline, then this is the place to enter it.</p> 
-         <h5>Site start date</h5> 
-         <p>A date (01/20/2016 or January 31, 2016) which will only be visible in the statistics.</p> 
-         <h5>Number of elements in page top x</h5> 
-         <p>Allows you to configure the top x (5, 10, 15, ...).</p> 
-         <h5>Number of articles on main page</h5> 
-         <p>How many articles on one page? <br />A correct number is 10 but it depends on the activity of your site.Remember that registered members in NPDS can change this value, so this setting is just a default.</p> 
-         <h5>Number of articles in the old articles box</h5> 
-         <p>In the blocks on the right is the one that shows a list of old articles.This is the number you set here.</p> 
-         <h5>Activate Export News</h5> 
-         <p>Export-News are two text files located in the cache directory of your site.By default this parameter = no. <br />These two files (ultramode.txt and net2zone.txt) contain the 10 latest news from your site. <br />This file actually allows other sites to form information channels based on simple structures:</p>
-         <ul> 
-            <li>ultramode.txt is a text file where the news is separated by %%</li> 
-            <li>net2zone.txt is a text file in net2zone XML format. <br />The "Online" function carrying out the same operation is <i>Backend</i> which supports the RDF/XML format or better still the NPDS Push Infos System module.</li> 
-         </ul> 
-         <p></p> 
-         <h5>Default name of anonymous</h5> 
-         <p>Default name for <b>unregistered</b> users .Anonymous is a good value (but also guest, visitor...). <br />Do not change this value while NPDS is running.</p> 
-         <h5>Authorize the creation of “news”</h5> 
-         <p>Allows you to restrict (or not) the submission of news to moderators/administrators or members. <br />This function is interesting for an information site.</p> 
-         <h5>Do not record authors' 'hits' in statistics</h5> 
-         <p>Allows you not to count the maintenance of your site, as real visitors.</p> 
-         <h5>Default site display theme</h5> 
-         <p>Select the default theme for your site.Remember that registered users can change this option provided they make multiple themes available.</p> 
-         <h5>Home Page</h5> 
-         <p>This function allows you to configure the start page (home) of your site, by default the page is index.php (the article display system) but you can choose another function:</p>
-         <ul> 
-            <li>links.php</li> 
-            <li>faqs.php</li> 
-            <li>static.php?op=npds.txt&amp; <b>npds</b> =1 ... (the value of npds maybe -1: no blocks, 0: left block, 1: left and right blocks)</li> 
-            <li>Editorial: 
-              <ul> 
-                  <li>index.php?op= <b>edito</b><br /> display of the editorial <b>and</b> the News system (without the next page link at the bottom of the news)</li> 
-                  <li>index.php?op= <b>edito-nonews</b><br /> display of the editorial <b>without</b> the News system</li> 
-                  <li>index.php?op= <b>newindex</b><br /> </li>
-                  <li>display of the News system <b>without</b> the editorial (with the next page link at the bottom of the news)</li> 
-                  <li>index.php?op= <b>edito-newindex</b><br /> display of the editorial <b>with</b> the news system (with the next page link at the bottom of the news)</li> 
-                  <li>index.php?op= <b>newtopic&amp;topic=X</b> : display of the News system relating to the subject of id X <b>without</b> the editorial (with the next page link at the bottom of the news)</li> 
-              </ul>
-            </li>
-         </ul> 
-         <p></p> 
-         <h5>Select site language</h5> 
-         <p>No comments.</p> 
-         <h5>Enable Multi-Language</h5> 
-         <p>Allows NPDS to manage multiple languages ​​via the [language]...[/language] tags. <br />Remember to also configure Local Time (for example: [french]fr_FR[/french][english]en_EN[/english]).</p> 
-         <h5>Local hour</h5> 
-         <p>For a site under Windows, the value must be = french / Otherwise this field depends on the "local" functions normally installed under /usr/share/locale (for Unix).</p> 
-         <h5>The day begins at and the night begins at</h5> 
-         <p>Allows you to set, for example, the change of editorial from a certain time.</p> 
-         <h5>UTC</h5> 
-         <p>Allows you to specify (in + or -) a time difference relative to that of the hosting machine.</p> 
+<head>
+   <meta charset="utf-8" />
+   <title>Administration - Preferences</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
 
-         <h4>Banner Options</h4> 
-         <h5>Enable banners on the site</h5> 
-         <p>Yes or No do you want to enable advertising banners.This still requires that you have set up a campaign...</p> 
-         <h5>Your IP address so as not to count the hits that come from it</h5> 
-         <p>Be honest, because if you are an administrator of this site, your position (and therefore its IP address) must be excluded so as not to "tinker" with the counters.</p> 
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li>
+            <li class="breadcrumb-item"><a href="men_syst.html">System</a></li>
+            <li class="breadcrumb-item active">Preferences</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3 class="mb-3">Preferences</h3>
 
-         <h4>Footer Posts</h4> 
-         <h5>Line 1,2,3,4</h5> 
-         <p>Footer of your site, these areas support HTML codes.If you only need 1 or 2 lines, leave the areas blank (starting from the end). <br />In general we find copyright information, credits, the name of the host...</p> 
-         <h4>Configuration of information in Backend</h4> 
-         <p class="text-body-secondary">information channels in RDF/XML format</p> 
-         <h5>Backend Title</h5> 
-         <p>No comments.You can put your slogan after the Title.</p> 
-         <h5>Backend Language</h5> 
-         <p>the same format as for the language of the site.</p> 
-         <h5>Backend image URL</h5> 
-         <p>The full path (http://...) allowing access to an image/logo of your site.</p> 
-         <h5>Backend image width</h5> 
-         <p>No comments.</p> 
-         <h5>Backend image height</h5> 
-         <p>No comments.</p> 
+      <p>This feature is most important when starting a site with NPDS.You can modify all the important information on
+         your site and above all give it the look and feeling you want. <br />Below is an explanation for important NPDS
+         settings.</p>
+      <h5>Parse algorithm</h5>
+      <p>For your site preferences, you can choose either of the Parse functions.</p>
+      <ul>
+         <li>FixQuotes is the original function that doubles the ['] (ex: art becomes art)</li>
+         <li>StripSlashes allows you not to touch the text (eg: art remains art) but can pose other problems.</li>
+      </ul>
+      <p></p>
+      <h5>OB_Gzhandler</h5>
+      <p>Allows the use of sending compressed data to browsers that support compressed pages. <br />Before
+         ob_gzhandler() sends the compressed data, it determines which encoding types are supported by the browser
+         ("gzip", "deflate" or none) and returns the contents of the buffers appropriately.All browsers are processed,
+         because it is up to the browsers to send a header indicating the supported page types. <br /> <span
+            class="text-danger"><strong>Only works with active Zlib (do a phpinfo();) and for Apache, mod_gzip
+               activated.</strong></span></p>
+      <h5>FileManager</h5>
+      <p>Enables or removes access to the FileManager.Please note, only activate the FileManager when you need it.</p>
+      <h5>Lifespan of admin and user cookies</h5>
+      <p>No comments (1 year = 8760 hours)</p>
+      <h5>name of the site</h5>
+      <p>Your site has a name, so enter it here.</p>
+      <h5>Site name for Title tag</h5>
+      <p>Title of the HTML pages of your site (especially for search engines)</p>
+      <h5>Site URL</h5>
+      <p>http://www.xxx.com or http://www.xxx.xom/~homepage/...</p>
+      <h5>Website logo</h5>
+      <p>.gif or .jpg file located in the <b>images</b> directory of your server (by default) or in one of your themes
+         (full path: themes/mon_theme/..../logo.jpg for example). <br />This file is only used in NPDS printing
+         functions.A good thing is to make an image in black and white.</p>
+      <h5>Site slogan</h5>
+      <p>If your site has a tagline, then this is the place to enter it.</p>
+      <h5>Site start date</h5>
+      <p>A date (01/20/2016 or January 31, 2016) which will only be visible in the statistics.</p>
+      <h5>Number of elements in page top x</h5>
+      <p>Allows you to configure the top x (5, 10, 15, ...).</p>
+      <h5>Number of articles on main page</h5>
+      <p>How many articles on one page? <br />A correct number is 10 but it depends on the activity of your
+         site.Remember that registered members in NPDS can change this value, so this setting is just a default.</p>
+      <h5>Number of articles in the old articles box</h5>
+      <p>In the blocks on the right is the one that shows a list of old articles.This is the number you set here.</p>
+      <h5>Activate Export News</h5>
+      <p>Export-News are two text files located in the cache directory of your site.By default this parameter = no.
+         <br />These two files (ultramode.txt and net2zone.txt) contain the 10 latest news from your site. <br />This
+         file actually allows other sites to form information channels based on simple structures:
+      </p>
+      <ul>
+         <li>ultramode.txt is a text file where the news is separated by %%</li>
+         <li>net2zone.txt is a text file in net2zone XML format. <br />The "Online" function carrying out the same
+            operation is <i>Backend</i> which supports the RDF/XML format or better still the NPDS Push Infos System
+            module.</li>
+      </ul>
+      <p></p>
+      <h5>Default name of anonymous</h5>
+      <p>Default name for <b>unregistered</b> users .Anonymous is a good value (but also guest, visitor...). <br />Do
+         not change this value while NPDS is running.</p>
+      <h5>Authorize the creation of “news”</h5>
+      <p>Allows you to restrict (or not) the submission of news to moderators/administrators or members. <br />This
+         function is interesting for an information site.</p>
+      <h5>Do not record authors' 'hits' in statistics</h5>
+      <p>Allows you not to count the maintenance of your site, as real visitors.</p>
+      <h5>Default site display theme</h5>
+      <p>Select the default theme for your site.Remember that registered users can change this option provided they make
+         multiple themes available.</p>
+      <h5>Home Page</h5>
+      <p>This function allows you to configure the start page (home) of your site, by default the page is index.php (the
+         article display system) but you can choose another function:</p>
+      <ul>
+         <li>links.php</li>
+         <li>faqs.php</li>
+         <li>static.php?op=npds.txt&amp; <b>npds</b> =1 ... (the value of npds maybe -1: no blocks, 0: left block, 1:
+            left and right blocks)</li>
+         <li>Editorial:
+            <ul>
+               <li>index.php?op= <b>edito</b><br /> display of the editorial <b>and</b> the News system (without the
+                  next page link at the bottom of the news)</li>
+               <li>index.php?op= <b>edito-nonews</b><br /> display of the editorial <b>without</b> the News system</li>
+               <li>index.php?op= <b>newindex</b><br /> </li>
+               <li>display of the News system <b>without</b> the editorial (with the next page link at the bottom of the
+                  news)</li>
+               <li>index.php?op= <b>edito-newindex</b><br /> display of the editorial <b>with</b> the news system (with
+                  the next page link at the bottom of the news)</li>
+               <li>index.php?op= <b>newtopic&amp;topic=X</b> : display of the News system relating to the subject of id
+                  X <b>without</b> the editorial (with the next page link at the bottom of the news)</li>
+            </ul>
+         </li>
+      </ul>
+      <p></p>
+      <h5>Select site language</h5>
+      <p>No comments.</p>
+      <h5>Enable Multi-Language</h5>
+      <p>Allows NPDS to manage multiple languages ​​via the [language]...[/language] tags. <br />Remember to also
+         configure Local Time (for example: [french]fr_FR[/french][english]en_EN[/english]).</p>
+      <h5>Local hour</h5>
+      <p>For a site under Windows, the value must be = french / Otherwise this field depends on the "local" functions
+         normally installed under /usr/share/locale (for Unix).</p>
+      <h5>The day begins at and the night begins at</h5>
+      <p>Allows you to set, for example, the change of editorial from a certain time.</p>
+      <h5>UTC</h5>
+      <p>Allows you to specify (in + or -) a time difference relative to that of the hosting machine.</p>
 
-         <h4>Default configuration of web links</h4> 
-         <h5>Number of links per page</h5> 
-         <p>The maximum number of links per page (in the web links function).</p> 
-         <h5>Sets the number of hits on the link for it to be popular</h5> 
-         <p>No comments.Displays a small star to the right of the link when this criterion is met.</p> 
-         <h5>Number of 'New' links</h5> 
-         <p>Defines the maximum number of links in the "New" page.</p> 
-         <h5>Number of 'Best' links</h5> 
-         <p>Defines the maximum number of links in the "Popular" page (the most "clicked" links).</p> 
-         <h5>Number of links in search results</h5> 
-         <p>No comments.</p> 
-         <h5>Let anonymous users post new links</h5> 
-         <p>Yes or no</p> 
-         <h5>Display the logo on the web page links</h5> 
-         <p>Yes or no.The logo taking up space...</p> 
-         <h5>Enable [New] icon for categories</h5> 
-         <p>Displays a small symbol when a category is new or if there are new links.</p> 
+      <h4>Banner Options</h4>
+      <h5>Enable banners on the site</h5>
+      <p>Yes or No do you want to enable advertising banners.This still requires that you have set up a campaign...</p>
+      <h5>Your IP address so as not to count the hits that come from it</h5>
+      <p>Be honest, because if you are an administrator of this site, your position (and therefore its IP address) must
+         be excluded so as not to "tinker" with the counters.</p>
 
-         <h4>Messaging system (Email)</h4> 
-         <h5>Administrator email address</h5> 
-         <p>Used when NPDS sends emails automatically and therefore allows the recipient to respond to you (Valid, authorized email address associated with the sending server. =&gt; ex: developpeur@npds.org).</p> 
-         <h5>What email protocol should I use?</h5> 
-         <p>Use or not the SMTP(S) protocol</p> 
-         <h6>Configuring PHPmailer SMTP(S)</h6> 
-         <ul> 
-            <li>The name of the sending server</li> 
-            <li>TCP port that should be used.587 or 465 (rarer and obsolete) if you use SMTPS encryption.For SMTP sometimes ports 25 or 2525</li> 
-            <li>Authentication: if it is required by your server then enter: user name and password.</li> 
-            <li>Whether or not to enable encryption of your messages during transfer.And choose the TLS (default) or SSL (obsolete) encryption protocol.Please note that SMTP only encrypts messages during their transfer.</li> 
-         </ul> 
-         <h6>DKIM</h6> 
-         <p>Use the DNS DKIM record or a DKIM record automatically generated by the portal</p> 
-         <h5>Mel foot</h5> 
-         <p>NPDS sends a certain number of emails (password, etc.) and this option allows you to configure the "foot" (end, signature) of these emails.This area supports HTML codes.A good habit is to remember your contact details, your slogan.</p> 
-         <p>Email new articles to the administrator.NPDS allows you to notify an administrator each time a user posts a new article.</p> 
-         <h5>Notify new contributions by email</h5> 
-         <p>Yes or no.</p> 
-         <h5>Email address to send the message to</h5> 
-         <p>No comments.</p> 
-         <h5>Email subject</h5> 
-         <p>No comments.</p> 
-         <h5>Email message</h5> 
-         <p>No comments.</p> 
-         <h5>Email Address (From)</h5> 
-         <p>No comments.</p> 
+      <h4>Footer Posts</h4>
+      <h5>Line 1,2,3,4</h5>
+      <p>Footer of your site, these areas support HTML codes.If you only need 1 or 2 lines, leave the areas blank
+         (starting from the end). <br />In general we find copyright information, credits, the name of the host...</p>
+      <h4>Configuration of information in Backend</h4>
+      <p class="text-body-secondary">information channels in RDF/XML format</p>
+      <h5>Backend Title</h5>
+      <p>No comments.You can put your slogan after the Title.</p>
+      <h5>Backend Language</h5>
+      <p>the same format as for the language of the site.</p>
+      <h5>Backend image URL</h5>
+      <p>The full path (http://...) allowing access to an image/logo of your site.</p>
+      <h5>Backend image width</h5>
+      <p>No comments.</p>
+      <h5>Backend image height</h5>
+      <p>No comments.</p>
 
-         <h4>Comment moderation</h4> 
-         <h5>Type of moderation</h5> 
-         <p>The moderation system works but don't trust it blindly.</p>
-         <ul> 
-            <li>Moderation by administrator</li> 
-            <li>User moderation</li> 
-            <li>No moderation</li> 
-         </ul> 
-         <p></p> 
-         <h5>Allow anonymous comments</h5> 
-         <p>If you want anonymous (i.e. unregistered) users to be able to post comments, select yes.</p> 
-         <h5>Maximum number of Comments per user in 24 hours</h5> 
-         <p>For anonymous and members, limits the number of comments on articles and polls.6 by default, 99999 at maximum.</p> 
+      <h4>Default configuration of web links</h4>
+      <h5>Number of links per page</h5>
+      <p>The maximum number of links per page (in the web links function).</p>
+      <h5>Sets the number of hits on the link for it to be popular</h5>
+      <p>No comments.Displays a small star to the right of the link when this criterion is met.</p>
+      <h5>Number of 'New' links</h5>
+      <p>Defines the maximum number of links in the "New" page.</p>
+      <h5>Number of 'Best' links</h5>
+      <p>Defines the maximum number of links in the "Popular" page (the most "clicked" links).</p>
+      <h5>Number of links in search results</h5>
+      <p>No comments.</p>
+      <h5>Let anonymous users post new links</h5>
+      <p>Yes or no</p>
+      <h5>Display the logo on the web page links</h5>
+      <p>Yes or no.The logo taking up space...</p>
+      <h5>Enable [New] icon for categories</h5>
+      <p>Displays a small symbol when a category is new or if there are new links.</p>
 
-         <h4>Survey Options</h4> 
-         <h5>Maximum number of choices for surveys</h5> 
-         <p>No comments.</p> 
-         <h5>Allow users to vote multiple times</h5> 
-         <p>Yes or no, it's up to you.If you use yes, this will tell NPDS to allow a user to vote every 24 hours and display a small message in polls.Otherwise, the vote is unique for the entire duration of the survey.</p> 
-         <h5>Enable poll comments</h5> 
-         <p>No comments.</p> 
-         <h4>Some graphic settings</h4> 
-         <p>Do not change this option unless...</p> 
-         <h5>Topic image path</h5> 
-         <p>Normally /images/topics.</p> 
-         <h5>Path of certain images (vote...)</h5> 
-         <p>Normally /images/menu/.</p> 
-         <h5>Administrator menu image path</h5> 
-         <p>Normally images/admin/.</p> 
-         <h5>Activate images in the administration menu</h5> 
-         <p>Yes or no.No will save you time.</p> 
-         <h5>Enable short menus for administration</h5> 
-         <p>Yes or no.yes it will save you time.</p> 
+      <h4>Messaging system (Email)</h4>
+      <h5>Administrator email address</h5>
+      <p>Used when NPDS sends emails automatically and therefore allows the recipient to respond to you (Valid,
+         authorized email address associated with the sending server. =&gt; ex: developpeur@npds.org).</p>
+      <h5>What email protocol should I use?</h5>
+      <p>Use or not the SMTP(S) protocol</p>
+      <h6>Configuring PHPmailer SMTP(S)</h6>
+      <ul>
+         <li>The name of the sending server</li>
+         <li>TCP port that should be used.587 or 465 (rarer and obsolete) if you use SMTPS encryption.For SMTP sometimes
+            ports 25 or 2525</li>
+         <li>Authentication: if it is required by your server then enter: user name and password.</li>
+         <li>Whether or not to enable encryption of your messages during transfer.And choose the TLS (default) or SSL
+            (obsolete) encryption protocol.Please note that SMTP only encrypts messages during their transfer.</li>
+      </ul>
+      <h6>DKIM</h6>
+      <p>Use the DNS DKIM record or a DKIM record automatically generated by the portal</p>
+      <h5>Mel foot</h5>
+      <p>NPDS sends a certain number of emails (password, etc.) and this option allows you to configure the "foot" (end,
+         signature) of these emails.This area supports HTML codes.A good habit is to remember your contact details, your
+         slogan.</p>
+      <p>Email new articles to the administrator.NPDS allows you to notify an administrator each time a user posts a new
+         article.</p>
+      <h5>Notify new contributions by email</h5>
+      <p>Yes or no.</p>
+      <h5>Email address to send the message to</h5>
+      <p>No comments.</p>
+      <h5>Email subject</h5>
+      <p>No comments.</p>
+      <h5>Email message</h5>
+      <p>No comments.</p>
+      <h5>Email Address (From)</h5>
+      <p>No comments.</p>
 
-         <h4>Miscellaneous</h4> 
-         <h5>Number of articles in administration mode</h5> 
-         <p>Without comments (but this value is also used for sections...).</p> 
-         <h5>Minimum length of user passwords</h5> 
-         <p>8 is a good value.</p> 
-         <h5>Number of “listed” users</h5> 
-         <p>In the directory before moving to the next page.</p> 
-         <h5>Enable avatars</h5> 
-         <p>NPDS allows you not to use avatars (small image) for the creation of members, forums, etc.</p> 
-         <h5>Maximum size of personal avatars (width * height / 60*80) in pixels</h5> 
-         <p>NPDS allows you to specify the maximum size of downloadable avatars.</p> 
-         <h5>Enable short user description</h5> 
-         <p>NPDS allows you to not ask a new user to enter their ICQ, MSN addresses, etc.</p> 
-         <h5>Allow automatic creation of members</h5> 
-         <p>NPDS allows you to not authorize a new member to connect without administrator intervention (value: authorize the connection of the user file).Practical for “closed” gates.</p> 
-         <h5>Allow users to choose their password</h5> 
-         <p>You can allow a new user to choose the password they want to use.You can also combine this option with the previous one to avoid leaving your new members alone.</p> 
-         <h5>Allow subscriptions</h5> 
-         <p>Authorize your members to subscribe to the various NPDS information sources (Topics, Forums, internal messages, etc.) and therefore to receive an information email (be careful, this can generate a significant load).</p> 
-         <h5>Allow invisible members</h5> 
-         <p>Allow your members to become 'invisible', they will not be displayed in the different NPDS modules (except for administrators).</p> 
-         <h5>Close new registrations</h5> 
-         <p>NPDS allows you to temporarily close the registration of new members (the static/closed.txt page is displayed).</p> 
-         <h5>Enable HTTP referrers</h5> 
-         <p>No comments.</p> 
-         <h5>How many referrers maximum</h5> 
-         <p>Don't overload your database.</p> 
-         <h5>Member list: private</h5> 
-         <p>NPDS allows you to display the directory only to members.</p> 
-         <h5>Download section</h5> 
-         <p>Choose which section (category) of downloads will be displayed first or none.</p> 
-         <h5>Short reviews</h5> 
-         <p>Turn reviews into a guestbook.</p> 
+      <h4>Comment moderation</h4>
+      <h5>Type of moderation</h5>
+      <p>The moderation system works but don't trust it blindly.</p>
+      <ul>
+         <li>Moderation by administrator</li>
+         <li>User moderation</li>
+         <li>No moderation</li>
+      </ul>
+      <p></p>
+      <h5>Allow anonymous comments</h5>
+      <p>If you want anonymous (i.e. unregistered) users to be able to post comments, select yes.</p>
+      <h5>Maximum number of Comments per user in 24 hours</h5>
+      <p>For anonymous and members, limits the number of comments on articles and polls.6 by default, 99999 at maximum.
+      </p>
 
-         <h4>Miscellaneous http</h4> 
-         <h5>Enable for major news site headlines, checking for the existence of a web on port 80</h5> 
-         <p>NPDS allows you to not request verification of the existence of a web on port 80. Practical for Multimania and other ISPs.</p> 
-         <h5>Enable advanced cache management tags for generated HTML pages</h5> 
-         <p>NPDS allows you to use advanced HTML page cache management functions, some ISPs do not allow it (like Multimania).</p> 
-         <h5>Enable DNS resolution for Posts (forums, etc.)</h5> 
-         <p>NPDS allows you to 'capture' the DNS name at the same time as the IP address.Be careful, this option may consume CPU on the server (or even be prohibited).</p> 
+      <h4>Survey Options</h4>
+      <h5>Maximum number of choices for surveys</h5>
+      <p>No comments.</p>
+      <h5>Allow users to vote multiple times</h5>
+      <p>Yes or no, it's up to you.If you use yes, this will tell NPDS to allow a user to vote every 24 hours and
+         display a small message in polls.Otherwise, the vote is unique for the entire duration of the survey.</p>
+      <h5>Enable poll comments</h5>
+      <p>No comments.</p>
+      <h4>Some graphic settings</h4>
+      <p>Do not change this option unless...</p>
+      <h5>Topic image path</h5>
+      <p>Normally /images/topics.</p>
+      <h5>Path of certain images (vote...)</h5>
+      <p>Normally /images/menu/.</p>
+      <h5>Administrator menu image path</h5>
+      <p>Normally images/admin/.</p>
+      <h5>Activate images in the administration menu</h5>
+      <p>Yes or no.No will save you time.</p>
+      <h5>Enable short menus for administration</h5>
+      <p>Yes or no.yes it will save you time.</p>
 
-         <h4>Miscellaneous systems</h4> 
-         <h5>Maximum size of SaveMysql backup files</h5> 
-         <p>Size of ASCII dump files before compression.</p> 
-         <h5>SaveMysql backup type</h5> 
-         <p>Type of desired result when saving.</p> 
-         <h5>Enable MySQL Logs</h5>
-         <p>Enables the filling of the log file (slogs/mysql.log) with all mysql queries and the detailed error return in case of error. <span class="text-danger">Do not use in production! (No).</span> Only use in case of problem(s) for analysis or debugging.</p>
-         <h5>Enable Tiny-Mce editor</h5> 
-         <p>NPDS can use Tiny-Mce (IE, Firefox, etc. compatible).</p> 
-         <p class="border-top mt-5"><img class="me-3 mt-n4" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Administration Manual</span></p> 
-      </div>
-   </body>
+      <h4>Miscellaneous</h4>
+      <h5>Number of articles in administration mode</h5>
+      <p>Without comments (but this value is also used for sections...).</p>
+      <h5>Minimum length of user passwords</h5>
+      <p>8 is a good value.</p>
+      <h5>Number of “listed” users</h5>
+      <p>In the directory before moving to the next page.</p>
+      <h5>Enable avatars</h5>
+      <p>NPDS allows you not to use avatars (small image) for the creation of members, forums, etc.</p>
+      <h5>Maximum size of personal avatars (width * height / 60*80) in pixels</h5>
+      <p>NPDS allows you to specify the maximum size of downloadable avatars.</p>
+      <h5>Enable short user description</h5>
+      <p>NPDS allows you to not ask a new user to enter their ICQ, MSN addresses, etc.</p>
+      <h5>Allow automatic creation of members</h5>
+      <p>NPDS allows you to not authorize a new member to connect without administrator intervention (value: authorize
+         the connection of the user file).Practical for “closed” gates.</p>
+      <h5>Allow users to choose their password</h5>
+      <p>You can allow a new user to choose the password they want to use.You can also combine this option with the
+         previous one to avoid leaving your new members alone.</p>
+      <h5>Allow subscriptions</h5>
+      <p>Authorize your members to subscribe to the various NPDS information sources (Topics, Forums, internal messages,
+         etc.) and therefore to receive an information email (be careful, this can generate a significant load).</p>
+      <h5>Allow invisible members</h5>
+      <p>Allow your members to become 'invisible', they will not be displayed in the different NPDS modules (except for
+         administrators).</p>
+      <h5>Close new registrations</h5>
+      <p>NPDS allows you to temporarily close the registration of new members (the static/closed.txt page is displayed).
+      </p>
+      <h5>Enable HTTP referrers</h5>
+      <p>No comments.</p>
+      <h5>How many referrers maximum</h5>
+      <p>Don't overload your database.</p>
+      <h5>Member list: private</h5>
+      <p>NPDS allows you to display the directory only to members.</p>
+      <h5>Download section</h5>
+      <p>Choose which section (category) of downloads will be displayed first or none.</p>
+      <h5>Short reviews</h5>
+      <p>Turn reviews into a guestbook.</p>
+
+      <h4>Miscellaneous http</h4>
+      <h5>Enable for major news site headlines, checking for the existence of a web on port 80</h5>
+      <p>NPDS allows you to not request verification of the existence of a web on port 80. Practical for Multimania and
+         other ISPs.</p>
+      <h5>Enable advanced cache management tags for generated HTML pages</h5>
+      <p>NPDS allows you to use advanced HTML page cache management functions, some ISPs do not allow it (like
+         Multimania).</p>
+      <h5>Enable DNS resolution for Posts (forums, etc.)</h5>
+      <p>NPDS allows you to 'capture' the DNS name at the same time as the IP address.Be careful, this option may
+         consume CPU on the server (or even be prohibited).</p>
+
+      <h4>Miscellaneous systems</h4>
+      <h5>Maximum size of SaveMysql backup files</h5>
+      <p>Size of ASCII dump files before compression.</p>
+      <h5>SaveMysql backup type</h5>
+      <p>Type of desired result when saving.</p>
+      <h5>Enable MySQL Logs</h5>
+      <p>Enables the filling of the log file (slogs/mysql.log) with all mysql queries and the detailed error return in
+         case of error. <span class="text-danger">Do not use in production! (No).</span> Only use in case of problem(s)
+         for analysis or debugging.</p>
+      <h5>Enable Tiny-Mce editor</h5>
+      <p>NPDS can use Tiny-Mce (IE, Firefox, etc. compatible).</p>
+      <p class="border-top mt-5"><img class="me-3 mt-n4" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - Administration Manual</span></p>
+   </div>
+</body>
+
 </html>

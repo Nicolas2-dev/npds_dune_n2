@@ -91,4 +91,4 @@ echo '
 require_once("themes/themes-dynamic/footer.php");
 // Ne supprimez pas cette ligne / Don't remove this line
 echo '
-      <script type="text/javascript" src="lib/js/masonry.pkgd.min.js"></script>';
+      <script type="text/javascript" src="assets/shared/masonry/masonry.pkgd.min.js"></script>';

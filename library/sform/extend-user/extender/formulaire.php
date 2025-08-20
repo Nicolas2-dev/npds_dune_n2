@@ -118,12 +118,12 @@ foreach ($fieldrest as $k => $v) {
 }
 
 $m->add_extra('
-<script type="text/javascript" src="lib/flatpickr/dist/flatpickr.min.js"></script>
-<script type="text/javascript" src="lib/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
+<script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
+<script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
 <script type="text/javascript">
     //<![CDATA[
         $(document).ready(function() {
-            $("<link>").appendTo("head").attr({type: "text/css", rel: "stylesheet",href: "lib/flatpickr/dist/themes/npds.css"});
+            $("<link>").appendTo("head").attr({type: "text/css", rel: "stylesheet",href: "assets/shared/flatpickr/dist/themes/npds.css"});
         })
     //]]>
 </script>');

@@ -158,11 +158,11 @@ $PAGES['viewforum.php']['run'] = "yes";
 
 $PAGES['viewtopic.php']['title'] = "[french]Forum[/french][english]Forum[/english][spanish]Foro[/spanish][german]Forum[/german][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese] : $title / $post+";
 $PAGES['viewtopic.php']['run'] = "yes";
-$PAGES['viewtopic.php']['css'] = array($nuke_url . '/lib/bootstrap/dist/css/bootstrap-icons.css+');
+$PAGES['viewtopic.php']['css'] = array($nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css+');
 
 $PAGES['viewtopicH.php']['title'] = "[french]Forum[/french][english]Forum[/english][spanish]Foro[/spanish][german]Forum[/german][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese] : $title / $post+";
 $PAGES['viewtopicH.php']['run'] = "yes";
-$PAGES['viewtopicH.php']['css'] = array($nuke_url . '/lib/bootstrap/dist/css/bootstrap-icons.css+');
+$PAGES['viewtopicH.php']['css'] = array($nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css+');
 
 $PAGES['reply.php']['title'] = "[french]R&eacute;pondre &#xE0; un post sur le forum[/french][english]Forum : reply to a post[/english][spanish]Responder a un mensaje en el foro[/spanish][german]Antwort auf einen Beitrag im Forum[/german][chinese]&#x56DE;&#x590D;&#x8BBA;&#x575B;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5E16;&#x5B50;[/chinese]+";
 $PAGES['reply.php']['run'] = "yes";
@@ -229,7 +229,7 @@ $PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['run'] = "yes";
 $PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['blocs'] = "-1";
 $PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['TinyMce'] = 1;
 $PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['TinyMce-theme'] = "short";
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['css'] = array($nuke_url . '/lib/bootstrap/dist/css/bootstrap-icons.css+');
+$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['css'] = array($nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css+');
 
 $PAGES['modules.php?ModPath=comments&ModStart=reply*']['title'] = "[french]Commentaires[/french][english]Comments[/english][spanish]Comentarios[/spanish][german]Kommentare[/german][chinese]Comments[/chinese]";
 $PAGES['modules.php?ModPath=comments&ModStart=reply*']['run'] = "yes";
@@ -259,7 +259,7 @@ $PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['run'] = "yes";
 $PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['blocs'] = "0";
 $PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['TinyMce'] = 1;
 $PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['TinyMce-theme'] = "full+setup";
-$PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['css'] = array($nuke_url . "/lib/bootstrap/dist/css/bootstrap-icons.css+");
+$PAGES['modules.php?ModPath=wspad&ModStart=wspad*']['css'] = array($nuke_url . "/assets/shared/bootstrap/dist/css/bootstrap-icons.css+");
 
 // Filtre sur l'URI
 // $PAGES['forum=1']['title']="forum.php";
@@ -271,9 +271,9 @@ $PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['run'] = "yes";
 $PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['blocs'] = "0";
 $PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['TinyMce'] = 1;
 $PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['TinyMce-theme'] = "short";
-$PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['css'] = array($nuke_url . '/modules/npds_galerie/css/galerie.css+', $nuke_url . "/lib/bootstrap/dist/css/bootstrap-icons.css+");
+$PAGES['modules.php?ModPath=npds_galerie&ModStart=gal*']['css'] = array($nuke_url . '/modules/npds_galerie/css/galerie.css+', $nuke_url . "/assets/shared/bootstrap/dist/css/bootstrap-icons.css+");
 
 $PAGES['modules.php?ModPath=geoloc&ModStart=geoloc*']['title'] = "[french]Localisation[/french][english]Geolocation[/english][spanish]Geolocalizaci&oacute;n[/spanish][german]Geolocation[/german][chinese]&#22320;&#29702;&#20301;&#32622;[/chinese]+|$title+";
 $PAGES['modules.php?ModPath=geoloc&ModStart=geoloc*']['run'] = "yes";
 $PAGES['modules.php?ModPath=geoloc&ModStart=geoloc*']['blocs'] = "-1";
-$PAGES['modules.php?ModPath=geoloc&ModStart=geoloc*']['css'] = array($nuke_url . '/lib/ol/ol.css+', $nuke_url . '/modules/geoloc/include/css/geoloc_style.css+');
+$PAGES['modules.php?ModPath=geoloc&ModStart=geoloc*']['css'] = array($nuke_url . '/assets/shared/ol/ol.css+', $nuke_url . '/modules/geoloc/include/css/geoloc_style.css+');

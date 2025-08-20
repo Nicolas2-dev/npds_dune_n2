@@ -1,9 +1,9 @@
-<script type="text/javascript" src="lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
-<script type="text/javascript" src="lib/js/bootbox.min.js"></script>
-<script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="assets/shared/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="assets/shared/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script type="text/javascript" src="assets/shared/bootbox/bootbox.min.js"></script>
+<script type="text/javascript" src="assets/js/npds_adapt.js"></script>
 <script type="text/javascript">
     //<![CDATA[
     function htmlDecode(value) {

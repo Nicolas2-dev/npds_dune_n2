@@ -81,7 +81,7 @@ echo '<hr />
     <table id="tad_modu" data-toggle="table" data-striped="false" data-show-toggle="true" data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons="icons" data-icons-prefix="fa">
         <thead>
             <tr>
-                <th data-align="center" class="n-t-col-xs-1"><img class="adm_img" src="images/admin/module.png" alt="icon_module" /></th>
+                <th data-align="center" class="n-t-col-xs-1"><img class="adm_img" src="assets/shared/admin/module.png" alt="icon_module" /></th>
                 <th data-sortable="true">' . adm_translate('Nom') . '</th>
                 <th data-align="center" class="n-t-col-xs-2" >' . adm_translate('Fonctions') . '</th>
             </tr>
@@ -99,7 +99,7 @@ while ($row = sql_fetch_assoc($result)) {
 
     $icomod = file_exists('modules/' . $row['mnom'] . '/' . $row['mnom'] . '.png') 
         ? '<img class="adm_img" src="modules/' . $row['mnom'] . '/' . $row['mnom'] . '.png" alt="icon_' . $row['mnom'] . '" title="" />' 
-        : '<img class="adm_img" src="assets/images/admin/module.png" alt="icon_module" title="" />';
+        : '<img class="adm_img" src="assets/assets/shared/admin/module.png" alt="icon_module" title="" />';
 
     if ($row["minstall"] == 0) {
         $status_chngac = file_exists('modules/' . $row['mnom'] . '/install.conf.php') 

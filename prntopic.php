@@ -153,7 +153,7 @@ if ($myrow['poster_id'] != 0) {
 
 include 'storage/meta/meta.php';
 
-echo '<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+echo '<link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
     ' . import_css($tmp_theme, $language, '', '', '') . '
     </head>
     <body>
@@ -165,7 +165,7 @@ $pos = strpos($site_logo, '/');
 if ($pos) {
     echo '<img class="img-fluid d-block mx-auto" src="' . $site_logo . '" alt="website logo" loading="lazy" />';
 } else {
-    echo '<img class="img-fluid d-block mx-auto" src="images/' . $site_logo . '" alt="website logo" loading="lazy" />';
+    echo '<img class="img-fluid d-block mx-auto" src="assets/shared/' . $site_logo . '" alt="website logo" loading="lazy" />';
 }
 
 echo '<div class="row mt-4">
@@ -181,14 +181,14 @@ if ($smilies) {
                 if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/avatar/' . $posterdata['user_avatar'];
+                    $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
                 }
             }
 
             echo '<img class="n-ava-48 border my-2" src="' . $imgtmp . '" alt="avatar" /><br />';
         }
     } else {
-        echo '<img class="n-ava-48 border my-2" src="images/forum/avatar/blank.gif" alt="avatar" /><br />';
+        echo '<img class="n-ava-48 border my-2" src="assets/shared/forum/avatar/blank.gif" alt="avatar" /><br />';
     }
 }
 
@@ -206,12 +206,12 @@ if ($myrow['image'] != '') {
     if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = 'images/forum/subject/' . $myrow['image'];
+        $imgtmp = 'assets/shared/forum/subject/' . $myrow['image'];
     }
 
     echo '<img class="n-smil" src="' . $imgtmp . '" alt="icone du post" />';
 } else {
-    echo '<img class="n-smil" src="images/forum/subject/00.png" alt="icone du post" />';
+    echo '<img class="n-smil" src="assets/shared/forum/subject/00.png" alt="icone du post" />';
 }
 
 echo '</p>';

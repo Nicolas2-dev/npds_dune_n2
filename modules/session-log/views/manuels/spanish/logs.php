@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
     <title>Logs</title>
 </head>
 
@@ -14,7 +14,7 @@
     <div class="container">
         <nav class="my-3">
             <ol class="breadcrumb bg-transparent">
-                <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+                <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
                 <li class="breadcrumb-item"><a href="men_gen.html">Men&uacute;</a></li>
                 <li class="breadcrumb-item"><a href="men_syst.html">Sistema</a></li>
                 <li class="breadcrumb-item active">Logs</li>
@@ -31,7 +31,7 @@
             <li>archivos de carga temporales vac&iacute;os (modules/upload/tmp/)</li>
         </ul>
         </p>
-        <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Manual de administraci&oacute;n</span></p>
+        <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Manual de administraci&oacute;n</span></p>
     </div>
 </body>
 

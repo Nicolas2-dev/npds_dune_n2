@@ -298,7 +298,7 @@ Dimension du site    *jmd work
 #decohead {
    color:white ;
    width:80%;
-   background:  url("../images/header.png") no-repeat;
+   background:  url("../assets/shared/header.png") no-repeat;
    background-position: left top;
 }
 

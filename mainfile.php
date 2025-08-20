@@ -16,13 +16,20 @@
 include 'bootstrap/grab_globals.php';
 include 'config/config.php';
 include 'bootstrap/multi-langue.php';
-include 'language/lang-$language.php';
-include 'library/supercache/cache.class.php';
-require 'library/PHPMailer/src/Exception.php';
-require 'library/PHPMailer/src/PHPMailer.php';
-require 'library/PHPMailer/src/SMTP.php';
+include 'language/'. $language .'/lang-'. $language .'.php';
+
+include 'library/supercache/SuperCacheManager.php';
+include 'library/supercache/SuperCacheEmpty.php';
+include 'library/supercache/cache.php';
+include_once 'config/cache.config.php';
+include_once 'config/cache.timings.php';
+
+require 'shared/PHPMailer/src/Exception.php';
+require 'shared/PHPMailer/src/PHPMailer.php';
+require 'shared/PHPMailer/src/SMTP.php';
+
 include 'library/database/mysqli.php';
-include 'modules/meta-lang/adv-meta_lang.php';
+include 'library/meta-lang/adv-meta_lang.php';
 
 $dblink = Mysql_Connexion();
 
@@ -74,10 +81,10 @@ function session_manage()
     }
 
     //==> geoloc
-    include("modules/geoloc/geoloc.conf");
+    include("modules/geoloc/config/config.php");
 
     if ($geo_ip == 1) {
-        include "modules/geoloc/geoloc_refip.php";
+        include "modules/geoloc/support/geoloc_refip.php";
     }
 
     //<== geoloc
@@ -367,15 +374,15 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 
     if (preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $From_email)) {
 
-        include 'lib/PHPMailer/PHPmailer.conf.php';
+        include 'config/PHPmailer.conf.php';
 
         if ($dkim_auto == 2) {
 
             //Private key filename for this selector 
-            $privatekeyfile = 'lib/PHPMailer/key/' . $NPDS_Key . '_dkim_private.pem';
+            $privatekeyfile = 'storage/mailer/' . $NPDS_Key . '_dkim_private.pem';
 
             //Public key filename for this selector 
-            $publickeyfile = 'lib/PHPMailer/key/' . $NPDS_Key . '_dkim_public.pem';
+            $publickeyfile = 'storage/mailer/' . $NPDS_Key . '_dkim_public.pem';
 
             if (!file_exists($privatekeyfile)) {
                 //Create a 2048-bit RSA key with an SHA256 digest 
@@ -518,7 +525,7 @@ function Ecr_Log($fic_log, $req_log, $mot_log)
     //
     // $mot_log= if "" the Ip is recorded, else extend status infos
 
-    $logfile = "slogs/$fic_log.log";
+    $logfile = "storage/logs/$fic_log.log";
 
     $fp = fopen($logfile, 'a');
     flock($fp, 2);
@@ -1896,31 +1903,31 @@ function fab_edito()
     global $cookie;
 
     if (isset($cookie[3])) {
-        if (file_exists("static/edito_membres.txt")) {
-            $fp = fopen("static/edito_membres.txt", "r");
+        if (file_exists("storage/static/edito_membres.txt")) {
+            $fp = fopen("storage/static/edito_membres.txt", "r");
 
-            if (filesize("static/edito_membres.txt") > 0) {
-                $Xcontents = fread($fp, filesize("static/edito_membres.txt"));
+            if (filesize("storage/static/edito_membres.txt") > 0) {
+                $Xcontents = fread($fp, filesize("storage/static/edito_membres.txt"));
             }
 
             fclose($fp);
         } else {
-            if (file_exists("static/edito.txt")) {
-                $fp = fopen("static/edito.txt", "r");
+            if (file_exists("storage/static/edito.txt")) {
+                $fp = fopen("storage/static/edito.txt", "r");
 
-                if (filesize("static/edito.txt") > 0) {
-                    $Xcontents = fread($fp, filesize("static/edito.txt"));
+                if (filesize("storage/static/edito.txt") > 0) {
+                    $Xcontents = fread($fp, filesize("storage/static/edito.txt"));
                 }
 
                 fclose($fp);
             }
         }
     } else {
-        if (file_exists("static/edito.txt")) {
-            $fp = fopen("static/edito.txt", "r");
+        if (file_exists("storage/static/edito.txt")) {
+            $fp = fopen("storage/static/edito.txt", "r");
 
-            if (filesize("static/edito.txt") > 0) {
-                $Xcontents = fread($fp, filesize("static/edito.txt"));
+            if (filesize("storage/static/edito.txt") > 0) {
+                $Xcontents = fread($fp, filesize("storage/static/edito.txt"));
             }
 
             fclose($fp);
@@ -2968,18 +2975,18 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" ></i>';
 
         if (!$user_avatar) {
-            $imgtmp = "images/forum/avatar/blank.gif";
+            $imgtmp = "assets/shared/forum/avatar/blank.gif";
         } else if (stristr($user_avatar, "users_private")) {
             $imgtmp = $user_avatar;
         } else {
             if ($ibid = theme_image("forum/avatar/$user_avatar")) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = "images/forum/avatar/$user_avatar";
+                $imgtmp = "assets/shared/forum/avatar/$user_avatar";
             }
 
             if (!file_exists($imgtmp)) {
-                $imgtmp = "images/forum/avatar/blank.gif";
+                $imgtmp = "assets/shared/forum/avatar/blank.gif";
             }
         }
 
@@ -3236,8 +3243,8 @@ function theme_image($theme_img)
 {
     global $theme;
 
-    if (@file_exists("themes/$theme/images/$theme_img")) {
-        return ("themes/$theme/images/$theme_img");
+    if (@file_exists("themes/$theme/assets/shared/$theme_img")) {
+        return ("themes/$theme/assets/shared/$theme_img");
     }
 
     return false;
@@ -3249,42 +3256,40 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
     $tmp = '';
 
     // CSS framework
-    if (file_exists("themes/_skins/$fw_css/bootstrap.min.css")) {
-        $tmp .= "      <link href='themes/_skins/$fw_css/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
+    if (file_exists("assets/skins/". $fw_css ."/bootstrap.min.css")) {
+        $tmp .= "<link href='assets/skins/". $fw_css ."/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
     }
+
     // CSS standard 
-    if (file_exists("themes/$tmp_theme/style/$language-style.css")) {
-        $tmp .= "
-      <link href='themes/$tmp_theme/style/$language-style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
+    if (file_exists("themes/$tmp_theme/assets/css/$language-style.css")) {
+        $tmp .= "<link href='themes/$tmp_theme/style/$language-style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
 
-        if (file_exists("themes/$tmp_theme/style/$language-style-AA.css")) {
-            $tmp .= "
-      <link href='themes/$tmp_theme/style/$language-style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
+        if (file_exists("themes/$tmp_theme/assets/css/$language-style-AA.css")) {
+            $tmp .= "<link href='themes/$tmp_theme/assets/css/$language-style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
         }
-        if (file_exists("themes/$tmp_theme/style/$language-print.css")) {
-            $tmp .= "
-      <link href='themes/$tmp_theme/style/$language-print.css' rel='stylesheet' type='text/css' media='print' />";
-        }
-    } else if (file_exists("themes/$tmp_theme/style/style.css")) {
-        $tmp .= "
-      <link href='themes/$tmp_theme/style/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
 
-        if (file_exists("themes/$tmp_theme/style/style-AA.css")) {
-            $tmp .= "
-     <link href='themes/$tmp_theme/style/style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
+        if (file_exists("themes/$tmp_theme/assets/css/$language-print.css")) {
+            $tmp .= "<link href='themes/$tmp_theme/assets/css/$language-print.css' rel='stylesheet' type='text/css' media='print' />";
         }
-        if (file_exists("themes/$tmp_theme/style/print.css")) {
-            $tmp .= "
-     <link href='themes/$tmp_theme/style/print.css' rel='stylesheet' type='text/css' media='print' />";
+
+    } else if (file_exists("themes/$tmp_theme/assets/css/style.css")) {
+        $tmp .= "<link href='themes/$tmp_theme/assets/css/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
+
+        if (file_exists("themes/$tmp_theme/assets/css/style-AA.css")) {
+            $tmp .= "<link href='themes/$tmp_theme/assets/css/style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
+        }
+
+        if (file_exists("themes/$tmp_theme/assets/css/print.css")) {
+            $tmp .= "<link href='themes/$tmp_theme/assets/css/print.css' rel='stylesheet' type='text/css' media='print' />";
         }
     } else {
-        $tmp .= "
-     <link href='themes/default/style/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
+        $tmp .= "<link href='themes/base/assets/css/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
     }
+
     // Chargeur CSS spécifique
     if ($css_pages_ref) {
 
-        include("themes/pages.php");
+        include "routing/pages.php";
 
         if (is_array($PAGES[$css_pages_ref]['css'])) {
             foreach ($PAGES[$css_pages_ref]['css'] as $tab_css) {
@@ -3297,15 +3302,14 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
                 }
 
                 if (stristr($tab_css, 'http://') || stristr($tab_css, 'https://')) {
-                    $admtmp = "
-      <link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
+                    $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
+
                 } else {
-                    if (file_exists("themes/$tmp_theme/style/$tab_css") and ($tab_css != '')) {
-                        $admtmp = "
-      <link href='themes/$tmp_theme/style/$tab_css' rel='stylesheet' type='text/css' media='all' />";
+                    if (file_exists("themes/". $tmp_theme ."/assets/css/". $tab_css) and ($tab_css != '')) {
+                        $admtmp = "<link href='themes/". $tmp_theme ."/assets/css/". $tab_css ."' rel='stylesheet' type='text/css' media='all' />";
+
                     } elseif (file_exists("$tab_css") and ($tab_css != '')) {
-                        $admtmp = "
-      <link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
+                        $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
                     }
                 }
 
@@ -3323,19 +3327,17 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
             $op = substr($oups, -1);
             $css = substr($oups, 0, -1);
 
-            if (($css != '') and (file_exists("themes/$tmp_theme/style/$css"))) {
+            if (($css != '') and (file_exists('themes/'. $tmp_theme .'/assets/css/'. $css))) {
                 if ($op == '-') {
-                    $tmp = "
-      <link href='themes/$tmp_theme/style/$css' rel='stylesheet' type='text/css' media='all' />";
+                    $tmp = "<link href='themes/". $tmp_theme ."/assets/css/". $css ."' rel='stylesheet' type='text/css' media='all' />";
                 } else {
-                    $tmp .= "
-      <link href='themes/$tmp_theme/style/$css' rel='stylesheet' type='text/css' media='all' />";
+                    $tmp .= "<link href='themes/". $tmp_theme ."/assets/css/". $css ."' rel='stylesheet' type='text/css' media='all' />";
                 }
             }
         }
     }
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : Fonctionnement identique à import_css_javascript sauf que le code HTML en retour ne contient que de double quote
@@ -3526,12 +3528,12 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
         }
 
         echo '
-   <script type="text/javascript" src="lib/js/es6-shim.min.js"></script>
-   <script type="text/javascript" src="lib/formvalidation/dist/js/FormValidation.full.min.js"></script>
-   <script type="text/javascript" src="lib/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
-   <script type="text/javascript" src="lib/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-   <script type="text/javascript" src="lib/formvalidation/dist/js/plugins/L10n.min.js"></script>
-   <script type="text/javascript" src="lib/js/checkfieldinp.js"></script>
+   <script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
+   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
+   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
+   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
+   <script type="text/javascript" src="assets//js/npds_checkfieldinp.js"></script>
    <script type="text/javascript">
    //<![CDATA[
    ' . $arg1 . '

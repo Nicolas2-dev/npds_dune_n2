@@ -28,7 +28,7 @@ function etape_8()
 
     $stage = 8;
 
-    include_once 'modules/upload/upload.conf.php';
+    include_once 'modules/upload/config/config.php';
 
     echo '<h3 class="mb-3">' . ins_translate('Configuration du module UPload') . '</h3>
     <div class="col-sm-12">

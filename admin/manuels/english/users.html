@@ -1,69 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8" />
-      <title>Administration - Users</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li>
-               <li class="breadcrumb-item"><a href="men_utilisateurs.html">Users</a></li>
-               <li class="breadcrumb-item active">Users</li>
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3 class="mb-3">Users</h3>
-         <p>This feature allows you to add users (members), to edit or delete them as well.</p>
 
-         <h4>Add new user</h4>
-         <p>Fill out the form. Required fields are marked with an * (Nickname, Email, Password).<br />
-         Other fields are not mandatory. The hidden email adress is the one displayed to the other users (profile, forums, articles). NEVER PUT YOUR REAL EMAIL ADRESS in this field.<br />
+<head>
+   <meta charset="utf-8" />
+   <title>Administration - Users</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
+
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li>
+            <li class="breadcrumb-item"><a href="men_utilisateurs.html">Users</a></li>
+            <li class="breadcrumb-item active">Users</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3 class="mb-3">Users</h3>
+      <p>This feature allows you to add users (members), to edit or delete them as well.</p>
+
+      <h4>Add new user</h4>
+      <p>Fill out the form. Required fields are marked with an * (Nickname, Email, Password).<br />
+         Other fields are not mandatory. The hidden email adress is the one displayed to the other users (profile,
+         forums, articles). NEVER PUT YOUR REAL EMAIL ADRESS in this field.<br />
          Click on Add user and NPDS will send an email with the password to the newly created user.
-         </p>
+      </p>
 
-         <h4>Member' role</h4>
-         <p>You can attribute a specific role (for exemple : administrator, hot-line ...) to a member. the forum show this role and the administration of the role'list is in forum' config. </p>
+      <h4>Member' role</h4>
+      <p>You can attribute a specific role (for exemple : administrator, hot-line ...) to a member. the forum show this
+         role and the administration of the role'list is in forum' config. </p>
 
-         <h4>Group</h4>
-         <p>A user can be a member of 0 to n groups and the group value is between 2(min) and 126(max). Groups are separated by a comma in the database.<br />
+      <h4>Group</h4>
+      <p>A user can be a member of 0 to n groups and the group value is between 2(min) and 126(max). Groups are
+         separated by a comma in the database.<br />
          - ex : 2,25 (member of groups 2 and 25)<br />
          The list of available groups is displayed and allows a multi-selection (shift / Ctrl).<br />
          The first choice allows to delete the membership to a group.<br />
          A group is a level-link that finds its meaning when creating blocks (see blocks).
-         </p>
+      </p>
 
-         <h4>Allow connexion</h4>
-         <p>By default if the proper option is set to Yes in preferences, a member can log in as soon as he gets his password (email).<br />
+      <h4>Allow connexion</h4>
+      <p>By default if the proper option is set to Yes in preferences, a member can log in as soon as he gets his
+         password (email).<br />
          You can set it to off to forbid a member to access the website's members only features </p>
 
-         <h4>Edit user</h4>
-         <p>Enter his nickname, select <i>Modify</i> user and click on <i>Ok</i>.<br />
+      <h4>Edit user</h4>
+      <p>Enter his nickname, select <i>Modify</i> user and click on <i>Ok</i>.<br />
          You can therefore change everything (including the password).</p>
 
-         <h4>Delete user</h4>
-         <p>Enter his nickname, select Delete user and click on <i>Ok</i>.</p>
+      <h4>Delete user</h4>
+      <p>Enter his nickname, select Delete user and click on <i>Ok</i>.</p>
 
-         <h4>Unsubscribe user</h4>
-         <p>Enter his nickname, select Unsubscribe user and click on <i>Ok</i>.</p>
+      <h4>Unsubscribe user</h4>
+      <p>Enter his nickname, select Unsubscribe user and click on <i>Ok</i>.</p>
 
-         <h4>Directory extraction</h4>
-         <p>By clicking on Ok, you obtain a zip of the file containing information on all users. The zip contains a file in csv format.</p>
+      <h4>Directory extraction</h4>
+      <p>By clicking on Ok, you obtain a zip of the file containing information on all users. The zip contains a file in
+         csv format.</p>
 
-         <h4>Functions</h4>
-         <h5>Check all users' mail servers</h5>
-         <p>This function allows you to check the validity of mail servers. It is particularly useful for old user data entered in npds versions lower than 16.0, since a systematic check rejects non-compliant mail server entries. However, it remains useful for monitoring their evolution over time (closure, etc.).<br />
+      <h4>Functions</h4>
+      <h5>Check all users' mail servers</h5>
+      <p>This function allows you to check the validity of mail servers. It is particularly useful for old user data
+         entered in npds versions lower than 16.0, since a systematic check rejects non-compliant mail server entries.
+         However, it remains useful for monitoring their evolution over time (closure, etc.).<br />
          <span class="text-danger">In the event of a non-compliant mail server</span><br />
          - All subscriptions of the user concerned are suspended.<br />
-         - A private message is sent to the user concerned. Without a response to this message within 60 days, he will no longer be able to connect to the site.
-         </p>
-         <p>Interface: the command launches the check for the first 40 users, then click on continue or check the checkbox for automatic processing of the remaining batches.</p>
-         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Administration manual</span></p>      </div>
-   </body>
+         - A private message is sent to the user concerned. Without a response to this message within 60 days, he will
+         no longer be able to connect to the site.
+      </p>
+      <p>Interface: the command launches the check for the first 40 users, then click on continue or check the checkbox
+         for automatic processing of the remaining batches.</p>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - Administration manual</span></p>
+   </div>
+</body>
+
 </html>

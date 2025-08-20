@@ -18,9 +18,6 @@
 /*  Revision : 2018 Version: 1.5 / support php 7                        */
 /************************************************************************/
 
-include_once 'cache.config.php';
-include_once 'cache.timings.php';
-
 class SuperCacheManager
 {
 
@@ -115,8 +112,8 @@ class SuperCacheManager
         if ($this->genereting_output == 1) {
             $output = ob_get_contents();
             // if you want to activate rewrite engine
-            //if (file_exists('lib/rewrite_engine.php')) {
-            //   include ('lib/rewrite_engine.php');
+            //if (file_exists('config/rewrite_engine.php')) {
+            //   include ('config/rewrite_engine.php');
             //}
             ob_end_clean();
 

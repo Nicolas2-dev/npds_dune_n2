@@ -282,8 +282,8 @@ function listarticles($secid)
             }
 
             if ($image != '') {
-                if (file_exists('images/sections/'. $image)) {
-                    $imgtmp = 'images/sections/'. $image;
+                if (file_exists('assets/shared/sections/'. $image)) {
+                    $imgtmp = 'assets/shared/sections/'. $image;
                 } else {
                     $imgtmp = $image;
                 }
@@ -538,7 +538,7 @@ function PrintSecPage($artid)
 
     include 'storage/meta/meta.php';
 
-    echo '<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    echo '<link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
         </head>
         <body>
             <div id="print_sect" max-width="640" class="container p-1 n-hyphenate">
@@ -548,7 +548,7 @@ function PrintSecPage($artid)
 
     echo $pos 
         ? '<img src="' . $site_logo . '" alt="logo" />' 
-        : '<img src="images/' . $site_logo . '" alt="logo" />';
+        : '<img src="assets/shared/' . $site_logo . '" alt="logo" />';
 
     $result = sql_query("SELECT title, content 
                          FROM " . sql_prefix('seccont') . " 
@@ -574,9 +574,9 @@ function PrintSecPage($artid)
                 <a href="' . $nuke_url . '/sections.php?op=viewarticle&amp;artid=' . $artid . '">' . $nuke_url . '/sections.php?op=viewarticle&amp;artid=' . $artid . '</a>
                 </p>
                 </div>
-                <script type="text/javascript" src="lib/js/jquery.min.js"></script>
-                <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                <script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+                <script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
+                <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script type="text/javascript" src="assets/js/npds_adapt.js"></script>
             </body>
         </html>';
 }

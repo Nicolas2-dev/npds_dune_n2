@@ -28,8 +28,11 @@ function etape_2()
 
     $stage = 2;
 
-    if (file_exists('install/languages/licence-' . language_iso(1, 0, 0) . '.txt')) {
-        $licence_file = 'install/languages/licence-' . language_iso(1, 0, 0) . '.txt';
+    //if (file_exists('install/language/licence/' . language_iso(1, 0, 0) . '.txt')) {
+    //    $licence_file = 'install/language/licence/' . language_iso(1, 0, 0) . '.txt';
+
+    if (file_exists('install/licence/' . $langue . '.txt')) {
+        $licence_file = 'install/licence/' . $langue . '.txt';
 
         $myfile = @fopen($licence_file, 'r');
         $licence_text = fread($myfile, filesize($licence_file));
@@ -42,7 +45,7 @@ function etape_2()
         $nohalt = false;
     }
 
-    echo '<h3 class="mb-2">' . ins_translate('Licence') . '<span><img src="install/images/gplv3-with-text-136x68.png" alt="logo GNUGPL 3" loading="lazy"/></span></h3>
+    echo '<h3 class="mb-2">' . ins_translate('Licence') . '<span><img src="install/assets/shared/gplv3-with-text-136x68.png" alt="logo GNUGPL 3" loading="lazy"/></span></h3>
     <form name="gpl" method="post" action="install.php">
         <fieldset class="mb-3">
             <label class="mb-3" for="licence">' . ins_translate('L\'utilisation de NPDS est soumise à l\'acceptation des termes de la licence GNU GPL ') . ' :</label>

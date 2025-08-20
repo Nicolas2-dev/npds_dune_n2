@@ -488,7 +488,7 @@ function viewlink_show($cid, $min)
         if ($ibid = theme_image("box/right.gif")) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = "images/download/right.gif";
+            $imgtmp = "assets/shared/download/right.gif";
         }
 
         echo "document.write('<a href=javascript:onclick=register(\"npds-push\",\"op=viewlink&cid=$cid&min=$min\"); style=\"font-size: 11px;\"><img src=\"$nuke_url/$imgtmp\" border=\"0\" alt=\"\" align=\"center\" /></a><br />');\n";
@@ -562,7 +562,7 @@ function viewslink_show($sid, $min)
         if ($ibid = theme_image("box/right.gif")) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = "images/download/right.gif";
+            $imgtmp = "assets/shared/download/right.gif";
         }
 
         echo "document.write('<a href=javascript:onclick=register(\"npds-push\",\"op=viewlink&cid=$cid&min=$min\"); style=\"font-size: 11px;\"><img src=\"$nuke_url/$imgtmp\" border=\"0\" alt=\"\" align=\"center\" /></a><br />');\n";

@@ -35,12 +35,12 @@
       list($user_avatar)=sql_fetch_row(sql_query("SELECT user_avatar FROM ".$NPDS_Prefix."users WHERE uname='".$username."'"));
 
       if (!$user_avatar)
-         $imgtmp='images/forum/avatar/blank.gif';
+         $imgtmp='assets/shared/forum/avatar/blank.gif';
       else if (stristr($user_avatar,"users_private"))
          $imgtmp=$user_avatar;
       else {
-         if ($ibid=theme_image("forum/avatar/$user_avatar")) {$imgtmp=$ibid;} else {$imgtmp="images/forum/avatar/$user_avatar";}
-         if (!file_exists($imgtmp)) {$imgtmp="images/forum/avatar/blank.gif";}
+         if ($ibid=theme_image("forum/avatar/$user_avatar")) {$imgtmp=$ibid;} else {$imgtmp="assets/shared/forum/avatar/$user_avatar";}
+         if (!file_exists($imgtmp)) {$imgtmp="assets/shared/forum/avatar/blank.gif";}
       }
       $bal = ($nbmes>0) ?
       '
@@ -56,7 +56,7 @@
          <div class="header">
             <nav id="uppernavbar" class=" <?php echo $headerclasses; ?>" data-bs-theme="dark">
                <div class="container-fluid">
-                  <a class="navbar-brand" href="index.php" ><img class="me-2" width="32px" height="32px" src="images/admin/message_npds.png" alt="logo_npds"><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
+                  <a class="navbar-brand" href="index.php" ><img class="me-2" width="32px" height="32px" src="assets/shared/admin/message_npds.png" alt="logo_npds"><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
                      <span class="navbar-toggler-icon"></span>
                   </button>
@@ -108,7 +108,7 @@
    </nav>
    <div class="page-header px-2 mt-n5">
       <div class="row row-cols-1 row-cols-md-2">
-         <div class="col-md-6"><div><img  class="float-start align-middle me-2" width="128" height="128" src="themes/!theme!/images/header.png" /><h1 class="pt-4">NPDS^ 16.4<br /><small class="text-body-secondary">Responsive</small></h1></div></div>
+         <div class="col-md-6"><div><img  class="float-start align-middle me-2" width="128" height="128" src="themes/!theme!/assets/shared/header.png" /><h1 class="pt-4">NPDS^ 16.4<br /><small class="text-body-secondary">Responsive</small></h1></div></div>
          <div id="ban" class="col text-end">!banner!</div>
       </div>
       <div class="row px-2">

@@ -14,38 +14,38 @@
 // core required dont remove
 
 //
-echo '<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/bootstrap-table/dist/bootstrap-table.min.js"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/bootstrap-table.min.js"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/bootstrap-table/dist/locale/bootstrap-table-' . language_iso(1, "-", 1) . '.min.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/locale/bootstrap-table-' . language_iso(1, "-", 1) . '.min.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/tableExport.jquery.plugin-master/tableExport.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/jquery/plugin/tableExport/tableExport.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/js/js.cookie.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/js/npds_cookie.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/js/jquery-ui.min.js" ></script>';
+echo '<script type="text/javascript" src="assets/shared/jquery/jquery-ui.min.js" ></script>';
 
 //
-echo '<script type="text/javascript" src="lib/js/bootbox.min.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootbox/bootbox.min.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="lib/js/prism.js"></script>';
+echo '<script type="text/javascript" src="assets/shared/prism/prism.js"></script>';
 
 //
 echo defined('CITRON')
-    ? '<script type="text/javascript" src="lib/js/npds_tarteaucitron_service.js"></script>'
+    ? '<script type="text/javascript" src="assets/js/npds_tarteaucitron_service.js"></script>'
     : '';
 
 // page-time pseudo-module : If you want to show the time used to generate each page uncomment those lines
@@ -62,4 +62,4 @@ echo '<span class="small" id="build_time">
 
 echo '</footer>
     </div>
-    <script type="text/javascript" src="lib/js/npds_adapt.js"></script>';
+    <script type="text/javascript" src="assets/js/npds_adapt.js"></script>';

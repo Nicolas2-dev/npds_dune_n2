@@ -1341,11 +1341,11 @@ if ($inclusion) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />
-        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-icons.css" />
+        echo '<link rel="shortcut icon" href="assets/shared/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
         <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />
-        <link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css" />
+        <link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />
         <link rel="stylesheet" id="fw_css_extra" href="themes/_skins/' . $skin . '/extra.css" />
         <link rel="stylesheet" href="' . $css_fma . '" title="default" type="text/css" media="all" />';
 
@@ -1360,7 +1360,7 @@ if ($inclusion) {
             }
         }
 
-        echo '<script type="text/javascript" src="lib/js/jquery.min.js"></script>
+        echo '<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
         </head>
         <body class="p-3">';
     } else {

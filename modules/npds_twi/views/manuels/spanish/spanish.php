@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <title>Administración - npds_twitter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="/assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/shared/font-awesome/css/all.min.css" />
 </head>
 
 <body>
     <div class="container">
         <nav class="my-3">
             <ol class="breadcrumb bg-transparent">
-                <li><a href="/manuels/english/admin.html"><img class="me-3 ms-n3" width="32px" height="32px" src="../../../images/admin/message_npds.png" alt="logo_npds" /></a></li>
+                <li><a href="/manuels/english/admin.html"><img class="me-3 ms-n3" width="32px" height="32px" src="../../../assets/images/admin/message_npds.png" alt="logo_npds" /></a></li>
                 <li class="breadcrumb-item active" aria-current="page">npds_twitter</li>
             </ol>
         </nav>
@@ -95,7 +95,7 @@
             </li>
         </ul>
         </p>
-        <p class="border-top mt-5"><img class="me-3 mt-n4" width="32px" height="32px" src="../../../images/admin/message_npds.png" alt="logo_npds"><span class="text-body-secondary font-italic small float-end">npds_twitter - Manuel administration</span></p>
+        <p class="border-top mt-5"><img class="me-3 mt-n4" width="32px" height="32px" src="../../../assets/images/admin/message_npds.png" alt="logo_npds"><span class="text-body-secondary font-italic small float-end">npds_twitter - Manuel administration</span></p>
     </div>
 </body>
 

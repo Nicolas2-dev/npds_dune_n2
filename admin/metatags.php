@@ -322,12 +322,12 @@ function MetaTagSave($filename, $tags)
         $content .= MetaTagMakeSingleTag('og:url', '$nuke_url', 'property');
         $content .= MetaTagMakeSingleTag('og:title', '$Titlesitename', 'property');
         $content .= MetaTagMakeSingleTag('og:description', $tags['description'], 'property');
-        $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/images/ogimg_rect.png', 'property');
+        $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_rect.png', 'property');
         $content .= MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
         $content .= MetaTagMakeSingleTag('og:image:width', '1200', 'property');
         $content .= MetaTagMakeSingleTag('og:image:height', '630', 'property');
         $content .= MetaTagMakeSingleTag('og:image:alt', 'logo site', 'property');
-        $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/images/ogimg_square.png', 'property');
+        $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_square.png', 'property');
         $content .= MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
         $content .= MetaTagMakeSingleTag('og:image:width', '630', 'property');
         $content .= MetaTagMakeSingleTag('og:image:height', '630', 'property');

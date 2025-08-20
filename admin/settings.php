@@ -844,7 +844,7 @@ function Configure()
         </div>
     </div>';
 
-    include 'lib/PHPMailer/PHPmailer.conf.php';
+    include 'config/PHPmailer.conf.php';
 
     echo '<div id="smtp" class="row">
         <div class="form-label my-3">' . adm_translate('Configuration de PHPmailer SMTP(S)') . '</div>

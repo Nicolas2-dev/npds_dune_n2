@@ -21,10 +21,10 @@
 // définition des versions requises pour la MAJ
 define('NEW_VERSION', 'v.16.8');
 
-include_once 'library/database.mysqli.php';
+include_once 'library/database/mysqli.php';
 
-#autodoc Mysql_Connexion() : Connexion plus détaillée ($mysql_p=true => persistente connexion) - Attention : le type de SGBD n'a pas de lien avec le nom de cette fonction
-function Mysql_Connexion()
+#autodoc IMysql_Connexion() : Connexion plus détaillée ($mysql_p=true => persistente connexion) - Attention : le type de SGBD n'a pas de lien avec le nom de cette fonction
+function IMysql_Connexion()
 {
     //global $mysql_error, $dbhost, $dbname;
 
@@ -33,14 +33,13 @@ function Mysql_Connexion()
     return $ret_p;
 }
 
-// note : revoir le chargement des language dans folder !
-$langue = isset($langue) ? $langue : 'fr';
+$langue = isset($langue) ? $langue : 'french';
 
 if ($langue) {
-    if (file_exists($fichier_lang = 'install/languages/install-' . language_iso(1, 0, 0) . '.php')) {
+    if (file_exists($fichier_lang = 'install/language/' . language_iso(1, 0, 0) . '.php')) {
         include_once $fichier_lang;
     } else {
-        include_once 'install/languages/install-' . $langue . '.php';
+        include_once 'install/language/'. $langue .'/' . $langue . '.php';
     }
 }
 
@@ -79,7 +78,7 @@ function verif_sql()
 {
     global $sqlver;
 
-    $sqlgetver = (mysqli_get_server_version(Mysql_Connexion())) / 10000;
+    $sqlgetver = (mysqli_get_server_version(IMysql_Connexion())) / 10000;
     $mainversion = intval($sqlgetver);
 
     $subversion = ($sqlgetver - $mainversion) * 10000 / 100;
@@ -95,14 +94,14 @@ function verif_chmod()
     global $stopngo, $listfich;
 
     $file_to_check = array(
-        'abla.log.php', 
-        'cache.config.php', 
-        'config.php', 
-        'filemanager.conf', 
-        'slogs/security.log', 
-        'meta/meta.php', 
-        'static/edito.txt', 
-        'modules/upload/upload.conf.php'
+        'storage/abla/log.php', 
+        'config/cache.config.php', 
+        'config/config.php', 
+        'config/filemanager.conf', 
+        'storage/logs/security.log', 
+        'storage/meta/meta.php', 
+        'storage/static/edito.txt', 
+        'modules/upload/config/config.php'
     );
 
     $i = 0;
@@ -238,8 +237,8 @@ function write_users($adminlogin, $adminpass1, $adminpass2)
                                     SET aid='$adminlogin', pwd='$adminpwd', hashkey='1' 
                                     WHERE radminsuper='1'");
 
-                copy('modules/f-manager/users/modele.admin.conf.php', 
-                     'modules/f-manager/users/' . strtolower($adminlogin) . '.conf.php'
+                copy('modules/f-manager/support/stub/config/admin.stub', 
+                     'modules/f-manager/storage/users/' . strtolower($adminlogin) . '.php'
                 );
 
                 if (!$result1) {
@@ -260,7 +259,7 @@ function write_upload($new_max_size, $new_DOCUMENTROOT, $new_autorise_upload_p, 
 
     $stage8_ok = 0;
 
-    $file = file('modules/upload/upload.conf.php');
+    $file = file('modules/upload/config/config.php');
 
     $file[16] = "\$max_size = $new_max_size;\n";
     $file[21] = "\$DOCUMENTROOT = \"$new_DOCUMENTROOT\";\n";
@@ -271,7 +270,7 @@ function write_upload($new_max_size, $new_DOCUMENTROOT, $new_autorise_upload_p, 
     $file[37] = "\$rep_log = \"$new_rep_log\";\n";
     $file[40] = "\$url_upload = \"$new_url_upload\";\n";
 
-    $fic = fopen('modules/upload/upload.conf.php', 'w');
+    $fic = fopen('modules/upload/config/config.php', 'w');
 
     foreach ($file as $n => $ligne) {
         fwrite($fic, $ligne);
@@ -357,12 +356,12 @@ function formval($fv, $fv_parametres, $arg1, $foo)
         }
 
         echo '
-        <script type="text/javascript" src="lib/js/es6-shim.min.js"></script>
-        <script type="text/javascript" src="lib/formvalidation/dist/js/FormValidation.full.min.js"></script>
-        <script type="text/javascript" src="lib/formvalidation/dist/js/locales/' . language_iso(1, '_', 1) . '.min.js"></script>
-        <script type="text/javascript" src="lib/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-        <script type="text/javascript" src="lib/formvalidation/dist/js/plugins/L10n.min.js"></script>
-        <script type="text/javascript" src="lib/js/checkfieldinp.js"></script>
+        <script type="text/javascript" src="assets/js/es6-shim.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, '_', 1) . '.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
+        <script type="text/javascript" src="assets/js/checkfieldinp.js"></script>
         <script type="text/javascript">
         //<![CDATA[
         ' . $arg1 . '

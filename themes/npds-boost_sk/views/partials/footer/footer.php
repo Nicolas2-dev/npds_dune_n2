@@ -3,8 +3,8 @@
         <p>!sc_infos!
             <br />!msg_foot!
         </p>
-        <script type="text/javascript" src="lib/js/jquery.translate.js"></script>
-        <script type="text/javascript" src="lib/js/npds-dicotransl.js"></script>
+        <script type="text/javascript" src="assets/shared/jquery/jquery.translate.js"></script>
+        <script type="text/javascript" src="assets/js/npds_dicotransl.js"></script>
         <script type="text/javascript">
             //<![CDATA[
                 $(document).ready(function() {

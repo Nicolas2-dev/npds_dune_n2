@@ -383,7 +383,7 @@ function userpopover($who, $dim, $avpop)
         if (stristr($temp_user['user_avatar'], 'users_private')) {
             $imgtmp = $temp_user['user_avatar'];
         } else {
-            $imgtmp = theme_image('forum/avatar/' . $temp_user['user_avatar']) ?: 'images/forum/avatar/' . $temp_user['user_avatar'];
+            $imgtmp = theme_image('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/shared/forum/avatar/' . $temp_user['user_avatar'];
         }
 
         $userpop = $avpop == 1

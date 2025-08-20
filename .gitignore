@@ -6,3 +6,7 @@ npds/*
 
 # mais pas ce fichier spécial
 !npds/.gitkeep
+
+/vendor/
+
+composer.lock

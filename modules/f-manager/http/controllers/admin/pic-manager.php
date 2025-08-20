@@ -100,13 +100,13 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
 }
 
 // gestion des types d'extension de fichiers
-$handle = opendir($racine_fma .'/images/upload/file_types');
+$handle = opendir($racine_fma .'/assets/shared/upload/file_types');
 
 while (false !== ($file = readdir($handle))) {
     if ($file != '.' && $file != '..') {
         $prefix = strtoLower(substr($file, 0, strpos($file, '.')));
 
-        $att_icons[$prefix] = "<img src=\"images/upload/file_types/" . $file . "\" alt=\"\" />";
+        $att_icons[$prefix] = "<img src=\"assets/shared/upload/file_types/" . $file . "\" alt=\"\" />";
     }
 }
 
@@ -400,14 +400,14 @@ if ($inclusion) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-            <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />
-            <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-icons.css" />
+        echo '<link rel="shortcut icon" href="assets/shared/favicon.ico" type="image/x-icon" />
+            <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
+            <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
             <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />
-            <link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css" />
+            <link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />
             <link rel="stylesheet" id="fw_css_extra" href="themes/_skins/' . $skin . '/extra.css" />
             <link href="' . $css_fma . '" title="default" rel="stylesheet" type="text/css" media="all" />
-            <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         </head>
         <body class="p-3">';
     } else {

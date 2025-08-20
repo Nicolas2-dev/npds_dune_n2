@@ -139,7 +139,7 @@ function PrintPage($oper, $DB, $nl, $sid)
         if ($pos) {
             echo '<img class="img-fluid d-block mx-auto" src="' . $site_logo . '" alt="website logo" />';
         } else {
-            echo '<img class="img-fluid d-block mx-auto" src="images/' . $site_logo . '" alt="website logo" />';
+            echo '<img class="img-fluid d-block mx-auto" src="assets/shared/' . $site_logo . '" alt="website logo" />';
         }
 
         echo '<h1 class="d-block text-center my-4">' . aff_langue($title) . '</h1>';

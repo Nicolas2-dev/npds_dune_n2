@@ -1,5 +1,5 @@
       <link id="bsth" rel="stylesheet" href="themes/_skins/default/bootstrap.min.css">
-      <link href="lib/bootstrap/dist/css/bootstrap-icons.css" rel="stylesheet" type="text/css" media="all">
+      <link href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" rel="stylesheet" type="text/css" media="all">
       <style>
          .error-details {
             margin-top: 20px;
@@ -43,7 +43,7 @@
             <hr />
             <div>
                <span class="text-body-secondary">NPDS - Portal System</span>
-               <img class="adm_img ms-2" src="/images/admin/message_npds.png" alt="icon_npds" loading="lazy" />
+               <img class="adm_img ms-2" src="/assets/shared/admin/message_npds.png" alt="icon_npds" loading="lazy" />
             </div>
          </div>
       </div>

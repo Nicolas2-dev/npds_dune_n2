@@ -1,8 +1,5 @@
 <?php
 
-include_once 'cache.config.php';
-include_once 'cache.timings.php';
-
 // Ces fonctions sont en dehors de la Classe pour permettre un appel sans instanciation d'objet
 function Q_Select($Xquery, $retention = 3600)
 {

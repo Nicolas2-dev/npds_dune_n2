@@ -1,57 +1,70 @@
 <!DOCTYPE html>
 <html lang="de">
-   <head>
-      <meta charset="utf-8" />
-      <title>LNL - Kleiner NewsLetter</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"><a href="men_gen.html">Men&uuml;</a></li>
-               <li class="breadcrumb-item"><a href="men_com.html">Kommunication</a></li>
-               <li class="breadcrumb-item active" aria-current="page">Kleiner NewsLetter</li> 
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3 class="mb-3">LNL - Kleiner NewsLetter</h3>
-         <p>Mit diesem Modul k&ouml;nnen Sie einen Newsletter f&uuml;r Ihre Website verwalten.</p>
-         <p>Die Hauptfunktionen dieses Moduls sind:
-            <ul>
-               <li>Verwaltung eines Newsletters in 3 Teilen: Kopfzeile, Hauptteil, Fu&szlig;zeile</li>
-               <li>Verwaltung eines Newsletters im Text- oder HTML-Modus</li>
-               <li>Verwalten Sie Sendungen f&uuml;r Mitglieder, Interessenten oder beides</li>
-               <li>&Uuml;berwachung gesendeter LNLs und der Liste potenzieller Kunden</li>
-            </ul>
-         </p>
-         <p>Typischerweise ist die Betriebsart:
-            <ul>
-               <li>Erstellen einer Kopfzeile (Text oder HTML)</li>
-               <li>Erstellen eines K&ouml;rpers (Text oder HTML)</li>
-               <li>Erstellen einer Fu&szlig;zeile (Text oder HTML)</li>
-               <li>LNL-Test (geben Sie die Nummer f&uuml;r jedes Element ein)<br />
-               Mit diesem Test können Sie die Darstellung Ihres LNL-Briefes validieren und ihn per E-Mail an den Administrator senden.</li>
-               <li>Senden der LNL (Geben Sie den Betreff und die Empf&auml;nger ein).</li>
-            </ul>
-            <span class="text-danger">Hinweis: Seien Sie beim Zusammenstellen eines Briefes vorsichtig (in der Testversandfunktion und in der Direktversandfunktion). Die verschiedenen Teile des Briefes, die Kopfzeile, der Seitenhauptteil und die Fu&szlig;zeile m&uuml;ssen das gleiche Format haben (HTML oder Text)!</span>
-         </p>
-         <p>Sie k&ouml;nnen die &bdquo;Komponenten&ldquo; Ihres LNL hinzuf&uuml;gen, &auml;ndern oder l&ouml;schen.</p>
-         <p>Sie erhalten einen Status der gesendeten LNLs mit einer bestimmten Menge an Informationen und insbesondere dem Typ:
-            <ul>
-               <li>Alle => LNL wird an alle Mitglieder und alle Interessenten gesendet</li>
-               <li>Mbr => nur f&uuml;r Mitglieder</li>
-               <li>Out => nur f&uuml;r Interessenten</li>
-               <li>eine Zahl von 2 bis 126 (= Gruppen-ID) => nur für Gruppenmitglieder</li>
-            </ul>
-            sowie die Liste der Interessenten (Status OK => Der Benutzer m&ouml;chte den Brief erhalten, NOK, er m&ouml;chte nicht).</p>
-         <p>Nat&uuml;rlich muss die Mail- bzw. E-Mail-Funktion bei Ihrem Gastgeber aktiv sein, um diese Funktionalit&auml;t nutzen zu k&ouml;nnen.</p>
-         <p>&Uuml;ber 50 Mitglieder wird die LNL alle 10 Sekunden in &bdquo;Paketen&ldquo; von 50 gesendet, wodurch eine &Uuml;berlastung Ihres Mailservers vermieden wird.</p>
-         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Administrationshandbuch</span></p>
-      </div>
-   </body>
+
+<head>
+   <meta charset="utf-8" />
+   <title>LNL - Kleiner NewsLetter</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
+
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"><a href="men_gen.html">Men&uuml;</a></li>
+            <li class="breadcrumb-item"><a href="men_com.html">Kommunication</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Kleiner NewsLetter</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3 class="mb-3">LNL - Kleiner NewsLetter</h3>
+      <p>Mit diesem Modul k&ouml;nnen Sie einen Newsletter f&uuml;r Ihre Website verwalten.</p>
+      <p>Die Hauptfunktionen dieses Moduls sind:
+      <ul>
+         <li>Verwaltung eines Newsletters in 3 Teilen: Kopfzeile, Hauptteil, Fu&szlig;zeile</li>
+         <li>Verwaltung eines Newsletters im Text- oder HTML-Modus</li>
+         <li>Verwalten Sie Sendungen f&uuml;r Mitglieder, Interessenten oder beides</li>
+         <li>&Uuml;berwachung gesendeter LNLs und der Liste potenzieller Kunden</li>
+      </ul>
+      </p>
+      <p>Typischerweise ist die Betriebsart:
+      <ul>
+         <li>Erstellen einer Kopfzeile (Text oder HTML)</li>
+         <li>Erstellen eines K&ouml;rpers (Text oder HTML)</li>
+         <li>Erstellen einer Fu&szlig;zeile (Text oder HTML)</li>
+         <li>LNL-Test (geben Sie die Nummer f&uuml;r jedes Element ein)<br />
+            Mit diesem Test können Sie die Darstellung Ihres LNL-Briefes validieren und ihn per E-Mail an den
+            Administrator senden.</li>
+         <li>Senden der LNL (Geben Sie den Betreff und die Empf&auml;nger ein).</li>
+      </ul>
+      <span class="text-danger">Hinweis: Seien Sie beim Zusammenstellen eines Briefes vorsichtig (in der
+         Testversandfunktion und in der Direktversandfunktion). Die verschiedenen Teile des Briefes, die Kopfzeile, der
+         Seitenhauptteil und die Fu&szlig;zeile m&uuml;ssen das gleiche Format haben (HTML oder Text)!</span>
+      </p>
+      <p>Sie k&ouml;nnen die &bdquo;Komponenten&ldquo; Ihres LNL hinzuf&uuml;gen, &auml;ndern oder l&ouml;schen.</p>
+      <p>Sie erhalten einen Status der gesendeten LNLs mit einer bestimmten Menge an Informationen und insbesondere dem
+         Typ:
+      <ul>
+         <li>Alle => LNL wird an alle Mitglieder und alle Interessenten gesendet</li>
+         <li>Mbr => nur f&uuml;r Mitglieder</li>
+         <li>Out => nur f&uuml;r Interessenten</li>
+         <li>eine Zahl von 2 bis 126 (= Gruppen-ID) => nur für Gruppenmitglieder</li>
+      </ul>
+      sowie die Liste der Interessenten (Status OK => Der Benutzer m&ouml;chte den Brief erhalten, NOK, er m&ouml;chte
+      nicht).</p>
+      <p>Nat&uuml;rlich muss die Mail- bzw. E-Mail-Funktion bei Ihrem Gastgeber aktiv sein, um diese Funktionalit&auml;t
+         nutzen zu k&ouml;nnen.</p>
+      <p>&Uuml;ber 50 Mitglieder wird die LNL alle 10 Sekunden in &bdquo;Paketen&ldquo; von 50 gesendet, wodurch eine
+         &Uuml;berlastung Ihres Mailservers vermieden wird.</p>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - Administrationshandbuch</span></p>
+   </div>
+</body>
+
 </html>

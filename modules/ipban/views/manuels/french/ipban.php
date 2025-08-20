@@ -5,16 +5,16 @@
     <meta charset="utf-8" />
     <title>Administration - IPban</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
 </head>
 
 <body>
     <div class="container">
         <nav class="my-3">
             <ol class="breadcrumb bg-transparent">
-                <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+                <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
                 <li class="breadcrumb-item">&nbsp;<a href="men_gen.html">Menu</a></li>
                 <li class="breadcrumb-item"><a href="men_syst.html">Syst&egrave;me</a></li>
                 <li class="breadcrumb-item active" aria-current="page">IPban</li>
@@ -27,7 +27,7 @@
             <span class="text-danger">Si X >= 5 alors cette adresse IP est bannie et l'acc&egrave;s sera refus&eacute; !</span>
         </p>
         <p>Vous pouvez aussi bannir des plages d'adresse IP (v4) sous cette forme :<br /> x.x.%|5 ou x.x.x.%|5</p>
-        <p class="border-top mt-5"><img class="me-3 mt-n4" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /><span class="text-body-secondary font-italic small float-end">NPDS - Manuel administration</span></p>
+        <p class="border-top mt-5"><img class="me-3 mt-n4" width="32" height="32" src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /><span class="text-body-secondary font-italic small float-end">NPDS - Manuel administration</span></p>
     </div>
 </body>
 

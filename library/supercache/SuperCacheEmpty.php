@@ -24,12 +24,12 @@ class SuperCacheEmpty
     /**
      * Indique si le cache est en cours de génération
      */
-    public bool $generatingOutput = false;
+    public bool $genereting_output = false;
 
     
-    public function __construct(bool $generatingOutput = false)
+    public function __construct(bool $genereting_output = false)
     {
-        $this->generatingOutput = $generatingOutput;
+        $this->genereting_output = $genereting_output;
     }
 
 }

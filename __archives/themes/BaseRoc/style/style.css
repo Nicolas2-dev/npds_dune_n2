@@ -304,7 +304,7 @@ max-width: 82%
 /************************************************************************
 Dimension du site    *jmd work
 *************************************************************************/
-body {background: url("../images/site-bg.jpg");}
+body {background: url("../assets/shared/site-bg.jpg");}
 
 #container {
    margin-left:auto;

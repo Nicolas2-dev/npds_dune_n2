@@ -648,7 +648,7 @@ function translate_pass1($phrase) {
    case "Nom :": $tmp="名字 :"; break;
    case "Nom d'auteur": $tmp="作者名字"; break;
    case "Nom de fichier de l'image": $tmp="图片文件名"; break;
-   case "Nom de l'image principale non obligatoire, la mettre dans images/reviews/": $tmp="封面图片名称，位于 images/reviews/。可选项。"; break;
+   case "Nom de l'image principale non obligatoire, la mettre dans assets/shared/reviews/": $tmp="封面图片名称，位于 assets/shared/reviews/。可选项。"; break;
    case "Nom de la catégorie : ": $tmp="分类名称 : "; break;
    case "Nom de la sous-catégorie : ": $tmp="次目录的名称 :"; break;
    case "Nom du destinataire": $tmp="朋友姓名"; break;

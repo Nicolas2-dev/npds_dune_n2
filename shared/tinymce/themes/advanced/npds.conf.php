@@ -106,7 +106,7 @@ if ($tiny_mce_theme=='full') {
             toolbar : 'bold italic underline strikethrough | pastetext pasteword | justifyleft justifycenter justifyright justifyfull | fontsizeselect | bullist numlist outdent indent forecolor backcolor | search link unlink code | image media npds_img npds_perso npds_mns npds_upl npds_metal ".$tinylangmenu."',\n";
 }
 $tmp.="
-            content_css : ' lib/font-awesome/css/all.min.css,lib/bootstrap/dist/css/bootstrap.min.css,editeur/tinymce/themes/advanced/npds.css',
+            content_css : ' assets/shared/font-awesome/css/all.min.css,assets/shared/bootstrap/dist/css/bootstrap.min.css,editeur/tinymce/themes/advanced/npds.css',
             extended_valid_elements : 'hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]',
             directionality: 'ltr',
 //            auto_focus: '".substr($tmp_Xzone,0,strpos($tmp_Xzone,",",0))."',

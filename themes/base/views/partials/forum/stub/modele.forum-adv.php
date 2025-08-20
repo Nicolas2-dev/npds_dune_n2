@@ -1,4 +1,4 @@
-<script language="javascript" src="lib/cookies.js"></script>
+<script language="javascript" src="assets/js/npds_cookies.js"></script>
 <script language="javascript">
 	//<![CDATA[
 	if (!getCookie('forum_cat'))

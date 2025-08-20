@@ -46,9 +46,9 @@ if ($rep) {
     ob_start();
         // landing page
         if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/views/partials/header/header_landing.php')) {
-            include 'themes/' . $rep . '/views/partials/header/header_landing.html';
+            include 'themes/' . $rep . '/views/partials/header/header_landing.php';
         } else {
-            include 'themes/' . $rep . '/views/partials/header/header.html';
+            include 'themes/' . $rep . '/views/partials/header/header.php';
         }
 
         $Xcontent = ob_get_contents();

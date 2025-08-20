@@ -3,11 +3,11 @@
     //<![CDATA[
     if (document.getElementById('corps') === null) {
         const scripts = [
-            'lib/bootstrap/dist/js/bootstrap.bundle.min.js',
-            'lib/bootstrap-table/dist/bootstrap-table.min.js',
-            'lib/bootstrap-table/dist/locale/bootstrap-table-fr-FR.min.js',
-            'lib/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js',
-            'lib/js/npds_adapt.js'
+            'assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js',
+            'assets/shared/bootstrap-table/dist/bootstrap-table.min.js',
+            'assets/shared/bootstrap-table/dist/locale/bootstrap-table-fr-FR.min.js',
+            'assets/shared/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js',
+            'assets/js/npds_adapt.js'
         ];
         scripts.forEach(src => {
             const script = document.createElement('script');

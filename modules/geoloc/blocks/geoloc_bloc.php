@@ -97,7 +97,7 @@ if (!defined('OL')) {
 $content .= '
     <script type="text/javascript">
     //<![CDATA[
-        if (!$("link[href=\'/lib/ol/ol.css\']").length)
+        if (!$("link[href=\'/assets/shared/ol/ol.css\']").length)
             $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
         $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/assets/css/geoloc_bloc.css\' type=\'text/css\' media=\'screen\'>");
         $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css\' type=\'text/css\' media=\'screen\'>");

@@ -29,7 +29,7 @@ function etape_0()
     $stage = 0;
 
     echo '<div class="row">
-        <div class="col-sm-3 align-self-center"><img class="img-fluid ms-2" src="install/images/carte_monde.png" alt="carte_monde" /></div>
+        <div class="col-sm-3 align-self-center"><img class="img-fluid ms-2" src="install/assets/shared/carte_monde.png" alt="carte_monde" /></div>
         <div class="col-sm-9 align-self-center">
         <div class="col-sm-12 mt-3">
         <form name="langue" method="post" action="install.php">

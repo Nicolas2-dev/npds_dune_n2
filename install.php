@@ -26,7 +26,7 @@ if (file_exists('IZ-Xinstall.ok')) {
 /*
 # Inclusions des lib et contrôle versions
 */
-include 'grab_globals.php';
+include 'bootstrap/grab_globals.php';
 include 'install/libraries/graphIZm.php';
 include 'install/libraries/lib-inc.php';
 include 'config/config.php';
@@ -337,12 +337,13 @@ if ($stage == 6) {
             require 'install/sql/build_sql-create.php';
 
             build_sql_create(sql_prefix(''));
-            Mysql_Connexion();
+
+            IMysql_Connexion();
 
             require 'install/sql/sql-create.php';
 
             // function creer par le fichier sql-create.php
-            write_database(); 
+            write_database();
 
             if ($stage6_ok == 1) {
                 $Xinst_log = date('d/m/y  H:j:s') . ' : Création tables de la base de donnée pour ' . $cms_name . "\n";
@@ -431,8 +432,9 @@ if ($stage == 7) {
                     echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'install.php?op=etape_7&stage=7&classe=0&langue=' . $langue . '\';' . "\n" . '//]]>' . "\n" . '</script>';
                 } else {
                     if ($stage7_ok == 1) {
-                        @unlink('modules/f-manager/users/root.conf.php');
-                        @copy('modules/f-manager/users/modele.admin.conf.php', 'modules/f-manager/users/' . strtolower($adminlogin) . '.conf.php');
+                        @unlink('modules/f-manager/storage/users/root.php');
+                        @copy('modules/f-manager/support/stub/admin.stub', 
+                              'modules/f-manager/storage/users/' . strtolower($adminlogin) . '.conf.php');
 
                         if ($qi == 1) {
                             Header('Location: install.php?stage=8&qi=1&langue=' . $langue);
@@ -578,7 +580,7 @@ if ($stage == 9) {
     switch ($op) {
 
         case 'write_ok':
-            $fp = fopen('IZ-Xinstall.ok', 'w');
+            $fp = fopen('storage/IZ-Xinstall.ok', 'w');
             fclose($fp);
 
             // La suppression de l'installation
@@ -602,12 +604,17 @@ if ($stage == 9) {
                 closedir($dir);
             }
 
-            if (file_exists('IZ-Xinstall.ok'))
+            if (file_exists('storage/IZ-Xinstall.ok')){
                 if (file_exists('install.php') or is_dir('install')) {
-                    icare_delete_Dir('install');
-                    @rmdir('install');
-                    @unlink('install.php');
+                    //icare_delete_Dir('install');
+                    //@rmdir('install');
+                    //@unlink('install.php');
+
+                    // provisoire le temp du dev !
+                    @rename('install', '__install');
+                    @rename('install.php', '__install.php');
                 }
+            }
 
             echo '<script type="text/javascript">' . "\n" . '//<![CDATA[' . "\n" . 'document.location.href=\'index.php\';' . "\n" . '//]]>' . "\n" . '</script>';
             break;

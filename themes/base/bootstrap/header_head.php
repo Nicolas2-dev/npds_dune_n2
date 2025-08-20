@@ -16,35 +16,35 @@ define('CITRON', 'tarteaucitron');
 // since NPDS Rev 16 this ressources are required dont remove
 
 // web font V5
-echo '<link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />';
+echo '<link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />';
 
 // framework
-echo '<link id="bsth" rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />';
+echo '<link id="bsth" rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />';
 
 // developpement
-echo '<link id="bsthxtra" rel="stylesheet" href="lib/bootstrap/dist/css/extra.css" />';
+echo '<link id="bsthxtra" rel="stylesheet" href="assets/shared/bootstrap/dist/css/extra.css" />';
 
 // form control
-echo '<link rel="stylesheet" href="lib/formvalidation/dist/css/formValidation.min.css" />';
+echo '<link rel="stylesheet" href="assets/shared/formvalidation/dist/css/formValidation.min.css" />';
 
 //interface
-echo '<link rel="stylesheet" href="lib/jquery-ui.min.css" />';
+echo '<link rel="stylesheet" href="assets/shared/jquery/jquery-ui.min.css" />';
 
 // table
-echo '<link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css" />';
+echo '<link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />';
 
 //
-echo '<link rel="stylesheet" href="lib/css/prism.css" />';
+echo '<link rel="stylesheet" href="assets/shared/prism/prism.css" />';
 
 //
-echo '<script type="text/javascript" src="lib/js/jquery.min.js"></script>';
+echo '<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>';
 
 if (defined('CITRON')) {
     if (function_exists('language_iso')) {
         //RGPD tool
         echo '
         <script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
-        <script type="text/javascript" src="lib/tarteaucitron/tarteaucitron.min.js"></script>
-        <script type="text/javascript" src="lib/js/npds_tarteaucitron.js"></script>';
+        <script type="text/javascript" src="shared/tarteaucitron/tarteaucitron.min.js"></script>
+        <script type="text/javascript" src="assets/js/npds_tarteaucitron.js"></script>';
     }
 }

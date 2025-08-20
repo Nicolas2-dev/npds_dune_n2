@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh">
-   <head>
-      <meta charset="utf-8" />
-      <title>管理 - 下载</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"> <a href="men_gen.html">菜单</a></li>
-               <li class="breadcrumb-item"><a href="men_contenu.html">内容</a></li>
-               <li class="breadcrumb-item active" aria-current="page" >下载</li>
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3>管理 - 下载</h3>
 
-         <p>此功能允许您管理站点的“下载”应用程序。由于该功能经常使用，请特别注意输入的元素。</p>
-         <p>显示当前可供下载的文件列表，其中包含所有可用信息（数量、计数器、加载 URL、文件名等）以及允许修改和/或删除文件的链接。</ p>
+<head>
+   <meta charset="utf-8" />
+   <title>管理 - 下载</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
 
-         <h4>编辑下载</h4>
-         <p>单击<i>编辑</i>链接即可查看和编辑下载信息。 要完成，请点击<i>保存</i>按钮。<br />
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"> <a href="men_gen.html">菜单</a></li>
+            <li class="breadcrumb-item"><a href="men_contenu.html">内容</a></li>
+            <li class="breadcrumb-item active" aria-current="page">下载</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3>管理 - 下载</h3>
+
+      <p>此功能允许您管理站点的“下载”应用程序。由于该功能经常使用，请特别注意输入的元素。</p>
+      <p>显示当前可供下载的文件列表，其中包含所有可用信息（数量、计数器、加载 URL、文件名等）以及允许修改和/或删除文件的链接。</ p>
+
+      <h4>编辑下载</h4>
+      <p>单击<i>编辑</i>链接即可查看和编辑下载信息。 要完成，请点击<i>保存</i>按钮。<br />
          您可以更改日期（刷新）并更改此屏幕上的权限。<br />
          检查你的语法以及加载 URL！</p>
 
-         <h4>删除文件</h4>
-         <p>点击您要删除的下载的<i>删除</i>链接。 一条确认消息要求您验证您的请求。</p>
-         <h4>添加下载</h4>
-         <p>
-            <ul>
-               <li>输入 URL（您网站的外部或内部）或点击“浏览”。<br />
-               通过“浏览”，您可以在新窗口中浏览您的网站，而“复制”则可以直接更新表单！</li>
-               <li>计数器可以用一个值初始化（不要夸张......）。</li>
-               <li>为了让 NPDS 自动计算文件大小，请勿在“文件大小”字段中输入任何内容</li>
-               <li>版本、大小、所有者网页链接、所有者姓名均为可选字段。</li>
-               <li>类别、描述和权限为必填字段。</li>
-            </ul>
-         </p>
-         <p>
-            <strong>注意：</strong>
-            <ul>
-               <li>要添加类别，只需在字段中输入新术语即可。</li>
-               <li>请注意权限，匿名允许任何用户下载。</li>
-            </ul>
-         </p>
-         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
-      </div>
-   </body>
+      <h4>删除文件</h4>
+      <p>点击您要删除的下载的<i>删除</i>链接。 一条确认消息要求您验证您的请求。</p>
+      <h4>添加下载</h4>
+      <p>
+      <ul>
+         <li>输入 URL（您网站的外部或内部）或点击“浏览”。<br />
+            通过“浏览”，您可以在新窗口中浏览您的网站，而“复制”则可以直接更新表单！</li>
+         <li>计数器可以用一个值初始化（不要夸张......）。</li>
+         <li>为了让 NPDS 自动计算文件大小，请勿在“文件大小”字段中输入任何内容</li>
+         <li>版本、大小、所有者网页链接、所有者姓名均为可选字段。</li>
+         <li>类别、描述和权限为必填字段。</li>
+      </ul>
+      </p>
+      <p>
+         <strong>注意：</strong>
+      <ul>
+         <li>要添加类别，只需在字段中输入新术语即可。</li>
+         <li>请注意权限，匿名允许任何用户下载。</li>
+      </ul>
+      </p>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
+   </div>
+</body>
+
 </html>

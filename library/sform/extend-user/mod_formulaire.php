@@ -89,11 +89,11 @@ if ($smilies) {
     } else {
         global $theme;
 
-        $direktori = 'images/forum/avatar';
+        $direktori = 'assets/shared/forum/avatar';
 
         if (function_exists('theme_image')) {
             if (theme_image('forum/avatar/blank.gif')) {
-                $direktori = 'themes/' . $theme . '/images/forum/avatar';
+                $direktori = 'themes/' . $theme . '/assets/shared/forum/avatar';
             }
         }
 

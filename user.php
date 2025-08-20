@@ -133,7 +133,7 @@ function showimage()
     if ($ibid = theme_image('forum/avatar/blank.gif')) {
         $imgtmp = substr($ibid, 0, strrpos($ibid, '/') + 1);
     } else {
-        $imgtmp = 'images/forum/avatar/';
+        $imgtmp = 'assets/shared/forum/avatar/';
     }
 
     echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
@@ -476,11 +476,11 @@ function userinfo($uname)
         $direktori = '';
     } else {
         global $theme;
-        $direktori = 'images/forum/avatar/';
+        $direktori = 'assets/shared/forum/avatar/';
 
         if (function_exists('theme_image')) {
             if (theme_image('forum/avatar/blank.gif')) {
-                $direktori = 'themes/'. $theme .'/images/forum/avatar/';
+                $direktori = 'themes/'. $theme .'/assets/shared/forum/avatar/';
             }
         }
     }
@@ -609,7 +609,7 @@ function userinfo($uname)
             if (!defined('OL')) {
                 define('OL', 'ol');
 
-                $content .= '<script type="text/javascript" src="' . $nuke_url . '/lib/ol/ol.js"></script>';
+                $content .= '<script type="text/javascript" src="' . $nuke_url . '/assets/shared/ol/ol.js"></script>';
             }
 
             $content .= '<div class="col-md-6">
@@ -618,10 +618,10 @@ function userinfo($uname)
                 </div>
                 <script type="module">
                 //<![CDATA[
-                    if (!$("link[href=\'/lib/ol/ol.css\']").length)
-                        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/lib/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
+                    if (!$("link[href=\'/assets/shared/ol/ol.css\']").length)
+                        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
                     if (!$("link[href=\'/modules/geoloc/include/css/geoloc_style.css\']").length)
-                        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/include/css/geoloc_style.css\' type=\'text/css\' media=\'screen\'>");
+                        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/assets/css/geoloc_style.css\' type=\'text/css\' media=\'screen\'>");
                 $(function(){
                 var 
                     iconFeature = new ol.Feature({

@@ -17,6 +17,8 @@
 /* variables from them                                                  */
 /************************************************************************/
 
+require __DIR__ . '/../vendor/autoload.php';
+
 if (stristr($_SERVER['PHP_SELF'], 'grab_globals.php') and strlen($_SERVER['QUERY_STRING']) != '') {
     include 'admin/die.php';
 }
@@ -33,10 +35,14 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     // error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
     // standard ERROR report
-    error_reporting(E_ERROR | E_WARNING | E_PARSE);
+    //error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
     // report toutes les erreurs.
     // error_reporting(E_ALL);
+
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
 
     function getip()
     {
@@ -121,7 +127,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     function url_protect($arr, $key)
     {
         // include url_protect Bad Words and create the filter function
-        include 'modules/include/url_protect.php';
+        include 'config/url_protect.php';
 
         // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
         $arr = rawurldecode($arr);

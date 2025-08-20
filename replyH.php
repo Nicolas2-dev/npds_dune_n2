@@ -306,7 +306,7 @@ if ($submitS) {
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }

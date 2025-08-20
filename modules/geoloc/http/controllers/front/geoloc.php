@@ -302,7 +302,7 @@ while ($row = sql_fetch_array($result)) {
     if (preg_match('#\/#', $user_avatar) === 1) {
         $the_av_ch = $user_avatar;
     } else {
-        $the_av_ch = 'images/forum/avatar/' . $user_avatar;
+        $the_av_ch = 'assets/shared/forum/avatar/' . $user_avatar;
     }
 }
 //<== georeferencement utilisateur
@@ -357,7 +357,7 @@ while ($row = sql_fetch_array($result)) {
     //determine si c un avatar perso ou standard et fixe l'url de l'image
     $av_ch = preg_match('#\/#', $users_user_avatar) === 1 ?
         $users_user_avatar :
-        'images/forum/avatar/' . $users_user_avatar;
+        'assets/shared/forum/avatar/' . $users_user_avatar;
 
     $socialnetworks = array();
     $res_id = array();
@@ -549,7 +549,7 @@ while ($row = sql_fetch_array($membre)) {
     if (preg_match('#\/#', $us_user_avatar) === 1) {
         $av_ch = $us_user_avatar;
     } else {
-        $av_ch = 'images/forum/avatar/' . $us_user_avatar;
+        $av_ch = 'assets/shared/forum/avatar/' . $us_user_avatar;
     }
 
     //==> les membres géoréferencés
@@ -816,7 +816,7 @@ if (!defined('OL')) {
     define('OL', 'ol');
 
     $ecr_scr = '
-    <script type="text/javascript" src="' . $nuke_url . '/lib/ol/ol.js"></script>';
+    <script type="text/javascript" src="' . $nuke_url . '/assets/shared/ol/ol.js"></script>';
 }
 
 $ecr_scr .= '
@@ -825,12 +825,12 @@ $ecr_scr .= '
     var map;
     var dd = new Date().toISOString().split("T");
 
-    if (!$("link[href=\'/lib/ol/ol.css\']").length)
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/lib/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
+    if (!$("link[href=\'/assets/shared/ol/ol.css\']").length)
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
     if (!$("link[href=\'modules/geoloc/include/css/geoloc_style.css\']").length)
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/include/css/geoloc_style.css\' type=\'text/css\' media=\'screen\'>");
-    if (!$("link[href=\'lib/bootstrap/dist/css/bootstrap-icons.css\']").length)
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/lib/bootstrap/dist/css/bootstrap-icons.css\' type=\'text/css\' media=\'screen\'>");
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/assets/css/geoloc_style.css\' type=\'text/css\' media=\'screen\'>");
+    if (!$("link[href=\'assets/shared/bootstrap/dist/css/bootstrap-icons.css\']").length)
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css\' type=\'text/css\' media=\'screen\'>");
 
     $(function () {
     //==>  affichage des coordonnées...

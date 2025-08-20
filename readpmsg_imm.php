@@ -146,7 +146,7 @@ function show_imm($op)
                     if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'images/forum/subject/' . $myrow['msg_image'];
+                        $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
                     }
 
                     echo '<img class="n-smil float-end" src="' . $imgtmp . '" alt="icon-message" />';
@@ -192,8 +192,8 @@ function show_imm($op)
     }
 
     echo '</div>
-            <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+            <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script type="text/javascript" src="assets/js/npds_adapt.js"></script>
         </body>
     </html>';
 }

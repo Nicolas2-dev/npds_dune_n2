@@ -236,7 +236,7 @@ if (isset($submitS)) {
     include 'header.php';
 
     if ($allow_bbcode) {
-        include 'lib/formhelp.java.php';
+        include 'library/formhelp.java.php';
     }
 
     $userX = base64_decode($user);
@@ -253,7 +253,7 @@ if (isset($submitS)) {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
-                        $imgava = 'images/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgava = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
             }
@@ -261,7 +261,7 @@ if (isset($submitS)) {
             if ($ibid = theme_image('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
-                $imgava = 'images/forum/avatar/blank.gif';
+                $imgava = 'assets/shared/forum/avatar/blank.gif';
             }
         }
     }
@@ -285,7 +285,7 @@ if (isset($submitS)) {
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }

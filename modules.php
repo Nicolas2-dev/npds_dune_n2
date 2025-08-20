@@ -13,7 +13,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-include 'grab_globals.php';
+include 'bootstrap/grab_globals.php';
 
 function Access_Error()
 {

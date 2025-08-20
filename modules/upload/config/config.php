@@ -67,7 +67,7 @@ if (isset($user)) {
 pour une css dans le theme courant utiliser :
 $url_upload_css = $racine."/themes/".$tmp_theme."/style/style.css";
 */
-$url_upload_css = '/lib/bootstrap/dist/css/bootstrap.min.css';
+$url_upload_css = '/assets/shared/bootstrap/dist/css/bootstrap.min.css';
 
 
 /* -------------- DIVERS -------------- */

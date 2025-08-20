@@ -1,52 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh">
-   <head>
-      <meta charset="utf-8" />
-         <title>管理 - 管理员/作者</title>
-         <meta name="viewport" content="width=device-width, initial-scale=1" />
-         <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-         <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-               <ol class="breadcrumb bg-transparent">
-                  <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" /></a></li>
-                  <li class="breadcrumb-item">&nbsp;<a href="men_gen.html">菜单</a></li>
-                  <li class="breadcrumb-item"><a href="men_utilisateurs.html">用户</a></li>
-                  <li class="breadcrumb-item active" aria-current="page" >管理员/作者</li>
-               </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3 class="mb-3">管理 - 管理员/作者</h3>
-         <p>使用此功能，您可以在站点中添加、修改和删除管理员。</p>
 
-          <h4>添加新管理员</h4>
-          <p>填写表格。 必填字段标有 *（昵称、姓氏、电子邮件、密码）。<br />
-          选择您希望委托给该管理员的职能。<br />
-          单击<i>添加管理员</i>按钮完成。</p>
+<head>
+   <meta charset="utf-8" />
+   <title>管理 - 管理员/作者</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
 
-         <h4>编辑管理员</h4>
-         <p>点击您要修改的管理员的<i>编辑信息</i>链接。 更改必要的信息，然后单击<i>更新管理员。</i></p>
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" /></a></li>
+            <li class="breadcrumb-item">&nbsp;<a href="men_gen.html">菜单</a></li>
+            <li class="breadcrumb-item"><a href="men_utilisateurs.html">用户</a></li>
+            <li class="breadcrumb-item active" aria-current="page">管理员/作者</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3 class="mb-3">管理 - 管理员/作者</h3>
+      <p>使用此功能，您可以在站点中添加、修改和删除管理员。</p>
 
-         <h4>删除管理员</h4>
-         <p>点击<i>删除管理员</i>链接并验证确认消息。</p>
-         <p><b>注意：</b> NPDS 需要至少一名管理员才能运行。</p>
+      <h4>添加新管理员</h4>
+      <p>填写表格。 必填字段标有 *（昵称、姓氏、电子邮件、密码）。<br />
+         选择您希望委托给该管理员的职能。<br />
+         单击<i>添加管理员</i>按钮完成。</p>
 
-         <div class="alert alert-info">
-            <h5>了解</h5>
-            <p>如果您不小心删除了所有管理员，或者您丢失了唯一管理员帐户的密码，请通过您的 mysql 管理器（通常是 PhpMyAdmin）将自己定位在authors表上：
-               <ul>
-                  <li>如果存在“aid”字段设置为 Root 的条目，请将其删除</li>
-                  <li>执行以下查询：<br />
-                  INSERT INTO `authors`（`aid`, `name`, `url`, `email`, `pwd`, `hashkey`, `counter`, `radminsuper`）VALUES
-                  ('Root', 'Root', '', '', 'd.8V.L9nSMMvE', 0, 0, 1);<br />
-                  这将创建一个管理员帐户，其用户名是 Root，密码是 Password。</li>
-               </ul>
-            </p>
-         </div>
-         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
+      <h4>编辑管理员</h4>
+      <p>点击您要修改的管理员的<i>编辑信息</i>链接。 更改必要的信息，然后单击<i>更新管理员。</i></p>
+
+      <h4>删除管理员</h4>
+      <p>点击<i>删除管理员</i>链接并验证确认消息。</p>
+      <p><b>注意：</b> NPDS 需要至少一名管理员才能运行。</p>
+
+      <div class="alert alert-info">
+         <h5>了解</h5>
+         <p>如果您不小心删除了所有管理员，或者您丢失了唯一管理员帐户的密码，请通过您的 mysql 管理器（通常是 PhpMyAdmin）将自己定位在authors表上：
+         <ul>
+            <li>如果存在“aid”字段设置为 Root 的条目，请将其删除</li>
+            <li>执行以下查询：<br />
+               INSERT INTO `authors`（`aid`, `name`, `url`, `email`, `pwd`, `hashkey`, `counter`, `radminsuper`）VALUES
+               ('Root', 'Root', '', '', 'd.8V.L9nSMMvE', 0, 0, 1);<br />
+               这将创建一个管理员帐户，其用户名是 Root，密码是 Password。</li>
+         </ul>
+         </p>
       </div>
-   </body>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
+   </div>
+</body>
+
 </html>

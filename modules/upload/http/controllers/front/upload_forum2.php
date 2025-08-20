@@ -81,9 +81,9 @@ if ($userdata[9] != '') {
 
 $skin = $skin == '' ? 'default' : $skin;
 
-echo '<link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />
-<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-icons.css" />
-<link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css" />';
+echo '<link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
+<link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />';
 
 echo import_css($tmp_theme, $language, $skin, '', '');
 

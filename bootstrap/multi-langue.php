@@ -20,10 +20,11 @@ if (isset($module_mark)) {
    $local_path = '../../';
 }
 
-if (file_exists($local_path . 'cache/language.php')) {
-   include($local_path . 'cache/language.php');
+if (file_exists($local_path . 'storage/locale/language.php')) {
+   include($local_path . 'storage/locale/language.php');
 } else {
-   include($local_path . 'manuels/list.php');
+   //include($local_path . 'manuels/list.php');
+   $languageslist = language_list();
 }
 
 if (isset($choice_user_language)) {

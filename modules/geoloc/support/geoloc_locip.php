@@ -40,7 +40,7 @@ function localiser_ip($iptoshow)
             </div>
             <script type="module">
             //<![CDATA[
-                if (!$("link[href=\'/lib/ol/ol.css\']").length)
+                if (!$("link[href=\'/assets/shared/ol/ol.css\']").length)
                     $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
                 $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'modules/geoloc/assets/css/geoloc_locip.css\' type=\'text/css\' media=\'screen\'>");
                 if (typeof ol=="undefined")

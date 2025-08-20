@@ -26,8 +26,8 @@ function MM_img($ibid)
     if ($ibidX) {
         $ret = '<img src="' . $ibidX . '" alt="smiley" loading="lazy" />';
     } else {
-        if (@file_exists('images/'. $ibid)) {
-            $ret = '<img src="images/' . $ibid . '" alt="smiley" loading="lazy" />';
+        if (@file_exists('assets/shared/'. $ibid)) {
+            $ret = '<img src="assets/shared/' . $ibid . '" alt="smiley" loading="lazy" />';
         } else {
             $ret = false;
         }

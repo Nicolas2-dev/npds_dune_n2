@@ -173,7 +173,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             } else {
                 $imgtmp = ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) 
                     ? $ibid 
-                    : 'images/forum/avatar/' . $modera['user_avatar'];
+                    : 'assets/shared/forum/avatar/' . $modera['user_avatar'];
             }
         }
 
@@ -277,7 +277,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/avatar/' . $modera['user_avatar'];
+                    $imgtmp = 'assets/shared/forum/avatar/' . $modera['user_avatar'];
                 }
             }
         }
@@ -312,13 +312,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     if ($ibid = theme_image('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = 'images/forum/icons/red_folder.gif';
+        $imgtmpR = 'assets/shared/forum/icons/red_folder.gif';
     }
 
     if ($ibid = theme_image('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
-        $imgtmpP = 'images/forum/icons/posticon.gif';
+        $imgtmpP = 'assets/shared/forum/icons/posticon.gif';
     }
 
     if ($myrow = sql_fetch_assoc($result)) {
@@ -400,7 +400,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     if ($ibid = theme_image('forum/subject/'. $image_subject)) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'images/forum/subject/'. $image_subject;
+                        $imgtmp = 'assets/shared/forum/subject/'. $image_subject;
                     }
 
                     echo '<td><img class="n-smil" src="' . $imgtmp . '" alt="" /></td>';

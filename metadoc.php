@@ -123,6 +123,6 @@ echo '<tr><td colspan="3" >Meta-lang pour <a href="http://www.npds.org" >NPDS</a
     </tbody>
 </table>
 </div>
-<script type="text/javascript" src="lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="lib/js/npds_adapt.js"></script>';
+<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/npds_adapt.js"></script>';

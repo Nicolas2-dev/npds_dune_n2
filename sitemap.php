@@ -206,7 +206,7 @@ function sitemap_create($PAGES, $filename)
 
 /* -----------------------------------------*/
 // http://www.example.com/cache/sitemap.xml 
-$filename = 'cache/sitemap.xml';
+$filename = 'storage/map/sitemap.xml';
 
 // delais = 6 heures (21600 secondes)
 $refresh = 21600;

@@ -306,11 +306,11 @@ if (($op != '') and ($op)) {
                     $direktori = '';
                 } else {
                     global $theme;
-                    $direktori = 'images/forum/avatar/';
+                    $direktori = 'assets/shared/forum/avatar/';
 
                     if (function_exists('theme_image')) {
                         if (theme_image('forum/avatar/blank.gif')) {
-                            $direktori = 'themes/' . $theme . '/images/forum/avatar/';
+                            $direktori = 'themes/' . $theme . '/assets/shared/forum/avatar/';
                         }
                     }
                 }
@@ -366,9 +366,9 @@ if ($affich) {
 
         include 'storage/meta/meta.php';
 
-        echo '<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-        <script type="text/javascript" src="lib/js/jquery.min.js"></script>
-        <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
+        echo '<link rel="shortcut icon" href="assets/shared/favicon.ico" type="image/x-icon" />
+        <script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>';
 
         echo '<style type="text/css">';
 
@@ -378,8 +378,8 @@ if ($affich) {
 
         if (defined('CITRON')) {
             echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
-            <script type="text/javascript" src="lib/tarteaucitron/tarteaucitron.min.js"></script>
-            <script type="text/javascript" src="lib/js/npds_tarteaucitron.js"></script>';
+            <script type="text/javascript" src="shared/tarteaucitron/tarteaucitron.min.js"></script>
+            <script type="text/javascript" src="assets/shared/js/npds_tarteaucitron.js"></script>';
         }
 
         $Xcontent = '</head>
@@ -501,10 +501,10 @@ if ($affich) {
         }
 
         echo (defined('CITRON'))
-            ? '<script type="text/javascript" src="lib/js/npds_tarteaucitron_service.js"></script>'
+            ? '<script type="text/javascript" src="assets/shared/js/npds_tarteaucitron_service.js"></script>'
             : '';
 
-        echo '<script type="text/javascript" src="lib/js/npds_adapt.js"></script>
+        echo '<script type="text/javascript" src="assets/shared/js/npds_adapt.js"></script>
             </body>
          </html>';
     }

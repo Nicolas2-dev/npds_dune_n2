@@ -825,7 +825,7 @@ function adminMain($deja_affiches)
                 echo $title . ' <i>(archive)</i>';
             } else {
                 if ($affiche) {
-                    echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="images/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
+                    echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/shared/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
                     if ($ihome == 1) {
                         echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . aff_langue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
                     } else {

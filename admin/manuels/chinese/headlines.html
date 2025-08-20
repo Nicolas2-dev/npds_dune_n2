@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html lang="zh">
-   <head>
-      <meta charset="utf-8" />
-      <title>管理 - 信息来源（对大标题）</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"> <a href="men_gen.html">菜单</a></li>
-               <li class="breadcrumb-item"><a href="men_contenu.html">内容</a></li>
-               <li class="breadcrumb-item active" aria-current="page" >信息来源（对大标题）</li>
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3>管理 - 信息来源（对大标题)</h3>
-         <p>通过此功能，您可以激活或停用来自其他站点的信息通道。<br />
+
+<head>
+   <meta charset="utf-8" />
+   <title>管理 - 信息来源（对大标题）</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
+
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"> <a href="men_gen.html">菜单</a></li>
+            <li class="breadcrumb-item"><a href="men_contenu.html">内容</a></li>
+            <li class="breadcrumb-item active" aria-current="page">信息来源（对大标题）</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3>管理 - 信息来源（对大标题)</h3>
+      <p>通过此功能，您可以激活或停用来自其他站点的信息通道。<br />
          通道是 RDF/XML 文件，而不是文本文件。<br />
          但要小心，启用信息通道可能会减慢服务器的速度。<br />
          所有通道每小时刷新一次，不希望更改该值，因为它会消耗带宽。</p>
 
-         <h4>添加信息渠道</h4>
-         <p>填写必要的字段（标题、URL、RDF/XML URL、状态）。<br />
+      <h4>添加信息渠道</h4>
+      <p>填写必要的字段（标题、URL、RDF/XML URL、状态）。<br />
          如果您声明一个活动频道，则会出现一个包含所选信息的新频道。 不显示非活动频道。</p>
 
-         <h4>更改频道状态</h4>
-         <p>您只需点击<i>编辑</i>链接并选择下一页上的状态
+      <h4>更改频道状态</h4>
+      <p>您只需点击<i>编辑</i>链接并选择下一页上的状态
          想要的。</p>
-         <p>要删除频道，您只需点击<i>删除</i>链接即可。</p>
-         <p>您的站点可能位于<b>代理服务器</b>后面。 在这种情况下，请配置 proxy.conf.php 文件（位于站点的根目录中）以允许访问一个（或多个）信息通道。</p>
+      <p>要删除频道，您只需点击<i>删除</i>链接即可。</p>
+      <p>您的站点可能位于<b>代理服务器</b>后面。 在这种情况下，请配置 proxy.conf.php 文件（位于站点的根目录中）以允许访问一个（或多个）信息通道。</p>
 
-         <h4>BLOCKS集成通道的配置</h4>
-         <p>在块管理器（左或右）中，您可以集成：
-            <ul>
-               <li>function#headlines<br />
-                => 在这种情况下，定义为活动的所有通道将依次显示</li>
-               <li>函数#headlines<br />
-                  params#$ID_du_canal<br />
-               => 在这种情况下，仅显示频道 ID“ID_du_canal”。 您可以根据需要定义任意数量的块...</li>
-            </ul>
-          </p>
-          <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
-      </div>
-   </body>
+      <h4>BLOCKS集成通道的配置</h4>
+      <p>在块管理器（左或右）中，您可以集成：
+      <ul>
+         <li>function#headlines<br />
+            => 在这种情况下，定义为活动的所有通道将依次显示</li>
+         <li>函数#headlines<br />
+            params#$ID_du_canal<br />
+            => 在这种情况下，仅显示频道 ID“ID_du_canal”。 您可以根据需要定义任意数量的块...</li>
+      </ul>
+      </p>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - 管理手册</span></p>
+   </div>
+</body>
+
 </html>

@@ -49,13 +49,13 @@ class File
                 if ($ibid = theme_image('upload/file_types/' . $this->Extention . '.gif')) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/upload/file_types/' . $this->Extention . '.gif';
+                    $imgtmp = 'assets/shared/upload/file_types/' . $this->Extention . '.gif';
                 }
 
                 if (@file_exists($imgtmp)) {
                     return '<img src="' . $imgtmp . '" />';
                 } else {
-                    return '<img src="images/upload/file_types/unknown.gif" />';
+                    return '<img src="assets/shared/upload/file_types/unknown.gif" />';
                 }
                 break;
 

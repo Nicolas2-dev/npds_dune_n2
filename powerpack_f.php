@@ -266,7 +266,7 @@ function instant_members_message()
                     if ($ibidR = theme_image('forum/rank/' . $rank . '.gif')) {
                         $imgtmpA = $ibidR;
                     } else {
-                        $imgtmpA = 'images/forum/rank/' . $rank . '.gif';
+                        $imgtmpA = 'assets/shared/forum/rank/' . $rank . '.gif';
                     }
 
                     $messR = 'rank' . $rank;

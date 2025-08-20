@@ -299,7 +299,7 @@ Corrections :
 
 - bug (Rev13) état de l'icône témoin de connection ne fonctionnait pas dans les blocs groupes
 - bug (Rev13)  headlines  (la lib feed creator avait changé mais pas la construction du bloc headline) 
-  lib/feedcreator.class.php (corrections conformité dans la lib ATOM) 
+  library/feed (corrections conformité dans la lib ATOM) 
  dans backend.php 
  dans admin/headlines.php (remove la suppression des espace avant entrée dans bd) 
  dans mainfile.php (fonction headline) 

@@ -290,9 +290,9 @@ function smilie($message)
     global $theme;
 
     if ($ibid = theme_image('forum/smilies/smilies.php')) {
-        $imgtmp = 'themes/' . $theme . '/images/forum/smilies/';
+        $imgtmp = 'themes/' . $theme . '/assets/shared/forum/smilies/';
     } else {
-        $imgtmp = 'images/forum/smilies/';
+        $imgtmp = 'assets/shared/forum/smilies/';
     }
 
     if (file_exists($imgtmp . 'smilies.php')) {
@@ -311,9 +311,9 @@ function smilie($message)
     }
 
     if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
-        $imgtmp = 'themes/' . $theme . '/images/forum/smilies/more/';
+        $imgtmp = 'themes/' . $theme . '/assets/shared/forum/smilies/more/';
     } else {
-        $imgtmp = 'images/forum/smilies/more/';
+        $imgtmp = 'assets/shared/forum/smilies/more/';
     }
 
     if (file_exists($imgtmp . 'smilies.php')) {
@@ -333,9 +333,9 @@ function smile($message)
     global $theme;
 
     if ($ibid = theme_image('forum/smilies/smilies.php')) {
-        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/';
+        $imgtmp = 'themes/'. $theme .'/assets/shared/forum/smilies/';
     } else {
-        $imgtmp = 'images/forum/smilies/';
+        $imgtmp = 'assets/shared/forum/smilies/';
     }
 
     if (file_exists($imgtmp . 'smilies.php')) {
@@ -347,9 +347,9 @@ function smile($message)
     }
 
     if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
-        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/more/';
+        $imgtmp = 'themes/'. $theme .'/assets/shared/forum/smilies/more/';
     } else {
-        $imgtmp = 'images/forum/smilies/more/';
+        $imgtmp = 'assets/shared/forum/smilies/more/';
     }
 
     if (file_exists($imgtmp . 'smilies.php')) {
@@ -445,9 +445,9 @@ function putitems_more()
     echo '<p align="center">' . translate('Cliquez pour insérer des émoticons dans votre message') . '</p>';
 
     if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
-        $imgtmp = 'themes/'. $theme .'/images/forum/smilies/more/';
+        $imgtmp = 'themes/'. $theme .'/assets/shared/forum/smilies/more/';
     } else {
-        $imgtmp = 'images/forum/smilies/more/';
+        $imgtmp = 'assets/shared/forum/smilies/more/';
     }
 
     if (file_exists($imgtmp . 'smilies.php')) {
@@ -549,9 +549,9 @@ function emotion_add($image_subject)
     global $theme;
 
     if ($ibid = theme_image('forum/subject/index.html')) {
-        $imgtmp = 'themes/'. $theme .'/images/forum/subject';
+        $imgtmp = 'themes/'. $theme .'/assets/shared/forum/subject';
     } else {
-        $imgtmp = 'images/forum/subject';
+        $imgtmp = 'assets/shared/forum/subject';
     }
 
     $handle = opendir($imgtmp);
@@ -642,7 +642,7 @@ function member_qualif($poster, $posts, $rank)
     if ($ibid = theme_image('forum/rank/post.gif')) {
         $imgtmpP = $ibid;
     } else {
-        $imgtmpP = 'images/forum/rank/post.gif';
+        $imgtmpP = 'assets/shared/forum/rank/post.gif';
     }
 
     $tmp = '<img class="n-smil" src="' . $imgtmpP . '" alt="" loading="lazy" />' . $posts . '&nbsp;';
@@ -677,7 +677,7 @@ function member_qualif($poster, $posts, $rank)
             if ($ibid = theme_image('forum/rank/' . $rank . '.gif') or $ibid = theme_image('forum/rank/' . $rank . '.png')) {
                 $imgtmpA = $ibid;
             } else {
-                $imgtmpA = 'images/forum/rank/' . $rank . '.png';
+                $imgtmpA = 'assets/shared/forum/rank/' . $rank . '.png';
             }
 
             $rank = 'rank' . $rank;
@@ -999,13 +999,13 @@ function forum($rowQ1)
     if ($ibid = theme_image('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = 'images/forum/icons/red_folder.gif';
+        $imgtmpR = 'assets/shared/forum/icons/red_folder.gif';
     }
 
     if ($ibid = theme_image('forum/icons/folder.gif')) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = 'images/forum/icons/folder.gif';
+        $imgtmp = 'assets/shared/forum/icons/folder.gif';
     }
 
     // preparation de la gestion des folders
@@ -1257,13 +1257,13 @@ function sub_forum_folder($forum)
     if ($ibid = theme_image('forum/icons/red_sub_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
-        $imgtmpR = 'images/forum/icons/red_sub_folder.gif';
+        $imgtmpR = 'assets/shared/forum/icons/red_sub_folder.gif';
     }
 
     if ($ibid = theme_image('forum/icons/sub_folder.gif')) {
         $imgtmp = $ibid;
     } else {
-        $imgtmp = 'images/forum/icons/sub_folder.gif';
+        $imgtmp = 'assets/shared/forum/icons/sub_folder.gif';
     }
 
     if (($totalT - $totalF) > 0) {

@@ -72,7 +72,7 @@
 // $PAGES['index.php']['js']="javascript"; OU $PAGES['index.php']['js']=array("javascript","http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js","... ...");
 //   => Permet de charger un ou plusieurs javascript spÈcifiques (aussi bien local que distant)
 //
-//   => Le JS LOCAL DOIT IMPERATIVEMENT se trouver dans le répertoire js de votre thème (theme/votre_theme/js) OU LE CHEMIN doit-être explicite depuis la racine du site("lib/yui/build/...")
+//   => Le JS LOCAL DOIT IMPERATIVEMENT se trouver dans le répertoire js de votre thème (theme/votre_theme/js) OU LE CHEMIN doit-être explicite depuis la racine du site("assets/shared/yui/build/...")
 //   => Le JS DISTANT DOIT IMPERATIVEMENT se charger via http:// et l'URL ne doit pas contenir d'erreur
 
 /// --- SEO ---///
@@ -124,7 +124,7 @@ $PAGES['user.php']['blocs'] = "0";
 $PAGES['user.php']['run'] = "yes";
 $PAGES['user.php']['TinyMce'] = 1;
 $PAGES['user.php']['TinyMce-theme'] = "short";
-$PAGES['user.php']['css'] = array($nuke_url . "lib/ol/ol.css+", $nuke_url . "lib/leaflet/leaflet.css+");
+$PAGES['user.php']['css'] = array($nuke_url . "assets/shared/ol/ol.css+", $nuke_url . "assets/shared/leaflet/leaflet.css+");
 
 
 $PAGES['memberslist.php']['title'] = "[french]Liste des membres[/french][english]Members list[/english][spanish]Lista de Miembros[/spanish][german]Mitglieder[/german][chinese]&#x4F1A;&#x5458;&#x5217;&#x8868;[/chinese]+";
@@ -187,7 +187,7 @@ $PAGES['admin.php']['blocs'] = "0";
 $PAGES['admin.php']['run'] = "yes";
 $PAGES['admin.php']['TinyMce'] = 1;
 $PAGES['admin.php']['TinyMce-theme'] = "full";
-$PAGES['admin.php']['css'] = array("admin.css+", $nuke_url . "lib/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css+", $nuke_url . "lib/ol/ol.css+");
+$PAGES['admin.php']['css'] = array("admin.css+", $nuke_url . "assets/shared/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css+", $nuke_url . "assets/shared/ol/ol.css+");
 $PAGES['admin.php']['TinyMceRelurl'] = "false";
 
 $PAGES['forum.php']['title'] = "[french]Les forums de discussion[/french][english]Forums[/english][spanish]Foros de discusi&oacute;n[/spanish][german]Diskussionsforen[/german][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese]+";
@@ -290,8 +290,8 @@ $PAGES['modules.php?ModPath=f-manager&ModStart=pic-manager*']['blocs'] = "0";
 
 // CSS sur fichiers particuliers car n'utilisant pas header.php
 global $nuke_url;
-$PAGES['chatrafraich.php']['css'] = array($nuke_url . "/lib/bootstrap/dist/css/bootstrap.min.css+", "chat.css+");
-$PAGES['chatinput.php']['css'] = array($nuke_url . "/lib/bootstrap/dist/css/bootstrap.min.css+", "chat.css+");
+$PAGES['chatrafraich.php']['css'] = array($nuke_url . "/assets/shared/bootstrap/dist/css/bootstrap.min.css+", "chat.css+");
+$PAGES['chatinput.php']['css'] = array($nuke_url . "/assets/shared/bootstrap/dist/css/bootstrap.min.css+", "chat.css+");
 
 $PAGES['modules.php?ModPath=reseaux-sociaux&ModStart=reseaux-sociaux*']['title'] = "[french]R&eacute;seaux Sociaux[/french][english]Social Networks[/english]";
 $PAGES['modules.php?ModPath=reseaux-sociaux&ModStart=reseaux-sociaux*']['run'] = "yes";

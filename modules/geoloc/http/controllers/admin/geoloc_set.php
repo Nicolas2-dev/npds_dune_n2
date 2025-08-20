@@ -780,14 +780,14 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     $scri = '';
 
     $scri .= '
-    <script type="text/javascript" src="lib/js/jscolor.min.js"></script>
+    <script type="text/javascript" src="assets/shared/jscolor/jscolor.min.js"></script>
     <script type="module">
     //<![CDATA[
     $(function() {
         if (typeof ol=="undefined")
-            $("head").append($("<script />").attr({"type":"text/javascript","src":"lib/ol/ol.js"}));
+            $("head").append($("<script />").attr({"type":"text/javascript","src":"assets/shared/ol/ol.js"}));
         $("head").append($("<script />").attr({"type":"text/javascript","src":"modules/geoloc/include/fontawesome.js"}));
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/lib/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
         $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/modules/geoloc/include/css/geoloc_admin.css\' type=\'text/css\' media=\'screen\'>");
     });
     jscolor.presets.default = {

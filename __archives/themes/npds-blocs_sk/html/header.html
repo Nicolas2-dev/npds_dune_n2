@@ -35,12 +35,12 @@
       list($user_avatar)=sql_fetch_row(sql_query("SELECT user_avatar FROM ".$NPDS_Prefix."users WHERE uname='".$username."'"));
 
       if (!$user_avatar)
-         $imgtmp='images/forum/avatar/blank.gif';
+         $imgtmp='assets/shared/forum/avatar/blank.gif';
       else if (stristr($user_avatar,"users_private"))
          $imgtmp=$user_avatar;
       else {
-         if ($ibid=theme_image("forum/avatar/$user_avatar")) {$imgtmp=$ibid;} else {$imgtmp="images/forum/avatar/$user_avatar";}
-         if (!file_exists($imgtmp)) {$imgtmp="images/forum/avatar/blank.gif";}
+         if ($ibid=theme_image("forum/avatar/$user_avatar")) {$imgtmp=$ibid;} else {$imgtmp="assets/shared/forum/avatar/$user_avatar";}
+         if (!file_exists($imgtmp)) {$imgtmp="assets/shared/forum/avatar/blank.gif";}
       }
 
       if ($nbmes>0)
@@ -87,7 +87,7 @@
    </nav>
    <div class="page-header">
       <div class="row">
-      <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/images/header.png" loading="lazy" alt="logo" /></div>
+      <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/shared/header.png" loading="lazy" alt="logo" /></div>
          <div id="logo_header" class="col-sm-6">
             <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
          </div>

@@ -126,7 +126,7 @@ function write_review()
             echo '<div class="form-floating mb-3">
                 <input type="text" class="form-control" id="cover_rev" name="cover" maxlength="50" />
                 <label for="cover_rev">' . translate('Nom de fichier de l\'image') . '</label>
-                <span class="help-block">' . translate('Nom de l\'image principale non obligatoire, la mettre dans images/reviews/') . '<span class="float-end" id="countcar_cover_rev"></span></span>
+                <span class="help-block">' . translate('Nom de l\'image principale non obligatoire, la mettre dans assets/shared/reviews/') . '<span class="float-end" id="countcar_cover_rev"></span></span>
             </div>';
         }
     }
@@ -223,7 +223,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
         <h3>' . stripslashes($title) . '</h3>';
 
         if ($cover != '') {
-            echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="img_" loading="lazy" />';
+            echo '<img class="img-fluid" src="assets/shared/reviews/' . $cover . '" alt="img_" loading="lazy" />';
         }
 
         echo $text . '
@@ -544,7 +544,7 @@ function showcontent($id)
     <h3 class="mb-3">' . $title . '</h3><br />';
 
     if ($cover != '') {
-        echo '<img class="img-fluid" src="images/reviews/' . $cover . '" alt="reviews image" loading="lazy" />';
+        echo '<img class="img-fluid" src="assets/shared/reviews/' . $cover . '" alt="reviews image" loading="lazy" />';
     }
     
     echo $text;
@@ -692,7 +692,7 @@ function mod_review($id)
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="cover_modrev" name="cover" value="' . $cover . '" maxlength="100"/>
             <label for="cover_modrev">' . translate('Image de garde') . '</label>
-            <span class="help-block">' . translate('Nom de l\'image principale non obligatoire, la mettre dans images/reviews/') . '<span class="float-end" id="countcar_cover_modrev"></span></span>
+            <span class="help-block">' . translate('Nom de l\'image principale non obligatoire, la mettre dans assets/shared/reviews/') . '<span class="float-end" id="countcar_cover_modrev"></span></span>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="hits_modrev" name="hits" value="' . $hits . '" maxlength="9" />
@@ -702,12 +702,12 @@ function mod_review($id)
         <input class="btn btn-primary my-3 me-2" type="submit" value="' . translate('Prévisualiser les modifications') . '" />
         <input class="btn btn-secondary my-3" type="button" onclick="history.go(-1)" value="' . translate('Annuler') . '" />
         </form>
-        <script type="text/javascript" src="lib/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="lib/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
         <script type="text/javascript">
             //<![CDATA[
                 $(document).ready(function() {
-                    $("<link>").appendTo("head").attr({type: "text/css", rel: "stylesheet",href: "lib/flatpickr/dist/themes/npds.css"});
+                    $("<link>").appendTo("head").attr({type: "text/css", rel: "stylesheet",href: "assets/shared/flatpickr/dist/themes/npds.css"});
                 })
             //]]>
         </script>';

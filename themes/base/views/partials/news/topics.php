@@ -16,4 +16,4 @@ noforbadmail()
     topic_subscribeOFF()
 </div>
 !/!
-<script type="text/javascript" src="lib/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/shared/masonry/masonry.pkgd.min.js"></script>

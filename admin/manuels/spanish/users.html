@@ -1,71 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
-   <head>
-      <meta charset="utf-8" />
-      <title>Edici&oacute;n de los Usuarios</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
-      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
-      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
-   </head>
-   <body>
-      <div class="container">
-         <nav class="my-3">
-            <ol class="breadcrumb bg-transparent">
-               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
-               <li class="breadcrumb-item"><a href="men_gen.html">Men&uacute;</a></li>
-               <li class="breadcrumb-item"><a href="men_utilisateurs.html">Usuarios</a></li>
-               <li class="breadcrumb-item active">Usuarios</li>
-            </ol>
-         </nav>
-         <hr class="mt-n3" />
-         <h3 class="mb-3">Edici&oacute;n de los Usuarios</strong></h3>
-         <p>Con esta funci&oacute;n, pueden a&ntilde;adir, modificar y suprimir  los miembros de su portal</p>
 
-         <h4>A&ntilde;adir un nuevo usuario</h4>
-         <p>Rellene el formulario. Los campos obligatorios se se&ntilde;alan de un * (Apodo, Correo electr&oacute;nico, Contrase&ntilde;a).<br />
-         Los otros campos son facultativos. La direcci&oacute;n Correo electr&oacute;nico encubierta es la que NPDS presentar&aacute; a los usuarios del p&oacute;rtal. Sobre todo no utilize la verdadera direcci&oacute;n de Correo electr&oacute;nico del
+<head>
+   <meta charset="utf-8" />
+   <title>Edici&oacute;n de los Usuarios</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="../../assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../../assets/shared/font-awesome/css/all.min.css" />
+</head>
+
+<body>
+   <div class="container">
+      <nav class="my-3">
+         <ol class="breadcrumb bg-transparent">
+            <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32"
+                     src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+            <li class="breadcrumb-item"><a href="men_gen.html">Men&uacute;</a></li>
+            <li class="breadcrumb-item"><a href="men_utilisateurs.html">Usuarios</a></li>
+            <li class="breadcrumb-item active">Usuarios</li>
+         </ol>
+      </nav>
+      <hr class="mt-n3" />
+      <h3 class="mb-3">Edici&oacute;n de los Usuarios</strong></h3>
+      <p>Con esta funci&oacute;n, pueden a&ntilde;adir, modificar y suprimir los miembros de su portal</p>
+
+      <h4>A&ntilde;adir un nuevo usuario</h4>
+      <p>Rellene el formulario. Los campos obligatorios se se&ntilde;alan de un * (Apodo, Correo electr&oacute;nico,
+         Contrase&ntilde;a).<br />
+         Los otros campos son facultativos. La direcci&oacute;n Correo electr&oacute;nico encubierta es la que NPDS
+         presentar&aacute; a los usuarios del p&oacute;rtal. Sobre todo no utilize la verdadera direcci&oacute;n de
+         Correo electr&oacute;nico del
          usuario.<br />
-         Presione el bot&oacute;n a&ntilde;adir a un usuario para terminar. El sistema enviar&aacute; un Correo electr&oacute;nico que contendr&aacute; la Contrase&ntilde;a al usuario as&iacute; creado.
-         </p>
+         Presione el bot&oacute;n a&ntilde;adir a un usuario para terminar. El sistema enviar&aacute; un Correo
+         electr&oacute;nico que contendr&aacute; la Contrase&ntilde;a al usuario as&iacute; creado.
+      </p>
 
-         <h4>El papel del Usuario</h4>
-         <p>Pueden asignar un papel particular a un miembro (por ejemplo administrador de la pagina web...). El foro indicar&aacute; esta informaci&oacute;n. La gesti&oacute;n de esta lista se hace mediante la configuraci&oacute;n de los foros.</p>
+      <h4>El papel del Usuario</h4>
+      <p>Pueden asignar un papel particular a un miembro (por ejemplo administrador de la pagina web...). El foro
+         indicar&aacute; esta informaci&oacute;n. La gesti&oacute;n de esta lista se hace mediante la
+         configuraci&oacute;n de los foros.</p>
 
-         <h4>El Grupo</h4>
-         <p>Un usuario puede ser miembro de 0 a n grupos y el valor del grupo entre 2 (mini) y 126 (m&aacute;ximo). Los grupos de pertenencia son separados por una coma en la tabla.<br />
+      <h4>El Grupo</h4>
+      <p>Un usuario puede ser miembro de 0 a n grupos y el valor del grupo entre 2 (mini) y 126 (m&aacute;ximo). Los
+         grupos de pertenencia son separados por una coma en la tabla.<br />
          - p.ej.: 2,25 (miembro de los grupos 2 y 25)<br />
          La lista de los grupos disponibles esta indicada, y permite la multiple selecci&oacute;n.<br />
          La primera elecci&oacute;n permite borrar la asignaci&oacute;n de un miembro a los grupos.<br />
-         Un grupo es un nivel  de visualizacion simple que permitir&aacute; facilitar la gesti&oacute;n de algunas funciones (v&eacute;ase los bloques).
-         </p>
+         Un grupo es un nivel de visualizacion simple que permitir&aacute; facilitar la gesti&oacute;n de algunas
+         funciones (v&eacute;ase los bloques).
+      </p>
 
-         <h4>Autorizar la conexi&oacute;n</h4>
-         <p>Por defecto si la buena opci&oacute;n de las Preferencias se coloca a S&iacute;, un miembro, en cuanto haya recibido su <br />
+      <h4>Autorizar la conexi&oacute;n</h4>
+      <p>Por defecto si la buena opci&oacute;n de las Preferencias se coloca a S&iacute;, un miembro, en cuanto haya
+         recibido su <br />
          Contrase&ntilde;a puede conectarse.<br />
          Puede suprimir esta posibilidad (y en consecuencia prohibir la conexi&oacute;n para un miembro).<br />
-         </p>
+      </p>
 
-         <h4>Edicion de un Usuario</h4>
-         <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n edicion del usuario y presione el bot&oacute;n Ok.<br />
-         El conjunto de la informaci&oacute;n de la cuenta del usuario podra ser modificado (incluso la Contrase&ntilde;a).<br />
-         </p>
+      <h4>Edicion de un Usuario</h4>
+      <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n edicion del usuario y
+         presione el bot&oacute;n Ok.<br />
+         El conjunto de la informaci&oacute;n de la cuenta del usuario podra ser modificado (incluso la
+         Contrase&ntilde;a).<br />
+      </p>
 
-         <h4>Borrar un usuario</h4>
-         <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n borrar un usuario y presione el bot&oacute;n Ok.</p>
+      <h4>Borrar un usuario</h4>
+      <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n borrar un usuario y
+         presione el bot&oacute;n Ok.</p>
 
-         <h4>Dar de baja a un Usuario</h4>
-         <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n<strong> dar de baja</strong>  un usuario y presione el bot&oacute;n Ok.</p>
+      <h4>Dar de baja a un Usuario</h4>
+      <p>Se&ntilde;ale el Apodo en el campo Que identifica el Usuario, seleccione la opci&oacute;n<strong> dar de
+            baja</strong> un usuario y presione el bot&oacute;n Ok.</p>
 
-         <h4>Funciones</h4>
-         <h5>Controlar los servidores de correo de todos los usuarios</h5>
-         <p>Esta funci&oacute;n le permite comprobar la validez de los servidores de correo. Es particularmente &uacute;til para datos de usuarios antiguos ingresados &#8203;&#8203;en versiones de npds inferiores a 16.0, ya que una verificaci&oacute;n sistem&aacute;tica rechaza las entradas de servidores de correo no compatibles. Sin embargo, sigue siendo &uacute;til para seguir su evoluci&oacute;n en el tiempo (cierre, etc.).<br />
+      <h4>Funciones</h4>
+      <h5>Controlar los servidores de correo de todos los usuarios</h5>
+      <p>Esta funci&oacute;n le permite comprobar la validez de los servidores de correo. Es particularmente &uacute;til
+         para datos de usuarios antiguos ingresados &#8203;&#8203;en versiones de npds inferiores a 16.0, ya que una
+         verificaci&oacute;n sistem&aacute;tica rechaza las entradas de servidores de correo no compatibles. Sin
+         embargo, sigue siendo &uacute;til para seguir su evoluci&oacute;n en el tiempo (cierre, etc.).<br />
          <span class="text-danger">En caso de servidor de correo no compatible</span><br />
          - Se suspenden todas las suscripciones del usuario en cuesti&oacute;n.<br />
-         - Se env&iacute;a un mensaje privado al usuario interesado. Si no responden a este mensaje dentro de los 60 d&iacute;as, ya no podr&aacute;n conectarse al sitio.
-         </p>
-         <p>Interfaz: el comando inicia la verificaci&oacute;n para los primeros 40 usuarios, luego haga clic en continuar o marque la casilla de verificaci&oacute;n para el procesamiento autom&aacute;tico de los lotes restantes.</p>
-         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Manual de administraci&oacute;n</span></p>
-      </div>
-   </body>
+         - Se env&iacute;a un mensaje privado al usuario interesado. Si no responden a este mensaje dentro de los 60
+         d&iacute;as, ya no podr&aacute;n conectarse al sitio.
+      </p>
+      <p>Interfaz: el comando inicia la verificaci&oacute;n para los primeros 40 usuarios, luego haga clic en continuar
+         o marque la casilla de verificaci&oacute;n para el procesamiento autom&aacute;tico de los lotes restantes.</p>
+      <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32"
+            src="../../assets/images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span
+            class="text-body-secondary font-italic small float-end">NPDS - Manual de administraci&oacute;n</span></p>
+   </div>
+</body>
+
 </html>

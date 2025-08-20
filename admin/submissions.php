@@ -96,7 +96,7 @@ function submissions()
             $subject = aff_langue($subject);
 
             if ($affiche) {
-                echo '<img class=" " src="images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . aff_langue($topictext) . '</a></td>
+                echo '<img class=" " src="assets/shared/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . aff_langue($topictext) . '</a></td>
                 <td align="left"><a href="admin.php?op=DisplayStory&amp;qid=' . $qid . '">' . ucfirst($subject) . '</a></td>';
             } else {
                 echo aff_langue($topictext) . '</td>

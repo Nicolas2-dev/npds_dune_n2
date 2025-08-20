@@ -194,18 +194,18 @@ function group_liste()
                     $lst_gr_json .= '\'mbgr_' . $gp . '\': { gp: \'' . $gp . '\'},';
 
                     if (!$user_avatar) {
-                        $imgtmp = 'images/forum/avatar/blank.gif';
+                        $imgtmp = 'assets/shared/forum/avatar/blank.gif';
                     } elseif (stristr($user_avatar, 'users_private')) {
                         $imgtmp = $user_avatar;
                     } else {
                         if ($ibid = theme_image('forum/avatar/'.$user_avatar)) {
                             $imgtmp = $ibid;
                         } else {
-                            $imgtmp = 'images/forum/avatar/'.$user_avatar;
+                            $imgtmp = 'assets/shared/forum/avatar/'.$user_avatar;
                         }
 
                         if (!file_exists($imgtmp)) {
-                            $imgtmp = 'images/forum/avatar/blank.gif';
+                            $imgtmp = 'assets/shared/forum/avatar/blank.gif';
                         }
                     }
 

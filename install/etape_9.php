@@ -24,7 +24,7 @@ if (!stristr($_SERVER['PHP_SELF'], 'install.php')) {
 
 function etape_9()
 {
-    global $langue, $stage, $izx, $qi;
+    global $langue, $stage;
 
     $stage = 9;
 

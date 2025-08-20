@@ -38,11 +38,11 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
   <meta charset="utf-8" />
   <title>NPDS <?php echo $skinametitre; ?> skin by Bootswatch</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>assets/shared/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="bootstrap.min.css" />
-  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>lib/css/prism.css" />
+  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>assets/shared/prism/prism.css" />
   <link rel="stylesheet" href="../assets/css/custom.min.css" />
-  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>lib/bootstrap/dist/css/bootstrap-icons.css">
+  <link rel="stylesheet" href="<?php echo implode($result[1]); ?>assets/shared/bootstrap/dist/css/bootstrap-icons.css">
   <style>
     .scrollable-menu {
       height: auto;
@@ -66,7 +66,7 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
 <body>
   <nav class="<?php echo $headerclasses; ?>" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img class="me-2" width="32" height="32" src="<?php echo implode($result[1]); ?>images/admin/message_npds.png" alt="logo_npds">NPDS skins</a>
+      <a class="navbar-brand" href="#"><img class="me-2" width="32" height="32" src="<?php echo implode($result[1]); ?>assets/shared/admin/message_npds.png" alt="logo_npds">NPDS skins</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -122,7 +122,7 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
           <div class="col-md-4 mb-3">
             <h1><?php echo ucfirst($skinametitre); ?></h1>
             <p class="lead">Nice skin for NPDS Cms</p>
-            <img class="img-fluid" src="../../../../themes/default/images/logo.png" alt="logo npds" loading="lazy" />
+            <img class="img-fluid" src="../../../../themes/default/assets/shared/logo.png" alt="logo npds" loading="lazy" />
           </div>
           <div class="col-md-4 mb-3"></div>
           <div class="col-md-4">
@@ -1524,8 +1524,8 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
     </div>
   </footer>
 
-  <script type="text/javascript" src="<?php echo implode($result[1]); ?>lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="<?php echo implode($result[1]); ?>lib/js/prism.js"></script>
+  <script type="text/javascript" src="<?php echo implode($result[1]); ?>assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="<?php echo implode($result[1]); ?>assets/shared/prism/prism.js"></script>
   <script type="text/javascript" src="../assets/js/custom.js"></script>
 </body>
 

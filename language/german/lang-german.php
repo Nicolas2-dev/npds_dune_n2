@@ -648,7 +648,7 @@ function translate_pass1($phrase) {
    case "Nom :": $tmp="Name :"; break;
    case "Nom d'auteur": $tmp="Name des Autors"; break;
    case "Nom de fichier de l'image": $tmp="Dateiname des Bilds"; break;
-   case "Nom de l'image principale non obligatoire, la mettre dans images/reviews/": $tmp="Name des Bilds, abgespeichert unter images/reviews/. Nicht unbedingt erforderlich."; break;
+   case "Nom de l'image principale non obligatoire, la mettre dans assets/shared/reviews/": $tmp="Name des Bilds, abgespeichert unter assets/shared/reviews/. Nicht unbedingt erforderlich."; break;
    case "Nom de la catégorie : ": $tmp="Name der Kategorie : "; break;
    case "Nom de la sous-catégorie : ": $tmp="Name der Unterkategorie : "; break;
    case "Nom du destinataire": $tmp="Name des Freundes"; break;

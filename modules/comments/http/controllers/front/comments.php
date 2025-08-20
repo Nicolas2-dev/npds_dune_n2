@@ -161,7 +161,7 @@ if ($mycount) {
     if ($ibid = theme_image("forum/icons/posticon.gif")) {
         $imgtmpPI = $ibid;
     } else {
-        $imgtmpPI = "images/forum/icons/posticon.gif";
+        $imgtmpPI = "assets/shared/forum/icons/posticon.gif";
     }
 
     do {
@@ -265,14 +265,14 @@ if ($mycount) {
                     } else {
                         $imgtmp = $ibid = theme_image("forum/avatar/" . $posterdata['user_avatar'])
                             ? $ibid
-                            : "images/forum/avatar/" . $posterdata['user_avatar'];
+                            : "assets/shared/forum/avatar/" . $posterdata['user_avatar'];
                     }
                 }
 
                 echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" loading="lazy" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
             } else {
-                echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="images/forum/avatar/blank.gif" alt="' . $anonymous . '" loading="lazy" /></a>
+                echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/shared/forum/avatar/blank.gif" alt="' . $anonymous . '" loading="lazy" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
             }
         } else {
@@ -281,7 +281,7 @@ if ($mycount) {
                 : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
-        $imgtmp = $ibid = theme_image("forum/subject/00.png") ? $ibid : 'images/forum/subject/00.png';
+        $imgtmp = $ibid = theme_image("forum/subject/00.png") ? $ibid : 'assets/shared/forum/subject/00.png';
 
         echo '<span class="float-end"><img class="n-smil" src="' . $imgtmp . '" alt="" /></span>
             </div>';

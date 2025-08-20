@@ -183,7 +183,7 @@ if (!$user) {
                     if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgtmp = $ibid;
                     } else {
-                        $imgtmp = 'images/forum/avatar/' . $posterdata['user_avatar'];
+                        $imgtmp = 'assets/shared/forum/avatar/' . $posterdata['user_avatar'];
                     }
                 }
 
@@ -210,7 +210,7 @@ if (!$user) {
                 if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'images/forum/subject/' . $myrow['msg_image'];
+                    $imgtmp = 'assets/shared/forum/subject/' . $myrow['msg_image'];
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';
@@ -218,7 +218,7 @@ if (!$user) {
                 if ($ibid = theme_image('forum/subject/00.png')) {
                     $imgtmpPI = $ibid;
                 } else {
-                    $imgtmpPI = 'images/forum/subject/00.png';
+                    $imgtmpPI = 'assets/shared/forum/subject/00.png';
                 }
 
                 echo '<img class="n-smil" src="' . $imgtmpPI . '" alt="icon_post" />';
