@@ -1,3 +1,0 @@
-{ "type": "FeatureCollection", "features": [
-   {"type": "Feature", "id": "u_2", "properties": { "name": "user", "description": ""}, "geometry": { "type": "Point", "coordinates": [4.818514,45.728712] } }
-]}
