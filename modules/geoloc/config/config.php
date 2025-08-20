@@ -16,87 +16,129 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
-$api_key_azure = ""; // clef api Azure maps 
+// clef api Azure maps 
+$api_key_azure = ""; 
 
-$api_key_mapbox = ""; // clef api mapbox 
+// clef api mapbox 
+$api_key_mapbox = ""; 
 
-$ch_lat = "C7"; // Champ lat dans sql 
+// Champ lat dans sql 
+$ch_lat = "C7"; 
 
-$ch_lon = "C8"; // Champ long dans sql 
+// Champ long dans sql 
+$ch_lon = "C8"; 
 
 // interface carte 
-$cartyp = "sat-google"; // Type de carte 
 
-$co_unit = "dms"; // Coordinates Units
+// Type de carte
+$cartyp = "sat-google";  
 
-$ch_img = "modules/geoloc/images/"; // Chemin des images 
+// Coordinates Units
+$co_unit = "dms"; 
 
-$geo_ip = 0; // Autorisation de géolocalisation des IP 
+// Chemin des images 
+$ch_img = "modules/geoloc/images/"; 
 
-$api_key_ipdata = ""; // Clef API pour provider IP ipdata 
+// Autorisation de géolocalisation des IP 
+$geo_ip = 0; 
 
-$key_lookup = ""; // Clef API pour provider IP extreme-ip-lookup 
+// Clef API pour provider IP ipdata 
+$api_key_ipdata = ""; 
 
-$nm_img_acg = "acg.png"; // Nom fichier image anonyme géoréférencé en ligne 
+// Clef API pour provider IP extreme-ip-lookup
+$key_lookup = "";  
 
-$nm_img_mbcg = "mbcg.png"; // Nom fichier image membre géoréférencé en ligne 
+// Nom fichier image anonyme géoréférencé en ligne 
+$nm_img_acg = "acg.png"; 
 
-$nm_img_mbg = "mbg.png"; // Nom fichier image membre géoréférencé 
+// Nom fichier image membre géoréférencé en ligne
+$nm_img_mbcg = "mbcg.png";  
 
-$mark_typ = 0; // Type de marker 
+// Nom fichier image membre géoréférencé 
+$nm_img_mbg = "mbg.png"; 
 
-$w_ico = "28"; // Largeur icone des markers 
+// Type de marker
+$mark_typ = 0;  
 
-$h_ico = "28"; // Hauteur icone des markers
+// Largeur icone des markers 
+$w_ico = "28"; 
 
-$f_mbg = "user"; // Font SVG 
+// Hauteur icone des markers
+$h_ico = "28"; 
 
-$mbg_sc = "24"; // Echelle du Font SVG du membre 
+// Font SVG
+$f_mbg = "user";  
 
-$mbg_t_ep = "1"; // Epaisseur trait Font SVG du membre 
+// Echelle du Font SVG du membre 
+$mbg_sc = "24"; 
 
-$mbg_t_co = "rgba(241,13,13,1)"; // Couleur trait SVG du membre 
+// Epaisseur trait Font SVG du membre
+$mbg_t_ep = "1";  
 
-$mbg_t_op = "1"; // Opacité trait SVG du membre 
+// Couleur trait SVG du membre 
+$mbg_t_co = "rgba(241,13,13,1)"; 
 
-$mbg_f_co = "rgba(237,68,151,0.89)"; // Couleur fond SVG du membre 
+// Opacité trait SVG du membre
+$mbg_t_op = "1";  
 
-$mbg_f_op = "1"; // Opacité fond SVG du membre 
+// Couleur fond SVG du membre
+$mbg_f_co = "rgba(237,68,151,0.89)";  
 
-$mbgc_sc = "32"; // Echelle du Font SVG du membre géoréférencé 
+// Opacité fond SVG du membre 
+$mbg_f_op = "1"; 
 
-$mbgc_t_ep = "1"; // Epaisseur trait Font SVG du membre géoréférencé 
+// Echelle du Font SVG du membre géoréférencé 
+$mbgc_sc = "32"; 
 
-$mbgc_t_co = "rgba(255,255,255,1)"; // Couleur trait SVG du membre géoréférencé 
+// Epaisseur trait Font SVG du membre géoréférencé
+$mbgc_t_ep = "1";  
 
-$mbgc_t_op = "1"; // Opacité trait SVG du membre géoréférencé 
+// Couleur trait SVG du membre géoréférencé 
+$mbgc_t_co = "rgba(255,255,255,1)"; 
 
-$mbgc_f_co = "rgba(225,29,75,0.87)"; // Couleur fond SVG du membre géoréférencé 
+// Opacité trait SVG du membre géoréférencé
+$mbgc_t_op = "1";  
 
-$mbgc_f_op = "1"; // Opacité fond SVG du membre géoréférencé 
+// Couleur fond SVG du membre géoréférencé
+$mbgc_f_co = "rgba(225,29,75,0.87)";  
 
-$acg_sc = "24"; // Echelle du Font SVG pour anonyme en ligne 
+// Opacité fond SVG du membre géoréférencé
+$mbgc_f_op = "1";  
 
-$acg_t_ep = "1"; // Epaisseur trait Font SVG pour anonyme en ligne 
+// Echelle du Font SVG pour anonyme en ligne 
+$acg_sc = "24"; 
 
-$acg_t_co = "rgba(255,250,247,1)"; // Couleur trait SVG pour anonyme en ligne 
+// Epaisseur trait Font SVG pour anonyme en ligne
+$acg_t_ep = "1";  
 
-$acg_t_op = "1"; // Opacité trait SVG pour anonyme en ligne 
+// Couleur trait SVG pour anonyme en ligne 
+$acg_t_co = "rgba(255,250,247,1)"; 
 
-$acg_f_co = "rgba(32,32,26,0.89)"; // Couleur fond SVG pour anonyme en ligne 
+// Opacité trait SVG pour anonyme en ligne
+$acg_t_op = "1";  
 
-$acg_f_op = "1"; // Opacité fond SVG pour anonyme en ligne 
+// Couleur fond SVG pour anonyme en ligne
+$acg_f_co = "rgba(32,32,26,0.89)";  
+
+// Opacité fond SVG pour anonyme en ligne 
+$acg_f_op = "1"; 
 
 // interface bloc 
 
-$cartyp_b = "World_Shaded_Relief"; // Type de carte pour le bloc 
+// Type de carte pour le bloc
+$cartyp_b = "World_Shaded_Relief";  
 
-$img_mbgb = "mbcg.png"; // Nom fichier image membre géoréférencé pour le bloc 
+// Nom fichier image membre géoréférencé pour le bloc
+$img_mbgb = "mbcg.png";  
 
-$w_ico_b = "28"; // Largeur icone marker dans le bloc 
+// Largeur icone marker dans le bloc
+$w_ico_b = "28";  
 
-$h_ico_b = "28"; // Hauteur icone marker dans le bloc
+// Hauteur icone marker dans le bloc
+$h_ico_b = "28"; 
 
-$h_b = "240"; // hauteur carte dans bloc
+// hauteur carte dans bloc
+$h_b = "240"; 
 
-$z_b = "4"; // facteur zoom carte dans bloc
+// facteur zoom carte dans bloc
+$z_b = "4"; 

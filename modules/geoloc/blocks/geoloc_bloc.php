@@ -23,7 +23,7 @@ global $nuke_url;
 
 $content = '';
 
-include('modules/' . $ModPath . '/geoloc.conf');
+include 'modules/' . $ModPath . '/config/config.php';
 
 $source_fond = '';
 
@@ -91,16 +91,16 @@ $content .= '<div class="mb-2" id="map_bloc_ol" tabindex="200" style=" min-heigh
 if (!defined('OL')) {
     define('OL', 'ol');
 
-    $content .= '<script type="text/javascript" src="' . $nuke_url . '/lib/ol/ol.js"></script>';
+    $content .= '<script type="text/javascript" src="' . $nuke_url . '/assets/shared/ol/ol.js"></script>';
 }
 
 $content .= '
     <script type="text/javascript">
     //<![CDATA[
         if (!$("link[href=\'/lib/ol/ol.css\']").length)
-            $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/lib/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/include/css/geoloc_bloc.css\' type=\'text/css\' media=\'screen\'>");
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/lib/bootstrap/dist/css/bootstrap-icons.css\' type=\'text/css\' media=\'screen\'>");
+            $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/modules/geoloc/assets/css/geoloc_bloc.css\' type=\'text/css\' media=\'screen\'>");
+        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'' . $nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css\' type=\'text/css\' media=\'screen\'>");
         $(function(){
         var
         georefUser_icon = new ol.style.Style({
@@ -110,7 +110,7 @@ $content .= '
             })
         }),
         srcUsers = new ol.source.Vector({
-            url: "modules/geoloc/include/user.geojson",
+            url: "modules/geoloc/storage/user.geojson",
             format: new ol.format.GeoJSON()
         }),
         georeferencedUsers = new ol.layer.Vector({
@@ -201,7 +201,7 @@ $content .= '
         window.addEventListener("resize", checkSize);
         checkSize();';
 
-$content .= file_get_contents('modules/geoloc/include/ol-dico.js');
+$content .= file_get_contents('modules/geoloc/assets/js/ol-dico.js');
 
 $content .= '
         const targ = map.getTarget();

@@ -29,7 +29,9 @@ $file_path = array(
 
 $ousursit = '';
 
-$resultat = sql_query("SELECT * FROM " . $NPDS_Prefix . "ip_loc WHERE ip_ip LIKE \"$ip\"");
+$resultat = sql_query("SELECT * 
+                       FROM " . sql_prefix('ip_loc') . " 
+                       WHERE ip_ip LIKE \"$ip\"");
 
 $controle = sql_num_rows($resultat);
 
@@ -38,7 +40,9 @@ while ($row = sql_fetch_array($resultat)) {
 }
 
 if ($controle != 0)
-    sql_query("UPDATE " . $NPDS_Prefix . "ip_loc SET ip_visite= ip_visite +1 , ip_visi_pag = \"$ousursit\" WHERE ip_ip LIKE \"$ip\" ");
+    sql_query("UPDATE " . sql_prefix('ip_loc') . " 
+               SET ip_visite= ip_visite +1 , ip_visi_pag = \"$ousursit\" 
+               WHERE ip_ip LIKE \"$ip\" ");
 else {
     $ibid = false;
 
@@ -54,11 +58,11 @@ else {
                 if ($error === false) {
                     $ibid = true;
 
-                    $pay = !empty($loc_obj->country_name) ? removeHack($loc_obj->country_name) : '';
-                    $codepay = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
-                    $vi = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
-                    $lat = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
-                    $long = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
+                    $pay        = !empty($loc_obj->country_name) ? removeHack($loc_obj->country_name) : '';
+                    $codepay    = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
+                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $lat        = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
+                    $long       = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
                 }
             }
         }
@@ -76,10 +80,10 @@ else {
                         $ibid = true;
 
                         $pay = !empty($loc_obj->country_name) ? removeHack($loc_obj->country_name) : '';
-                        $codepay = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
-                        $vi = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
-                        $lat = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
-                        $long = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
+                        $codepay    = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
+                        $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                        $lat        = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
+                        $long       = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
                     }
                 }
             }
@@ -94,11 +98,11 @@ else {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
-                    $lat = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
-                    $long = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
+                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
+                    $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }
             }
         }
@@ -112,11 +116,11 @@ else {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
-                    $lat = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
-                    $long = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
+                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
+                    $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }
             }
         }
@@ -130,21 +134,24 @@ else {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
-                    $lat = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
-                    $long = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
+                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
+                    $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }
             }
         }
     }
 
-    if ($ibid === false)
+    if ($ibid === false){
         return;
-    else {
-        sql_query("INSERT INTO " . $NPDS_Prefix . "ip_loc (ip_long, ip_lat, ip_ip, ip_country, ip_code_country, ip_city) VALUES ('$long', '$lat', '$ip', '$pay', '$codepay', '$vi')");
+    }else {
+        sql_query("INSERT INTO " . sql_prefix('ip_loc') . " (ip_long, ip_lat, ip_ip, ip_country, ip_code_country, ip_city) 
+                   VALUES ('$long', '$lat', '$ip', '$pay', '$codepay', '$vi')");
 
-        sql_query("UPDATE " . $NPDS_Prefix . "ip_loc SET ip_visite= ip_visite +1, ip_visi_pag = \"$ousursit\" WHERE ip_ip LIKE \"$ip\" ");
+        sql_query("UPDATE " . sql_prefix('ip_loc') . " 
+                   SET ip_visite= ip_visite +1, ip_visi_pag = \"$ousursit\" 
+                   WHERE ip_ip LIKE \"$ip\" ");
     }
 }

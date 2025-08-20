@@ -17,8 +17,9 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
-if (!function_exists('admindroits'))
+if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');
+}
 
 if (
     strstr($ModPath, '..')
@@ -42,9 +43,8 @@ $f_meta_nom = 'geoloc';
 
 //==> controle droit
 admindroits($aid, $f_meta_nom);
-//<== controle droit
 
-include('modules/' . $ModPath . '/lang/geoloc.lang-' . $language . '.php');
+include('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php');
 
 $f_titre = geoloc_translate("Configuration du module Geoloc");
 
@@ -62,8 +62,9 @@ function vidip()
 
     $sql = "DELETE FROM " . $NPDS_Prefix . "ip_loc WHERE ip_id >=1";
 
-    if ($result = sql_query($sql))
+    if ($result = sql_query($sql)) {
         sql_query("ALTER TABLE " . $NPDS_Prefix . "ip_loc AUTO_INCREMENT = 0;");
+    }
 }
 
 function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp, $geo_ip, $api_key_ipdata, $key_lookup)
@@ -85,8 +86,9 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 
         $req = sql_query("SELECT $v FROM users_extend WHERE $v !=''");
 
-        if (!sql_num_rows($req))
+        if (!sql_num_rows($req)) {
             $dispofield[] = $v;
+        }
     }
 
     GraphicAdmin($hlpfile);
@@ -130,12 +132,13 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         ['stamen_toner', geoloc_translate("Plan sombre") . ' (Stadia maps)'],
     );
 
-    if ($api_key_azure == '' and $api_key_mapbox == '')
+    if ($api_key_azure == '' and $api_key_mapbox == '') {
         unset($fond_provider[1], $fond_provider[2], $fond_provider[3], $fond_provider[4], $fond_provider[5]);
-    elseif ($api_key_azure == '')
+    } elseif ($api_key_azure == '') {
         unset($fond_provider[3], $fond_provider[4], $fond_provider[5]);
-    elseif ($api_key_mapbox == '')
+    } elseif ($api_key_mapbox == '') {
         unset($fond_provider[1], $fond_provider[2]);
+    }
 
     $aff = '';
 
@@ -153,8 +156,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
                     <option selected="selected">' . $ch_lat . '</option>';
 
     foreach ($dispofield as $ke => $va) {
-        $aff .= '
-                    <option>' . $va . '</option>';
+        $aff .= '<option>' . $va . '</option>';
     }
 
     $aff .= '
@@ -168,12 +170,10 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
                     <option selected="selected">' . $ch_lon . '</option>';
 
     foreach ($dispofield as $ke => $va) {
-        $aff .= '
-                    <option>' . $va . '</option>';
+        $aff .= '<option>' . $va . '</option>';
     }
 
-    $aff .= '
-                </select>
+    $aff .= '</select>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -186,10 +186,11 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     $cky_geo = '';
     $ckn_geo = '';
 
-    if ($geo_ip == 1)
+    if ($geo_ip == 1) {
         $cky_geo = 'checked="checked"';
-    else
+    } else {
         $ckn_geo = 'checked="checked"';
+    }
 
     $aff .= '
             <div class="mb-3 row">
@@ -280,8 +281,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
                 break;
         }
 
-        $aff .= '
-                            <option ' . $sel . ' value="' . $v[0] . '">' . $v[1] . '</option>';
+        $aff .= '<option ' . $sel . ' value="' . $v[0] . '">' . $v[1] . '</option>';
 
         switch ($k) {
 
@@ -304,10 +304,11 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     $s_dd = '';
     $s_dm = '';
 
-    if ($co_unit == 'dd')
+    if ($co_unit == 'dd') {
         $s_dd = 'selected="selected"';
-    else if ($co_unit == 'dms')
+    } else if ($co_unit == 'dms') {
         $s_dm = 'selected="selected"';
+    }
 
     $aff .= '
                 <div class="mb-3 row">
@@ -323,10 +324,11 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     $cky_mar = '';
     $ckn_mar = '';
 
-    if ($mark_typ == 1)
+    if ($mark_typ == 1) {
         $cky_mar = 'checked="checked"';
-    else
+    } else {
         $ckn_mar = 'checked="checked"';
+    }
 
     $aff .= '
                 <div class="mb-3 row">
@@ -393,8 +395,9 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     $fafont = '';
 
     foreach ($fonts_svg as $v) {
-        if ($v[0] == $f_mbg)
+        if ($v[0] == $f_mbg) {
             $fafont = '&#x' . substr($v[1], 1) . ';';
+        }
     }
 
     $aff .= '
@@ -404,8 +407,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     foreach ($fonts_svg as $v) {
         $sel = ($v[0] == $f_mbg) ? 'selected="selected"' : '';
 
-        $aff .= '
-                            <option ' . $sel . ' value="' . $v[0] . '">' . $v[2] . '</option>';
+        $aff .= '<option ' . $sel . ' value="' . $v[0] . '">' . $v[2] . '</option>';
     }
 
     $aff .= '
