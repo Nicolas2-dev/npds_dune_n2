@@ -193,8 +193,8 @@ $m->add_field('vpass', translate('Entrez à nouveau votre mot de Passe'), '', 'p
 $m->add_extender('vpass', '', '<span class="help-block text-end" id="countcar_vpass"></span>');
 
 // --- EXTENDER
-if (file_exists('modules/sform/extend-user/extender/formulaire.php')) {
-    include 'modules/sform/extend-user/extender/formulaire.php';
+if (file_exists('library/sform/extend-user/extender/formulaire.php')) {
+    include 'library/sform/extend-user/extender/formulaire.php';
 }
 
 // CES CHAMPS sont indispensables --- Don't remove these fields

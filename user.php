@@ -180,7 +180,7 @@ function Only_NewUser()
         echo '</div>
         <div class="card card-body mb-3">';
 
-        include 'modules/sform/extend-user/extend-user.php';
+        include 'library/sform/extend-user/extend-user.php';
 
         echo '</div>';
 
@@ -254,7 +254,7 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
         <div class="card">
             <div class="card-body">';
 
-        include 'modules/sform/extend-user/aff_extend-user.php';
+        include 'library/sform/extend-user/aff_extend-user.php';
 
         echo '</div>
         </div>';
@@ -604,7 +604,7 @@ function userinfo($uname)
             echo '<div class="col-md-12">';
         }
 
-    include 'modules/sform/extend-user/aff_extend-user.php';
+    include 'library/sform/extend-user/aff_extend-user.php';
 
     echo '</div>';
 
@@ -1290,7 +1290,7 @@ function edituser()
 
     showimage();
 
-    include 'modules/sform/extend-user/mod_extend-user.php';
+    include 'library/sform/extend-user/mod_extend-user.php';
     include 'footer.php';
 }
 

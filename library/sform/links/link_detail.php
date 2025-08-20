@@ -24,7 +24,7 @@ if ($pos > 0) {
 }
 
 global $sform_path;
-$sform_path = 'modules/sform/';
+$sform_path = 'library/sform/';
 
 include_once $sform_path . 'sform.php';
 

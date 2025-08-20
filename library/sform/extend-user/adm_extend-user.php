@@ -13,7 +13,7 @@
 /* Dont modify this file is you dont know what you make                 */
 /************************************************************************/
 
-$sform_path = 'modules/sform/';
+$sform_path = 'library/sform/';
 
 include_once $sform_path . 'sform.php';
 

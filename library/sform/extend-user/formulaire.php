@@ -97,8 +97,8 @@ if ($memberpass) {
 $m->add_checkbox('user_lnl', translate('S\'inscrire à la liste de diffusion du site'), "1", false, true);
 
 // --- EXTENDER
-if (file_exists('modules/sform/extend-user/extender/formulaire.php'))
-    include 'modules/sform/extend-user/extender/formulaire.php';
+if (file_exists('library/sform/extend-user/extender/formulaire.php'))
+    include 'library/sform/extend-user/extender/formulaire.php';
 
 // ----------------------------------------------------------------
 // CES CHAMPS sont indispensables --- Don't remove these fields

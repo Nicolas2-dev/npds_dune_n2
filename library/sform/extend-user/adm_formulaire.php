@@ -329,8 +329,8 @@ if ($op == "ModifyUser") {
 }
 
 // --- EXTENDER
-if (file_exists('modules/sform/extend-user/extender/formulaire.php')) {
-    include 'modules/sform/extend-user/extender/formulaire.php';
+if (file_exists('library/sform/extend-user/extender/formulaire.php')) {
+    include 'library/sform/extend-user/extender/formulaire.php';
 }
 // --- EXTENDER
 
