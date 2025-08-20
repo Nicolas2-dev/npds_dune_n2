@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+   <meta charset="utf-8" />
+      <title>Admin</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
+      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+   </head>
+   <body>
+      <div class="container">
+         <nav class="my-3">
+            <ol class="breadcrumb bg-transparent">
+               <li><a href="admin.html"><img class="me-3 ms-n3" width="32px" height="32px" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+               <li class="breadcrumb-item active">Administration</li> 
+               <li class="breadcrumb-item"><a href="men_gen.html">Menu</a></li> 
+            </ol>
+         </nav>
+         <hr class="mt-n3" />
+         <h3 class="mb-3">Admin</h3>
+
+         <h4>Introduction</h4>
+         <p>NPDS is an Open-Source French portal generator under the free GNU-GPL license using PHP and MySql technologies which has a multi-language feature that can be configured in the preferences. By default, the portal is in French.</p>
+         <p>The content and interface of this page obviously depends on the rights you have as an administrator (the super administrator will therefore have access to all interfaced functions). The general interface is divided into 3 main blocks</p>
+
+         <h4>Alerts and notifications</h4>
+         <p>The first block brings together alerts/notifications allowing you to process pending administrator tasks. (proposed articles, scheduled articles, users awaiting validation, new links, broken links, etc.)</p>
+
+         <h4>Functions</h4>
+         <p>To manage NPDS, you have access to numerous buttons which are grouped by row according to a classification by type. They appear in the form of icons or text depending on the graphical interface settings defined in the preferences.</p>
+         <div class="card card-body mb-2">
+            <ul class="pl-3">
+               <li>The buttons in the first row allow you to manage the <b>content</b> of your site, once you have clicked on a button you must click on the online manual button to obtain the documentation in relation to the open function.</li>
+               <li>The second row allows you to manage the portal's <b>users</b></li>
+               <li>The third row allows you to manage everything related to <b>communication</b></li>
+               <li>The fourth row allows you to manage the interface of the <b>blocks</b></li>
+               <li>The fifth row allows you to act on the <b>system</b>, the preferences link is one of the most important links. Note the link which allows you to install a module and to know which modules are already installed or not.</li>
+               <li>Finally the last row which allows you to manage <b>modules</b> with administration.</li>
+            </ul>
+         </div>
+
+         <h4 class="my-3">Last x articles</h4>
+         <div class="card card-body mb-2">
+            <ul class="pl-3">
+               <li class="card-text">Displays the list of the last x articles published on your site</li>
+               <li>The first record is the last published article</li>
+               <li>Certain articles can be indicated in <em>archive</em>, these are the articles having passed their end of publication date.</li>
+               <li>To put these articles back in the feed, simply edit them, click on the 'change date' option and modify their publication end date.</li>
+               <li>Click on the article to view it or use the <em>Edit</em><i class="fas fa-edit fa-lg ms-2 text-primary"></i>, <em>Delete</em><i class="fas fa-trash fa-lg ms-2 text-danger"></i> links.</li>
+               <li>If you want to Edit/Delete an old article, enter its ID and select the appropriate action.</li>
+            </ul>
+         </div>
+         <p class="border-top mt-5"><img class="me-3 mt-n4" width="32px" height="32px" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /><span class="text-body-secondary font-italic small float-end">NPDS - Administration manual</span></p>
+      </div>
+   </body>
+</html>

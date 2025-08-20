@@ -17,6 +17,6 @@ if (!function_exists('Mysql_Connexion')) {
 
 include 'header.php';
 
-include_once 'modules/contact/http/controllers/front/contact.php';
+include_once 'modules/contact/support/sform/contact.php';
 
 include 'footer.php';

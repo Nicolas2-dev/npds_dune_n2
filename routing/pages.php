@@ -93,7 +93,7 @@ $PAGES['stats.php']['sitemap'] = "0.5";
 $PAGES['admin.php']['title'] = ""; // obligatoirement à vide
 $PAGES['admin.php']['blocs'] = "0";
 $PAGES['admin.php']['run'] = "yes";
-$PAGES['admin.php']['css'] = array($nuke_url . "/themes/default/style/admin.css+");
+$PAGES['admin.php']['css'] = array($nuke_url . "/themes/base/assets/css/admin.css+");
 
 /*
 $PAGES['admin.php']['TinyMce']=1;
@@ -143,7 +143,7 @@ foreach ($adm_op_url as $v) {
    $PAGES['admin.php?op=' . $v]['run'] = "yes";
    $PAGES['admin.php?op=' . $v]['TinyMce'] = 1;
    $PAGES['admin.php?op=' . $v]['TinyMce-theme'] = "full";
-   $PAGES['admin.php?op=' . $v]['css'] = array($nuke_url . "/themes/default/style/admin.css+");
+   $PAGES['admin.php?op=' . $v]['css'] = array($nuke_url . "/themes/base/assets/css/admin.css+");
    $PAGES['admin.php?op=' . $v]['TinyMceRelurl'] = "false";
 }
 

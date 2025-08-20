@@ -16,7 +16,7 @@ if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
-include 'language/lang-adm-' . $language . '.php';
+include 'language/'. $language .'/lang-adm-' . $language . '.php';
 
 function Access_Error()
 {
@@ -78,8 +78,8 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
 $filemanager = false;
 
-if (file_exists("filemanager.conf")) {
-    include_once("filemanager.conf");
+if (file_exists("config/filemanager.conf")) {
+    include_once("config/filemanager.conf");
 }
 
 function login()
@@ -367,7 +367,7 @@ function GraphicAdmin($hlpfile)
     }
 
     // utilisateur(s) en attente de groupe
-    $directory = 'users_private/groupe';
+    $directory = 'storage/users_private/groupe';
     $iterator = new DirectoryIterator($directory);
 
     $j = 0;

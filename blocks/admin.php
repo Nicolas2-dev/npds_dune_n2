@@ -118,7 +118,7 @@ if (! function_exists('adminblock'))
             ' . $bloc_foncts_A;
 
             if ($Q['radminsuper'] == 1) {
-                $content .= '<a class="btn btn-outline-primary btn-sm me-2 my-1" title="' . translate('Vider la table chatBox') . '" data-bs-toggle="tooltip" href="powerpack.php?op=admin_chatbox_write&amp;chatbox_clearDB=OK" ><img src="images/admin/chat.png" class="adm_img" alt="icon clear chat" loading="lazy" />&nbsp;<span class="badge bg-danger ms-1">X</span></a>';
+                $content .= '<a class="btn btn-outline-primary btn-sm me-2 my-1" title="' . translate('Vider la table chatBox') . '" data-bs-toggle="tooltip" href="powerpack.php?op=admin_chatbox_write&amp;chatbox_clearDB=OK" ><img src="assets/images/admin/chat.png" class="adm_img" alt="icon clear chat" loading="lazy" />&nbsp;<span class="badge bg-danger ms-1">X</span></a>';
             }
 
             $content .= '</div>

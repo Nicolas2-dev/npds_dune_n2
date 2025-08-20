@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+   <head>
+      <meta charset="utf-8" />
+      <title>Mantenimiento de los foros</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap-icons.css" />
+      <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+   </head>
+   <body>
+      <div class="container">
+         <nav class="my-3">
+            <ol class="breadcrumb bg-transparent">
+               <li><a href="admin.html"><img class="me-3 ms-n3" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy" /></a></li>
+               <li class="breadcrumb-item"><a href="men_gen.html">Men&uacute;</a></li>
+               <li class="breadcrumb-item"><a href="men_com.html">Comunicaci&oacute;n</a></li>
+               <li class="breadcrumb-item active">Mantenimiento de los foros</li>
+            </ol>
+         </nav>
+         <hr class="mt-n3" />
+         <h3 class="mb-3">Mantenimiento de los foros</h3>
+
+         <h4>Marcar todos los mensajes como leidos </h4>
+         <p>Esta funcion permite marcar todos los mensajes como leidos.<br />
+         Sirve tambien para poner a zero <strong>table forum_read.</strong></p>
+
+         <h4>Borro masivo de los mensajes</h4>
+         <p>Permite borrar en masa el contenido de los Foros (la introducci&oacute;n de una fecha AAAA-MM-JJ, le permite hacer una selecci&oacute;n de los m&aacute;s viejos posts por ejemplo). El interfaz presenta, por foro, el &Iacute;D de los mensajes.</p>
+         <p><strong>Dos modos :</strong><br />
+         <ul>
+            <li>Seleccione la cantidad de menssajes  (casilla de seleccion) que necesario y presionar el bot&oacute;n &quot;Borrar en masa los mensajes&quot; (<span class="text-danger"><strong>CUIDADO :</strong> no se pide confirmaci&oacute;n</span>).</li>
+            <li>Seleccione un mensaje, indique su t&iacute;tulo as&iacute; que el &uacute;ltimo mensaje adjunto. y borrelo.</li>
+         </ul>
+
+         <h4>Sincronizar los Foros</h4>
+         <p>Permite la Re-Sincronizaci&oacute;n de la tabla <strong>forum_read</strong> (que administra los marcadores de lectura). Puede suceder que esta tabla no est&eacute; sincrozada con los mensajes de un foro.<br />
+         Esta operaci&oacute;n puede ser relativamente larga (en funci&oacute;n del tama&ntilde;o de sus foros).</p>
+
+         <h4>Fusionar foros</h4>
+         <p>Permite simplemente, la transferencia de todos los mensajes de un foro hacia otro.<br />
+         Esta operaci&oacute;n puede ser relativamente larga (en funci&oacute;n del tama&ntilde;o de sus foros).</p>
+         <p class="border-top mt-4 text-end pt-2"><img class="me-2" width="32" height="32" src="../../images/admin/message_npds.png" alt="logo_npds" loading="lazy"><span class="text-body-secondary font-italic small float-end">NPDS - Manual de administraci&oacute;n</span></p>
+      </div>
+   </body>
+</html>

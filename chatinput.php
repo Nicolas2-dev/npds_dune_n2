@@ -81,7 +81,7 @@ include 'library/formhelp.java.php';
 echo '</head>';
 
 // cookie chat_info (1 par groupe)
-echo '<script type="text/javascript" src="assets/js/cookies.js"></script>';
+echo '<script type="text/javascript" src="assets/js/npds_cookies.js"></script>';
 echo "<body id=\"chat\" onload=\"setCookie('chat_info_$id', '1', '');\" onUnload=\"deleteCookie('chat_info_$id');\">";
 echo '<script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
