@@ -80,7 +80,7 @@ $result = sql_query("SELECT username, message, dbname, date
 $thing = '';
 
 if ($result) {
-    include 'themes/themes-dynamic/theme.php';
+    include 'themes/base/views/theme.php';
 
     while (list($username, $message, $dbname, $date_message) = sql_fetch_row($result)) {
         $thing .= "<div class='chatmessage'><div class='chatheure'>" . getPartOfTime($date_message, 'H:mm d MMM') . "</div>";
@@ -121,7 +121,7 @@ if ($aff_entetes == '1') {
 
     settype($Xthing, 'string');
 
-    import_meta();
+    include 'storage/meta/meta.php';
 
     $Xthing .= $l_meta;
     $Xthing .= str_replace("\n", '', import_css_javascript($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), ''));
