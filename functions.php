@@ -1491,7 +1491,7 @@ function isbadmailuser($utilisateur)
 {
     $contents = '';
 
-    $filename = 'users_private/usersbadmail.txt';
+    $filename = 'storage/banned/usersbadmail.txt';
 
     $handle = fopen($filename, "r");
 

@@ -14,3 +14,8 @@ Options -Indexes
 <FilesMatch "\.(php|php[0-9]?|phtml)$">
     Deny from all
 </FilesMatch>
+
+# Exception : autoriser uniquement emojicontroller.php
+<Files "emojicontroller.php">
+    Require all granted
+</Files>
