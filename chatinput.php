@@ -83,7 +83,7 @@ echo '</head>';
 // cookie chat_info (1 par groupe)
 echo '<script type="text/javascript" src="assets/js/npds_cookies.js"></script>';
 echo "<body id=\"chat\" onload=\"setCookie('chat_info_$id', '1', '');\" onUnload=\"deleteCookie('chat_info_$id');\">";
-echo '<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+echo '<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css">
     <form name="coolsus" action="chatinput.php" method="post">

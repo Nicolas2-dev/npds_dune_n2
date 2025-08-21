@@ -180,7 +180,7 @@ if ($mycount) {
             if (!$short_user) {
                 $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
 
-                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
+                include 'modules/reseaux-sociaux/config/config.php';
 
                 if ($user or autorisation(-127)) {
                     if (array_key_exists('M2', $posterdata_extend)) {
@@ -210,7 +210,7 @@ if ($mycount) {
                 }
             }
 
-            include 'modules/geoloc/geoloc.conf';
+            include 'modules/geoloc/config/config.php';
 
             settype($ch_lat, 'string');
 

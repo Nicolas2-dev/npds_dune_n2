@@ -18,6 +18,7 @@ include 'functions.php';
 
 settype($gr_name, 'string');
 settype($new_pages, 'string');
+
 define('CITRON', 'tarteaucitron');
 
 function MNSremoveHack($Xstring)
@@ -294,7 +295,7 @@ if (($op != '') and ($op)) {
         global $user, $super_admintest;
         $adminblog = ($super_admintest) ? true : false;
 
-        $dir = 'users_private/' . $op . '/mns/';
+        $dir = 'storage/users_private/' . $op . '/mns/';
 
         if (dirname($op) != 'groupe') {
 
@@ -333,7 +334,7 @@ if (($op != '') and ($op)) {
             if (is_dir($dir)) {
                 $affich = true;
 
-                $avatar_mns = 'users_private/' . $op . '/groupe.png';
+                $avatar_mns = 'storage/users_private/' . $op . '/groupe.png';
 
                 function adm_translate() {};
 
@@ -418,7 +419,7 @@ if ($affich) {
 
         if (strstr($Xcontent, '!blog!')) {
 
-            include 'modules/blog/readnews.php';
+            include 'modules/blog/support/readnews.php';
 
             settype($startpage, 'integer');
             settype($perpage, 'integer');
@@ -494,7 +495,7 @@ if ($affich) {
         if ($adminblog) {
             echo '<script type="text/javascript">
                     //<![CDATA[
-                        $(".modal-body").load("modules/blog/matrice/readme.' . $language . '.txt"
+                        $(".modal-body").load("modules/blog/views/manuels/'. $language .'/readme.' . $language . '.txt"
                         , function(dataaide, textStatus, jqxhr) {
                             $("#aide_mns").html(dataaide.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"));
                         });

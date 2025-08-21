@@ -99,7 +99,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
 
             $newsto = date('d m Y') . '!;!' . $title . '!;!' . $formatted;
-            $newsto = dataimagetofileurl($newsto, 'users_private/' . $op . '/mns');
+            $newsto = dataimagetofileurl($newsto, 'storage/users_private/' . $op . '/mns');
 
             fwrite($fp, StripSlashes($newsto) . "\n");
             fclose($fp);
@@ -149,7 +149,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
 
             $newsto = date('d m Y') . '!;!' . $title . '!;!' . $formatted;
-            $newsto = dataimagetofileurl($newsto, 'users_private/' . $op . '/mns');
+            $newsto = dataimagetofileurl($newsto, 'storage/users_private/' . $op . '/mns');
 
             $xnews[$index] = StripSlashes($newsto) . "\n";
             $xnews = array_reverse($xnews);

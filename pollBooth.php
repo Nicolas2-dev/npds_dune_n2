@@ -259,8 +259,8 @@ function pollboxbooth($pollID, $pollClose)
     $boxContent .= '<div><ul><li><a href="pollBooth.php">' . translate('Anciens sondages') . '</a></li>';
 
     if ($pollcomm) {
-        if (file_exists('modules/comments/pollBoth.conf.php')) {
-            include 'modules/comments/pollBoth.conf.php';
+        if (file_exists('modules/comments/config/pollBoth.php')) {
+            include 'modules/comments/config/pollBoth.php';
         }
 
         list($numcom) = sql_fetch_row(sql_query("SELECT COUNT(*) 
@@ -325,14 +325,14 @@ if (isset($forwarder)) {
         }
 
         if ($pollcomm) {
-            if (file_exists('modules/comments/pollBoth.conf.php')) {
-                include 'modules/comments/pollBoth.conf.php';
+            if (file_exists('modules/comments/config/pollBoth.php')) {
+                include 'modules/comments/config/pollBoth.php';
 
                 if ($pollClose == 99) {
                     $anonpost = 0;
                 }
 
-                include 'modules/comments/comments.php';
+                include 'modules/comments/http/controllers/front/comments.php';
             }
         }
     } else {
