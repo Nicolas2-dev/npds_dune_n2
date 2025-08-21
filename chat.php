@@ -21,7 +21,9 @@ if (!function_exists('Mysql_Connexion')) {
 $meta_op = '';
 $meta_doctype = '<!DOCTYPE html>';
 
-import_meta('NPDS');
+$Titlesitename = 'NPDS';
+
+include 'storage/meta/meta.php';
 
 echo '
     <link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />

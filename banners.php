@@ -193,7 +193,7 @@ function header_page()
 
     include_once 'modules/upload/upload.conf.php';
     
-    import_meta();
+    include 'storage/meta/meta.php';
 
     if ($url_upload_css) {
         $url_upload_cssX = str_replace('style.css', $language . '-style.css', $url_upload_css);

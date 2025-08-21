@@ -50,7 +50,7 @@ if ($admin) {
     include 'header.php';
 
     global $language;
-    $hlpfile = '/manuels/' . $language . '/abla.html';
+    $hlpfile = '/admin/manuels/' . $language . '/abla.html';
 
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);

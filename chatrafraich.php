@@ -150,7 +150,7 @@ if (intval($connectes) != $numofchatters) {
 
 $commande = "self.location='chatrafraich.php?repere=$repere&aff_entetes=0&connectes=$numofchatters&id=$id&auto=$auto'";
 
-import_meta();
+include 'storage/meta/meta.php';
 
 echo "</head>\n<body id='chat'>
     <script type='text/javascript'>

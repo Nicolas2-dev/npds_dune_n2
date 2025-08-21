@@ -22,7 +22,7 @@ function Admin_alert($motif)
 
     Ecr_Log('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
 
-    import_meta();
+    include 'storage/meta/meta.php';
 
     echo '
         </head>

@@ -96,3 +96,25 @@ function SC_clean()
 
     Q_Clean();
 }
+
+#autodoc SC_infos() : Indique le status de SuperCache
+function SC_infos()
+{
+    global $SuperCache, $npds_sc;
+
+    $infos = '';
+
+    if ($SuperCache) {
+        /*
+        $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
+        */
+        
+        if ($npds_sc) {
+            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
+        } else {
+            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
+        }
+    }
+
+    return $infos;
+}

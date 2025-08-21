@@ -72,7 +72,7 @@ if (isset($user) and $user != '') {
 
 $skin = $skin == '' ? 'default' : $skin;
 
-import_meta();
+include 'storage/meta/meta.php';
 
 echo import_css($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), '');
 

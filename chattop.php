@@ -16,7 +16,7 @@ $meta_op = '';
 
 include 'mainfile.php';
 
-import_meta();
+include 'storage/meta/meta.php';
 
 echo '</head>
     <body>

@@ -92,7 +92,8 @@ function session_manage()
     //<== geoloc
     $past = time() - 300;
 
-    sql_query("DELETE FROM " . sql_prefix('session') . " WHERE time < '$past'");
+    sql_query("DELETE FROM " . sql_prefix('session') . " 
+               WHERE time < '$past'");
 
     //==> proto en test badbotcontrol ...
     // bad robot limited at x connections ...
@@ -101,7 +102,9 @@ function session_manage()
     foreach ($gulty_robots as $robot) {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], $robot) !== false) {
 
-            $result = sql_query("SELECT agent FROM " . sql_prefix('session') . " WHERE agent REGEXP '" . $robot . "'");
+            $result = sql_query("SELECT agent 
+                                 FROM " . sql_prefix('session') . " 
+                                 WHERE agent REGEXP '" . $robot . "'");
 
             if (sql_num_rows($result) > 5) {
                 header($_SERVER["SERVER_PROTOCOL"] . ' 429 Too Many Requests');
@@ -113,20 +116,27 @@ function session_manage()
     }
     //<== proto
 
-    $result = sql_query("SELECT time FROM " . sql_prefix('session') . " WHERE username='$username'");
+    $result = sql_query("SELECT time 
+                         FROM " . sql_prefix('session') . " 
+                         WHERE username='$username'");
 
     if ($row = sql_fetch_assoc($result)) {
         if ($row['time'] < (time() - 30)) {
 
-            sql_query("UPDATE " . sql_prefix('session') . " SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' WHERE username='$username'");
+            sql_query("UPDATE " . sql_prefix('session') . " 
+                       SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' 
+                       WHERE username='$username'");
 
             if ($guest == 0) {
                 global $gmt;
-                sql_query("UPDATE " . sql_prefix('users') . " SET user_lastvisit='" . (time() + (int)$gmt * 3600) . "' WHERE uname='$username'");
+                sql_query("UPDATE " . sql_prefix('users') . " 
+                           SET user_lastvisit='" . (time() + (int)$gmt * 3600) . "' 
+                           WHERE uname='$username'");
             }
         }
     } else {
-        sql_query("INSERT INTO " . sql_prefix('session') . " (username, time, host_addr, guest, uri, agent) VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
+        sql_query("INSERT INTO " . sql_prefix('session') . " (username, time, host_addr, guest, uri, agent) 
+                   VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
     }
 }
 
@@ -364,7 +374,7 @@ function removeHack($Xstring)
         $Xstring = preg_replace(array_keys($npds_forbidden_words), array_values($npds_forbidden_words), $Xstring);
     }
 
-    return ($Xstring);
+    return $Xstring;
 }
 
 #autodoc send_email($email, $subject, $message, $from, $priority, $mime, $file) : Pour envoyer un mail en texte ou html avec ou sans pieces jointes  / $mime = 'text', 'html' 'html-nobr'-(sans application de nl2br) ou 'mixed'-(avec piece(s) jointe(s) : génération ou non d'un DKIM suivant option choisie) 
@@ -508,7 +518,9 @@ function send_email($email, $subject, $message, $from = "", $priority = false, $
 #autodoc copy_to_email($to_userid,$sujet,$message) : Pour copier un subject+message dans un email ($to_userid)
 function copy_to_email($to_userid, $sujet, $message)
 {
-    $result = sql_query("SELECT email,send_email FROM " . sql_prefix('users') . " WHERE uid='$to_userid'");
+    $result = sql_query("SELECT email, send_email 
+                         FROM " . sql_prefix('users') . " 
+                         WHERE uid='$to_userid'");
 
     list($mail, $avertir_mail) = sql_fetch_row($result);
 
@@ -554,26 +566,7 @@ function redirect_url($urlx)
     echo "</script>";
 }
 
-#autodoc SC_infos() : Indique le status de SuperCache
-function SC_infos()
-{
-    global $SuperCache, $npds_sc;
 
-    $infos = '';
-
-    if ($SuperCache) {
-        /*
-      $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
-      */
-        if ($npds_sc) {
-            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
-        } else {
-            $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
-        }
-    }
-
-    return $infos;
-}
 
 #autodoc req_stat() : Retourne un tableau contenant les nombres pour les statistiques du site (stats.php)
 function req_stat()
@@ -626,7 +619,7 @@ function req_stat()
 
     sql_free_result($result);
 
-    return ($xtab);
+    return $xtab;
 }
 
 #autodoc Mess_Check_Mail($username) : Appel la fonction d'affichage du groupe check_mail (theme principal de NPDS) sans class
@@ -673,9 +666,16 @@ function Mess_Check_Mail_Sub($username, $class)
     if ($username) {
         $userdata = explode(':', base64_decode($user));
 
-        $total_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('priv_msgs') . " WHERE to_userid = '$userdata[0]' AND type_msg='0'"));
+        $total_messages = sql_num_rows(sql_query("SELECT msg_id 
+                                                  FROM " . sql_prefix('priv_msgs') . " 
+                                                  WHERE to_userid = '$userdata[0]' 
+                                                  AND type_msg='0'"));
 
-        $new_messages = sql_num_rows(sql_query("SELECT msg_id FROM " . sql_prefix('priv_msgs') . " WHERE to_userid = '$userdata[0]' AND read_msg='0' AND type_msg='0'"));
+        $new_messages = sql_num_rows(sql_query("SELECT msg_id 
+                                                FROM " . sql_prefix('priv_msgs') . " 
+                                                WHERE to_userid = '$userdata[0]' 
+                                                AND read_msg='0' 
+                                                AND type_msg='0'"));
 
         if ($total_messages > 0) {
             if ($new_messages > 0) {
@@ -743,7 +743,9 @@ function Site_Load()
     $guest_online_num = 0;
     $member_online_num = 0;
 
-    $result = sql_query("SELECT COUNT(username) AS TheCount, guest FROM " . sql_prefix('session') . " GROUP BY guest");
+    $result = sql_query("SELECT COUNT(username) AS TheCount, guest 
+                         FROM " . sql_prefix('session') . " 
+                         GROUP BY guest");
 
     while ($TheResult = sql_fetch_assoc($result)) {
         if ($TheResult['guest'] == 0) {
@@ -756,7 +758,7 @@ function Site_Load()
     $who_online_num = $guest_online_num + $member_online_num;
 
     if ($SuperCache) {
-        $file = fopen("cache/site_load.log", "w");
+        $file = fopen("storage/logs/site_load.log", "w");
 
         fwrite($file, $who_online_num);
         fclose($file);
@@ -775,7 +777,9 @@ function AutoReg()
 
             $cookie = explode(':', base64_decode($user));
 
-            list($test) = sql_fetch_row(sql_query("SELECT open FROM " . sql_prefix('users_status') . " WHERE uid='$cookie[0]'"));
+            list($test) = sql_fetch_row(sql_query("SELECT open 
+                                                   FROM " . sql_prefix('users_status') . " 
+                                                   WHERE uid='$cookie[0]'"));
 
             if (!$test) {
                 setcookie('user', '', 0);
@@ -814,8 +818,8 @@ function ultramode()
 {
     global $nuke_url, $storyhome;
 
-    $ultra = "cache/ultramode.txt";
-    $netTOzone = "cache/net2zone.txt";
+    $ultra = "storage/cache/ultramode.txt";
+    $netTOzone = "storage/cache/net2zone.txt";
 
     $file = fopen("$ultra", "w");
     $file2 = fopen("$netTOzone", "w");
@@ -833,8 +837,11 @@ function ultramode()
 
         $story_limit++;
 
-        $rfile2 = sql_query("SELECT topictext, topicimage FROM " . sql_prefix('topics') . " WHERE topicid='$topic'");
+        $rfile2 = sql_query("SELECT topictext, topicimage 
+                             FROM " . sql_prefix('topics') . " 
+                             WHERE topicid='$topic'");
         list($topictext, $topicimage) = sql_fetch_row($rfile2);
+
 
         $hometext = meta_lang(strip_tags($hometext));
 
@@ -866,14 +873,18 @@ function cookiedecode($user)
         settype($cookie[0], "integer");
 
         if (trim($cookie[1]) != '') {
-            $result = sql_query("SELECT pass, user_langue FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
+            $result = sql_query("SELECT pass, user_langue 
+                                 FROM " . sql_prefix('users') . " 
+                                 WHERE uname='$cookie[1]'");
 
             if (sql_num_rows($result) == 1) {
                 list($pass, $user_langue) = sql_fetch_row($result);
 
                 if (($cookie[2] == md5($pass)) and ($pass != '')) {
                     if ($language != $user_langue) {
-                        sql_query("UPDATE " . sql_prefix('users') . " SET user_langue='$language' WHERE uname='$cookie[1]'");
+                        sql_query("UPDATE " . sql_prefix('users') . " 
+                                   SET user_langue='$language' 
+                                   WHERE uname='$cookie[1]'");
                     }
 
                     return $cookie;
@@ -893,7 +904,7 @@ function cookiedecode($user)
             unset($user);
             unset($cookie);
 
-            header("Location: index.php");
+            header('Location: index.php');
         }
     }
 }
@@ -903,13 +914,18 @@ function getusrinfo($user)
 {
     $cookie = explode(':', base64_decode($user));
 
-    $result = sql_query("SELECT pass FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
+    $result = sql_query("SELECT pass 
+                         FROM " . sql_prefix('users') . " 
+                         WHERE uname='$cookie[1]'");
+
     list($pass) = sql_fetch_row($result);
 
     $userinfo = '';
 
     if (($cookie[2] == md5($pass)) and ($pass != '')) {
-        $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl FROM " . sql_prefix('users') . " WHERE uname='$cookie[1]'");
+        $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl 
+                             FROM " . sql_prefix('users') . " 
+                             WHERE uname='$cookie[1]'");
 
         if (sql_num_rows($result) == 1) {
             $userinfo = sql_fetch_assoc($result);
@@ -961,7 +977,9 @@ function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
 #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
 function formatAidHeader($aid)
 {
-    $holder = sql_query("SELECT url, email FROM " . sql_prefix('authors') . " WHERE aid='$aid'");
+    $holder = sql_query("SELECT url, email 
+                         FROM " . sql_prefix('authors') . " 
+                         WHERE aid='$aid'");
 
     if ($holder) {
         list($url, $email) = sql_fetch_row($holder);
@@ -985,10 +1003,13 @@ function ctrl_aff($ihome, $catid = 0)
 
     if ($ihome == -1 and (!$user)) {
         $affich = true;
+
     } elseif ($ihome == 0) {
         $affich = true;
+
     } elseif ($ihome == 1) {
         $affich = $catid > 0 ? false : true;
+
     } elseif (($ihome > 1) and ($ihome <= 127)) {
         $tab_groupe = valid_group($user);
 
@@ -1006,7 +1027,7 @@ function ctrl_aff($ihome, $catid = 0)
         }
     }
 
-    return ($affich);
+    return $affich;
 }
 
 #autodoc news_aff($type_req, $sel, $storynum, $oldnum) : Une des fonctions fondamentales de NPDS / assure la gestion de la selection des News en fonctions des critères de publication
@@ -1015,7 +1036,9 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
     // pas stabilisé ...!
     // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
     // En fait on * le Nb de News par le Nb de groupes
-    $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total FROM " . sql_prefix('groupes') . "", 86400);
+    $row_Q2 = Q_select("SELECT COUNT(groupe_id) AS total 
+                        FROM " . sql_prefix('groupes'), 86400);
+
     $NumG = $row_Q2[0];
 
     if ($NumG['total'] < 2) {
@@ -1024,39 +1047,50 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
         $coef = $NumG['total'];
     }
 
-    settype($storynum, "integer");
+    settype($storynum, 'integer');
 
     if ($type_req == 'index') {
         $Xstorynum = $storynum * $coef;
 
-        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('stories') . " $sel ORDER BY sid DESC LIMIT $Xstorynum", 3600);
+        $result = Q_select("SELECT sid, catid, ihome 
+                            FROM " . sql_prefix('stories') . " $sel 
+                            ORDER BY sid DESC 
+                            LIMIT $Xstorynum", 3600);
         $Znum = $storynum;
     }
 
     if ($type_req == 'old_news') {
         // $Xstorynum=$oldnum*$coef;
 
-        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('stories') . " $sel ORDER BY time DESC LIMIT $storynum", 3600);
+        $result = Q_select("SELECT sid, catid, ihome, time 
+                            FROM " . sql_prefix('stories') . " $sel 
+                            ORDER BY time DESC 
+                            LIMIT $storynum", 3600);
         $Znum = $oldnum;
     }
 
     if (($type_req == 'big_story') or ($type_req == 'big_topic')) {
         // $Xstorynum=$oldnum*$coef;
 
-        $result = Q_select("SELECT sid, catid, ihome, counter FROM " . sql_prefix('stories') . " $sel ORDER BY counter DESC LIMIT $storynum", 0);
+        $result = Q_select("SELECT sid, catid, ihome, counter 
+                            FROM " . sql_prefix('stories') . " $sel 
+                            ORDER BY counter DESC 
+                            LIMIT $storynum", 0);
         $Znum = $oldnum;
     }
 
     if ($type_req == 'libre') {
         $Xstorynum = $oldnum * $coef; //need for what ?
 
-        $result = Q_select("SELECT sid, catid, ihome, time FROM " . sql_prefix('stories') . " $sel", 3600);
+        $result = Q_select("SELECT sid, catid, ihome, time 
+                            FROM " . sql_prefix('stories') . " $sel", 3600);
         $Znum = $oldnum;
     }
 
     if ($type_req == 'archive') {
         $Xstorynum = $oldnum * $coef; //need for what ?
-        $result = Q_select("SELECT sid, catid, ihome FROM " . sql_prefix('stories') . " $sel", 3600);
+        $result = Q_select("SELECT sid, catid, ihome 
+                            FROM " . sql_prefix('stories') . " $sel", 3600);
         $Znum = $oldnum;
     }
 
@@ -1089,17 +1123,34 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
         if (ctrl_aff($ihome, $catid)) {
 
             if (($type_req == "index") or ($type_req == "libre")) {
-                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
+                                      FROM " . sql_prefix('stories') . " 
+                                      WHERE sid='$s_sid' 
+                                      AND archive='0'");
+
             }
+
             if ($type_req == "archive") {
-                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='1'");
+                $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
+                                      FROM " . sql_prefix('stories') . " 
+                                      WHERE sid='$s_sid' 
+                                      AND archive='1'");
             }
+
             if ($type_req == "old_news") {
-                $result2 = sql_query("SELECT sid, title, time, comments, counter FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, title, time, comments, counter 
+                                      FROM " . sql_prefix('stories') . " 
+                                      WHERE sid='$s_sid' A
+                                      ND archive='0'");
             }
+
             if (($type_req == "big_story") or ($type_req == "big_topic")) {
-                $result2 = sql_query("SELECT sid, title FROM " . sql_prefix('stories') . " WHERE sid='$s_sid' AND archive='0'");
+                $result2 = sql_query("SELECT sid, title 
+                                      FROM " . sql_prefix('stories') . " 
+                                      WHERE sid='$s_sid' 
+                                      AND archive='0'");
             }
+
             $tab[$ibid] = sql_fetch_row($result2);
 
             if (is_array($tab[$ibid])) {
@@ -1112,7 +1163,7 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
 
     @sql_free_result($result);
 
-    return ($tab);
+    return $tab;
 }
 
 #autodoc themepreview($title, $hometext, $bodytext, $notes) : Permet de prévisualiser la présentation d'un NEW
@@ -1132,10 +1183,12 @@ function prepa_aff_news($op, $catid, $marqeur)
         $storynum = $storyhome;
     }
 
-    if ($op == "categories") {
-        sql_query("UPDATE " . sql_prefix('stories_cat') . " SET counter=counter+1 WHERE catid='$catid'");
+    if ($op == 'categories') {
+        sql_query("UPDATE " . sql_prefix('stories_cat') . " 
+                   SET counter=counter+1 
+                   WHERE catid='$catid'");
 
-        settype($marqeur, "integer");
+        settype($marqeur, 'integer');
 
         if (!isset($marqeur)) {
             $marqeur = 0;
@@ -1144,8 +1197,9 @@ function prepa_aff_news($op, $catid, $marqeur)
         $xtab = news_aff("libre", "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
         $storynum = sizeof($xtab);
-    } elseif ($op == "topics") {
-        settype($marqeur, "integer");
+
+    } elseif ($op == 'topics') {
+        settype($marqeur, 'integer');
 
         if (!isset($marqeur)) {
             $marqeur = 0;
@@ -1154,8 +1208,9 @@ function prepa_aff_news($op, $catid, $marqeur)
         $xtab = news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
         $storynum = sizeof($xtab);
-    } elseif ($op == "news") {
-        settype($marqeur, "integer");
+
+    } elseif ($op == 'news') {
+        settype($marqeur, 'integer');
 
         if (!isset($marqeur)) {
             $marqeur = 0;
@@ -1164,7 +1219,8 @@ function prepa_aff_news($op, $catid, $marqeur)
         $xtab = news_aff("libre", "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
         $storynum = sizeof($xtab);
-    } elseif ($op == "article") {
+
+    } elseif ($op == 'article') {
         $xtab = news_aff("index", "WHERE ihome!='1' AND sid='$catid'", 1, "");
     } else {
         $xtab = news_aff("index", "WHERE ihome!='1' AND archive='0'", $storynum, "");
@@ -1183,10 +1239,10 @@ function prepa_aff_news($op, $catid, $marqeur)
 
         getTopics($s_sid);
 
-        $title = aff_langue(stripslashes($title));
-        $hometext = aff_langue(stripslashes($hometext));
-        $notes = aff_langue(stripslashes($notes));
-        $bodycount = strlen(strip_tags(aff_langue($bodytext), '<img>'));
+        $title      = aff_langue(stripslashes($title));
+        $hometext   = aff_langue(stripslashes($hometext));
+        $notes      = aff_langue(stripslashes($notes));
+        $bodycount  = strlen(strip_tags(aff_langue($bodytext), '<img>'));
 
         if ($bodycount > 0) {
             $bodycount = strlen(strip_tags(aff_langue($bodytext)));
@@ -1220,7 +1276,10 @@ function prepa_aff_news($op, $catid, $marqeur)
         $sid = $s_sid;
 
         if ($catid != 0) {
-            $resultm = sql_query("SELECT title FROM " . sql_prefix('stories_cat') . " WHERE catid='$catid'");
+            $resultm = sql_query("SELECT title 
+                                  FROM " . sql_prefix('stories_cat') . " 
+                                  WHERE catid='$catid'");
+
             list($title1) = sql_fetch_row($resultm);
 
             $title = $title;
@@ -1257,7 +1316,10 @@ function valid_group($xuser)
     if ($xuser) {
         $userdata = explode(':', base64_decode($xuser));
 
-        $user_temp = Q_select("SELECT groupe FROM " . sql_prefix('users_status') . " WHERE uid='$userdata[0]'", 3600);
+        $user_temp = Q_select("SELECT groupe 
+                               FROM " . sql_prefix('users_status') . " 
+                               WHERE uid='$userdata[0]'", 3600);
+
         $groupe = $user_temp[0];
 
         $tab_groupe = explode(',', $groupe['groupe']);
@@ -1265,13 +1327,15 @@ function valid_group($xuser)
         $tab_groupe = '';
     }
 
-    return ($tab_groupe);
+    return $tab_groupe;
 }
 
 #autodoc liste_group() : Retourne une liste des groupes disponibles dans un tableau
 function liste_group()
 {
-    $r = sql_query("SELECT groupe_id, groupe_name FROM " . sql_prefix('groupes') . " ORDER BY groupe_id ASC");
+    $r = sql_query("SELECT groupe_id, groupe_name 
+                    FROM " . sql_prefix('groupes') . " 
+                    ORDER BY groupe_id ASC");
 
     $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
 
@@ -1281,7 +1345,7 @@ function liste_group()
 
     sql_free_result($r);
 
-    return ($tmp_groupe);
+    return $tmp_groupe;
 }
 
 #autodoc groupe_forum($forum_groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) forum de type groupe
@@ -1314,7 +1378,7 @@ function groupe_autorisation($groupeX, $tab_groupeX)
         }
     }
 
-    return ($ok);
+    return $ok;
 }
 
 #autodoc block_fonction($title, $contentX) : Assure la gestion des include# et function# des blocs de NPDS / le titre du bloc est exporté (global) )dans $block_title
@@ -1325,26 +1389,27 @@ function block_fonction($title, $contentX)
     $block_title = $title;
 
     //For including PHP functions in block
-    if (stristr($contentX, "function#")) {
+    if (stristr($contentX, 'function#')) {
 
         $contentX = str_replace('<br />', '', $contentX);
         $contentX = str_replace('<BR />', '', $contentX);
         $contentX = str_replace('<BR>', '', $contentX);
         $contentY = trim(substr($contentX, 9));
 
-        if (stristr($contentY, "params#")) {
-            $pos = strpos($contentY, "params#");
-            $contentII = trim(substr($contentY, 0, $pos));
-            $params = substr($contentY, $pos + 7);
-            $prm = explode(',', $params);
+        if (stristr($contentY, 'params#')) {
+            $pos        = strpos($contentY, 'params#');
+            $contentII  = trim(substr($contentY, 0, $pos));
 
-            // Remplace le param "False" par la valeur false (idem pour True)
+            $params     = substr($contentY, $pos + 7);
+            $prm        = explode(',', $params);
+
+            // Remplace le param 'False' par la valeur false (idem pour True)
             for ($i = 0; $i <= count($prm) - 1; $i++) {
-                if ($prm[$i] == "false") {
+                if ($prm[$i] == 'false') {
                     $prm[$i] = false;
                 }
 
-                if ($prm[$i] == "true") {
+                if ($prm[$i] == 'true') {
                     $prm[$i] = true;
                 }
             }
@@ -1394,13 +1459,13 @@ function block_fonction($title, $contentX)
             if (function_exists($contentY)) {
                 $contentY();
 
-                return (true);
+                return true;
             } else {
-                return (false);
+                return (false;
             }
         }
     } else {
-        return (false);
+        return false;
     }
 }
 
@@ -1415,8 +1480,8 @@ function fab_block($title, $member, $content, $Xcache)
     // Bloc caché
     $hidden = false;
 
-    if (substr($content, 0, 7) == "hidden#") {
-        $content = str_replace("hidden#", '', $content);
+    if (substr($content, 0, 7) == 'hidden#') {
+        $content = str_replace('hidden#', '', $content);
         $hidden = true;
     }
 
@@ -1437,7 +1502,7 @@ function fab_block($title, $member, $content, $Xcache)
         } else {
             if (array_key_exists('1', $jssrc)) {
                 if ($pages_js == $jssrc[1]) {
-                    $content = "";
+                    $content = '';
                 }
             }
         }
@@ -1448,11 +1513,13 @@ function fab_block($title, $member, $content, $Xcache)
     if (($SuperCache) and ($Xcache != 0)) {
         $cache_clef = md5($content);
         $CACHE_TIMINGS[$cache_clef] = $Xcache;
+
         $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingBlock($cache_clef);
     } else {
         $cache_obj = new SuperCacheEmpty();
     }
+
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache) or ($Xcache == 0)) {
 
         global $user, $admin;
@@ -1469,14 +1536,17 @@ function fab_block($title, $member, $content, $Xcache)
             $content = '';
 
             foreach ($tmp as $id => $class) {
-                $temp = explode("#", $class);
+                $temp = explode('#', $class);
 
                 if ($temp[0] == "class-title") {
-                    $B_class_title = str_replace("\r", "", $temp[1]);
+                    $B_class_title = str_replace("\r", '', $temp[1]);
+
                 } else if ($temp[0] == "class-content") {
-                    $B_class_content = str_replace("\r", "", $temp[1]);
-                } else if ($temp[0] == "uri") {
+                    $B_class_content = str_replace("\r", '', $temp[1]);
+
+                } else if ($temp[0] == 'uri') {
                     $R_uri = str_replace("\r", '', $temp[1]);
+
                 } else {
                     if ($content != '') {
                         $content .= "\n ";
@@ -1492,7 +1562,7 @@ function fab_block($title, $member, $content, $Xcache)
             global $REQUEST_URI;
 
             $page_ref = basename($REQUEST_URI);
-            $tab_uri = explode(" ", $R_uri);
+            $tab_uri = explode(' ', $R_uri);
 
             $R_content = false;
             $tab_pref = parse_url($page_ref);
@@ -1512,9 +1582,9 @@ function fab_block($title, $member, $content, $Xcache)
                     }
 
                     foreach ($tab_puri as $idx => $RRR_uri) {
-                        if (substr($RRR_uri, -1) == "*") {
+                        if (substr($RRR_uri, -1) == '*') {
                             // si le token contient *
-                            if (substr($RRR_uri, 0, strpos($RRR_uri, "=")) == substr($tab_pref[$idx], 0, strpos($tab_pref[$idx], "="))) {
+                            if (substr($RRR_uri, 0, strpos($RRR_uri, '=')) == substr($tab_pref[$idx], 0, strpos($tab_pref[$idx], '='))) {
                                 $R_content = true;
                             }
                         } else {
@@ -1543,7 +1613,7 @@ function fab_block($title, $member, $content, $Xcache)
             $Xcontent = false;
 
             // You can now, include AND cast a fonction with params in the same bloc !
-            if (stristr($content, "function#")) {
+            if (stristr($content, 'function#')) {
                 $content = str_replace('<br />', '', $content);
                 $content = str_replace('<BR />', '', $content);
                 $content = str_replace('<BR>', '', $content);
@@ -1556,7 +1626,7 @@ function fab_block($title, $member, $content, $Xcache)
                 $content = substr(trim($content), 8);
             }
 
-            include_once($content);
+            include_once $content;
 
             if ($Xcontent) {
                 $content = $Xcontent;
@@ -1637,7 +1707,7 @@ function oneblock($Xid, $Xblock)
     $tmp = ob_get_contents();
     ob_end_clean();
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc Pre_fab_block($Xid, $Xblock, $moreclass) : Assure la fabrication d'un ou de tous les blocs Gauche et Droite
@@ -1646,25 +1716,34 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
     global $htvar; // modif Jireck
 
     if ($Xid) {
-        $result = $Xblock == 'RB' ?
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('rblocks') . " WHERE id='$Xid'") :
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('lblocks') . " WHERE id='$Xid'");
+        $result = $Xblock == 'RB' 
+            ? sql_query("SELECT title, content, member, cache, actif, id, css 
+                         FROM " . sql_prefix('rblocks') . " 
+                         WHERE id='$Xid'") 
+
+            : sql_query("SELECT title, content, member, cache, actif, id, css 
+                         FROM " . sql_prefix('lblocks') . " 
+                         WHERE id='$Xid'");
     } else {
-        $result = $Xblock == 'RB' ?
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('rblocks') . " ORDER BY Rindex ASC") :
-            sql_query("SELECT title, content, member, cache, actif, id, css FROM " . sql_prefix('lblocks') . " ORDER BY Lindex ASC");
+        $result = $Xblock == 'RB' 
+            ? sql_query("SELECT title, content, member, cache, actif, id, css 
+                         FROM " . sql_prefix('rblocks') . " 
+                         ORDER BY Rindex ASC") 
+
+            : sql_query("SELECT title, content, member, cache, actif, id, css 
+                         FROM " . sql_prefix('lblocks') . " 
+                         ORDER BY Lindex ASC");
     }
+
     global $bloc_side;
     $bloc_side = $Xblock == 'RB' ? 'RIGHT' : 'LEFT';
 
     while (list($title, $content, $member, $cache, $actif, $id, $css) = sql_fetch_row($result)) {
         if (($actif) or ($Xid)) {
 
-            $htvar = ($css == 1) ?
-                '
-                     <div class="' . $moreclass . '" id="' . $Xblock . '_' . $id . '">' :
-                '
-                     <div class="' . $moreclass . ' ' . strtolower($bloc_side) . 'bloc">';
+            $htvar = ($css == 1) 
+                ? '<div class="' . $moreclass . '" id="' . $Xblock . '_' . $id . '">' 
+                : '<div class="' . $moreclass . ' ' . strtolower($bloc_side) . 'bloc">';
 
             fab_block($title, $member, $content, $cache);
             // echo "</div>"; // modif Jireck
@@ -1677,7 +1756,9 @@ function Pre_fab_block($Xid, $Xblock, $moreclass)
 #autodoc niv_block($Xcontent) : Retourne le niveau d'autorisation d'un block (et donc de certaines fonctions) / le paramètre (une expression régulière) est le contenu du bloc (function#....)
 function niv_block($Xcontent)
 {
-    $result = sql_query("SELECT member, actif FROM " . sql_prefix('rblocks') . " WHERE content REGEXP '$Xcontent'");
+    $result = sql_query("SELECT member, actif 
+                         FROM " . sql_prefix('rblocks') . " 
+                         WHERE content REGEXP '$Xcontent'");
 
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
@@ -1685,7 +1766,9 @@ function niv_block($Xcontent)
         return ($member . ',' . $actif);
     }
 
-    $result = sql_query("SELECT member, actif FROM " . sql_prefix('lblocks') . " WHERE content REGEXP '$Xcontent'");
+    $result = sql_query("SELECT member, actif 
+                         FROM " . sql_prefix('lblocks') . " 
+                         WHERE content REGEXP '$Xcontent'");
 
     if (sql_num_rows($result)) {
         list($member, $actif) = sql_fetch_row($result);
@@ -1716,9 +1799,9 @@ function autorisation_block($Xcontent)
     }
 
     if ($actif) {
-        return ($autoX);
+        return $autoX;
     } else {
-        return ('');
+        return '';
     }
 }
 
@@ -1758,7 +1841,7 @@ function autorisation($auto)
         $affich = true;
     }
 
-    return ($affich);
+    return $affich;
 }
 
 #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
@@ -1768,22 +1851,26 @@ function getTopics($s_sid)
 
     $sid = $s_sid;
 
-    $result = sql_query("SELECT topic FROM " . sql_prefix('stories') . " WHERE sid='$sid'");
+    $result = sql_query("SELECT topic 
+                         FROM " . sql_prefix('stories') . " 
+                         WHERE sid='$sid'");
 
     if ($result) {
         list($topic) = sql_fetch_row($result);
 
-        $result = sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . sql_prefix('topics') . " WHERE topicid='$topic'");
+        $result = sql_query("SELECT topicid, topicname, topicimage, topictext 
+                             FROM " . sql_prefix('topics') . " 
+                             WHERE topicid='$topic'");
 
         if ($result) {
             list($topicid, $topicname, $topicimage, $topictext) = sql_fetch_row($result);
 
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     } else {
-        return (false);
+        return false;
     }
 }
 
@@ -1794,14 +1881,22 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
     global $sitename, $nuke_url;
 
     if ($Xtype == 'topic') {
-        $result = sql_query("SELECT topictext FROM " . sql_prefix('topics') . " WHERE topicid='$Xtopic'");
+        $result = sql_query("SELECT topictext 
+                             FROM " . sql_prefix('topics') . " 
+                             WHERE topicid='$Xtopic'");
+
         list($abo) = sql_fetch_row($result);
 
-        $result = sql_query("SELECT uid FROM " . sql_prefix('subscribe') . " WHERE topicid='$Xtopic'");
+        $result = sql_query("SELECT uid 
+                             FROM " . sql_prefix('subscribe') . " 
+                             WHERE topicid='$Xtopic'");
     }
 
     if ($Xtype == 'forum') {
-        $result = sql_query("SELECT forum_name, arbre FROM " . sql_prefix('forums') . " WHERE forum_id='$Xforum'");
+        $result = sql_query("SELECT forum_name, arbre 
+                             FROM " . sql_prefix('forums') . " 
+                             WHERE forum_id='$Xforum'");
+
         list($abo, $arbre) = sql_fetch_row($result);
 
         if ($arbre) {
@@ -1810,30 +1905,40 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
             $hrefX = 'viewtopic.php';
         }
 
-        $resultZ = sql_query("SELECT topic_title FROM " . sql_prefix('forumtopics') . " WHERE topic_id='$Xtopic'");
+        $resultZ = sql_query("SELECT topic_title 
+                              FROM " . sql_prefix('forumtopics') . " 
+                              WHERE topic_id='$Xtopic'");
+
         list($title_topic) = sql_fetch_row($resultZ);
 
-        $result = sql_query("SELECT uid FROM " . sql_prefix('subscribe') . " WHERE forumid='$Xforum'");
+        $result = sql_query("SELECT uid 
+                             FROM " . sql_prefix('subscribe') . " 
+                             WHERE forumid='$Xforum'");
     }
 
-    include_once("language/lang-multi.php");
+    include_once "language/lang-multi.php";
 
     while (list($uid) = sql_fetch_row($result)) {
         if ($uid != $Xsauf) {
 
-            $resultX = sql_query("SELECT email, user_langue FROM " . sql_prefix('users') . " WHERE uid='$uid'");
+            $resultX = sql_query("SELECT email, user_langue 
+                                  FROM " . sql_prefix('users') . " 
+                                  WHERE uid='$uid'");
+
             list($email, $user_langue) = sql_fetch_row($resultX);
 
             if ($Xtype == 'topic') {
                 $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Sujet") . " => " . strip_tags($abo) . "\n\n";
                 $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => $Xresume\n\n";
+                
                 $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/search.php?query=&topic=$Xtopic\">$nuke_url/search.php?query=&topic=$Xtopic</a>\n\n";
             }
 
             if ($Xtype == 'forum') {
                 $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Forum") . " => " . strip_tags($abo) . "\n\n";
-                $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999#lastpost\">$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999</a>\n\n";
                 $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => ";
+                
+                $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999#lastpost\">$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999</a>\n\n";
 
                 if ($Xresume != '') {
                     $resume .= $Xresume . "\n\n";
@@ -1847,7 +1952,7 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
             $message .= $resume;
             $message .= $url;
 
-            include("signat.php");
+            include 'config/signat.php';
 
             send_email($email, $subject, $message, '', true, 'html');
         }
@@ -1858,19 +1963,25 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
 function subscribe_query($Xuser, $Xtype, $Xclef)
 {
     if ($Xtype == 'topic') {
-        $result = sql_query("SELECT topicid FROM " . sql_prefix('subscribe') . " WHERE uid='$Xuser' AND topicid='$Xclef'");
+        $result = sql_query("SELECT topicid 
+                             FROM " . sql_prefix('subscribe') . " 
+                             WHERE uid='$Xuser' 
+                             AND topicid='$Xclef'");
     }
 
     if ($Xtype == 'forum') {
-        $result = sql_query("SELECT forumid FROM " . sql_prefix('subscribe') . " WHERE uid='$Xuser' AND forumid='$Xclef'");
+        $result = sql_query("SELECT forumid 
+                             FROM " . sql_prefix('subscribe') . " 
+                             WHERE uid='$Xuser' 
+                             AND forumid='$Xclef'");
     }
 
     list($Xtemp) = sql_fetch_row($result);
 
     if ($Xtemp != '') {
-        return (true);
+        return true;
     } else {
-        return (false);
+        return false;
     }
 }
 
@@ -1883,7 +1994,9 @@ function pollSecur($pollID)
 
     $pollClose = '';
 
-    $result = sql_query("SELECT pollType FROM " . sql_prefix('poll_data') . " WHERE pollID='$pollID'");
+    $result = sql_query("SELECT pollType 
+                         FROM " . sql_prefix('poll_data') . " 
+                         WHERE pollID='$pollID'");
 
     if (sql_num_rows($result)) {
         list($pollType) = sql_fetch_row($result);
@@ -1896,7 +2009,7 @@ function pollSecur($pollID)
         }
     }
 
-    return (array($pollID, $pollClose));
+    return array($pollID, $pollClose);
 }
 
 #autodoc fab_edito() : Construit l'edito
@@ -2059,7 +2172,7 @@ function aff_langue($ibid)
         }
     }
 
-    return ($ibid);
+    return $ibid;
 }
 
 #autodoc make_tab_langue() : Charge le tableau TAB_LANGUE qui est utilisé par les fonctions multi-langue
@@ -2071,7 +2184,7 @@ function make_tab_langue()
     $languageslocal = trim(str_replace('  ', ' ', $languageslocal));
     $tab_langue = explode(' ', $languageslocal);
 
-    return ($tab_langue);
+    return $tab_langue;
 }
 
 #autodoc aff_localzone_langue($ibid) : Charge une zone de formulaire de selection de la langue
@@ -2081,25 +2194,22 @@ function aff_localzone_langue($ibid)
 
     $flag = array('french' => '🇫🇷', 'spanish' => '🇪🇸', 'german' => '🇩🇪', 'english' => '🇺🇸', 'chinese' => '🇨🇳');
 
-    $M_langue = '
-                                 <div class="mb-3">
-                                    <select name="' . $ibid . '" class="form-select" onchange="this.form.submit()" aria-label="' . translate('Choisir une langue') . '">
-                                       <option value="">' . translate('Choisir une langue') . '</option>';
+    $M_langue = '<div class="mb-3">
+        <select name="' . $ibid . '" class="form-select" onchange="this.form.submit()" aria-label="' . translate('Choisir une langue') . '">
+            <option value="">' . translate('Choisir une langue') . '</option>';
 
     foreach ($tab_langue as $bidon => $langue) {
-        $M_langue .= '
-                                       <option value="' . $langue . '">' . $flag[$langue] . ' ' . translate('$langue') . '</option>';
+        $M_langue .= '<option value="' . $langue . '">' . $flag[$langue] . ' ' . translate('$langue') . '</option>';
     }
 
-    $M_langue .= '
-                                       <option value="">- ' . translate('Aucune langue') . '</option>
-                                    </select>
-                                 </div>
-                                 <noscript>
-                                    <input class="btn btn-primary" type="submit" name="local_sub" value="' . translate('Valider') . '" />
-                                 </noscript>';
+    $M_langue .= '<option value="">- ' . translate('Aucune langue') . '</option>
+        </select>
+    </div>
+    <noscript>
+        <input class="btn btn-primary" type="submit" name="local_sub" value="' . translate('Valider') . '" />
+    </noscript>';
 
-    return ($M_langue);
+    return $M_langue;
 }
 
 #autodoc aff_local_langue($ibid_index, $ibid, $mess) : Charge une FORM de selection de langue $ibid_index = URL de la Form, $ibid = nom du champ
@@ -2110,14 +2220,13 @@ function aff_local_langue($ibid_index, $ibid, $mess = '')
         $ibid_index = $REQUEST_URI;
     }
 
-    $M_langue = '
-                              <form action="' . $ibid_index . '" name="local_user_language" method="post">';
-    $M_langue .= $mess . aff_localzone_langue($ibid);
-    $M_langue .= '
-                              </form>
-                           ';
+    $M_langue = '<form action="' . $ibid_index . '" name="local_user_language" method="post">';
 
-    return ($M_langue);
+    $M_langue .= $mess . aff_localzone_langue($ibid);
+
+    $M_langue .= '</form>';
+
+    return $M_langue;
 }
 
 #autodoc preview_local_langue($local_user_language,$ibid) : appel la fonction aff_langue en modifiant temporairement la valeur de la langue
@@ -2136,7 +2245,7 @@ function preview_local_langue($local_user_language, $ibid)
         $language = $old_langue;
     }
 
-    return ($ibid);
+    return $ibid;
 }
 
 #autodoc af_cod($ibid) : Analyse le contenu d'une chaîne et converti les pseudo-balises [code]...[/code] et leur contenu en html
@@ -2175,8 +2284,8 @@ function aff_code($ibid)
     $pasfin = true;
 
     while ($pasfin) {
-        $pos_deb = strpos($ibid, "[code]", 0);
-        $pos_fin = strpos($ibid, "[/code]", 0);
+        $pos_deb = strpos($ibid, '[code]', 0);
+        $pos_fin = strpos($ibid, '[/code]', 0);
 
         // ne pas confondre la position ZERO et NON TROUVE !
         if ($pos_deb === false) {
@@ -2199,7 +2308,7 @@ function aff_code($ibid)
         }
     }
 
-    return ($ibid);
+    return $ibid;
 }
 
 #####// ces deux fonctions suivantes génèrent des erreurs multiples à corriger ou supprimer Warning: Uninitialized string offset 16 in mainfile.php on line 1655
@@ -2210,7 +2319,7 @@ function split_string_without_space($msg, $split)
     array_walk($Xmsg, 'wrapper_f', $split);
     $Xmsg = implode(' ', $Xmsg);
 
-    return ($Xmsg);
+    return $Xmsg;
 }
 
 #autodoc wrapper_f (&$string, $key, $cols) : Fonction Wrapper pour split_string_without_space / Snipe 2004
@@ -2274,19 +2383,19 @@ function anti_spam($str, $highcode = 0)
                 break;
 
             case 1:
-                $str_encoded .= "&#" . ord($str[$i]) . ";";
+                $str_encoded .= '&#' . ord($str[$i]) . ';';
                 break;
 
             case 2:
-                $str_encoded .= "&#x" . bin2hex($str[$i]) . ";";
+                $str_encoded .= '&#x' . bin2hex($str[$i]) . ';';
                 break;
 
             case 3:
-                $str_encoded .= "%" . bin2hex($str[$i]) . "";
+                $str_encoded .= '%' . bin2hex($str[$i]) . '';
                 break;
 
             default:
-                $str_encoded = "Error";
+                $str_encoded = 'Error';
                 break;
         }
     }
@@ -2312,22 +2421,20 @@ function aff_editeur($Xzone, $Xactiv)
                 }
 
                 if ($tmp_Xzone) {
-                    $tmp = "
-      <script type=\"text/javascript\">
-      //<![CDATA[
-         document.addEventListener(\"DOMContentLoaded\", function(e) {
-            tinymce.init({
-               selector: 'textarea.tin',
-               mobile: {menubar: true},
-               language : '" . language_iso(1, '', '') . "',";
+                    $tmp = "<script type=\"text/javascript\">
+                    //<![CDATA[
+                        document.addEventListener(\"DOMContentLoaded\", function(e) {
+                            tinymce.init({
+                            selector: 'textarea.tin',
+                            mobile: {menubar: true},
+                            language : '" . language_iso(1, '', '') . "',";
 
                     include("shared/tinymce/themes/advanced/npds.conf.php");
 
-                    $tmp .= '
-               });
-         });
-      //]]>
-      </script>';
+                    $tmp .= '});
+                        });
+                    //]]>
+                    </script>';
                 }
             } else {
                 $tmp .= '<script type="text/javascript" src="shared/tinymce/tinymce.min.js"></script>';
@@ -2339,7 +2446,7 @@ function aff_editeur($Xzone, $Xactiv)
         $tmp = '';
     }
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc utf8_java($ibid) : Encode une chaine UF8 au format javascript - JPB 2005
@@ -2350,16 +2457,16 @@ function utf8_java($ibid)
 
     foreach ($tmp as $bidon) {
         if ($bidon) {
-            $bidon = substr($bidon, 0, strpos($bidon, ";"));
+            $bidon = substr($bidon, 0, strpos($bidon, ';'));
             $hex = strpos($bidon, 'x');
 
-            $ibid = ($hex === false) ?
-                str_replace('&#' . $bidon . ';', '\\u' . dechex((int)$bidon), $ibid) :
-                str_replace('&#' . $bidon . ';', '\\u' . substr($bidon, 1), $ibid);
+            $ibid = ($hex === false) 
+                ? str_replace('&#' . $bidon . ';', '\\u' . dechex((int)$bidon), $ibid) 
+                : str_replace('&#' . $bidon . ';', '\\u' . substr($bidon, 1), $ibid);
         }
     }
 
-    return ($ibid);
+    return $ibid;
 }
 
 #autodoc wrh($ibid) : Formate une chaine numérique avec un espace tous les 3 chiffres / cheekybilly 2005
@@ -2368,7 +2475,7 @@ function wrh($ibid)
     $tmp = number_format($ibid, 0, ',', ' ');
     $tmp = str_replace(' ', '&nbsp;', $tmp);
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc Q_spambot() : forge un champ de formulaire (champ de saisie : $asb_reponse / champ hidden : asb_question) permettant de déployer une fonction anti-spambot
@@ -2424,55 +2531,11 @@ function Q_spambot()
     $tab = explode(' ', str_replace(')', '', str_replace('(', '', $aff)));
     $al1 = mt_rand(0, count($tab) - 1);
 
-    if (function_exists("imagepng")) {
+    if (function_exists('imagepng')) {
         $aff = str_replace($tab[$al1], html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'UTF-8'), $aff);
     } else {
         $aff = str_replace($tab[$al1], html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'UTF-8'), $aff);
     }
-    ##################################################################
-    /* infernal ....
-   après de nombreux essai ... avec ISO-8859-1 ou UTF-8
-   $aff=str_replace($tab[$al1],html_entity_decode(translate($tab[$al1]), ENT_QUOTES | ENT_HTML401, 'ISO-8859-1'),$aff);
-
-   encrypt puis decrypt renvoient un résultats corrects stable
-   mais parfois la fonction encrypt peut renvoyer une chaine 
-   - se terminant par == ou /
-   - contenant de + des / 
-   dans ces cas là le résultat de rawurldecode(decrypt()) est corrompu !
-
-   dans les autres cas le résultat de rawurldecode(decrypt()) traité dans cette page est correct
-   MAIS PAS quand ça repasse par le serveur et traité dans getfile.php (et je ne comprends pas pourquoi)
-
-   donc pour l'instant on garde UTF-8 et on redécode dans getfile.php
-   mais dans tout les cas le captcha en chinois est faux
-   //je pense qu' il faut plutôt utiliser imagettftext dans le captcha (adapté à utf-8) !
-   */
-    /*
-   var_dump('sortie de trad en utf-8 ou iso ==>'.$aff.'<br />');/////////
-
-   $encryt_aff = encrypt($aff." = ");/////
-   var_dump("fonction encrypt ==> ".$encryt_aff.'<br />');/////
-   $decryt_aff = decrypt($encryt_aff." = ");/////
-   var_dump("fonction decrypt ==> ".$decryt_aff.'<br />');/////
-
-   $rawurlencode= rawurlencode($encryt_aff);/////
-   var_dump("fonction rawurlencode ==> ".$rawurlencode.'<br />');/////
-   $rawurldecode= rawurldecode($rawurlencode);/////
-   var_dump("fonction rawurldecode ==> ".$rawurldecode.'<br />');/////
-
-   $b = rawurldecode(decrypt($rawurlencode));
-   var_dump('fonction rawurldecode (decrypt()) ==> '.$b.'<br />');////
-
-   function mb_rawurlencode($url){
-   $encoded='';
-   $length=mb_strlen($url);
-   for($i=0;$i<$length;$i++){
-   $encoded.='%'.wordwrap(bin2hex(mb_substr($url,$i,1)),2,'%',true);
-   }
-   return $encoded;
-   }
-   */
-    ##################################################################
 
     // mis en majuscule
     if ($asb_index % 2) {
@@ -2482,32 +2545,30 @@ function Q_spambot()
     // END ALEA
 
     //Captcha - si GD
-    if (function_exists("imagepng")) {
+    if (function_exists('imagepng')) {
         $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
     } else {
-        $aff = anti_spam($aff . " = ", 0);
+        $aff = anti_spam($aff . ' = ', 0);
     }
 
     $tmp = '';
 
     if ($user == '') {
-        $tmp = '
-      <div class="mb-3 row">
-         <div class="col-sm-9 text-end">
-            <label class="form-label text-danger" for="asb_reponse">' . translate('Anti-Spam / Merci de répondre à la question suivante : ') . '&nbsp;' . $aff . '</label>
-         </div>
-         <div class="col-sm-3 text-end">
-            <input class="form-control" type="text" id="asb_reponse" name="asb_reponse" maxlength="2" onclick="this.value" />
-            <input type="hidden" name="asb_question" value="' . encrypt($ibid[$asb_index] . ',' . time()) . '" />
-         </div>
-      </div>';
+        $tmp = '<div class="mb-3 row">
+            <div class="col-sm-9 text-end">
+                <label class="form-label text-danger" for="asb_reponse">' . translate('Anti-Spam / Merci de répondre à la question suivante : ') . '&nbsp;' . $aff . '</label>
+            </div>
+            <div class="col-sm-3 text-end">
+                <input class="form-control" type="text" id="asb_reponse" name="asb_reponse" maxlength="2" onclick="this.value" />
+                <input type="hidden" name="asb_question" value="' . encrypt($ibid[$asb_index] . ',' . time()) . '" />
+            </div>
+        </div>';
     } else {
-        $tmp = '
-      <input type="hidden" name="asb_question" value="" />
-      <input type="hidden" name="asb_reponse" value="" />';
+        $tmp = '<input type="hidden" name="asb_question" value="" />
+        <input type="hidden" name="asb_reponse" value="" />';
     }
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc L_spambot($ip, $status) : Log spambot activity : $ip="" => getip of the current user OR $ip="x.x.x.x" / $status = Op to do : true => not log or suppress log - false => log+1 - ban => Ban an IP 
@@ -2520,8 +2581,8 @@ function L_spambot($ip, $status)
         $ip = getip();
     }
 
-    if (file_exists("slogs/spam.log")) {
-        $tab_spam = str_replace("\r\n", '', file("slogs/spam.log"));
+    if (file_exists('storage/logs/spam.log')) {
+        $tab_spam = str_replace("\r\n", '', file('storage/logs/spam.log'));
 
         if (in_array($ip . '|1', $tab_spam)) {
             $cpt_sup = 2;
@@ -2541,9 +2602,9 @@ function L_spambot($ip, $status)
     }
 
     if ($cpt_sup) {
-        if ($status == "false") {
+        if ($status == 'false') {
             $tab_spam[array_search($ip . '|' . ($cpt_sup - 1), $tab_spam)] = $ip . '|' . $cpt_sup;
-        } else if ($status == "ban") {
+        } else if ($status == 'ban') {
             $tab_spam[array_search($ip . '|' . ($cpt_sup - 1), $tab_spam)] = $ip . '|5';
         } else {
             $tab_spam[array_search($ip . '|' . ($cpt_sup - 1), $tab_spam)] = '';
@@ -2551,7 +2612,7 @@ function L_spambot($ip, $status)
 
         $maj_fic = true;
     } else {
-        if ($status == "false") {
+        if ($status == 'false') {
             $tab_spam[] = $ip . '|1';
             $maj_fic = true;
         } else if ($status == 'ban') {
@@ -2563,7 +2624,7 @@ function L_spambot($ip, $status)
     }
 
     if ($maj_fic) {
-        $file = fopen("slogs/spam.log", "w");
+        $file = fopen('storage/logs/spam.log', 'w');
 
         foreach ($tab_spam as $key => $val) {
             if ($val) {
@@ -2582,7 +2643,7 @@ function R_spambot($asb_question, $asb_reponse, $message = '')
     global $user;
     global $REQUEST_METHOD;
 
-    if ($REQUEST_METHOD == "POST") {
+    if ($REQUEST_METHOD == 'POST') {
         if ($user == '') {
             if (($asb_reponse != '') and (is_numeric($asb_reponse)) and (strlen($asb_reponse) <= 2)) {
 
@@ -2608,28 +2669,28 @@ function R_spambot($asb_question, $asb_reponse, $message = '')
                 preg_match_all('#http://#', $message, $regs);
 
                 if (count($regs[0]) > 2) {
-                    L_spambot('', "false");
+                    L_spambot('', 'false');
 
-                    return (false);
+                    return false;
                 } else {
-                    L_spambot('', "true");
+                    L_spambot('', 'true');
 
-                    return (true);
+                    return true;
                 }
             } else {
-                L_spambot('', "false");
+                L_spambot('', 'false');
 
-                return (false);
+                return false;
             }
         } else {
-            L_spambot('', "true");
+            L_spambot('', 'true');
 
-            return (true);
+            return true;
         }
     } else {
-        L_spambot('', "false");
+        L_spambot('', 'false');
 
-        return (false);
+        return false;
     }
 }
 
@@ -2657,7 +2718,7 @@ function encrypt($txt)
 {
     global $NPDS_Key;
 
-    return (encryptK($txt, $NPDS_Key));
+    return encryptK($txt, $NPDS_Key);
 }
 
 #autodoc encryptK($txt, $C_key) : retourne une chaine encryptée en utilisant la clef : $C_key
@@ -2683,8 +2744,7 @@ function encryptK($txt, $C_key)
             $ctr = 0;
         }
 
-        $tmp .= substr($encrypt_key, $ctr, 1) .
-            (substr($txt, $i, 1) ^ substr($encrypt_key, $ctr, 1));
+        $tmp .= substr($encrypt_key, $ctr, 1) . (substr($txt, $i, 1) ^ substr($encrypt_key, $ctr, 1));
 
         $ctr++;
     }
@@ -2697,7 +2757,7 @@ function decrypt($txt)
 {
     global $NPDS_Key;
 
-    return (decryptK($txt, $NPDS_Key));
+    return decryptK($txt, $NPDS_Key);
 }
 
 #autodoc decryptK($txt, $C_key) : retourne une décryptée en utilisant la clef de $C_Key
@@ -2712,7 +2772,7 @@ function decryptK($txt, $C_key)
         $tmp .= (substr($txt, $i, 1) ^ $md5);
     }
 
-    return ($tmp);
+    return $tmp;
 }
 
 #autodoc conv2br($txt) : convertie \r \n  BR ... en br XHTML
@@ -2724,7 +2784,7 @@ function conv2br($txt)
     $Xcontent = str_replace("<BR />", "<br />", $Xcontent);
     $Xcontent = str_replace("<BR>", "<br />", $Xcontent);
 
-    return ($Xcontent);
+    return $Xcontent;
 }
 
 #autodoc hexfromchr($txt) : Les 8 premiers caractères sont convertis en UNE valeur Hexa unique 
@@ -2737,7 +2797,7 @@ function hexfromchr($txt)
         $tmp += hexdec($surlignage[$ix]) + 1;
     }
 
-    return ($tmp %= 16);
+    return $tmp %= 16;
 }
 
 function changetoamp($r)
@@ -2761,7 +2821,10 @@ function topdownload_data($form, $ordre)
 
     settype($top, 'integer');
 
-    $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms FROM " . sql_prefix('downloads') . " ORDER BY $ordre DESC LIMIT 0,$top");
+    $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms 
+                         FROM " . sql_prefix('downloads') . " 
+                         ORDER BY $ordre DESC 
+                         LIMIT 0, $top");
 
     $lugar = 1;
     $ibid = '';
@@ -2786,13 +2849,11 @@ function topdownload_data($form, $ordre)
 
             if ($form == 'short') {
                 if ($okfile) {
-                    $ibid .= '
-                                 <li class="list-group-item list-group-item-action d-flex justify-content-start p-2 flex-wrap">' . $lugar . ' <a class="ms-2" href="download.php?op=geninfo&amp;did=' . $did . '&amp;out_template=1" title="' . $ori_dfilename . ' ' . $dd . '" data-bs-toggle="tooltip" >' . $dfilename . '</a><span class="badge bg-secondary ms-auto align-self-center">' . $dd . '</span></li>';
+                    $ibid .= '<li class="list-group-item list-group-item-action d-flex justify-content-start p-2 flex-wrap">' . $lugar . ' <a class="ms-2" href="download.php?op=geninfo&amp;did=' . $did . '&amp;out_template=1" title="' . $ori_dfilename . ' ' . $dd . '" data-bs-toggle="tooltip" >' . $dfilename . '</a><span class="badge bg-secondary ms-auto align-self-center">' . $dd . '</span></li>';
                 }
             } else {
                 if ($okfile) {
-                    $ibid .= '
-                                 <li class="ms-4 my-1"><a href="download.php?op=mydown&amp;did=' . $did . '" >' . $dfilename . '</a> (' . translate('Catégorie') . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;<span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span></li>';
+                    $ibid .= '<li class="ms-4 my-1"><a href="download.php?op=mydown&amp;did=' . $did . '" >' . $dfilename . '</a> (' . translate('Catégorie') . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;<span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span></li>';
                 }
             }
 
@@ -2812,14 +2873,18 @@ function PollNewest(?int $id = null): void
 {
     // snipe : multi-poll evolution
     if ($id != 0) {
-        settype($id, "integer");
+        settype($id, 'integer');
 
         list($ibid, $pollClose) = pollSecur($id);
 
         if ($ibid) {
             pollMain($ibid, $pollClose);
         }
-    } elseif ($result = sql_query("SELECT pollID FROM " . sql_prefix('poll_data') . " ORDER BY pollID DESC LIMIT 1")) {
+    } elseif ($result = sql_query("SELECT pollID 
+                                   FROM " . sql_prefix('poll_data') . " 
+                                   ORDER BY pollID DESC 
+                                   LIMIT 1")) {
+
         list($pollID) = sql_fetch_row($result);
 
         list($ibid, $pollClose) = pollSecur($pollID);
@@ -2836,43 +2901,42 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
     $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('groupes') . " WHERE groupe_id='$gr'"));
 
-    $content = '
-                              <script type="text/javascript">
-                              //<![CDATA[
-                                 //==> chargement css
-                                 if (!document.getElementById(\'bloc_ws_css\')) {
-                                    var l_css = document.createElement(\'link\');
-                                    l_css.href = "modules/groupe/bloc_ws.css";
-                                    l_css.rel = "stylesheet";
-                                    l_css.id = "bloc_ws_css";
-                                    l_css.type = "text/css";
-                                    document.getElementsByTagName("head")[0].appendChild(l_css);
-                                 }
-                              //]]>
-                              </script>';
+    $content = '<script type="text/javascript">
+        //<![CDATA[
+            //==> chargement css
+            if (!document.getElementById(\'bloc_ws_css\')) {
+                var l_css = document.createElement(\'link\');
+                l_css.href = "modules/groupe/bloc_ws.css";
+                l_css.rel = "stylesheet";
+                l_css.id = "bloc_ws_css";
+                l_css.type = "text/css";
+                document.getElementsByTagName("head")[0].appendChild(l_css);
+            }
+        //]]>
+    </script>';
 
-    $content .= '
-                              <div id="bloc_ws_' . $gr . '">';
+    $content .= '<div id="bloc_ws_' . $gr . '">';
 
     if ($t_gr == 1) {
-        $content .= '
-                                 <span style="font-size: 120%; font-weight:bolder;">' . aff_langue($rsql['groupe_name']) . '</span>' . "\n";
+        $content .= '<span style="font-size: 120%; font-weight:bolder;">' . aff_langue($rsql['groupe_name']) . '</span>' . "\n";
     }
-    $content .= '
-                                 <p>' . aff_langue($rsql['groupe_description']) . '</p>';
 
-    if (file_exists('users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1)) {
-        $content .= '
-                                 <img src="users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
+    $content .= '<p>' . aff_langue($rsql['groupe_description']) . '</p>';
+
+    if (file_exists('storage/users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1)) {
+        $content .= '<img src="storage/users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
     }
+
     //=> liste des membres
     $mysql_version = mysqli_get_server_info($dblink);
 
-    $query = "SELECT uid, groupe FROM " . sql_prefix('users_status') . " WHERE ";
+    $query = "SELECT uid, groupe 
+              FROM " . sql_prefix('users_status') . " 
+              WHERE ";
 
-    $query .= (version_compare($mysql_version, '8.0.4', '>=')) ?
-        "groupe REGEXP '\\\\b$gr\\\\b'" :
-        "groupe REGEXP '[[:<:]]" . $gr . "[[:>:]]'";
+    $query .= (version_compare($mysql_version, '8.0.4', '>=')) 
+        ? "groupe REGEXP '\\\\b$gr\\\\b'" 
+        : "groupe REGEXP '[[:<:]]" . $gr . "[[:>:]]'";
 
     $query .= " ORDER BY uid ASC";
 
@@ -2885,14 +2949,12 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
     $count = 0;
 
-    $li_mb .= '
-                                 <div class="my-4">
-                                    <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
+    $li_mb .= '<div class="my-4">
+        <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
 
     $tab = online_members();
 
-    $li_mb .= '
-                                    <ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
+    $li_mb .= '<ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
 
     while (list($uid, $groupe) = sql_fetch_row($result)) {
 
@@ -2903,11 +2965,11 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 
         if (!$short_user) {
 
-            include_once('functions.php');
+            include_once 'functions.php';
 
             $posterdata_extend = get_userdata_extend_from_id($uid);
 
-            include('modules/reseaux-sociaux/reseaux-sociaux.conf.php');
+            include 'modules/reseaux-sociaux/config/config.php';
 
             if ($posterdata_extend['M2'] != '') {
                 $socialnetworks = explode(';', $posterdata_extend['M2']);
@@ -2946,9 +3008,11 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
             }
         }
 
-        list($uname, $user_avatar, $mns, $url, $femail) = sql_fetch_row(sql_query("SELECT uname, user_avatar, mns, url, femail FROM " . sql_prefix('users') . " WHERE uid='$uid'"));
+        list($uname, $user_avatar, $mns, $url, $femail) = sql_fetch_row(sql_query("SELECT uname, user_avatar, mns, url, femail 
+                                                                                   FROM " . sql_prefix('users') . " 
+                                                                                   WHERE uid='$uid'"));
 
-        include('modules/geoloc/geoloc.conf');
+        include 'modules/geoloc/config/config.php';
 
         settype($ch_lat, 'string');
 
@@ -2957,38 +3021,44 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         if ($uid != 1 and $uid != '') {
             $useroutils .= '<a class="list-group-item text-primary" href="user.php?op=userinfo&amp;uname=' . $uname . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-user align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Profil') . '</span></a>';
         }
+
         if ($uid != 1) {
             $useroutils .= '<a class="list-group-item text-primary" href="powerpack.php?op=instant_message&amp;to_userid=' . $uname . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-2x fa-envelope align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Message') . '</span></a>';
         }
+
         if ($femail != '') {
             $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
         }
+
         if ($url != '') {
             $useroutils .= '<a class="list-group-item text-primary" href="' . $url . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-2x fa-external-link-alt align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visiter ce site web') . '</span></a>';
         }
+
         if ($mns) {
             $useroutils .= '<a class="list-group-item text-primary" href="minisite.php?op=' . $uname . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-desktop align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Visitez le minisite') . '</span></a>';
         }
+
         if (!$short_user) {
             if ($posterdata_extend[$ch_lat] != '') {
                 $useroutils .= '<a class="list-group-item text-primary" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&op=u' . $uid . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Localisation') . '</span></a>';
             }
         }
+
         $conn = '<i class="fa fa-plug text-body-secondary" title="' . $uname . ' ' . translate('n\'est pas connecté') . '" data-bs-toggle="tooltip" ></i>';
 
         if (!$user_avatar) {
             $imgtmp = "assets/images/forum/avatar/blank.gif";
-        } else if (stristr($user_avatar, "users_private")) {
+        } else if (stristr($user_avatar, 'users_private')) {
             $imgtmp = $user_avatar;
         } else {
-            if ($ibid = theme_image("forum/avatar/$user_avatar")) {
+            if ($ibid = theme_image('forum/avatar/'. $user_avatar)) {
                 $imgtmp = $ibid;
             } else {
-                $imgtmp = "assets/images/forum/avatar/$user_avatar";
+                $imgtmp = 'assets/images/forum/avatar/'. $user_avatar;
             }
 
             if (!file_exists($imgtmp)) {
-                $imgtmp = "assets/images/forum/avatar/blank.gif";
+                $imgtmp = 'assets/images/forum/avatar/blank.gif';
             }
         }
 
@@ -3003,29 +3073,30 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         if (($timex !== false) and ($timex < 60)) {
             $conn = '<i class="fa fa-plug faa-flash animated text-primary" title="' . $uname . ' ' . translate('est connecté') . '" data-bs-toggle="tooltip" ></i>';
         }
+
         $li_ic .= '<img class="n-smil" src="' . $imgtmp . '" alt="avatar" loading="lazy" />';
-        $li_mb .= '
-                                       <li class="list-group-item list-group-item-action d-flex flex-row p-2">
-                                          <div id="li_mb_' . $uname . '_' . $gr . '" class="n-ellipses">
-                                             ' . $conn . '<a class="ms-2" tabindex="0" data-bs-title="' . $uname . '" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-content=\'<div class="list-group mb-3">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">';
+        
+        $li_mb .= '<li class="list-group-item list-group-item-action d-flex flex-row p-2">
+            <div id="li_mb_' . $uname . '_' . $gr . '" class="n-ellipses">
+            ' . $conn . '<a class="ms-2" tabindex="0" data-bs-title="' . $uname . '" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-content=\'<div class="list-group mb-3">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">';
 
         if (!$short_user) {
             $li_mb .= $my_rsos[$count];
         }
 
         $li_mb .= '</div>\'>
-                                             <img class=" btn-outline-primary img-thumbnail img-fluid n-ava-small " src="' . $imgtmp . '" alt="avatar" title="' . $uname . '" loading="lazy" /></a>
-                                             <span class="ms-2">' . $uname . '</span>
-                                          </div>
-                                       </li>';
+                <img class=" btn-outline-primary img-thumbnail img-fluid n-ava-small " src="' . $imgtmp . '" alt="avatar" title="' . $uname . '" loading="lazy" /></a>
+                <span class="ms-2">' . $uname . '</span>
+            </div>
+        </li>';
+
         $count++;
     }
 
-    $li_mb .= '
-                                       <li style="clear:left;line-height:6px; background:none;">&nbsp;</li>
-                                       <li class="list-group-item" style="clear:left;line-height:24px;padding:6px; margin-top:0px;">' . $li_ic . '</li>
-                                    </ul>
-                                 </div>';
+    $li_mb .= '<li style="clear:left;line-height:6px; background:none;">&nbsp;</li>
+        <li class="list-group-item" style="clear:left;line-height:24px;padding:6px; margin-top:0px;">' . $li_ic . '</li>
+        </ul>
+    </div>';
 
     $content .= $li_mb;
     //<== liste des membres
@@ -3036,29 +3107,30 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     $nb_for_gr = '';
 
     if ($rsql['groupe_forum'] == 1) {
-        $res_forum = sql_query("SELECT forum_id, forum_name FROM " . sql_prefix('forums') . " WHERE forum_pass REGEXP '$gr'");
+        $res_forum = sql_query("SELECT forum_id, forum_name 
+                                FROM " . sql_prefix('forums') . " 
+                                WHERE forum_pass REGEXP '$gr'");
+
         $nb_foru = sql_num_rows($res_forum);
 
         if ($nb_foru >= 1) {
             $lst_for_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_for_gr_' . $gr . '" class="text-primary" id="show_lst_for_' . $gr . '" title="' . translate('Déplier la liste') . '" ><i id="i_lst_for_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
-            $lst_for .= '
-                                    <ul id="lst_for_gr_' . $gr . '" class="list-group ul_bloc_ws collapse" style ="list-style-type:none;">';
+            
+            $lst_for .= '<ul id="lst_for_gr_' . $gr . '" class="list-group ul_bloc_ws collapse" style ="list-style-type:none;">';
+
             $nb_for_gr = '  <span class="badge bg-secondary float-end">' . $nb_foru . '</span>';
 
             while (list($id_fo, $fo_name) = sql_fetch_row($res_forum)) {
-                $lst_for .= '
-                                       <li class="list-group-item list-group-item-action"><a href="viewforum.php?forum=' . $id_fo . '">' . $fo_name . '</a></li>';
+                $lst_for .= '<li class="list-group-item list-group-item-action"><a href="viewforum.php?forum=' . $id_fo . '">' . $fo_name . '</a></li>';
             }
 
-            $lst_for .= '
-                                    </ul>';
+            $lst_for .= '</ul>';
         }
 
-        $content .= '
-                                 <hr />
-                                 <div>
-                                    ' . $lst_for_tog . '<i class="fa fa-list-alt fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Groupe') . '(' . $gr . '): ' . translate('forum') . '." data-bs-toggle="tooltip" ></i>&nbsp;<a class="text-uppercase" href="forum.php">' . translate('Forum') . '</a>' . $nb_for_gr . $lst_for . '
-                                 </div>';
+        $content .= '<hr />
+            <div>
+                ' . $lst_for_tog . '<i class="fa fa-list-alt fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Groupe') . '(' . $gr . '): ' . translate('forum') . '." data-bs-toggle="tooltip" ></i>&nbsp;<a class="text-uppercase" href="forum.php">' . translate('Forum') . '</a>' . $nb_for_gr . $lst_for . '
+            </div>';
     }
 
     //=> wspad
@@ -3068,73 +3140,72 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         settype($nb_doc_gr, 'string');
         settype($lst_doc_tog, 'string');
 
-        include("modules/wspad/config.php");
+        include 'modules/wspad/config/config.php';
 
-        $docs_gr = sql_query("SELECT page, editedby, modtime, ranq FROM " . sql_prefix('wspad') . " WHERE (ws_id) IN (SELECT MAX(ws_id) FROM " . sql_prefix('') . "wspad WHERE member='$gr' GROUP BY page) ORDER BY page ASC");
+        $docs_gr = sql_query("SELECT page, editedby, modtime, ranq 
+                              FROM " . sql_prefix('wspad') . " 
+                              WHERE (ws_id) IN (SELECT MAX(ws_id) 
+                              FROM " . sql_prefix('wspad') . " 
+                              WHERE member='$gr' GROUP BY page) 
+                              ORDER BY page ASC");
+
         $nb_doc = sql_num_rows($docs_gr);
 
         if ($nb_doc >= 1) {
             $lst_doc_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_doc_gr_' . $gr . '" class="text-primary" id="show_lst_doc_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_doc_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
-            $lst_doc .= '
-                                    <ul id="lst_doc_gr_' . $gr . '" class="list-group ul_bloc_ws mt-3 collapse">';
+            
+            $lst_doc .= '<ul id="lst_doc_gr_' . $gr . '" class="list-group ul_bloc_ws mt-3 collapse">';
+
             $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
 
             while (list($p, $e, $m, $r) = sql_fetch_row($docs_gr)) {
                 $surlignage = $couleur[hexfromchr($e)];
-                $lst_doc .= '
-                                       <li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
+                $lst_doc .= '<li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
             }
 
-            $lst_doc .= '
-                                    </ul>';
+            $lst_doc .= '</ul>';
         }
 
-        $content .= '
-                                 <hr />
-                                 <div>
-                                    ' . $lst_doc_tog . '<i class="fa fa-edit fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Co-rédaction') . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;<a class="text-uppercase" href="modules.php?ModPath=wspad&ModStart=wspad&member=' . $gr . '" >' . translate('Co-rédaction') . '</a>' . $nb_doc_gr . $lst_doc . '
-                                 </div>';
+        $content .= '<hr />
+            <div>
+                ' . $lst_doc_tog . '<i class="fa fa-edit fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Co-rédaction') . '" data-bs-toggle="tooltip" data-bs-placement="right"></i>&nbsp;<a class="text-uppercase" href="modules.php?ModPath=wspad&ModStart=wspad&member=' . $gr . '" >' . translate('Co-rédaction') . '</a>' . $nb_doc_gr . $lst_doc . '
+            </div>';
     }
-    //<= wspad
+    // wspad
 
-    //=> bloc-notes
+    // bloc-notes
     if ($rsql['groupe_blocnote'] == 1) {
 
         settype($lst_blocnote_tog, 'string');
         settype($lst_blocnote, 'string');
 
-        include_once("modules/bloc-notes/bloc-notes.php");
+        include_once "modules/bloc-notes/http/controllers/front/blocnotes.php";
 
-        $lst_blocnote_tog = '
-                                    <a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate('Déplier la liste') . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
+        $lst_blocnote_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate('Déplier la liste') . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
 
-        $lst_blocnote = '
-                                    <div id="lst_blocnote_' . $gr . '" class="mt-3 collapse">
-                                    ' . blocnotes("shared", 'WS-BN' . $gr, '', '7', 'bg-dark text-light', false) . '
-                                    </div>';
+        $lst_blocnote = '<div id="lst_blocnote_' . $gr . '" class="mt-3 collapse">
+            ' . blocnotes("shared", 'WS-BN' . $gr, '', '7', 'bg-dark text-light', false) . '
+        </div>';
 
-        $content .= '
-                                 <hr />
-                                 <div class="mb-2">' . $lst_blocnote_tog . $lst_blocnote . '
-                                 </div>';
+        $content .= '<hr />
+            <div class="mb-2">' . $lst_blocnote_tog . $lst_blocnote . '
+        </div>';
     }
-    //<= bloc-notes
+    // bloc-notes
 
-    $content .= '
-                              <div class="px-1 card card-body d-flex flex-row mt-3 flex-wrap text-center">';
+    $content .= '<div class="px-1 card card-body d-flex flex-row mt-3 flex-wrap text-center">';
 
-    //=> Filemanager
+    // Filemanager
     if (file_exists('modules/f-manager/users/groupe_' . $gr . '.conf.php')) {
-        $content .= '
-                                 <a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate('Gestionnaire fichiers') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
+        $content .= '<a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate('Gestionnaire fichiers') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
     }
-    //=> Minisite
-    if ($rsql['groupe_mns'] == 1) {
-        $content .= '
-                                 <a class="mx-2" href="minisite.php?op=groupe/' . $gr . '" target="_blank" title= "' . translate('MiniSite') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-desktop fa-2x"></i></a>';
-    }
-    //=> Chat
 
+    // Minisite
+    if ($rsql['groupe_mns'] == 1) {
+        $content .= '<a class="mx-2" href="minisite.php?op=groupe/' . $gr . '" target="_blank" title= "' . translate('MiniSite') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-desktop fa-2x"></i></a>';
+    }
+
+    // Chat
     settype($chat_img, 'string');
 
     if ($rsql['groupe_chat'] == 1) {
@@ -3146,21 +3217,18 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
             }
         }
 
-        $content .= '
-                                 <a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Ouvrir un salon de chat pour le groupe.') . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
+        $content .= '<a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Ouvrir un salon de chat pour le groupe.') . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
     }
 
     //=> admin
     if (autorisation(-127)) {
-        $content .= '
-                                 <a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
+        $content .= '<a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
     }
-    $content .= '
-                              </div>
-                           </div>
-                        ';
 
-    return ($content);
+    $content .= '</div>
+        </div>';
+
+    return $content;
 }
 
 function fab_groupes_bloc($user, $im)
@@ -3170,7 +3238,9 @@ function fab_groupes_bloc($user, $im)
     $lstgr = array();
 
     $userdata = explode(':', base64_decode($user));
-    $result = sql_query("SELECT DISTINCT `groupe` FROM " . sql_prefix('users_status') . " WHERE `groupe` > 1;");
+    $result = sql_query("SELECT DISTINCT groupe 
+                         FROM " . sql_prefix('users_status') . " 
+                         WHERE groupe > 1;");
 
     while (list($groupe) = sql_fetch_row($result)) {
 
@@ -3193,50 +3263,49 @@ function fab_groupes_bloc($user, $im)
 
     sql_free_result($result);
 
-    $result = sql_query("SELECT groupe_id, groupe_name, groupe_description FROM " . sql_prefix('groupes') . " WHERE groupe_id IN ('$ids_gr')");
+    $result = sql_query("SELECT groupe_id, groupe_name, groupe_description 
+                         FROM " . sql_prefix('groupes') . " 
+                         WHERE groupe_id IN ('$ids_gr')");
+
     $nb_groupes = sql_num_rows($result);
 
-    $content = '
-      <div id="bloc_groupes" class="">
-         <ul id="lst_groupes" class="list-group list-group-flush mb-3">
+    $content = '<div id="bloc_groupes" class="">
+        <ul id="lst_groupes" class="list-group list-group-flush mb-3">
             <li class="list-group-item d-flex justify-content-between align-items-start px-0">
-               <div class="me-auto">
-                  <div class="fw-bold"><i class="fa fa-users fa-2x text-body-secondary me-2"></i>' . translate('Groupes') . '</div>';
+                <div class="me-auto">
+                    <div class="fw-bold"><i class="fa fa-users fa-2x text-body-secondary me-2"></i>' . translate('Groupes') . '</div>';
 
     $content .= $nb_groupes > 0 ? translate('Groupe ouvert') : translate('Pas de groupe ouvert');
 
-    $content .= '
-               </div>
-               <span class="badge bg-primary rounded-pill">' . $nb_groupes . '</span>
-            </li>';
+    $content .= '</div>
+            <span class="badge bg-primary rounded-pill">' . $nb_groupes . '</span>
+        </li>';
 
     while (list($groupe_id, $groupe_name, $groupe_description) = sql_fetch_row($result)) {
-        $content .= '
-            <li class="list-group-item px-0">' . $groupe_name . '<div class="small">' . $groupe_description . '</div>';
+        $content .= '<li class="list-group-item px-0">' . $groupe_name . '<div class="small">' . $groupe_description . '</div>';
 
         $content .= $im == 1 ? '<div class="text-center my-2"><img class="img-fluid" src="users_private/groupe/' . $groupe_id . '/groupe.png" loading="lazy"></div>' : '';
 
-        if (!file_exists('users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !autorisation($groupe_id)) {
+        if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !autorisation($groupe_id)) {
             if (!autorisation(-1)) {
                 $content .= '<div class="text-end small"><a href="user.php?op=askforgroupe&amp;askedgroup=' . $groupe_id . '" title="' . translate('Envoi une demande aux administrateurs pour rejoindre ce groupe. Un message privé vous informera du résultat de votre demande.') . '" data-bs-toggle="tooltip">' . translate('Rejoindre ce groupe') . '</a></div>';
             }
         }
+
         $content .= '</li>';
     }
 
-    $content .= '
-         </ul>';
+    $content .= '</ul>';
 
     if (autorisation(-127)) {
-        $content .= '
-         <div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
+        $content .= '<div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
     }
-    $content .= '
-      </div>';
+
+    $content .= '</div>';
 
     sql_free_result($result);
 
-    return ($content);
+    return $content;
 }
 #autodoc:</Mainfile.php>
 
@@ -3245,8 +3314,8 @@ function theme_image($theme_img)
 {
     global $theme;
 
-    if (@file_exists("themes/$theme/assets/shared/$theme_img")) {
-        return ("themes/$theme/assets/shared/$theme_img");
+    if (@file_exists('themes/'. $theme .'/assets/shared/'. $theme_img)) {
+        return ('themes/'. $theme .'/assets/shared/'. $theme_img);
     }
 
     return false;
@@ -3290,7 +3359,7 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
     // Chargeur CSS spécifique
     if ($css_pages_ref) {
 
-        include "routing/pages.php";
+        include 'routing/pages.php';
 
         if (is_array($PAGES[$css_pages_ref]['css'])) {
             foreach ($PAGES[$css_pages_ref]['css'] as $tab_css) {
@@ -3304,9 +3373,11 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
 
                 if (stristr($tab_css, 'http://') || stristr($tab_css, 'https://')) {
                     $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
+
                 } else {
                     if (file_exists("themes/" . $tmp_theme . "/assets/css/" . $tab_css) and ($tab_css != '')) {
                         $admtmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $tab_css . "' rel='stylesheet' type='text/css' media='all' />";
+
                     } elseif (file_exists("$tab_css") and ($tab_css != '')) {
                         $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
                     }
@@ -3342,7 +3413,7 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
 #autodoc import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : Fonctionnement identique à import_css_javascript sauf que le code HTML en retour ne contient que de double quote
 function import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css)
 {
-    return (str_replace("'", "\"", import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css)));
+    return str_replace("'", "\"", import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
 }
 
 #autodoc auto_complete ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_cache) : fabrique un array js à partir de la requete sql et implente un auto complete pour l'input (dependence : jquery.min.js ,jquery-ui.js) $nom_array_js=> nom du tableau javascript; $nom_champ=>nom de champ bd; $nom_tabl=>nom de table bd,$id_inpu=> id de l'input,$temps_cache=>temps de cache de la requête. Si $id_inpu n'est pas défini retourne un array js.
@@ -3351,7 +3422,8 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
     $list_json = '';
     $list_json .= 'var ' . $nom_array_js . ' = [';
 
-    $res = Q_select("SELECT " . $nom_champ . " FROM " . sql_prefix($nom_tabl), $temps_cache);
+    $res = Q_select("SELECT " . $nom_champ . " 
+                     FROM " . sql_prefix($nom_tabl), $temps_cache);
 
     foreach ($res as $ar_data) {
         foreach ($ar_data as $val_champ) {
@@ -3370,23 +3442,23 @@ function auto_complete($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $temps_ca
     if ($id_inpu == '') {
         $scri_js .= $list_json;
     } else {
-        $scri_js .= '
-   <script type="text/javascript">
-   //<![CDATA[
-      $(function() {
-      ' . $list_json;
-        if ($id_inpu != '')
-            $scri_js .= '
-      $( "#' . $id_inpu . '" ).autocomplete({
-         source: ' . $nom_array_js . '
-       });';
-        $scri_js .= '
-      });
-   //]]>
-   </script>';
+        $scri_js .= '<script type="text/javascript">
+        //<![CDATA[
+            $(function() {
+            ' . $list_json;
+
+        if ($id_inpu != '') {
+            $scri_js .= '$( "#' . $id_inpu . '" ).autocomplete({
+                source: ' . $nom_array_js . '
+            });';
+        }
+
+        $scri_js .= '});
+                //]]>
+        </script>';
     }
 
-    return ($scri_js);
+    return $scri_js;
 }
 
 #autodoc auto_complete_multi ($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $req) : fabrique un pseudo array json à partir de la requete sql et implente un auto complete pour le champ input (dependence : jquery-2.1.3.min.js ,jquery-ui.js)
@@ -3395,7 +3467,8 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
     $list_json = '';
     $list_json .= $nom_array_js . ' = [';
 
-    $res = sql_query("SELECT " . $nom_champ . " FROM " . sql_prefix($nom_tabl) . " " . $req);
+    $res = sql_query("SELECT " . $nom_champ . " 
+                      FROM " . sql_prefix($nom_tabl) . " " . $req);
 
     while (list($nom_champ) = sql_fetch_row($res)) {
         $list_json .= '\'' . $nom_champ . '\',';
@@ -3405,49 +3478,48 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
     $list_json .= '];';
     $scri_js = '';
 
-    $scri_js .= '
-   <script type="text/javascript">
-   //<![CDATA[
-   var ' . $nom_array_js . ';
-   $(function() {
-    ' . $list_json . '
-    function split( val ) {
-      return val.split( /,\s*/ );
-    }
-    function extractLast( term ) {
-      return split( term ).pop();
-    }
-    $( "#' . $id_inpu . '" )
-      // dont navigate away from the field on tab when selecting an item
-      .bind( "keydown", function( event ) {
-        if ( event.keyCode === $.ui.keyCode.TAB &&
-            $( this ).autocomplete( "instance" ).menu.active ) {
-          event.preventDefault();
-        }
-      })
-      .autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
-          response( $.ui.autocomplete.filter(
-            ' . $nom_array_js . ', extractLast( request.term ) ) );
-        },
-        focus: function() {
-          return false;
-        },
-        select: function( event, ui ) {
-          var terms = split( this.value );
-          terms.pop();
-          terms.push( ui.item.value );
-          terms.push( "" );
-          this.value = terms.join( ", " );
-          return false;
-        }
-      });
-   });
-   //]]>
-   </script>' . "\n";
+    $scri_js .= '<script type="text/javascript">
+        //<![CDATA[
+            var ' . $nom_array_js . ';
+            $(function() {
+                ' . $list_json . '
+                function split( val ) {
+                return val.split( /,\s*/ );
+                }
+                function extractLast( term ) {
+                return split( term ).pop();
+                }
+                $( "#' . $id_inpu . '" )
+                // dont navigate away from the field on tab when selecting an item
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                        $( this ).autocomplete( "instance" ).menu.active ) {
+                    event.preventDefault();
+                    }
+                })
+                .autocomplete({
+                    minLength: 0,
+                    source: function( request, response ) {
+                    response( $.ui.autocomplete.filter(
+                        ' . $nom_array_js . ', extractLast( request.term ) ) );
+                    },
+                    focus: function() {
+                    return false;
+                    },
+                    select: function( event, ui ) {
+                    var terms = split( this.value );
+                    terms.pop();
+                    terms.push( ui.item.value );
+                    terms.push( "" );
+                    this.value = terms.join( ", " );
+                    return false;
+                    }
+                });
+            });
+        //]]>
+    </script>' . "\n";
 
-    return ($scri_js);
+    return $scri_js;
 }
 
 #autodoc language_iso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2 $l=> 0 ou 1(requis), $s (séparateur - | _) , $c=> 0 ou 1 (requis)
@@ -3463,27 +3535,27 @@ function language_iso($l, $s, $c)
 
     switch ($select_lang) {
 
-        case "french":
+        case 'french':
             $iso_lang = 'fr';
             $iso_country = 'FR';
             break;
 
-        case "english":
+        case 'english':
             $iso_lang = 'en';
             $iso_country = 'US';
             break;
 
-        case "spanish":
+        case 'spanish':
             $iso_lang = 'es';
             $iso_country = 'ES';
             break;
 
-        case "german":
+        case 'german':
             $iso_lang = 'de';
             $iso_country = 'DE';
             break;
 
-        case "chinese":
+        case 'chinese':
             $iso_lang = 'zh';
             $iso_country = 'CN';
             break;
@@ -3526,149 +3598,143 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
             $fv_parametres = explode('!###!', $fv_parametres);
         }
 
-        echo '
-   <script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
-   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
-   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-   <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
-   <script type="text/javascript" src="assets//js/npds_checkfieldinp.js"></script>
-   <script type="text/javascript">
-   //<![CDATA[
-   ' . $arg1 . '
-   var diff;
-   document.addEventListener("DOMContentLoaded", function(e) {
-      // validateur pour mots de passe
-      const strongPassword = function() {
-        return {
-            validate: function(input) {
-               let score=0;
-               const value = input.value;
-               if (value === "") {
-                  return {
-                     valid: true,
-                     meta:{score:null},
-                  };
-               }
-               if (value === value.toLowerCase()) {
-                  return {
-                     valid: false,
-                     message: "' . translate('Le mot de passe doit contenir au moins un caractère en majuscule.') . '",
-                     meta:{score: score-1},
-                   };
-               }
-               if (value === value.toUpperCase()) {
-                  return {
-                     valid: false,
-                     message: "' . translate('Le mot de passe doit contenir au moins un caractère en minuscule.') . '",
-                     meta:{score: score-2},
-                  };
-               }
-               if (value.search(/[0-9]/) < 0) {
-                  return {
-                     valid: false,
-                     message: "' . translate('Le mot de passe doit contenir au moins un chiffre.') . '",
-                     meta:{score: score-3},
-                  };
-               }
-               if (value.search(/[@\+\-!#$%&^~*_]/) < 0) {
-                  return {
-                     valid: false,
-                     message: "' . translate('Le mot de passe doit contenir au moins un caractère non alphanumérique.') . '",
-                     meta:{score: score-4},
-                  };
-               }
-               if (value.length < 8) {
-                  return {
-                     valid: false,
-                     message: "' . translate('Le mot de passe doit contenir') . ' ' . $minpass . ' ' . translate('caractères au minimum') . '",
-                     meta:{score: score-5},
-                  };
-               }
-
-               score += ((value.length >= ' . $minpass . ') ? 1 : -1);
-               if (/[A-Z]/.test(value)) score += 1;
-               if (/[a-z]/.test(value)) score += 1; 
-               if (/[0-9]/.test(value)) score += 1;
-               if (/[@\+\-!#$%&^~*_]/.test(value)) score += 1; 
-               return {
-                  valid: true,
-                  meta:{score: score},
-               };
-            },
-         };
-      };
-      FormValidation.validators.checkPassword = strongPassword;
-      formulid.forEach(function(item, index, array) {
-         const fvitem = FormValidation.formValidation(
-            document.getElementById(item),{
-               locale: "' . language_iso(1, "_", 1) . '",
-               localization: FormValidation.locales.' . language_iso(1, "_", 1) . ',
-               fields: {';
+        echo '<script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
+        <script type="text/javascript" src="assets//js/npds_checkfieldinp.js"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        ' . $arg1 . '
+        var diff;
+        document.addEventListener("DOMContentLoaded", function(e) {
+            // validateur pour mots de passe
+            const strongPassword = function() {
+                return {
+                    validate: function(input) {
+                    let score=0;
+                    const value = input.value;
+                    if (value === "") {
+                        return {
+                            valid: true,
+                            meta:{score:null},
+                        };
+                    }
+                    if (value === value.toLowerCase()) {
+                        return {
+                            valid: false,
+                            message: "' . translate('Le mot de passe doit contenir au moins un caractère en majuscule.') . '",
+                            meta:{score: score-1},
+                        };
+                    }
+                    if (value === value.toUpperCase()) {
+                        return {
+                            valid: false,
+                            message: "' . translate('Le mot de passe doit contenir au moins un caractère en minuscule.') . '",
+                            meta:{score: score-2},
+                        };
+                    }
+                    if (value.search(/[0-9]/) < 0) {
+                        return {
+                            valid: false,
+                            message: "' . translate('Le mot de passe doit contenir au moins un chiffre.') . '",
+                            meta:{score: score-3},
+                        };
+                    }
+                    if (value.search(/[@\+\-!#$%&^~*_]/) < 0) {
+                        return {
+                            valid: false,
+                            message: "' . translate('Le mot de passe doit contenir au moins un caractère non alphanumérique.') . '",
+                            meta:{score: score-4},
+                        };
+                    }
+                    if (value.length < 8) {
+                        return {
+                            valid: false,
+                            message: "' . translate('Le mot de passe doit contenir') . ' ' . $minpass . ' ' . translate('caractères au minimum') . '",
+                            meta:{score: score-5},
+                        };
+                    }
+                    score += ((value.length >= ' . $minpass . ') ? 1 : -1);
+                    if (/[A-Z]/.test(value)) score += 1;
+                    if (/[a-z]/.test(value)) score += 1; 
+                    if (/[0-9]/.test(value)) score += 1;
+                    if (/[@\+\-!#$%&^~*_]/.test(value)) score += 1; 
+                    return {
+                        valid: true,
+                        meta:{score: score},
+                    };
+                    },
+                };
+            };
+            FormValidation.validators.checkPassword = strongPassword;
+            formulid.forEach(function(item, index, array) {
+                const fvitem = FormValidation.formValidation(
+                    document.getElementById(item),{
+                    locale: "' . language_iso(1, "_", 1) . '",
+                    localization: FormValidation.locales.' . language_iso(1, "_", 1) . ',
+                    fields: {';
 
         if ($fv_parametres != '') {
-            echo '
-            ' . $fv_parametres[0];
+            echo '' . $fv_parametres[0];
         }
 
-        echo '
-               },
-               plugins: {
-                  declarative: new FormValidation.plugins.Declarative({
-                     html5Input: true,
-                  }),
-                  trigger: new FormValidation.plugins.Trigger(),
-                  submitButton: new FormValidation.plugins.SubmitButton(),
-                  defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                  bootstrap5: new FormValidation.plugins.Bootstrap5({rowSelector: ".mb-3"}),
-                  icon: new FormValidation.plugins.Icon({
-                     valid: "fa fa-check",
-                     invalid: "fa fa-times",
-                     validating: "fa fa-sync",
-                     onPlaced: function(e) {
-                        e.iconElement.addEventListener("click", function() {
-                           fvitem.resetField(e.field);
-                        });
-                     },
-                  }),
-               },
-            })
-            .on("core.validator.validated", function(e) {
-               if ((e.field === "add_pwd" || e.field === "chng_pwd" || e.field === "pass" || e.field === "add_pass" || e.field === "code" || e.field === "passwd") && e.validator === "checkPassword") {
-                  var score = e.result.meta.score;
-                  const barre = document.querySelector("#passwordMeter_cont");
-                  const width = (score < 0) ? score * -18 + "%" : "100%";
-                  barre.style.width = width;
-                  barre.classList.add("progress-bar","progress-bar-striped","progress-bar-animated","bg-success");
-                  barre.setAttribute("aria-valuenow", width);
-                  if (score === null) {
-                     barre.style.width = "100%";
-                     barre.setAttribute("aria-valuenow", "100%");
-                     barre.classList.replace("bg-success","bg-danger");
-                  } else 
-                     barre.classList.replace("bg-danger","bg-success");
-               }
-               if (e.field === "B1" && e.validator === "promise") {
-                  if (e.result.valid && e.result.meta && e.result.meta.source) {
-                      $("#ava_perso").removeClass("border-danger").addClass("border-success")
-                  } else if (!e.result.valid) {
-                     $("#ava_perso").addClass("border-danger")
-                  }
-               }
-            });';
+        echo '},
+                plugins: {
+                    declarative: new FormValidation.plugins.Declarative({
+                        html5Input: true,
+                    }),
+                    trigger: new FormValidation.plugins.Trigger(),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({rowSelector: ".mb-3"}),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: "fa fa-check",
+                        invalid: "fa fa-times",
+                        validating: "fa fa-sync",
+                        onPlaced: function(e) {
+                            e.iconElement.addEventListener("click", function() {
+                            fvitem.resetField(e.field);
+                            });
+                        },
+                    }),
+                },
+                })
+                .on("core.validator.validated", function(e) {
+                if ((e.field === "add_pwd" || e.field === "chng_pwd" || e.field === "pass" || e.field === "add_pass" || e.field === "code" || e.field === "passwd") && e.validator === "checkPassword") {
+                    var score = e.result.meta.score;
+                    const barre = document.querySelector("#passwordMeter_cont");
+                    const width = (score < 0) ? score * -18 + "%" : "100%";
+                    barre.style.width = width;
+                    barre.classList.add("progress-bar","progress-bar-striped","progress-bar-animated","bg-success");
+                    barre.setAttribute("aria-valuenow", width);
+                    if (score === null) {
+                        barre.style.width = "100%";
+                        barre.setAttribute("aria-valuenow", "100%");
+                        barre.classList.replace("bg-success","bg-danger");
+                    } else 
+                        barre.classList.replace("bg-danger","bg-success");
+                }
+                if (e.field === "B1" && e.validator === "promise") {
+                    if (e.result.valid && e.result.meta && e.result.meta.source) {
+                        $("#ava_perso").removeClass("border-danger").addClass("border-success")
+                    } else if (!e.result.valid) {
+                        $("#ava_perso").addClass("border-danger")
+                    }
+                }
+                });';
 
         if ($fv_parametres != '') {
             if (array_key_exists(1, $fv_parametres)) {
-                echo '
-               ' . $fv_parametres[1];
+                echo '' . $fv_parametres[1];
             }
         }
 
-        echo '
-         })
-      });
-   //]]>
-   </script>';
+        echo '})
+            });
+        //]]>
+        </script>';
     }
 
     switch ($foo) {
@@ -3731,7 +3797,7 @@ function dataimagetofileurl($base_64_string, $output_path)
             die('Image non supportée');
         }
 
-        $output_file = $output_path . $j . "_" . $ra . "_" . time() . "." . $ext;
+        $output_file = $output_path . $j . '_' . $ra . '_' . time() . '.' . $ext;
         $base_64_string = preg_replace($rechdataimage, 'class="img-fluid" src="' . $output_file . '" loading="lazy"', $base_64_string, 1);
 
         if ($size[0] > $timgw or $size[1] > $timgh) {
@@ -3765,7 +3831,7 @@ function dataimagetofileurl($base_64_string, $output_path)
 function load_blocks(string $dir): void
 {
     if (!is_dir($dir)) {
-        trigger_error("Dossier introuvable : $dir", E_USER_WARNING);
+        trigger_error('Dossier introuvable : '. $dir, E_USER_WARNING);
         return;
     }
 
@@ -3777,15 +3843,6 @@ function load_blocks(string $dir): void
         if ($file->getExtension() === 'php') {
             require_once $file->getPathname();
         }
-    }
-}
-
-function import_meta($title = 'NPDS')
-{
-    $Titlesitename = $title;
-
-    if (file_exists('storage/meta/meta.php')) {
-        include 'storage/meta/meta.php';
     }
 }
 

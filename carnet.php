@@ -42,7 +42,9 @@ if (!$user) {
 
     include 'themes/' . $tmp_theme . '/theme.php';
 
-    import_meta(translate('Carnet d\'adresses'));
+    $Titlesitename = translate('Carnet d\'adresses');
+
+    include 'storage/meta/meta.php';
 
     echo '<link id="bsth" rel="stylesheet" href="themes/_skins/default/bootstrap.min.css" />';
 
