@@ -30,8 +30,9 @@ if (
     || stristr($ModStart, 'applet')
     || stristr($ModStart, 'object')
     || stristr($ModStart, 'meta')
-)
+) {
     die();
+}
 
 global $links_DB, $NPDS_Prefix;
 
@@ -51,10 +52,10 @@ function menu()
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item"><a class="nav-link ' . $in_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" >' . translate("Index") . '</a></li>';
 
-    if (autorisation($links_anonaddlinklock))
+    if (autorisation($links_anonaddlinklock)) {
         echo '
         <li class="nav-item" ><a class="nav-link ' . $ad_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=AddLink" >' . translate("Ajouter") . '</a></li>';
-
+    }
     echo '
         <li class="nav-item"><a class="nav-link ' . $ne_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=NewLinks" >' . translate("Nouveautés") . '</a></li>
         <li class="nav-item"><a class="nav-link " href="#linksearchblock">' . translate("Recherche") . '</a></li>
@@ -127,9 +128,9 @@ function autorise_mod($lid, $aff)
         list($radminsuper) = sql_fetch_row($result);
 
         if ($radminsuper == 1) { // faut remettre le controle des droits probablement pour les admin qui ont le droit link ??!!
-            if ($aff)
+            if ($aff) {
                 echo '<a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=modifylinkrequest&amp;lid=' . $lid . '&amp;author=-9" title="' . translate("Modifier") . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
-
+            }
             return (true);
         }
     } elseif ($user != '') {
@@ -144,10 +145,12 @@ function autorise_mod($lid, $aff)
                 echo '<a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=modifylinkrequest&amp;lid=' . $lid . '&amp;author=' . $cookie[1] . '" title="' . translate("Modifier") . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg"></i></a>';
 
             return (true);
-        } else
+        } else {
             return (false);
-    } else
+        }
+    } else {
         return (false);
+    }
 }
 
 function index()
@@ -163,8 +166,9 @@ function index()
     if ($SuperCache) {
         $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
@@ -196,10 +200,10 @@ function index()
 
                 categorynewlinkgraphic($cid);
 
-                if ($cdescription)
+                if ($cdescription) {
                     echo '
                     <p>' . aff_langue($cdescription) . '</p>';
-
+                }
                 $result2 = sql_query("SELECT sid, title FROM " . $links_DB . "links_subcategories WHERE cid='$cid' ORDER BY title $subcat_limit");
 
                 while (list($sid, $stitle) = sql_fetch_row($result2)) {
@@ -237,8 +241,9 @@ function index()
         SearchForm();
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     global $admin;
     if ($admin) {
@@ -267,8 +272,9 @@ function index()
 
             echo '
         </p>';
-        } else
+        } else {
             echo "<p align=\"center\"><span> -: [ <a href=\"modules.php?ModStart=create_tables&amp;ModPath=$ModPath/admin/\">" . translate("Créer") . "</a> Tables : $links_DB ] :-</span></p>";
+        }
     }
 
     include 'footer.php';
@@ -319,13 +325,15 @@ function viewlink($cid, $min, $orderby, $show)
     if ($SuperCache) {
         $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
-        if (!isset($max))
+        if (!isset($max)) {
             $max = $min + $perpage;
+        }
 
         mainheader();
 
@@ -366,8 +374,9 @@ function viewlink($cid, $min, $orderby, $show)
         $affsouscat .= '
         </ul>';
 
-        if ($numrows != 0)
+        if ($numrows != 0) {
             echo $affsouscat;
+        }
 
         $orderbyTrans = convertorderbytrans($orderby);
 
@@ -395,33 +404,38 @@ function viewlink($cid, $min, $orderby, $show)
         if ($linkpageremainder != 0) {
             $linkpages = ceil($linkpagesint);
 
-            if ($totalselectedlinks < $perpage)
+            if ($totalselectedlinks < $perpage) {
                 $linkpageremainder = 0;
-        } else
+            }
+        } else {
             $linkpages = $linkpagesint;
+        }
 
         $nbPages = ceil($totalselectedlinks / $perpage);
         $current = 1;
 
-        if ($min >= 1)
+        if ($min >= 1) {
             $current = $min / $perpage;
-        else if ($min < 1)
+        } else if ($min < 1) {
             $current = 0;
-        else
+        } else {
             $current = $nbPages;
+        }
 
         $start = ($current * $perpage);
 
         echo paginate('modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlink&amp;cid=' . $cid . '&amp;min=', '&amp;orderby=' . $orderby . '&amp;show=' . $perpage, $nbPages, $current, $adj = 3, $perpage, $start);
 
-        if (isset($sid))
+        if (isset($sid)) {
             FooterOrderBy($cid, $sid, $orderbyTrans, 'viewlink');
+        }
 
         SearchForm();
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     include 'footer.php';
 }
@@ -438,8 +452,9 @@ function viewslink($sid, $min, $orderby, $show)
     if ($SuperCache) {
         $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
@@ -447,11 +462,12 @@ function viewslink($sid, $min, $orderby, $show)
 
         $filen = "modules/$ModPath/links.ban_03.php";
 
-        if (file_exists($filen))
+        if (file_exists($filen)) {
             include($filen);
-
-        if (!isset($max))
+        }
+        if (!isset($max)) {
             $max = $min + $perpage;
+        }
 
         $result = sql_query("SELECT cid, title FROM " . $links_DB . "links_subcategories WHERE sid='$sid'");
         list($cid, $stitle) = sql_fetch_row($result);
@@ -487,12 +503,13 @@ function viewslink($sid, $min, $orderby, $show)
         $nbPages = ceil($totalselectedlinks / $perpage);
         $current = 1;
 
-        if ($min >= 1)
+        if ($min >= 1) {
             $current = $min / $perpage;
-        else if ($min < 1)
+        } else if ($min < 1) {
             $current = 0;
-        else
+        } else {
             $current = $nbPages;
+        }
 
         $start = ($current * $perpage);
 
@@ -501,8 +518,9 @@ function viewslink($sid, $min, $orderby, $show)
         FooterOrderBy($cid, $sid, $orderbyTrans, "viewslink");
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     include 'footer.php';
 }
@@ -518,8 +536,9 @@ function fiche_detail($Xlid)
     if ($SuperCache) {
         $cache_obj = new SuperCacheManager();
         $cache_obj->startCachingPage();
-    } else
+    } else {
         $cache_obj = new SuperCacheEmpty();
+    }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
@@ -532,8 +551,9 @@ function fiche_detail($Xlid)
         include("modules/sform/links/link_detail.php");
     }
 
-    if ($SuperCache)
+    if ($SuperCache) {
         $cache_obj->endCachingPage();
+    }
 
     include 'footer.php';
 }
@@ -561,14 +581,15 @@ function categorynewlinkgraphic($cat)
 
 function popgraphics($count)
 {
-    if ($count < 1)
+    if ($count < 1) {
         echo '<span class="btn btn-danger btn-sm float-end" title="' . translate("Les nouveaux liens de cette catégorie ajoutés aujourd'hui") . '" data-bs-toggle="tooltip" data-bs-placement="left">N</span>';
-
-    if ($count <= 3 && $count >= 1)
+    }
+    if ($count <= 3 && $count >= 1) {
         echo '<span class="btn btn-success btn-sm float-end" title="' . translate("Les nouveaux liens ajoutés dans cette catégorie dans les 3 derniers jours") . '" data-bs-toggle="tooltip" data-bs-placement="left">N</span>';
-
-    if ($count <= 7 && $count > 3)
+    }
+    if ($count <= 7 && $count > 3) {
         echo '<span class="btn btn-infos btn-sm float-end" title="' . translate("Les nouveaux Liens ajoutés dans cette catégorie cette semaine") . '" data-bs-toggle="tooltip" data-bs-placement="left">N</span>';
+    }
 }
 
 function newlinkgraphic($datetime, $time)
@@ -592,8 +613,9 @@ function detecteditorial($lid, $ttitle)
 
     $recordexist = sql_num_rows($resulted2);
 
-    if ($recordexist != 0)
+    if ($recordexist != 0) {
         echo '<a class="me-3" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlinkeditorial&amp;lid=' . $lid . '&amp;ttitle=' . $ttitle . '"><i class="far fa-sticky-note fa-lg" title="' . translate("EDITO") . '" data-bs-toggle="tooltip"></i></a>';
+    }
 }
 
 //Reusable Link Sorting Functions
@@ -601,17 +623,21 @@ function convertorderbyin($orderby)
 {
     $orderbyIn = 'title ASC';
 
-    if ($orderby == 'titleA')
+    if ($orderby == 'titleA') {
         $orderbyIn = 'title ASC';
+    }
 
-    if ($orderby == 'dateA')
+    if ($orderby == 'dateA') {
         $orderbyIn = 'date ASC';
+    }
 
-    if ($orderby == 'titleD')
+    if ($orderby == 'titleD') {
         $orderbyIn = 'title DESC';
+    }
 
-    if ($orderby == 'dateD')
+    if ($orderby == 'dateD') {
         $orderbyIn = 'date DESC';
+    }
 
     return $orderbyIn;
 }
@@ -620,17 +646,21 @@ function convertorderbytrans($orderby)
 {
     $orderbyTrans = translate("Title (A to Z)");
 
-    if ($orderby == 'title ASC')
+    if ($orderby == 'title ASC') {
         $orderbyTrans = translate("Titre (de A à Z)");
+    }
 
-    if ($orderby == 'title DESC')
+    if ($orderby == 'title DESC') {
         $orderbyTrans = translate("Titre (de Z à A)");
+    }
 
-    if ($orderby == 'date ASC')
+    if ($orderby == 'date ASC') {
         $orderbyTrans = translate("Date (les plus vieux liens en premier)");
+    }
 
-    if ($orderby == 'date DESC')
+    if ($orderby == 'date DESC') {
         $orderbyTrans = translate("Date (les liens les plus récents en premier)");
+    }
 
     return $orderbyTrans;
 }
@@ -639,17 +669,21 @@ function convertorderbyout($orderby)
 {
     $orderbyOut = 'titleA';
 
-    if ($orderby == 'title ASC')
+    if ($orderby == 'title ASC') {
         $orderbyOut = 'titleA';
+    }
 
-    if ($orderby == 'date ASC')
+    if ($orderby == 'date ASC') {
         $orderbyOut = 'dateA';
+    }
 
-    if ($orderby == 'title DESC')
+    if ($orderby == 'title DESC') {
         $orderbyOut = 'titleD';
+    }
 
-    if ($orderby == 'date DESC')
+    if ($orderby == 'date DESC') {
         $orderbyOut = 'dateD';
+    }
 
     return $orderbyOut;
 }
@@ -689,10 +723,10 @@ function viewlinkeditorial($lid, $ttitle)
     <h3>' . translate("EDITO") . ' : 
         <span class="text-body-secondary">' . aff_langue($displaytitle) . '</span>';
 
-    if ($url != '')
+    if ($url != '') {
         echo '
         <span class="float-end"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" title="' . translate("Visiter ce site web") . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fas fa-external-link-alt"></i></a></span>';
-
+    }
     echo '
     </h3>';
 
@@ -709,9 +743,9 @@ function viewlinkeditorial($lid, $ttitle)
             <p><span class="text-body-secondary small">' . translate("Editorial par") . ' ' . $adminid . ' - ' . $formatted_date . '</span></p>
             <hr/>' . aff_langue($editorialtext);
         }
-    } else
+    } else {
         echo '<p class="text-center">' . translate("Aucun édito n'est disponible pour ce site") . '</p><br />';
-
+    }
     echo '
     </div>';
 
@@ -759,30 +793,35 @@ switch ($op) {
     case 'viewlink':
         settype($show, 'string');
 
-        if (!isset($min))
+        if (!isset($min)) {
             $min = 0;
+        }
 
-        if (isset($orderby))
+        if (isset($orderby)) {
             $orderby = convertorderbyin($orderby);
-        else
+        } else {
             $orderby = "title ASC";
+        }
 
         viewlink($cid, $min, $orderby, $show);
         break;
 
     case 'viewslink':
-        if (!isset($min))
+        if (!isset($min)) {
             $min = 0;
+        }
 
-        if (isset($orderby))
+        if (isset($orderby)) {
             $orderby = convertorderbyin($orderby);
-        else
+        } else {
             $orderby = "title ASC";
+        }
 
-        if (isset($show))
+        if (isset($show)) {
             $perpage = $show;
-        else
+        } else {
             $show = $perpage;
+        }
 
         viewslink($sid, $min, $orderby, $show);
         break;
@@ -822,11 +861,13 @@ switch ($op) {
 
         $offset = 10;
 
-        if (!isset($min))
+        if (!isset($min)) {
             $min = 0;
+        }
 
-        if (!isset($max))
+        if (!isset($max)) {
             $max = $min + $offset;
+        }
 
         links_search($query, $topicL, $min, $max, $offset);
         break;

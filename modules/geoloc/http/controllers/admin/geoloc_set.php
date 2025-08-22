@@ -36,17 +36,18 @@ if (
     || stristr($ModStart, 'applet')
     || stristr($ModStart, 'object')
     || stristr($ModStart, 'meta')
-)
+) {
     die();
+}
 
 $f_meta_nom = 'geoloc';
 
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 
-include('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php');
+include 'modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php';
 
-$f_titre = geoloc_translate("Configuration du module Geoloc");
+$f_titre = geoloc_translate('Configuration du module Geoloc');
 
 $subop          = isset($subop) ? $subop : '';
 $geo_ip         = isset($geo_ip) ? $geo_ip : '';
@@ -58,24 +59,26 @@ $key_lookup     = isset($key_lookup) ? $key_lookup : '';
 
 function vidip()
 {
-    global $NPDS_Prefix;
-
-    $sql = "DELETE FROM " . $NPDS_Prefix . "ip_loc WHERE ip_id >=1";
+    $sql = "DELETE FROM " . sql_prefix('ip_loc') . " 
+            WHERE ip_id >=1";
 
     if ($result = sql_query($sql)) {
-        sql_query("ALTER TABLE " . $NPDS_Prefix . "ip_loc AUTO_INCREMENT = 0;");
+        sql_query("ALTER TABLE " . sql_prefix('ip_loc') . " AUTO_INCREMENT = 0;");
     }
 }
 
 function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp, $geo_ip, $api_key_ipdata, $key_lookup)
 {
-    global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg, $dbname, $NPDS_Prefix, $subop;
+    global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg, $dbname, $subop;
 
     include('modules/' . $ModPath . '/geoloc.conf');
 
     $hlpfile = 'modules/' . $ModPath . '/doc/aide_admgeo_' . $language . '.html';
 
-    $result = sql_query("SELECT CONCAT(ROUND(((DATA_LENGTH + INDEX_LENGTH - DATA_FREE) / 1024 / 1024), 2), ' Mo') AS TailleMo FROM information_schema.TABLES WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = " . $NPDS_Prefix . "'ip_loc'");
+    $result = sql_query("SELECT CONCAT(ROUND(((DATA_LENGTH + INDEX_LENGTH - DATA_FREE) / 1024 / 1024), 2), ' Mo') AS TailleMo 
+                         FROM information_schema.TABLES 
+                         WHERE TABLE_SCHEMA = '$dbname' 
+                         AND TABLE_NAME = " . sql_prefix('ip_loc'));
 
     $row = sql_fetch_array($result);
 
@@ -84,7 +87,9 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     foreach ($ar_fields as $k => $v) {
         $req = '';
 
-        $req = sql_query("SELECT $v FROM users_extend WHERE $v !=''");
+        $req = sql_query("SELECT $v 
+                          FROM ". sql_prefix('users_extend') ." 
+                          WHERE $v !=''");
 
         if (!sql_num_rows($req)) {
             $dispofield[] = $v;
@@ -115,21 +120,21 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     );
 
     $fond_provider = array(
-        ['OSM', geoloc_translate("Plan") . ' (OpenStreetMap)'],
-        ['natural-earth-hypso-bathy', geoloc_translate("Relief") . ' (mapbox)'],
-        ['geography-class', geoloc_translate("Carte") . ' (mapbox)'],
-        ['microsoft.base.road', geoloc_translate("Plan") . ' (Azure maps)'],
-        ['microsoft.imagery', geoloc_translate("Satellite") . ' (Azure maps)'],
-        ['microsoft.base.darkgrey', geoloc_translate("Sombre") . ' (Azure maps)'],
-        ['sat-google', geoloc_translate("Satellite") . ' (Google maps)'],
-        ['World_Imagery', geoloc_translate("Satellite") . ' (ESRI)'],
-        ['World_Shaded_Relief', geoloc_translate("Relief") . ' (ESRI)'],
-        ['World_Physical_Map', geoloc_translate("Physique") . ' (ESRI)'],
-        ['World_Topo_Map', geoloc_translate("Topo") . ' (ESRI)'],
-        ['stamen_terrain', geoloc_translate("Plan") . ' (Stadia maps)'],
-        ['stamen_watercolor', geoloc_translate("Dessin") . ' (Stadia maps)'],
-        ['alidade_smooth', geoloc_translate("Plan clair") . ' (Stadia maps)'],
-        ['stamen_toner', geoloc_translate("Plan sombre") . ' (Stadia maps)'],
+        ['OSM', geoloc_translate('Plan') . ' (OpenStreetMap)'],
+        ['natural-earth-hypso-bathy', geoloc_translate('Relief') . ' (mapbox)'],
+        ['geography-class', geoloc_translate('Carte') . ' (mapbox)'],
+        ['microsoft.base.road', geoloc_translate('Plan') . ' (Azure maps)'],
+        ['microsoft.imagery', geoloc_translate('Satellite') . ' (Azure maps)'],
+        ['microsoft.base.darkgrey', geoloc_translate('Sombre') . ' (Azure maps)'],
+        ['sat-google', geoloc_translate('Satellite') . ' (Google maps)'],
+        ['World_Imagery', geoloc_translate('Satellite') . ' (ESRI)'],
+        ['World_Shaded_Relief', geoloc_translate('Relief') . ' (ESRI)'],
+        ['World_Physical_Map', geoloc_translate('Physique') . ' (ESRI)'],
+        ['World_Topo_Map', geoloc_translate('Topo') . ' (ESRI)'],
+        ['stamen_terrain', geoloc_translate('Plan') . ' (Stadia maps)'],
+        ['stamen_watercolor', geoloc_translate('Dessin') . ' (Stadia maps)'],
+        ['alidade_smooth', geoloc_translate('Plan clair') . ' (Stadia maps)'],
+        ['stamen_toner', geoloc_translate('Plan sombre') . ' (Stadia maps)'],
     );
 
     if ($api_key_azure == '' and $api_key_mapbox == '') {
@@ -142,13 +147,11 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 
     $aff = '';
 
-    $aff .= '
-    <hr />
-    <a href="modules.php?ModPath=geoloc&amp;ModStart=geoloc"><i class="fa fa-globe fa-lg me-2 "></i>' . geoloc_translate('Carte') . '</a>
+    $aff .= '<hr /><a href="modules.php?ModPath=geoloc&amp;ModStart=geoloc"><i class="fa fa-globe fa-lg me-2 "></i>' . geoloc_translate('Carte') . '</a>
     <form id="geolocset" name="geoloc_set" action="admin.php" method="post">
         <h4 class="my-3">' . geoloc_translate('Paramètres système') . '</h4>
         <fieldset id="para_sys" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
-            <span class="text-danger">* ' . geoloc_translate("requis") . '</span>
+            <span class="text-danger">* ' . geoloc_translate('requis') . '</span>
             <div class="mb-3 row ">
                 <label class="col-form-label col-sm-6" for="ch_lat">' . geoloc_translate('Champ de table pour latitude') . '<span class="text-danger ms-1">*</span></label>
                 <div class="col-sm-6">
@@ -159,8 +162,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $aff .= '<option>' . $va . '</option>';
     }
 
-    $aff .= '
-                </select>
+    $aff .= '</select>
                 </div>
             </div>
             <div class="mb-3 row ">
@@ -192,8 +194,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $ckn_geo = 'checked="checked"';
     }
 
-    $aff .= '
-            <div class="mb-3 row">
+    $aff .= '<div class="mb-3 row">
                 <label class="col-sm-6 col-form-label" for="geo_ip">' . geoloc_translate('Géolocalisation des IP') . '</label>
                 <div class="col-sm-6 my-2">
                 <div class="form-check form-check-inline">
@@ -207,14 +208,14 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-form-label col-sm-4" for="api_key_ipdata">' . geoloc_translate("Clef d'API") . ' Ipdata</label>
+                <label class="col-form-label col-sm-4" for="api_key_ipdata">' . geoloc_translate('Clef d\'API') . ' Ipdata</label>
                 <div class="col-sm-8">
                 <input type="text" class="form-control" name="api_key_ipdata" id="api_key_ipdata" placeholder="" value="' . $api_key_ipdata . '" />
                 <span class="help-block small muted">' . $api_key_ipdata . '</span>
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-form-label col-sm-4" for="key_lookup">' . geoloc_translate("Clef d'API") . ' extreme-ip-lookup</label>
+                <label class="col-form-label col-sm-4" for="key_lookup">' . geoloc_translate('Clef d\'API') . ' extreme-ip-lookup</label>
                 <div class="col-sm-8">
                 <input type="text" class="form-control" name="key_lookup" id="key_lookup" placeholder="" value="' . $key_lookup . '" />
                 <span class="help-block small muted">' . $key_lookup . '</span>
@@ -227,22 +228,20 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         </fieldset>
         <hr />
         <h4 class="my-3" >' . geoloc_translate('Interface carte') . '</h4>
-
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-4" for="api_key_azure">' . geoloc_translate("Clef d'API") . ' Azure maps</label>
+            <label class="col-form-label col-sm-4" for="api_key_azure">' . geoloc_translate('Clef d\'API') . ' Azure maps</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" name="api_key_azure" id="api_key_azure" placeholder="" value="' . $api_key_azure . '" />
                 <span class="help-block small muted">' . $api_key_azure . '</span>
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-4" for="api_key_mapbox">' . geoloc_translate("Clef d'API") . ' Mapbox</label>
+            <label class="col-form-label col-sm-4" for="api_key_mapbox">' . geoloc_translate('Clef d\'API') . ' Mapbox</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" name="api_key_mapbox" id="api_key_mapbox" placeholder="" value="' . $api_key_mapbox . '" />
                 <span class="help-block small muted">' . $api_key_mapbox . '</span>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-8">
                 <fieldset id="para_car" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
@@ -296,10 +295,9 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         }
     }
 
-    $aff .= '
-                        </select>
-                    </div>
-                </div>';
+    $aff .= '</select>
+            </div>
+        </div>';
 
     $s_dd = '';
     $s_dm = '';
@@ -310,16 +308,15 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $s_dm = 'selected="selected"';
     }
 
-    $aff .= '
-                <div class="mb-3 row">
-                    <label class="col-form-label col-sm-6" for="co_unit">' . geoloc_translate('Unité des coordonnées') . '<span class="text-danger ms-1">*</span></label>
-                    <div class="col-sm-6">
-                        <select class="form-select" name="co_unit" id="co_unit">
-                            <option ' . $s_dd . '>dd</option>
-                            <option ' . $s_dm . '>dms</option>
-                        </select>
-                    </div>
-                </div>';
+    $aff .= '<div class="mb-3 row">
+            <label class="col-form-label col-sm-6" for="co_unit">' . geoloc_translate('Unité des coordonnées') . '<span class="text-danger ms-1">*</span></label>
+            <div class="col-sm-6">
+                <select class="form-select" name="co_unit" id="co_unit">
+                    <option ' . $s_dd . '>dd</option>
+                    <option ' . $s_dm . '>dms</option>
+                </select>
+            </div>
+        </div>';
 
     $cky_mar = '';
     $ckn_mar = '';
@@ -330,67 +327,66 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $ckn_mar = 'checked="checked"';
     }
 
-    $aff .= '
-                <div class="mb-3 row">
-                    <label class="col-sm-12 col-form-label" for="mark_typ">' . geoloc_translate('Type de marqueur') . '</label>
-                    <div class="col-sm-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="img_img" name="mark_typ" value="1" ' . $cky_mar . ' checked="checked" />
-                        <label class="form-check-label" for="img_img">' . geoloc_translate('Marqueur images de type png, gif, jpeg.') . '</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="img_svg" name="mark_typ" value="0" ' . $ckn_mar . ' />
-                        <label class="form-check-label" for="img_svg">' . geoloc_translate('Marqueur SVG font ou objet vectoriel.') . '</label>
-                    </div>
+    $aff .= '<div class="mb-3 row">
+            <label class="col-sm-12 col-form-label" for="mark_typ">' . geoloc_translate('Type de marqueur') . '</label>
+            <div class="col-sm-12">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="img_img" name="mark_typ" value="1" ' . $cky_mar . ' checked="checked" />
+                <label class="form-check-label" for="img_img">' . geoloc_translate('Marqueur images de type png, gif, jpeg.') . '</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="img_svg" name="mark_typ" value="0" ' . $ckn_mar . ' />
+                <label class="form-check-label" for="img_svg">' . geoloc_translate('Marqueur SVG font ou objet vectoriel.') . '</label>
+            </div>
+        </div>
+        </div>
+    </fieldset>
+    <fieldset id="para_ima" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
+        <div class="mb-3 row">
+        <label class="col-form-label col-sm-6" for="nm_img_mbg">' . geoloc_translate('Image membre géoréférencé') . '<span class="text-danger ms-1">*</span></label>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <span id="v_img_mbg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_mbg . '" alt="' . geoloc_translate('Image membre géoréférencé') . '" /></span>
+                <input type="text" class="form-control input-lg" name="nm_img_mbg" id="nm_img_mbg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_mbg . '" required="required" />
+            </div>
+        </div>
+        </div>
+        <div class="mb-3 row">
+        <label class="col-form-label col-sm-6" for="nm_img_mbcg">' . geoloc_translate('Image membre géoréférencé en ligne') . '<span class="text-danger ms-1">*</span></label>
+        <div class="col-sm-6">
+            <div class="input-group ">
+                <span id="v_img_mbcg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_mbcg . '" alt="' . geoloc_translate('Image membre géoréférencé en ligne') . '" /></span>
+                <input type="text" class="form-control input-lg" name="nm_img_mbcg" id="nm_img_mbcg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_mbcg . '" required="required" />
+            </div>
+        </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-6" for="nm_img_acg">' . geoloc_translate('Image anonyme géoréférencé en ligne') . '<span class="text-danger ms-1">*</span></label>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span id="v_img_acg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_acg . '" alt="' . geoloc_translate('Image anonyme géoréférencé en ligne') . '" /></span>
+                    <input type="text" class="form-control input-lg" name="nm_img_acg" id="nm_img_acg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_acg . '" required="required" />
                 </div>
-                </div>
-            </fieldset>
-            <fieldset id="para_ima" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
-                <div class="mb-3 row">
-                <label class="col-form-label col-sm-6" for="nm_img_mbg">' . geoloc_translate('Image membre géoréférencé') . '<span class="text-danger ms-1">*</span></label>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span id="v_img_mbg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_mbg . '" alt="' . geoloc_translate('Image membre géoréférencé') . '" /></span>
-                        <input type="text" class="form-control input-lg" name="nm_img_mbg" id="nm_img_mbg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_mbg . '" required="required" />
-                    </div>
-                </div>
-                </div>
-                <div class="mb-3 row">
-                <label class="col-form-label col-sm-6" for="nm_img_mbcg">' . geoloc_translate('Image membre géoréférencé en ligne') . '<span class="text-danger ms-1">*</span></label>
-                <div class="col-sm-6">
-                    <div class="input-group ">
-                        <span id="v_img_mbcg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_mbcg . '" alt="' . geoloc_translate('Image membre géoréférencé en ligne') . '" /></span>
-                        <input type="text" class="form-control input-lg" name="nm_img_mbcg" id="nm_img_mbcg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_mbcg . '" required="required" />
-                    </div>
-                </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-form-label col-sm-6" for="nm_img_acg">' . geoloc_translate('Image anonyme géoréférencé en ligne') . '<span class="text-danger ms-1">*</span></label>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <span id="v_img_acg" class="input-group-text"><img width="22" height="22" src="' . $ch_img . $nm_img_acg . '" alt="' . geoloc_translate('Image anonyme géoréférencé en ligne') . '" /></span>
-                            <input type="text" class="form-control input-lg" name="nm_img_acg" id="nm_img_acg" placeholder="' . geoloc_translate('Nom du fichier image') . '" value="' . $nm_img_acg . '" required="required" />
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-form-label col-sm-6" for="w_ico">' . geoloc_translate('Largeur icône des marqueurs') . '<span class="text-danger ms-1">*</span></label>
-                    <div class="col-sm-6">
-                        <input type="number" class="form-control" name="w_ico" id="w_ico" maxlength="3" placeholder="Largeur des images" value="' . $w_ico . '" required="required" />
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                <label class="col-form-label col-sm-6" for="h_ico">' . geoloc_translate('Hauteur icône des marqueurs') . '<span class="text-danger ms-1">*</span></label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" name="h_ico" id="h_ico" maxlength="3" placeholder="Hauteur des images" value="' . $h_ico . '" required="required" />
-                </div>
-                </div>
-            </fieldset>
-            <fieldset id="para_svg" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
-                <div class="mb-3 row">
-                <label class="col-form-label col-sm-6" for="f_mbg">' . geoloc_translate('Marqueur font SVG') . '<span class="text-danger ms-1">*</span></label>
-                <div class="col-sm-6">
-                    <div class="input-group">';
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-6" for="w_ico">' . geoloc_translate('Largeur icône des marqueurs') . '<span class="text-danger ms-1">*</span></label>
+            <div class="col-sm-6">
+                <input type="number" class="form-control" name="w_ico" id="w_ico" maxlength="3" placeholder="Largeur des images" value="' . $w_ico . '" required="required" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+        <label class="col-form-label col-sm-6" for="h_ico">' . geoloc_translate('Hauteur icône des marqueurs') . '<span class="text-danger ms-1">*</span></label>
+        <div class="col-sm-6">
+            <input type="number" class="form-control" name="h_ico" id="h_ico" maxlength="3" placeholder="Hauteur des images" value="' . $h_ico . '" required="required" />
+        </div>
+        </div>
+    </fieldset>
+    <fieldset id="para_svg" class="" style="padding-top: 16px; padding-right: 3px; padding-bottom: 6px;padding-left: 3px;">
+        <div class="mb-3 row">
+        <label class="col-form-label col-sm-6" for="f_mbg">' . geoloc_translate('Marqueur font SVG') . '<span class="text-danger ms-1">*</span></label>
+        <div class="col-sm-6">
+            <div class="input-group">';
 
     $fafont = '';
 
@@ -400,9 +396,8 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         }
     }
 
-    $aff .= '
-                        <span id="vis_ic" class="input-group-text"><span class="fa fa-lg" id="fontchoice">' . $fafont . '</span></span>
-                        <select class="form-select input-lg" name="f_mbg" id="f_mbg">';
+    $aff .= '<span id="vis_ic" class="input-group-text"><span class="fa fa-lg" id="fontchoice">' . $fafont . '</span></span>
+        <select class="form-select input-lg" name="f_mbg" id="f_mbg">';
 
     foreach ($fonts_svg as $v) {
         $sel = ($v[0] == $f_mbg) ? 'selected="selected"' : '';
@@ -410,8 +405,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $aff .= '<option ' . $sel . ' value="' . $v[0] . '">' . $v[2] . '</option>';
     }
 
-    $aff .= '
-                        </select>
+    $aff .= '</select>
                     </div>
                 </div>
                 </div>
@@ -642,8 +636,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         }
     }
 
-    $aff .= '
-                </select>
+    $aff .= '</select>
             </div>
         </div>
         <div class="mb-3 row">
@@ -779,348 +772,384 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 
     $scri = '';
 
-    $scri .= '
-    <script type="text/javascript" src="assets/shared/jscolor/jscolor.min.js"></script>
-    <script type="module">
-    //<![CDATA[
-    $(function() {
-        if (typeof ol=="undefined")
-            $("head").append($("<script />").attr({"type":"text/javascript","src":"assets/shared/ol/ol.js"}));
-        $("head").append($("<script />").attr({"type":"text/javascript","src":"modules/geoloc/include/fontawesome.js"}));
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
-        $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/modules/geoloc/include/css/geoloc_admin.css\' type=\'text/css\' media=\'screen\'>");
-    });
-    jscolor.presets.default = {
-        format:"rgba",
-        backgroundColor:"rgba(0,0,0,1)",
-        position: "bottom",
-        previewSize:18,
-        //width: 140,
-        //height: 140,
-        //paletteCols: 8,
-        hideOnPaletteClick: true,
-        palette: [
-            "#000000", "#7d7d7d", "#870014", "#ec1c23", "#ff7e26",
-            "#fef100", "#22b14b", "#00a1e7", "#3f47cc", "#a349a4",
-            "#ffffff", "#c3c3c3", "#b87957", "#feaec9", "#ffc80d",
-            "#eee3af", "#b5e61d", "#99d9ea", "#7092be", "#c8bfe7",
-        ],
-    };
-    var
-        i_path_mbg,
-        i_path_mbcg,
-        i_path_acg,
-        f_pa,
-        w_ico_size = $("#w_ico").val(),
-        h_ico_size = $("#h_ico").val();
-    $(function() {
-    var 
-        para_svg = document.getElementById("para_svg"),
-        para_ima = document.getElementById("para_ima"),
-        img_img = document.getElementById("img_img"),
-        img_svg = document.getElementById("img_svg");
-    if(img_svg.checked) para_ima.classList.add("collapse");
-    if(img_img.checked) para_svg.classList.add("collapse");
-    img_img.addEventListener("click", function() {
-        para_svg.classList.add("collapse");
-        para_ima.classList.remove("collapse");
-    });
-    img_svg.addEventListener("click", function() {
-        para_ima.classList.add("collapse");
-        para_svg.classList.remove("collapse");
-    });
-    $( "#w_ico, #h_ico, #ch_img, #nm_img_mbg, #nm_img_mbcg, #nm_img_acg, #f_mbg" ).change(function() {
-        w_ico_size = $("#w_ico").val();
-        h_ico_size = $("#h_ico").val();
-        i_path_mbg = $("#ch_img").val()+$("#nm_img_mbg").val();
-        i_path_mbcg = $("#ch_img").val()+$("#nm_img_mbcg").val();
-        i_path_acg = $("#ch_img").val()+$("#nm_img_acg").val();
-        f_pa = $("#f_mbg option:selected").val();
-    }).trigger("change");
-    var 
-        w_ico_size,
-        h_ico_size,
-        mark_cmbg,
-        cartyp,
-        mark_cmbg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([12, 48]))}),
-        mark_cmbgc = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([6, 45]))}),
-        mark_cacg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([12, 40]))}),
-        mark_cmbg_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([10, 10]))}),
-        mark_cmbgc_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([1, 47]))}),
-        mark_acg_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([5, 60]))});
-    mark_cmbg.setStyle(new ol.style.Style({
-        image: new ol.style.Icon({
-            crossOrigin: "anonymous",
-            src: "' . $ch_img . $nm_img_mbg . '",
-            imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
-        })
-    }));
-    mark_cmbgc.setStyle(new ol.style.Style({
-        image: new ol.style.Icon({
-            crossOrigin: "anonymous",
-            src: "' . $ch_img . $nm_img_mbcg . '",
-            imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
-        })
-    }));
-    mark_cacg.setStyle(new ol.style.Style({
-        image: new ol.style.Icon({
-            crossOrigin: "anonymous",
-            src: "' . $ch_img . $nm_img_acg . '",
-            imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
-        })
-    }));
-    mark_cmbg_svg.setStyle(new ol.style.Style({
-        text: new ol.style.Text({
-        text: fa("' . $f_mbg . '"),
-        font: "900 ' . $mbg_sc . 'px \'Font Awesome 5 Free\'",
-        bottom: "Bottom",
-        fill: new ol.style.Fill({color: "' . $mbg_f_co . '"}),
-        stroke: new ol.style.Stroke({color: "' . $mbg_t_co . '", width: ' . $mbg_t_ep . '})
-        })
-    }));
-    mark_cmbgc_svg.setStyle(new ol.style.Style({
-        text: new ol.style.Text({
-        text: fa("' . $f_mbg . '"),
-        font: "900 ' . $mbgc_sc . 'px \'Font Awesome 5 Free\'",
-        bottom: "Bottom",
-        fill: new ol.style.Fill({color: "' . $mbgc_f_co . '"}),
-        stroke: new ol.style.Stroke({color: "' . $mbgc_t_co . '", width: ' . $mbgc_t_ep . '})
-        })
-    }));
-    mark_acg_svg.setStyle(new ol.style.Style({
-        text: new ol.style.Text({
-        text: fa("' . $f_mbg . '"),
-        font: "900 ' . $acg_sc . 'px \'Font Awesome 5 Free\'",
-        bottom: "Bottom",
-        fill: new ol.style.Fill({color: "' . $acg_f_co . '"}),
-        stroke: new ol.style.Stroke({color: "' . $acg_t_co . '", width: ' . $acg_t_ep . '})
-        })
-    }));
-    var 
-        src_markers = new ol.source.Vector({
-            features: [mark_cmbg, mark_cmbgc, mark_cacg, mark_cmbg_svg, mark_cmbgc_svg, mark_acg_svg]
-        }),
-        les_markers = new ol.layer.Vector({source: src_markers}),
-        src_fond = ' . $source_fond . ',
-        fond_carte = new ol.layer.Tile({source: ' . $source_fond . '}),
-        attribution = new ol.control.Attribution({collapsible: true}),
-        fullscreen = new ol.control.FullScreen() ;
-    var map = new ol.Map({
-        interactions: new ol.interaction.defaults.defaults({
-            constrainResolution: true, onFocusOnly: true
-        }),
-        controls: new ol.control.defaults.defaults({attribution: false}).extend([attribution, fullscreen]),
-        target: document.getElementById("map_conf"),
-        layers: [
-            fond_carte,
-            les_markers
-        ],
-        view: new ol.View({
-            center: ol.proj.fromLonLat([0, 45]),
-            zoom: 3
-        })
-    });
-    // size dont work à revoir
-    $( "#w_ico, #h_ico, #ch_img, #nm_img_mbg, #nm_img_mbcg, #nm_img_acg" ).change(function() {
-        w_ico_size = $("#w_ico").val();
-        h_ico_size = $("#h_ico").val();
+    $scri .= '<script type="text/javascript" src="assets/shared/jscolor/jscolor.min.js"></script>
+        <script type="module">
+        //<![CDATA[
+
+        $(function() {
+            if (typeof ol=="undefined")
+                $("head").append($("<script />").attr({"type":"text/javascript","src":"assets/shared/ol/ol.js"}));
+            $("head").append($("<script />").attr({"type":"text/javascript","src":"modules/geoloc/include/fontawesome.js"}));
+            $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/assets/shared/ol/ol.css\' type=\'text/css\' media=\'screen\'>");
+            $("head link[rel=\'stylesheet\']").last().after("<link rel=\'stylesheet\' href=\'/modules/geoloc/include/css/geoloc_admin.css\' type=\'text/css\' media=\'screen\'>");
+        });
+
+        jscolor.presets.default = {
+            format:"rgba",
+            backgroundColor:"rgba(0,0,0,1)",
+            position: "bottom",
+            previewSize:18,
+            //width: 140,
+            //height: 140,
+            //paletteCols: 8,
+            hideOnPaletteClick: true,
+            palette: [
+                "#000000", "#7d7d7d", "#870014", "#ec1c23", "#ff7e26",
+                "#fef100", "#22b14b", "#00a1e7", "#3f47cc", "#a349a4",
+                "#ffffff", "#c3c3c3", "#b87957", "#feaec9", "#ffc80d",
+                "#eee3af", "#b5e61d", "#99d9ea", "#7092be", "#c8bfe7",
+            ],
+        };
+
+        var i_path_mbg,
+            i_path_mbcg,
+            i_path_acg,
+            f_pa,
+            w_ico_size = $("#w_ico").val(),
+            h_ico_size = $("#h_ico").val();
+
+        $(function() {
+            var para_svg = document.getElementById("para_svg"),
+                para_ima = document.getElementById("para_ima"),
+                img_img = document.getElementById("img_img"),
+                img_svg = document.getElementById("img_svg");
+
+            if(img_svg.checked) para_ima.classList.add("collapse");
+            if(img_img.checked) para_svg.classList.add("collapse");
+            img_img.addEventListener("click", function() {
+            para_svg.classList.add("collapse");
+            para_ima.classList.remove("collapse");
+        });
+
+        img_svg.addEventListener("click", function() {
+            para_ima.classList.add("collapse");
+            para_svg.classList.remove("collapse");
+        });
+
+        $( "#w_ico, #h_ico, #ch_img, #nm_img_mbg, #nm_img_mbcg, #nm_img_acg, #f_mbg" ).change(function() {
+            w_ico_size = $("#w_ico").val();
+            h_ico_size = $("#h_ico").val();
+            i_path_mbg = $("#ch_img").val()+$("#nm_img_mbg").val();
+            i_path_mbcg = $("#ch_img").val()+$("#nm_img_mbcg").val();
+            i_path_acg = $("#ch_img").val()+$("#nm_img_acg").val();
+            f_pa = $("#f_mbg option:selected").val();
+        }).trigger("change");
+
+        var 
+            w_ico_size,
+            h_ico_size,
+            mark_cmbg,
+            cartyp,
+            mark_cmbg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([12, 48]))}),
+            mark_cmbgc = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([6, 45]))}),
+            mark_cacg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([12, 40]))}),
+            mark_cmbg_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([10, 10]))}),
+            mark_cmbgc_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([1, 47]))}),
+            mark_acg_svg = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat([5, 60]))});
+
         mark_cmbg.setStyle(new ol.style.Style({
             image: new ol.style.Icon({
                 crossOrigin: "anonymous",
-                src: $("#ch_img").val()+$("#nm_img_mbg").val(),
-                imgSize:[w_ico_size,h_ico_size]
+                src: "' . $ch_img . $nm_img_mbg . '",
+                imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
             })
         }));
+
         mark_cmbgc.setStyle(new ol.style.Style({
             image: new ol.style.Icon({
                 crossOrigin: "anonymous",
-                src: $("#ch_img").val()+$("#nm_img_mbcg").val(),
-                imgSize:[w_ico_size,h_ico_size]
+                src: "' . $ch_img . $nm_img_mbcg . '",
+                imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
             })
         }));
+
         mark_cacg.setStyle(new ol.style.Style({
             image: new ol.style.Icon({
                 crossOrigin: "anonymous",
-                src: $("#ch_img").val()+$("#nm_img_acg").val(),
-                imgSize:[w_ico_size,h_ico_size]
+                src: "' . $ch_img . $nm_img_acg . '",
+                imgSize:[' . $w_ico_b . ',' . $h_ico_b . ']
             })
         }));
-        $("#v_img_mbg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé') . '\" src=\""+$("#ch_img").val()+$("#nm_img_mbg").val()+"\" />");
-        $("#v_img_mbcg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé en ligne') . '\" src=\""+$("#ch_img").val()+$("#nm_img_mbcg").val()+"\" />");
-        $("#v_img_acg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image anonyme géoréférencé en ligne') . '\" src=\""+$("#ch_img").val()+$("#nm_img_acg").val()+"\" />");
-    })
-    var changestyle = function(m,f_fa,fc,tc,sc) {
-        m.setStyle(new ol.style.Style({
+
+        mark_cmbg_svg.setStyle(new ol.style.Style({
             text: new ol.style.Text({
-            text: fa(f_fa),
-            font: "900 "+sc+"px \'Font Awesome 5 Free\'",
+            text: fa("' . $f_mbg . '"),
+            font: "900 ' . $mbg_sc . 'px \'Font Awesome 5 Free\'",
             bottom: "Bottom",
-            fill: new ol.style.Fill({color: fc}),
-            stroke: new ol.style.Stroke({color: tc, width: ' . $mbg_t_ep . '})
+            fill: new ol.style.Fill({color: "' . $mbg_f_co . '"}),
+            stroke: new ol.style.Stroke({color: "' . $mbg_t_co . '", width: ' . $mbg_t_ep . '})
             })
         }));
-    }
-    //==> change font on the map
-    $("#f_mbg").change(function(event) {
-        var
-            f_fa = $("#f_mbg option:selected").val(),
-            fc_m = $("#mbg_f_co").val(),
-            fc_mo = $("#mbgc_f_co").val(),
-            fc_a = $("#acg_f_co").val(),
-            tc_m = $("#mbg_t_co").val(),
-            tc_mo = $("#mbgc_t_co").val(),
-            tc_a = $("#acg_t_co").val(),
-            sc_m = $("#mbg_sc option:selected").val(),
-            sc_mo = $("#mbgc_sc option:selected").val(),
-            sc_a = $("#acg_sc option:selected").val();
-        changestyle(mark_cmbg_svg,f_fa,fc=fc_m,tc=tc_m,sc=sc_m);
-        changestyle(mark_cmbgc_svg,f_fa,fc=fc_mo,tc=tc_mo,sc=sc_mo);
-        changestyle(mark_acg_svg,f_fa,fc=fc_a,tc=tc_a,sc=sc_a);
-        $("#f_choice_mbg,#f_choice_mbgc,#f_choice_acg").html(fa(f_fa));
-        $("#vis_ic").html(\'<span id="fontchoice" class="fa fa-lg">\'+fa(f_fa)+\'</span>\');
-    })
-    $("#ch_img, #img_mbgb").change(function() {
-        $("#v_img_mbgb").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé') . '\" src=\""+$("#ch_img").val()+$("#img_mbgb").val()+"\" />");
-    })
-    //==> aux changements de taille
-        $("#mbg_sc").change(function() {
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#mbg_f_co").val();
-        var tc = $("#mbg_t_co").val();
-        var sc = $("#mbg_sc option:selected").val();
-        changestyle(mark_cmbg_svg,f_fa,fc,tc,sc);
+
+        mark_cmbgc_svg.setStyle(new ol.style.Style({
+            text: new ol.style.Text({
+            text: fa("' . $f_mbg . '"),
+            font: "900 ' . $mbgc_sc . 'px \'Font Awesome 5 Free\'",
+            bottom: "Bottom",
+            fill: new ol.style.Fill({color: "' . $mbgc_f_co . '"}),
+            stroke: new ol.style.Stroke({color: "' . $mbgc_t_co . '", width: ' . $mbgc_t_ep . '})
+            })
+        }));
+
+        mark_acg_svg.setStyle(new ol.style.Style({
+            text: new ol.style.Text({
+                text: fa("' . $f_mbg . '"),
+                font: "900 ' . $acg_sc . 'px \'Font Awesome 5 Free\'",
+                bottom: "Bottom",
+                fill: new ol.style.Fill({color: "' . $acg_f_co . '"}),
+                stroke: new ol.style.Stroke({color: "' . $acg_t_co . '", width: ' . $acg_t_ep . '})
+            })
+        }));
+
+        var src_markers = new ol.source.Vector({
+                features: [mark_cmbg, mark_cmbgc, mark_cacg, mark_cmbg_svg, mark_cmbgc_svg, mark_acg_svg]
+            }),
+
+            les_markers = new ol.layer.Vector({source: src_markers}),
+            src_fond = ' . $source_fond . ',
+            fond_carte = new ol.layer.Tile({source: ' . $source_fond . '}),
+            attribution = new ol.control.Attribution({collapsible: true}),
+            fullscreen = new ol.control.FullScreen() ;
+
+        var map = new ol.Map({
+            interactions: new ol.interaction.defaults.defaults({
+                constrainResolution: true, onFocusOnly: true
+            }),
+            controls: new ol.control.defaults.defaults({attribution: false}).extend([attribution, fullscreen]),
+            target: document.getElementById("map_conf"),
+            layers: [
+                fond_carte,
+                les_markers
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([0, 45]),
+                zoom: 3
+            })
         });
-    $("#mbgc_sc").change(function() {
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#mbgc_f_co").val();
-        var tc = $("#mbgc_t_co").val();
-        var sc = $("#mbgc_sc option:selected").val();
-        changestyle(mark_cmbgc_svg,f_fa,fc,tc,sc);
-    });
-    $("#acg_sc").change(function() {
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#acg_f_co").val();
-        var tc = $("#acg_t_co").val();
-        var sc = $("#acg_sc option:selected").val();
-        changestyle(mark_acg_svg,f_fa,fc,tc,sc);
-    });
-    //<== aux changements de taille
-    //==> aux changements de couleurs fond
-    $("#mbg_f_co").change(function(){
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#mbg_f_co").val();
-        var tc = $("#mbg_t_co").val();
-        var sc = $("#mbg_sc option:selected").val();
-        changestyle(mark_cmbg_svg,f_fa,fc,tc,sc);
-        $("#f_choice_mbg").attr("style","color:"+fc);
-    });
-    $("#mbgc_f_co").change(function(){
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#mbgc_f_co").val();
-        var tc = $("#mbgc_t_co").val();
-        var sc = $("#mbgc_sc option:selected").val();
-        changestyle(mark_cmbgc_svg,f_fa,fc,tc,sc);
-        $("#f_choice_mbgc").attr("style","color:"+fc);
-    });
-    $("#acg_f_co").change(function(){
-        var f_fa = $("#f_mbg option:selected").val();
-        var fc = $("#acg_f_co").val();
-        var tc = $("#acg_t_co").val();
-        var sc = $("#acg_sc option:selected").val();
-        changestyle(mark_acg_svg,f_fa,fc,tc,sc);
-        $("#f_choice_acg").attr("style","color:"+fc);
-    });
-    //<== aux changements de couleurs fond
-    /*
+
+        // size dont work à revoir
+        $( "#w_ico, #h_ico, #ch_img, #nm_img_mbg, #nm_img_mbcg, #nm_img_acg" ).change(function() {
+            w_ico_size = $("#w_ico").val();
+            h_ico_size = $("#h_ico").val();
+            mark_cmbg.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    crossOrigin: "anonymous",
+                    src: $("#ch_img").val()+$("#nm_img_mbg").val(),
+                    imgSize:[w_ico_size,h_ico_size]
+                })
+            }));
+
+            mark_cmbgc.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    crossOrigin: "anonymous",
+                    src: $("#ch_img").val()+$("#nm_img_mbcg").val(),
+                    imgSize:[w_ico_size,h_ico_size]
+                })
+            }));
+
+            mark_cacg.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    crossOrigin: "anonymous",
+                    src: $("#ch_img").val()+$("#nm_img_acg").val(),
+                    imgSize:[w_ico_size,h_ico_size]
+                })
+            }));
+            $("#v_img_mbg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé') . '\" src=\""+$("#ch_img").val()+$("#nm_img_mbg").val()+"\" />");
+            $("#v_img_mbcg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé en ligne') . '\" src=\""+$("#ch_img").val()+$("#nm_img_mbcg").val()+"\" />");
+            $("#v_img_acg").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image anonyme géoréférencé en ligne') . '\" src=\""+$("#ch_img").val()+$("#nm_img_acg").val()+"\" />");
+        })
+
+        var changestyle = function(m,f_fa,fc,tc,sc) {
+            m.setStyle(new ol.style.Style({
+                text: new ol.style.Text({
+                    text: fa(f_fa),
+                    font: "900 "+sc+"px \'Font Awesome 5 Free\'",
+                    bottom: "Bottom",
+                    fill: new ol.style.Fill({color: fc}),
+                    stroke: new ol.style.Stroke({color: tc, width: ' . $mbg_t_ep . '})
+                })
+            }));
+        }
+        //==> change font on the map
+        $("#f_mbg").change(function(event) {
+            var f_fa = $("#f_mbg option:selected").val(),
+                fc_m = $("#mbg_f_co").val(),
+                fc_mo = $("#mbgc_f_co").val(),
+                fc_a = $("#acg_f_co").val(),
+                tc_m = $("#mbg_t_co").val(),
+                tc_mo = $("#mbgc_t_co").val(),
+                tc_a = $("#acg_t_co").val(),
+                sc_m = $("#mbg_sc option:selected").val(),
+                sc_mo = $("#mbgc_sc option:selected").val(),
+                sc_a = $("#acg_sc option:selected").val();
+            changestyle(mark_cmbg_svg,f_fa,fc=fc_m,tc=tc_m,sc=sc_m);
+            changestyle(mark_cmbgc_svg,f_fa,fc=fc_mo,tc=tc_mo,sc=sc_mo);
+            changestyle(mark_acg_svg,f_fa,fc=fc_a,tc=tc_a,sc=sc_a);
+            $("#f_choice_mbg,#f_choice_mbgc,#f_choice_acg").html(fa(f_fa));
+            $("#vis_ic").html(\'<span id="fontchoice" class="fa fa-lg">\'+fa(f_fa)+\'</span>\');
+        })
+
+        $("#ch_img, #img_mbgb").change(function() {
+            $("#v_img_mbgb").html("<img width=\"22\" height=\"22\" alt=\"' . geoloc_translate('Image membre géoréférencé') . '\" src=\""+$("#ch_img").val()+$("#img_mbgb").val()+"\" />");
+        })
+
+        // aux changements de taille
+            $("#mbg_sc").change(function() {
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#mbg_f_co").val();
+            var tc = $("#mbg_t_co").val();
+            var sc = $("#mbg_sc option:selected").val();
+            changestyle(mark_cmbg_svg,f_fa,fc,tc,sc);
+        });
+
+        $("#mbgc_sc").change(function() {
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#mbgc_f_co").val();
+            var tc = $("#mbgc_t_co").val();
+            var sc = $("#mbgc_sc option:selected").val();
+            changestyle(mark_cmbgc_svg,f_fa,fc,tc,sc);
+        });
+
+        $("#acg_sc").change(function() {
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#acg_f_co").val();
+            var tc = $("#acg_t_co").val();
+            var sc = $("#acg_sc option:selected").val();
+            changestyle(mark_acg_svg,f_fa,fc,tc,sc);
+        });
+        // aux changements de taille
+
+        // aux changements de couleurs fond
+        $("#mbg_f_co").change(function(){
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#mbg_f_co").val();
+            var tc = $("#mbg_t_co").val();
+            var sc = $("#mbg_sc option:selected").val();
+            changestyle(mark_cmbg_svg,f_fa,fc,tc,sc);
+            $("#f_choice_mbg").attr("style","color:"+fc);
+        });
+
+        $("#mbgc_f_co").change(function(){
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#mbgc_f_co").val();
+            var tc = $("#mbgc_t_co").val();
+            var sc = $("#mbgc_sc option:selected").val();
+            changestyle(mark_cmbgc_svg,f_fa,fc,tc,sc);
+            $("#f_choice_mbgc").attr("style","color:"+fc);
+        });
+
+        $("#acg_f_co").change(function(){
+            var f_fa = $("#f_mbg option:selected").val();
+            var fc = $("#acg_f_co").val();
+            var tc = $("#acg_t_co").val();
+            var sc = $("#acg_sc option:selected").val();
+            changestyle(mark_acg_svg,f_fa,fc,tc,sc);
+            $("#f_choice_acg").attr("style","color:"+fc);
+        });
+        // aux changements de couleurs fond
+
+        /*
         $("#mbg_f_op").change(function() {
             icon_mbg_svg.fillOpacity = Number($("#mbg_f_op").val());
             mark_cmbg_svg.setIcon(icon_mbg_svg);
         });
+
         $("#mbgc_f_op").change(function() {
             icon_cmbg_svg.fillOpacity = Number($("#mbgc_f_op").val());
             mark_cmbgc_svg.setIcon(icon_cmbg_svg);
         });
+
         $("#acg_f_op").change(function() {
             icon_cacg_svg.fillOpacity = Number($("#acg_f_op").val());
             mark_acg_svg.setIcon(icon_cacg_svg);
         });
+
         $("#mbg_t_op").change(function() {
             icon_mbg_svg.strokeOpacity = Number($("#mbg_t_op").val());
             mark_cmbg_svg.setIcon(icon_mbg_svg);
         });
+
         $("#mbgc_t_op").change(function() {
             icon_cmbg_svg.strokeOpacity = Number($("#mbgc_t_op").val());
             mark_cmbgc_svg.setIcon(icon_cmbg_svg);
         });
+
         $("#acg_t_op").change(function() {
             icon_cacg_svg.strokeOpacity = Number($("#acg_t_op").val());
             mark_acg_svg.setIcon(icon_cacg_svg);
         });
+
         $("#mbg_t_ep").change(function() {
             icon_mbg_svg.strokeWeight = Number($("#mbg_t_ep").val());
             mark_cmbg_svg.setIcon(icon_mbg_svg);
         });
+
         $("#mbgc_t_ep").change(function() {
             icon_cmbg_svg.strokeWeight = Number($("#mbgc_t_ep").val());
             mark_cmbgc_svg.setIcon(icon_cmbg_svg);
         });
+
         $("#acg_t_ep").change(function() {
             icon_cacg_svg.strokeWeight = Number($("#acg_t_ep").val());
             mark_acg_svg.setIcon(icon_cacg_svg);
         });
-    */
-    const cartypInp = document.querySelector("#cartyp");
-    cartypInp.oninput = function() {
-        cartyp = $( "#cartyp option:selected" ).val();
-        switch (cartyp) {
-            case "OSM":
-                fond_carte.setSource(new ol.source.OSM());
-            break;
-            case "microsoft.base.road": case "microsoft.imagery": case "microsoft.base.darkgrey":
-                fond_carte.setSource(new ol.source.XYZ({
-                url: `https://atlas.microsoft.com/map/tile?subscription-key=' . $api_key_azure . '&api-version=2.0&tilesetId=`+cartyp+`&zoom={z}&x={x}&y={y}&tileSize=256&language=EN`,
-                crossOrigin: "anonymous",
-                attributions: `© ${new Date().getFullYear()} TomTom, Microsoft`
+        */
+
+        const cartypInp = document.querySelector("#cartyp");
+        cartypInp.oninput = function() {
+            cartyp = $( "#cartyp option:selected" ).val();
+
+            switch (cartyp) {
+                case "OSM":
+                    fond_carte.setSource(new ol.source.OSM());
+                break;
+
+                case "microsoft.base.road": case "microsoft.imagery": case "microsoft.base.darkgrey":
+                    fond_carte.setSource(new ol.source.XYZ({
+                    url: `https://atlas.microsoft.com/map/tile?subscription-key=' . $api_key_azure . '&api-version=2.0&tilesetId=`+cartyp+`&zoom={z}&x={x}&y={y}&tileSize=256&language=EN`,
+                    crossOrigin: "anonymous",
+                    attributions: `© ${new Date().getFullYear()} TomTom, Microsoft`
+                    }));
+                break;
+
+                case "natural-earth-hypso-bathy": case "geography-class":
+                    fond_carte.setSource(new ol.source.TileJSON({url: "https://api.tiles.mapbox.com/v4/mapbox."+cartyp+".json?access_token=' . $api_key_mapbox . '"}));
+                break;
+
+                case "sat-google":
+                    fond_carte.setSource(new ol.source.XYZ({url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",crossOrigin: "Anonymous", attributions: " &middot; <a href=\"https://www.google.at/permissions/geoguidelines/attr-guide.html\">Map data ©2015 Google</a>"}));
+                break;
+
+                case "World_Imagery":case "World_Shaded_Relief":case "World_Physical_Map":case "World_Topo_Map":
+                    fond_carte.setSource(new ol.source.XYZ({
+                    attributions: ["Powered by Esri", "Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community"],
+                    attributionsCollapsible: true,
+                    url: "https://services.arcgisonline.com/ArcGIS/rest/services/"+cartyp+"/MapServer/tile/{z}/{y}/{x}",
+                    maxZoom: 23
                 }));
-            break;
-            case "natural-earth-hypso-bathy": case "geography-class":
-                fond_carte.setSource(new ol.source.TileJSON({url: "https://api.tiles.mapbox.com/v4/mapbox."+cartyp+".json?access_token=' . $api_key_mapbox . '"}));
-            break;
-            case "sat-google":
-                fond_carte.setSource(new ol.source.XYZ({url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",crossOrigin: "Anonymous", attributions: " &middot; <a href=\"https://www.google.at/permissions/geoguidelines/attr-guide.html\">Map data ©2015 Google</a>"}));
-            break;
-            case "World_Imagery":case "World_Shaded_Relief":case "World_Physical_Map":case "World_Topo_Map":
-                fond_carte.setSource(new ol.source.XYZ({
-                attributions: ["Powered by Esri", "Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community"],
-                attributionsCollapsible: true,
-                url: "https://services.arcgisonline.com/ArcGIS/rest/services/"+cartyp+"/MapServer/tile/{z}/{y}/{x}",
-                maxZoom: 23
-            }));
-            break;
-            case "stamen_terrain": case "stamen_watercolor": case "alidade_smooth": case "stamen_toner":
-                fond_carte.setSource(new ol.source.StadiaMaps({layer:cartyp}));
-            break;
-        }
-    };';
+                break;
+
+                case "stamen_terrain": case "stamen_watercolor": case "alidade_smooth": case "stamen_toner":
+                    fond_carte.setSource(new ol.source.StadiaMaps({layer:cartyp}));
+                break;
+            }
+        };';
 
     $scri .= file_get_contents('modules/geoloc/include/ol-dico.js');
 
-    $scri .= '
-    const targ = map.getTarget();
-    const lang = targ.lang;
-    for (var i in dic) {
-        if (dic.hasOwnProperty(i)) {
-            $("#map_conf "+dic[i].cla).prop("title", dic[i][lang]);
+    $scri .= 'const targ = map.getTarget();
+        const lang = targ.lang;
+        for (var i in dic) {
+            if (dic.hasOwnProperty(i)) {
+                $("#map_conf "+dic[i].cla).prop("title", dic[i][lang]);
+            }
         }
-    }
-    $("#map_conf .ol-zoom-in, #map_conf .ol-zoom-out").tooltip({placement: "right", container: "#map_conf",});
-    $("#map_conf .ol-rotate-reset, #map_conf .ol-attribution button[title], #map_conf .ol-full-screen button[title]").tooltip({placement: "left", container: "#map_conf",});
-    //});
-    ';
+        $("#map_conf .ol-zoom-in, #map_conf .ol-zoom-out").tooltip({placement: "right", container: "#map_conf",});
+        $("#map_conf .ol-rotate-reset, #map_conf .ol-attribution button[title], #map_conf .ol-full-screen button[title]").tooltip({placement: "left", container: "#map_conf",});
+        //});';
 
-    $scri .= '
-    });
-    //]]>
+    $scri .= '});
+        //]]>
     </script>';
 
     echo $aff . $scri;
@@ -1130,9 +1159,8 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 
 function SaveSetgeoloc($api_key_azure, $api_key_mapbox, $ch_lat, $ch_lon, $cartyp, $geo_ip, $api_key_ipdata, $key_lookup, $co_unit, $mark_typ, $ch_img, $nm_img_acg, $nm_img_mbcg, $nm_img_mbg, $w_ico, $h_ico, $f_mbg, $mbg_sc, $mbg_t_ep, $mbg_t_co, $mbg_t_op, $mbg_f_co, $mbg_f_op, $mbgc_sc, $mbgc_t_ep, $mbgc_t_co, $mbgc_t_op, $mbgc_f_co, $mbgc_f_op, $acg_sc, $acg_t_ep, $acg_t_co, $acg_t_op, $acg_f_co, $acg_f_op, $cartyp_b, $img_mbgb, $w_ico_b, $h_ico_b, $h_b, $z_b, $ModPath, $ModStart)
 {
-
-    //==> modifie le fichier de configuration
-    $file_conf = fopen("modules/geoloc/geoloc.conf", "w+");
+    // modifie le fichier de configuration
+    $file_conf = fopen('modules/geoloc/config/config', 'w+');
 
     $content = "<?php \n";
     $content .= "/************************************************************************/\n";
@@ -1198,7 +1226,7 @@ function SaveSetgeoloc($api_key_azure, $api_key_mapbox, $ch_lat, $ch_lon, $carty
 
     fwrite($file_conf, $content);
     fclose($file_conf);
-    //<== modifie le fichier de configuration
+    // modifie le fichier de configuration
 }
 
 if ($admin) {

@@ -43,17 +43,19 @@ class Upload
     {
         global $HTTP_POST_FILES, $_FILES;
 
-        if (!empty($HTTP_POST_FILES))
+        if (!empty($HTTP_POST_FILES)) {
             $fic = $HTTP_POST_FILES;
-        else
+        } else {
             $fic = $_FILES;
+        }
 
         $this->HTTP_POST_FILES = $fic;
 
-        if (empty($fic))
+        if (empty($fic)) {
             $this->isPosted = false;
-        else
+        } else {
             $this->isPosted = true;
+        }
     }
 
     public function Upload()

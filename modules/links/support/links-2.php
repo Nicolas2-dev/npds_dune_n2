@@ -15,12 +15,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!stristr($_SERVER['PHP_SELF'], 'modules.php'))
+if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
+}
 
 function NewLinksDate($selectdate)
 {
-    global $ModPath, $ModStart, $links_DB, $admin;
+    global $ModPath, $links_DB;
 
     $dateDB = (date("d-M-Y", $selectdate));
 
@@ -36,11 +37,16 @@ function NewLinksDate($selectdate)
 
     $newlinkDB = Date("Y-m-d", $selectdate);
 
-    $result = sql_query("SELECT lid FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%'");
+    $result = sql_query("SELECT lid 
+                         FROM " . $links_DB . "links_links 
+                         WHERE date LIKE '%$newlinkDB%'");
 
     $totallinks = sql_num_rows($result);
 
-    $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%' ORDER BY title ASC");
+    $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid 
+                         FROM " . $links_DB . "links_links 
+                         WHERE date LIKE '%$newlinkDB%' 
+                         ORDER BY title ASC");
 
     $link_fiche_detail = '';
 
@@ -67,7 +73,9 @@ function NewLinks($newlinkshowdays)
         $newlinkView = date("F d, Y", $newlinkdayRaw);
         $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
 
-        $result = sql_query("SELECT * FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%'");
+        $result = sql_query("SELECT * 
+                             FROM " . $links_DB . "links_links 
+                             WHERE date LIKE '%$newlinkDB%'");
 
         $totallinks = sql_num_rows($result);
 
@@ -84,7 +92,9 @@ function NewLinks($newlinkshowdays)
 
         $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
 
-        $result = sql_query("SELECT * FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%'");
+        $result = sql_query("SELECT * 
+                             FROM " . $links_DB . "links_links 
+                             WHERE date LIKE '%$newlinkDB%'");
 
         $totallinks = sql_num_rows($result);
 
@@ -93,11 +103,9 @@ function NewLinks($newlinkshowdays)
         $counter++;
     }
 
-    echo '
-   
-   <div class="card card-body mb-3">
-   <h3>' . translate("Nouveaux liens") . '</h3>
-   ' . translate("Total des nouveaux liens pour la semaine dernière") . ' : ' . $allweeklinks . ' -/- ' . translate("Pour les 30 derniers jours") . ' : ' . $allmonthlinks;
+    echo '<div class="card card-body mb-3">
+        <h3>' . translate("Nouveaux liens") . '</h3>
+        ' . translate("Total des nouveaux liens pour la semaine dernière") . ' : ' . $allweeklinks . ' -/- ' . translate("Pour les 30 derniers jours") . ' : ' . $allmonthlinks;
 
     echo "<br />\n";
 
@@ -106,9 +114,8 @@ function NewLinks($newlinkshowdays)
     $counter = 0;
     $allweeklinks = 0;
 
-    echo '
-    <blockquote>
-    <ul>';
+    echo '<blockquote>
+        <ul>';
 
     while ($counter <= $newlinkshowdays - 1) {
         $newlinkdayRaw = (time() - (86400 * $counter));
@@ -119,7 +126,9 @@ function NewLinks($newlinkshowdays)
 
         $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
 
-        $result = sql_query("SELECT * FROM " . $links_DB . "links_links WHERE date LIKE '%$newlinkDB%'");
+        $result = sql_query("SELECT * 
+                             FROM " . $links_DB . "links_links 
+                             WHERE date LIKE '%$newlinkDB%'");
 
         $totallinks = sql_num_rows($result);
 
@@ -131,10 +140,9 @@ function NewLinks($newlinkshowdays)
             echo "<li><a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinksDate&selectdate=$newlinkdayRaw\">$newlinkView</a>&nbsp( $totallinks )</li>";
     }
 
-    echo '
-    </blockquote>
-    </ul>
-    </div>';
+    echo '</blockquote>
+        </ul>
+        </div>';
 
     SearchForm();
 

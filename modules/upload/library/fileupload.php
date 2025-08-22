@@ -62,8 +62,9 @@ if (!isset($FILEUPLOAD)) {
          */
         function halt($msg = '')
         {
-            if ($this->Halt_On_Error == 'no')
+            if ($this->Halt_On_Error == 'no') {
                 return;
+            }
 
             switch ($this->errno) {
 
@@ -87,8 +88,9 @@ if (!isset($FILEUPLOAD)) {
                 printf('<div class="alert alert-danger m-3" role="alert"> %s %s<br /><p class="mt-2 text-center"> %s </p></span>', '<h4 class="alert-heading">File management</h4>', $msg, '<strong>' . $reason . '</strong>');
             }
 
-            if ($this->Halt_On_Error != 'report')
+            if ($this->Halt_On_Error != 'report') {
                 die('<div class="alert alert-danger m-3" role="alert">' . upload_translate("Session terminée.") . '</div>');
+            }
         }
 
         /**
@@ -120,8 +122,9 @@ if (!isset($FILEUPLOAD)) {
                 $this->errno = FILE_EMPTY;
 
                 return false;
-            } else
+            } else {
                 $fsize = filesize($src_file);
+            }
 
             if ($size != $fsize) {
                 $this->errno = ERR_FILE;
@@ -151,10 +154,11 @@ if (!isset($FILEUPLOAD)) {
 
             $suffix = strtoLower(substr(strrchr($name, '.'), 1));
 
-            if (isset($mimetypes[$suffix]))
+            if (isset($mimetypes[$suffix])) {
                 $type = $mimetypes[$suffix];
-            elseif (empty($type) || ($type == 'application/octet-stream'))
+            } elseif (empty($type) || ($type == 'application/octet-stream')) {
                 $type = $mimetype_default;
+            }
 
             if (! $this->isAllowedFile($name, $type)) {
                 $this->errno = INVALID_FILE_TYPE;
@@ -233,8 +237,9 @@ if (!isset($FILEUPLOAD)) {
                     @chmod($rep . $rep_upload_editeur . $name, 0766);
 
                     $log_filename = $rep . $rep_upload_editeur . $name;
-                } else
+                } else {
                     return false;
+                }
             }
 
             Ecr_Log('security', 'Upload File(s) : ' . getip(), $log_filename);
@@ -299,8 +304,9 @@ if (!isset($FILEUPLOAD)) {
                 $att['att_count'] = $att_count;
 
                 return $att;
-            } else
+            } else {
                 return false;
+            }
         }
 
         /**
@@ -335,8 +341,9 @@ if (!isset($FILEUPLOAD)) {
                         }
                     }
 
-                    if (!$found)
+                    if (!$found) {
                         return false;
+                    }
                 }
             }
 
@@ -347,8 +354,9 @@ if (!isset($FILEUPLOAD)) {
 
                 if (is_array($banned_extensions)) {
                     foreach ($banned_extensions as $badext) {
-                        if ($ext == $badext)
+                        if ($ext == $badext) {
                             return false;
+                        }
                     }
                 }
             }
@@ -376,8 +384,9 @@ if (!isset($FILEUPLOAD)) {
                         }
                     }
 
-                    if (!$found)
+                    if (!$found) {
                         return false;
+                    }
                 }
             }
 
@@ -391,8 +400,9 @@ if (!isset($FILEUPLOAD)) {
                         list($bad_type, $bad_subtype) = explode('/', $mt);
 
                         if ($type == $bad_type)
-                            if (($bad_subtype == '*') || ($subtype == $bad_subtype))
+                            if (($bad_subtype == '*') || ($subtype == $bad_subtype)) {
                                 return false;
+                            }
                     }
                 }
             }

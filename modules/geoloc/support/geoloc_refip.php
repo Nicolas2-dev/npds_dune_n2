@@ -39,11 +39,11 @@ while ($row = sql_fetch_array($resultat)) {
     $ousursit = preg_replace("#/.*?/#", '', $_SERVER['PHP_SELF']);
 }
 
-if ($controle != 0)
+if ($controle != 0) {
     sql_query("UPDATE " . sql_prefix('ip_loc') . " 
                SET ip_visite= ip_visite +1 , ip_visi_pag = \"$ousursit\" 
                WHERE ip_ip LIKE \"$ip\" ");
-else {
+} else {
     $ibid = false;
 
     if (strstr($nuke_url, 'https')) {
@@ -144,9 +144,9 @@ else {
         }
     }
 
-    if ($ibid === false){
+    if ($ibid === false) {
         return;
-    }else {
+    } else {
         sql_query("INSERT INTO " . sql_prefix('ip_loc') . " (ip_long, ip_lat, ip_ip, ip_country, ip_code_country, ip_city) 
                    VALUES ('$long', '$lat', '$ip', '$pay', '$codepay', '$vi')");
 

@@ -13,11 +13,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists('Access_Error'))
+if (!function_exists('Access_Error')) {
     die();
+}
 
-if (!stristr($_SERVER['PHP_SELF'], 'modules.php'))
+if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     Access_Error();
+}
 
 global $ModPath, $ModStart, $NPDS_Prefix;
 
@@ -26,13 +28,13 @@ $pos = strpos($ModPath, '/admin');
 global $links_DB;
 include_once('modules/' . substr($ModPath, 0, $pos) . '/links.conf.php');
 
-if ($links_DB == '')
+if ($links_DB == '') {
     $links_DB = $NPDS_Prefix;
+}
 
 include 'header.php';
 
-echo '
-    <p class="text-center">Cr&eacute;ation des tables en cours pour / Tables Creation running for : <b>' . $links_DB . '</b><br /><br />.';
+echo '<p class="text-center">Cr&eacute;ation des tables en cours pour / Tables Creation running for : <b>' . $links_DB . '</b><br /><br />.';
 
 $sql_query = "CREATE TABLE IF NOT EXISTS " . $links_DB . "links_categories (
     cid int(11) NOT NULL AUTO_INCREMENT,

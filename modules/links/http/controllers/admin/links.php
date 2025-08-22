@@ -15,20 +15,24 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!function_exists("Access_Error"))
+if (!function_exists("Access_Error")) {
     die();
+}
 
-if (!stristr($_SERVER['PHP_SELF'], "modules.php"))
+if (!stristr($_SERVER['PHP_SELF'], "modules.php")) {
     Access_Error();
+}
 
 global $language, $links_DB, $NPDS_Prefix;
 
 $pos = strpos($ModPath, '/admin');
+
 include_once('modules/' . substr($ModPath, 0, $pos) . '/config/config.php');
 //include_once('modules/' . $ModPath . '/config/config.php');
 
-if ($links_DB == '')
+if ($links_DB == '') {
     $links_DB = $NPDS_Prefix;
+}
 
 $hlpfile = "modules/" . substr($ModPath, 0, $pos) . "/manuels/$language/mod-weblinks.html";
 //$hlpfile = "modules/" . $ModPath . "/manuels/$language/mod-weblinks.html";
@@ -38,23 +42,25 @@ if (autorisation(-127)) {
 
     list($radminsuper) = sql_fetch_row($result);
 
-    if ($radminsuper != 1) //intégrer les droits nouveau système
+    //intégrer les droits nouveau système
+    if ($radminsuper != 1) {
         Access_Error();
-} else
+    }
+} else {
     Access_Error();
+}
 
 
 function helpwindow()
 {
     global $hlpfile;
 
-    echo '
-    <script type="text/javascript">
-    //<![CDATA[
-        function openwindow() {
-        window.open ("' . $hlpfile . '","Help","toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=600,height=400");
-    }
-    //]]>
+    echo '<script type="text/javascript">
+        //<![CDATA[
+            function openwindow() {
+                window.open ("' . $hlpfile . '","Help","toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=600,height=400");
+            }
+        //]]>
     </script>';
 }
 
@@ -67,12 +73,12 @@ function links()
     /*
     echo '
     <script type="text/javascript">
-    //<![CDATA[
-    var e;
-        function ouvrewindow() {
-        e = window.open("'.$hlpfile.'","Help","toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=600,height=400");
-    };
-    //]]>
+        //<![CDATA[
+            var e;
+                function ouvrewindow() {
+                e = window.open("'.$hlpfile.'","Help","toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=600,height=400");
+            };
+        //]]>
     </script>';
     */
 
@@ -82,13 +88,11 @@ function links()
 
     $numrows = sql_num_rows($result);
 
-    echo '
-    <h2>' . translate("Liens") . '<span class="badge bg-secondary mx-2 float-end" title="DB : ' . $links_DB . translate("Il y a") . ' ' . $numrows . ' ' . translate("Liens") . '" data-bs-toggle="tooltip">' . $numrows . '</span></h2>
+    echo '<h2>' . translate("Liens") . '<span class="badge bg-secondary mx-2 float-end" title="DB : ' . $links_DB . translate("Il y a") . ' ' . $numrows . ' ' . translate("Liens") . '" data-bs-toggle="tooltip">' . $numrows . '</span></h2>
     <hr class="mb-0" />
     <div class="text-end mt-1 mb-2"><a href="javascript:openwindow();">' . translate("Manuel en ligne") . '</a><i class="fa fa-cogs ms-3 fa-lg text-body-secondary"></i></div>';
 
-    echo '
-    <nav aria-label="breadcrumb">
+    echo '<nav aria-label="breadcrumb">
         <ol class="breadcrumb">';
 
     $result = sql_query("SELECT * FROM " . $links_DB . "links_modrequest WHERE brokenlink=1");
@@ -99,14 +103,12 @@ function links()
 
     $totalmodrequests = sql_num_rows($result2);
 
-    if ($totalbrokenlinks > 0)
-        echo '
-            <li class="breadcrumb-item"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksListBrokenLinks">' . translate("Soumission de liens brisés") . '</a><span class="badge bg-danger ms-1"> ' . $totalbrokenlinks . '</span></li>';
-
-    if ($totalmodrequests > 0)
-        echo '
-            <li class="breadcrumb-item"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksListModRequests">' . translate("Proposition de modifications de liens") . '</a><span class="badge bg-danger ms-1">' . $totalmodrequests . '</span></li>';
-
+    if ($totalbrokenlinks > 0) {
+        echo '<li class="breadcrumb-item"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksListBrokenLinks">' . translate("Soumission de liens brisés") . '</a><span class="badge bg-danger ms-1"> ' . $totalbrokenlinks . '</span></li>';
+    }
+    if ($totalmodrequests > 0) {
+        echo '<li class="breadcrumb-item"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksListModRequests">' . translate("Proposition de modifications de liens") . '</a><span class="badge bg-danger ms-1">' . $totalmodrequests . '</span></li>';
+    }
     $result = sql_query("SELECT lid, cid, sid, title, url, description, name, email, submitter, topicid_card FROM " . $links_DB . "links_newlink ORDER BY lid ASC LIMIT 0,1");
 
     $numrows = sql_num_rows($result);
@@ -114,10 +116,9 @@ function links()
     $adminform = '';
 
     if ($numrows > 0) {
-        echo '
-            <li class="breadcrumb-item">' . translate("Lien(s) en attente de validation") . '<span class="badge bg-danger ms-1">' . $numrows . '</span></li>
-        </ol>
-    </nav>';
+        echo '<li class="breadcrumb-item">' . translate("Lien(s) en attente de validation") . '<span class="badge bg-danger ms-1">' . $numrows . '</span></li>
+            </ol>
+        </nav>';
 
         $adminform = 'adminForm';
 
@@ -128,20 +129,18 @@ function links()
 
         $numrowsAE = sql_num_rows($resultAE);
 
-        echo '
-    <div class="card card-body mb-3">
-    <h3 class="mb-3">' . translate("Lien") . ' <span class="text-body-secondary">#' . $lid . '</span> ' . translate("en attente de validation") . '</h3>
-    <div class="lead">' . translate("Auteur") . ' : ' . $submitter . ' </div>
-    <hr />
-    <form action="modules.php" method="post" name="' . $adminform . '">
-        <input type="hidden" name="ModPath" value="' . $ModPath . '" />
-        <input type="hidden" name="ModStart" value="' . $ModStart . '" />';
+        echo '<div class="card card-body mb-3">
+        <h3 class="mb-3">' . translate("Lien") . ' <span class="text-body-secondary">#' . $lid . '</span> ' . translate("en attente de validation") . '</h3>
+        <div class="lead">' . translate("Auteur") . ' : ' . $submitter . ' </div>
+        <hr />
+        <form action="modules.php" method="post" name="' . $adminform . '">
+            <input type="hidden" name="ModPath" value="' . $ModPath . '" />
+            <input type="hidden" name="ModStart" value="' . $ModStart . '" />';
 
-        if ($numrowsAE > 0)
+        if ($numrowsAE > 0) {
             echo "&nbsp;&nbsp;<span class=\"rouge\">" . translate("Erreur : cette url est déjà présente dans la base de données") . "</span>";
-
-        echo '
-        <div class="mb-3 row">
+        }
+        echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-3" for="titlelinkvalid">' . translate("Titre") . '</label>
             <div class="col-sm-9">
                 <input class="form-control" type="text" id="titlelinkvalid" name="title" value="' . $title . '" maxlength="100" />
@@ -149,7 +148,7 @@ function links()
         </div>';
 
         global $links_url;
-        if ($links_url)
+        if ($links_url) {
             echo '
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="urllinkvalid">URL</label>
@@ -157,6 +156,7 @@ function links()
                     <input class="form-control" type="url" id="urllinkvalid" name="url" value="' . $url . '" maxlength="255" /> <a href="' . $url . '" target="_blank" >' . translate("Visite") . '</a>
                 </div>
             </div>';
+        }
 
         $result2 = sql_query("SELECT cid, title FROM " . $links_DB . "links_categories ORDER BY title");
 
@@ -169,22 +169,22 @@ function links()
         while (list($ccid, $ctitle) = sql_fetch_row($result2)) {
             $sel = '';
 
-            if ($cid == $ccid and $sid == 0)
+            if ($cid == $ccid and $sid == 0) {
                 $sel = 'selected="selected"';
+            }
 
-            echo '
-                    <option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title FROM " . $links_DB . "links_subcategories WHERE cid='$ccid' ORDER BY title");
 
             while (list($ssid, $stitle) = sql_fetch_row($result3)) {
                 $sel = '';
 
-                if ($sid == $ssid)
+                if ($sid == $ssid) {
                     $sel = 'selected="selected"';
+                }
 
-                echo '
-                    <option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle) . ' / ' . aff_langue($stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle) . ' / ' . aff_langue($stitle) . '</option>';
             }
         }
 
@@ -207,8 +207,9 @@ function links()
                     <option value="">' . translate("Tous les sujets") . '</option>';
 
             while (list($topicid, $topics) = sql_fetch_row($toplist)) {
-                if ($topicid == $topicid_card)
+                if ($topicid == $topicid_card) {
                     $sel = 'selected="selected" ';
+                }
 
                 echo '
                     <option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
@@ -257,10 +258,11 @@ function links()
             </div>
         </form>
     </div>';
-    } else
+    } else {
         echo '
         </ol>
     </nav>';
+    }
 
     // Add a New Link to Database
     $result = sql_query("SELECT cid, title FROM " . $links_DB . "links_categories");
@@ -272,12 +274,13 @@ function links()
     <div class="card card-body mb-3">
         <h3 class="mb-3">' . translate("Ajouter un nouveau lien") . '</h3>';
 
-        if ($adminform == '')
+        if ($adminform == '') {
             echo '
         <form method="post" action="modules.php" name="adminForm">';
-        else
+        } else {
             echo '
         <form method="post" action="modules.php">';
+        }
 
         echo '
             <input type="hidden" name="ModPath" value="' . $ModPath . '" />
@@ -290,7 +293,7 @@ function links()
             </div>';
 
         global $links_url;
-        if ($links_url)
+        if ($links_url) {
             echo ' 
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="urllinkadd">URL</label>
@@ -298,6 +301,7 @@ function links()
                 <input class="form-control" type="url" id="urllinkadd" name="url" maxlength="255" value="http://" required="required" />
                 </div>
             </div>';
+        }
 
         $result = sql_query("SELECT cid, title FROM " . $links_DB . "links_categories ORDER BY title");
 
@@ -356,8 +360,9 @@ function links()
             </div>
         </div>';
 
-        if ($adminform == '')
+        if ($adminform == '') {
             echo aff_editeur("xtext", "false");
+        }
 
         echo '
         <div class="mb-3 row">
@@ -551,8 +556,9 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 
     $cat = explode('-', $cat);
 
-    if (!array_key_exists(1, $cat))
+    if (!array_key_exists(1, $cat)) {
         $cat[1] = 0;
+    }
 
     $title = stripslashes(FixQuotes($title));
     $url = stripslashes(FixQuotes($url));
@@ -813,8 +819,9 @@ function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $
 
     $cat = explode('-', $cat);
 
-    if (!array_key_exists(1, $cat))
+    if (!array_key_exists(1, $cat)) {
         $cat[1] = 0;
+    }
 
     $title = stripslashes(FixQuotes($title));
     $url = stripslashes(FixQuotes($url));
@@ -922,8 +929,9 @@ function LinksModCat($cat)
 
     $cat = explode('-', $cat);
 
-    if (!array_key_exists(1, $cat))
+    if (!array_key_exists(1, $cat)) {
         $cat[1] = 0;
+    }
 
     echo '
     <h2>' . translate("Liens") . '</h2>
@@ -1034,11 +1042,11 @@ function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
 {
     global $ModPath, $ModStart, $links_DB;
 
-    if ($sub == 0)
+    if ($sub == 0) {
         sql_query("UPDATE " . $links_DB . "links_categories SET title='$title', cdescription='$cdescription' WHERE cid='$cid'");
-    else
+    } else {
         sql_query("UPDATE " . $links_DB . "links_subcategories SET title='$title' WHERE sid='$sid'");
-
+    }
     Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
 }
 
@@ -1098,8 +1106,9 @@ function LinksListModRequests()
 
     $totalmodrequests = sql_num_rows($resultX);
 
-    if ($totalmodrequests == 0)
+    if ($totalmodrequests == 0) {
         Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
+    }
 
     include 'header.php';
 
@@ -1108,8 +1117,9 @@ function LinksListModRequests()
 
     function clformodif($x_ori, $x_mod)
     {
-        if ($x_ori != $x_mod)
+        if ($x_ori != $x_mod) {
             return ' class="text-danger" ';
+        }
     }
 
     echo '
@@ -1159,14 +1169,17 @@ function LinksListModRequests()
 
         $description = stripslashes($description);
 
-        if ($owner == '')
+        if ($owner == '') {
             $owner = "administration";
+        }
 
-        if ($origsidtitle == '')
+        if ($origsidtitle == '') {
             $origsidtitle = "-----";
+        }
 
-        if ($sidtitle == '')
+        if ($sidtitle == '') {
             $sidtitle = "-----";
+        }
 
         echo '
     <div class="card-deck-wrapper mt-3">
@@ -1179,21 +1192,21 @@ function LinksListModRequests()
                 <strong>' . translate("Url : ") . '</strong> <a href="' . $origurl . '" target="_blank" >' . $origurl . '</a><br />';
 
         global $links_topic;
-        if ($links_topic)
+        if ($links_topic) {
             echo '
                 <strong>' . translate("Sujet") . ' :</strong> ' . $oritopic . '<br />';
-
+        }
         echo '
                 <strong>' . translate("Catégorie :") . '</strong> ' . $origcidtitle . '<br />
                 <strong>' . translate("Sous-catégorie :") . '</strong> ' . $origsidtitle . '<br />';
 
-        if ($owneremail == '')
+        if ($owneremail == '') {
             echo '
                 <strong>' . translate("Propriétaire") . ':</strong> <span' . clformodif($origsidtitle, $sidtitle) . '>' . $owner . '</span><br/>';
-        else
+        } else {
             echo '
                 <strong>' . translate("Propriétaire") . ':</strong> <a href="mailto:' . $owneremail . '">' . $owner . '</a></span><br/>';
-
+        }
         echo '
             </div>
         </div>
@@ -1205,30 +1218,30 @@ function LinksListModRequests()
                 <strong>' . translate("Url : ") . '</strong> <span' . clformodif($origurl, $url) . '><a href="' . $url . '" target="_blank" >' . $url . '</a></span><br />';
 
         global $links_topic;
-        if ($links_topic)
+        if ($links_topic) {
             echo '
                 <strong>' . translate("Sujet") . ' :</strong> <span' . clformodif($oritopic, $topic) . '>' . $topic . '</span><br />';
-
+        }
         echo '
                 <strong>' . translate("Catégorie :") . '</strong> <span' . clformodif($origcidtitle, $cidtitle) . '>' . $cidtitle . '</span><br />
                 <strong>' . translate("Sous-catégorie :") . '</strong> <span' . clformodif($origsidtitle, $sidtitle) . '>' . $sidtitle . '</span><br />';
 
-        if ($owneremail == '')
+        if ($owneremail == '') {
             echo '
                 <strong>' . translate("Propriétaire") . ': </strong> <span>' . $owner . '</span><br />';
-        else
+        } else {
             echo '<strong>' . translate("Propriétaire") . ' : </strong><a href="mailto:' . $owneremail . '" >' . $owner . '</span><br />';
-
+        }
         echo '
             </div>
         </div>
     </div>';
 
-        if ($modifysubmitteremail == '')
+        if ($modifysubmitteremail == '') {
             echo translate("Auteur") . ' : ' . $modifysubmitter;
-        else
+        } else {
             echo translate("Auteur") . ' :  <a href="mailto:' . $modifysubmitteremail . '">' . $modifysubmitter . '</a>';
-
+        }
         echo '
         <div class="mb-3">
             <a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksChangeModRequests&amp;requestid=' . $requestid . '" class="btn btn-primary btn-sm">' . translate("Accepter") . '</a>
@@ -1251,9 +1264,9 @@ function LinksListBrokenLinks()
 
     $totalbrokenlinks = sql_num_rows($resultBrok);
 
-    if ($totalbrokenlinks == 0)
+    if ($totalbrokenlinks == 0) {
         Header("Location: modules.php?ModStart=$ModStart&ModPath=$ModPath");
-    else {
+    } else {
         include 'header.php';
 
         echo '
@@ -1296,22 +1309,22 @@ function LinksListBrokenLinks()
             <tr>
                 <td><div>' . $title . '&nbsp;<span class="float-end"><a href="' . $url . '"  target="_blank"><i class="fas fa-external-link-alt fa-lg"></i></a></span></div></td>';
 
-            if ($email == '')
+            if ($email == '') {
                 echo '
                 <td>' . $modifysubmitter;
-            else
+            } else {
                 echo '
                 <td><div>' . $modifysubmitter . '&nbsp;<span class="float-end"><a href="mailto:' . $email . '" ><i class="fa fa-at fa-lg"></i></a></span></div>';
-
+            }
             echo '</td>';
 
-            if ($owneremail == '')
+            if ($owneremail == '') {
                 echo '
                 <td>' . $owner;
-            else
+            } else {
                 echo '
                 <td><a href="mailto:' . $owneremail . '" >' . $owner . '</a>';
-
+            }
             echo '</td>
                 <td><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksIgnoreBrokenLinks&amp;lid=' . $lid . '" ><i class="fas fa-trash fa-lg" title="' . translate("Ignorer") . '" data-bs-toggle="tooltip"></i></a></td>
                 <td><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=LinksDelBrokenLinks&amp;lid=' . $lid . '" ><i class="fas fa-trash text-danger fa-lg" title="' . translate("Effacer") . '" data-bs-toggle="tooltip"></i></a></td>
@@ -1393,8 +1406,9 @@ switch ($op) {
         break;
 
     case 'LinksAddLink':
-        if ($xtext == '')
+        if ($xtext == '') {
             $xtext = $description;
+        }
 
         LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter, $topicL);
         break;

@@ -38,6 +38,7 @@ $inline_list['0'] = upload_translate('Non');
 if (!$allow_upload_forum) {
     Access_Error();
 }
+
 if (!autorize()) {
     Access_Error();
 }

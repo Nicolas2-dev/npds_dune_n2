@@ -15,8 +15,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!stristr($_SERVER['PHP_SELF'], 'modules.php'))
+if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
+}
 
 global $NPDS_Prefix;
 
@@ -36,8 +37,9 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
                 $affichT = true;
             }
-        } else
+        } else {
             $affichT = true;
+        }
 
         if (strcasecmp($description, strip_tags($description)) == 0) {
             if ($description != preg_replace("#$query#", "<b>$query</b>", $description)) {
@@ -45,12 +47,14 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
                 $affichD = true;
             }
-        } else
+        } else {
             $affichD = true;
+        }
 
         $affich = ($affichT or $affichD) ? true : false;
-    } else
+    } else {
         $affich = true;
+    }
 
     if ($affich) {
         $title = stripslashes($title);
@@ -62,11 +66,11 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
             <div class="card mb-3">
                 <div class="card-body ibid_descr">';
 
-        if ($url == '')
+        if ($url == '') {
             echo '<h4 class="text-body-secondary"><i class="fas fa-external-link-alt"></i>&nbsp;' . aff_langue($title);
-        else
+        } else {
             echo '<h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" ><i class="fas fa-external-link-alt"></i>&nbsp;' . aff_langue($title) . '</a>';
-
+        }
         echo '&nbsp;' . newlinkgraphic($datetime, $time) . '</h4>';
 
         if (!empty($xcid)) {
@@ -78,10 +82,11 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
             list($stitle) = sql_fetch_row($result4);
 
-            if ($stitle == '')
+            if ($stitle == '') {
                 $slash = '';
-            else
+            } else {
                 $slash = '/';
+            }
 
             echo translate("Catégorie : ") . "<strong>" . aff_langue($ctitle) . "</strong> $slash <b>" . aff_langue($stitle) . "</b>";
         }
@@ -99,11 +104,11 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
             echo '<div class="d-flex justify-content-between">';
 
             global $popular;
-            if ($hits > $popular)
+            if ($hits > $popular) {
                 echo '<span class="text-success"><i class="fa fa-star-o fa-lg"></i></span><span class="ms-auto">' . translate("Hits") . '<span class=" badge bg-secondary ms-2">' . $hits . '</span></span>';
-            else
+            } else {
                 echo '<span class="ms-auto">' . translate("Nb hits : ") . '<span class=" badge bg-secondary">' . $hits . '</span></span>';
-
+            }
             echo '</div>';
         }
 
@@ -113,9 +118,9 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
                 <span class="small">' . translate("Ajouté le : ") . formatTimes($time) . '</span>
                 <span class="ms-auto">';
 
-        if ($url != '')
+        if ($url != '') {
             echo '<a class="me-3" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=brokenlink&amp;lid=' . $lid . '" title="' . translate("Rapporter un lien rompu") . '" data-bs-toggle="tooltip"><i class="fas fa-unlink fa-lg"></i></a>';
-
+        }
         // Advance infos via the class sform.php
         $browse_key = $lid;
 
@@ -138,8 +143,10 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
 sql_free_result($result);
 
-if (isset($result2))
+if (isset($result2)) {
     sql_free_result($result2);
+}
 
-if (isset($result3))
+if (isset($result3)) {
     sql_free_result($result3);
+}

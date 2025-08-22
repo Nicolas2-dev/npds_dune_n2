@@ -14,8 +14,9 @@
 /************************************************************************/
 
 // For More security
-if (!function_exists('admindroits'))
+if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');
+}
 
 if (
     strstr($ModPath, '..')
@@ -32,8 +33,9 @@ if (
     || stristr($ModStart, 'applet')
     || stristr($ModStart, 'object')
     || stristr($ModStart, 'meta')
-)
+) {
     die();
+}
 
 // For More security
 $f_meta_nom = 'upConfigure';
@@ -366,8 +368,9 @@ function uploadSave($xmax_size, $xdocumentroot, $xautorise_upload_p, $xracine, $
 
     if ($xed_profil) {
         foreach ($profil as $k => $v) {
-            if (in_array($k, $xed_profil))
+            if (in_array($k, $xed_profil)) {
                 $profil[$k] = 1;
+            }
         }
     }
 

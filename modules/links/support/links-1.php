@@ -15,13 +15,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (!stristr($_SERVER['PHP_SELF'], "modules.php"))
+if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
+}
 
 function error_head($class)
 {
-    global $ModPath, $ModStart;
-
     include 'header.php';
 
     $mainlink = 'ad_l';
@@ -30,52 +29,46 @@ function error_head($class)
 
     SearchForm();
 
-    echo '
-    <div class="alert ' . $class . '" role="alert" align="center">';
+    echo '<div class="alert ' . $class . '" role="alert" align="center">';
 }
 
 function error_foot()
 {
-    echo '
-    </div>';
+    echo '</div>';
 
     include 'footer.php';
 }
 
 function AddLink()
 {
-    global $ModPath, $ModStart, $links_DB, $NPDS_Prefix, $links_anonaddlinklock, $op;
+    global $ModPath, $ModStart, $links_DB, $links_anonaddlinklock;
 
     include 'header.php';
-
-    global $user, $ad_l;
 
     mainheader();
 
     if (autorisation($links_anonaddlinklock)) {
-        echo '
-    <div class="card card-body mb-3">
-        <h3 class="mb-3">Proposer un lien</h3>
-        <div class="card card-outline-secondary mb-3">
-            <div class="card-body">
-                <span class="help-block">' . translate("Proposer un seul lien.") . '<br />' . translate("Tous les liens proposés sont vérifiés avant insertion.") . '<br />' . translate("Merci de ne pas abuser, le nom d'utilisateur et l'adresse IP sont enregistrés.") . '</span>
+        echo '<div class="card card-body mb-3">
+            <h3 class="mb-3">Proposer un lien</h3>
+            <div class="card card-outline-secondary mb-3">
+                <div class="card-body">
+                    <span class="help-block">' . translate("Proposer un seul lien.") . '<br />' . translate("Tous les liens proposés sont vérifiés avant insertion.") . '<br />' . translate("Merci de ne pas abuser, le nom d'utilisateur et l'adresse IP sont enregistrés.") . '</span>
+                </div>
             </div>
-        </div>
-        <form id="addlink" method="post" action="modules.php" name="adminForm">
-            <input type="hidden" name="ModPath" value="' . $ModPath . '" />
-            <input type="hidden" name="ModStart" value="' . $ModStart . '" />
-            <div class="mb-3 row">
-                <label class="col-form-label col-sm-3" for="title">' . translate("Titre") . '</label>
-                <div class="col-sm-9">
-                <input class="form-control" type="text" id="title" name="title" maxlength="100" required="required" />
-                <span class="help-block text-end" id="countcar_title"></span>
-            </div>
-            </div>';
+            <form id="addlink" method="post" action="modules.php" name="adminForm">
+                <input type="hidden" name="ModPath" value="' . $ModPath . '" />
+                <input type="hidden" name="ModStart" value="' . $ModStart . '" />
+                <div class="mb-3 row">
+                    <label class="col-form-label col-sm-3" for="title">' . translate("Titre") . '</label>
+                    <div class="col-sm-9">
+                    <input class="form-control" type="text" id="title" name="title" maxlength="100" required="required" />
+                    <span class="help-block text-end" id="countcar_title"></span>
+                </div>
+                </div>';
 
         global $links_url;
         if (($links_url) or ($links_url == -1))
-            echo '
-            <div class="mb-3 row">
+            echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="url">URL</label>
                 <div class="col-sm-9">
                 <input class="form-control" type="url" id="url" name="url" maxlength="320" value="http://" required="required" />
@@ -83,57 +76,52 @@ function AddLink()
             </div>
             </div>';
 
-        $result = sql_query("SELECT cid, title FROM " . $links_DB . "links_categories ORDER BY title");
+        $result = sql_query("SELECT cid, title 
+                             FROM " . $links_DB . "links_categories 
+                             ORDER BY title");
 
-        echo '
-            <div class="mb-3 row">
-                <label class="col-form-label col-sm-3" for="cat">' . translate("Catégorie") . '</label>
-                <div class="col-sm-9">
-                <select class="form-select" id="cat" name="cat">';
+        echo '<div class="mb-3 row">
+            <label class="col-form-label col-sm-3" for="cat">' . translate("Catégorie") . '</label>
+            <div class="col-sm-9">
+            <select class="form-select" id="cat" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '
-                    <option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
 
             $result2 = sql_query("select sid, title from " . $links_DB . "links_subcategories WHERE cid='$cid' ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '
-                    <option value="' . $cid . '-' . $sid . '">' . aff_langue($title . '/' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title . '/' . $stitle) . '</option>';
             }
         }
 
-        echo '
-                </select>
+        echo '</select>
             </div>
             </div>';
 
         global $links_topic;
         if ($links_topic) {
-            echo '
-            <div class="mb-3 row">
+            echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="topicL">' . translate("Sujets") . '</label>
                 <div class="col-sm-9">
                 <select class="form-select" id="topicL" name="topicL">';
 
-            $toplist = sql_query("SELECT topicid, topictext FROM " . $NPDS_Prefix . "topics ORDER BY topictext");
+            $toplist = sql_query("SELECT topicid, topictext 
+                                  FROM " . $NPDS_Prefix . "topics 
+                                  ORDER BY topictext");
 
-            echo '
-                    <option value="">' . translate("Tous les sujets") . '</option>';
+            echo '<option value="">' . translate("Tous les sujets") . '</option>';
 
             while (list($topicid, $topics) = sql_fetch_row($toplist)) {
-                echo '
-                    <option value="' . $topicid . '">' . $topics . '</option>';
+                echo '<option value="' . $topicid . '">' . $topics . '</option>';
             }
 
-            echo '
-                </select>
+            echo '</select>
                 </div>
             </div>';
         }
 
-        echo '
-            <div class="mb-3 row">
+        echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-12" for="xtext">' . translate("Description") . '</label>
                 <div class="col-sm-12">
                 <textarea class="tin form-control" name="xtext" id="xtext" rows="10"></textarea>
@@ -145,8 +133,7 @@ function AddLink()
         global $cookie;
         $nom = isset($cookie) ? $cookie[1] : '';
 
-        echo '
-            <div class="mb-3 row">
+        echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="name">' . translate("Votre nom") . '</label>
                 <div class="col-sm-9">
                 <input type="text" class="form-control" id="name" name="name" maxlength="60" value="' . $nom . '" required="required" />
@@ -162,24 +149,21 @@ function AddLink()
 
         echo Q_spambot();
 
-        echo '
-            <div class="mb-3 row">
-                <input type="hidden" name="op" value="Add" />
-                <div class="col-sm-9 ms-sm-auto">
-                <input type="submit" class="btn btn-primary" value="' . translate("Ajouter une url") . '" />
+        echo '<div class="mb-3 row">
+                    <input type="hidden" name="op" value="Add" />
+                    <div class="col-sm-9 ms-sm-auto">
+                    <input type="submit" class="btn btn-primary" value="' . translate("Ajouter une url") . '" />
+                    </div>
                 </div>
+            </form>
             </div>
-        </form>
-        </div>
-    <div>
-    </div>';
+        <div>
+        </div>';
 
-        $arg1 = '
-        var formulid = ["addlink"];
-        inpandfieldlen("title",100);
-        inpandfieldlen("url",320);
-        inpandfieldlen("email",254);
-        ';
+        $arg1 = 'var formulid = ["addlink"];
+            inpandfieldlen("title",100);
+            inpandfieldlen("url",320);
+            inpandfieldlen("email",254);';
 
         SearchForm();
 
@@ -187,8 +171,7 @@ function AddLink()
 
         include 'footer.php';
     } else {
-        echo '
-            <div class="alert alert-warning">' . translate("Vous n'êtes pas (encore) enregistré ou vous n'êtes pas (encore) connecté.") . '<br />
+        echo '<div class="alert alert-warning">' . translate("Vous n'êtes pas (encore) enregistré ou vous n'êtes pas (encore) connecté.") . '<br />
             ' . translate("Si vous étiez enregistré, vous pourriez proposer des liens.") . '</div>';
 
         SearchForm();
@@ -199,26 +182,27 @@ function AddLink()
 
 function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_question, $asb_reponse)
 {
-    global $ModPath, $ModStart, $links_DB, $troll_limit, $anonymous, $user, $admin;
+    global $links_DB, $troll_limit, $anonymous, $user, $admin;
 
     if (!$user and !$admin) {
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, '')) {
             Ecr_Log('security', 'Links Anti-Spam : url=' . $url, '');
 
-            redirect_url("index.php");
+            redirect_url('index.php');
             die();
         }
     }
 
-    $result = sql_query("SELECT lid FROM " . $links_DB . "links_newlink");
+    $result = sql_query("SELECT lid 
+                         FROM " . $links_DB . "links_newlink");
 
     $numrows = sql_num_rows($result);
 
     if ($numrows >= $troll_limit) {
-        error_head("alert-danger");
+        error_head('alert-danger');
 
-        echo translate("Erreur : cette url est déjà présente dans la base de données") . '<br />';
+        echo translate('Erreur : cette url est déjà présente dans la base de données') . '<br />';
 
         error_foot();
         exit();
@@ -228,13 +212,14 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     if (isset($user)) {
         global $cookie;
         $submitter = $cookie[1];
-    } else
+    } else {
         $submitter = $anonymous;
+    }
 
     if ($title == '') {
         error_head('alert-danger');
 
-        echo translate("Erreur : vous devez saisir un titre pour votre lien") . '<br />';
+        echo translate('Erreur : vous devez saisir un titre pour votre lien') . '<br />';
 
         error_foot();
         exit();
@@ -243,7 +228,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     if ($email == '') {
         error_head('alert-danger');
 
-        echo translate("Erreur : Email invalide") . '<br />';
+        echo translate('Erreur : Email invalide') . '<br />';
 
         error_foot();
         exit();
@@ -253,7 +238,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     if (($url == '') and ($links_url == 1)) {
         error_head('alert-danger');
 
-        echo translate("Erreur : vous devez saisir une url pour votre lien") . '<br />';
+        echo translate('Erreur : vous devez saisir une url pour votre lien') . '<br />';
 
         error_foot();
         exit();
@@ -262,7 +247,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     if ($description == '') {
         error_head('alert-danger');
 
-        echo translate("Erreur : vous devez saisir une description pour votre lien") . '<br />';
+        echo translate('Erreur : vous devez saisir une description pour votre lien') . '<br />';
 
         error_foot();
         exit();
@@ -270,8 +255,9 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     $cat = explode('-', $cat);
 
-    if (!array_key_exists(1, $cat))
+    if (!array_key_exists(1, $cat)) {
         $cat[1] = 0;
+    }
 
     $title = removeHack(stripslashes(FixQuotes($title)));
     $url = removeHack(stripslashes(FixQuotes($url)));
@@ -280,12 +266,13 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     $name = removeHack(stripslashes(FixQuotes($name)));
     $email = removeHack(stripslashes(FixQuotes($email)));
 
-    sql_query("INSERT INTO " . $links_DB . "links_newlink VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', '$name', '$email', '$submitter', '$topicL')");
+    sql_query("INSERT INTO " . $links_DB . "links_newlink 
+               VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', '$name', '$email', '$submitter', '$topicL')");
 
     error_head('alert-success');
 
-    echo translate("Nous avons bien reçu votre demande de lien, merci") . '<br />';
-    echo translate("Vous recevrez un mèl quand elle sera approuvée.") . '<br />';
+    echo translate('Nous avons bien reçu votre demande de lien, merci') . '<br />';
+    echo translate('Vous recevrez un mèl quand elle sera approuvée.') . '<br />';
 
     error_foot();
 }
@@ -306,15 +293,25 @@ function links_search($query, $topicL, $min, $max, $offset)
 
     $query = removeHack(stripslashes(htmlspecialchars($query, ENT_QUOTES, 'UTF-8'))); // Romano et NoSP
 
-    if ($topicL != '')
-        $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid FROM " . $links_DB . "links_links WHERE topicid_card='$topicL' AND (title LIKE '%$query%' OR description LIKE '%$query%') ORDER BY lid ASC LIMIT $min,$offset");
-    else
-        $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid FROM " . $links_DB . "links_links WHERE title LIKE '%$query%' OR description LIKE '%$query%' ORDER BY lid ASC LIMIT $min,$offset");
+    if ($topicL != '') {
+        $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid 
+                             FROM " . $links_DB . "links_links 
+                             WHERE topicid_card='$topicL' 
+                             AND (title LIKE '%$query%' OR description LIKE '%$query%') 
+                             ORDER BY lid ASC 
+                             LIMIT $min,$offset");
+    } else {
+        $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid 
+                             FROM " . $links_DB . "links_links 
+                             WHERE title LIKE '%$query%' OR description LIKE '%$query%' 
+                             ORDER BY lid ASC 
+                             LIMIT $min,$offset");
+    }
 
     if ($result) {
         $link_fiche_detail = '';
 
-        include_once("modules/$ModPath/links-view.php");
+        include_once "modules/$ModPath/links-view.php";
 
         $prev = $min - $offset;
 

@@ -12,8 +12,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-if (preg_match("#upload\.func\.forum\.php#", $_SERVER['PHP_SELF']))
+if (preg_match("#upload\.func\.forum\.php#", $_SERVER['PHP_SELF'])) {
    die();
+}
 
 if (!isset($upload_conf)) {
    include_once("modules/upload/lang/upload.lang-$language.php");
@@ -28,11 +29,13 @@ function load_mimetypes()
 {
    global $mimetypes, $mimetype_default, $mime_dspinl, $mime_dspfmt, $mime_renderers, $att_icons, $att_icon_default, $att_icon_multiple;
 
-   if (defined('ATT_DSP_LINK'))
+   if (defined('ATT_DSP_LINK')) {
       return;
+   }
 
-   if (file_exists("modules/upload/include/mimetypes.php"))
+   if (file_exists("modules/upload/include/mimetypes.php")) {
       include("modules/upload/include/mimetypes.php");
+   }
 }
 
 /************************************************************************/
@@ -44,11 +47,13 @@ function getAttachments($apli, $post_id, $att_id = 0, $Mmod = 0)
 
    $query = "SELECT att_id, att_name, att_type, att_size, att_path, inline, compteur, visible FROM $upload_table WHERE apli='$apli' && post_id='$post_id'";
 
-   if ($att_id > 0)
+   if ($att_id > 0) {
       $query .= " AND att_id=$att_id";
+   }
 
-   if (!$Mmod)
+   if (!$Mmod) {
       $query .= " AND visible=1";
+   }
 
    $query .= " ORDER BY att_type,att_name";
    $result = sql_query($query);
@@ -124,8 +129,9 @@ function insertAttachment($apli, $IdPost, $IdTopic, $IdForum, $name, $path, $inl
    $sql = "INSERT INTO $upload_table VALUES (0, '$IdPost', '$IdTopic','$IdForum', '$stamp', '$name', '$type', '$size', '$path', '1', '$apli', '0', '$visible_forum')";
    $ret = sql_query($sql);
 
-   if (!$ret)
+   if (!$ret) {
       return -1;
+   }
 
    return sql_last_id();
 }
@@ -214,10 +220,11 @@ function getAttDisplayMode($att_type, $att_inline = "A")
 
    load_mimetypes();
 
-   if ($att_inline)
+   if ($att_inline) {
       $display_mode = (isset($mime_dspfmt[$att_type])) ? $mime_dspfmt[$att_type] : $mime_dspfmt[$mimetype_default];
-   else
+   } else {
       $display_mode = ATT_DSP_LINK;
+   }
 
    return $display_mode;
 }
@@ -246,11 +253,13 @@ function verifsize($size)
    $width_max = 500;
    $height_max = 500;
 
-   if ($size[0] == 0)
+   if ($size[0] == 0) {
       $size[0] = ceil($width_max / 3);
+   }
 
-   if ($size[1] == 0)
+   if ($size[1] == 0) {
       $size[1] = ceil($height_max / 3);
+   }
 
    $width = $size[0];
    $height = $size[1];
@@ -290,18 +299,21 @@ function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_s
       return '&nbsp;<span class="text-danger" style="font-size: .65rem;">' . upload_translate("Fichier non trouvé") . ' : ' . $att_name . '</span>';
 
    if ($att_inline) {
-      if (isset($mime_dspfmt[$att_type]))
+      if (isset($mime_dspfmt[$att_type])) {
          $display_mode = $mime_dspfmt[$att_type];
-      else
+      } else {
          $display_mode = $mime_dspfmt[$mimetype_default];
-   } else
+      }
+   } else {
       $display_mode = ATT_DSP_LINK;
+   }
 
    if ($Mmod) {
       global $userdata;
       $marqueurM = '&amp;Mmod=' . substr($userdata[2], 8, 6);
-   } else
+   } else {
       $marqueurM = '';
+   }
 
    $att_url = "getfile.php?att_id=$att_id&amp;apli=$apli" . $marqueurM . "&amp;att_name=" . rawurlencode($att_name);
 
@@ -422,12 +434,14 @@ function word_wrap($string, $cols = 80, $prefix = '')
             if ((strlen($newline) + strlen($thisword)) > $cols) {
                $outlines .= $prefix . $newline . "\n";
                $newline = $thisword . ' ';
-            } else
+            } else {
                $newline .= $thisword . ' ';
+            }
          }
          $outlines .= $prefix . $newline . "\n";
-      } else
+      } else {
          $outlines .= $prefix . $thisline . "\n";
+      }
    }
 
    return $outlines;
