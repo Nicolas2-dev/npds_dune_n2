@@ -5,7 +5,7 @@ if (! function_exists('adminblock'))
     #autodoc adminblock() : Bloc Admin <br />=> syntaxe : function#adminblock
     function adminblock()
     {
-        global $admin, $aid, $admingraphic, $adminimg, $admf_ext, $Version_Sub, $Version_Num, $nuke_url;
+        global $admin, $aid, $adminimg, $admf_ext, $Version_Sub, $Version_Num, $nuke_url;
 
         $bloc_foncts_A = '';
 
@@ -168,25 +168,25 @@ if (! function_exists('adminblock'))
             </div>
             <script>
                 $(function () {
-                $("#bl_messageModal").on("show.bs.modal", function (event) {
-                    var button = $(event.relatedTarget); 
-                    var id = button.data("id");
-                    $("#bl_messageModalId").val(id);
-                    $("#bl_messageModalForm").attr("action", "' . $nuke_url . '/admin.php?op=alerte_update");
-                    $.ajax({
-                        url:"' . $nuke_url . '/admin.php?op=alerte_api",
-                        method: "POST",
-                        data:{id:id},
-                        dataType:"JSON",
-                        success:function(data) {
-                            var fnom_affich = JSON.stringify(data["fnom_affich"]),
-                                fretour_h = JSON.stringify(data["fretour_h"]),
-                                ficone = JSON.stringify(data["ficone"]);
-                            $("#bl_messageModalLabel").html(JSON.parse(fretour_h));
-                            $("#bl_messageModalContent").html(JSON.parse(fnom_affich));
-                            $("#bl_messageModalIcon").html("<img src=\"assets/images/admin/"+JSON.parse(ficone)+".png\" />");
-                        }
-                    });
+                    $("#bl_messageModal").on("show.bs.modal", function (event) {
+                        var button = $(event.relatedTarget); 
+                        var id = button.data("id");
+                        $("#bl_messageModalId").val(id);
+                        $("#bl_messageModalForm").attr("action", "' . $nuke_url . '/admin.php?op=alerte_update");
+                        $.ajax({
+                            url:"' . $nuke_url . '/admin.php?op=alerte_api",
+                            method: "POST",
+                            data:{id:id},
+                            dataType:"JSON",
+                            success:function(data) {
+                                var fnom_affich = JSON.stringify(data["fnom_affich"]),
+                                    fretour_h = JSON.stringify(data["fretour_h"]),
+                                    ficone = JSON.stringify(data["ficone"]);
+                                $("#bl_messageModalLabel").html(JSON.parse(fretour_h));
+                                $("#bl_messageModalContent").html(JSON.parse(fnom_affich));
+                                $("#bl_messageModalIcon").html("<img src=\"assets/images/admin/"+JSON.parse(ficone)+".png\" />");
+                            }
+                        });
                     });
                 });
             </script>';

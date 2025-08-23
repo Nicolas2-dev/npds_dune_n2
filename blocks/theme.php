@@ -27,8 +27,7 @@ if (! function_exists('block_skin'))
         $content = '';
 
         if ($skinOn != '') {
-            $content .= '
-            <div class="form-floating">
+            $content .= '<div class="form-floating">
             <select class="form-select" id="blocskinchoice"><option>' . $skinOn . '</option></select>
             <label for="blocskinchoice">Choisir un skin</label>
             </div>

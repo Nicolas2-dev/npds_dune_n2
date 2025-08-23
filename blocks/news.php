@@ -32,22 +32,23 @@ if (! function_exists('oldNews'))
 
             $date_au_format = formatTimes($time, IntlDateFormatter::FULL);
 
-            $comments = $typ_aff == 'lecture' ?
-                '<span class="badge rounded-pill bg-secondary ms-1" title="' . translate('Lu') . '" data-bs-toggle="tooltip">' . $counter . '</span>' : '';
+            $comments = $typ_aff == 'lecture' 
+                ? '<span class="badge rounded-pill bg-secondary ms-1" title="' . translate('Lu') . '" data-bs-toggle="tooltip">' . $counter . '</span>' 
+                : '';
 
-            if ($time2 == $date_au_format)
+            if ($time2 == $date_au_format) {
                 $boxstuff .= '<li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a class="n-ellipses" href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
-            else {
+            } else {
                 if ($a == 0) {
                     $boxstuff .= '<li class="list-group-item fs-6">' . $date_au_format . '</li>
-                <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
+                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
 
                     $time2 = $date_au_format;
 
                     $a = 1;
                 } else {
                     $boxstuff .= '<li class="list-group-item fs-6">' . $date_au_format . '</li>
-                <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
+                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . aff_langue($title) . '</a>' . $comments . '</li>';
 
                     $time2 = $date_au_format;
                 }
@@ -65,8 +66,9 @@ if (! function_exists('oldNews'))
 
         $boxstuff .= '</ul>';
 
-        if (strpos($boxstuff, '<li') === false)
+        if (strpos($boxstuff, '<li') === false) {
             $boxstuff = '';
+        }
 
         global $block_title;
         $boxTitle = $block_title == '' ? translate('Anciens articles') : $block_title;
@@ -88,9 +90,9 @@ if (! function_exists('bigstory'))
 
         $xtab = news_aff("big_story", "WHERE (time LIKE '%$tdate%')", 1, 1);
 
-        if (sizeof($xtab))
+        if (sizeof($xtab)) {
             list($fsid, $ftitle) = $xtab[0];
-        else {
+        } else {
             $fsid = '';
             $ftitle = '';
         }
@@ -119,9 +121,9 @@ if (! function_exists('category'))
 
         $numrows = sql_num_rows($result);
 
-        if ($numrows == 0)
+        if ($numrows == 0) {
             return;
-        else {
+        } else {
             $boxstuff = '<ul>';
 
             while (list($catid, $title) = sql_fetch_row($result)) {
@@ -201,8 +203,9 @@ if (! function_exists('bloc_rubrique'))
                     foreach ($tmp_auto as $userlevel) {
                         $okprintLV1 = autorisation($userlevel);
 
-                        if ($okprintLV1)
+                        if ($okprintLV1) {
                             break;
+                        }
                     }
 
                     if ($okprintLV1) {

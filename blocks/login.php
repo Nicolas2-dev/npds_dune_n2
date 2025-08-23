@@ -10,8 +10,7 @@ if (! function_exists('loginbox'))
         $boxstuff = '';
 
         if (!$user) {
-            $boxstuff = '
-            <form action="user.php" method="post">
+            $boxstuff = '<form action="user.php" method="post">
                 <div class="mb-3">
                     <label for="uname">' . translate('Identifiant') . '</label>
                     <input class="form-control" type="text" name="uname" maxlength="25" />

@@ -7,8 +7,8 @@ if (! function_exists('headlines'))
     {
         global $Version_Num, $Version_Id, $rss_host_verif, $long_chain;
 
-        if (file_exists("proxy.conf.php")) {
-            include("proxy.conf.php");
+        if (file_exists('config/proxy.conf.php')) {
+            include 'config/proxy.conf.php';
         }
 
         if ($hid == '') {
@@ -25,7 +25,7 @@ if (! function_exists('headlines'))
         while (list($sitename, $url, $headlinesurl, $hid) = sql_fetch_row($result)) {
             $boxtitle = $sitename;
 
-            $cache_file = 'cache/' . preg_replace('[^a-z0-9]', '', strtolower($sitename)) . '_' . $hid . '.cache';
+            $cache_file = 'storage/cache/' . preg_replace('[^a-z0-9]', '', strtolower($sitename)) . '_' . $hid . '.cache';
             $cache_time = 1200; //3600 origine
 
             $items = 0;
@@ -49,13 +49,13 @@ if (! function_exists('headlines'))
                 }
 
                 if (!$verif) {
-                    $cache_file_sec = $cache_file . ".security";
+                    $cache_file_sec = $cache_file . '.security';
 
                     if (file_exists($cache_file)) {
                         $ibid = rename($cache_file, $cache_file_sec);
                     }
 
-                    themesidebox($boxtitle, "Security Error");
+                    themesidebox($boxtitle, 'Security Error');
 
                     return;
                 } else {
