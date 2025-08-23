@@ -256,8 +256,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
     echo '<br />';
 
-    if (file_exists('modules/include/user.inc')) {
-        include 'modules/include/user.inc';
+    if (file_exists('themes/base/bootstrap/user.php')) {
+        include 'themes/base/bootstrap/user.php';
     }
 }
 

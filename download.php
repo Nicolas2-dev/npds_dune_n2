@@ -54,8 +54,7 @@ function geninfo($did, $out_template)
         if ($out_template == 1) {
             include 'header.php';
 
-            echo '
-            <h2 class="mb-3">' . translate('Chargement de fichiers') . '</h2>
+            echo '<h2 class="mb-3">' . translate('Chargement de fichiers') . '</h2>
             <div class="card">
                 <div class="card-header"><h4>' . $dfilename . '<span class="ms-3 text-body-secondary small">@' . $durl . '</h4></div>
                 <div class="card-body">';
@@ -100,8 +99,7 @@ function tlist()
 
     $cate = stripslashes($dcategory);
 
-    echo '
-    <p class="lead">' . translate('Sélectionner une catégorie') . '</p>
+    echo '<p class="lead">' . translate('Sélectionner une catégorie') . '</p>
     <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-between my-3 border rounded">
         <p class="p-2 mb-0 ">';
 
@@ -182,8 +180,7 @@ function popuploader($did, $ddescription, $dcounter, $dfilename, $aff)
 
         geninfo($did, $out_template);
 
-        echo '
-                    </div>
+        echo '</div>
                     <div class="modal-footer">
                         <a class="" href="download.php?op=mydown&amp;did=' . $did . '" title="' . translate('Charger maintenant') . '"><i class="fa fa-2x fa-download"></i></a>
                     </div>
@@ -329,8 +326,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
     echo translate('de') . '&nbsp;<i><b>' . $sortby2 . '</b></i>
     </p>';
 
-    echo '
-    <table class="table table-hover mb-3 table-sm" id ="lst_downlo" data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-show-columns="true"
+    echo '<table class="table table-hover mb-3 table-sm" id ="lst_downlo" data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-show-columns="true"
     data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons-prefix="fa" data-icons="icons">';
 
     sortlinks($dcategory, $sortby);
@@ -461,8 +457,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
         echo '</tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>';
 
     $dcategory = StripSlashes($dcategory);
@@ -482,8 +477,7 @@ function main()
 
     include 'header.php';
 
-    echo '
-    <h2>' . translate('Chargement de fichiers') . '</h2>
+    echo '<h2>' . translate('Chargement de fichiers') . '</h2>
     <hr />';
 
     tlist();
@@ -512,8 +506,7 @@ function transferfile($did)
     if (!$durl) {
         include 'header.php';
 
-        echo '
-        <h2>' . translate('Chargement de fichiers') . '</h2>
+        echo '<h2>' . translate('Chargement de fichiers') . '</h2>
         <hr />
         <div class="lead alert alert-danger">' . translate('Ce fichier n\'existe pas ...') . '</div>';
 
@@ -578,8 +571,7 @@ function broken($did)
 
             include 'header.php';
 
-            echo '
-            <div class="alert alert-success">
+            echo '<div class="alert alert-success">
                 <p class="lead">
                     ' . translate('Pour des raisons de sécurité, votre nom d\'utilisateur et votre adresse IP vont être momentanément conservés.') . '
                     <br />' . translate('Merci pour cette information. Nous allons l\'examiner dès que possible.') . '
