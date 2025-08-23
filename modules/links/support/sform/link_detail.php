@@ -23,10 +23,7 @@ if ($pos > 0) {
     $ModPathX = $ModPath;
 }
 
-global $sform_path;
-$sform_path = 'library/sform/';
-
-include_once $sform_path . 'sform.php';
+include_once 'library/sform/sform.php';
 
 global $m;
 $m = new Sform();
@@ -41,7 +38,7 @@ $m->add_submit_value('link_fiche_detail');
 
 $m->add_url("modules.php?ModStart=$ModStart&ModPath=$ModPath");
 
-include_once $sform_path . $ModPathX . '/formulaire.php';
+include_once 'modules'. $ModPathX . '/support/sform/formulaire.php';
 
 // Fabrique le formulaire et assure sa gestion
 switch ($link_fiche_detail) {

@@ -52,14 +52,14 @@ function AddLink()
             <h3 class="mb-3">Proposer un lien</h3>
             <div class="card card-outline-secondary mb-3">
                 <div class="card-body">
-                    <span class="help-block">' . translate("Proposer un seul lien.") . '<br />' . translate("Tous les liens proposés sont vérifiés avant insertion.") . '<br />' . translate("Merci de ne pas abuser, le nom d'utilisateur et l'adresse IP sont enregistrés.") . '</span>
+                    <span class="help-block">' . translate('Proposer un seul lien.') . '<br />' . translate('Tous les liens proposés sont vérifiés avant insertion.') . '<br />' . translate('Merci de ne pas abuser, le nom d\'utilisateur et l\'adresse IP sont enregistrés.') . '</span>
                 </div>
             </div>
             <form id="addlink" method="post" action="modules.php" name="adminForm">
                 <input type="hidden" name="ModPath" value="' . $ModPath . '" />
                 <input type="hidden" name="ModStart" value="' . $ModStart . '" />
                 <div class="mb-3 row">
-                    <label class="col-form-label col-sm-3" for="title">' . translate("Titre") . '</label>
+                    <label class="col-form-label col-sm-3" for="title">' . translate('Titre') . '</label>
                     <div class="col-sm-9">
                     <input class="form-control" type="text" id="title" name="title" maxlength="100" required="required" />
                     <span class="help-block text-end" id="countcar_title"></span>
@@ -81,7 +81,7 @@ function AddLink()
                              ORDER BY title");
 
         echo '<div class="mb-3 row">
-            <label class="col-form-label col-sm-3" for="cat">' . translate("Catégorie") . '</label>
+            <label class="col-form-label col-sm-3" for="cat">' . translate('Catégorie') . '</label>
             <div class="col-sm-9">
             <select class="form-select" id="cat" name="cat">';
 
@@ -102,7 +102,7 @@ function AddLink()
         global $links_topic;
         if ($links_topic) {
             echo '<div class="mb-3 row">
-                <label class="col-form-label col-sm-3" for="topicL">' . translate("Sujets") . '</label>
+                <label class="col-form-label col-sm-3" for="topicL">' . translate('Sujets') . '</label>
                 <div class="col-sm-9">
                 <select class="form-select" id="topicL" name="topicL">';
 
@@ -110,7 +110,7 @@ function AddLink()
                                   FROM " . $NPDS_Prefix . "topics 
                                   ORDER BY topictext");
 
-            echo '<option value="">' . translate("Tous les sujets") . '</option>';
+            echo '<option value="">' . translate('Tous les sujets') . '</option>';
 
             while (list($topicid, $topics) = sql_fetch_row($toplist)) {
                 echo '<option value="' . $topicid . '">' . $topics . '</option>';
@@ -122,7 +122,7 @@ function AddLink()
         }
 
         echo '<div class="mb-3 row">
-                <label class="col-form-label col-sm-12" for="xtext">' . translate("Description") . '</label>
+                <label class="col-form-label col-sm-12" for="xtext">' . translate('Description') . '</label>
                 <div class="col-sm-12">
                 <textarea class="tin form-control" name="xtext" id="xtext" rows="10"></textarea>
                 </div>
@@ -134,13 +134,13 @@ function AddLink()
         $nom = isset($cookie) ? $cookie[1] : '';
 
         echo '<div class="mb-3 row">
-                <label class="col-form-label col-sm-3" for="name">' . translate("Votre nom") . '</label>
+                <label class="col-form-label col-sm-3" for="name">' . translate('Votre nom') . '</label>
                 <div class="col-sm-9">
                 <input type="text" class="form-control" id="name" name="name" maxlength="60" value="' . $nom . '" required="required" />
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-form-label col-sm-3" for="email">' . translate("Votre Email") . '</label>
+                <label class="col-form-label col-sm-3" for="email">' . translate('Votre Email') . '</label>
                 <div class="col-sm-9">
                 <input type="email" class="form-control" id="email" name="email" maxlength="254" required="required" />
                 <span class="help-block text-end" id="countcar_email"></span>
@@ -152,7 +152,7 @@ function AddLink()
         echo '<div class="mb-3 row">
                     <input type="hidden" name="op" value="Add" />
                     <div class="col-sm-9 ms-sm-auto">
-                    <input type="submit" class="btn btn-primary" value="' . translate("Ajouter une url") . '" />
+                    <input type="submit" class="btn btn-primary" value="' . translate('Ajouter une url') . '" />
                     </div>
                 </div>
             </form>
@@ -171,8 +171,8 @@ function AddLink()
 
         include 'footer.php';
     } else {
-        echo '<div class="alert alert-warning">' . translate("Vous n'êtes pas (encore) enregistré ou vous n'êtes pas (encore) connecté.") . '<br />
-            ' . translate("Si vous étiez enregistré, vous pourriez proposer des liens.") . '</div>';
+        echo '<div class="alert alert-warning">' . translate('Vous n\'êtes pas (encore) enregistré ou vous n\'êtes pas (encore) connecté.') . '<br />
+            ' . translate('Si vous étiez enregistré, vous pourriez proposer des liens.') . '</div>';
 
         SearchForm();
 
@@ -285,7 +285,7 @@ function links_search($query, $topicL, $min, $max, $offset)
 
     mainheader();
 
-    $filen = "modules/$ModPath/links.ban_02.php";
+    $filen = 'modules/' . $ModPath . '/support/links.ban_02.php';
 
     if (file_exists($filen)) {
         include($filen);
@@ -311,18 +311,18 @@ function links_search($query, $topicL, $min, $max, $offset)
     if ($result) {
         $link_fiche_detail = '';
 
-        include_once "modules/$ModPath/links-view.php";
+        include_once 'modules/' . $ModPath . '/http/controllers/links-view.php';
 
         $prev = $min - $offset;
 
         if ($prev >= 0) {
             echo "$min <a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;op=search&min=$prev&amp;query=$query&amp;topicL=$topicL\" class=\"noir\">";
-            echo translate("réponses précédentes") . "</a>&nbsp;&nbsp;";
+            echo translate('réponses précédentes') . "</a>&nbsp;&nbsp;";
         }
 
         if ($x >= ($offset - 1)) {
             echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;op=search&amp;min=$max&amp;query=$query&amp;topicL=$topicL\" class=\"noir\">";
-            echo translate("réponses suivantes") . "</a>";
+            echo translate('réponses suivantes') . "</a>";
         }
     }
 

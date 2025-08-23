@@ -17,15 +17,13 @@ global $ModPath, $ModStart;
 
 $pos = strpos($ModPath, '/admin');
 
-if ($pos > 0)
+if ($pos > 0) {
    $ModPathX = substr($ModPath, 0, $pos);
-else
+} else {
    $ModPathX = $ModPath;
+}
 
-global $sform_path;
-$sform_path = 'library/sform/';
-
-include_once $sform_path . 'sform.php';
+include_once 'library/sform/sform.php';
 
 global $m;
 $m = new Sform();
@@ -56,7 +54,7 @@ $m->add_field('op', '', 'modifylinkrequest', 'hidden', false);
 
 $m->add_field('lid', '', $browse_key, 'hidden', false);
 
-include_once $sform_path . $ModPathX . '/formulaire.php';
+include_once 'modules/' . $ModPathX . '/support/sform/formulaire.php';
 
 // Fabrique le formulaire et assure sa gestion
 function interface_function($browse_key)

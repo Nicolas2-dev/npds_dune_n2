@@ -29,7 +29,7 @@ function NewLinksDate($selectdate)
 
     mainheader('nl');
 
-    $filen = "modules/$ModPath/links.ban_01.php";
+    $filen = 'modules/'.$ModPath.'/support/links.ban_01.php';
 
     if (file_exists($filen)) {
         include($filen);
@@ -50,7 +50,7 @@ function NewLinksDate($selectdate)
 
     $link_fiche_detail = '';
 
-    include_once("modules/$ModPath/links-view.php");
+    include_once 'modules/'.$ModPath.'/http/controllers/front/links-view.php';
 
     include 'footer.php';
 }
@@ -104,12 +104,12 @@ function NewLinks($newlinkshowdays)
     }
 
     echo '<div class="card card-body mb-3">
-        <h3>' . translate("Nouveaux liens") . '</h3>
-        ' . translate("Total des nouveaux liens pour la semaine dernière") . ' : ' . $allweeklinks . ' -/- ' . translate("Pour les 30 derniers jours") . ' : ' . $allmonthlinks;
+        <h3>' . translate('Nouveaux liens') . '</h3>
+        ' . translate('Total des nouveaux liens pour la semaine dernière') . ' : ' . $allweeklinks . ' -/- ' . translate('Pour les 30 derniers jours') . ' : ' . $allmonthlinks;
 
     echo "<br />\n";
 
-    echo "<blockquote>" . translate("Montrer :") . " [<a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=7\" class=\"noir\">" . translate("semaine") . "</a>, <a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=14\" class=\"noir\">2 " . translate("semaines") . "</a>, <a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=30\" class=\"noir\">30 " . translate("jours") . "</a>]</<blockquote>";
+    echo "<blockquote>" . translate('Montrer :') . " [<a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=7\" class=\"noir\">" . translate('semaine') . "</a>, <a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=14\" class=\"noir\">2 " . translate('semaines') . "</a>, <a href=\"modules.php?ModStart=$ModStart&ModPath=$ModPath&op=NewLinks&newlinkshowdays=30\" class=\"noir\">30 " . translate('jours') . "</a>]</<blockquote>";
 
     $counter = 0;
     $allweeklinks = 0;
@@ -122,7 +122,7 @@ function NewLinks($newlinkshowdays)
 
         $newlinkday = date("d-M-Y", $newlinkdayRaw);
 
-        $newlinkView = date(str_replace("%", "", translate("linksdatestring")), $newlinkdayRaw);
+        $newlinkView = date(str_replace("%", "", translate('linksdatestring')), $newlinkdayRaw);
 
         $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
 

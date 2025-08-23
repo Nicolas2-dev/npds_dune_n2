@@ -62,21 +62,25 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
         settype($datetime, 'string');
 
-        echo '
-            <div class="card mb-3">
-                <div class="card-body ibid_descr">';
+        echo '<div class="card mb-3">
+            <div class="card-body ibid_descr">';
 
         if ($url == '') {
             echo '<h4 class="text-body-secondary"><i class="fas fa-external-link-alt"></i>&nbsp;' . aff_langue($title);
         } else {
             echo '<h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" ><i class="fas fa-external-link-alt"></i>&nbsp;' . aff_langue($title) . '</a>';
         }
+
         echo '&nbsp;' . newlinkgraphic($datetime, $time) . '</h4>';
 
         if (!empty($xcid)) {
-            $result3 = sql_query("SELECT title FROM " . $links_DB . "links_categories WHERE cid='$xcid'");
+            $result3 = sql_query("SELECT title 
+                                  FROM " . $links_DB . "links_categories 
+                                  WHERE cid='$xcid'");
 
-            $result4 = sql_query("SELECT title FROM " . $links_DB . "links_subcategories WHERE sid='$xsid'");
+            $result4 = sql_query("SELECT title 
+                                  FROM " . $links_DB . "links_subcategories 
+                                  WHERE sid='$xsid'");
 
             list($ctitle) = sql_fetch_row($result3);
 
@@ -88,14 +92,16 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
                 $slash = '/';
             }
 
-            echo translate("Catégorie : ") . "<strong>" . aff_langue($ctitle) . "</strong> $slash <b>" . aff_langue($stitle) . "</b>";
+            echo translate('Catégorie : ') . "<strong>" . aff_langue($ctitle) . "</strong> $slash <b>" . aff_langue($stitle) . "</b>";
         }
 
         global $links_topic;
         if ($links_topic and $topicid_card != 0) {
-            list($topicLX) = sql_fetch_row(sql_query("SELECT topictext FROM " . $NPDS_Prefix . "topics WHERE topicid='$topicid_card'"));
+            list($topicLX) = sql_fetch_row(sql_query("SELECT topictext 
+                                                      FROM " . $NPDS_Prefix . "topics 
+                                                      WHERE topicid='$topicid_card'"));
 
-            echo '<br />' . translate("Sujets") . ' : <strong>' . $topicLX . '</strong>';
+            echo '<br />' . translate('Sujets') . ' : <strong>' . $topicLX . '</strong>';
         }
 
         echo '<div class="ibid_descr "><p>' . aff_langue($description) . '</p></div>';
@@ -105,35 +111,33 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
             global $popular;
             if ($hits > $popular) {
-                echo '<span class="text-success"><i class="fa fa-star-o fa-lg"></i></span><span class="ms-auto">' . translate("Hits") . '<span class=" badge bg-secondary ms-2">' . $hits . '</span></span>';
+                echo '<span class="text-success"><i class="fa fa-star-o fa-lg"></i></span><span class="ms-auto">' . translate('Hits') . '<span class=" badge bg-secondary ms-2">' . $hits . '</span></span>';
             } else {
-                echo '<span class="ms-auto">' . translate("Nb hits : ") . '<span class=" badge bg-secondary">' . $hits . '</span></span>';
+                echo '<span class="ms-auto">' . translate('Nb hits : ') . '<span class=" badge bg-secondary">' . $hits . '</span></span>';
             }
             echo '</div>';
         }
 
-        echo '
-                </div>
-                <div class="card-footer d-flex justify-content-start">
-                <span class="small">' . translate("Ajouté le : ") . formatTimes($time) . '</span>
-                <span class="ms-auto">';
+        echo '</div>
+            <div class="card-footer d-flex justify-content-start">
+            <span class="small">' . translate('Ajouté le : ') . formatTimes($time) . '</span>
+            <span class="ms-auto">';
 
         if ($url != '') {
-            echo '<a class="me-3" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=brokenlink&amp;lid=' . $lid . '" title="' . translate("Rapporter un lien rompu") . '" data-bs-toggle="tooltip"><i class="fas fa-unlink fa-lg"></i></a>';
+            echo '<a class="me-3" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=brokenlink&amp;lid=' . $lid . '" title="' . translate('Rapporter un lien rompu') . '" data-bs-toggle="tooltip"><i class="fas fa-unlink fa-lg"></i></a>';
         }
         // Advance infos via the class sform.php
         $browse_key = $lid;
 
-        include("modules/sform/$ModPath/link_detail.php");
+        include 'modules/' . $ModPath . '/support/sform/link_detail.php';
 
         detecteditorial($lid, urlencode($title));
 
-        echo '<a class="me-3" href="print.php?DB=' . $links_DB . '&amp;lid=' . $lid . '" title="' . translate("Page spéciale pour impression") . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
+        echo '<a class="me-3" href="print.php?DB=' . $links_DB . '&amp;lid=' . $lid . '" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
 
         autorise_mod($lid, true);
 
-        echo '
-                </span>
+        echo '</span>
                 </div>
             </div>';
 
