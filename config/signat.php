@@ -11,8 +11,10 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License.
 ######################################################################
+
 settype($message, 'string');
-$message .= "-----------------------------------------------------
+
+$message .= '-----------------------------------------------------
 Gestion de Contenu et de Communauté
-www.npds.org -:- copyright 2001-" . date("Y") . "
------------------------------------------------------";
+www.npds.org -:- copyright 2001-' . date('Y') . '
+-----------------------------------------------------';
