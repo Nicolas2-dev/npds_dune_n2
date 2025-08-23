@@ -20,15 +20,15 @@ if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
 /* Include et definition                             */
 /*****************************************************/
 
-include_once("modules/upload/lang/upload.lang-$language.php");
-include_once("modules/upload/include_editeur/upload.conf.editeur.php");
+include_once 'modules/upload/language/'. $language .'/upload.lang-'. $language .'.php';
+include_once 'modules/upload/config/upload.conf.editeur.php';
 
 /*****************************************************/
 /* Entete                                            */
 /*****************************************************/
-$Titlesitename = upload_translate("Télécharg.");
+$Titlesitename = upload_translate('Télécharg.');
 
-include("meta/meta.php");
+include 'storage/meta/meta.php';
 
 if ($url_upload_css) {
     $url_upload_cssX = str_replace('style.css', "$language-style.css", $url_upload_css);
@@ -62,10 +62,10 @@ if (isset($actiontype)) {
             }
 
             echo "<script type=\"text/javascript\">
-                //<![CDATA[
-                " . $js . "
-                top.tinymce.activeEditor.windowManager.close();
-                //]]>
+                    //<![CDATA[
+                        " . $js . "
+                        top.tinymce.activeEditor.windowManager.close();
+                    //]]>
                 </script>";
 
             die();
@@ -73,8 +73,7 @@ if (isset($actiontype)) {
     }
 }
 
-echo '
-    <body topmargin="3" leftmargin="3" rightmargin="3">
+echo '<body topmargin="3" leftmargin="3" rightmargin="3">
         <div class="card card-body mx-2 mt-3">
             <form method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data" name="formEdit">
                 <input type="hidden" name="ModPath" value="' . $ModPath . '" />
@@ -85,14 +84,13 @@ if (isset($groupe)) {
     echo '<input type="hidden" name="groupe" value="' . $groupe . '" />';
 }
 
-echo '
-                <div class="mb-3 row">
+echo '<div class="mb-3 row">
                 <input type="hidden" name="actiontype" value="upload" />
-                <label class="form-label">' . upload_translate("Fichier") . '</label>
+                <label class="form-label">' . upload_translate('Fichier') . '</label>
                 <input class="form-control" name="pcfile" type="file" id="pcfile" value="" />
                 </div>
                 <div class="mb-3 row">
-                <input type="submit" class="btn btn-primary btn-sm" name="insert" value="' . upload_translate("Joindre") . '" />
+                <input type="submit" class="btn btn-primary btn-sm" name="insert" value="' . upload_translate('Joindre') . '" />
                 </div>
             </form>
         </div>
@@ -110,8 +108,8 @@ function load_mimetypes()
         return;
     }
     
-    if (file_exists("modules/upload/include/mimetypes.php")) {
-        include("modules/upload/include/mimetypes.php");
+    if (file_exists('modules/upload/support/mimetypes.php')) {
+        include 'modules/upload/support/mimetypes.php';
     }
 }
 
@@ -120,7 +118,7 @@ function editeur_upload()
     global $apli, $pcfile, $pcfile_size, $pcfile_name, $pcfile_type;
     global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $mimetypes, $mimetype_default, $rep_upload_editeur, $path_upload_editeur;
 
-    include "modules/upload/include/fileupload.php";
+    include 'modules/upload/library/fileupload.php';
 
     // Récupération des valeurs de PCFILE
     global $HTTP_POST_FILES, $_FILES;
@@ -143,8 +141,8 @@ function editeur_upload()
     $attachments = $fu->getUploadedFiles('', '');
 
     if (is_array($attachments)) {
-        $att_count = $attachments['att_count'];
-        $att_size = $attachments['att_size'];
+        //$att_count = $attachments['att_count'];
+        //$att_size = $attachments['att_size'];
 
         if (is_array($pcfile_name)) {
             reset($pcfile_name);
@@ -156,6 +154,6 @@ function editeur_upload()
 
         return ($path_upload_editeur . $pcfile_name);
     } else {
-        return ('');
+        return '';
     }
 }

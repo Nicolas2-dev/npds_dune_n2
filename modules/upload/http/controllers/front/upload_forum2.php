@@ -26,9 +26,9 @@ $forum = $IdForum;
 
 include_once 'auth.php';
 include_once 'functions.php';
-include_once 'modules/upload/lang/upload.lang-' . $language . '.php';
-include_once 'modules/upload/include_forum/upload.conf.forum.php';
-include_once 'modules/upload/include_forum/upload.func.forum.php';
+include_once 'modules/upload/language/'. $language .'/upload.lang-'. $language .'.php';
+include_once 'modules/upload/config//upload.conf.forum.php';
+include_once 'modules/upload/support/upload.func.forum.php';
 include_once 'library/File.php';
 
 $inline_list['1'] = upload_translate('Oui');
@@ -73,7 +73,7 @@ if ($userdata[9] != '') {
 
     $tmp_theme = $theme;
 
-    if (!$file = @opendir("themes/$theme")) {
+    if (!$file = @opendir('themes/'. $theme)) {
         $tmp_theme = $Default_Theme;
     }
 } else {
@@ -144,7 +144,7 @@ if ($actiontype) {
     }
 }
 
-include 'modules/upload/include/minigf.php';
+include 'modules/upload/support/minigf.php';
 
 /*****************************************************/
 /* Upload du fichier                                 */
@@ -164,7 +164,7 @@ function forum_upload()
         $MAX_FILE_SIZE = $MAX_FILE_SIZE_TOTAL - $sum;
     }
 
-    include 'modules/upload/include/fileupload.php';
+    include 'modules/upload/library/fileupload.php';
 
     settype($thanks_msg, 'string');
 

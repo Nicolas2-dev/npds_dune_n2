@@ -69,27 +69,27 @@ if (!isset($FILEUPLOAD)) {
             switch ($this->errno) {
 
                 case FILE_TOO_BIG:
-                    $reason = upload_translate("La taille de ce fichier excède la taille maximum autorisée") . ' !</div>';
+                    $reason = upload_translate('La taille de ce fichier excède la taille maximum autorisée') . ' !</div>';
                     break;
 
                 case INVALID_FILE_TYPE:
-                    $reason = upload_translate("Ce type de fichier n'est pas autorisé") . ' !</div>';
+                    $reason = upload_translate('Ce type de fichier n\'est pas autorisé') . ' !</div>';
                     break;
 
                 default;
-                    $reason = sprintf(upload_translate("Le code erreur est : %s"), $this->errno);
+                    $reason = sprintf(upload_translate('Le code erreur est : %s'), $this->errno);
                     break;
             }
 
             /*je ne trouve pas quand et ou cette variable défini ci dessus peut etre changé donc ne comprend pas les conditions ci dessous ?*/
             if ($this->Halt_On_Error == 'report') {
-                printf('<div class="alert alert-danger m-3 alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><h4 class="alert-heading">' . upload_translate("Attention") . '</h4> %s<br /><p class="mt-2 text-center"> %s </p>', $msg, '<strong>' . $reason . '</strong>');
+                printf('<div class="alert alert-danger m-3 alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><h4 class="alert-heading">' . upload_translate('Attention') . '</h4> %s<br /><p class="mt-2 text-center"> %s </p>', $msg, '<strong>' . $reason . '</strong>');
             } else {
                 printf('<div class="alert alert-danger m-3" role="alert"> %s %s<br /><p class="mt-2 text-center"> %s </p></span>', '<h4 class="alert-heading">File management</h4>', $msg, '<strong>' . $reason . '</strong>');
             }
 
             if ($this->Halt_On_Error != 'report') {
-                die('<div class="alert alert-danger m-3" role="alert">' . upload_translate("Session terminée.") . '</div>');
+                die('<div class="alert alert-danger m-3" role="alert">' . upload_translate('Session terminée.') . '</div>');
             }
         }
 
@@ -263,7 +263,7 @@ if (!isset($FILEUPLOAD)) {
 
             if (is_string($pcfile) && !empty($pcfile) && !empty($pcfile_name)) {
                 if ($pcfile == 'none') {
-                    $errmsg = sprintf(upload_translate("Erreur de téléchargement du fichier %s (%s) - Le fichier n'a pas été sauvé"), $pcfile_name, $pcfile_type);
+                    $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name, $pcfile_type);
 
                     $this->errno = NO_FILE;
 
@@ -272,7 +272,7 @@ if (!isset($FILEUPLOAD)) {
                     $att_size = $pcfile_size;
                     $att_count = 1;
                 } else {
-                    $errmsg = sprintf(upload_translate("Erreur de téléchargement du fichier %s (%s) - Le fichier n'a pas été sauvé"), $pcfile_name, $pcfile_type);
+                    $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name, $pcfile_type);
 
                     $this->halt($errmsg);
                 }
@@ -287,7 +287,7 @@ if (!isset($FILEUPLOAD)) {
 
                             $att_count++;
                         } else {
-                            $errmsg = sprintf(upload_translate("Erreur de téléchargement du fichier %s (%s) - Le fichier n'a pas été sauvé"), $pcfile_name[$i], $pcfile_type[$i]);
+                            $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name[$i], $pcfile_type[$i]);
 
                             $this->halt($errmsg);
                         }

@@ -30,6 +30,7 @@
 
 class Upload
 {
+
     var $maxupload_size;
 
     var $errors;
@@ -58,11 +59,6 @@ class Upload
         }
     }
 
-    public function Upload()
-    {
-        self::__construct();
-    }
-
     function saveAs($filename, $directory, $field, $overwrite, $mode = 0766)
     {
         if ($this->isPosted) {
@@ -78,29 +74,29 @@ class Upload
 
                         @unlink($all) || $noerrors = false;
 
-                        $this->errors  = upload_translate("Erreur de téléchargement du fichier - fichier non sauvegardé.");
+                        $this->errors  = upload_translate('Erreur de téléchargement du fichier - fichier non sauvegardé.');
 
                         @move_uploaded_file($tempName, $all) || $noerrors = false;
 
-                        $this->errors .= upload_translate("Erreur de téléchargement du fichier - fichier non sauvegardé.");
+                        $this->errors .= upload_translate('Erreur de téléchargement du fichier - fichier non sauvegardé.');
 
                         @chmod($all, $mode);
                     }
                 } else {
                     @move_uploaded_file($tempName, $all) || $noerrors = false;
 
-                    $this->errors  = upload_translate("Erreur de téléchargement du fichier - fichier non sauvegardé.");
+                    $this->errors  = upload_translate('Erreur de téléchargement du fichier - fichier non sauvegardé.');
 
                     @chmod($all, $mode);
                 }
 
                 return $noerrors;
             } elseif ($this->HTTP_POST_FILES[$field]['size'] > $this->maxupload_size) {
-                $this->errors = upload_translate("La taille de ce fichier excède la taille maximum autorisée") . " => " . number_format(($this->maxupload_size / 1024), 2) . " Kbs";
+                $this->errors = upload_translate('La taille de ce fichier excède la taille maximum autorisée') . " => " . number_format(($this->maxupload_size / 1024), 2) . " Kbs";
 
                 return false;
             } elseif ($this->HTTP_POST_FILES[$field]['size'] == 0) {
-                $this->errors = upload_translate("Erreur de téléchargement du fichier - fichier non sauvegardé.");
+                $this->errors = upload_translate('Erreur de téléchargement du fichier - fichier non sauvegardé.');
 
                 return false;
             }

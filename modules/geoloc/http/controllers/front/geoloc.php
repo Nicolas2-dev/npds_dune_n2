@@ -1965,11 +1965,11 @@ echo $affi . $ecr_scr;
 
 include 'footer.php';
 
-switch ($op) {
-
-    case 'wp':
-        wp_fill();
-        break;
-
-        //   default: geoloc();
-}
+//switch ($op) {
+//
+//    case 'wp':
+//        wp_fill();
+//        break;
+//
+//        //   default: geoloc();
+//}
