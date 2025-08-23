@@ -311,7 +311,7 @@ function links_search($query, $topicL, $min, $max, $offset)
     if ($result) {
         $link_fiche_detail = '';
 
-        include_once 'modules/' . $ModPath . '/http/controllers/links-view.php';
+        include_once 'modules/' . $ModPath . '/http/controllers/front/links-view.php';
 
         $prev = $min - $offset;
 
