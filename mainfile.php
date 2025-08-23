@@ -1461,7 +1461,7 @@ function block_fonction($title, $contentX)
 
                 return true;
             } else {
-                return (false;
+                return false;
             }
         }
     } else {
