@@ -39,7 +39,7 @@ if (isset($user)) {
 
 include 'storage/meta/meta.php';
 
-echo '<link rel="stylesheet" href="themes/_skins/default/bootstrap.min.css">';
+echo '<link rel="stylesheet" href="assets/skins/default/bootstrap.min.css">';
 
 echo import_css($tmp_theme, $language, '', '', '');
 

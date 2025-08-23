@@ -237,7 +237,7 @@ $result = sql_query("SELECT u.uname, u.user_avatar
 
 list($lastuser, $lastava) = sql_fetch_row($result);
 
-echo '<h2><img src="assets/shared/admin/users.png" alt="' . translate('Liste des membres') . '" />' . translate('Liste des membres');
+echo '<h2><img src="assets/images/admin/users.png" alt="' . translate('Liste des membres') . '" />' . translate('Liste des membres');
 
 if (isset($uid_from_ws) and ($uid_from_ws != '')) {
     echo '<span class="text-body-secondary"> ' . translate('pour le groupe') . ' #' . $gr_from_ws . '</span>';
@@ -368,8 +368,8 @@ if ($letter != 'front') {
             if (!$short_user) {
                 $posterdata_extend = get_userdata_extend_from_id($temp_user['uid']);
 
-                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
-                include 'modules/geoloc/geoloc.conf';
+                include 'modules/reseaux-sociaux/config/config.php';
+                include 'modules/geoloc/config/config.php';
 
                 if (array_key_exists('M2', $posterdata_extend)) {
                     $socialnetworks = explode(';', $posterdata_extend['M2']);
@@ -504,9 +504,9 @@ if ($letter != 'front') {
                     <a href="admin.php?op=delUser&amp;chng_uid=' . $temp_user['uid'] . '" ><i class="fas fa-trash fa-lg text-danger" title="' . translate('Effacer') . '" data-bs-toggle="tooltip"></i></a>';
 
                     if (!$temp_user['is_visible']) {
-                        echo '<img src="assets/shared/admin/ws/user_invisible.gif" alt="' . translate('Membre invisible') . '" title="' . translate('Membre invisible') . '" />';
+                        echo '<img src="assets/images/admin/ws/user_invisible.gif" alt="' . translate('Membre invisible') . '" title="' . translate('Membre invisible') . '" />';
                     } else {
-                        echo '<img src="assets/shared/admin/ws/blank.gif" alt="" />';
+                        echo '<img src="assets/images/admin/ws/blank.gif" alt="" />';
                     }
 
                     echo '</td>';

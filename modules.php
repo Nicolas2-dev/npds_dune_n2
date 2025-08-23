@@ -51,8 +51,8 @@ if (filtre_module($ModPath) and filtre_module($ModStart)) {
     }
 
     $controllerPath = $isControllerAdmin
-        ? "modules/{$ModPath}/http/controllers/admin/{$ModStart}.php"
-        : "modules/{$ModPath}/http/controllers/front/{$ModStart}.php";
+        ? 'modules/ ' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php'
+        : 'modules/ ' . $ModPath . '/http/controllers/front/' . $ModStart . '.php';
 
     if (file_exists($controllerPath)) {
         include $controllerPath;

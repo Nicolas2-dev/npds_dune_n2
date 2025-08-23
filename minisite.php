@@ -281,15 +281,15 @@ $affich = false;
 if (($op != '') and ($op)) {
     if (
         preg_match('#^[a-z0-9_\.-]#i', $op)
-        and !stristr($op, ".*://")
-        and !stristr($op, "..")
-        and !stristr($op, "../")
-        and !stristr($op, "script")
-        and !stristr($op, "cookie")
-        and !stristr($op, "iframe")
-        and  !stristr($op, "applet")
-        and !stristr($op, "object")
-        and !stristr($op, "meta")
+        and !stristr($op, '.*://')
+        and !stristr($op, '..')
+        and !stristr($op, '../')
+        and !stristr($op, 'script')
+        and !stristr($op, 'cookie')
+        and !stristr($op, 'iframe')
+        and  !stristr($op, 'applet')
+        and !stristr($op, 'object')
+        and !stristr($op, 'meta')
     ) {
 
         global $user, $super_admintest;
@@ -470,8 +470,8 @@ if ($affich) {
 
         // Meta-lang et removehack local
         $MNS_METALANG_words = array(
-            "'!l_header!'i"             => "$Hcontent",
-            "'!l_footer!'i"             => "$Fcontent",
+            "'!l_header!'i"             => $Hcontent,
+            "'!l_footer!'i"             => $Fcontent,
             "'!blog_page!$perpage'i"    => '',
             "'!l_compteur!'i"           => $cpt,
             "'!l_new_pages!'i"          => $new_pages,

@@ -144,7 +144,7 @@ if (isset($submitS)) {
         if ($myrow['forum_type'] == 8) {
             $formulaire = $myrow['forum_pass'];
 
-            include 'modules/sform/forum/forum_extender.php';
+            include 'library/sform/forum/forum_extender.php';
         }
 
         /*
@@ -220,12 +220,12 @@ if (isset($submitS)) {
         }
 
         if (isset($upload)) {
-            include 'modules/upload/upload_forum.php';
+            include 'modules/upload/http/controllers/upload_forum.php';
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
 
-        redirect_url($hrefX . "?forum=$forum&topic=$topic");
+        redirect_url($hrefX . '?forum=' . $forum . '&topic=' . $topic);
     } else {
         echo '<div class="alert alert-danger lead" role="alert">
             <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
@@ -364,7 +364,7 @@ if (isset($submitS)) {
         if ($myrow['forum_type'] == 8) {
             $formulaire = $myrow['forum_pass'];
 
-            include 'modules/sform/forum/forum_extender.php';
+            include 'library/sform/forum/forum_extender.php';
         } else {
             echo '<div class="mb-3 row">
                 <label class="form-label" for="subject">' . translate('Sujet') . '</label>

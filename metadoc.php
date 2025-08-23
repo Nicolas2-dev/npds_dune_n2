@@ -11,10 +11,6 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-//if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
-//    die();
-//}
-
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
