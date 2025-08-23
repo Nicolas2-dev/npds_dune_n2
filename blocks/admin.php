@@ -10,9 +10,13 @@ if (! function_exists('adminblock'))
         $bloc_foncts_A = '';
 
         if ($admin) {
-            $Q = sql_fetch_assoc(sql_query("SELECT * 
-                                            FROM " . sql_prefix('authors') . " 
-                                            WHERE aid='$aid' LIMIT 1"));
+
+            $Xadmin = base64_decode($admin);
+            $Xadmin = explode(':', $Xadmin);
+
+            $aid = urlencode($Xadmin[0]);
+
+            $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('authors') . " WHERE aid='$aid' LIMIT 1"));
 
             $R = $Q['radminsuper'] == 1
                 ? sql_query("SELECT * 

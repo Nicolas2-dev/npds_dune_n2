@@ -26,6 +26,10 @@ include 'library/supercache/cache.php';
 include_once 'config/cache.config.php';
 include_once 'config/cache.timings.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 require 'shared/PHPMailer/src/Exception.php';
 require 'shared/PHPMailer/src/PHPMailer.php';
 require 'shared/PHPMailer/src/SMTP.php';
@@ -83,10 +87,10 @@ function session_manage()
     }
 
     //==> geoloc
-    include("modules/geoloc/config/config.php");
+    include 'modules/geoloc/config/config.php';
 
     if ($geo_ip == 1) {
-        include "modules/geoloc/support/geoloc_refip.php";
+        include 'modules/geoloc/support/geoloc_refip.php';
     }
 
     //<== geoloc
@@ -95,9 +99,17 @@ function session_manage()
     sql_query("DELETE FROM " . sql_prefix('session') . " 
                WHERE time < '$past'");
 
-    //==> proto en test badbotcontrol ...
+    // proto en test badbotcontrol ...
     // bad robot limited at x connections ...
-    $gulty_robots = array('facebookexternalhit', 'Amazonbot', 'ClaudeBot', 'bingbot', 'Applebot', 'AhrefsBot', 'SemrushBot'); // to be defined in config.php ...
+    $gulty_robots = array(
+        'facebookexternalhit', 
+        'Amazonbot', 
+        'ClaudeBot', 
+        'bingbot', 
+        'Applebot', 
+        'AhrefsBot', 
+        'SemrushBot'
+    ); // to be defined in config.php ...
 
     foreach ($gulty_robots as $robot) {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], $robot) !== false) {
@@ -114,7 +126,7 @@ function session_manage()
             }
         }
     }
-    //<== proto
+    // proto
 
     $result = sql_query("SELECT time 
                          FROM " . sql_prefix('session') . " 
@@ -124,7 +136,7 @@ function session_manage()
         if ($row['time'] < (time() - 30)) {
 
             sql_query("UPDATE " . sql_prefix('session') . " 
-                       SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv("HTTP_USER_AGENT") . "' 
+                       SET username='$username', time='" . time() . "', host_addr='$ip', guest='$guest', uri='$REQUEST_URI', agent='" . getenv('HTTP_USER_AGENT') . "' 
                        WHERE username='$username'");
 
             if ($guest == 0) {
@@ -136,7 +148,7 @@ function session_manage()
         }
     } else {
         sql_query("INSERT INTO " . sql_prefix('session') . " (username, time, host_addr, guest, uri, agent) 
-                   VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv("HTTP_USER_AGENT") . "')");
+                   VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv('HTTP_USER_AGENT') . "')");
     }
 }
 
@@ -145,15 +157,15 @@ function NightDay()
 {
     global $lever, $coucher;
 
-    $Maintenant = strtotime("now");
+    $Maintenant = strtotime('now');
 
     $Jour = strtotime($lever);
     $Nuit = strtotime($coucher);
 
     if ($Maintenant - $Jour < 0 xor $Maintenant - $Nuit > 0) {
-        return "Nuit";
+        return 'Nuit';
     } else {
-        return "Jour";
+        return 'Jour';
     }
 }
 
@@ -539,24 +551,24 @@ function Ecr_Log($fic_log, $req_log, $mot_log)
     //
     // $mot_log= if "" the Ip is recorded, else extend status infos
 
-    $logfile = "storage/logs/$fic_log.log";
+    $logfile = 'storage/logs/' . $fic_log . '.log';
 
     $fp = fopen($logfile, 'a');
     flock($fp, 2);
     fseek($fp, filesize($logfile));
 
-    if ($mot_log == "") {
-        $mot_log = "IP=>" . getip();
+    if ($mot_log == '') {
+        $mot_log = 'IP=>' . getip();
     }
 
-    $ibid = sprintf("%-10s %-60s %-10s\r\n", date("d/m/Y H:i:s", time()), basename($_SERVER['PHP_SELF']) . "=>" . strip_tags(urldecode($req_log)), strip_tags(urldecode($mot_log))); //pourquoi urldecode ici ?
+    $ibid = sprintf("%-10s %-60s %-10s\r\n", date('d/m/Y H:i:s', time()), basename($_SERVER['PHP_SELF']) . '=>' . strip_tags(urldecode($req_log)), strip_tags(urldecode($mot_log))); //pourquoi urldecode ici ?
 
     fwrite($fp, $ibid);
     flock($fp, 3);
     fclose($fp);
 }
 
-#autodoc redirect_url($urlx) : Permet une redirection javascript / en lieu et place de header("location: ...");
+#autodoc redirect_url($urlx) : Permet une redirection javascript / en lieu et place de header('location: ...');
 function redirect_url($urlx)
 {
     echo "<script type=\"text/javascript\">\n";
@@ -572,7 +584,9 @@ function redirect_url($urlx)
 function req_stat()
 {
     // Les membres
-    $result = sql_query("SELECT uid FROM " . sql_prefix('users'));
+    $result = sql_query("SELECT uid 
+                         FROM " . sql_prefix('users'));
+
     $xtab[0] = $result ? (sql_num_rows($result) - 1) : '0';
 
     if ($result) {
@@ -588,7 +602,9 @@ function req_stat()
     }
 
     // Les Critiques (Reviews))
-    $result = sql_query("SELECT id FROM " . sql_prefix('reviews'));
+    $result = sql_query("SELECT id 
+                         FROM " . sql_prefix('reviews'));
+
     $xtab[2] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -596,7 +612,9 @@ function req_stat()
     }
 
     // Les Forums
-    $result = sql_query("SELECT forum_id FROM " . sql_prefix('forums'));
+    $result = sql_query("SELECT forum_id 
+                         FROM " . sql_prefix('forums'));
+
     $xtab[3] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -604,7 +622,9 @@ function req_stat()
     }
 
     // Les Sujets (topics)
-    $result = sql_query("SELECT topicid FROM " . sql_prefix('topics'));
+    $result = sql_query("SELECT topicid 
+                         FROM " . sql_prefix('topics'));
+
     $xtab[4] = $result ? sql_num_rows($result) : '0';
 
     if ($result) {
@@ -612,7 +632,9 @@ function req_stat()
     }
 
     // Nombre de pages vues
-    $result = sql_query("SELECT count FROM " . sql_prefix('counter') . " WHERE type='total'");
+    $result = sql_query("SELECT count 
+                         FROM " . sql_prefix('counter') . " 
+                         WHERE type='total'");
     list($totalz) = sql_fetch_row($result);
 
     $xtab[5] = $totalz++;
@@ -633,13 +655,13 @@ function Mess_Check_Mail_interface($username, $class)
 {
     global $anonymous;
 
-    if ($ibid = theme_image("fle_b.gif")) {
+    if ($ibid = theme_image('fle_b.gif')) {
         $imgtmp = $ibid;
     } else {
         $imgtmp = false;
     }
 
-    if ($class != "") {
+    if ($class != '') {
         $class = "class=\"$class\"";
     }
 
@@ -727,7 +749,7 @@ function Who_Online_Sub()
     $content1 = "$guest_online_num " . translate('visiteur(s) et') . " $member_online_num " . translate('membre(s) en ligne.');
 
     if ($user) {
-        $content2 = translate('Vous êtes connecté en tant que') . " <b>" . $cookie[1] . "</b>";
+        $content2 = translate('Vous êtes connecté en tant que') . ' <b>' . $cookie[1] . '</b>';
     } else {
         $content2 = translate('Devenez membre privilégié en cliquant') . " <a href=\"user.php?op=only_newuser\">" . translate('ici') . "</a>";
     }
@@ -758,7 +780,7 @@ function Site_Load()
     $who_online_num = $guest_online_num + $member_online_num;
 
     if ($SuperCache) {
-        $file = fopen("storage/logs/site_load.log", "w");
+        $file = fopen('storage/logs/site_load.log', 'w');
 
         fwrite($file, $who_online_num);
         fclose($file);
@@ -818,11 +840,8 @@ function ultramode()
 {
     global $nuke_url, $storyhome;
 
-    $ultra = "storage/cache/ultramode.txt";
-    $netTOzone = "storage/cache/net2zone.txt";
-
-    $file = fopen("$ultra", "w");
-    $file2 = fopen("$netTOzone", "w");
+    $file = fopen('storage/cache/ultramode.txt', 'w');
+    $file2 = fopen('storage/cache/net2zone.txt', 'w');
 
     fwrite($file, "General purpose self-explanatory file with news headlines\n");
 
@@ -860,17 +879,17 @@ function cookiedecode($user)
 
     $stop = false;
 
-    if (array_key_exists("user", $_GET)) {
+    if (array_key_exists('user', $_GET)) {
         if ($_GET['user'] != '') {
             $stop = true;
-            $user = "BAD-GET";
+            $user = 'BAD-GET';
         }
     }
 
     if ($user) {
         $cookie = explode(':', base64_decode($user));
 
-        settype($cookie[0], "integer");
+        settype($cookie[0], 'integer');
 
         if (trim($cookie[1]) != '') {
             $result = sql_query("SELECT pass, user_langue 
@@ -1112,17 +1131,17 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
             break;
         }
 
-        if ($type_req == "libre") {
+        if ($type_req == 'libre') {
             $catid = 0;
         }
 
-        if ($type_req == "archive") {
+        if ($type_req == 'archive') {
             $ihome = 0;
         }
 
         if (ctrl_aff($ihome, $catid)) {
 
-            if (($type_req == "index") or ($type_req == "libre")) {
+            if (($type_req == 'index') or ($type_req == 'libre')) {
                 $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
                                       FROM " . sql_prefix('stories') . " 
                                       WHERE sid='$s_sid' 
@@ -1130,21 +1149,21 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
 
             }
 
-            if ($type_req == "archive") {
+            if ($type_req == 'archive') {
                 $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
                                       FROM " . sql_prefix('stories') . " 
                                       WHERE sid='$s_sid' 
                                       AND archive='1'");
             }
 
-            if ($type_req == "old_news") {
+            if ($type_req == 'old_news') {
                 $result2 = sql_query("SELECT sid, title, time, comments, counter 
                                       FROM " . sql_prefix('stories') . " 
                                       WHERE sid='$s_sid' 
                                       AND archive='0'");
             }
 
-            if (($type_req == "big_story") or ($type_req == "big_topic")) {
+            if (($type_req == 'big_story') or ($type_req == 'big_topic')) {
                 $result2 = sql_query("SELECT sid, title 
                                       FROM " . sql_prefix('stories') . " 
                                       WHERE sid='$s_sid' 
@@ -1194,7 +1213,7 @@ function prepa_aff_news($op, $catid, $marqeur)
             $marqeur = 0;
         }
 
-        $xtab = news_aff("libre", "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+        $xtab = news_aff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
         $storynum = sizeof($xtab);
 
@@ -1216,14 +1235,14 @@ function prepa_aff_news($op, $catid, $marqeur)
             $marqeur = 0;
         }
 
-        $xtab = news_aff("libre", "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+        $xtab = news_aff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
         $storynum = sizeof($xtab);
 
     } elseif ($op == 'article') {
-        $xtab = news_aff("index", "WHERE ihome!='1' AND sid='$catid'", 1, "");
+        $xtab = news_aff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
     } else {
-        $xtab = news_aff("index", "WHERE ihome!='1' AND archive='0'", $storynum, "");
+        $xtab = news_aff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
     }
 
     $story_limit = 0;
@@ -1273,8 +1292,6 @@ function prepa_aff_news($op, $catid, $marqeur)
         $morelink[4] = $printP;
         $morelink[5] = $sendF;
 
-        $sid = $s_sid;
-
         if ($catid != 0) {
             $resultm = sql_query("SELECT title 
                                   FROM " . sql_prefix('stories_cat') . " 
@@ -1290,19 +1307,19 @@ function prepa_aff_news($op, $catid, $marqeur)
             $morelink[6] = '';
         }
 
-        $news_tab[$story_limit]['aid'] = serialize($aid);
-        $news_tab[$story_limit]['informant'] = serialize($informant);
-        $news_tab[$story_limit]['datetime'] = serialize($time);
-        $news_tab[$story_limit]['title'] = serialize($title);
-        $news_tab[$story_limit]['counter'] = serialize($counter);
-        $news_tab[$story_limit]['topic'] = serialize($topic);
-        $news_tab[$story_limit]['hometext'] = serialize(meta_lang(aff_code($hometext)));
-        $news_tab[$story_limit]['notes'] = serialize(meta_lang(aff_code($notes)));
-        $news_tab[$story_limit]['morelink'] = serialize($morelink);
-        $news_tab[$story_limit]['topicname'] = serialize($topicname);
-        $news_tab[$story_limit]['topicimage'] = serialize($topicimage);
-        $news_tab[$story_limit]['topictext'] = serialize($topictext);
-        $news_tab[$story_limit]['id'] = serialize($s_sid);
+        $news_tab[$story_limit]['aid']          = serialize($aid);
+        $news_tab[$story_limit]['informant']    = serialize($informant);
+        $news_tab[$story_limit]['datetime']     = serialize($time);
+        $news_tab[$story_limit]['title']        = serialize($title);
+        $news_tab[$story_limit]['counter']      = serialize($counter);
+        $news_tab[$story_limit]['topic']        = serialize($topic);
+        $news_tab[$story_limit]['hometext']     = serialize(meta_lang(aff_code($hometext)));
+        $news_tab[$story_limit]['notes']        = serialize(meta_lang(aff_code($notes)));
+        $news_tab[$story_limit]['morelink']     = serialize($morelink);
+        $news_tab[$story_limit]['topicname']    = serialize($topicname);
+        $news_tab[$story_limit]['topicimage']   = serialize($topicimage);
+        $news_tab[$story_limit]['topictext']    = serialize($topictext);
+        $news_tab[$story_limit]['id']           = serialize($s_sid);
     }
 
     if (isset($news_tab)) {
@@ -1351,9 +1368,7 @@ function liste_group()
 #autodoc groupe_forum($forum_groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) forum de type groupe
 function groupe_forum($forum_groupeX, $tab_groupeX)
 {
-    $ok_affich = groupe_autorisation($forum_groupeX, $tab_groupeX);
-
-    return ($ok_affich);
+    return groupe_autorisation($forum_groupeX, $tab_groupeX);
 }
 
 #autodoc groupe_autorisation($groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) groupe
@@ -1451,9 +1466,9 @@ function block_fonction($title, $contentX)
                         break;
                 }
 
-                return (true);
+                return true;
             } else {
-                return (false);
+                return false;
             }
         } else {
             if (function_exists($contentY)) {
@@ -1538,10 +1553,10 @@ function fab_block($title, $member, $content, $Xcache)
             foreach ($tmp as $id => $class) {
                 $temp = explode('#', $class);
 
-                if ($temp[0] == "class-title") {
+                if ($temp[0] == 'class-title') {
                     $B_class_title = str_replace("\r", '', $temp[1]);
 
-                } else if ($temp[0] == "class-content") {
+                } else if ($temp[0] == 'class-content') {
                     $B_class_content = str_replace("\r", '', $temp[1]);
 
                 } else if ($temp[0] == 'uri') {
@@ -1703,8 +1718,8 @@ function rightblocks($moreclass)
 function oneblock($Xid, $Xblock)
 {
     ob_start();
-    Pre_fab_block($Xid, $Xblock, '');
-    $tmp = ob_get_contents();
+        Pre_fab_block($Xid, $Xblock, '');
+        $tmp = ob_get_contents();
     ob_end_clean();
 
     return $tmp;
@@ -1916,7 +1931,7 @@ function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
                              WHERE forumid='$Xforum'");
     }
 
-    include_once "language/lang-multi.php";
+    include_once 'language/lang-multi.php';
 
     while (list($uid) = sql_fetch_row($result)) {
         if ($uid != $Xsauf) {
@@ -1990,7 +2005,7 @@ function pollSecur($pollID)
 {
     global $user;
 
-    $pollIDX = false;
+    //$pollIDX = false;
 
     $pollClose = '';
 
@@ -2018,31 +2033,31 @@ function fab_edito()
     global $cookie;
 
     if (isset($cookie[3])) {
-        if (file_exists("storage/static/edito_membres.txt")) {
-            $fp = fopen("storage/static/edito_membres.txt", "r");
+        if (file_exists('storage/static/edito_membres.txt')) {
+            $fp = fopen('storage/static/edito_membres.txt', 'r');
 
-            if (filesize("storage/static/edito_membres.txt") > 0) {
-                $Xcontents = fread($fp, filesize("storage/static/edito_membres.txt"));
+            if (filesize('storage/static/edito_membres.txt') > 0) {
+                $Xcontents = fread($fp, filesize('storage/static/edito_membres.txt'));
             }
 
             fclose($fp);
         } else {
-            if (file_exists("storage/static/edito.txt")) {
-                $fp = fopen("storage/static/edito.txt", "r");
+            if (file_exists('storage/static/edito.txt')) {
+                $fp = fopen('storage/static/edito.txt', 'r');
 
-                if (filesize("storage/static/edito.txt") > 0) {
-                    $Xcontents = fread($fp, filesize("storage/static/edito.txt"));
+                if (filesize('storage/static/edito.txt') > 0) {
+                    $Xcontents = fread($fp, filesize('storage/static/edito.txt'));
                 }
 
                 fclose($fp);
             }
         }
     } else {
-        if (file_exists("storage/static/edito.txt")) {
-            $fp = fopen("storage/static/edito.txt", "r");
+        if (file_exists('storage/static/edito.txt')) {
+            $fp = fopen('storage/static/edito.txt', 'r');
 
-            if (filesize("storage/static/edito.txt") > 0) {
-                $Xcontents = fread($fp, filesize("storage/static/edito.txt"));
+            if (filesize('storage/static/edito.txt') > 0) {
+                $Xcontents = fread($fp, filesize('storage/static/edito.txt'));
             }
 
             fclose($fp);
@@ -2070,8 +2085,8 @@ function fab_edito()
         }
 
         $XcontentsT = substr($Xcontents, 0, strpos($Xcontents, 'aff_jours'));
-        $contentJ = substr($XcontentsT, strpos($XcontentsT, "[jour]") + 6, strpos($XcontentsT, "[/jour]") - 6);
-        $contentN = substr($XcontentsT, strpos($XcontentsT, "[nuit]") + 6, strpos($XcontentsT, "[/nuit]") - 19 - strlen($contentJ));
+        $contentJ = substr($XcontentsT, strpos($XcontentsT, '[jour]') + 6, strpos($XcontentsT, '[/jour]') - 6);
+        $contentN = substr($XcontentsT, strpos($XcontentsT, '[nuit]') + 6, strpos($XcontentsT, '[/nuit]') - 19 - strlen($contentJ));
 
         $Xcontents = '';
 
@@ -2095,7 +2110,7 @@ function fab_edito()
     return array($affich, $Xcontents);
 }
 
-#autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate('xxxx")
+#autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate('xxxx')
 function aff_langue($ibid)
 {
     global $language, $tab_langue;
@@ -2257,7 +2272,7 @@ function change_cod($r)
 function af_cod($ibid)
 {
     $pat = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
-    $ibid = preg_replace_callback($pat, "change_cod", $ibid, -1, $nb);
+    $ibid = preg_replace_callback($pat, 'change_cod', $ibid, -1, $nb);
     //   $ibid= str_replace(array("\r\n", "\r", "\n"), "<br />",$ibid);
 
     return $ibid;
@@ -2298,8 +2313,8 @@ function aff_code($ibid)
 
         if (($pos_deb >= 0) and ($pos_fin >= 0)) {
             ob_start();
-            highlight_string(substr($ibid, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
-            $fragment = ob_get_contents();
+                highlight_string(substr($ibid, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
+                $fragment = ob_get_contents();
             ob_end_clean();
 
             $ibid = str_replace(substr($ibid, $pos_deb, ($pos_fin - $pos_deb + 7)), $fragment, $ibid);
@@ -2356,7 +2371,7 @@ function wrapper_f(&$string, $key, $cols)
 function preg_anti_spam($ibid)
 {
     // Adaptation - David MARTINET alias Boris (2011)
-    return ("<a href=\"mailto:" . anti_spam($ibid, 1) . "\" target=\"_blank\">" . anti_spam($ibid, 0) . "</a>");
+    return "<a href=\"mailto:" . anti_spam($ibid, 1) . "\" target=\"_blank\">" . anti_spam($ibid, 0) . "</a>";
 }
 
 #autodoc anti_spam($str [, $highcode]) : Encode une chaine en mélangeant caractères normaux, codes décimaux et hexa. Si $highcode == 1, utilise également le codage ASCII (compatible uniquement avec des mailto et des URL, pas pour affichage)
@@ -2429,7 +2444,7 @@ function aff_editeur($Xzone, $Xactiv)
                             mobile: {menubar: true},
                             language : '" . language_iso(1, '', '') . "',";
 
-                    include("shared/tinymce/themes/advanced/npds.conf.php");
+                    include 'shared/tinymce/themes/advanced/npds.conf.php';
 
                     $tmp .= '});
                         });
@@ -2778,11 +2793,11 @@ function decryptK($txt, $C_key)
 #autodoc conv2br($txt) : convertie \r \n  BR ... en br XHTML
 function conv2br($txt)
 {
-    $Xcontent = str_replace("\r\n", "<br />", $txt);
-    $Xcontent = str_replace("\r", "<br />", $Xcontent);
-    $Xcontent = str_replace("\n", "<br />", $Xcontent);
-    $Xcontent = str_replace("<BR />", "<br />", $Xcontent);
-    $Xcontent = str_replace("<BR>", "<br />", $Xcontent);
+    $Xcontent = str_replace("\r\n", '<br />', $txt);
+    $Xcontent = str_replace("\r", '<br />', $Xcontent);
+    $Xcontent = str_replace("\n", '<br />', $Xcontent);
+    $Xcontent = str_replace('<BR />', '<br />', $Xcontent);
+    $Xcontent = str_replace('<BR>', '<br />', $Xcontent);
 
     return $Xcontent;
 }
@@ -2899,14 +2914,16 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
 {
     global $short_user, $dblink;
 
-    $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad FROM " . sql_prefix('groupes') . " WHERE groupe_id='$gr'"));
+    $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
+                                       FROM " . sql_prefix('groupes') . " 
+                                       WHERE groupe_id='$gr'"));
 
     $content = '<script type="text/javascript">
         //<![CDATA[
-            //==> chargement css
+            // chargement css
             if (!document.getElementById(\'bloc_ws_css\')) {
                 var l_css = document.createElement(\'link\');
-                l_css.href = "modules/groupe/bloc_ws.css";
+                l_css.href = "library/groupe/assets/css/bloc_ws.css";
                 l_css.rel = "stylesheet";
                 l_css.id = "bloc_ws_css";
                 l_css.type = "text/css";
@@ -2927,7 +2944,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $content .= '<img src="storage/users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
     }
 
-    //=> liste des membres
+    // liste des membres
     $mysql_version = mysqli_get_server_info($dblink);
 
     $query = "SELECT uid, groupe 
@@ -3099,9 +3116,9 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     </div>';
 
     $content .= $li_mb;
-    //<== liste des membres
+    // liste des membres
 
-    //=> Forum
+    // Forum
     $lst_for = '';
     $lst_for_tog = '';
     $nb_for_gr = '';
@@ -3133,8 +3150,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
             </div>';
     }
 
-    //=> wspad
-
+    // wspad
     if ($rsql['groupe_pad'] == 1) {
         settype($lst_doc, 'string');
         settype($nb_doc_gr, 'string');
@@ -3179,7 +3195,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         settype($lst_blocnote_tog, 'string');
         settype($lst_blocnote, 'string');
 
-        include_once "modules/bloc-notes/http/controllers/front/blocnotes.php";
+        include_once 'modules/bloc-notes/http/controllers/front/blocnotes.php';
 
         $lst_blocnote_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_blocnote_' . $gr . '" class="text-primary" id="show_lst_blocnote" title="' . translate('Déplier la liste') . '"><i id="i_lst_blocnote" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="far fa-sticky-note fa-2x text-body-secondary ms-3 align-middle"></i>&nbsp;<span class="text-uppercase">Bloc note</span>';
 
@@ -3196,7 +3212,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     $content .= '<div class="px-1 card card-body d-flex flex-row mt-3 flex-wrap text-center">';
 
     // Filemanager
-    if (file_exists('modules/f-manager/users/groupe_' . $gr . '.conf.php')) {
+    if (file_exists('modules/f-manager/storage/users/groupe_' . $gr . '.php')) {
         $content .= '<a class="mx-2" href="modules.php?ModPath=f-manager&amp;ModStart=f-manager&amp;FmaRep=groupe_' . $gr . '" title="' . translate('Gestionnaire fichiers') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-folder fa-2x"></i></a>';
     }
 
@@ -3209,7 +3225,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
     settype($chat_img, 'string');
 
     if ($rsql['groupe_chat'] == 1) {
-        $PopUp = JavaPopUp("chat.php?id=$gr&amp;auto=" . encrypt(serialize($gr)), "chat" . $gr, 380, 480);
+        $PopUp = JavaPopUp('chat.php?id=' . $gr . '&amp;auto=' . encrypt(serialize($gr)), 'chat' . $gr, 380, 480);
 
         if (array_key_exists('chat_info_' . $gr, $_COOKIE)) {
             if ($_COOKIE['chat_info_' . $gr]) {
@@ -3220,7 +3236,7 @@ function fab_espace_groupe($gr, $t_gr, $i_gr)
         $content .= '<a class="mx-2" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Ouvrir un salon de chat pour le groupe.') . '" data-bs-toggle="tooltip" data-bs-placement="right" ><i class="fa fa-comments fa-2x ' . $chat_img . '"></i></a>';
     }
 
-    //=> admin
+    // admin
     if (autorisation(-127)) {
         $content .= '<a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
     }
@@ -3284,7 +3300,7 @@ function fab_groupes_bloc($user, $im)
     while (list($groupe_id, $groupe_name, $groupe_description) = sql_fetch_row($result)) {
         $content .= '<li class="list-group-item px-0">' . $groupe_name . '<div class="small">' . $groupe_description . '</div>';
 
-        $content .= $im == 1 ? '<div class="text-center my-2"><img class="img-fluid" src="users_private/groupe/' . $groupe_id . '/groupe.png" loading="lazy"></div>' : '';
+        $content .= $im == 1 ? '<div class="text-center my-2"><img class="img-fluid" src="storage/users_private/groupe/' . $groupe_id . '/groupe.png" loading="lazy"></div>' : '';
 
         if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !autorisation($groupe_id)) {
             if (!autorisation(-1)) {
@@ -3314,8 +3330,8 @@ function theme_image($theme_img)
 {
     global $theme;
 
-    if (@file_exists('themes/'. $theme .'/assets/shared/'. $theme_img)) {
-        return ('themes/'. $theme .'/assets/shared/'. $theme_img);
+    if (@file_exists('themes/'. $theme .'/assets/'. $theme_img)) {
+        return ('themes/'. $theme .'/assets/'. $theme_img);
     }
 
     return false;
@@ -3327,29 +3343,29 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
     $tmp = '';
 
     // CSS framework
-    if (file_exists("assets/skins/" . $fw_css . "/bootstrap.min.css")) {
+    if (file_exists('assets/skins/' . $fw_css . '/bootstrap.min.css')) {
         $tmp .= "<link href='assets/skins/" . $fw_css . "/bootstrap.min.css' rel='stylesheet' type='text/css' media='all' />";
     }
 
     // CSS standard 
-    if (file_exists("themes/$tmp_theme/assets/css/$language-style.css")) {
+    if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $language . '-style.css')) {
         $tmp .= "<link href='themes/$tmp_theme/style/$language-style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
 
-        if (file_exists("themes/$tmp_theme/assets/css/$language-style-AA.css")) {
+        if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $language . '-style-AA.css')) {
             $tmp .= "<link href='themes/$tmp_theme/assets/css/$language-style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
         }
 
-        if (file_exists("themes/$tmp_theme/assets/css/$language-print.css")) {
+        if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $language . '-print.css')) {
             $tmp .= "<link href='themes/$tmp_theme/assets/css/$language-print.css' rel='stylesheet' type='text/css' media='print' />";
         }
-    } else if (file_exists("themes/$tmp_theme/assets/css/style.css")) {
+    } else if (file_exists('themes/' . $tmp_theme . '/assets/css/style.css')) {
         $tmp .= "<link href='themes/$tmp_theme/assets/css/style.css' title='default' rel='stylesheet' type='text/css' media='all' />";
 
-        if (file_exists("themes/$tmp_theme/assets/css/style-AA.css")) {
+        if (file_exists('themes/' . $tmp_theme . '"assets/css/style-AA.css')) {
             $tmp .= "<link href='themes/$tmp_theme/assets/css/style-AA.css' title='alternate stylesheet' rel='alternate stylesheet' type='text/css' media='all' />";
         }
 
-        if (file_exists("themes/$tmp_theme/assets/css/print.css")) {
+        if (file_exists('themes/' . $tmp_theme . '/assets/css/print.css')) {
             $tmp .= "<link href='themes/$tmp_theme/assets/css/print.css' rel='stylesheet' type='text/css' media='print' />";
         }
     } else {
@@ -3375,7 +3391,7 @@ function import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref = 
                     $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
 
                 } else {
-                    if (file_exists("themes/" . $tmp_theme . "/assets/css/" . $tab_css) and ($tab_css != '')) {
+                    if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $tab_css) and ($tab_css != '')) {
                         $admtmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $tab_css . "' rel='stylesheet' type='text/css' media='all' />";
 
                     } elseif (file_exists("$tab_css") and ($tab_css != '')) {
@@ -3484,35 +3500,34 @@ function auto_complete_multi($nom_array_js, $nom_champ, $nom_tabl, $id_inpu, $re
             $(function() {
                 ' . $list_json . '
                 function split( val ) {
-                return val.split( /,\s*/ );
+                    return val.split( /,\s*/ );
                 }
                 function extractLast( term ) {
-                return split( term ).pop();
+                    return split( term ).pop();
                 }
                 $( "#' . $id_inpu . '" )
                 // dont navigate away from the field on tab when selecting an item
                 .bind( "keydown", function( event ) {
-                    if ( event.keyCode === $.ui.keyCode.TAB &&
-                        $( this ).autocomplete( "instance" ).menu.active ) {
-                    event.preventDefault();
+                    if ( event.keyCode === $.ui.keyCode.TAB && $( this ).autocomplete( "instance" ).menu.active ) {
+                        event.preventDefault();
                     }
                 })
                 .autocomplete({
                     minLength: 0,
                     source: function( request, response ) {
-                    response( $.ui.autocomplete.filter(
-                        ' . $nom_array_js . ', extractLast( request.term ) ) );
+                        response( $.ui.autocomplete.filter(
+                            ' . $nom_array_js . ', extractLast( request.term ) ) );
                     },
                     focus: function() {
-                    return false;
+                        return false;
                     },
                     select: function( event, ui ) {
-                    var terms = split( this.value );
-                    terms.pop();
-                    terms.push( ui.item.value );
-                    terms.push( "" );
-                    this.value = terms.join( ", " );
-                    return false;
+                        var terms = split( this.value );
+                        terms.pop();
+                        terms.push( ui.item.value );
+                        terms.push( "" );
+                        this.value = terms.join( ", " );
+                        return false;
                     }
                 });
             });
@@ -3584,7 +3599,7 @@ function language_iso($l, $s, $c)
         $ietf = $iso_lang;
     }
 
-    return ($ietf);
+    return $ietf;
 }
 
 #autodoc adminfoot($fv,$fv_parametres,$arg1,$foo) : fin d'affichage avec form validateur ou pas, ses parametres (js), fermeture div admin et inclusion footer.php  $fv=> fv : inclusion du validateur de form , $fv_parametres=> éléments de l'objet fields differents input (objet js ex :   xxx: {},...) si !###! est trouvé dans la variable la partie du code suivant sera inclu à la fin de la fonction d'initialisation, $arg1=>js pur au début du script js, $foo =='' ==> </div> et inclusion footer.php $foo =='foo' ==> inclusion footer.php
@@ -3603,7 +3618,7 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
-        <script type="text/javascript" src="assets//js/npds_checkfieldinp.js"></script>
+        <script type="text/javascript" src="assets/js/npds_checkfieldinp.js"></script>
         <script type="text/javascript">
         //<![CDATA[
         ' . $arg1 . '
@@ -3740,13 +3755,12 @@ function adminfoot($fv, $fv_parametres, $arg1, $foo)
     switch ($foo) {
 
         case '':
-            echo '
-      </div>';
-            include('footer.php');
+            echo '</div>';
+            include 'footer.php';
             break;
 
         case 'foo':
-            include('footer.php');
+            include 'footer.php';
             break;
     }
 }
@@ -3853,7 +3867,7 @@ function theme_list()
     while (false !== ($file = readdir($handle))) {
         if (($file[0] !== '_')
             and (!strstr($file, '.'))
-            and (!strstr($file, '__vierge'))
+            //and (!strstr($file, '__vierge'))
             and (!strstr($file, 'base'))
         ) {
             $themelist[] = $file;

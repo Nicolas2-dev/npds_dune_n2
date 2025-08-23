@@ -121,8 +121,8 @@ function subscribe_ok($xemail)
 
                 $subject = html_entity_decode(translate('La lettre'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' / ' . $sitename;
 
-                $message  = translate("Merci d'avoir consacré du temps pour vous enregistrer.") . "<br><br>";
-                $message .= translate("Pour supprimer votre abonnement à notre lettre, merci d'utiliser") . " :<br>";
+                $message  = translate('Merci d\'avoir consacré du temps pour vous enregistrer.') . "<br><br>";
+                $message .= translate('Pour supprimer votre abonnement à notre lettre, merci d\'utiliser') . " :<br>";
                 $message .= $nuke_url . "/lnl.php?op=unsubscribe&email=" . urlencode($xemail) . "<br><br>";
 
                 include 'config/signat.php';
@@ -205,7 +205,7 @@ switch ($op) {
 
     case 'subscribeOK':
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, "")) {
+        if (!R_spambot($asb_question, $asb_reponse, '')) {
             Ecr_Log('security', 'LNL Anti-Spam : email=' . $email, '');
 
             redirect_url('index.php');

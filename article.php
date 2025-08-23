@@ -205,7 +205,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     if (!function_exists('Caff_pub')) {
         if (file_exists('modules/comments/config/article.php')) {
             include 'modules/comments/config/article.php';
-            include 'modules/comments/http/contollers/comments.php';
+            include 'modules/comments/http/controllers/front/comments.php';
         }
     }
 }
