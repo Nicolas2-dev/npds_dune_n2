@@ -151,7 +151,7 @@ if ($submitS) {
                 forumerror('0001');
             }
 
-            control_efface_post("forum_npds", $post_id, "", "");
+            control_efface_post("forum_npds", $post_id, '', '');
 
             if (get_total_posts($forum, $row['topic_id'], "topic", $Mmod) == 0) {
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
@@ -166,7 +166,7 @@ if ($submitS) {
 
                 @sql_query($sql);
 
-                redirect_url("viewforum.php?forum=$forum");
+                redirect_url('viewforum.php?forum=' . $forum);
                 die();
             } else {
                 $result = sql_query("SELECT post_time, poster_id 
@@ -186,7 +186,7 @@ if ($submitS) {
                 }
             }
 
-            redirect_url("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
+            redirect_url($hrefX . '?topic=' . $row['topic_id'] . '&forum=' . $forum);
         } else {
             echo '<div class="alert alert-danger">' . translate('Votre contribution n\'a pas été supprimée car au moins un post est encore rattaché (forum arbre).') . '</div>';
         }
@@ -323,8 +323,7 @@ if ($submitS) {
     if (($allow_html == 1) and ($forum_type != 6)) {
         $sethtml = isset($html) ? 'checked="checked"' : '';
 
-        echo '
-        <div class="mb-3 row">
+        echo '<div class="mb-3 row">
             <span class="col-form-label">' . translate('Options') . '</span>
             <div class="col-sm-12">
                 <div class="checkbox">

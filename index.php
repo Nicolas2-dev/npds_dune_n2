@@ -120,14 +120,14 @@ function automatednews()
                     }
 
                     // Réseaux sociaux
-                    if (file_exists('modules/npds_twi/npds_to_twi.php')) {
-                        include 'modules/npds_twi/npds_to_twi.php';
+                    if (file_exists('modules/npds_twi/http/controllers/npds_to_twi.php')) {
+                        include 'modules/npds_twi/http/controllers/npds_to_twi.php';
                     }
 
-                    if (file_exists('modules/npds_fbk/npds_to_fbk.php')) {
-                        include 'modules/npds_twi/npds_to_fbk.php';
-                    }
-                    // Réseaux sociaux
+                    // module non fini fbk nexiste pas !
+                    //if (file_exists('modules/npds_fbk/http/controllers/npds_to_fbk.php')) {
+                    //    include 'modules/npds_twi/http/controllers/npds_to_fbk.php';
+                    //}
                 }
             }
         }
@@ -148,8 +148,8 @@ function automatednews()
                     sql_query("DELETE FROM " . sql_prefix('stories') . " 
                                WHERE sid='$sid'");
 
-                    if (file_exists('modules/comments/article.conf.php')) {
-                        include 'modules/comments/article.conf.php';
+                    if (file_exists('modules/comments/config/article.php')) {
+                        include 'modules/comments/config/article.php';
 
                         sql_query("DELETE FROM " . sql_prefix('posts') . " 
                                    WHERE forum_id='$forum' 

@@ -36,26 +36,26 @@ switch ($apli) {
 
         if ((preg_match('#^[a-z0-9_\.-]#i', $att_name)
                 or ($Mmod == $marqueurM))
-            and !stristr($att_name, ".*://")
-            and !stristr($att_name, "..")
-            and !stristr($att_name, "../")
-            and !stristr($att_name, "script")
-            and !stristr($att_name, "cookie")
-            and !stristr($att_name, "iframe")
-            and  !stristr($att_name, "applet")
-            and !stristr($att_name, "object")
+            and !stristr($att_name, '.*://')
+            and !stristr($att_name, '..')
+            and !stristr($att_name, '../')
+            and !stristr($att_name, 'script')
+            and !stristr($att_name, 'cookie')
+            and !stristr($att_name, 'iframe')
+            and  !stristr($att_name, 'applet')
+            and !stristr($att_name, 'object')
         ) {
 
             if (
                 preg_match('#^[a-z0-9_/\.-]#i', $att_id)
-                and !stristr($att_id, ".*://")
-                and !stristr($att_id, "..")
-                and !stristr($att_id, "../")
-                and !stristr($att_id, "script")
-                and !stristr($att_id, "cookie")
-                and !stristr($att_id, "iframe")
-                and  !stristr($att_id, "applet")
-                and !stristr($att_id, "object")
+                and !stristr($att_id, '.*://')
+                and !stristr($att_id, '..')
+                and !stristr($att_id, '../')
+                and !stristr($att_id, 'script')
+                and !stristr($att_id, 'cookie')
+                and !stristr($att_id, 'iframe')
+                and  !stristr($att_id, 'applet')
+                and !stristr($att_id, 'object')
             ) {
 
                 $fic = '';
@@ -86,8 +86,8 @@ switch ($apli) {
                         break;
                 }
 
-                include 'modules/upload/lang/upload.lang-' . $language . '.php';
-                include 'modules/upload/include/mimetypes.php';
+                include 'modules/upload/language/' . $language . '/upload.lang-' . $language . '.php';
+                include 'modules/upload/support/mimetypes.php';
 
                 $suffix = strtoLower(substr(strrchr($att_name, '.'), 1));
 
@@ -127,15 +127,13 @@ switch ($apli) {
 
                         echo import_css($Default_Theme, $language, '', '', '');
 
-                        echo '
-                        </head>
+                        echo '</head>
                         <body>
                             <div style="background-color:white; padding:4px;">';
 
                         show_source($fic);
 
-                        echo '
-                            </div>
+                        echo '</div>
                         </body>
                         </html>';
                         die();

@@ -19,8 +19,8 @@ if (!function_exists('Mysql_Connexion')) {
 
 function FriendSend($sid, $archive)
 {
-    settype($sid, "integer");
-    settype($archive, "integer");
+    settype($sid, 'integer');
+    settype($archive, 'integer');
 
     $result = sql_query("SELECT title, aid 
                          FROM " . sql_prefix('stories') . " 
@@ -203,8 +203,7 @@ function RecommendSite()
 
     include 'header.php';
 
-    echo '
-    <div class="card card-body">
+    echo '<div class="card card-body">
     <h2>' . translate('Recommander ce site à un ami') . '</h2>
     <hr />
     <form id="friendrecomsite" action="friend.php" method="post">
@@ -298,19 +297,19 @@ function SiteSent($fname)
 {
     include 'header.php';
 
-    if ($fname == '')
-        echo '
-            <div class="alert alert-danger lead" role="alert">
+    if ($fname == '') {
+        echo '<div class="alert alert-danger lead" role="alert">
                 <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
                 ' . translate('Erreur : Email invalide') . '
             </div>';
-    else
+    } else {
         echo '
         <div class="alert alert-success lead" role="alert">
             <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
             ' . translate('Nos références ont été envoyées à ') . ' ' . $fname . ', <br />
             <strong>' . translate('Merci de nous avoir recommandé') . '</strong>
         </div>';
+    }
 
     include 'footer.php';
 }

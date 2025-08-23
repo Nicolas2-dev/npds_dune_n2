@@ -474,8 +474,7 @@ function putitems_more()
 #autodoc putitems($targetarea) : appel un popover pour la saisie des emoji (Unicode v13) dans un textarea défini par $targetarea
 function putitems($targetarea)
 {
-    echo '
-    <div title="' . translate('Cliquez pour insérer des emoji dans votre message') . '" data-bs-toggle="tooltip">
+    echo '<div title="' . translate('Cliquez pour insérer des emoji dans votre message') . '" data-bs-toggle="tooltip">
         <button class="btn btn-link ps-0" type="button" id="button-textOne" data-bs-toggle="emojiPopper" data-bs-target="#' . $targetarea . '">
             <i class="far fa-smile fa-lg" aria-hidden="true"></i>
         </button>
@@ -847,7 +846,7 @@ function control_efface_post($apli, $post_id, $topic_id, $IdForum)
 {
     global $upload_table;
 
-    include 'modules/upload/include_forum/upload.conf.forum.php';
+    include 'modules/upload/config/upload.conf.forum.php';
 
     $sql1 = "SELECT att_id, att_name, att_path 
              FROM " . $upload_table . " 
@@ -1080,8 +1079,8 @@ function forum($rowQ1)
                             if ($title_aff) {
                                 $title = stripslashes($row['cat_title']);
 
-                                if ((file_exists('themes/' . $theme . '/html/forum-cat' . $row['cat_id'] . '.html'))
-                                    or (file_exists('themes/default/html/forum-cat' . $row['cat_id'] . '.html'))
+                                if ((file_exists('themes/' . $theme . '/views/partials/forum/forum-cat' . $row['cat_id'] . '.html'))
+                                    or (file_exists('themes/base/views/partials/forum/forum-cat' . $row['cat_id'] . '.html'))
                                 ) {
                                     $ibid .= '<div class=" mt-3" id="catfo_' . $row['cat_id'] . '" >
                                     <a class="list-group-item list-group-item-action active" href="forum.php?catid=' . $row['cat_id'] . '"><h5 class="my-0">' . $title . '</h5></a>';
@@ -1118,7 +1117,7 @@ function forum($rowQ1)
 
                             $redirect = false;
 
-                            if (strstr(strtoupper($name), "<a HREF")) {
+                            if (strstr(strtoupper($name), '<a HREF')) {
                                 $redirect = true;
                             } else {
                                 $ibid .= '<a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >' . $name . '</a>';
@@ -1533,10 +1532,10 @@ function member_menu($mns, $qui)
             </ul>
         </li>';
 
-    include 'modules/upload/upload.conf.php';
+    include 'modules/upload/config/config.php';
 
     if (($mns) and ($autorise_upload_p)) {
-        include_once 'modules/blog/upload_minisite.php';
+        include_once 'modules/blog/support/upload_minisite.php';
 
         $PopUp = win_upload('popup');
 

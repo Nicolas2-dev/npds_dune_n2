@@ -63,11 +63,11 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
     echo '<link rel="canonical" href="' . ($scheme . '://' . $host . $uri) . '" />';
 
     // humans.txt
-    if (file_exists('humans.txt'))
+    if (file_exists('humans.txt')) {
         echo '<link type="text/plain" rel="author" href="' . $nuke_url . '/humans.txt" />';
+    }
 
-    echo '
-    <link href="backend.php?op=RSS0.91" title="' . $sitename . ' - RSS 0.91" rel="alternate" type="text/xml" />
+    echo '<link href="backend.php?op=RSS0.91" title="' . $sitename . ' - RSS 0.91" rel="alternate" type="text/xml" />
     <link href="backend.php?op=RSS1.0" title="' . $sitename . ' - RSS 1.0" rel="alternate" type="text/xml" />
     <link href="backend.php?op=RSS2.0" title="' . $sitename . ' - RSS 2.0" rel="alternate" type="text/xml" />
     <link href="backend.php?op=ATOM" title="' . $sitename . ' - ATOM" rel="alternate" type="application/atom+xml" />';
@@ -131,6 +131,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
                 } else {
                     if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
                         echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
+
                     } elseif (file_exists("$tab_js") and ($tab_js != "")) {
                         echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
                     }
@@ -139,6 +140,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         } else {
             if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
                 echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
+
             } elseif (file_exists($js)) {
                 echo '<script type="text/javascript" src="' . $js . '"></script>';
             }
@@ -251,8 +253,8 @@ if ($pages_ref == 'admin.php') {
         }
 
         $pages_ref .= $firstPara.$others;
-      }
-   }
+    }
+}
 */
 
 // extend usage of pages.php : blocking script with part of URI for user, admin or with the value of a VAR
@@ -424,6 +426,6 @@ if ($httpref == 1) {
 include 'counter.php';
 
 // include externe file from themes/base/bootstrap/ for functions, codes ...
-if (file_exists('themes/base/bootstrap/header_after.inc')) {
-    include 'themes/base/bootstrap/header_after.inc';
+if (file_exists('themes/base/bootstrap/header_after.php')) {
+    include 'themes/base/bootstrap/header_after.php';
 }

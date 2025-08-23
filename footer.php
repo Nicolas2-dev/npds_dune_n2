@@ -105,8 +105,7 @@ if (isset($user)) {
     footer_after($Default_Theme);
 }
 
-echo '
-   </body>
+echo '</body>
 </html>';
 
 include 'sitemap.php';

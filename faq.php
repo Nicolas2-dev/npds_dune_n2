@@ -19,13 +19,12 @@ if (!function_exists('Mysql_Connexion')) {
 
 function ShowFaq($id_cat, $categories)
 {
-    echo '
-    <h2 class="mb-4">' . translate('FAQ - Questions fréquentes') . '</h2>
-    <hr />
-    <h3 class="mb-3">' . translate('Catégorie') . ' <span class="text-body-secondary"># ' . StripSlashes($categories) . '</span></h3>
-    <p class="lead">
-        <a href="faq.php" title="' . translate('Retour à l\'index FAQ') . '" data-bs-toggle="tooltip">Index</a>&nbsp;&raquo;&raquo;&nbsp;' . StripSlashes($categories) . '
-    </p>';
+    echo '<h2 class="mb-4">' . translate('FAQ - Questions fréquentes') . '</h2>
+        <hr />
+        <h3 class="mb-3">' . translate('Catégorie') . ' <span class="text-body-secondary"># ' . StripSlashes($categories) . '</span></h3>
+        <p class="lead">
+            <a href="faq.php" title="' . translate('Retour à l\'index FAQ') . '" data-bs-toggle="tooltip">Index</a>&nbsp;&raquo;&raquo;&nbsp;' . StripSlashes($categories) . '
+        </p>';
 
     $result = sql_query("SELECT id, id_cat, question, answer 
                          FROM " . sql_prefix('faqanswer') . " 
