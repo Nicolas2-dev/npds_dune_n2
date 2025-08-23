@@ -21,7 +21,7 @@ if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
 
 function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
 {
-    global $ModPath, $ModStart, $links_DB, $NPDS_Prefix;
+    global $ModPath, $ModStart, $links_DB;
 
     if (autorise_mod($lid, false)) {
         if ($author == '-9') {
@@ -108,7 +108,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
                     <select class="form-select" id="topicL" name="topicL">';
 
             $toplist = sql_query("SELECT topicid, topictext 
-                                  FROM " . $NPDS_Prefix . "topics 
+                                  FROM " . sql_prefix('topics') . " 
                                   ORDER BY topictext");
 
             echo '<option value="">' . translate('Tous les sujets') . '</option>';

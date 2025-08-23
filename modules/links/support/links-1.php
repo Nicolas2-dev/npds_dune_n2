@@ -107,7 +107,7 @@ function AddLink()
                 <select class="form-select" id="topicL" name="topicL">';
 
             $toplist = sql_query("SELECT topicid, topictext 
-                                  FROM " . $NPDS_Prefix . "topics 
+                                  FROM " . sql_prefix('topics') . " 
                                   ORDER BY topictext");
 
             echo '<option value="">' . translate('Tous les sujets') . '</option>';

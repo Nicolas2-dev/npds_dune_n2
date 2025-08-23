@@ -38,7 +38,9 @@ global $links_DB;
 
 include_once 'modules/' . $ModPath . '/config/config.php';
 
-if ($links_DB == '') $links_DB = sql_prefix('');
+if ($links_DB == '') {
+    $links_DB = sql_prefix('');
+}
 
 function menu()
 {
@@ -64,7 +66,7 @@ function menu()
 
 function SearchForm()
 {
-    global $ModPath, $ModStart, $NPDS_Prefix, $links_topic;
+    global $ModPath, $ModStart, $links_topic;
 
     echo '<div class="card card-body mb-3" id="linksearchblock">
         <h3 class="mb-3">' . translate('Recherche') . '</h3>
@@ -77,7 +79,7 @@ function SearchForm()
                 <select class="form-select" id="topicL" name="topicL">';
 
         $toplist = sql_query("SELECT topicid, topictext 
-                              FROM " . $NPDS_Prefix . "topics 
+                              FROM " . sql_prefix('topics') . " 
                               ORDER BY topictext");
 
         echo '<option value="">' . translate('Tous les sujets') . '</option>';
@@ -113,14 +115,14 @@ function mainheader()
 
 function autorise_mod($lid, $aff)
 {
-    global $ModPath, $ModStart, $links_DB, $NPDS_Prefix, $user, $admin;
+    global $ModPath, $ModStart, $links_DB, $user, $admin;
 
     if ($admin) {
         $Xadmin = base64_decode($admin);
         $Xadmin = explode(':', $Xadmin);
 
         $result = sql_query("SELECT radminsuper 
-                             FROM " . $NPDS_Prefix . "authors 
+                             FROM " . sql_prefix('authors') . " 
                              WHERE aid='$Xadmin[0]'");
 
         list($radminsuper) = sql_fetch_row($result);

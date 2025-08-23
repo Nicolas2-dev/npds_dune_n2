@@ -19,8 +19,6 @@ if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }
 
-global $NPDS_Prefix;
-
 $x = 0;
 
 while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid, $xsid) = sql_fetch_row($result)) {
@@ -98,7 +96,7 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
         global $links_topic;
         if ($links_topic and $topicid_card != 0) {
             list($topicLX) = sql_fetch_row(sql_query("SELECT topictext 
-                                                      FROM " . $NPDS_Prefix . "topics 
+                                                      FROM " . sql_prefix('topics') . " 
                                                       WHERE topicid='$topicid_card'"));
 
             echo '<br />' . translate('Sujets') . ' : <strong>' . $topicLX . '</strong>';
