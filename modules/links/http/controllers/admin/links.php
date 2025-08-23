@@ -34,8 +34,8 @@ if ($links_DB == '') {
     $links_DB = sql_prefix('');
 }
 
-$hlpfile = 'modules/' . substr($ModPath, 0, $pos) . '/manuels/' . $language . '/mod-weblinks.html';
-//$hlpfile = 'modules/' . $ModPath . '/manuels/$language/mod-weblinks.html';
+$hlpfile = 'modules/' . substr($ModPath, 0, $pos) . '/manuels/' . $language . '/mod-weblinks.php';
+//$hlpfile = 'modules/' . $ModPath . '/manuels/$language/mod-weblinks.php';
 
 if (autorisation(-127)) {
     $result = sql_query("SELECT radminsuper 
