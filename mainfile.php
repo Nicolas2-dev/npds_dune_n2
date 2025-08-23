@@ -1140,8 +1140,8 @@ function news_aff($type_req, $sel, $storynum, $oldnum)
             if ($type_req == "old_news") {
                 $result2 = sql_query("SELECT sid, title, time, comments, counter 
                                       FROM " . sql_prefix('stories') . " 
-                                      WHERE sid='$s_sid' A
-                                      ND archive='0'");
+                                      WHERE sid='$s_sid' 
+                                      AND archive='0'");
             }
 
             if (($type_req == "big_story") or ($type_req == "big_topic")) {
