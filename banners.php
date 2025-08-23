@@ -148,8 +148,7 @@ function clientlogin()
 {
     header_page();
 
-    echo '
-        <div class="card card-body mb-3">
+    echo '<div class="card card-body mb-3">
             <h3 class="mb-4"><i class="fas fa-sign-in-alt fa-lg me-3 align-middle"></i>' . translate('Connexion') . '</h3>
             <form id="loginbanner" action="banners.php" method="post">
                 <fieldset>
@@ -193,7 +192,7 @@ function header_page()
 {
     global $Titlesitename, $Default_Theme, $language;
 
-    include_once 'modules/upload/upload.conf.php';
+    include_once 'modules/upload/config/config.php';
 
     include 'storage/meta/meta.php';
 
@@ -207,20 +206,19 @@ function header_page()
         print("<link href=\"" . $url_upload . $url_upload_css . "\" title=\"default\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n");
     }
 
-    if (file_exists('modules/include/header_head.inc')) {
-        include 'modules/include/header_head.inc';
+    if (file_exists('themes/base/bootstrap/header_head.php')) {
+        include 'themes/base/bootstrap/header_head.php';
     }
 
-    if (file_exists('themes/' . $Default_Theme . '/include/header_head.inc')) {
-        include 'themes/' . $Default_Theme . '/include/header_head.inc';
+    if (file_exists('themes/' . $Default_Theme . '/bootstrape/header_head.php')) {
+        include 'themes/' . $Default_Theme . '/bootstrap/header_head.php';
     }
 
-    if (file_exists('themes/' . $Default_Theme . '/style/style.css')) {
-        echo '<link href="themes/' . $Default_Theme . '/style/style.css" rel="stylesheet" type=\"text/css\" media="all" />';
+    if (file_exists('themes/' . $Default_Theme . '/assets/css/style.css')) {
+        echo '<link href="themes/' . $Default_Theme . '/assets/css/style.css" rel="stylesheet" type=\"text/css\" media="all" />';
     }
 
-    echo '
-    </head>
+    echo '</head>
     <body style="margin-top:64px;">
         <div class="container-fluid">
         <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
@@ -235,7 +233,7 @@ function header_page()
 
 function footer_page()
 {
-    include 'modules/include/footer_after.inc';
+    include 'themes/base/bootstrap/footer_after.php';
 
     echo '</p>
          </div>
@@ -257,8 +255,7 @@ function bannerstats($login, $pass)
         if ($pass == $passwd) {
             header_page();
 
-            echo '
-            <h3>' . translate('Bannières actives pour') . ' ' . $name . '</h3>
+            echo '<h3>' . translate('Bannières actives pour') . ' ' . $name . '</h3>
             <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-columns="true" data-icons="icons" data-icons-prefix="fa">
                 <thead>
                 <tr>
@@ -282,8 +279,7 @@ function bannerstats($login, $pass)
                 $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
                 $left = $imptotal == 0 ? translate('Illimité') : $imptotal - $impmade;
 
-                echo '
-                <tr>
+                echo '<tr>
                     <td>' . $bid . '</td>
                     <td>' . $impmade . '</td>
                     <td>' . $imptotal . '</td>
@@ -300,8 +296,7 @@ function bannerstats($login, $pass)
 
             global $nuke_url, $sitename;
 
-            echo '
-                </tbody>
+            echo '</tbody>
             </table>
             <div class="lead my-3">
                 <a href="' . $nuke_url . '" target="_blank">' . $sitename . '</a>
@@ -333,16 +328,14 @@ function bannerstats($login, $pass)
                 echo '<form action="banners.php" method="get">';
 
                 if ($imageurl != '') {
-                    echo '
-                    <div class="mb-3 row">
+                    echo '<div class="mb-3 row">
                         <label class="control-label col-sm-12" for="url">' . translate('Changer') . ' URL</label>
                         <div class="col-sm-12">
                             <input class="form-control" type="text" name="url" maxlength="200" value="' . $clickurl . '" />
                         </div>
                     </div>';
                 } else {
-                    echo '
-                    <div class="mb-3 row">
+                    echo '<div class="mb-3 row">
                         <label class="control-label col-sm-12" for="url">' . translate('Changer') . ' URL</label>
                         <div class="col-sm-12">
                             <input class="form-control" type="text" name="url" maxlength="200" value="' . htmlentities($clickurl, ENT_QUOTES, 'UTF-8') . '" />
@@ -363,8 +356,7 @@ function bannerstats($login, $pass)
             // Finnished Banners
             echo "<br />";
 
-            echo '
-            <h3>' . translate('Bannières terminées pour') . ' ' . $name . '</h3>
+            echo '<h3>' . translate('Bannières terminées pour') . ' ' . $name . '</h3>
             <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-columns="true" data-icons="icons" data-icons-prefix="fa">
                 <thead>
                 <tr>
@@ -386,8 +378,7 @@ function bannerstats($login, $pass)
 
                 $percent = substr(100 * $clicks / $impressions, 0, 5);
 
-                echo '
-                <tr>
+                echo '<tr>
                     <td>' . $bid . '</td>
                     <td>' . wrh($impressions) . '</td>
                     <td>' . $clicks . '</td>
@@ -397,8 +388,7 @@ function bannerstats($login, $pass)
                 </tr>';
             }
 
-            echo '
-                </tbody>
+            echo '</tbody>
             </table>';
 
             adminfoot('fv', '', '', 'no');
@@ -483,8 +473,7 @@ function EmailStats($login, $cid, $bid)
 
             header_page();
 
-            echo '
-            <div class="card bg-light">
+            echo '<div class="card bg-light">
                 <div class="card-body"
                 <p>' . $fecha . '</p>
                 <p>' . translate('Les statistiques pour la bannières ID') . ' : ' . $bid . ' ' . translate('ont été envoyées.') . '</p>

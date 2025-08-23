@@ -60,6 +60,7 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
     if (file_exists($adminimg . $ficone . '.' . $admf_ext)) {
         $img_adm = '<img src="' . $adminimg . $ficone . '.' . $admf_ext . '" class="me-2" alt="' . $f_titre . '" loading="lazy" />';
+
     } elseif (stristr($_SERVER['QUERY_STRING'], "Extend-Admin-SubModule") || $adm_img_mod == 1) {
 
         $img_adm = (file_exists('modules/' . $ModPath . '/' . $ModPath . '.' . $admf_ext))
@@ -69,8 +70,7 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
         $img_adm = '';
     }
 
-    $entete_adm = '
-    <div id="adm_workarea" class="adm_workarea">
+    $entete_adm = '<div id="adm_workarea" class="adm_workarea">
         <h2><a ' . $furlscript . ' >' . $img_adm . $f_titre . '</a></h2>';
 
     echo $entete_adm;
@@ -78,16 +78,15 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
 $filemanager = false;
 
-if (file_exists("config/filemanager.conf")) {
-    include_once("config/filemanager.conf");
+if (file_exists('config/filemanager.conf')) {
+    include_once 'config/filemanager.conf';
 }
 
 function login()
 {
     include 'header.php';
 
-    echo '
-    <h1>' . adm_translate('Administration') . '</h1>
+    echo '<h1>' . adm_translate('Administration') . '</h1>
     <div id ="adm_men">
         <h2 class="mb-3"><i class="fas fa-sign-in-alt fa-lg align-middle me-2"></i>' . adm_translate('Connexion') . '</h2>
         <form action="admin.php" method="post" id="adminlogin" name="adminlogin">
@@ -492,7 +491,7 @@ function GraphicAdmin($hlpfile)
             $blank = '';
 
             if ($SAQ['fnom'] == "FileManager") {
-                if (file_exists($path = 'modules/f-manager/users/' . strtolower($aid) . '.conf.php')) {
+                if (file_exists($path = 'modules/f-manager/storage/users/' . strtolower($aid) . '.php')) {
 
                     include $path;
 
@@ -743,8 +742,8 @@ function adminMain($deja_affiches)
     $resul = sql_query("SELECT sid FROM " . sql_prefix('stories'));
     $nbre_articles = sql_num_rows($resul);
 
-    settype($deja_affiches, "integer");
-    settype($admart, "integer");
+    settype($deja_affiches, 'integer');
+    settype($admart, 'integer');
 
     $result = sql_query("SELECT sid, title, hometext, topic, informant, time, archive, catid, ihome 
                          FROM " . sql_prefix('stories') . " 
@@ -765,8 +764,7 @@ function adminMain($deja_affiches)
     $start = ($current * $admart);
 
     if ($nbre_articles) {
-        echo '
-        <table id ="lst_art_adm" data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-buttons-class="outline-secondary" data-mobile-responsive="true" data-icons-prefix="fa" data-icons="icons">
+        echo '<table id ="lst_art_adm" data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-buttons-class="outline-secondary" data-mobile-responsive="true" data-icons-prefix="fa" data-icons="icons">
             <thead>
                 <tr>
                 <th data-sortable="true" data-halign="center" data-align="right" class="n-t-col-xs-1">ID</th>
@@ -813,8 +811,7 @@ function adminMain($deja_affiches)
                 $hometext = substr($hometext, 0, $lg_max) . ' ...';
             }
 
-            echo '
-            <tr>
+            echo '<tr>
                 <td>' . $sid . '</td>
                 <td>';
 
@@ -825,6 +822,7 @@ function adminMain($deja_affiches)
             } else {
                 if ($affiche) {
                     echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/images/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
+                    
                     if ($ihome == 1) {
                         echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . aff_langue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
                     } else {

@@ -107,8 +107,7 @@ echo '<input type="hidden" name="name" value="' . $pseudo . '" />
 
 putitems("chatarea");
 
-echo '
-        </div>
+echo '</div>
         <input class="btn btn-primary btn-sm" type="submit" tabindex="1" value="' . translate('Valider') . '" />
         </form>
         <script src="assets/js/npds_adapt.js"></script>

@@ -40,19 +40,19 @@ if (!$user) {
         $tmp_theme = $Default_Theme;
     }
 
-    include 'themes/' . $tmp_theme . '/theme.php';
+    include 'themes/' . $tmp_theme . '/views/theme.php';
 
     $Titlesitename = translate('Carnet d\'adresses');
 
     include 'storage/meta/meta.php';
 
-    echo '<link id="bsth" rel="stylesheet" href="themes/_skins/default/bootstrap.min.css" />';
+    echo '<link id="bsth" rel="stylesheet" href="assets/skins/default/bootstrap.min.css" />';
 
     echo import_css($tmp_theme, $language, '', '', '');
 
     include 'library/formhelp.java.php';
 
-    $fic = 'users_private/' . $userdata[1] . '/mns/carnet.txt';
+    $fic = 'storage/users_private/' . $userdata[1] . '/mns/carnet.txt';
 
     echo '</head>
     <body class="p-4">';
@@ -91,11 +91,12 @@ if (!$user) {
         }
 
         echo '</div>';
-    } else
+    } else {
         echo '<div class="alert alert-secondary text-break">
             <span>' . translate('Vous pouvez charger un fichier carnet.txt dans votre miniSite') . '.</span><br />
             <span>' . translate('La structure de chaque ligne de ce fichier : nom_du_membre; adresse Email; commentaires') . '</span>
         </div>';
+    }
 
     echo '</body>
     </html>';

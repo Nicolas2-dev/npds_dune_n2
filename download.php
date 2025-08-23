@@ -203,54 +203,54 @@ function SortLinks($dcategory, $sortby)
             <th class="text-center">';
 
     if ($sortby == 'dfilename' or !$sortby) {
-        act_dl_tableheader($dcategory, $sortby, "dfilename", "Nom");
+        act_dl_tableheader($dcategory, $sortby, 'dfilename', 'Nom');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "dfilename", "Nom");
+        inact_dl_tableheader($dcategory, $sortby, 'dfilename', 'Nom');
     }
 
     echo '</th>
     <th class="text-center">';
 
     if ($sortby == "dfilesize") {
-        act_dl_tableheader($dcategory, $sortby, "dfilesize", "Taille");
+        act_dl_tableheader($dcategory, $sortby, 'dfilesize', 'Taille');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "dfilesize", "Taille");
+        inact_dl_tableheader($dcategory, $sortby, 'dfilesize', 'Taille');
     }
 
     echo '</th>
     <th class="text-center">';
 
     if ($sortby == "dcategory") {
-        act_dl_tableheader($dcategory, $sortby, "dcategory", "Catégorie");
+        act_dl_tableheader($dcategory, $sortby, 'dcategory', 'Catégorie');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "dcategory", "Catégorie");
+        inact_dl_tableheader($dcategory, $sortby, 'dcategory', 'Catégorie');
     }
 
     echo '</th>
     <th class="text-center">';
 
     if ($sortby == "ddate") {
-        act_dl_tableheader($dcategory, $sortby, "ddate", "Date");
+        act_dl_tableheader($dcategory, $sortby, 'ddate', 'Date');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "ddate", "Date");
+        inact_dl_tableheader($dcategory, $sortby, 'ddate', 'Date');
     }
 
     echo '</th>
     <th class="text-center">';
 
     if ($sortby == "dver") {
-        act_dl_tableheader($dcategory, $sortby, "dver", "Version");
+        act_dl_tableheader($dcategory, $sortby, 'dver', 'Version');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "dver", "Version");
+        inact_dl_tableheader($dcategory, $sortby, 'dver', 'Version');
     }
 
     echo '</th>
     <th class="text-center">';
 
     if ($sortby == "dcounter") {
-        act_dl_tableheader($dcategory, $sortby, "dcounter", "Compteur");
+        act_dl_tableheader($dcategory, $sortby, 'dcounter', 'Compteur');
     } else {
-        inact_dl_tableheader($dcategory, $sortby, "dcounter", "Compteur");
+        inact_dl_tableheader($dcategory, $sortby, 'dcounter', 'Compteur');
     }
 
     echo '</th>';
@@ -486,8 +486,8 @@ function main()
         listdownloads($dcategory, $sortby, $sortorder);
     }
 
-    if (file_exists('static/download.ban.txt')) {
-        include 'static/download.ban.txt';
+    if (file_exists('storage/static/download.ban.txt')) {
+        include 'storage/static/download.ban.txt';
     }
 
     include 'footer.php';
