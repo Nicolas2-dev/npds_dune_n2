@@ -36,8 +36,7 @@ function BannersAdmin()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Bannières actives') . '</h3>
     <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-toggle="true" data-show-columns="true" data-buttons-class="outline-secondary" data-icons="icons" data-icons-prefix="fa">
         <thead>
@@ -69,8 +68,8 @@ function BannersAdmin()
         $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
         //  | <span class="small"><a href="#" class="tooltip">'.basename(aff_langue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
-        echo '
-            <tr>
+        
+        echo '<tr>
                 <td>' . $bid . '</td>
                 <td>' . $name . '</td>
                 <td>' . $impmade . '</td>
@@ -81,12 +80,10 @@ function BannersAdmin()
             </tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>';
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Bannières inactives') . '</h3>
     <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-toggle="true" data-show-columns="true" data-buttons-class="outline-secondary" data-icons="icons" data-icons-prefix="fa">
         <thead>
@@ -118,8 +115,7 @@ function BannersAdmin()
         $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
         $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
-        echo '
-            <tr>
+        echo '<tr>
             <td>' . $bid . '</td>
             <td>' . $impmade . '</td>
             <td>' . $left . '</td>
@@ -130,8 +126,7 @@ function BannersAdmin()
             </tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>
     <hr />
     <h3>' . adm_translate('Bannières terminées') . '</h3>
@@ -168,8 +163,7 @@ function BannersAdmin()
 
         $percent = substr(100 * $clicks / $impressions, 0, 5);
 
-        echo '
-            <tr>
+        echo '<tr>
                 <td>' . $bid . '</td>
                 <td>' . $impressions . '</td>
                 <td>' . $clicks . '</td>
@@ -181,8 +175,7 @@ function BannersAdmin()
             </tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>
     <hr />
     <h3>' . adm_translate('Annonceurs faisant de la publicité') . '</h3>
@@ -211,8 +204,7 @@ function BannersAdmin()
 
         $numrows = sql_num_rows($result2);
 
-        echo '
-            <tr>
+        echo '<tr>
                 <td>' . $cid . '</td>
                 <td>' . $name . '</td>
                 <td>' . $numrows . '</td>
@@ -222,8 +214,7 @@ function BannersAdmin()
             </tr>';
     }
 
-    echo '
-        </tbody>
+    echo '</tbody>
     </table>';
 
     // Add Banner
@@ -232,8 +223,7 @@ function BannersAdmin()
     $numrows = sql_num_rows($result);
 
     if ($numrows > 0) {
-        echo '
-        <hr />
+        echo '<hr />
         <h3 class="my-3">' . adm_translate('Ajouter une nouvelle bannière') . '</h3>
         <span class="help-block">' . adm_translate('Pour les bannières Javascript, saisir seulement le code javascript dans la zone URL du clic et laisser la zone image vide.') . '</span>
         <span class="help-block">' . adm_translate('Pour les bannières encore plus complexes (Flash, ...), saisir simplement la référence à votre_répertoire/votre_fichier .txt (fichier de code php) dans la zone URL du clic et laisser la zone image vide.') . '</span>
@@ -247,8 +237,7 @@ function BannersAdmin()
             echo '<option value="' . $cid . '">' . $name . '</option>';
         }
 
-        echo '
-                </select>
+        echo '</select>
                 <label for="cid">' . adm_translate('Nom de l\'annonceur') . '</label>
             </div>
             <div class="form-floating mb-3">
@@ -277,8 +266,7 @@ function BannersAdmin()
     }
 
     // Add Client
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="my-3">' . adm_translate('Ajouter un nouvel Annonceur') . '</h3>
     <form id="bannersnewanno" action="admin.php" method="post">
         <div class="form-floating mb-3">
@@ -319,8 +307,7 @@ function BannersAdmin()
 
     $arg1 = $numrows > 0 ? 'var formulid = ["bannersnewbanner","bannersnewanno"];' : 'var formulid = ["bannersnewanno"];';
 
-    $arg1 .= '
-        inpandfieldlen("imageurl",320);
+    $arg1 .= 'inpandfieldlen("imageurl",320);
         inpandfieldlen("clickurl",320);
         inpandfieldlen("name",60);
         inpandfieldlen("contact",60);
@@ -329,11 +316,11 @@ function BannersAdmin()
         inpandfieldlen("passwd",20);';
 
     $fv_parametres = '
-    passwd: {
-        validators: {
-            checkPassword: {},
-        }
-    },';
+        passwd: {
+            validators: {
+                checkPassword: {},
+            }
+        },';
 
     adminfoot('fv', $fv_parametres, $arg1, '');
 }
@@ -385,16 +372,14 @@ function BannerDelete($bid, $ok = 0)
 
         list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl) = sql_fetch_row($result);
 
-        echo '
-        <hr />
+        echo '<hr />
         <h3 class="text-danger">' . adm_translate('Effacer Bannière') . '</h3>';
 
         echo $imageurl != '' 
             ? '<a href="' . aff_langue($clickurl) . '"><img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="banner" /></a><br />' 
             : $clickurl;
 
-        echo '
-        <table data-toggle="table" data-mobile-responsive="true">
+        echo '<table data-toggle="table" data-mobile-responsive="true">
             <thead>
                 <tr>
                 <th data-halign="center" data-align="right">' . adm_translate('ID') . '</th>
@@ -416,19 +401,17 @@ function BannerDelete($bid, $ok = 0)
         $percent = substr(100 * $clicks / $impmade, 0, 5);
         $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
-        echo '
-                <tr>
+        echo '<tr>
                 <td>' . $bid . '</td>
                 <td>' . $impmade . '</td>
                 <td>' . $left . '</td>
                 <td>' . $clicks . '</td>
                 <td>' . $percent . '%</td>
                 <td>' . $name . '</td>
-                </tr>';
+            </tr>';
     }
 
-    echo '
-            </tbody>
+    echo '</tbody>
         </table>
         <br />
         <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer cette Bannière ?') . '<br />
@@ -452,8 +435,7 @@ function BannerEdit($bid)
 
     list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $userlevel) = sql_fetch_row($result);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-2">' . adm_translate('Edition Bannière') . '</h3>';
 
     if ($imageurl != '') {
@@ -462,8 +444,7 @@ function BannerEdit($bid)
         echo $clickurl;
     }
 
-    echo '
-    <span class="help-block mt-2">' . adm_translate('Pour les bannières Javascript, saisir seulement le code javascript dans la zone URL du clic et laisser la zone image vide.') . '</span>
+    echo '<span class="help-block mt-2">' . adm_translate('Pour les bannières Javascript, saisir seulement le code javascript dans la zone URL du clic et laisser la zone image vide.') . '</span>
     <span class="help-block">' . adm_translate('Pour les bannières encore plus complexes (Flash, ...), saisir simplement la référence à votre_répertoire/votre_fichier .txt (fichier de code php) dans la zone URL du clic et laisser la zone image vide.') . '</span>
     <form id="bannersadm" action="admin.php" method="post">
         <div class="form-floating mb-3">
@@ -486,15 +467,13 @@ function BannerEdit($bid)
         }
     }
 
-    echo '
-            </select>
+    echo '</select>
             <label for="cid">' . adm_translate('Nom de l\'annonceur') . '</label>
         </div>';
 
     $impressions = $imptotal == 0 ? adm_translate('Illimité') : $imptotal;
 
-    echo '
-        <div class="form-floating mb-3">
+    echo '<div class="form-floating mb-3">
             <input class="form-control" type="number" id="impadded" name="impadded" min="0" max="99999999999" required="required" value="' . $imptotal . '"/>
             <label for="impadded">' . adm_translate('Ajouter plus d\'affichages') . '</label>
             <span class="help-block">' . adm_translate('Réservé : ') . '<strong>' . $impressions . '</strong> ' . adm_translate('Fait : ') . '<strong>' . $impmade . '</strong></span>
@@ -520,8 +499,7 @@ function BannerEdit($bid)
         <button class="btn btn-primary my-3" type="submit"><i class="fa fa-check-square fa-lg me-2"></i>' . adm_translate('Modifier la Bannière') . '</button>
     </form>';
 
-    $arg1 = '
-        var formulid = ["bannersadm"];
+    $arg1 = 'var formulid = ["bannersadm"];
         inpandfieldlen("imageurl",320);
         inpandfieldlen("clickurl",320);';
 
@@ -563,12 +541,10 @@ function BannerClientDelete($cid, $ok = 0)
 
         list($cid, $name) = sql_fetch_row($result);
 
-        echo '
-        <hr />
+        echo '<hr />
         <h3 class="text-danger">' . adm_translate('Supprimer l\'Annonceur') . '</h3>';
 
-        echo '
-        <div class="alert alert-secondary my-3">' . adm_translate('Vous êtes sur le point de supprimer cet annonceur : ') . ' <strong>' . $name . '</strong> ' . adm_translate('et toutes ses bannières !!!');
+        echo '<div class="alert alert-secondary my-3">' . adm_translate('Vous êtes sur le point de supprimer cet annonceur : ') . ' <strong>' . $name . '</strong> ' . adm_translate('et toutes ses bannières !!!');
 
         $result2 = sql_query("SELECT imageurl, clickurl 
                               FROM " . sql_prefix('banner') . " 
@@ -609,8 +585,7 @@ function BannerClientEdit($cid)
 
     list($name, $contact, $email, $login, $passwd, $extrainfo) = sql_fetch_row($result);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-3">' . adm_translate('Editer l\'annonceur') . '</h3>
     <form action="admin.php" method="post" id="bannersedanno">
         <div class="form-floating mb-3">
@@ -650,8 +625,7 @@ function BannerClientEdit($cid)
         <input class="btn btn-primary my-3" type="submit" value="' . adm_translate('Modifier annonceur') . '" />
     </form>';
 
-    $arg1 = '
-        var formulid = ["bannersedanno"];
+    $arg1 = 'var formulid = ["bannersedanno"];
         inpandfieldlen("name",60);
         inpandfieldlen("contact",60);
         inpandfieldlen("email",254);
@@ -659,11 +633,11 @@ function BannerClientEdit($cid)
         inpandfieldlen("passwd",20);';
 
     $fv_parametres = '
-    passwd: {
-        validators: {
-            checkPassword: {},
-        }
-    },';
+        passwd: {
+            validators: {
+                checkPassword: {},
+            }
+        },';
 
     adminfoot('fv', $fv_parametres, $arg1, '');
 }

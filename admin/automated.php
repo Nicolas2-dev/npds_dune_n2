@@ -73,8 +73,7 @@ function puthome($ihome)
         $sel2 = '';
     }
 
-    echo '
-            <input class="form-check-input" type="radio" id="members" name="members" value="1" ' . $sel1 . ' />
+    echo '<input class="form-check-input" type="radio" id="members" name="members" value="1" ' . $sel1 . ' />
             <label class="form-check-label" for="members">' . adm_translate('Oui') . '</label>
             </div>
             <div class="form-check form-check-inline">
@@ -182,7 +181,7 @@ function autoStory()
             if ($radminsuper) {
                 $affiche = true;
             } else {
-                $topicadminX = explode(",", $topicadmin);
+                $topicadminX = explode(',', $topicadmin);
 
                 for ($i = 0; $i < count($topicadminX); $i++) {
                     if (trim($topicadminX[$i]) == $aid) {
@@ -195,15 +194,13 @@ function autoStory()
             $date_au_format = formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM);
 
             if ($affiche) {
-                echo '
-                <tr>
+                echo '<tr>
                     <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . aff_langue($title) . '</a></td>
                     <td>' . $date_au_format . '</td>
                     <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '"><i class="fa fa-edit fa-lg me-2" title="' . adm_translate('Afficher l\'article') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=autoDelete&amp;anid=' . $anid . '">&nbsp;<i class="fas fa-trash fa-lg text-danger" title="' . adm_translate('Effacer l\'Article') . '" data-bs-toggle="tooltip" ></i></a></td>
                 </tr>';
             } else {
-                echo '
-                <tr>
+                echo '<tr>
                     <td><i>' . aff_langue($title) . '</i></td>
                     <td>' . $date_au_format . '</td>
                     <td>&nbsp;</td>
@@ -220,7 +217,8 @@ function autoStory()
 
 function autoDelete($anid)
 {
-    sql_query("DELETE FROM " . sql_prefix('autonews') . " WHERE anid='$anid'");
+    sql_query("DELETE FROM " . sql_prefix('autonews') . " 
+               WHERE anid='$anid'");
 
     Header('Location: admin.php?op=autoStory');
 }
@@ -282,8 +280,7 @@ function autoEdit($anid)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Editer l\'Article Automatique') . '</h3>
     ' . aff_local_langue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
     <div class="card card-body mb-3">';
@@ -303,8 +300,8 @@ function autoEdit($anid)
     code_aff('<div class="d-flex"><div class="w-100 p-2 ps-0"><h3>' . $titre . '</h3></div><div class="align-self-center p-2 flex-shrink-1 h3">' . $topiclogo . '</div></div>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
 
     echo '<hr /><b>' . adm_translate('Utilisateur') . '</b>' . $informant . '<br />';
-    echo '
-    </div>
+    
+    echo '</div>
     <form action="admin.php" method="post" name="adminForm" id="autoedit">
         <div class="mb-3 row">
             <label class="col-form-label col-sm-4" for="title">' . adm_translate('Titre') . '</label>
@@ -347,8 +344,7 @@ function autoEdit($anid)
         }
     }
 
-    echo ' 
-            </select>
+    echo '</select>
         </div>
     </div>';
 
@@ -410,8 +406,7 @@ function autoEdit($anid)
             }
         });';
 
-    $arg1 = '
-        var formulid = ["autoedit"];
+    $arg1 = 'var formulid = ["autoedit"];
         const choixgroupe = document.getElementById("choixgroupe");
         const mem_y = document.querySelector("#members");
         const mem_n = document.querySelector("#members1");

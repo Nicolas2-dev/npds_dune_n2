@@ -59,9 +59,10 @@ function groupe($groupe)
     }
 
     return ('
-    <select multiple="multiple" class="form-control" name="Mmember[]" size="' . $nbg . '">
-    ' . $str . '
-    </select>');
+        <select multiple="multiple" class="form-control" name="Mmember[]" size="' . $nbg . '">
+            ' . $str . '
+        </select>'
+    );
 }
 
 function droits_bloc($member, $j, $lb)
@@ -128,8 +129,7 @@ function blocks()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Edition des Blocs de gauche') . '</h3>';
 
     $result = sql_query("SELECT id, title, content, member, Lindex, cache, actif, aide, css 
@@ -248,8 +248,7 @@ function blocks()
 
             echo droits_bloc($member, $j, 'L');
 
-            echo '
-                            </fieldset>
+            echo '</fieldset>
                             <div class="mb-3 row">
                             <div class="col-sm-12">
                                 <select class="form-select" name="op">
@@ -420,8 +419,7 @@ function blocks()
 
             echo droits_bloc($member, $j, 'R');
 
-            echo '
-                            </fieldset>
+            echo '</fieldset>
                             <div class="mb-3 row">
                             <div class="col-sm-12">
                                 <select class="form-select" name="op">
@@ -559,8 +557,7 @@ function blocks()
         <button class="btn btn-primary mb-2" type="submit">' . adm_translate('Valider') . '</button>
     </form>';
 
-    $arg1 = '
-        var formulid = ["blocknewblock"];
+    $arg1 = 'var formulid = ["blocknewblock"];
         inpandfieldlen("nblock_title",1000);';
 
     adminfoot('fv', '', $arg1, '');

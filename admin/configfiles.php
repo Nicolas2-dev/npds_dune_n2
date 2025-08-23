@@ -130,8 +130,7 @@ function ConfigFiles($contents, $files)
             </tbody>
         </table>';
     } else {
-        echo '
-        <hr />
+        echo '<hr />
         <h3 class="my-3">' . adm_translate('Modification de') . ' : <span class="text-body-secondary">' . $files . '</span></h3>
         <form action="admin.php?op=ConfigFiles_save" method="post">
             <code><textarea class="form-control" name="Xtxt" rows="20" cols="70">';
@@ -214,8 +213,7 @@ function delete_configfile($fileX)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <div class="alert alert-danger" role="alert">
+    echo '<div class="alert alert-danger" role="alert">
         <p><strong>' . adm_translate('Supprimer le fichier') . ' ' . $fileX . ' ? </strong><br /><br /><a class="btn btn-danger btn-sm" href="admin.php?op=ConfigFiles_delete&amp;file=' . $fileX . '">' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';
 
@@ -259,8 +257,7 @@ function copy_sample($fileX)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <div class="card card-body">
         <p>' . adm_translate('Créer le fichier en utilisant le modèle') . ' ? <br /><br /><a class="btn btn-primary" href="admin.php?op=ConfigFiles_create&amp;modele=' . $fileX . '" >' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';

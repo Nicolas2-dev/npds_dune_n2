@@ -30,6 +30,7 @@ global $language, $adminimg, $admf_ext;
 
 $listdroits = '';
 $listdroitsmodulo = '';
+
 $hlpfile = 'manuels/' . $language . '/authors.html';
 
 // sélection des fonctions sauf les fonctions de type alerte 
@@ -41,8 +42,7 @@ $R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie
 
 while (list($fid, $fnom, $fnom_affich, $fcategorie) = sql_fetch_row($R)) {
     if ($fcategorie == 6) {
-        $listdroitsmodulo .= '
-            <div class="col-md-4 col-sm-6">
+        $listdroitsmodulo .= '<div class="col-md-4 col-sm-6">
                <div class="form-check">
                   <input class="ckbm form-check-input" id="ad_d_m_' . $fnom . '" type="checkbox" name="ad_d_m_' . $fnom . '" value="' . $fid . '" />
                   <label class="form-check-label" for="ad_d_m_' . $fnom . '">' . $fnom_affich . '</label>
@@ -50,8 +50,7 @@ while (list($fid, $fnom, $fnom_affich, $fcategorie) = sql_fetch_row($R)) {
             </div>';
     } else {
         if ($fid != 12)
-            $listdroits .= '
-            <div class="col-md-4 col-sm-6">
+            $listdroits .= '<div class="col-md-4 col-sm-6">
                <div class="form-check">
                   <input class="ckbf form-check-input" id="ad_d_' . $fid . '" type="checkbox" name="ad_d_' . $fid . '" value="' . $fid . '" />
                   <label class="form-check-label" for="ad_d_' . $fid . '">' . adm_translate($fnom_affich) . '</label>
@@ -430,14 +429,16 @@ function modifyadmin($chng_aid)
 
 function deletedroits($del_dr_aid)
 {
-    $res = sql_query("DELETE FROM " . sql_prefix('droits') . " WHERE d_aut_aid='$del_dr_aid'");
+    $res = sql_query("DELETE FROM " . sql_prefix('droits') . " 
+                      WHERE d_aut_aid='$del_dr_aid'");
 }
 
 function updatedroits($chng_aid)
 {
     foreach ($_POST as $y => $w) {
         if (stristr("$y", 'ad_d_')) {
-            $res = sql_query("INSERT INTO " . sql_prefix('droits') . " VALUES ('$chng_aid', '$w', 11111)");
+            $res = sql_query("INSERT INTO " . sql_prefix('droits') . " 
+                              VALUES ('$chng_aid', '$w', 11111)");
         }
     }
 }
@@ -470,12 +471,17 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
     list($ori_radminsuper) = sql_fetch_row($result);
 
     if (!$ori_radminsuper and $chng_radminsuper) {
-        @copy('modules/f-manager/users/modele.admin.conf.php', 'modules/f-manager/users/' . strtolower($chng_aid) .' .conf.php');
+        @copy(
+            'modules/f-manager/users/modele.admin.conf.php', 
+            'modules/f-manager/users/' . strtolower($chng_aid) .' .conf.php'
+        );
+
         deletedroits($chng_aid);
     }
 
     if ($ori_radminsuper and !$chng_radminsuper) {
         @unlink('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php');
+
         updatedroits($chng_aid);
     }
 
@@ -484,7 +490,10 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
     }
 
     if (($chng_radminsuper or $ad_d_27 != '') and !file_exists('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php')) {
-        @copy('modules/f-manager/users/modele.admin.conf.php', 'modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php');
+        @copy(
+            'modules/f-manager/users/modele.admin.conf.php', 
+            'modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php'
+        );
     }
 
     if ($chng_pwd2 != '') {
@@ -632,7 +641,10 @@ switch ($op) {
 
         // Copie du fichier pour filemanager
         if ($add_radminsuper or isset($ad_d_27)) { // $ad_d_27 pas là ?
-            @copy('modules/f-manager/users/modele.admin.conf.php', 'modules/f-manager/users/' . strtolower($add_aid) . '.conf.php');
+            @copy(
+                'modules/f-manager/users/modele.admin.conf.php', 
+                'modules/f-manager/users/' . strtolower($add_aid) . '.conf.php'
+            );
         }
 
         global $aid;
@@ -660,11 +672,13 @@ switch ($op) {
         break;
 
     case 'deladminconf':
-        sql_query("DELETE FROM " . sql_prefix('authors') . " WHERE aid='$del_aid'");
+        sql_query("DELETE FROM " . sql_prefix('authors') . " 
+                   WHERE aid='$del_aid'");
 
         deletedroits($chng_aid = $del_aid);
 
-        sql_query("DELETE FROM " . sql_prefix('publisujet') . " WHERE aid='$del_aid'");
+        sql_query("DELETE FROM " . sql_prefix('publisujet') . " 
+                   WHERE aid='$del_aid'");
 
         // Supression du fichier pour filemanager
         @unlink('modules/f-manager/users/' . strtolower($del_aid) . '.conf.php');

@@ -37,8 +37,7 @@ function Ephemerids()
 
     $nday = '1';
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-3">' . adm_translate('Ajouter un éphéméride') . '</h3>
     <form action="admin.php" method="post">
         <div class="row g-3 mb-3">
@@ -51,26 +50,23 @@ function Ephemerids()
         $nday++;
     }
 
-    echo '
-                </select>
-                <label for="did">' . adm_translate('Jour') . '</label>
-                </div>
-            </div>';
+    echo '</select>
+            <label for="did">' . adm_translate('Jour') . '</label>
+        </div>
+    </div>';
 
     $nmonth = "1";
 
-    echo '
-            <div class="col-sm-4">
-                <div class="form-floating">
-                <select class="form-select" id="mid" name="mid">';
+    echo '<div class="col-sm-4">
+        <div class="form-floating">
+            <select class="form-select" id="mid" name="mid">';
 
     while ($nmonth <= 12) {
         echo '<option name="mid">' . $nmonth . '</option>';
         $nmonth++;
     }
 
-    echo '
-                </select>
+    echo '</select>
                 <label for="mid">' . adm_translate('Mois') . '</label>
                 </div>
             </div>
@@ -94,8 +90,7 @@ function Ephemerids()
 
     $nday = "1";
 
-    echo '
-        <div class="row g-3">
+    echo '<div class="row g-3">
             <div class="col-4">
                 <div class="form-floating mb-3">
                 <select class="form-select" id="did" name="did">';
@@ -105,16 +100,14 @@ function Ephemerids()
         $nday++;
     }
 
-    echo '
-                </select>
+    echo '</select>
                 <label for="did">' . adm_translate('Jour') . '</label>
                 </div>
             </div>';
 
     $nmonth = "1";
 
-    echo '
-            <div class="col-4">
+    echo '<div class="col-4">
                 <div class="form-floating mb-3">
                 <select class="form-select" id="mid" name="mid">';
 
@@ -123,8 +116,7 @@ function Ephemerids()
         $nmonth++;
     }
 
-    echo '
-                </select>
+    echo '</select>
                 <label for="mid">' . adm_translate('Mois') . '</label>
                 </div>
             </div>
@@ -165,8 +157,7 @@ function Ephemeridsmaintenance($did, $mid)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Maintenance des Ephémérides') . '</h3>
     <table data-toggle="table" data-striped="true" data-mobile-responsive="true" data-search="true" data-show-toggle="true" data-icons="icons" data-icons-prefix="fa">
         <thead>
@@ -179,16 +170,14 @@ function Ephemeridsmaintenance($did, $mid)
         <tbody>';
 
     while (list($eid, $did, $mid, $yid, $content) = sql_fetch_row($resultX)) {
-        echo '
-            <tr>
+        echo '<tr>
                 <td>' . $yid . '</td>
                 <td>' . aff_langue($content) . '</td>
                 <td><a href="admin.php?op=Ephemeridsedit&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg me-2"></i></a>&nbsp;<a href="admin.php?op=Ephemeridsdel&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a>
             </tr>';
     }
 
-    echo '
-            </tbody>
+    echo '</tbody>
         </table>';
 
     adminfoot('', '', '', '');
@@ -217,8 +206,7 @@ function Ephemeridsedit($eid, $did, $mid)
 
     list($yid, $content) = sql_fetch_row($result);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3>' . adm_translate('Editer éphéméride') . '</h3>
     <form action="admin.php" method="post">
         <div class="form-floating mb-3">
@@ -241,7 +229,7 @@ function Ephemeridsedit($eid, $did, $mid)
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)
 {
-    $content = stripslashes(FixQuotes($content) . "");
+    $content = stripslashes(FixQuotes($content) . '');
 
     sql_query("UPDATE " . sql_prefix('ephem') . " 
                SET yid='$yid', content='$content' 

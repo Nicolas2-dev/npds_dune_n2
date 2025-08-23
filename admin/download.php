@@ -61,9 +61,10 @@ function groupe($groupe)
 
     // si on veux traiter groupe multiple multiple="multiple"  et name="Mprivs"
     return ('
-    <select multiple="multiple" class="form-select" id="mpri" name="Mprivs[]" size="' . $nbg . '">
-    ' . $str . '
-    </select>');
+        <select multiple="multiple" class="form-select" id="mpri" name="Mprivs[]" size="' . $nbg . '">
+            ' . $str . '
+        </select>'
+    );
 }
 
 function droits($member)
@@ -138,8 +139,7 @@ function DownloadAdmin()
 
     $num_row = sql_num_rows($resultX);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="my-3">' . adm_translate('Catégories') . '</h3>';
 
     $pseudocatid = '';
@@ -150,8 +150,7 @@ function DownloadAdmin()
         echo '<h4 class="mb-2"><a class="tog" id="show_cat_' . $pseudocatid . '" title="Déplier la liste"><i id="i_cat_' . $pseudocatid . '" class="fa fa-caret-down fa-lg text-primary"></i></a>
         ' . aff_langue(stripslashes($dcategory)) . '</h4>';
 
-        echo '
-        <div class="mb-3" id="cat_' . $pseudocatid . '" style="display:none;">
+        echo '<div class="mb-3" id="cat_' . $pseudocatid . '" style="display:none;">
             <table data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-show-columns="true" data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons-prefix="fa" data-icons="icons">
                 <thead>
                     <tr>
@@ -187,8 +186,7 @@ function DownloadAdmin()
                 $dperm = '<span title="' . adm_translate('Groupes') . '" data-bs-toggle="tooltip" data-bs-placement="right"><i class="fa fa-users fa-lg"></i></span>';
             }
 
-            echo '
-                <tr>
+            echo '<tr>
                 <td>' . $did . '</td>
                 <td>' . $dcounter . '</td>
                 <td>' . $dperm . '</td>
@@ -227,8 +225,7 @@ function DownloadAdmin()
         </script>';
     }
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-3">' . adm_translate('Ajouter un Téléchargement') . '</h3>
     <form action="admin.php" method="post" id="downloadadd" name="adminForm">
         <div class="mb-3 row">
@@ -322,8 +319,7 @@ function DownloadAdmin()
         </div>
     </form>';
 
-    $arg1 = '
-            var formulid = ["downloadadd"];
+    $arg1 = 'var formulid = ["downloadadd"];
             inpandfieldlen("durl",320);
             inpandfieldlen("dfilename",255);
             inpandfieldlen("dver",6);
@@ -352,8 +348,7 @@ function DownloadEdit($did)
 
     $ddescription = stripslashes($ddescription);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-3">' . adm_translate('Editer un Téléchargement') . '</h3>
     <form action="admin.php" method="post" id="downloaded" name="adminForm">
         <input type="hidden" name="did" value="' . $did . '" />
@@ -453,8 +448,7 @@ function DownloadEdit($did)
         </div>
     </form>';
 
-    $arg1 = '
-        var formulid = ["downloaded"];
+    $arg1 = 'var formulid = ["downloaded"];
         inpandfieldlen("durl",320);
         inpandfieldlen("dfilename",255);
         inpandfieldlen("dver",6);
@@ -530,8 +524,7 @@ function DownloadDel($did, $ok = 0)
         GraphicAdmin($hlpfile);
         adminhead($f_meta_nom, $f_titre, $adminimg);
 
-        echo ' 
-        <div class="alert alert-danger">
+        echo ' <div class="alert alert-danger">
             <strong>' . adm_translate('ATTENTION : êtes-vous sûr de vouloir supprimer ce fichier téléchargeable ?') . '</strong>
         </div>
         <a class="btn btn-danger" href="admin.php?op=DownloadDel&amp;did=' . $did . '&amp;ok=1" >' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary" href="admin.php?op=DownloadAdmin" >' . adm_translate('Non') . '</a>';

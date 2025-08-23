@@ -35,8 +35,7 @@ function email_user()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <form id="emailuseradm" action="admin.php" method="post" name="AdmMI">
         <fieldset>
             <legend>' . adm_translate('Message') . '</legend>
@@ -144,9 +143,8 @@ function email_user()
         //]]>
     </script>';
 
-    $arg1 = '
-    var formulid = ["emailuseradm"];
-    inpandfieldlen("subject",100);';
+    $arg1 = 'var formulid = ["emailuseradm"];
+        inpandfieldlen("subject",100);';
 
     echo auto_complete('membre', 'uname', 'users', 'username', '86400');
 
@@ -247,7 +245,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
 
                     $message = translate_ml($to_tmp[1], 'Bonjour') . ",<br /><br /><a href=\"$nuke_url/viewpmsg.php\">" . translate_ml($to_tmp[1], "Cliquez ici pour lire votre nouveau message.") . "</a><br /><br />";
 
-                    include 'signat.php';
+                    include 'config/signat.php';
 
                     copy_to_email($to_userid, $sujet, $message);
                     $message = $old_message;
@@ -267,8 +265,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />';
+    echo '<hr />';
 
     if ($pasfin) {
         echo '<div class="alert alert-success"><strong>"' . stripslashes($subject) . '"</strong> ' . adm_translate('a été envoyée') . '.</div>';
