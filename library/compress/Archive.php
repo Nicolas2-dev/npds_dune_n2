@@ -5,6 +5,7 @@
  */
 class Archive
 {
+    
     protected bool $overwrite = false;
 
     protected int $defaultPerms = 0644;

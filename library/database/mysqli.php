@@ -25,7 +25,7 @@ function Mysql_Connexion()
    $ret_p = sql_connect();
 
    if (!$ret_p) {
-      $Titlesitename = "NPDS";
+      $Titlesitename = 'NPDS';
 
       if (file_exists('storage/meta/meta.php')) {
          include 'storage/meta/meta.php';
@@ -312,7 +312,7 @@ function sql_close()
 }
 
 // retourn la table prefixer.
-function sql_prefix($table)
+function sql_prefix($table = '')
 {
    global $NPDS_Prefix;
 
