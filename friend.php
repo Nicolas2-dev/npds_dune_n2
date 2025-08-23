@@ -25,7 +25,7 @@ function FriendSend($sid, $archive)
     $result = sql_query("SELECT title, aid 
                          FROM " . sql_prefix('stories') . " 
                          WHERE sid='$sid'");
-                         
+
     list($title, $aid) = sql_fetch_row($result);
 
     if (!$aid) {
@@ -44,7 +44,7 @@ function FriendSend($sid, $archive)
     $yn = '';
     $ye = '';
 
-    global $user;    
+    global $user;
     if ($user) {
         global $cookie;
 
@@ -83,12 +83,11 @@ function FriendSend($sid, $archive)
         <button type="submit" class="btn btn-primary" title="' . translate('Envoyer') . '"><i class="fa fa-lg fa-at"></i>&nbsp;' . translate('Envoyer') . '</button>
     </form>';
 
-    $arg1 = '
-    var formulid = ["friendsendstory"];
-    inpandfieldlen("yname",100);
-    inpandfieldlen("ymail",254);
-    inpandfieldlen("fname",100);
-    inpandfieldlen("fmail",254);';
+    $arg1 = 'var formulid = ["friendsendstory"];
+        inpandfieldlen("yname",100);
+        inpandfieldlen("ymail",254);
+        inpandfieldlen("fname",100);
+        inpandfieldlen("fmail",254);';
 
     adminfoot('fv', '', $arg1, '');
 }
@@ -138,7 +137,7 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
             . "$nuke_url/article.php?sid=$sid&amp;archive=$archive</a>\n\n"
     );
 
-    include 'signat.php';
+    include 'config/signat.php';
 
     $fmail = removeHack($fmail);
     $subject = removeHack($subject);
@@ -148,11 +147,11 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
 
     $stop = false;
 
-    if ((!$fmail) || ($fmail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) {
+    if ((!$fmail) || ($fmail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $fmail))) {
         $stop = true;
     }
 
-    if ((!$ymail) || ($ymail == "") || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) {
+    if ((!$ymail) || ($ymail == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $ymail))) {
         $stop = true;
     }
 
@@ -238,12 +237,11 @@ function RecommendSite()
         </div>
     </form>';
 
-    $arg1 = '
-    var formulid = ["friendrecomsite"];
-    inpandfieldlen("yname",100);
-    inpandfieldlen("ymail",100);
-    inpandfieldlen("fname",100);
-    inpandfieldlen("fmail",100);';
+    $arg1 = 'var formulid = ["friendrecomsite"];
+        inpandfieldlen("yname",100);
+        inpandfieldlen("ymail",100);
+        inpandfieldlen("fname",100);
+        inpandfieldlen("fmail",100);';
 
     adminfoot('fv', '', $arg1, '');
 }
@@ -269,7 +267,7 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
     $fname = removeHack($fname);
     $message = translate('Bonjour') . " $fname :\n\n" . translate('Votre ami') . " $yname " . translate('a trouvé notre site') . " $sitename " . translate('intéressant et a voulu vous le faire connaître.') . "\n\n$sitename : <a href=\"$nuke_url\">$nuke_url</a>\n\n";
 
-    include 'signat.php';
+    include 'config/signat.php';
 
     $fmail = removeHack($fmail);
     $subject = removeHack($subject);

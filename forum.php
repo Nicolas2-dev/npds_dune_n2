@@ -33,7 +33,7 @@ if ($op == 'maj_subscribe') {
 
         $result = sql_query("SELECT forum_id 
                              FROM " . sql_prefix('forums') . " 
-                             ORDER BY forum_index,forum_id");
+                             ORDER BY forum_index, forum_id");
 
         while (list($forumid) = sql_fetch_row($result)) {
             if (is_array($Subforumid)) {

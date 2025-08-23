@@ -972,7 +972,7 @@ function Configure()
     // Footer of Email send by NPDS
     settype($message, 'string');
 
-    include 'signat.php';
+    include 'config/signat.php';
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-sm-12" for="xEmailFooter">' . adm_translate('Pied') . ' ' . adm_translate('de') . ' Email</label> 

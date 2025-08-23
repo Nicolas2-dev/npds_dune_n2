@@ -438,8 +438,8 @@ function listdownloads($dcategory, $sortby, $sortorder)
         echo '</td>
         <td class="small text-center">';
 
-        echo ($dfilesize != 0) 
-            ? $FichX->file_size_format($dfilesize, 1) 
+        echo ($dfilesize != 0)
+            ? $FichX->file_size_format($dfilesize, 1)
             : $FichX->file_size_auto($durl, 2);
 
         echo '</td>
@@ -572,7 +572,7 @@ function broken($did)
 
             $message = $nuke_url . "\n" . translate('Téléchargements') . " ID : $did\n" . translate('Auteur') . " $cookie[1] / IP : " . getip() . "\n\n";
 
-            include 'signat.php';
+            include 'config/signat.php';
 
             send_email($notify_email, html_entity_decode(translate('Rapporter un lien rompu'), ENT_COMPAT | ENT_HTML401, 'UTF-8'), nl2br($message), $notify_from, false, "html", '');
 

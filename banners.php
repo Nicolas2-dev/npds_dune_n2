@@ -34,8 +34,9 @@ function viewbanner()
         if ($numrows > 0) {
             mt_srand((float)microtime() * 1000000);
             $bannum = mt_rand(0, $numrows);
-        } else{
-            break;}
+        } else {
+            break;
+        }
 
         $bresult2 = sql_query("SELECT bid, userlevel 
                                FROM " . sql_prefix('banner') . " 
@@ -44,7 +45,7 @@ function viewbanner()
 
         list($bid, $userlevel) = sql_fetch_row($bresult2);
 
-        if ($userlevel == 0){
+        if ($userlevel == 0) {
             $okprint = true;
         } else {
             if ($userlevel == 1) {
@@ -73,7 +74,7 @@ function viewbanner()
         if ($rowQ1) {
             $myrow = $rowQ1[0]; // erreur à l'install quand on n'a pas de banner dans la base ....
             $bid = $myrow['bid'];
-            
+
             $okprint = true;
         }
     }
@@ -83,10 +84,11 @@ function viewbanner()
         global $myIP;
         $myhost = getip();
 
-        if ($myIP != $myhost){
+        if ($myIP != $myhost) {
             sql_query("UPDATE " . sql_prefix('banner') . " 
                        SET impmade=impmade+1 
-                       WHERE bid='$bid'");}
+                       WHERE bid='$bid'");
+        }
 
         if (($numrows > 0) and ($bid)) {
             $aborrar = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, date 
@@ -103,11 +105,11 @@ function viewbanner()
                            WHERE bid='$bid'");
             }
 
-            if ($imageurl != ''){
+            if ($imageurl != '') {
                 echo '<a href="banners.php?op=click&amp;bid=' . $bid . '" target="_blank">
                     <img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="banner" loading="lazy" />
                 </a>';
-            }else {
+            } else {
                 if (stristr($clickurl, '.txt')) {
                     if (file_exists($clickurl)) {
                         include_once $clickurl;
@@ -183,7 +185,7 @@ function IncorrectLogin()
         <br />
         <button class="btn btn-secondary mt-2" onclick="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</button>
     </div>';
-    
+
     footer_page();
 }
 
@@ -192,7 +194,7 @@ function header_page()
     global $Titlesitename, $Default_Theme, $language;
 
     include_once 'modules/upload/upload.conf.php';
-    
+
     include 'storage/meta/meta.php';
 
     if ($url_upload_css) {
@@ -402,8 +404,9 @@ function bannerstats($login, $pass)
             adminfoot('fv', '', '', 'no');
 
             footer_page();
-        } else{
-            IncorrectLogin();}
+        } else {
+            IncorrectLogin();
+        }
     }
 }
 
@@ -428,15 +431,15 @@ function EmailStats($login, $cid, $bid)
 
             echo '<p align="center">
                 <br />
-                ' . translate('Les statistiques pour la bannières ID') . ' : ' . $bid .' '. translate('ne peuvent pas être envoyées.') . '
+                ' . translate('Les statistiques pour la bannières ID') . ' : ' . $bid . ' ' . translate('ne peuvent pas être envoyées.') . '
                 <br />
                 <br />
-                ' . translate('Email non rempli pour : ') .' $name
+                ' . translate('Email non rempli pour : ') . ' $name
                 <br />
                 <br />
                 <a href="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</a>
             </p>';
-            
+
             footer_page();
         } else {
             $result = sql_query("SELECT bid, imptotal, impmade, clicks, imageurl, clickurl, date 
@@ -463,18 +466,18 @@ function EmailStats($login, $cid, $bid)
 
             $message = nl2br(
                 "Client : $name\n"
-                . translate('Bannière') . " ID : $bid\n"
-                . translate('Bannière') . " Image : $imageurl\n"
-                . translate('Bannière') . " URL : $clickurl\n\n"
-                . "Impressions " . translate('Réservées') . " : $imptotal\n"
-                . "Impressions " . translate('Réalisées') . " : $impmade\n"
-                . "Impressions " . translate('Restantes') . " : $left\n"
-                . "Clicks " . translate('Reçus') . " : $clicks\n"
-                . "Clicks " . translate('Pourcentage') . " : $percent%\n\n"
-                . translate('Rapport généré le') . ' : ' . $fecha . "\n\n"
+                    . translate('Bannière') . " ID : $bid\n"
+                    . translate('Bannière') . " Image : $imageurl\n"
+                    . translate('Bannière') . " URL : $clickurl\n\n"
+                    . "Impressions " . translate('Réservées') . " : $imptotal\n"
+                    . "Impressions " . translate('Réalisées') . " : $impmade\n"
+                    . "Impressions " . translate('Restantes') . " : $left\n"
+                    . "Clicks " . translate('Reçus') . " : $clicks\n"
+                    . "Clicks " . translate('Pourcentage') . " : $percent%\n\n"
+                    . translate('Rapport généré le') . ' : ' . $fecha . "\n\n"
             );
-            
-            include 'signat.php';
+
+            include 'config/signat.php';
 
             send_email($email, $subject, $message, '', true, 'html', '');
 
@@ -528,7 +531,7 @@ function change_banner_url_by_client($login, $pass, $cid, $bid, $url)
                 ' . translate('Retour en arrière') . '
             </a>
         </div>';
-    } else{
+    } else {
         echo '<div class="alert alert-danger">
             ' . translate('Identifiant incorrect !') . '
             <br />
