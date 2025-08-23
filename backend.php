@@ -1,5 +1,6 @@
 <?php
 
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -15,17 +16,32 @@
 
 include 'mainfile.php';
 
+include 'library/feed/HtmlDescribable.php';
+include 'library/feed/FeedCreator.php';
+include 'library/feed/AtomCreator03.php';
+include 'library/feed/FeedCreatorConfig.php';
+include 'library/feed/FeedDate.php';
+include 'library/feed/FeedHtmlField.php';
+include 'library/feed/FeedImage.php';
+include 'library/feed/FeedItem.php';
+include 'library/feed/MBOXCreator.php';
+include 'library/feed/OPMLCreator.php';
+include 'library/feed/RSSCreator091.php';
+include 'library/feed/RSSCreator10.php';
+include 'library/feed/RSSCreator20.php';
+include 'library/feed/UniversalFeedCreator.php';
+
 function fab_feed($type, $filename, $timeout)
 {
     global $sitename, $slogan, $nuke_url, $backend_image, $backend_title, $backend_width, $backend_height, $backend_language, $storyhome;
 
-    //include 'library/feed/feedcreator.class.php';
-
     FeedCreatorConfig::setTimeZone('Europe/Paris');
     FeedCreatorConfig::setVersion('FeedCreator 2.1 for NPDS');
 
+    $path = 'storage/feed/';
+
     $rss = new UniversalFeedCreator();
-    $rss->useCached($type, $filename, $timeout);
+    $rss->useCached($type, $path . $filename, $timeout);
 
     $rss->title = $sitename;
     $rss->description = $slogan;
@@ -67,7 +83,7 @@ function fab_feed($type, $filename, $timeout)
         $rss->addItem($item);
     }
 
-    echo $rss->saveFeed($type, $filename);
+    echo $rss->saveFeed($type, $path . $filename);
 }
 
 // Format : RSS0.91, RSS1.0, RSS2.0, MBOX, OPML, ATOM
@@ -78,30 +94,30 @@ $op = strtoupper($op);
 switch ($op) {
 
     case 'MBOX':
-        fab_feed('MBOX', 'cache/MBOX-feed', 3600);
+        fab_feed('MBOX', 'MBOX-feed', 3600);
         break;
 
     case 'OPML':
-        fab_feed('OPML', 'cache/OPML-feed.xml', 3600);
+        fab_feed('OPML', 'OPML-feed.xml', 3600);
         break;
 
     case 'ATOM':
-        fab_feed('ATOM', 'cache/ATOM-feed.xml', 3600);
+        fab_feed('ATOM', 'ATOM-feed.xml', 3600);
         break;
 
     case 'RSS1.0':
-        fab_feed('RSS1.0', 'cache/RSS1.0-feed.xml', 3600);
+        fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
         break;
 
     case 'RSS2.0':
-        fab_feed('RSS2.0', 'cache/RSS2.0-feed.xml', 3600);
+        fab_feed('RSS2.0', 'RSS2.0-feed.xml', 3600);
         break;
 
     case 'RSS0.91':
-        fab_feed('RSS0.91', 'cache/RSS0.91-feed.xml', 3600);
+        fab_feed('RSS0.91', 'RSS0.91-feed.xml', 3600);
         break;
 
     default:
-        fab_feed('RSS1.0', 'cache/RSS1.0-feed.xml', 3600);
+        fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
         break;
 }

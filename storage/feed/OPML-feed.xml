@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 2.1 for NPDS" -->
+<opml xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <head>
+        <title>test dev</title>
+    </head>
+    <body>
+    <outline type="rss"  title="Les th&amp;egrave;mes de NPDS" text="Les th&amp;egrave;mes de NPDS" url="https://dev.twocms.fr/article.php?sid=4"/>
+    <outline type="rss"  title="Les modules de NPDS" text="Les modules de NPDS" url="https://dev.twocms.fr/article.php?sid=3"/>
+    <outline type="rss"  title="NPDS embarque un excellent &amp;eacute;diteur HTML !" text="NPDS embarque un excellent &amp;eacute;diteur HTML !" url="https://dev.twocms.fr/article.php?sid=2"/>
+    <outline type="rss"  title="Comment modifier et / ou supprimer EDITO" text="Comment modifier et / ou supprimer EDITO" url="https://dev.twocms.fr/article.php?sid=1"/>
+    </body>
+</opml>

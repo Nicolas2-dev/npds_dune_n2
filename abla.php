@@ -82,8 +82,7 @@ if ($admin) {
         $timex = $timex . ' ' . translate('Seconde(s)');
     }
 
-    echo '
-    <hr />
+    echo '<hr />
     <p class="lead mb-3">' . translate('Statistiques générales') . ' - ' . translate('Dernières stats') . ' : ' . $timex . ' </p>
     <table class="mb-2" data-toggle="table" data-classes="table mb-2">
         <thead class="collapse thead-default">

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 2.1 for NPDS" -->
+<rss version="0.91">
+    <channel>
+        <title>test dev</title>
+        <description><![CDATA[dev test npds]]></description>
+        <link>https://dev.twocms.fr</link>
+        <lastBuildDate>Sun, 24 Aug 2025 00:07:58</lastBuildDate>
+        <generator>FeedCreator 2.1 for NPDS</generator>
+        <image>
+            <url></url>
+            <title>test dev</title>
+            <link>https://dev.twocms.fr</link>
+            <width>90</width>
+            <height>30</height>
+            <description>NPDS</description>
+        </image>
+        <item>
+            <title>Les th&amp;egrave;mes de NPDS</title>
+            <link>https://dev.twocms.fr/article.php?sid=4</link>
+            <description><![CDATA[<p style="text-align: left;"><a href="http://www.npds.org" target="_blank" title="www.npds.org">NPDS</a> 16.8 dispose de 9 th&egrave;mes graphiques dont 4 skinable (26 skins disponibles *)&nbsp;ce qui donne donc 109 visualisations diff&eacute;rentes du portail (et bien plus encore en utilisant les possibilit&eacute;s de configuration du fichier pages.php) !</p><br /><p style="text-align: left;">* Vous pouvez visualiser ces diff&eacute;rents skins ici &nbsp;<a href="/themes/_skins/default"><span class="fa fa-paint-brush fa-2x">&nbsp;</span></a></p><br /><p>Vous pouvez aussi visiter <a title="Tous les THEMES pour NPDS" href="http://styles.npds.org/" target="_blank" rel="noopener">http://styles.npds.org</a>, bien que non &agrave; jour ce site avec plus de 100 th&egrave;mes disponibles pour les versions inf&eacute;rieures &agrave; 16 vous permettra certainement de trouver des id&eacute;es, conseils et tutoriels encore utiles pour cr&eacute;er votre propre th&egrave;me.</p>]]></description>
+            <author>Root</author>
+            <pubDate>Tue, 28 Feb 2023 17:59:36</pubDate>
+        </item>
+        <item>
+            <title>Les modules de NPDS</title>
+            <link>https://dev.twocms.fr/article.php?sid=3</link>
+            <description><![CDATA[<div style="text-align: left;"><br /><p><a href="http://www.npds.org" target="_blank" title="www.npds.org">NPDS</a> dispose de nombreux <strong>modules</strong> ajoutant des fonctionnalit&eacute;s tr&egrave;s diverses &agrave; votre site.</p><br /><p>Certain sont embarqu&eacute;s avec l'archive : les <strong>modules du core&nbsp;</strong>(pr&ecirc;t &agrave; l'emploi et non d&eacute;sinstallables car ils sont directement utilis&eacute;s par le core ) ; les <strong>modules externes&nbsp;</strong>installables et d&eacute;sinstallables &agrave; tout moment...</p><br /><p><strong>- Les modules core</strong></p><br /><ul><li>module contact</li><li>module upload</li><li>module de g&eacute;olocalisation</li><li>module de liens</li><li>module twitter</li><li>etc ...</li></ul><br /><p><strong>- Les modules externes disponibles dans l'archive</strong></p><br /><ul><li>module d'archive d'article</li><li>module de marque page</li><li>module de bloc note</li><li>etc ...</li></ul><br /><strong>- Les modules externes non disponible dans l'archive </strong></div><br /><div style="text-align: left;"><br />Actuellement seulement 5 modules ont &eacute;t&eacute; mis &agrave; niveau (responsive design et compatibilit&eacute; 16.8) ils b&eacute;n&eacute;ficient tous d'une installation automatique facile ...<br /><ul><li>npds_galerie</li><li>npds_glossaire</li><li>npds_annonce</li><li>npds_agenda</li><li>quizz</li></ul><br /><p>Vous pouvez les trouver en t&eacute;l&eacute;chargement ici <a href="https://github.com/npds" target="_blank" rel="noopener">https://github.com/npds</a></p><br /><p>Beaucoup d'autre modules (compatible avec la version 13) restent &agrave; mettre &agrave; jour pour qu'ils fonctionnent avec les versions =&gt; 16 &nbsp;de <a href="http://www.npds.org" target="_blank" title="www.npds.org">NPDS</a>. Ils sont disponibles ici <a href="http://modules.npds.org/" target="_blank" rel="noopener">http://modules.npds.org</a></p><br /></div>]]></description>
+            <author>Root</author>
+            <pubDate>Tue, 28 Feb 2023 14:11:32</pubDate>
+        </item>
+        <item>
+            <title>NPDS embarque un excellent &amp;eacute;diteur HTML !</title>
+            <link>https://dev.twocms.fr/article.php?sid=2</link>
+            <description><![CDATA[<div class="mceTmpl"><br /><div class="row my-2"><br /><div class="col-sm-6"><br /><p>L'<span style="font-weight: bold;">&eacute;diteur HTML</span> int&eacute;gr&eacute; dans <span style="font-weight: bold;">NPDS</span> est vraiment <span style="font-style: italic;">tr&egrave;s puissant</span> ! <a href="https://www.tiny.cloud" target="_blank" rel="noopener">TinyMCE</a>, c'est son nom, vous permet de saisir et de mettre en forme le texte directement depuis votre navigateur.</p><br /></div><br /><div class="col-sm-6"><br /><p><span style="font-weight: bold;">L'envoi d'images</span> sur votre site est <span style="font-style: italic;">tr&egrave;s simple</span> si vous souhaitez illustrer vos textes, et vous pouvez aussi faire des <span style="font-weight: bold;">copier/coller</span> depuis nimporte quel logiciel de <span style="font-weight: bold;">traitement de texte</span> !</p><br /></div><br /><div class="col-sm-12"><br /><p style="text-align: justify;">Combin&eacute; au fonctions sp&eacute;cifique de <a href="http://www.npds.org" target="_blank" title="www.npds.org">NPDS</a> : mod&egrave;les de pages, banques d'images, metalang, &nbsp;upload ... etc &nbsp;cet <span style="font-weight: bold;">&eacute;diteur HTML</span> vous permettra vraiment de publier un contenu richement mis en forme que ce soit depuis votre ordinateur ou votre smartphone !</p><br /></div><br /></div><br /></div>]]></description>
+            <author>Root</author>
+            <pubDate>Tue, 28 Feb 2023 00:08:39</pubDate>
+        </item>
+        <item>
+            <title>Comment modifier et / ou supprimer EDITO</title>
+            <link>https://dev.twocms.fr/article.php?sid=1</link>
+            <description><![CDATA[<b>L'EDITO </b>est la <b>premi&egrave;re chose que les visiteurs visualiseront</b> en arrivant sur votre nouveau <b>site NPDS</b>.<br /><br />Vous pouvez l'<b>&eacute;diter</b> pour le personnaliser, ainsi que choisir de l'afficher ou non. <br />Pour toute modification, l'<b>&eacute;diteur int&eacute;gr&eacute; &agrave; NPDS</b> vous simplifiera &eacute;norm&eacute;ment la t&acirc;che !<br /><br />Enfin, vous pouvez d&eacute;cider dans les <i>pr&eacute;f&eacute;rences administrateur</i> de la page que vous souhaitez utiliser <b>comme index de votre site</b>:
+ce n'est donc pas forc&eacute;ment l'EDITO, et votre imagination laissera entrevoir bien d'autres possibilit&eacute;s !<br />]]></description>
+            <author>Root</author>
+            <pubDate>Tue, 28 Feb 2023 04:01:52</pubDate>
+        </item>
+    </channel>
+</rss>

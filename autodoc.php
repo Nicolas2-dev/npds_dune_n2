@@ -38,7 +38,7 @@ function dochead($a, $b)
 
         include $path;
 
-        include 'modules/include/header_head.inc';
+        include 'themes/base/bootstrap/header_head.php';
 
         echo '</head>
         <body class="my-3 mx-3">
