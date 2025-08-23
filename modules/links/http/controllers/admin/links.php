@@ -27,19 +27,19 @@ global $language, $links_DB;
 
 $pos = strpos($ModPath, '/admin');
 
-include_once 'modules/' . substr($ModPath, 0, $pos) . '/config/config.php';
-//include_once 'modules/' . $ModPath . '/config/config.php';
+//include_once 'modules/' . substr($ModPath, 0, $pos) . '/config/config.php';
+include_once 'modules/' . $ModPath . '/config/config.php';
 
 if ($links_DB == '') {
     $links_DB = sql_prefix('');
 }
 
-$hlpfile = 'modules/' . substr($ModPath, 0, $pos) . '/manuels/' . $language . '/mod-weblinks.php';
-//$hlpfile = 'modules/' . $ModPath . '/manuels/$language/mod-weblinks.php';
+//$hlpfile = 'modules/' . substr($ModPath, 0, $pos) . '/manuels/' . $language . '/mod-weblinks.php';
+$hlpfile = 'modules/' . $ModPath . '/views/manuels/' . $language . '/mod-weblinks.php';
 
 if (autorisation(-127)) {
     $result = sql_query("SELECT radminsuper 
-                         FROM " . sql_prefix('') . "authors 
+                         FROM " . sql_prefix('authors') . " 
                          WHERE aid='$aid'");
 
     list($radminsuper) = sql_fetch_row($result);
