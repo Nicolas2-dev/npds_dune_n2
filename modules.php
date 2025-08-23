@@ -43,7 +43,7 @@ if (filtre_module($ModPath) and filtre_module($ModStart)) {
         include 'mainfile.php';
     }
 
-    $isControllerAdmin = (strpos($ModPath, 'admin') !== false); // || (strpos($ModStart, 'admin') !== false);
+    $isControllerAdmin = (strpos($ModPath, 'admin') !== false);
 
     if ($isControllerAdmin) {
         $pos = strpos($ModPath, '/admin');
@@ -53,8 +53,6 @@ if (filtre_module($ModPath) and filtre_module($ModStart)) {
     $controllerPath = $isControllerAdmin
         ? "modules/{$ModPath}/http/controllers/admin/{$ModStart}.php"
         : "modules/{$ModPath}/http/controllers/front/{$ModStart}.php";
-
-//dump($controllerPath);
 
     if (file_exists($controllerPath)) {
         include $controllerPath;
