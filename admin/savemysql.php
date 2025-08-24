@@ -28,7 +28,7 @@ admindroits($aid, $f_meta_nom);
 
 $name = $aid;
 
-include 'library/compress/archive.php';
+include 'library/compress/Archive.php';
 include 'library/compress/helpers.php';
 
 mysqli_set_charset($dblink, 'utf8mb4');
