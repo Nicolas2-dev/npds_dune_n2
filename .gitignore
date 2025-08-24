@@ -1,5 +1,4 @@
 # Ignorer le dossier npds/dev
-config/config.php
 
 # ignorer tout dans npds/
 npds/*
