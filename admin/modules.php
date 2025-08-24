@@ -55,8 +55,6 @@ closedir($handle);
 
 $modlist = explode(" ", rtrim($modlist));
 
-dump($modlist);
-
 $whatondb = sql_query("SELECT mnom 
                        FROM " . sql_prefix('modules'));
 
