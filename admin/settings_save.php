@@ -462,7 +462,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     $content .= "# Do not touch the following options !\n";
     $content .= "$line";
     $content .= "\n";
-    $content .= "\sql_prefix('') = \"sql_prefix('')\";\n";
+    $content .= "\$NPDS_Prefix = \"$NPDS_Prefix\";\n";
 
     if ($NPDS_Key == '') {
         $NPDS_Key = uniqid("");
