@@ -150,7 +150,7 @@ class ZipFile extends Archive
     /**
      * Retourne les données de l'archive ZIP
      */
-    protected function getArchiveData(): string
+    public function getArchiveData(): string
     {
         $central = implode('', $this->central);
         $zipData = implode('', $this->zipData);

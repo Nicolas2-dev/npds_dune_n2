@@ -119,7 +119,7 @@ class GzFile extends Archive
     /**
      * Retourne les données de l'archive
      */
-    protected function getArchiveData(): string
+    public function getArchiveData(): string
     {
         return $this->gzData;
     }

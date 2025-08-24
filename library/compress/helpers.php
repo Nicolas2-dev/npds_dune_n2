@@ -43,7 +43,7 @@ function send_file($line, $filename, $extension, $MSos)
         }
 
         $arc->addfile($line, $filename . '.' . $extension, '');
-        $arc->arc_getdata();
+        $arc->getArchiveData();
         $arc->filedownload($filez);
     } else {
         if ($MSos) {
@@ -81,7 +81,7 @@ function send_tofile($line, $repertoire, $filename, $extension, $MSos)
         }
 
         $arc->addfile($line, $filename . '.' . $extension, '');
-        $arc->arc_getdata();
+        $arc->getArchiveData();
 
         if (file_exists($repertoire . '/' . $filez)) {
             unlink($repertoire . '/' . $filez);

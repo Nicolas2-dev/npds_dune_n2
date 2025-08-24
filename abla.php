@@ -32,17 +32,19 @@ admindroits($aid, $f_meta_nom);
 
 function row_span($total, $xtotal)
 {
-    echo '<td>' . wrh($total) . ' (';
+    $content = '<td>' . wrh($total) . ' (';
 
     if ($total > $xtotal) {
-        echo '<span class="text-success">+';
+        $content .= '<span class="text-success">+';
     } elseif ($total < $xtotal) {
-        echo '<span class="text-danger">';
+        $content .= '<span class="text-danger">';
     } else {
-        echo '<span>';
+        $content .= '<span>';
     }
 
-    echo wrh($total - $xtotal) . '</span>)</td>';
+    $content .= wrh($total - $xtotal) . '</span>)</td>';
+
+    return $content;
 }
 
 global $admin;
