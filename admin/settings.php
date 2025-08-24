@@ -243,9 +243,8 @@ function Configure()
         <div class="form-floating mb-3">
             <select class="form-select" id="xDefault_Theme" name="xDefault_Theme">';
 
-    include 'themes/list.php';
+    $themelist = explode(" ", theme_list());
 
-    $themelist = explode(" ", $themelist);
     for ($i = 0; $i < sizeof($themelist); $i++) {
         if ($themelist[$i] != '') {
             echo '<option value="' . $themelist[$i] . '" ';
@@ -267,7 +266,7 @@ function Configure()
         <select class="form-select" id="xDefault_Skin" name="xDefault_Skin">';
 
     // les skins disponibles
-    $handle = opendir('themes/_skins');
+    $handle = opendir('assets/skins');
 
     while (false !== ($file = readdir($handle))) {
         if (($file[0] !== '_')
@@ -277,13 +276,13 @@ function Configure()
         ) {
             $skins[] = array(
                 'name' => $file,
-                'description' => '',
-                'thumbnail' => $file . '/thumbnail',
-                'preview' => $file . '/',
-                'css' => $file . '/bootstrap.css',
-                'cssMin' => $file . '/bootstrap.min.css',
-                'cssxtra' => $file . '/extra.css',
-                'scss' => $file . '/_bootswatch.scss',
+                'description'   => '',
+                'thumbnail'     => $file . '/thumbnail',
+                'preview'       => $file . '/',
+                'css'           => $file . '/bootstrap.css',
+                'cssMin'        => $file . '/bootstrap.min.css',
+                'cssxtra'       => $file . '/extra.css',
+                'scss'          => $file . '/_bootswatch.scss',
                 'scssVariables' => $file . '/_variables.scss'
             );
         }
@@ -296,6 +295,7 @@ function Configure()
     }
 
     asort($skins);
+
     foreach ($skins as $k => $v) {
         echo '<option value="' . $skins[$k]['name'] . '" ';
 
@@ -323,10 +323,8 @@ function Configure()
         <div class="form-floating mb-3">
         <select class="form-select" id="xlanguage" name="xlanguage">';
 
-    include 'manuels/list.php';
-
-    // var_dump($language);// ici la valeur de la variable est celle choisi par l'utilisateur 
-    $languageslist = explode(' ', $languageslist);
+    $languageslist = explode(' ', language_list());
+    
     $nb_language = sizeof($languageslist);
 
     for ($i = 0; $i < $nb_language; $i++) {
