@@ -40,7 +40,7 @@ $co_unit = "dms";
 $ch_img = "modules/geoloc/assets/images/"; 
 
 // Autorisation de géolocalisation des IP 
-$geo_ip = 0; 
+$geo_ip = 1; 
 
 // Clef API pour provider IP ipdata 
 $api_key_ipdata = ""; 

@@ -88,13 +88,19 @@ if (autorisation(-127)) {
         $spamip = array();
         $spamipfile = file('storage/logs/spam.log');
 
+        $a = [];
+        $b = [];
+
         foreach ($spamipfile as $v) {
             $ab = explode('|', $v);
             $a[] = $ab[0];
             $b[] = trim($ab[1]);
         }
 
-        $spamip = array_combine($a, $b);
+        //$spamip = array_combine($a, $b);
+        if ($a && $b) {
+            $spamip = array_combine($a, $b);
+        }
 
         $sidebarip = '';
         $tab_ip = '';
@@ -1928,7 +1934,7 @@ $affi .= '</div>
         </div>
         <ul class="nav nav-tabs mt-4">
             <li class="nav-item"><a id="messinfo-tab" class="nav-link active" href="#infocart" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-info fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Infos carte') . '</span></a></li>
-            <li class="nav-item"><a id="aide-tab" class="nav-link" href="modules/geoloc/doc/aide_geo-' . $language . '.html" data-bs-target="#aide" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-question fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Aide') . '</span></a></li>';
+            <li class="nav-item"><a id="aide-tab" class="nav-link" href="modules/geoloc/views/manuels/' . $language . '/aide_geo-' . $language . '.html" data-bs-target="#aide" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-question fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Aide') . '</span></a></li>';
 
 if (autorisation(-127) and $geo_ip == 1) {
     $affi .= '<li class="nav-item"><a id="iplist-tab" class="nav-link " href="#ipgeolocalisation" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-tv fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Ip liste') . '</span></a></li>';
