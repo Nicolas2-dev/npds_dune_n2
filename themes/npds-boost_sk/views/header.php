@@ -19,16 +19,16 @@
  * col_RB contient les blocs historiquement dit de droite
  * 
  * Dans ce thème la variable $pdst permet de gérer le nombre et la disposition (de gauche à droite) des colonnes.
- * "-1" -> col_princ
- * "0"  -> col_LB + col_princ
- * "1"  -> col_LB + col_princ + col_RB
- * "2"  -> col_princ + col_RB
- * "3"  -> col_LB + col_RB + col_princ
- * "4"  -> col_princ + col_LB + col_RB
- * "5"  -> col_RB + col_princ
- * "6"  -> col_princ + col_LB
+ * '-1' -> col_princ
+ * '0'  -> col_LB + col_princ
+ * '1'  -> col_LB + col_princ + col_RB
+ * '2'  -> col_princ + col_RB
+ * '3'  -> col_LB + col_RB + col_princ
+ * '4'  -> col_princ + col_LB + col_RB
+ * '5'  -> col_RB + col_princ
+ * '6'  -> col_princ + col_LB
  *     
- * La gestion de ce paramètre s'effectue dans le fichier "pages.php" du dossier "themes
+ * La gestion de ce paramètre s'effectue dans le fichier 'pages.php' du dossier 'themes
  */
 
 $coltarget = '';

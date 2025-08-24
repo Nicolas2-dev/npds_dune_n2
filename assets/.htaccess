@@ -20,6 +20,11 @@ Options -Indexes
     Require all granted
 </Files>
 
+# Exception : autoriser uniquement emojicontroller.php
+<Files "listskin.php">
+    Require all granted
+</Files>
+
 # Redirige les dossiers sans index vers index.php
 RewriteEngine On
 

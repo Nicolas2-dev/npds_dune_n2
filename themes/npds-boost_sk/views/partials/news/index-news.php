@@ -5,8 +5,7 @@
         <div class="card-text article_texte"> !N_texte! </div>
         <?php
         if ($notes != '') {
-            echo '
-   <blockquote class="blockquote">' . $notes . '</blockquote>';
+            echo '<blockquote class="blockquote">' . $notes . '</blockquote>';
         }
         ?>
         <hr />

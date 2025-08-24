@@ -120,5 +120,5 @@ echo '<script type="text/javascript">
     </script>';
 
 // Ne supprimez pas cette ligne / Don't remove this line
-require_once "themes/base/views/footer.php";
+require_once 'themes/base/views/footer.php';
     // Ne supprimez pas cette ligne / Don't remove this line

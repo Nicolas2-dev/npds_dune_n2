@@ -38,8 +38,10 @@ function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext,
 
     if (file_exists('themes/' . $theme . '/views/partials/news/index-news.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/news/index-news.php';
+
     } elseif (file_exists('themes/base/views/partials/news/index-news.php')) {
         $inclusion = 'themes/base/views/partials/news/index-news.php';
+
     } else {
         echo 'index-news.php manquant / not find !<br />';
         die();
@@ -131,8 +133,10 @@ function themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicn
 
     if (file_exists("themes/" . $theme . "/views/partials/news/detail-news.php")) {
         $inclusion = "themes/" . $theme . "/views/partials/news/detail-news.php";
+
     } elseif (file_exists("themes/base/views/partials/news/detail-news.php")) {
         $inclusion = "themes/base/views/partials/news/detail-news.php";
+
     } else {
         echo 'detail-news.php manquant / not find !<br />';
         die();
@@ -213,8 +217,10 @@ function themesidebox($title, $content)
     if (!$inclusion) {
         if (file_exists('themes/' . $theme . '/views/partials/block/bloc.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/block/bloc.php';
+
         } elseif (file_exists('themes/base/views/partials/block/bloc.php')) {
             $inclusion = 'themes/base/views/partials/block/bloc.php';
+
         } else {
             echo 'bloc.php manquant / not find !<br />';
             die();
@@ -253,8 +259,10 @@ function themedito($content)
 
     if (file_exists('themes/' . $theme . '/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/edito/editorial.php';
+
     } elseif (file_exists('themes/base/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/base/views/partials/edito/editorial.php';
+
     } else {
         echo 'editorial.php manquant / not find !<br />';
         die();
@@ -301,8 +309,8 @@ function userpopover($who, $dim, $avpop)
 
                 $posterdata_extend = get_userdata_extend_from_id($temp_user['uid']);
 
-                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
-                include 'modules/geoloc/geoloc.conf';
+                include 'modules/reseaux-sociaux/config/config.php';
+                include 'modules/geoloc/config/config.php';
 
                 if ($user or autorisation(-127)) {
                     if ($posterdata_extend['M2'] != '') {
