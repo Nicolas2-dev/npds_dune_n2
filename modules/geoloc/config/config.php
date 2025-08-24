@@ -37,7 +37,7 @@ $cartyp = "sat-google";
 $co_unit = "dms"; 
 
 // Chemin des images 
-$ch_img = "modules/geoloc/assets/shared/"; 
+$ch_img = "modules/geoloc/assets/images/"; 
 
 // Autorisation de géolocalisation des IP 
 $geo_ip = 0; 

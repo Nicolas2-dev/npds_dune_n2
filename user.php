@@ -746,7 +746,7 @@ function userinfo($uname)
 
     $file = '';
 
-    $handle = opendir('modules/comments');
+    $handle = opendir('modules/comments/config');
 
     while (false !== ($file = readdir($handle))) {
         //if (!preg_match('#\.conf\.php$#i', $file)) {
@@ -756,7 +756,7 @@ function userinfo($uname)
 
         $topic = '#topic#';
 
-        include 'modules/comments/' . $file;
+        include 'modules/comments/config/' . $file;
 
         $filelist[$forum] = $url_ret;
     }
