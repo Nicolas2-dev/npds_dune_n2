@@ -25,7 +25,7 @@ $f_titre = adm_translate('Configuration des Forums');
 admindroits($aid, $f_meta_nom);
 
 global $language, $adminimg, $admf_ext;
-$hlpfile = 'manuels/' . $language . '/forumconfig.html';
+$hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
 
 function ForumConfigAdmin()
 {

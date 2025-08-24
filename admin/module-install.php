@@ -32,7 +32,7 @@ if (!function_exists('admindroits')) {
 $f_meta_nom = 'modules';
 $f_titre = adm_translate('Gestion, Installation Modules');
 
-//==> controle droit
+// controle droit
 admindroits($aid, $f_meta_nom);
 
 $hlpfile = '';
@@ -48,8 +48,7 @@ function nmig_copyright()
         $clspin = ' text-danger';
     }
 
-    $display = '
-    <hr class="mt-4" />
+    $display = '<hr class="mt-4" />
     <div class="d-flex align-items-center">
         <div role="status" class="small">Installation by NPDS Module Installer v2.0</div>
         <div class="spinner-border ms-auto ' . $clspin . '" aria-hidden="true"  style="width: 1.5rem; height: 1.5rem;"></div>
@@ -264,7 +263,7 @@ function nmig_WriteConfig($list_fich, $try_Chmod)
             $file_created = 1;
         }
 
-        if ($list_fich[0][$i] == 'modules/include/body_onload.inc') {
+        if ($list_fich[0][$i] == 'themes/base/bootstrap/body_onload.php') {
             $file = fopen($list_fich[0][$i], 'r');
             $txtconfig = fread($file, filesize($list_fich[0][$i]));
             fclose($file);
@@ -521,8 +520,8 @@ if ($ModInstall != '' && $ModDesinstall == '') {
                              WHERE mnom= '" . $ModInstall . "'");
     }
 
-    if (file_exists('modules/' . $ModInstall . '/install.conf.php')) {
-        include('modules/' . $ModInstall . '/install.conf.php');
+    if (file_exists('modules/' . $ModInstall . '/config/install.php')) {
+        include('modules/' . $ModInstall . '/config/install.php');
     } else {
         redirect_url('admin.php?op=modules');
         die();
@@ -611,8 +610,8 @@ if ($ModInstall != '' && $ModDesinstall == '') {
             break;
     }
 } elseif ($ModInstall == '' && $ModDesinstall != '') {
-    if (file_exists('modules/' . $ModDesinstall . '/install.conf.php')) {
-        include('modules/' . $ModDesinstall . '/install.conf.php');
+    if (file_exists('modules/' . $ModDesinstall . '/config/install.php')) {
+        include('modules/' . $ModDesinstall . '/config/install.php');
 
         // we get the name of the tables !! a tester avec table prefixé
         settype($tabcreated, 'array');
@@ -671,7 +670,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
 
     //nettoyage
     if ($subop == "desinst") {
-        if (file_exists("modules/" . $ModDesinstall . "/install.conf.php")) {
+        if (file_exists("modules/" . $ModDesinstall . "/config/install.php")) {
 
             list($fid) = sql_fetch_row(sql_query("SELECT fid 
                                                   FROM " . sql_prefix('fonctions') . " 

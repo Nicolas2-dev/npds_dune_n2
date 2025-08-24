@@ -24,7 +24,7 @@ $f_titre = adm_translate('Gestion des forums');
 admindroits($aid, $f_meta_nom);
 
 global $language, $adminimg, $admf_ext;
-$hlpfile = 'manuels/' . $language . '/forumcat.html';
+$hlpfile = 'admin/manuels/' . $language . '/forumcat.html';
 
 include 'auth.php';
 include 'functions.php';
@@ -894,8 +894,7 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
 
         GraphicAdmin($hlpfile);
 
-        echo '
-        <div class="alert alert-danger">
+        echo '<div class="alert alert-danger">
             <p>' . adm_translate('Le Modérateur sélectionné n\'existe pas.') . ' : ' . $error_mod . '</p>
             <a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>
         </div>';
@@ -958,8 +957,7 @@ function ForumCatDel($cat_id, $ok = 0)
         GraphicAdmin($hlpfile);
         adminhead($f_meta_nom, $f_titre, $adminimg);
 
-        echo '
-        <hr />
+        echo '<hr />
         <div class="alert alert-danger">
             <p>' . adm_translate('ATTENTION :  êtes-vous sûr de vouloir supprimer cette Catégorie, ses Forums et tous ses Sujets ?') . '</p>
             <a href="admin.php?op=ForumCatDel&amp;cat_id=' . $cat_id . '&amp;ok=1" class="btn btn-danger me-2">' . adm_translate('Oui') . '</a>
@@ -1001,8 +999,7 @@ function ForumGoDel($forum_id, $ok = 0)
         GraphicAdmin($hlpfile);
         adminhead($f_meta_nom, $f_titre, $adminimg);
 
-        echo '
-        <hr />
+        echo '<hr />
         <div class="alert alert-danger">
             <p>' . adm_translate('ATTENTION :  êtes-vous certain de vouloir effacer ce Forum et tous ses Sujets ?') . '</p>
             <a class="btn btn-danger me-2" href="admin.php?op=ForumGoDel&amp;forum_id=' . $forum_id . '&amp;ok=1">' . adm_translate('Oui') . '</a>

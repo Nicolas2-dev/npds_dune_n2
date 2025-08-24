@@ -28,7 +28,7 @@ admindroits($aid, $f_meta_nom);
 
 $name = $aid;
 
-include 'library/archive.php';
+include 'library/compresse/archive.php';
 
 mysqli_set_charset($dblink, 'utf8mb4');
 
@@ -113,9 +113,8 @@ function get_table_def($table)
 
     sql_free_result($result);
 
-    return ($schema_create);
+    return $schema_create;
 }
-
 
 function get_table_content($table)
 {

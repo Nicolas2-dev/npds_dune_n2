@@ -23,7 +23,7 @@ $f_titre = adm_translate('Sites Référents');
 // controle droit
 admindroits($aid, $f_meta_nom);
 
-$hlpfile = 'manuels/' . $language . '/referer.html';
+$hlpfile = 'admin/manuels/' . $language . '/referer.html';
 
 function hreferer($filter)
 {

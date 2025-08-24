@@ -29,7 +29,7 @@ function ablock()
 
     include 'header.php';
 
-    $hlpfile = 'manuels/' . $language . '/adminblock.html';
+    $hlpfile = 'admin/manuels/' . $language . '/adminblock.html';
 
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);

@@ -24,7 +24,7 @@ $f_titre = 'META-LANG';
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/meta_lang.html';
+$hlpfile = 'admin/manuels/' . $language . '/meta_lang.html';
 
 function go_back($label)
 {

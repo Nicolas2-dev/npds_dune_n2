@@ -23,7 +23,7 @@ $f_meta_nom = 'blocks';
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/rightblocks.html';
+$hlpfile = 'admin/manuels/' . $language . '/rightblocks.html';
 
 function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRaide, $SHTML, $css)
 {

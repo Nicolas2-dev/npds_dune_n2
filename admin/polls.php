@@ -24,7 +24,7 @@ $f_titre = adm_translate('Les sondages');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/surveys.html';
+$hlpfile = 'admin/manuels/' . $language . '/surveys.html';
 
 function poll_createPoll()
 {

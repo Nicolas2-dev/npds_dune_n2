@@ -24,7 +24,7 @@ $f_titre = adm_translate('Diffusion d\'un Message Interne');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/email_user.html';
+$hlpfile = 'admin/manuels/' . $language . '/email_user.html';
 
 function email_user()
 {

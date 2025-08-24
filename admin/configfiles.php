@@ -25,7 +25,7 @@ $f_titre = adm_translate('Les fichiers de configuration');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/configfiles.html';
+$hlpfile = 'admin/manuels/' . $language . '/configfiles.html';
 
 function ConfigFiles($contents, $files)
 {
@@ -153,39 +153,39 @@ function ConfigFiles($contents, $files)
 function ConfigFiles_save($Xtxt, $Xfiles)
 {
     if ($Xfiles == 'header_before') {
-        $fp = fopen('modules/include/header_before.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/header_before.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'header_head') {
-        $fp = fopen('modules/include/header_head.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/header_head.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'body_onload') {
-        $fp = fopen('modules/include/body_onload.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/body_onload.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'header_after') {
-        $fp = fopen('modules/include/header_after.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/header_after.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'footer_before') {
-        $fp = fopen('modules/include/footer_before.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/footer_before.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'footer_after') {
-        $fp = fopen('modules/include/footer_after.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/footer_after.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'new_user') {
-        $fp = fopen('modules/include/new_user.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/new_user.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'user') {
-        $fp = fopen('modules/include/user.inc', 'w');
+        $fp = fopen('themes/base/bootstrap/user.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'cache.config') {
-        $fp = fopen('cache.config.php', 'w');
+        $fp = fopen('config/cache.config.php', 'w');
         fputs($fp, stripslashes($Xtxt));
         fclose($fp);
     } elseif ($Xfiles == 'robots') {
@@ -223,21 +223,21 @@ function delete_configfile($fileX)
 function ConfigFiles_delete($modele)
 {
     if ($modele == 'header_before') {
-        @unlink('modules/include/header_before.inc');
+        @unlink('themes/base/bootstrap/header_before.php');
     } elseif ($modele == 'header_head') {
-        @unlink('modules/include/header_head.inc');
+        @unlink('themes/base/bootstrap/header_head.php');
     } elseif ($modele == 'body_onload') {
-        @unlink('modules/include/body_onload.inc');
+        @unlink('themes/base/bootstrap/body_onload.php');
     } elseif ($modele == 'header_after') {
-        @unlink('modules/include/header_after.inc');
+        @unlink('themes/base/bootstrap/header_after.php');
     } elseif ($modele == 'footer_before') {
-        @unlink('modules/include/footer_before.inc');
+        @unlink('themes/base/bootstrap/footer_before.php');
     } elseif ($modele == 'footer_after') {
-        @unlink('modules/include/footer_after.inc');
+        @unlink('themes/base/bootstrap/footer_after.php');
     } elseif ($modele == 'new_user') {
-        @unlink('modules/include/new_user.inc');
+        @unlink('themes/base/bootstrap/new_user.php');
     } elseif ($modele == 'user') {
-        @unlink('modules/include/user.inc');
+        @unlink('themes/base/bootstrap/user.php');
     }
 
     global $aid;
@@ -270,29 +270,36 @@ function ConfigFiles_create($modele)
     @umask(0000);
 
     if ($modele == 'header_before') {
-        @copy('modules/include/sample.header_before.inc', 'modules/include/header_before.inc');
-        @chmod('modules/include/header_before.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.header_before.php', 'themes/base/bootstrap/header_before.php');
+        @chmod('themes/base/bootstrap/header_before.php', 0766);
+
     } elseif ($modele == 'header_head') {
-        @copy('modules/include/sample.header_head.inc', 'modules/include/header_head.inc');
-        @chmod('modules/include/header_head.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.header_head.php', 'themes/base/bootstrap/header_head.php');
+        @chmod('themes/base/bootstrap/header_head.php', 0766);
+
     } elseif ($modele == 'body_onload') {
-        @copy('modules/include/sample.body_onload.inc', 'modules/include/body_onload.inc');
-        @chmod('modules/include/body_onload.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.body_onload.php', 'themes/base/bootstrap/body_onload.php');
+        @chmod('themes/base/bootstrap/body_onload.php', 0766);
+
     } elseif ($modele == 'header_after') {
-        @copy('modules/include/sample.header_after.inc', 'modules/include/header_after.inc');
-        @chmod('modules/include/header_after.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.header_after.php', 'themes/base/bootstrap/header_after.php');
+        @chmod('themes/base/bootstrap/header_after.php', 0766);
+
     } elseif ($modele == 'footer_before') {
-        copy('modules/include/sample.footer_before.inc', 'modules/include/footer_before.inc');
-        chmod('modules/include/footer_before.inc', 0766);
+        copy('themes/base/bootstrap/stub/sample.footer_before.php', 'themes/base/bootstrap/footer_before.php');
+        chmod('themes/base/bootstrap/footer_before.php', 0766);
+
     } elseif ($modele == 'footer_after') {
-        @copy('modules/include/sample.footer_after.inc', 'modules/include/footer_after.inc');
-        @chmod('modules/include/footer_after.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.footer_after.php', 'themes/base/bootstrap/footer_after.php');
+        @chmod('themes/base/bootstrap/footer_after.php', 0766);
+
     } elseif ($modele == 'new_user') {
-        @copy('modules/include/sample.new_user.inc', 'modules/include/new_user.inc');
-        @chmod('modules/include/new_user.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.new_user.php', 'themes/base/bootstrap/new_user.php');
+        @chmod('themes/base/bootstrap/new_user.php', 0766);
+
     } elseif ($modele == 'user') {
-        @copy('modules/include/sample.user.inc', 'modules/include/user.inc');
-        @chmod('modules/include/user.inc', 0766);
+        @copy('themes/base/bootstrap/stub/sample.user.php', 'themes/base/bootstrap/user.php');
+        @chmod('themes/base/bootstrap/user.php', 0766);
     }
 
     global $aid;
@@ -305,81 +312,81 @@ switch ($op) {
 
     case 'ConfigFiles_load':
         if ($files == 'header_before') {
-            if (file_exists('modules/include/header_before.inc')) {
-                $fp = fopen('modules/include/header_before.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/header_before.inc'));
+            if (file_exists('themes/base/bootstrap/header_before.php')) {
+                $fp = fopen('themes/base/bootstrap/header_before.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/header_before.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'header_head') {
-            if (file_exists('modules/include/header_head.inc')) {
-                $fp = fopen('modules/include/header_head.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/header_head.inc'));
+            if (file_exists('themes/base/bootstrap/header_head.php')) {
+                $fp = fopen('themes/base/bootstrap/header_head.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/header_head.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'body_onload') {
-            if (file_exists('modules/include/body_onload.inc')) {
-                $fp = fopen('modules/include/body_onload.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/body_onload.inc'));
+            if (file_exists('themes/base/bootstrap/body_onload.php')) {
+                $fp = fopen('themes/base/bootstrap/body_onload.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/body_onload.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'header_after') {
-            if (file_exists('modules/include/header_after.inc')) {
-                $fp = fopen('modules/include/header_after.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/header_after.inc'));
+            if (file_exists('themes/base/bootstrap/header_after.php')) {
+                $fp = fopen('themes/base/bootstrap/header_after.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/header_after.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'footer_before') {
-            if (file_exists('modules/include/footer_before.inc')) {
-                $fp = fopen('modules/include/footer_before.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/footer_before.inc'));
+            if (file_exists('themes/base/bootstrap/footer_before.php')) {
+                $fp = fopen('themes/base/bootstrap/footer_before.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/footer_before.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'footer_after') {
-            if (file_exists('modules/include/footer_after.inc')) {
-                $fp = fopen('modules/include/footer_after.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/footer_after.inc'));
+            if (file_exists('themes/base/bootstrap/footer_after.php')) {
+                $fp = fopen('themes/base/bootstrap/footer_after.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/footer_after.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'new_user') {
-            if (file_exists('modules/include/new_user.inc')) {
-                $fp = fopen('modules/include/new_user.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/new_user.inc'));
+            if (file_exists('themes/base/bootstrap/new_user.php')) {
+                $fp = fopen('themes/base/bootstrap/new_user.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/new_user.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'user') {
-            if (file_exists('modules/include/user.inc')) {
-                $fp = fopen('modules/include/user.inc', 'r');
-                $Xcontents = fread($fp, filesize('modules/include/user.inc'));
+            if (file_exists('themes/base/bootstrap/user.php')) {
+                $fp = fopen('themes/base/bootstrap/user.php', 'r');
+                $Xcontents = fread($fp, filesize('themes/base/bootstrap/user.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             } else {
                 copy_sample($files);
             }
         } elseif ($files == 'cache.config') {
-            if (file_exists('cache.config.php')) {
-                $fp = fopen('cache.config.php', 'r');
-                $Xcontents = fread($fp, filesize('cache.config.php'));
+            if (file_exists('config/cache.config.php')) {
+                $fp = fopen('config/cache.config.php', 'r');
+                $Xcontents = fread($fp, filesize('config/cache.config.php'));
                 fclose($fp);
                 ConfigFiles($Xcontents, $files);
             }

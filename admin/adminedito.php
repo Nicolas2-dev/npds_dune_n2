@@ -28,7 +28,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
 
     include 'header.php';
 
-    $hlpfile = 'manuels/' . $language . '/edito.html';
+    $hlpfile = 'admin/manuels/' . $language . '/edito.html';
 
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);

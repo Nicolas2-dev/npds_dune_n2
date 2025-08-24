@@ -25,7 +25,7 @@ $f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbnam
 // controle droit
 admindroits($aid, $f_meta_nom);
 
-$hlpfile = 'manuels/' . $language . '/optimysql.html';
+$hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
 
 $date_opt = date(adm_translate('dateforop'));
 $heure_opt = date('h:i a');

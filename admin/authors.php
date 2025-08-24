@@ -31,7 +31,7 @@ global $language, $adminimg, $admf_ext;
 $listdroits = '';
 $listdroitsmodulo = '';
 
-$hlpfile = 'manuels/' . $language . '/authors.html';
+$hlpfile = 'admin/manuels/' . $language . '/authors.html';
 
 // sélection des fonctions sauf les fonctions de type alerte 
 $R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie 
@@ -472,27 +472,27 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
     if (!$ori_radminsuper and $chng_radminsuper) {
         @copy(
-            'modules/f-manager/users/modele.admin.conf.php', 
-            'modules/f-manager/users/' . strtolower($chng_aid) .' .conf.php'
+            'modules/f-manager/support/stub/config/admin.stub', 
+            'modules/f-manager/storage/users/' . strtolower($chng_aid) .' .php'
         );
 
         deletedroits($chng_aid);
     }
 
     if ($ori_radminsuper and !$chng_radminsuper) {
-        @unlink('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php');
+        @unlink('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php');
 
         updatedroits($chng_aid);
     }
 
-    if (file_exists('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php') and $ad_d_27 != '27') {
-        @unlink('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php');
+    if (file_exists('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php') and $ad_d_27 != '27') {
+        @unlink('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php');
     }
 
-    if (($chng_radminsuper or $ad_d_27 != '') and !file_exists('modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php')) {
+    if (($chng_radminsuper or $ad_d_27 != '') and !file_exists('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php')) {
         @copy(
-            'modules/f-manager/users/modele.admin.conf.php', 
-            'modules/f-manager/users/' . strtolower($chng_aid) . '.conf.php'
+            'modules/f-manager/support/stub/config/admin.stub', 
+            'modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php'
         );
     }
 
@@ -642,8 +642,8 @@ switch ($op) {
         // Copie du fichier pour filemanager
         if ($add_radminsuper or isset($ad_d_27)) { // $ad_d_27 pas là ?
             @copy(
-                'modules/f-manager/users/modele.admin.conf.php', 
-                'modules/f-manager/users/' . strtolower($add_aid) . '.conf.php'
+                'modules/f-manager/support/stub/config/admin.stub', 
+                'modules/f-manager/storage/users/' . strtolower($add_aid) . '.php'
             );
         }
 
@@ -681,7 +681,7 @@ switch ($op) {
                    WHERE aid='$del_aid'");
 
         // Supression du fichier pour filemanager
-        @unlink('modules/f-manager/users/' . strtolower($del_aid) . '.conf.php');
+        @unlink('modules/f-manager/storage/users/' . strtolower($del_aid) . '.php');
 
         global $aid;
         Ecr_Log('security', sprintf('DeleteAuthor(%s) by AID : %s', $del_aid, $aid), '');

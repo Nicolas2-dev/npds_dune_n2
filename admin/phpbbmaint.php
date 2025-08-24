@@ -24,7 +24,7 @@ $f_titre = adm_translate('Maintenance des Forums');
 admindroits($aid, $f_meta_nom);
 
 global $language, $adminimg, $admf_ext;
-$hlpfile = 'manuels/' . $language . '/forummaint.html';
+$hlpfile = 'admin/manuels/' . $language . '/forummaint.html';
 
 include 'auth.php';
 include 'functions.php';
@@ -89,8 +89,7 @@ function ForumMaintMarkTopics()
 
             sql_free_result($resultT);
 
-            echo '
-                </td>
+            echo '</td>
                 <td align="center">' . translate('Ok') . '</td>
             </tr>';
         }
@@ -113,8 +112,7 @@ function ForumMaintTopics($before, $forum_name)
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="text-danger">' . adm_translate('Supprimer massivement les Topics') . '</h3>';
 
     if ($before != '') {
@@ -136,8 +134,7 @@ function ForumMaintTopics($before, $forum_name)
                           ORDER BY forum_id ASC");
 
     while (list($forum_id, $forum_name) = sql_fetch_row($resultF)) {
-        echo '
-        <h4>' . $forum_name . '</h4>
+        echo '<h4>' . $forum_name . '</h4>
         <div class="mb-3 border p-4">';
 
         $resultT = sql_query("SELECT topic_id, topic_title 
@@ -163,8 +160,7 @@ function ForumMaintTopics($before, $forum_name)
 
     sql_free_result($resultF);
 
-    echo '
-        <div class="mb-3>"
+    echo '<div class="mb-3>"
             <input type="hidden" name="op" value="ForumMaintTopicMassiveSup" />
             <input class="btn btn-danger" type="submit" name="Topics_Del" value="' . adm_translate('Supprimer massivement les Topics') . '" />
         </div>
@@ -301,7 +297,7 @@ function SynchroForum()
     }
 
     while (list($topicid, $uid, $rid) = sql_fetch_row($result1)) {
-        if (($topicid . $uid) == $tmp) {
+        if (($topicid . $uid) == $tmp) { // $tmp ????? a résoudre !!!!!
             $resultD = sql_query("DELETE FROM " . sql_prefix('forum_read') . " 
                                   WHERE topicid='$topicid' 
                                   AND uid='$uid' 
@@ -338,8 +334,7 @@ function MergeForum()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr/>
+    echo '<hr/>
     <h3 class="mb-3">' . adm_translate('Fusionner des forums') . '</h3>
     <form id="fad_mergeforum" action="admin.php" method="post">
         <fieldset>
@@ -384,8 +379,7 @@ function MergeForum()
         echo '<option value="-1">Database Error</option>';
     }
 
-    echo '
-                </select>
+    echo '</select>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -451,13 +445,11 @@ function ForumMaintAdmin()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    echo '
-    <hr />
+    echo '<hr />
     <h3 class="mb-3">' . adm_translate('Maintenance des Forums') . '</h3>';
 
     // Mark Topics, Synchro Forum_read table, Merge Forums
-    echo '
-    <div class="row">
+    echo '<div class="row">
         <div class="col-12">
             <form id="fad_forumaction" action="admin.php" method="post">
                 <input type="hidden" name="op" value="MaintForumMarkTopics" />

@@ -24,7 +24,7 @@ $f_titre = adm_translate('Ephémérides');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/ephem.html';
+$hlpfile = 'admin/manuels/' . $language . '/ephem.html';
 
 function Ephemerids()
 {

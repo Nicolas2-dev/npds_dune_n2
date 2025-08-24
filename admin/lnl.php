@@ -24,7 +24,7 @@ $f_titre = adm_translate('Petite Lettre D\'information');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/lnl.html';
+$hlpfile = 'admin/manuels/' . $language . '/lnl.html';
 
 $rowH = array();
 

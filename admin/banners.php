@@ -25,7 +25,7 @@ admindroits($aid, $f_meta_nom);
 
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/banners.html';
+$hlpfile = 'admin/manuels/' . $language . '/banners.html';
 
 function BannersAdmin()
 {

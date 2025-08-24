@@ -22,7 +22,7 @@ $f_titre = adm_translate('SuperCache');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/overload.html';
+$hlpfile = 'admin/manuels/' . $language . '/overload.html';
 
 function save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules)
 {
@@ -67,7 +67,7 @@ function save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt
     $content .= "\$CACHE_QUERYS['modules.php'] = \"^\";\n";
     $content .= "?>";
 
-    $file = fopen('cache.timings.php', 'w');
+    $file = fopen('config/cache.timings.php', 'w');
 
     fwrite($file, $content);
     fclose($file);
@@ -82,10 +82,9 @@ function main()
     GraphicAdmin($hlpfile);
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
-    include 'cache.timings.php';
+    include 'config/cache.timings.php';
 
-    echo '
-        <hr />
+    echo '<hr />
         <form id="overloadcacheadm" action="admin.php" method="post">
         <fieldset>
         <legend>' . adm_translate('Activation') . '</legend>
@@ -103,8 +102,7 @@ function main()
         $ckn = 'checked="checked"';
     }
 
-    echo '
-                <div class="form-check form-check-inline">
+    echo '<div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="xsupercache_y" name="xsupercache" value="true" ' . $cky . ' />
                     <label class="form-check-label" for="xsupercache_y">' . adm_translate('Oui') . '</label>
                 </div>

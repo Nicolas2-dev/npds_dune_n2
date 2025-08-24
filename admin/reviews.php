@@ -23,7 +23,7 @@ $f_titre = adm_translate('Critiques');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/reviews.html';
+$hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
 function mod_main($title, $description)
 {
@@ -205,7 +205,7 @@ function reviews()
         echo '<div class="alert alert-success my-3">' . adm_translate('Aucune critique à ajouter') . '</div>';
 
         $arg1 = 'var formulid = ["reviewspagecfg"];
-        inpandfieldlen("tit_cri",100);';
+            inpandfieldlen("tit_cri",100);';
     }
 
     echo '<hr />

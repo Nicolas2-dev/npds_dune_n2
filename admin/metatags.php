@@ -126,15 +126,14 @@ function MetaTagAdmin(bool $meta_saved = false)
         <button class="btn btn-primary my-3" type="submit">' . adm_translate('Enregistrer') . '</button>
     </form>';
 
-    $arg1 = '
-    var formulid = ["metatagsadm"];
-    inpandfieldlen("newtagauthor",100);
-    inpandfieldlen("newtagowner",100);
-    inpandfieldlen("newtagreplyto",100);
-    inpandfieldlen("newtagdescription",200);
-    inpandfieldlen("newtagkeywords",1000);
-    inpandfieldlen("newtagcopyright",100);
-    inpandfieldlen("newtagrevisitafter",30);';
+    $arg1 = 'var formulid = ["metatagsadm"];
+        inpandfieldlen("newtagauthor",100);
+        inpandfieldlen("newtagowner",100);
+        inpandfieldlen("newtagreplyto",100);
+        inpandfieldlen("newtagdescription",200);
+        inpandfieldlen("newtagkeywords",1000);
+        inpandfieldlen("newtagcopyright",100);
+        inpandfieldlen("newtagrevisitafter",30);';
 
     adminfoot('fv', '', $arg1, '');
 }
@@ -156,18 +155,23 @@ function GetMetaTags($filename)
 
             if (preg_match('#<!DOCTYPE\s+html>#', $aline, $regs)) {
                 $tags['doc_type'] = 'HTML 5.1';
+
             } elseif (preg_match("#<meta (name|http-equiv|property)=\"([^\"]*)\" content=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[2] = strtolower($regs[2]);
                 $tags[$regs[2]] = $regs[3];
+
             } elseif (preg_match("#<meta (charset)=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
+
             } elseif (preg_match("#<meta (content-type)=\"([^\"]*)\" content=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[2] = strtolower($regs[2]);
                 $tags[$regs[2]] = $regs[3];
+
             } elseif (preg_match("#<html (lang)=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
+
             } elseif (preg_match("#<doctype (lang)=\"([^\"]*)\"#i", $aline, $regs)) { //je pense qu'elle ne sert à rien ..et qu'elle ne doit rien trouver ...
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
@@ -354,7 +358,7 @@ if (!stristr($_SERVER['PHP_SELF'], 'admin.php')) {
 }
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/metatags.html';
+$hlpfile = 'admin/manuels/' . $language . '/metatags.html';
 
 settype($meta_saved, 'bool');
 

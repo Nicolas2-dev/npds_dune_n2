@@ -26,7 +26,7 @@ admindroits($aid, $f_meta_nom);
 include 'publication.php';
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/automated.html';
+$hlpfile = 'admin/manuels/' . $language . '/automated.html';
 
 function puthome($ihome)
 {

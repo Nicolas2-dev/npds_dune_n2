@@ -24,7 +24,7 @@ $f_titre = adm_translate('Grands Titres de sites de News');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/'.$language.'/headlines.html';
+$hlpfile = 'admin/manuels/'.$language.'/headlines.html';
 
 function HeadlinesAdmin()
 {

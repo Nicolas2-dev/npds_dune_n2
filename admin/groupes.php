@@ -24,7 +24,7 @@ $f_titre = adm_translate('Gestion des groupes');
 admindroits($aid, $f_meta_nom);
 
 global $language, $adminimg, $admf_ext;
-$hlpfile = 'manuels/' . $language . '/groupes.html';
+$hlpfile = 'admin/manuels/' . $language . '/groupes.html';
 
 settype($al, 'string');
 
@@ -85,55 +85,55 @@ function group_liste()
     }
 
     echo '
-    tog(\'lst_gr\',\'show_lst_gr\',\'hide_lst_gr\');
+        tog(\'lst_gr\',\'show_lst_gr\',\'hide_lst_gr\');
 
-    //==> choix moderateur
-    function choisir_mod_forum(gp,gn,ar_user,ar_uid) {
-        var user_json = ar_user.split(",");
-        var uid_json = ar_uid.split(",");
-        var choix_mod = prompt("' . html_entity_decode(adm_translate('Choisir un modérateur'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : \n"+user_json);
-        if (choix_mod) {
-            for (i=0; i<user_json.length; i++) {
-                if (user_json[i] == choix_mod) {var ind_uid=i;}
+        // choix moderateur
+        function choisir_mod_forum(gp,gn,ar_user,ar_uid) {
+            var user_json = ar_user.split(",");
+            var uid_json = ar_uid.split(",");
+            var choix_mod = prompt("' . html_entity_decode(adm_translate('Choisir un modérateur'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : \n"+user_json);
+            if (choix_mod) {
+                for (i=0; i<user_json.length; i++) {
+                    if (user_json[i] == choix_mod) {var ind_uid=i;}
+                }
+                var xhr_object = null;
+                if (window.XMLHttpRequest) // FF
+                    xhr_object = new XMLHttpRequest();
+                else if(window.ActiveXObject) // IE
+                    xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
+                xhr_object.open("GET", "admin.php?op=forum_groupe_create&groupe_id="+gp+"&groupe_name="+gn+"&moder="+uid_json[ind_uid], false);
+                xhr_object.send(null);
+                document.location.href="admin.php?op=groupes";
             }
+        } 
+        // choix moderateur
+
+        // confirmation suppression tous les membres du groupe (done in xhr)
+        function delete_AllMembersGroup(grp,ugp) {
             var xhr_object = null;
             if (window.XMLHttpRequest) // FF
                 xhr_object = new XMLHttpRequest();
             else if(window.ActiveXObject) // IE
                 xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
-            xhr_object.open("GET", "admin.php?op=forum_groupe_create&groupe_id="+gp+"&groupe_name="+gn+"&moder="+uid_json[ind_uid], false);
-            xhr_object.send(null);
-            document.location.href="admin.php?op=groupes";
+            if (confirm("' . adm_translate('Vous allez exclure TOUS les membres du groupe') . ' "+grp+" !")) {
+                xhr_object.open("GET", location.href="admin.php?op=retiredugroupe_all&groupe_id="+grp+"&tab_groupe="+ugp, false);
+            }
         }
-    } 
-    //<== choix moderateur
+        // confirmation suppression tous les membres du groupe (done in xhr)
 
-    //==> confirmation suppression tous les membres du groupe (done in xhr)
-    function delete_AllMembersGroup(grp,ugp) {
-        var xhr_object = null;
-        if (window.XMLHttpRequest) // FF
-            xhr_object = new XMLHttpRequest();
-        else if(window.ActiveXObject) // IE
-            xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
-        if (confirm("' . adm_translate('Vous allez exclure TOUS les membres du groupe') . ' "+grp+" !")) {
-            xhr_object.open("GET", location.href="admin.php?op=retiredugroupe_all&groupe_id="+grp+"&tab_groupe="+ugp, false);
+        // confirmation suppression groupe (done in xhr)
+        function confirm_deleteGroup(gr) {
+            var xhr_object = null;
+            if (window.XMLHttpRequest) // FF
+                xhr_object = new XMLHttpRequest();
+            else if(window.ActiveXObject) // IE
+                xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
+            if (confirm("' . adm_translate('Vous allez supprimer le groupe') . ' "+gr)) {
+                xhr_object.open("GET", location.href="admin.php?op=groupe_maj&groupe_id="+gr+"&sub_op=' . adm_translate('Supprimer') . '", false);
+            }
         }
-    }
-    //<== confirmation suppression tous les membres du groupe (done in xhr)
-
-    //==> confirmation suppression groupe (done in xhr)
-    function confirm_deleteGroup(gr) {
-        var xhr_object = null;
-        if (window.XMLHttpRequest) // FF
-            xhr_object = new XMLHttpRequest();
-        else if(window.ActiveXObject) // IE
-            xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
-        if (confirm("' . adm_translate('Vous allez supprimer le groupe') . ' "+gr)) {
-            xhr_object.open("GET", location.href="admin.php?op=groupe_maj&groupe_id="+gr+"&sub_op=' . adm_translate('Supprimer') . '", false);
-        }
-    }
-    //<== confirmation suppression groupe (done in xhr)
-    //]]>
+        // confirmation suppression groupe (done in xhr)
+        //]]>
     </script>';
 
     echo '
@@ -164,8 +164,8 @@ function group_liste()
                 <span>' . $gp . '</span>
                 <i class="fa fa-users fa-2x text-body-secondary"></i><h4 class="my-2">' . aff_langue($result['groupe_name']) . '</h4><p>' . aff_langue($result['groupe_description']);
 
-            if (file_exists('users_private/groupe/' . $gp . '/groupe.png')) {
-                echo '<img class="d-block my-2" src="users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" alt="logo_groupe" />';
+            if (file_exists('storage/users_private/groupe/' . $gp . '/groupe.png')) {
+                echo '<img class="d-block my-2" src="storage/users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" alt="logo_groupe" />';
             }
 
             echo '</div>
@@ -178,7 +178,7 @@ function group_liste()
                 <i class="fa fa-user fa-2x text-body-secondary"></i> <span class=" align-top badge bg-secondary">&nbsp;' . $nb_mb . '</span>&nbsp;&nbsp;';
 
             $lst_uid_json = '';
-            $lst_uidna_json = '';
+            //$lst_uidna_json = '';
 
             //==> liste membres du groupe
             echo '<ul id="lst_mb_gr_' . $gp . '" style ="display:none; padding-left:0px; -webkit-padding-start: 0px;">';
@@ -269,7 +269,7 @@ function group_liste()
             // pliage repliage listes membres groupes
             echo '<script type="text/javascript">
                 //<![CDATA[
-                tog(\'lst_mb_gr_' . $gp . '\',\'show_lst_mb_' . $gp . '\',\'hide_lst_mb_' . $gp . '\');
+                    tog(\'lst_mb_gr_' . $gp . '\',\'show_lst_mb_' . $gp . '\',\'hide_lst_mb_' . $gp . '\');
                 //]]>
             </script>
             <i class="fa fa-user-times fa-lg text-danger" title="' . adm_translate('Exclure TOUS les membres du groupe') . ' ' . $gp . '" data-bs-toggle="tooltip" data-bs-placement="right" onclick="delete_AllMembersGroup(\'' . $gp . '\',\'' . $lst_uid_json . '\');"></i>';
@@ -337,8 +337,8 @@ function group_liste()
                 <h4 class="my-2 text-body-secondary">' . aff_langue($gp_name) . '</h4>
                 <p class="text-body-secondary">' . aff_langue($gp_description);
 
-            if (file_exists('users_private/groupe/' . $gp . '/groupe.png')) {
-                echo '<img class="d-block my-2" src="users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" />';
+            if (file_exists('storage/users_private/groupe/' . $gp . '/groupe.png')) {
+                echo '<img class="d-block my-2" src="storage/users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" />';
             }
 
             echo '</p>
@@ -719,6 +719,7 @@ function groupe_maj($sub_op)
             groupe_delete($groupe_id);
         }
     }
+
     Header('Location: admin.php?op=groupes');
 }
 
@@ -752,12 +753,14 @@ function groupe_delete($groupe_id)
 function workspace_create($groupe_id)
 {
     //==>creation fichier conf du groupe
-    @copy('modules/f-manager/users/groupe.conf.php', 'modules/f-manager/users/groupe_' . $groupe_id . '.conf.php');
+    @copy(
+        'modules/f-manager/support/config/groupe.stub', 
+        'modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
 
-    $file = file('modules/f-manager/users/groupe_' . $groupe_id . '.conf.php');
+    $file = file('modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
     $file[29] = "   \$access_fma = \"$groupe_id\";\n";
 
-    $fic = fopen('modules/f-manager/users/groupe_' . $groupe_id . '.conf.php', "w");
+    $fic = fopen('modules/f-manager/storage/users/groupe_' . $groupe_id . '.php', "w");
 
     foreach ($file as $n => $ligne) {
         fwrite($fic, $ligne);
@@ -765,7 +768,7 @@ function workspace_create($groupe_id)
 
     fclose($fic);
 
-    include 'modules/upload/upload.conf.php';
+    include 'modules/upload/config/config.php';
 
     if ($DOCUMENTROOT == '') {
         global $DOCUMENT_ROOT;
@@ -777,13 +780,13 @@ function workspace_create($groupe_id)
         }
     }
 
-    $user_dir = $DOCUMENTROOT . $racine . '/users_private/groupe/' . $groupe_id;
+    $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/groupe/' . $groupe_id;
 
     // DOCUMENTS_GROUPE
-    @mkdir('users_private/groupe/' . $groupe_id . '/documents_groupe');
+    @mkdir('storage/users_private/groupe/' . $groupe_id . '/documents_groupe');
 
     $repertoire = $user_dir . '/documents_groupe';
-    $directory = $racine . '/modules/groupe/matrice/documents_groupe';
+    $directory = $racine . '/library/groupe/matrice/documents_groupe';
 
     $handle = opendir($DOCUMENTROOT . $directory);
 
@@ -804,10 +807,10 @@ function workspace_create($groupe_id)
     unset($filelist);
 
     // IMAGES_GROUPE
-    @mkdir('users_private/groupe/' . $groupe_id . '/images_groupe');
+    @mkdir('storage/users_private/groupe/' . $groupe_id . '/images_groupe');
 
     $repertoire = $user_dir . '/images_groupe';
-    $directory = $racine . '/modules/groupe/matrice/images_groupe';
+    $directory = $racine . '/library/groupe/matrice/images_groupe';
 
     $handle = opendir($DOCUMENTROOT . $directory);
 
@@ -827,7 +830,7 @@ function workspace_create($groupe_id)
 
     unset($filelist);
 
-    @unlink('users_private/groupe/' . $groupe_id . '/delete');
+    @unlink('storage/users_private/groupe/' . $groupe_id . '/delete');
 
     global $aid;
     Ecr_Log('security', sprintf('CreateWS(%s) by AID : %s', $groupe_id, $aid), '');
@@ -888,11 +891,11 @@ function note_remove($groupe_id)
 function workspace_archive($groupe_id)
 {
     //=> archivage espace groupe
-    $fp = fopen('users_private/groupe/' . $groupe_id . '/delete', 'w');
+    $fp = fopen('storage/users_private/groupe/' . $groupe_id . '/delete', 'w');
     fclose($fp);
 
     //suppression fichier conf
-    @unlink('modules/f-manager/users/groupe_' . $groupe_id . '.conf.php');
+    @unlink('modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
 
     global $aid;
     Ecr_Log('security', sprintf('ArchiveWS(%s) by AID : %s', $groupe_id, $aid), '');
@@ -967,7 +970,7 @@ function forum_groupe_delete($groupe_id)
 // MNS
 function groupe_mns_create($groupe_id)
 {
-    include 'modules/upload/upload.conf.php';
+    include 'modules/upload/config/config.php';
 
     if ($DOCUMENTROOT == '') {
         global $DOCUMENT_ROOT;
@@ -979,7 +982,7 @@ function groupe_mns_create($groupe_id)
         }
     }
 
-    $user_dir = $DOCUMENTROOT . $racine . '/users_private/groupe/' . $groupe_id;
+    $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/groupe/' . $groupe_id;
     $repertoire = $user_dir . '/mns';
 
     if (!is_dir($user_dir)) {
@@ -1013,7 +1016,7 @@ function groupe_mns_create($groupe_id)
     }
 
     // copie de la matrice par défaut
-    $directory = $racine . '/modules/groupe/matrice/mns_groupe';
+    $directory = $racine . '/library/groupe/matrice/mns_groupe';
     $handle = opendir($DOCUMENTROOT . $directory);
 
     while (false !== ($file = readdir($handle))) {
@@ -1042,7 +1045,7 @@ function groupe_mns_create($groupe_id)
 
 function groupe_mns_delete($groupe_id)
 {
-    include 'modules/upload/upload.conf.php';
+    include 'modules/upload/config/config.php';
 
     if ($DOCUMENTROOT == '') {
         global $DOCUMENT_ROOT;
@@ -1054,7 +1057,7 @@ function groupe_mns_delete($groupe_id)
         }
     }
 
-    $user_dir = $DOCUMENTROOT . $racine . '/users_private/groupe/' . $groupe_id;
+    $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/groupe/' . $groupe_id;
 
     // Supprimer son ministe s'il existe
     if (is_dir($user_dir . '/mns')) {
@@ -1132,11 +1135,11 @@ function groupe_member_ask()
 {
     global $sub_op, $f_meta_nom, $f_titre, $adminimg, $myrow, $hlpfile, $groupe_asked, $user_asked;
 
-    $directory = 'users_private/groupe';
+    $directory = 'storage/users_private/groupe';
 
     if (isset($sub_op)) {
 
-        include_once('powerpack_f.php');
+        include_once 'powerpack_f.php';
 
         $res = sql_query("SELECT uname 
                           FROM " . sql_prefix('users') . " 
@@ -1263,31 +1266,37 @@ switch ($op) {
 
     case 'pad_create':
         pad_create($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
     case 'pad_remove':
         pad_remove($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
     case 'note_create':
         note_create($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
     case 'note_remove':
         note_remove($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
     case 'workspace_create':
         workspace_create($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
     case 'workspace_archive':
         workspace_archive($groupe_id);
+
         Header('Location: admin.php?op=groupes');
         break;
 
@@ -1297,31 +1306,37 @@ switch ($op) {
 
     case 'moderateur_update':
         moderateur_update($forum_id, $forum_moderator);
+
         Header('location: admin.php?op=groupes');
         break;
 
     case 'forum_groupe_delete':
         forum_groupe_delete($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
     case 'groupe_mns_create':
         groupe_mns_create($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
     case 'groupe_mns_delete':
         groupe_mns_delete($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
     case 'groupe_chat_create':
         groupe_chat_create($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
     case 'groupe_chat_delete':
         groupe_chat_delete($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
@@ -1339,6 +1354,7 @@ switch ($op) {
 
     case 'bloc_groupe_create':
         bloc_groupe_create($groupe_id);
+
         Header('location: admin.php?op=groupes');
         break;
 
@@ -1370,14 +1386,14 @@ switch ($op) {
             sql_query("INSERT INTO " . sql_prefix('groupes') . " 
                        VALUES ('$groupe_id', '$groupe_name','$groupe_description','0','0','0','0','0')");
 
-            @mkdir('users_private/groupe/' . $groupe_id);
+            @mkdir('storage/users_private/groupe/' . $groupe_id);
 
-            $fp = fopen('users_private/groupe/' . $groupe_id . '/index.html', 'w');
+            $fp = fopen('storage/users_private/groupe/' . $groupe_id . '/index.html', 'w');
             fclose($fp);
 
-            @copy('modules/groupe/matrice/groupe.png', 'users_private/groupe/' . $groupe_id . '/groupe.png');
+            @copy('library/groupe/matrice/groupe.png', 'storage/users_private/groupe/' . $groupe_id . '/groupe.png');
 
-            @unlink('users_private/groupe/' . $groupe_id . '/delete');
+            @unlink('storage/users_private/groupe/' . $groupe_id . '/delete');
 
             global $aid;
             Ecr_Log('security', sprintf('CreateGroupe(%s, %s) by AID : %s', $groupe_id, $groupe_name, $aid), '');

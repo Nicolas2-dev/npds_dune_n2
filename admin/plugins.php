@@ -14,15 +14,31 @@
 /************************************************************************/
 
 if (!function_exists('admindroits')) {
-   include 'die.php';
+    include 'die.php';
 }
 
 include 'header.php';
 
 if ($ModPath != '') {
-   if (file_exists('modules/'.$ModPath.'/'.$ModStart.'.php')) {
-      include 'modules/'.$ModPath.'/'.$ModStart.'.php';
-   }
+
+    //if (file_exists('modules/' . $ModPath . '/' . $ModStart . '.php')) {
+    //   include 'modules/' . $ModPath . '/' . $ModStart . '.php';
+    //}
+
+    $isControllerAdmin = (strpos($ModPath, 'admin') !== false);
+
+    if ($isControllerAdmin) {
+        $pos = strpos($ModPath, '/admin');
+        $ModPath = substr($ModPath, 0, $pos);
+    }
+
+    $controllerPath = $isControllerAdmin
+        ? 'modules/' . $ModPath . '/http/controllers/admin/' . $ModStart . '.php'
+        : 'modules/' . $ModPath . '/http/controllers/front/' . $ModStart . '.php';
+
+    if (file_exists($controllerPath)) {
+        include $controllerPath;
+    }
 } else {
-   redirect_url(urldecode($ModStart));
+    redirect_url(urldecode($ModStart));
 }

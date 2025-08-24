@@ -23,10 +23,11 @@ $f_titre = adm_translate('Téléchargements');
 // controle droit
 admindroits($aid, $f_meta_nom);
 
-include 'library/file/file.class.php';
+include 'library/file/File.php';
+include 'library/file/FileManagement.php';
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/downloads.html';
+$hlpfile = 'admin/manuels/' . $language . '/downloads.html';
 
 function groupe($groupe)
 {

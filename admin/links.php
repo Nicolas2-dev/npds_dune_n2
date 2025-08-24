@@ -24,7 +24,7 @@ $f_titre = 'Liens';
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/weblinks.html';
+$hlpfile = 'admin/manuels/' . $language . '/weblinks.html';
 
 // valeur du pas de pagination
 $rupture = 100; //100
@@ -648,12 +648,12 @@ function LinksModLink($lid)
     $fv_parametres = '
         /*    
         email: {
-                        validators: {
-                            emailAddress: {
-                                message: "The value is not a valid email address"
-                            }
-                        }
-                    },
+            validators: {
+                emailAddress: {
+                    message: "The value is not a valid email address"
+                }
+            }
+        },
         title: {
             validators: {
                 notEmpty: {
@@ -661,7 +661,6 @@ function LinksModLink($lid)
                 }
             }
         },
-
         url: {
             validators: {
                 uri: {

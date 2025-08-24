@@ -24,7 +24,7 @@ $f_titre = adm_translate('Bloc Principal');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/$language/mainblock.html';
+$hlpfile = 'admin/manuels/' . $language . '/mainblock.html';
 
 function mblock()
 {
