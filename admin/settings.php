@@ -24,7 +24,7 @@ $f_titre = adm_translate('Préférences');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/config.html';
+$hlpfile = 'admin/manuels/' . $language . '/config.html';
 
 function Configure()
 {

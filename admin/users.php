@@ -24,7 +24,7 @@ $f_titre = adm_translate('Edition des Utilisateurs');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/users.html';
+$hlpfile = 'admin/manuels/' . $language . '/users.html';
 
 function displayUsers()
 {
@@ -66,7 +66,7 @@ function displayUsers()
 
     $op = 'displayUsers';
 
-    include 'modules/sform/extend-user/adm_extend-user.php';
+    include 'library/sform/extend-user/adm_extend-user.php';
 
     echo auto_complete('membre', 'uname', 'users', 'chng_uid', '86400');
 
@@ -79,7 +79,8 @@ function displayUsers()
 
 function extractUserCSV()
 {
-    include 'library/archive.php';
+    include 'library/compress/Archive.php';
+    include 'library/compress/helpers.php';
 
     $MSos = get_os();
 
@@ -170,7 +171,7 @@ function modifyUser($chng_user)
 
         list($C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1) = sql_fetch_row($result);
 
-        include 'modules/sform/extend-user/adm_extend-user.php';
+        include 'library/sform/extend-user/adm_extend-user.php';
     } else {
         error_handler('Utilisateur inexistant !' . '<br />');
     }
@@ -189,14 +190,14 @@ function Minisites($chng_mns, $chng_uname)
 {
     // Création de la structure pour les MiniSites dans users_private/$chng_uname
     if ($chng_mns) {
-        include 'modules/upload/upload.conf.php';
+        include 'modules/upload/config/config.php';
 
         if ($DOCUMENTROOT == '') {
             global $DOCUMENT_ROOT;
             $DOCUMENTROOT = ($DOCUMENT_ROOT) ? $DOCUMENT_ROOT : $_SERVER['DOCUMENT_ROOT'];
         }
 
-        $user_dir = $DOCUMENTROOT . $racine . '/users_private/' . $chng_uname;
+        $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/' . $chng_uname;
         $repertoire = $user_dir . '/mns';
 
         if (!is_dir($user_dir)) {
@@ -229,7 +230,7 @@ function Minisites($chng_mns, $chng_uname)
         }
 
         // copie de la matrice par défaut
-        $directory = $racine . '/modules/blog/matrice';
+        $directory = $racine . '/modules/blog/support/stub';
 
         $handle = opendir($DOCUMENTROOT . $directory);
 
@@ -327,7 +328,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
     $chng_is_visible = ($chng_is_visible == '') ? 1 : 0;
 
     if ($raz_avatar) {
-        $chng_avatar = "blank.gif";
+        $chng_avatar = 'blank.gif';
     }
 
     if ($tmp == 0) {
@@ -363,15 +364,15 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
         if ($tab_groupe) {
             foreach ($tab_groupe as $groupevalue) {
-                if (($groupevalue == "0") and ($groupevalue != '')) {
+                if (($groupevalue == '0') and ($groupevalue != '')) {
                     $chng_groupe = '';
                 }
 
-                if ($groupevalue == "1") {
+                if ($groupevalue == '1') {
                     $chng_groupe = '';
                 }
 
-                if ($groupevalue > "127") {
+                if ($groupevalue > '127') {
                     $chng_groupe = '';
                 }
             }
@@ -387,7 +388,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
                WHERE uid='$chng_uid'");
 
     $contents = '';
-    $filename = 'users_private/usersbadmail.txt';
+    $filename = 'storage/banned/usersbadmail.txt';
 
     $handle = fopen($filename, 'r');
 
@@ -401,7 +402,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
     $maj = preg_replace($re, '', $contents);
 
-    $file = fopen('users_private/usersbadmail.txt', 'w');
+    $file = fopen('storage/banned/usersbadmail.txt', 'w');
 
     fwrite($file, $maj);
     fclose($file);
@@ -523,7 +524,7 @@ function checkdnsmailusers()
     $output = '';
     $contents = '';
 
-    $filename = 'users_private/usersbadmail.txt';
+    $filename = 'storage/banned/usersbadmail.txt';
 
     $handle = fopen($filename, 'r');
     if (filesize($filename) > 0) {
@@ -539,7 +540,7 @@ function checkdnsmailusers()
             $re = '/#' . $uid . '\|(\d+)/m';
             $maj = preg_replace($re, '', $contents);
 
-            $file = fopen('users_private/usersbadmail.txt', 'w');
+            $file = fopen('storage/banned/usersbadmail.txt', 'w');
 
             fwrite($file, $maj);
             fclose($file);
@@ -584,7 +585,7 @@ function checkdnsmailusers()
         }
     }
 
-    $file = fopen('users_private/usersbadmail.txt', 'a+');
+    $file = fopen('storage/banned/usersbadmail.txt', 'a+');
 
     fwrite($file, implode('', $arrayusers));
     fclose($file);
@@ -772,7 +773,7 @@ switch ($op) {
                        SET reviewer=' ' 
                        WHERE reviewer='$del_uname'");
 
-            include 'modules/upload/upload.conf.php';
+            include 'modules/upload/config/config.php';
 
             if ($DOCUMENTROOT == '') {
                 global $DOCUMENT_ROOT;
@@ -784,7 +785,7 @@ switch ($op) {
                 }
             }
 
-            $user_dir = $DOCUMENTROOT . $racine . '/users_private/' . $del_uname;
+            $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/' . $del_uname;
 
             // Supprimer son ministe s'il existe
             if (is_dir($user_dir . '/mns')) {
@@ -830,7 +831,7 @@ switch ($op) {
 
             // Mise à jour du fichier badmailuser
             $contents = '';
-            $filename = 'users_private/usersbadmail.txt';
+            $filename = 'storage/banned/usersbadmail.txt';
             $handle = fopen($filename, 'r');
 
             if (filesize($filename) > 0) {
@@ -842,7 +843,7 @@ switch ($op) {
             $re = '/#' . $del_uid . '\|(\d+)/m';
             $maj = preg_replace($re, '', $contents);
 
-            $file = fopen('users_private/usersbadmail.txt', 'w');
+            $file = fopen('storage/banned/usersbadmail.txt', 'w');
             fwrite($file, $maj);
             fclose($file);
 

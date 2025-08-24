@@ -514,7 +514,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     fwrite($file, $content);
     fclose($file);
 
-    $file = fopen('library/PHPMailer/PHPmailer.conf.php', 'w');
+    $file = fopen('config/PHPmailer.conf.php', 'w');
 
     $content = "<?php\n";
     $content .= "$line";

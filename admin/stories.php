@@ -23,7 +23,6 @@ include 'publication.php';
 
 //==> controle droit
 admindroits($aid, $f_meta_nom);
-//<== controle droit
 
 function puthome($ihome)
 {
@@ -906,17 +905,17 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         preg_match_all($rechcacheimage, $artpartie, $cacheimages);
 
         foreach ($cacheimages[1] as $imagecache) {
-            rename('cache/' . $imagecache, 'modules/upload/upload/' . $imagecache);
+            rename('cache/' . $imagecache, 'modules/upload/storage/' . $imagecache);
 
-            $$k = preg_replace($rechcacheimage, 'modules/upload/upload/\1"', $artpartie, 1);
+            $$k = preg_replace($rechcacheimage, 'modules/upload/storage/\1"', $artpartie, 1);
         }
     }
 
     $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = dataimagetofileurl($hometext, 'modules/upload/upload/ai');
-    $bodytext = dataimagetofileurl($bodytext, 'modules/upload/upload/ac');
-    $notes = dataimagetofileurl($notes, 'modules/upload/upload/an');
+    $hometext = dataimagetofileurl($hometext, 'modules/upload/storage/ai');
+    $bodytext = dataimagetofileurl($bodytext, 'modules/upload/storage/ac');
+    $notes = dataimagetofileurl($notes, 'modules/upload/storage/an');
 
     $hometext = stripslashes(FixQuotes($hometext));
     $bodytext = stripslashes(FixQuotes($bodytext));
@@ -966,23 +965,23 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         }
 
         // Cluster Paradise
-        if (file_exists('modules/cluster-paradise/cluster-activate.php')) {
-            include('modules/cluster-paradise/cluster-activate.php');
+        if (file_exists('modules/cluster-paradise/config/cluster-activate.php')) {
+            include 'modules/cluster-paradise/config/cluster-activate.php';
         }
 
-        if (file_exists('modules/cluster-paradise/cluster-M.php')) {
-            include('modules/cluster-paradise/cluster-M.php');
+        if (file_exists('modules/cluster-paradise/support/cluster-M.php')) {
+            include 'modules/cluster-paradise/support/cluster-M.php';
         }
         // Cluster Paradise
 
         // Réseaux sociaux
-        if (file_exists('modules/npds_twi/npds_to_twi.php')) {
-            include('modules/npds_twi/npds_to_twi.php');
+        if (file_exists('modules/npds_twi/http/controllers/npds_to_twi.php')) {
+            include 'modules/npds_twi/http/controllers/npds_to_twi.php';
         }
 
-        if (file_exists('modules/npds_fbk/npds_to_fbk.php')) {
-            include('modules/npds_twi/npds_to_fbk.php');
-        }
+        //if (file_exists('modules/npds_fbk/http/controllers/npds_to_fbk.php')) {
+        //    include('modules/npds_twi/http/controllers/npds_to_fbk.php');
+        //}
         // Réseaux sociaux
     }
 
@@ -1003,7 +1002,7 @@ function editStory($sid)
         header('location: admin.php');
     }
 
-    $hlpfile = 'manuels/' . $language . '/newarticle.html';
+    $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur 
                          FROM " . sql_prefix('stories') . " 
@@ -1290,7 +1289,7 @@ function removeStory($sid, $ok = 0)
 
         $artcomplet = $hometext . $bodytext . $notes;
 
-        $rechuploadimage = '#modules/upload/upload/a[i|c|]\d+_\d+_\d+.[a-z]{3,4}#m';
+        $rechuploadimage = '#modules/upload/storage/a[i|c|]\d+_\d+_\d+.[a-z]{3,4}#m';
 
         preg_match_all($rechuploadimage, $artcomplet, $uploadimages);
 
@@ -1302,8 +1301,8 @@ function removeStory($sid, $ok = 0)
                    WHERE sid='$sid'");
 
         // commentaires
-        if (file_exists('modules/comments/article.conf.php')) {
-            include('modules/comments/article.conf.php');
+        if (file_exists('modules/comments/config/article.php')) {
+            include 'modules/comments/config/article.php';
 
             sql_query("DELETE FROM " . sql_prefix('posts') . " 
                        WHERE forum_id='$forum' 
@@ -1320,7 +1319,7 @@ function removeStory($sid, $ok = 0)
         Header('Location: admin.php');
     } else {
         global $hlpfile, $language;
-        $hlpfile = 'manuels/' . $language . '/newarticle.html';
+        $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
         include 'header.php';
 
@@ -1377,8 +1376,8 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
                    SET sid='$Lsid' WHERE sid='$sid'");
 
         // commentaires
-        if (file_exists('modules/comments/article.conf.php')) {
-            include('modules/comments/article.conf.php');
+        if (file_exists('modules/comments/config/article.php')) {
+            include 'modules/comments/config/article.php';
 
             sql_query("UPDATE " . sql_prefix('posts') . " 
                        SET topic_id='$Lsid' 
@@ -1397,22 +1396,23 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     }
 
     // Cluster Paradise
-    if (file_exists('modules/cluster-paradise/cluster-activate.php')) {
-        include('modules/cluster-paradise/cluster-activate.php');
+    if (file_exists('modules/cluster-paradise/config/cluster-activate.php')) {
+        include('modules/cluster-paradise/config/cluster-activate.php');
     }
 
-    if (file_exists('modules/cluster-paradise/cluster-M.php')) {
-        include('modules/cluster-paradise/cluster-M.php');
+    if (file_exists('modules/cluster-paradise/support/cluster-M.php')) {
+        include('modules/cluster-paradise/support/cluster-M.php');
     }
     // Cluster Paradise
 
     // Réseaux sociaux
-    if (file_exists('modules/npds_twi/npds_to_twi.php')) {
-        include('modules/npds_twi/npds_to_twi.php');
+    if (file_exists('modules/npds_twi/http/controllers/npds_to_twi.php')) {
+        include('modules/npds_twi/http/controllers/npds_to_twi.php');
     }
-    if (file_exists('modules/npds_fbk/npds_to_fbk.php')) {
-        include('modules/npds_twi/npds_to_fbk.php');
-    }
+
+    //if (file_exists('modules/npds_fbk/http/controllers/npds_to_fbk.php')) {
+    //    include('modules/npds_twi/http/controllers/npds_to_fbk.php');
+    //}
     // Réseaux sociaux
     redirect_url('admin.php?op=EditStory&sid=' . $sid);
 }
@@ -1427,7 +1427,7 @@ function adminStory()
     //controle droit
     admindroits($aid, $f_meta_nom);
 
-    $hlpfile = 'manuels/' . $language . '/newarticle.html';
+    $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     include 'header.php';
 
@@ -1559,7 +1559,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
 {
     global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
 
-    $hlpfile = 'manuels/' . $language . '/newarticle.html';
+    $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
     $hometext = stripslashes(dataimagetofileurl($hometext, 'cache/ai'));
@@ -1816,9 +1816,9 @@ switch ($op) {
         $temp = time();
 
         if ($temp > $temp_new) {
-            postStory("pub_immediate", $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
+            postStory('pub_immediate', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
         } else {
-            postStory("pub_automated", $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
+            postStory('pub_automated', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
         }
         break;
 

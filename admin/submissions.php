@@ -24,7 +24,7 @@ $f_titre = adm_translate('Article en attente de validation');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/submissions.html';
+$hlpfile = 'admin/manuels/' . $language . '/submissions.html';
 
 function submissions()
 {

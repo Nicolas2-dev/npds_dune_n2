@@ -24,7 +24,7 @@ $f_titre = adm_translate('Gestion des sujets');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'manuels/' . $language . '/topics.html';
+$hlpfile = 'admin/manuels/' . $language . '/topics.html';
 
 function topicsmanager()
 {
@@ -576,8 +576,8 @@ function topicdelete($topicid, $ok = 0)
         Ecr_Log('security', sprintf('topicDelete (related, %s) by AID : %s', $topicid, $aid), '');
 
         // commentaires
-        if (file_exists('modules/comments/article.conf.php')) {
-            include 'modules/comments/article.conf.php';
+        if (file_exists('modules/comments/config/article.php')) {
+            include 'modules/comments/config/article.php';
 
             sql_query("DELETE FROM " . sql_prefix('posts') . " 
                        WHERE forum_id='$forum' 
