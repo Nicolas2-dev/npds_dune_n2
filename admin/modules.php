@@ -43,6 +43,7 @@ $handle = opendir('modules');
 $modlist = '';
 
 while (false !== ($file = readdir($handle))) {
+
     if (!@file_exists('modules/' . $file . '/kernel')) {
         if (is_dir('modules/' . $file) and ($file != '.') and ($file != '..')) {
             $modlist .= "$file ";
@@ -52,7 +53,9 @@ while (false !== ($file = readdir($handle))) {
 
 closedir($handle);
 
-$modlist = explode(' ', rtrim($modlist));
+$modlist = explode(" ", rtrim($modlist));
+
+dump($modlist);
 
 $whatondb = sql_query("SELECT mnom 
                        FROM " . sql_prefix('modules'));
@@ -103,13 +106,13 @@ while ($row = sql_fetch_assoc($result)) {
         : '<img class="adm_img" src="assets/images/admin/module.png" alt="icon_module" title="" />';
 
     if ($row["minstall"] == 0) {
-        $status_chngac = file_exists('modules/' . $row['mnom'] . '/install.conf.php') 
+        $status_chngac = file_exists('modules/' . $row['mnom'] . '/config/install.php') 
             ? '<a class="text-success" href="admin.php?op=Module-Install&amp;ModInstall=' . $row['mnom'] . '&amp;subop=install" ><i class="fa fa-compress fa-lg"></i><i class="fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Installer le module') . '" data-bs-toggle="tooltip"></i></a>' 
             : '<a class="text-success" href="admin.php?op=Module-Install&amp;ModInstall=' . $row['mnom'] . '&amp;subop=install"><i class="fa fa-check fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Pas d\'installeur disponible') . ' ' . adm_translate('Marquer le module comme installé') . '" data-bs-toggle="tooltip"></i></a>';
         
         $clatd = 'table-danger';
     } else {
-        $status_chngac =  file_exists('modules/' . $row['mnom'] . '/install.conf.php') 
+        $status_chngac =  file_exists('modules/' . $row['mnom'] . '/config/install.php') 
             ? '<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa-expand fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Désinstaller le module') . '" data-bs-toggle="tooltip"></i></a>' 
             :'<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa fa-ban fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Marquer le module comme désinstallé') . '" data-bs-toggle="tooltip"</i></a>';
         
