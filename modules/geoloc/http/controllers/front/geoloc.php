@@ -655,7 +655,7 @@ $file_json = $ent_json;
 $file_json = preg_replace("#,$#", "]}", $file_json);
 
 //== ouverture, écriture fermeture fichier data.json
-$f = fopen('modules/' . $ModPath . '/storage//data.json', 'w');
+$f = fopen('modules/' . $ModPath . '/storage/data.json', 'w');
 $w = fwrite($f, $file_json);
 
 @fclose($f);
@@ -938,7 +938,7 @@ if (autorisation(-127) and $geo_ip == 1) {
 
 $ecr_scr .= '
     var src_countries = new ol.source.Vector({
-        url: "/modules/geoloc/include/countries.geojson",
+        url: "/modules/geoloc/storage/countries.geojson",
         format: new ol.format.GeoJSON()
     });';
 
@@ -1694,7 +1694,7 @@ $ecr_scr .= '
     }
     window.addEventListener("resize", checkSize);';
 
-$ecr_scr .= file_get_contents('modules/geoloc/include/ol-dico.js');
+$ecr_scr .= file_get_contents('modules/geoloc/assets/js/ol-dico.js');
 
 $ecr_scr .= '
     const lang = map.getTarget().lang;
