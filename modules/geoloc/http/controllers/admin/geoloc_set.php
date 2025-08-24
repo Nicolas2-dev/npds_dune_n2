@@ -71,14 +71,14 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 {
     global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg, $dbname, $subop;
 
-    include('modules/' . $ModPath . '/geoloc.conf');
+    include('modules/' . $ModPath . '/config/config.php');
 
-    $hlpfile = 'modules/' . $ModPath . '/doc/aide_admgeo_' . $language . '.html';
+    $hlpfile = 'modules/' . $ModPath . '/views/manuele/' . $language . '/aide_admgeo_' . $language . '.html';
 
     $result = sql_query("SELECT CONCAT(ROUND(((DATA_LENGTH + INDEX_LENGTH - DATA_FREE) / 1024 / 1024), 2), ' Mo') AS TailleMo 
                          FROM information_schema.TABLES 
                          WHERE TABLE_SCHEMA = '$dbname' 
-                         AND TABLE_NAME = " . sql_prefix('ip_loc'));
+                         AND TABLE_NAME = '" . sql_prefix('ip_loc') . "'");
 
     $row = sql_fetch_array($result);
 
@@ -1135,7 +1135,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
             }
         };';
 
-    $scri .= file_get_contents('modules/geoloc/include/ol-dico.js');
+    $scri .= file_get_contents('modules/geoloc/assets/js/ol-dico.js');
 
     $scri .= 'const targ = map.getTarget();
         const lang = targ.lang;

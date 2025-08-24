@@ -48,7 +48,7 @@ if (
 global $pdst, $language, $title;
 
 include 'modules/' . $ModPath . '/config/config.php';
-include_once 'modules/' . $ModPath . '/language/' . $language . '/geoloc.lang-' . $language . '.php';
+include_once 'modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php';
 
 $infooo = '';
 $js_dragtrue = '';
