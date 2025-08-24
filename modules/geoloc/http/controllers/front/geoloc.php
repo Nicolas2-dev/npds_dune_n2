@@ -153,15 +153,45 @@ if (autorisation(-127)) {
 
                 $sidebarip .= '<a id="ip' . $i . '" class="filtrip_js sb_js sb_ip list-group-item list-group-item-action py-1 px-2 border-left-0 border-right-0' . $cl . '"><span class="" data-bs-toggle="tooltip" title="' . geoloc_translate('Voir sur la carte') . '."><i class="me-1 bi bi-display h4 align-middle"></i></span><span class="small nlfiltrip" data-searchterm="' . urldecode($ip_ip1) . '">' . urldecode($ip_ip1) . '</span>' . $infospam . '</a>';
 
-                $tab_ip .= '<p class="col-sm-12 col-md-3 p-2  border rounded flex-column align-items-start list-group-item-action">
+                //$tab_ip .= '<p class="col-sm-12 col-md-3 p-2  border rounded flex-column align-items-start list-group-item-action">
+                //    <span class="d-flex w-100 mt-1">
+                //    <span><img class=" img-fluid n-ava-small me-1 mb-1" src="' . $ch_img . 'flags/' . strtolower($ip_code_country1) . '.png" alt="' . $ip_country1 . '" loading="lazy"> ' . urldecode($ip_ip1) . '</span>
+                //    <span class="ms-auto">
+                //    <span class="badge bg-secondary ms-1" title="' . geoloc_translate('Visites') . '" data-bs-toggle="tooltip" data-bs-placement="left" >' . $ip_visite . '</span>
+                //    </span>
+                //    </span>
+                //    <span class="d-flex w-100">' . $ip_country1 . ' ' . $ip_city1 . '<span class="ms-auto"><i class="fa fa-desktop fa-lg text-body-secondary"></i></span></span>
+                //</p>';
+
+                $title_visites = geoloc_translate('Visites');
+
+                $tab_ip .= <<<EOF
+                <p class="col-sm-12 col-md-3 p-2 border rounded flex-column align-items-start list-group-item-action">
                     <span class="d-flex w-100 mt-1">
-                    <span><img class=" img-fluid n-ava-small me-1 mb-1" src="' . $ch_img . 'flags/' . strtolower($ip_code_country1) . '.png" alt="' . $ip_country1 . '" loading="lazy"> ' . urldecode($ip_ip1) . '</span>
-                    <span class="ms-auto">
-                    <span class="badge bg-secondary ms-1" title="' . geoloc_translate('Visites') . '" data-bs-toggle="tooltip" data-bs-placement="left" >' . $ip_visite . '</span>
+                        <span>
+                            <img class="img-fluid n-ava-small me-1 mb-1"
+                                src="{$ch_img}flags/{$ip_code_country1}.png"
+                                alt="{$ip_country1}"
+                                loading="lazy">
+                            {$ip_ip1}
+                        </span>
+                        <span class="ms-auto">
+                            <span class="badge bg-secondary ms-1"
+                                title="{$title_visites}"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="left">
+                                {$ip_visite}
+                            </span>
+                        </span>
                     </span>
+                    <span class="d-flex w-100">
+                        {$ip_country1} {$ip_city1}
+                        <span class="ms-auto">
+                            <i class="fa fa-desktop fa-lg text-body-secondary"></i>
+                        </span>
                     </span>
-                    <span class="d-flex w-100">' . $ip_country1 . ' ' . $ip_city1 . '<span class="ms-auto"><i class="fa fa-desktop fa-lg text-body-secondary"></i></span></span>
-                </p>';
+                </p>
+                EOF;
             }
 
             $i++;
