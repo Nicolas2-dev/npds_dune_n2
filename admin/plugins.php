@@ -21,15 +21,11 @@ include 'header.php';
 
 if ($ModPath != '') {
 
-    //if (file_exists('modules/' . $ModPath . '/' . $ModStart . '.php')) {
-    //   include 'modules/' . $ModPath . '/' . $ModStart . '.php';
-    //}
-
-    $isControllerAdmin = (strpos($ModPath, 'admin') !== false);
+    $isControllerAdmin = (strpos($ModPath, 'admin') !== false) || (strpos($ModStart, 'admin') !== false);
 
     if ($isControllerAdmin) {
-        $pos = strpos($ModPath, '/admin');
-        $ModPath = substr($ModPath, 0, $pos);
+        $$ModPath = preg_replace('#^admin/#', '', $ModPath);
+        $ModStart = preg_replace('#^admin/#', '', $ModStart);
     }
 
     $controllerPath = $isControllerAdmin
