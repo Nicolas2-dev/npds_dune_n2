@@ -63,8 +63,8 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
     } elseif (stristr($_SERVER['QUERY_STRING'], "Extend-Admin-SubModule") || $adm_img_mod == 1) {
 
-        $img_adm = (file_exists('modules/' . $ModPath . '/' . $ModPath . '.' . $admf_ext))
-            ? '<img src="modules/' . $ModPath . '/' . $ModPath . '.' . $admf_ext . '" class="me-2" alt="' . $f_titre . '" loading="lazy" />'
+        $img_adm = (file_exists('modules/' . $ModPath . '/assets/images/' . $ModPath . '.' . $admf_ext))
+            ? '<img src="modules/' . $ModPath . '/assets/images/' . $ModPath . '.' . $admf_ext . '" class="me-2" alt="' . $f_titre . '" loading="lazy" />'
             : '';
     } else {
         $img_adm = '';
@@ -451,8 +451,8 @@ function GraphicAdmin($hlpfile)
         $adm_lecture = explode('|', $SAQ['fdroits1_descr'] ?? '');
 
         if ($SAQ['fcategorie'] == 6 or ($SAQ['fcategorie'] == 9 and strstr($SAQ['furlscript'], 'op=Extend-Admin-SubModule'))) {
-            if (file_exists('modules/' . $SAQ['fnom'] . '/' . $SAQ['ficone'] . '.' . $admf_ext)) {
-                $adminico = 'modules/' . $SAQ['fnom'] . '/' . $SAQ['ficone'] . '.' . $admf_ext;
+            if (file_exists('modules/' . $SAQ['fnom'] . '/assets/images/' . $SAQ['ficone'] . '.' . $admf_ext)) {
+                $adminico = 'modules/' . $SAQ['fnom'] . '/assets/images/' . $SAQ['ficone'] . '.' . $admf_ext;
             } else {
                 $adminico = $adminimg . 'module.' . $admf_ext;
             }
