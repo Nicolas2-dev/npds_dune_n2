@@ -3889,7 +3889,7 @@ function language_list()
         $local_path = '../../';
     }
 
-    $handle = opendir($local_path . 'languages');
+    $handle = opendir($local_path . 'language');
 
     while (false !== ($file = readdir($handle))) {
         if (!strstr($file, '.')) {
