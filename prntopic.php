@@ -142,7 +142,7 @@ if ($allow_upload_forum) {
     $att = sql_num_rows(sql_query($sql));
 
     if ($att > 0) {
-        include 'modules/upload/include_forum/upload.func.forum.php';
+        include 'modules/upload/support/upload.func.forum.php';
     }
 }
 

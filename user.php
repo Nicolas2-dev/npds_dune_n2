@@ -52,7 +52,7 @@ function message_pass($ibid)
 
 function userCheck($uname, $email)
 {
-    include_once('functions.php');
+    include_once 'functions.php';
 
     $stop = '';
 
@@ -124,11 +124,10 @@ function makePass()
 function showimage()
 {
     echo "<script type=\"text/javascript\">
-    //<![CDATA[
-    function showimage() {
-    if (!document.images)
-        return
-        document.images.avatar.src=\n";
+        //<![CDATA[
+            function showimage() {
+                if (!document.images)
+                    return document.images.avatar.src=\n";
 
     if ($ibid = theme_image('forum/avatar/blank.gif')) {
         $imgtmp = substr($ibid, 0, strrpos($ibid, '/') + 1);
@@ -139,7 +138,7 @@ function showimage()
     echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
 
     echo "}
-    //]]>
+        //]]>
     </script>";
 }
 
@@ -409,8 +408,8 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
             }
 
             //------------------------------------------------
-            if (file_exists('modules/include/new_user.inc')) {
-                include 'modules/include/new_user.inc';
+            if (file_exists('themes/base/bootstrap/new_user.php')) {
+                include 'themes/base/bootstrap/new_user.php';
 
                 $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
@@ -501,7 +500,7 @@ function userinfo($uname)
     $posterdata_extend = get_userdata_extend_from_id($uid);
 
     if (!$short_user) {
-        include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
+        include 'modules/reseaux-sociaux/config/config.php';
 
         if (array_key_exists('M2', $posterdata_extend)) {
             $socialnetworks = explode(';', $posterdata_extend['M2']);
@@ -590,7 +589,7 @@ function userinfo($uname)
         }
     }
 
-    include 'modules/geoloc/geoloc.conf';
+    include 'modules/geoloc/config/config.php';
 
     echo '<div class="card card-body">
         <div class="row">';
@@ -704,7 +703,7 @@ function userinfo($uname)
                 var graticule = new ol.layer.Graticule();
                 graticule.setMap(map);';
 
-            $content .= file_get_contents('modules/geoloc/include/ol-dico.js');
+            $content .= file_get_contents('modules/geoloc/assets/js/ol-dico.js');
 
             $content .= '
                 const targ = map.getTarget();
@@ -750,7 +749,8 @@ function userinfo($uname)
     $handle = opendir('modules/comments');
 
     while (false !== ($file = readdir($handle))) {
-        if (!preg_match('#\.conf\.php$#i', $file)) {
+        //if (!preg_match('#\.conf\.php$#i', $file)) {
+        if (!preg_match('#\.php$#i', $file)) {
             continue;
         }
 
@@ -791,7 +791,7 @@ function userinfo($uname)
     <h4 class="my-3">' . translate('Les derniers articles de') . ' ' . $uname . '.</h4>
     <div id="last_article_by" class="card card-body mb-3">';
 
-    $xtab = news_aff("libre", "WHERE informant='$uname' ORDER BY sid DESC LIMIT 10", '', 10);
+    $xtab = news_aff('libre', "WHERE informant='$uname' ORDER BY sid DESC LIMIT 10", '', 10);
 
     $story_limit = 0;
 
@@ -937,8 +937,8 @@ function main($user)
             <script type="text/javascript">//<![CDATA[document.userlogin.uname.focus();//]]></script>';
 
             // include externe file from modules/include for functions, codes ...
-            if (file_exists('modules/include/user.inc')) {
-                include 'modules/include/user.inc';
+            if (file_exists('themes/base/bootstrap/user.php')) {
+                include 'themes/base/bootstrap/user.php';
             }
         }
 
@@ -1317,7 +1317,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 
             if (!$stop) {
                 $contents = '';
-                $filename = 'users_private/usersbadmail.txt';
+                $filename = 'storage/banned/usersbadmail.txt';
                 $handle = fopen($filename, 'r');
 
                 if (filesize($filename) > 0) {
@@ -1329,7 +1329,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 $re = '/#' . $uid . '\|(\d+)/m';
                 $maj = preg_replace($re, '', $contents);
 
-                $file = fopen('users_private/usersbadmail.txt', 'w');
+                $file = fopen('storage/banned/usersbadmail.txt', 'w');
                 fwrite($file, $maj);
                 fclose($file);
 
@@ -1343,7 +1343,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 $v = $uis_visible ? 0 : 1;
                 $w = $user_lnl ? 1 : 0;
 
-                include_once 'modules/upload/upload.conf.php';
+                include_once 'modules/upload/config/config.php';
 
                 global $avatar_size;
                 if (!$avatar_size) {
@@ -1356,8 +1356,8 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 if ($B1 != 'none') {
                     global $language;
 
-                    include_once 'modules/upload/lang/upload.lang-' . $language . '.php';
-                    include_once 'modules/upload/clsUpload.php';
+                    include_once 'modules/upload/language/' . $language . 'upload.lang-' . $language . '.php';
+                    include_once 'modules/upload/library/clsUpload.php';
 
                     $upload = new Upload();
 
@@ -1373,7 +1373,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 
                         if ($field1_filename) {
                             if ($autorise_upload_p) {
-                                $user_dir = $racine . '/users_private/' . $uname . '/';
+                                $user_dir = $racine . '/storage/users_private/' . $uname . '/';
 
                                 if (!is_dir($rep . $user_dir)) {
                                     @umask(0000);
@@ -1382,11 +1382,11 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                                         $fp = fopen($rep . $user_dir . 'index.html', 'w');
                                         fclose($fp);
                                     } else {
-                                        $user_dir = $racine . '/users_private/';
+                                        $user_dir = $racine . '/storage/users_private/';
                                     }
                                 }
                             } else {
-                                $user_dir = $racine . '/users_private/';
+                                $user_dir = $racine . '/storage/users_private/';
                             }
 
                             if ($upload->saveAs($uname . '.' . $suffix, $rep . $user_dir, 'B1', true)) {
@@ -1542,19 +1542,19 @@ function edithome()
     </form>';
 
     $fv_parametres = '
-    storynum: {
-        validators: {
-            regexp: {
-                regexp:/^[1-9](\d{0,2})$/,
-                message: "0-9"
-            },
-            between: {
-                min: 1,
-                max: 127,
-                message: "1 ... 127"
+        storynum: {
+            validators: {
+                regexp: {
+                    regexp:/^[1-9](\d{0,2})$/,
+                    message: "0-9"
+                },
+                between: {
+                    min: 1,
+                    max: 127,
+                    message: "1 ... 127"
+                }
             }
-        }
-    },';
+        },';
 
     $arg1 = 'var formulid=["changehome"];';
 
@@ -1649,7 +1649,7 @@ function chgtheme()
            <span>' . translate('Chaque utilisateur peut voir le site avec un thème graphique différent.') . '</span>
         </p>';
 
-    $handle = opendir('themes/_skins');
+    $handle = opendir('assets/skins');
 
     while (false !== ($file = readdir($handle))) {
         if (($file[0] !== '_')
@@ -1711,8 +1711,8 @@ function chgtheme()
             if(sk=="_sk") {
                 $("#skin_choice").removeClass("collapse");
                 $("#skins").change(function () {
-                sl = $("#skins option:selected").text();
-                $("#skin_thumbnail").html(\'<a href="themes/_skins/\'+sl+\'" class="btn btn-outline-primary"><img class="img-fluid img-thumbnail" src="themes/_skins/\'+sl+\'/thumbnail.png" /></a>\');
+                    sl = $("#skins option:selected").text();
+                    $("#skin_thumbnail").html(\'<a href="themes/_skins/\'+sl+\'" class="btn btn-outline-primary"><img class="img-fluid img-thumbnail" src="themes/_skins/\'+sl+\'/thumbnail.png" /></a>\');
                 }).change();
             } else {
                 $("#skin_choice").addClass("collapse");
@@ -1824,14 +1824,14 @@ function savejournal($uid, $journal, $datetime)
     list($vuid) = sql_fetch_row($result);
 
     if ($uid == $vuid) {
-        include 'modules/upload/upload.conf.php';
+        include 'modules/upload/config/config.php';
 
         if ($DOCUMENTROOT == '') {
             global $DOCUMENT_ROOT;
             $DOCUMENTROOT = ($DOCUMENT_ROOT) ? $DOCUMENT_ROOT : $_SERVER['DOCUMENT_ROOT'];
         }
 
-        $user_dir = $DOCUMENTROOT . $racine . '/users_private/' . $cookie[1];
+        $user_dir = $DOCUMENTROOT . $racine . '/storage/users_private/' . $cookie[1];
 
         if (!is_dir($user_dir)) {
             mkdir($user_dir, 0777);
@@ -1840,7 +1840,7 @@ function savejournal($uid, $journal, $datetime)
             chmod($user_dir . '/index.html', 0644);
         }
 
-        $journal = dataimagetofileurl($journal, 'users_private/' . $cookie[1] . '/jou'); //
+        $journal = dataimagetofileurl($journal, 'storage/users_private/' . $cookie[1] . '/jou'); //
         $journal = removeHack(stripslashes(FixQuotes($journal)));
 
         if ($datetime) {
@@ -2027,8 +2027,8 @@ switch ($op) {
         if ($user) {
             $userdata = explode(':', base64_decode($user));
 
-            if (!file_exists('users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt')) {
-                fopen('users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt', 'w');
+            if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt')) {
+                fopen('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt', 'w');
             }
 
             Header('Location: index.php');

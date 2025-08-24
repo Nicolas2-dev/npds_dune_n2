@@ -195,9 +195,9 @@ function sitemap_create($PAGES, $filename)
     }
 
     $ibid .= sitemapothers($PAGES);
-    $ibid .= "</urlset>";
+    $ibid .= '</urlset>';
 
-    $file = fopen($filename, "w");
+    $file = fopen($filename, 'w');
     fwrite($file, $ibid);
     fclose($file);
 

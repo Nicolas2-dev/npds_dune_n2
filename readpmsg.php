@@ -112,7 +112,7 @@ if (!$user) {
             if (!$short_user) {
                 $posterdata_extend = get_userdata_extend_from_id($posterdata['uid']);
 
-                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
+                include 'modules/reseaux-sociaux/config/config.php';
 
                 if ($posterdata_extend['M2'] != '') {
                     $socialnetworks = explode(';', $posterdata_extend['M2']);

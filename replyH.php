@@ -254,7 +254,7 @@ if ($submitS) {
         }
 
         if (isset($upload)) {
-            include 'modules/upload/upload_forum.php';
+            include 'modules/upload/http/controllers/upload_forum.php';
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
@@ -268,7 +268,7 @@ if ($submitS) {
     include 'header.php';
 
     if ($allow_bbcode == 1) {
-        include "library/formhelp.java.php";
+        include 'library/formhelp.java.php';
     }
 
     $sql = sql_query("SELECT topic_title, topic_status 

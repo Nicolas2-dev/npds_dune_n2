@@ -14,7 +14,7 @@
 /************************************************************************/
 
 if (!function_exists('Mysql_Connexion')) {
-    include'mainfile.php';
+    include 'mainfile.php';
 }
 
 $offset = 25;
@@ -56,7 +56,7 @@ if ($topic > 0) {
     list($topicimage, $topictext) = sql_fetch_row($result);
 } else {
     $topictext = translate('Tous les sujets');
-    $topicimage = "all-topics.gif";
+    $topicimage = 'all-topics.gif';
 }
 
 settype($type, 'string');
@@ -81,10 +81,10 @@ echo '<form action="search.php" method="get">';
 
 /*
 if (($type == 'users') OR ($type == 'sections') OR ($type == 'reviews')) {
-    echo "<img src=\"".$tipath."all-topics.gif\" align=\"left\" border=\"0\" alt=\"\" />";
+    echo "<img src=\"" . $tipath . "all-topics.gif\" align=\"left\" border=\"0\" alt=\"\" />";
 } else {
-    if ((($topicimage) or ($topicimage!="")) and (file_exists("$tipath$topicimage"))) {
-        echo "<img src=\"$tipath$topicimage\" align=\"right\" border=\"0\" alt=\"".aff_langue($topictext)."\" />";
+    if ((($topicimage) or ($topicimage != '')) and (file_exists($tipath$topicimage))) {
+        echo "<img src=\"" . $tipath$topicimage . "\" align=\"right\" border=\"0\" alt=\"" . aff_langue($topictext) . "\" />";
     }
 }
 */
@@ -262,7 +262,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
     }
 
     if (isset($query)) {
-        $q .= "AND (s.title LIKE '%$query_title%' OR s.hometext LIKE '%$query_body%' OR s.bodytext LIKE '%$query_body%' OR s.notes LIKE '%$query_body%') ";
+        $q .= "AND (s.title LIKE '%$query_title%' 
+               OR s.hometext LIKE '%$query_body%' 
+               OR s.bodytext LIKE '%$query_body%' 
+               OR s.notes LIKE '%$query_body%') ";
     }
 
     // Membre OU Auteur
@@ -282,7 +285,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
         $q .= "AND TO_DAYS(NOW()) - TO_DAYS(time) <= '$days' ";
     }
 
-    $q .= " ORDER BY s.time DESC" . $limit;
+    $q .= ' ORDER BY s.time DESC' . $limit;
 
     $t = $topic;
 
@@ -547,7 +550,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
                 <tbody>';
 
             while (list($uname, $name) = sql_fetch_row($result)) {
-                $furl = "user.php?op=userinfo&amp;uname=$uname";
+                $furl = 'user.php?op=userinfo&amp;uname=' . $uname;
 
                 if ($name == '') {
                     $name = translate('Aucun nom n\'a été entré');
@@ -565,6 +568,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
         } else {
             echo '<div class="alert alert-danger lead" role="alert">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
         }
+        
         $prev = $min - $offset;
 
         echo '<p align="left">

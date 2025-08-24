@@ -595,9 +595,9 @@ function showcontent($id)
     sql_free_result($result);
 
     global $anonpost, $moderate, $user;
-    if (file_exists('modules/comments/reviews.conf.php')) {
-        include 'modules/comments/reviews.conf.php';
-        include 'modules/comments/comments.php';
+    if (file_exists('modules/comments/config/reviews.php')) {
+        include 'modules/comments/config/reviews.php';
+        include 'modules/comments/http/controllers/comments.php';
     }
 
     include 'footer.php';
@@ -713,30 +713,30 @@ function mod_review($id)
         </script>';
 
         $fv_parametres = '
-        date:{},
-        hits: {
-            validators: {
-                regexp: {
-                    regexp:/^\d{1,9}$/,
-                    message: "0-9"
-                },
-                between: {
-                    min: 1,
-                    max: 999999999,
-                    message: "1 ... 999999999"
+            date:{},
+            hits: {
+                validators: {
+                    regexp: {
+                        regexp:/^\d{1,9}$/,
+                        message: "0-9"
+                    },
+                    between: {
+                        min: 1,
+                        max: 999999999,
+                        message: "1 ... 999999999"
+                    }
                 }
-            }
-        },
-        !###!
-        flatpickr("#date_modrev", {
-            altInput: true,
-            altFormat: "l j F Y",
-            dateFormat:"Y-m-d",
-            "locale": "' . language_iso(1, '', '') . '",
-            onChange: function() {
-                fvitem.revalidateField(\'date\');
-            }
-        });';
+            },
+            !###!
+            flatpickr("#date_modrev", {
+                altInput: true,
+                altFormat: "l j F Y",
+                dateFormat:"Y-m-d",
+                "locale": "' . language_iso(1, '', '') . '",
+                onChange: function() {
+                    fvitem.revalidateField(\'date\');
+                }
+            });';
 
         $arg1 = 'var formulid = ["modreview"];
             inpandfieldlen("title_modrev",150);
@@ -763,8 +763,8 @@ function del_review($id_del)
                    WHERE id='$id_del'");
 
         // commentaires
-        if (file_exists('modules/comments/reviews.conf.php')) {
-            include 'modules/comments/reviews.conf.php' ;
+        if (file_exists('modules/comments/config/reviews.php')) {
+            include 'modules/comments/config/reviews.php' ;
 
             sql_query("DELETE FROM " . sql_prefix('posts') . " 
                        WHERE forum_id='$forum' 

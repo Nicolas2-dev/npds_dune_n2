@@ -30,7 +30,7 @@ function autorisation_section($userlevel)
         }
     }
 
-    return ($okprint);
+    return $okprint;
 }
 
 function listsections($rubric)
@@ -39,8 +39,8 @@ function listsections($rubric)
 
     include 'header.php';
 
-    if (file_exists('sections.config.php')) {
-        include 'sections.config.php';
+    if (file_exists('config/sections.config.php')) {
+        include 'config/sections.config.php';
     }
 
     global $SuperCache;
@@ -146,7 +146,7 @@ function listsections($rubric)
                                 $imgtmp = $image;
                             }
 
-                            $suffix = strtoLower(substr(strrchr(basename($image), '.'), 1));
+                            //$suffix = strtoLower(substr(strrchr(basename($image), '.'), 1));
 
                             $aff1 .= '<img class="img-fluid" src="' . $imgtmp . '" alt="' . aff_langue($secname) . '" /><br />';
                         }
@@ -160,7 +160,7 @@ function listsections($rubric)
                         $aff2 = '<div id="sec' . $secid . '" class="collapse show">
                             <div class="">';
 
-                        $noartid = false;
+                        //$noartid = false;
 
                         while (list($artid, $title, $counter, $userlevel, $timestamp) = sql_fetch_row($result3)) {
 
@@ -168,7 +168,7 @@ function listsections($rubric)
                             $nouveau = '';
 
                             if ($okprintLV2) {
-                                $noartid = true;
+                                //$noartid = true;
 
                                 $nouveau = 'oo';
 
@@ -207,9 +207,10 @@ function listsections($rubric)
 
         /*
         if ($rubric) {
-            echo '<a class="btn btn-secondary" href="sections.php">'.translate('Return to Sections Index").'</a>';
+            echo '<a class="btn btn-secondary" href="sections.php">' . translate('Return to Sections Index') . '</a>';
         }
         */
+
         sql_free_result($result);
     }
 
@@ -224,8 +225,8 @@ function listarticles($secid)
 {
     global $user, $prev;
 
-    if (file_exists('sections.config.php')) {
-        include 'sections.config.php';
+    if (file_exists('config/sections.config.php')) {
+        include 'config/sections.config.php';
     }
 
     $result = sql_query("SELECT secname, rubid, image, intro, userlevel 
@@ -288,7 +289,7 @@ function listarticles($secid)
                     $imgtmp = $image;
                 }
 
-                $suffix = strtoLower(substr(strrchr(basename($image), '.'), 1));
+                //$suffix = strtoLower(substr(strrchr(basename($image), '.'), 1));
 
                 echo '<p class="text-center"><img class="img-fluid" src="' . $imgtmp . '" alt="" /></p>';
             }
@@ -321,7 +322,7 @@ function listarticles($secid)
             echo '</div>';
 
             /*
-            echo '<a class="btn btn-secondary" href="sections.php">'.translate('Return to Sections Index').'</a>';
+            echo '<a class="btn btn-secondary" href="sections.php">' . translate('Return to Sections Index') . '</a>';
             */
         } else {
             redirect_url('sections.php');
@@ -343,8 +344,8 @@ function viewarticle($artid, $page)
 
     $numpage = $page;
 
-    if (file_exists('sections.config.php')) {
-        include 'sections.config.php';
+    if (file_exists('config/sections.config.php')) {
+        include 'config/sections.config.php';
     }
 
     if ($page == '') {

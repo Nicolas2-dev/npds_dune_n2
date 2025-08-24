@@ -21,7 +21,7 @@ include 'functions.php';
 
 $cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
-include('auth.php');
+include 'auth.php';
 
 //$msg_id = array('');// voir si c'est le bon type
 
@@ -429,7 +429,7 @@ if (isset($user)) {
             $tmp = StripSlashes($subject);
         } else {
             if ($reply) {
-                $tmp = "Re: " . StripSlashes($row['subject']);
+                $tmp = 'Re: ' . StripSlashes($row['subject']);
             } else {
                 $tmp = '';
             }

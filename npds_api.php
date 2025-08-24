@@ -69,11 +69,11 @@ function alerte_update()
 
 switch ($op) {
 
-    case "alerte_api":
+    case 'alerte_api':
         alerte_api();
         break;
 
-    case "alerte_update":
+    case 'alerte_update':
         alerte_update();
         break;
 }

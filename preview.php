@@ -26,7 +26,7 @@ switch ($acc) {
         if ($forum_type == 8) {
             $formulaire = $myrow['forum_pass'];
 
-            include 'modules/sform/forum/forum_extender.php';
+            include 'library/sform/forum/forum_extender.php';
         }
 
         /*

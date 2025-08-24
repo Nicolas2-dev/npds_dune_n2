@@ -276,7 +276,7 @@ if ((isset($submit)) and ($mode == 'move')) {
 
             case 'viewip':
                 include 'header.php';
-                include 'modules/geoloc/geoloc_locip.php';
+                include 'modules/geoloc/support/geoloc_locip.php';
 
                 $sql = "SELECT u.uname, p.poster_ip, p.poster_dns 
                         FROM " . sql_prefix('users') . " u, " . sql_prefix('posts') . " p 

@@ -71,7 +71,7 @@ function show_imm($op)
 
         $skin = $skin == '' ? 'default' : $skin;
 
-        include('themes/' . $theme . '/theme.php');
+        include 'themes/' . $theme . '/views/theme.php';
 
         $userdata = get_userdata($userdata[1]);
 
@@ -100,8 +100,8 @@ function show_imm($op)
 
                 cache_ctrl();
 
-                include 'meta/meta.php';
-                include 'modules/include/header_head.inc';
+                include 'storage/meta/meta.php';
+                include 'themes/base/bootstrap/header_head.php';
 
                 echo import_css($tmp_theme, $language, $skin, '', '');
 
@@ -234,7 +234,7 @@ function read_imm($msg_id, $sub_op)
         if ($sub_op == 'reply') {
             echo "<script type=\"text/javascript\">
                //<![CDATA[
-               window.location='replypmsg.php?reply=1&msg_id=$msg_id&userid=$cookie[0]&full_interface=short';
+                window.location='replypmsg.php?reply=1&msg_id=$msg_id&userid=$cookie[0]&full_interface=short';
                //]]>
                </script>";
 
@@ -243,7 +243,7 @@ function read_imm($msg_id, $sub_op)
 
         echo '<script type="text/javascript">
             //<![CDATA[
-            window.location="readpmsg_imm.php?op=new_msg";
+                window.location="readpmsg_imm.php?op=new_msg";
             //]]>
             </script>';
 

@@ -132,7 +132,7 @@ settype($sortby, "integer");
 echo '<div class="form-check form-check-inline mt-2">
         <input type="radio" name="sortby" id="sbpt" class="form-check-input" value="0" ';
 
-if ($sortby == "0") {
+if ($sortby == '0') {
     echo 'checked="checked" ';
 }
 
@@ -142,7 +142,7 @@ echo '/>
         <div class="form-check form-check-inline  mt-2">
         <input type="radio" name="sortby" id="sbto" class="form-check-input" value="1" ';
 
-if ($sortby == "1") {
+if ($sortby == '1') {
     echo 'checked="checked" ';
 }
 
@@ -152,7 +152,7 @@ echo '/>
         <div class="form-check form-check-inline  mt-2">
         <input type="radio" name="sortby" id="sbfo" class="form-check-input" value="2" ';
 
-if ($sortby == "2") {
+if ($sortby == '2') {
     echo 'checked="checked" ';
 }
 
@@ -162,7 +162,7 @@ echo '/>
     <div class="form-check form-check-inline  mt-2">
     <input type="radio" name="sortby" id="sbau" class="form-check-input" value="3" ';
 
-if ($sortby == "3") {
+if ($sortby == '3') {
 
     echo 'checked="checked" ';
 }
@@ -239,22 +239,22 @@ $query .= isset($addquery)
     ? " WHERE $addquery AND  " 
     : ' WHERE ';
 
-settype($sortby, "integer");
+settype($sortby, 'integer');
 
 if ($sortby == 0) {
-    $sortbyR = "p.post_id";
+    $sortbyR = 'p.post_id';
 }
 
 if ($sortby == 1) {
-    $sortbyR = "t.topic_title";
+    $sortbyR = 't.topic_title';
 }
 
 if ($sortby == 2) {
-    $sortbyR = "f.forum_name";
+    $sortbyR = 'f.forum_name';
 }
 
 if ($sortby == 3) {
-    $sortbyR = "u.uname";
+    $sortbyR = 'u.uname';
 }
 
 $query .= isset($only_solved) 

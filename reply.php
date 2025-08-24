@@ -250,7 +250,7 @@ if ($submitS) {
         }
 
         if (isset($upload)) {
-            include 'modules/upload/upload_forum.php';
+            include 'modules/upload/http/controllers/upload_forum.php';
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
 
@@ -591,7 +591,7 @@ if ($submitS) {
                 if (!$short_user) {
                     $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
 
-                    include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
+                    include 'modules/reseaux-sociaux/rconfig/config.php';
 
                     if ($user or autorisation(-127)) {
                         if (array_key_exists('M2', $posterdata_extend)) {
@@ -631,7 +631,7 @@ if ($submitS) {
                     }
                 }
 
-                include 'modules/geoloc/geoloc.conf';
+                include 'modules/geoloc/config/config.php';
 
                 settype($ch_lat, 'string');
 

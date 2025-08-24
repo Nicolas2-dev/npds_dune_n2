@@ -42,7 +42,7 @@ function pollCollector($pollID, $voteID, $forwarder)
         if ($$cookieName == '1') {
             $voteValid = '0';
         } else {
-            setcookie("$cookieName", '1', time() + 86400);
+            setcookie($cookieName, '1', time() + 86400);
         }
 
         global $user;
