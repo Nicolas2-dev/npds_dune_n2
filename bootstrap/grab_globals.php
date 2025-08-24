@@ -62,8 +62,8 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
             }
         }
 
-        if (strpos($realip, ",") > 0) {
-            $realip = substr($realip, 0, strpos($realip, ",") - 1);
+        if (strpos($realip, ',') > 0) {
+            $realip = substr($realip, 0, strpos($realip, ',') - 1);
         }
 
         // from Gu1ll4um3r0m41n - 08-05-2007 - dev 2012
@@ -79,13 +79,13 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     $path_log = 'storage/logs/spam.log';
 
     if (file_exists($path_log)) {
-        $tab_spam = str_replace("\r\n", "", file($path_log));
+        $tab_spam = str_replace("\r\n", '', file($path_log));
 
         if (is_array($tab_spam)) {
             $ipadr = getip();
             $ipv = strstr($ipadr, ':') ? '6' : '4';
 
-            if (in_array($ipadr . "|5", $tab_spam)) {
+            if (in_array($ipadr . '|5', $tab_spam)) {
                 access_denied();
             }
 
@@ -130,7 +130,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
         $arr = rawurldecode($arr);
         $RQ_tmp = strtolower($arr);
-        $RQ_tmp_large = strtolower($key) . "=" . $RQ_tmp;
+        $RQ_tmp_large = strtolower($key) . '=' . $RQ_tmp;
 
         if (
             in_array($RQ_tmp, $bad_uri_content)
@@ -161,19 +161,19 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     if (!empty($_POST)) {
         array_walk_recursive($_POST, 'addslashes_GPC');
         /*
-      array_walk_recursive($_POST,'post_protect');
+        array_walk_recursive($_POST, 'post_protect');
 
-      if(!isset($_SERVER['HTTP_REFERER'])) {
-         Ecr_Log('security','Ghost form in '.$_SERVER['ORIG_PATH_INFO'].' => who playing with form ?','');
-         L_spambot('',"false");
-         access_denied();
-         
-      } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
-         Ecr_Log('security','Ghost form in '.$_SERVER['ORIG_PATH_INFO'].'. => '.$_SERVER["HTTP_REFERER"],'');
-         L_spambot('',"false");
-         access_denied();
-      }
-      */
+        if(!isset($_SERVER['HTTP_REFERER'])) {
+            Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
+            L_spambot('', 'false');
+            access_denied();
+            
+        } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
+            Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
+            L_spambot('', "false");
+            access_denied();
+        }
+        */
 
         extract($_POST, EXTR_OVERWRITE);
     }
@@ -186,13 +186,13 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     if (isset($user)) {
         $ibid = explode(':', base64_decode($user));
         array_walk($ibid, 'url_protect');
-        $user = base64_encode(str_replace("%3A", ":", urlencode(base64_decode($user))));
+        $user = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($user))));
     }
 
     if (isset($user_language)) {
         $ibid = explode(':', $user_language);
         array_walk($ibid, 'url_protect');
-        $user_language = str_replace("%3A", ":", urlencode($user_language));
+        $user_language = str_replace('%3A', ':', urlencode($user_language));
     }
 
     if (isset($admin)) {

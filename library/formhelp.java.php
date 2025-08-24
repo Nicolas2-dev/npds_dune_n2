@@ -26,7 +26,7 @@
                 mess.focus();
 
             // MOZILLA/NETSCAPE support   
-            } else if (mess.selectionStart || mess.selectionStart == "0") {
+            } else if (mess.selectionStart || mess.selectionStart == '0') {
                 var startPos = mess.selectionStart;
                 var endPos = mess.selectionEnd;
                 var chaine = mess.value;
@@ -52,7 +52,7 @@
                 mess.focus();
 
             // MOZILLA/NETSCAPE support   
-            } else if (mess.selectionStart || mess.selectionStart == "0") {
+            } else if (mess.selectionStart || mess.selectionStart == '0') {
                 var startPos = mess.selectionStart;
                 var endPos = mess.selectionEnd;
                 var chaine = mess.value;

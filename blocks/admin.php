@@ -16,7 +16,10 @@ if (! function_exists('adminblock'))
 
             $aid = urlencode($Xadmin[0]);
 
-            $Q = sql_fetch_assoc(sql_query("SELECT * FROM " . sql_prefix('authors') . " WHERE aid='$aid' LIMIT 1"));
+            $Q = sql_fetch_assoc(sql_query("SELECT * 
+                                            FROM " . sql_prefix('authors') . " 
+                                            WHERE aid='$aid' 
+                                            LIMIT 1"));
 
             $R = $Q['radminsuper'] == 1
                 ? sql_query("SELECT * 

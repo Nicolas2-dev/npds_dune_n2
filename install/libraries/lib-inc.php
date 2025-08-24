@@ -36,7 +36,7 @@ function IMysql_Connexion()
 $langue = isset($langue) ? $langue : 'french';
 
 if ($langue) {
-    if (file_exists($fichier_lang = 'install/language/' . language_iso(1, 0, 0) . '.php')) {
+    if (file_exists($fichier_lang = 'install/language/'. $langue .'/' . language_iso(1, 0, 0) . '.php')) {
         include_once $fichier_lang;
     } else {
         include_once 'install/language/'. $langue .'/' . $langue . '.php';

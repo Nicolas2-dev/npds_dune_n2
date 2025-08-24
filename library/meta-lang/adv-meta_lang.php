@@ -26,8 +26,8 @@ function MM_img($ibid)
     if ($ibidX) {
         $ret = '<img src="' . $ibidX . '" alt="smiley" loading="lazy" />';
     } else {
-        if (@file_exists('assets/shared/' . $ibid)) {
-            $ret = '<img src="assets/shared/' . $ibid . '" alt="smiley" loading="lazy" />';
+        if (@file_exists('assets/images/' . $ibid)) {
+            $ret = '<img src="assets/images/' . $ibid . '" alt="smiley" loading="lazy" />';
         } else {
             $ret = false;
         }
@@ -168,25 +168,25 @@ function meta_lang($Xcontent)
     global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle;
 
     // Reduction
-    $Xcontent = str_replace("<!--meta", '', $Xcontent);
-    $Xcontent = str_replace("meta-->", '', $Xcontent);
-    $Xcontent = str_replace("!PHP!", '', $Xcontent);
+    $Xcontent = str_replace('<!--meta', '', $Xcontent);
+    $Xcontent = str_replace('meta-->', '', $Xcontent);
+    $Xcontent = str_replace('!PHP!', '', $Xcontent);
 
     // Sauvegarde le contenu original / analyse et transformation
     $Ycontent = $Xcontent;
     $Xcontent = str_replace("\r", ' ', $Xcontent);
     $Xcontent = str_replace("\n", ' ', $Xcontent);
     $Xcontent = str_replace("\t", ' ', $Xcontent);
-    $Xcontent = str_replace("<br />", ' ', $Xcontent);
-    $Xcontent = str_replace("<BR />", ' ', $Xcontent);
-    $Xcontent = str_replace("<BR>", ' ', $Xcontent);
-    $Xcontent = str_replace("&nbsp;", ' ', $Xcontent);
+    $Xcontent = str_replace('<br />', ' ', $Xcontent);
+    $Xcontent = str_replace('<BR />', ' ', $Xcontent);
+    $Xcontent = str_replace('<BR>', ' ', $Xcontent);
+    $Xcontent = str_replace('&nbsp;', ' ', $Xcontent);
     $Xcontent = strip_tags($Xcontent);
 
     if (trim($Xcontent)) {
         $Xcontent .= ' ';
         // for compatibility only with old dyna-theme !
-        $Xcontent .= "!theme! ";
+        $Xcontent .= '!theme! ';
     } else {
         return $Ycontent;
     }

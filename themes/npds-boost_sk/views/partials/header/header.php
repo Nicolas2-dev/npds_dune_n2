@@ -1,5 +1,5 @@
 <?php
-global $cookie, $anonymous, $NPDS_Prefix, $Default_Skin;
+global $cookie, $anonymous, $Default_Skin;
 
 $ava = '';
 $cha = '';

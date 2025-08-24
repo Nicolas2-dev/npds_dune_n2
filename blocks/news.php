@@ -88,7 +88,7 @@ if (! function_exists('bigstory'))
 
         $tdate = getPartOfTime(time(), 'yyyy-MM-dd');
 
-        $xtab = news_aff("big_story", "WHERE (time LIKE '%$tdate%')", 1, 1);
+        $xtab = news_aff('big_story', "WHERE (time LIKE '%$tdate%')", 1, 1);
 
         if (sizeof($xtab)) {
             list($fsid, $ftitle) = $xtab[0];

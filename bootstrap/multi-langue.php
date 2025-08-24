@@ -37,6 +37,7 @@ if (isset($choice_user_language)) {
 
       if ((stristr($languageslist, $choice_user_language)) and ($choice_user_language != ' ')) {
          setcookie('user_language', $choice_user_language, $timeX);
+         
          $user_language = $choice_user_language;
       }
    }
