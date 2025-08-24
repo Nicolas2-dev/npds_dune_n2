@@ -22,7 +22,7 @@ include 'functions.php';
 include 'auth.php';
 
 if ($allow_upload_forum) {
-    include 'modules/upload/upload_forum.php';
+    include 'modules/upload/http/controllers/upload_forum.php';
 }
 
 $rowQ1 = Q_Select("SELECT forum_id 
@@ -192,8 +192,8 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
             if (!$short_user) {
                 $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
 
-                include 'modules/reseaux-sociaux/reseaux-sociaux.conf.php';
-                include 'modules/geoloc/geoloc.conf';
+                include 'modules/reseaux-sociaux/config/config.php';
+                include 'modules/geoloc/config/config';
 
                 if ($user or autorisation(-127)) {
                     if (array_key_exists('M2', $posterdata_extend)) {
@@ -674,7 +674,7 @@ if ($allow_upload_forum) {
     $att = sql_num_rows(sql_query($sql2));
 
     if ($att > 0) {
-        include 'modules/upload/include_forum/upload.func.forum.php';
+        include 'modules/upload/support/upload.func.forum.php';
     }
 }
 
