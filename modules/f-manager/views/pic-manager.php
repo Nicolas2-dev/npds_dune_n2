@@ -1,10 +1,10 @@
     <script type="text/javascript">
         //<![CDATA[
-        if (!document.querySelector("link[href='_nuke/themes/default/style/f-manager.css']")) {
+        if (!document.querySelector("link[href='_nuke/theme/base/assets/css/f-manager.css']")) {
             const lastStylesheet = document.querySelector("head link[rel='stylesheet']:last-of-type");
             const newLink = document.createElement('link');
             newLink.rel = 'stylesheet';
-            newLink.href = '_nuke/themes/default/style/f-manager.css';
+            newLink.href = '_nuke/theme/base/assets/css/f-manager.css';
             newLink.type = 'text/css';
             newLink.media = 'screen';
             lastStylesheet.insertAdjacentElement('afterend', newLink);

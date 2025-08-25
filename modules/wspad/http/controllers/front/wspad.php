@@ -171,7 +171,7 @@ function Liste_Page()
 
             $refresh = 15;
 
-            $filename = "modules/'. $ModPath .'/storage/wspad_trans('/'. $page .'-vgp-'. $groupe .'.txt";
+            $filename = "modules/'. $ModPath .'/storage/locks/'. $page .'-vgp-'. $groupe .'.txt";
 
             if (file_exists($filename)) {
                 if ((time() - $refresh) > filemtime($filename)) {
@@ -509,7 +509,7 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = removeHack(stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/upload/ws'))));
+        $content = removeHack(stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/storage/ws'))));
         $auteur = removeHack(stripslashes(FixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 

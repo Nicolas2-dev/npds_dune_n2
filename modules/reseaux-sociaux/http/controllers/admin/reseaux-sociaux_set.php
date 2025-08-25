@@ -257,15 +257,15 @@ settype($old_id, 'string');
 
 switch ($subop) {
 
-    case "SaveSetReseaux":
-    case "DeleteReseaux":
+    case 'SaveSetReseaux':
+    case 'DeleteReseaux':
         SaveSetReseaux($ModPath, $rs_id, $rs_url, $rs_ico, $subop, $old_id);
 
         ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg);
         break;
 
-    case "AddReseaux":
-    case "EditReseaux":
+    case 'AddReseaux':
+    case 'EditReseaux':
         EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_id, $rs_url, $rs_ico, $subop, $old_id);
         break;
 

@@ -71,7 +71,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 {
     global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg, $dbname, $subop;
 
-    include('modules/' . $ModPath . '/config/config.php');
+    include 'modules/' . $ModPath . '/config/config.php';
 
     $hlpfile = 'modules/' . $ModPath . '/views/manuele/' . $language . '/aide_admgeo_' . $language . '.html';
 

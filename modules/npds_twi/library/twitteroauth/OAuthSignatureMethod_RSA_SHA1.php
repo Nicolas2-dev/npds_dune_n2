@@ -6,13 +6,14 @@
  * EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a 
  * verified way to the Service Provider, in a manner which is beyond the scope of this 
  * specification.
- *   - Chapter 9.3 ("RSA-SHA1")
+ *   - Chapter 9.3 ('RSA-SHA1')
  */
 abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod
 {
+
     public function get_name()
     {
-        return "RSA-SHA1";
+        return 'RSA-SHA1';
     }
 
     // Up to the SP to implement this lookup of keys. Possible ideas are:
@@ -45,7 +46,7 @@ abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod
         $ok = openssl_sign($base_string, $signature, $privatekeyid);
 
         // Release the key resource
-        openssl_free_key($privatekeyid);
+        openssl_pkey_get_private($privatekeyid);
 
         return base64_encode($signature);
     }
@@ -66,7 +67,7 @@ abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod
         $ok = openssl_verify($base_string, $decoded_sig, $publickeyid);
 
         // Release the key resource
-        openssl_free_key($publickeyid);
+        openssl_pkey_get_public($publickeyid);
 
         return $ok == 1;
     }

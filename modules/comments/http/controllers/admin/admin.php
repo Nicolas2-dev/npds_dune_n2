@@ -20,12 +20,12 @@ if (!function_exists('Mysql_Connexion')) {
 
 include 'functions.php';
 include 'auth.php';
-include 'modules/geoloc/geoloc_locip.php';
+include 'modules/geoloc/support/geoloc_locip.php';
 
 filtre_module($file_name);
 
 if (file_exists('modules/comments/config/' . $file_name . '.php')) {
-    include('modules/comments/config/' . $file_name . '.php');
+    include 'modules/comments/config/' . $file_name . '.php';
 } else {
     die();
 }
@@ -122,7 +122,7 @@ if ($Mmod) {
             echo '</div>
             </div>';
 
-            include 'modules/geoloc/geoloc.conf';
+            include 'modules/geoloc/config/config.php';
 
             if ($geo_ip == 1) {
                 echo '<div class="card-footer text-end">
@@ -168,11 +168,11 @@ if ($Mmod) {
     include 'header.php';
 
     echo '<p class="text-center">
-        ' . translate('"Vous n\'êtes pas identifié comme modérateur de ce forum. Opération interdite.') . '
+        ' . translate('Vous n\'êtes pas identifié comme modérateur de ce forum. Opération interdite.') . '
         <br />
         <br />
         <a href="javascript:history.go(-1)" class="btn btn-secondary">
-            ' . translate('"Retour en arrière') . '
+            ' . translate('Retour en arrière') . '
         </a>
     </p>';
 

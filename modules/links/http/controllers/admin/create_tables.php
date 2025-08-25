@@ -26,7 +26,7 @@ global $ModPath, $ModStart;
 $pos = strpos($ModPath, '/admin');
 
 global $links_DB;
-include_once('modules/' . substr($ModPath, 0, $pos) . '/links.conf.php');
+include_once 'modules/' . substr($ModPath, 0, $pos) . '/config/config.php';
 
 if ($links_DB == '') {
     $links_DB = sql_prefix('');

@@ -53,7 +53,7 @@ if ($controle != 0) {
             $loc_obj = json_decode($loc);
 
             if ($loc_obj) {
-                $error = property_exists($loc_obj, "error");
+                $error = property_exists($loc_obj, 'error');
 
                 if ($error === false) {
                     $ibid = true;
@@ -74,7 +74,7 @@ if ($controle != 0) {
                 $loc_obj = json_decode($loc);
 
                 if ($loc_obj) {
-                    $error = property_exists($loc_obj, "message");
+                    $error = property_exists($loc_obj, 'message');
 
                     if ($error === false) {
                         $ibid = true;

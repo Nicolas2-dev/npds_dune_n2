@@ -281,7 +281,7 @@ if ($mycount) {
                 : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
-        $imgtmp = $ibid = theme_image("forum/subject/00.png") ? $ibid : 'assets/images/forum/subject/00.png';
+        $imgtmp = $ibid = theme_image('forum/subject/00.png') ? $ibid : 'assets/images/forum/subject/00.png';
 
         echo '<span class="float-end"><img class="n-smil" src="' . $imgtmp . '" alt="" /></span>
             </div>';

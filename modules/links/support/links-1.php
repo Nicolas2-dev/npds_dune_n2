@@ -67,7 +67,7 @@ function AddLink()
                 </div>';
 
         global $links_url;
-        if (($links_url) or ($links_url == -1))
+        if (($links_url) or ($links_url == -1)) {
             echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-3" for="url">URL</label>
                 <div class="col-sm-9">
@@ -75,6 +75,7 @@ function AddLink()
                 <span class="help-block text-end" id="countcar_url"></span>
             </div>
             </div>';
+        }
 
         $result = sql_query("SELECT cid, title 
                              FROM " . $links_DB . "links_categories 

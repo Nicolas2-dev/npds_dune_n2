@@ -12,7 +12,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-include 'modules/upload/upload.conf.php';
+include 'modules/upload/config/config.php';
 
 // Répertoire serveur de la racine du site (avec le / terminal)
 if ($DOCUMENTROOT == '') {
@@ -25,7 +25,7 @@ if ($DOCUMENTROOT == '') {
 }
 
 // Répertoire de téléchargement (avec le / terminal)
-$rep_upload_forum = $racine . '/modules/upload/upload_forum/';
+$rep_upload_forum = $racine . '/modules/upload/storage/upload_forum/';
 
 // Max size
 $MAX_FILE_SIZE_TOTAL = $quota;
