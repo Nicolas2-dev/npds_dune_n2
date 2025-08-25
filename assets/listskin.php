@@ -79,7 +79,7 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
 <body>
     <nav class="<?php echo $headerclasses; ?>" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img class="me-2" width="32" height="32" src="<?php echo implode($result[1]); ?>assets/shared/admin/message_npds.png" alt="logo_npds">NPDS skins</a>
+            <a class="navbar-brand" href="#"><img class="me-2" width="32" height="32" src="<?php echo implode($result[1]); ?>assets/images/admin/message_npds.png" alt="logo_npds">NPDS skins</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -135,7 +135,7 @@ $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
                     <div class="col-md-4 mb-3">
                         <h1><?php echo ucfirst($skinametitre); ?></h1>
                         <p class="lead">Nice skin for NPDS Cms</p>
-                        <img class="img-fluid" src="../../../../themes/default/assets/shared/logo.png" alt="logo npds" loading="lazy" />
+                        <img class="img-fluid" src="../../../../themes/default/assets/images/logo.png" alt="logo npds" loading="lazy" />
                     </div>
                     <div class="col-md-4 mb-3"></div>
                     <div class="col-md-4">

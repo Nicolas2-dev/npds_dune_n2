@@ -1,36 +1,20 @@
-# Interdit l'affichage de l'index du dossier
-Options -Indexes
-
-# Autorise l'accès aux fichiers (css, js, images, etc.)
-<IfModule mod_authz_core.c>
-    Require all granted
-</IfModule>
-
-<IfModule !mod_authz_core.c>
-    Allow from all
-</IfModule>
-
-# Sécurise en bloquant l'exécution de fichiers PHP
+# Bloque tous les PHP sauf index.php, listskin.php et emojicontroller.php
 <FilesMatch "\.(php|php[0-9]?|phtml)$">
-    Deny from all
+    Require all denied
 </FilesMatch>
 
-# Exception : autoriser uniquement emojicontroller.php
-<Files "emojicontroller.php">
+<Files "index.php">
     Require all granted
 </Files>
 
-# Exception : autoriser uniquement emojicontroller.php
 <Files "listskin.php">
     Require all granted
 </Files>
 
-# Redirige les dossiers sans index vers index.php
-RewriteEngine On
+<Files "emojicontroller.php">
+    Require all granted
+</Files>
 
-# Si c'est un dossier, rediriger vers /index.php à la racine
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^.*$ /index.php [R=302,L,QSA]
+Options -Indexes
 
-# Option alternative : rediriger tous les Forbidden (403) vers index.php
 ErrorDocument 403 /index.php
