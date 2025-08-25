@@ -96,7 +96,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     $cur_nav_encrypt = rawurlencode(encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirect_url("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt(dirname($base))));
+    redirect_url('modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode(encrypt(dirname($base))));
 }
 
 // gestion des types d'extension de fichiers
@@ -166,7 +166,7 @@ if ($refresh == 0) {
     $refresh = 3600;
 }
 
-$rep_cache = $racine_fma . '/cache/';
+$rep_cache = $racine_fma . '/storage/cache/';
 
 $rep_cache_encrypt = rawurlencode(encrypt($rep_cache));
 
@@ -325,12 +325,12 @@ if (isset($user)) {
 
 $inclusion = false;
 
-if (file_exists("themes/ '. $Default_Theme .'/html/modules/f-manager/pic-manager.php")) {
-    $inclusion = "themes/'. $Default_Theme .'/html/modules/f-manager/pic-manager.php";
-} elseif (file_exists("modules/f-manager/views/pic-manager.php")) {
-    $inclusion = "modules/f-manager/views/pic-manager.php";
+if (file_exists('themes/ ' . $Default_Theme . '/overrides/modules/f-manager/views/pic-manager.php')) {
+    $inclusion = 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/pic-manager.php';
+} elseif (file_exists('modules/f-manager/views/pic-manager.php')) {
+    $inclusion = 'modules/f-manager/views/pic-manager.php';
 } else {
-    echo "modules/f-manager/views/pic-manager.php manquant / not find !";
+    echo 'modules/f-manager/views/pic-manager.php manquant / not find !';
 }
 
 if ($inclusion) {
@@ -370,7 +370,7 @@ if ($inclusion) {
             require_once 'modules/f-manager/routes/pages/pages.php';
         }
 
-        $Titlesitename = aff_langue($PAGES["modules.php?ModPath=$ModPath&ModStart=$ModStart*"]['title']);
+        $Titlesitename = aff_langue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -415,26 +415,26 @@ if ($inclusion) {
     }
 
     // Head banner de présentation F-Manager
-    if (file_exists("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/head.php")) {
+    if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/head.php')) {
         echo "\n";
-        include("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/head.php");
+        include 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/head.php';
         echo "\n";
-    } else if (file_exists("modules/f-manager/views/head.php")) {
+    } else if (file_exists('modules/f-manager/views/head.php')) {
         echo "\n";
-        include("modules/f-manager/views/f-manager/head.php");
+        include 'modules/f-manager/views/f-manager/head.php';
         echo "\n";
     }
 
     echo meta_lang(aff_langue($Xcontent));
 
     // Foot banner de présentation F-Manager
-    if (file_exists("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/foot.php")) {
+    if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php')) {
         echo "\n";
-        include("themes/'. $Default_Theme .'/overrides/modules/f-manager/views/foot.php");
+        include 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php';
         echo "\n";
-    } else if (file_exists("modules/f-manager/views/foot.php")) {
+    } else if (file_exists('modules/f-manager/views/foot.php')) {
         echo "\n";
-        include("modules/f-manager/views/foot.php");
+        include 'modules/f-manager/views/foot.php';
         echo "\n";
     }
 

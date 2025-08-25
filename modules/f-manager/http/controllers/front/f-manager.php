@@ -121,7 +121,7 @@ if (substr(@php_uname(), 0, 7) == 'Windows') {
     $log_dir = str_replace("\\", "/", str_replace($basedir_fma, '', $base));
 }
 
-include_once 'modules/upload/upload.conf.php';
+include_once 'modules/upload/config/config.php';
 
 settype($op, 'string');
 
@@ -859,7 +859,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
 }
 
 // gestion des types d'extension de fichiers
-$extensions = include 'modules/' . $ModPath . '/config/extensions.php';
+$extensions = require 'modules/' . $ModPath . '/config/extensions.php';
 
 foreach ($extensions as $extens) {
     $att_icons[$extens] = '<span class="fa-stack">
@@ -1202,12 +1202,12 @@ chdir("$racine_fma/");
 // Génération de l'interface
 $inclusion = false;
 
-if (file_exists("themes/$Default_Theme/html/modules/f-manager/$theme_fma")) {
-    $inclusion = "themes/$Default_Theme/html/modules/f-manager/$theme_fma";
-} elseif (file_exists("themes/default/html/modules/f-manager/$theme_fma")) {
-    $inclusion = "themes/default/html/modules/f-manager/$theme_fma";
+if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/' . $theme_fma)) {
+    $inclusion = 'themes/' . $Default_Theme . '/overrides/modules/f-manager/views/' . $theme_fma;
+} elseif (file_exists('modules/f-manager/views/' . $theme_fma)) {
+    $inclusion = 'modules/f-manager/views/' . $theme_fma;
 } else {
-    echo "html/modules/f-manager/$theme_fma manquant / not find !";
+    echo 'modules/f-manager/' . $theme_fma . ' manquant / not find !';
 }
 
 if ($inclusion) {
@@ -1309,7 +1309,7 @@ if ($inclusion) {
             require_once 'modules/f-manager/routes/pages/pages.php';
         }
 
-        $Titlesitename = aff_langue($PAGES["modules.php?ModPath=$ModPath&ModStart=$ModStart*"]['title']);
+        $Titlesitename = aff_langue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -1349,12 +1349,12 @@ if ($inclusion) {
 
         global $tiny_mce;
         if ($tiny_mce) {
-            $tiny_mce_init = $PAGES["modules.php?ModPath=$ModPath&ModStart=$ModStart*"]['TinyMce'];
+            $tiny_mce_init = $PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['TinyMce'];
 
             if ($tiny_mce_init) {
-                $tiny_mce_theme = $PAGES["modules.php?ModPath=$ModPath&ModStart=$ModStart*"]['TinyMce-theme'];
+                $tiny_mce_theme = $PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['TinyMce-theme'];
 
-                echo aff_editeur("tiny_mce", "begin");
+                echo aff_editeur('tiny_mce', 'begin');
             }
         }
 
