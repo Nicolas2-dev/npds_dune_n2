@@ -1,5 +1,3 @@
-# Ignorer le dossier npds/dev
-
 # ignorer tout dans npds/
 npds/*
 
