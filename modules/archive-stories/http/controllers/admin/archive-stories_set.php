@@ -54,7 +54,7 @@ function ConfigureArchive($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
     global $hlpfile;
 
     if (file_exists('modules/'. $ModPath .'/config/config.php')) {
-        include'modules/'. $ModPath .'/config/config.php';
+        include 'modules/'. $ModPath .'/config/config.php';
     }
 
     GraphicAdmin($hlpfile);

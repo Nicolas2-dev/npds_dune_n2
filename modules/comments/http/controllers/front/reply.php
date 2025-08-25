@@ -148,7 +148,7 @@ if (isset($submitS)) {
 
         $image_subject = '';
 
-        $message = addslashes(dataimagetofileurl($message, 'modules/upload/upload/co'));
+        $message = addslashes(dataimagetofileurl($message, 'modules/upload/storage/co'));
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
 
