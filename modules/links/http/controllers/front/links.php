@@ -353,7 +353,7 @@ function viewlink($cid, $min, $orderby, $show)
 
         settype($affsouscat, 'string');
 
-        $filen = 'modules/$ModPath/support/links.ban_02.php';
+        $filen = 'modules/'.$ModPath.'/support/links.ban_02.php';
 
         if (file_exists($filen)) {
             include $filen;
@@ -586,7 +586,7 @@ function fiche_detail($Xlid)
         $link_fiche_detail = 'fiche_detail';
         $inter = 'cid';
 
-        include 'modules/sform/links/link_detail.php';
+        include 'modules/links/support/sform/link_detail.php';
     }
 
     if ($SuperCache) {

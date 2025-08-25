@@ -36,9 +36,9 @@ $m->add_key($ModPathX . '_id');
 
 $m->add_submit_value('link_fiche_detail');
 
-$m->add_url("modules.php?ModStart=$ModStart&ModPath=$ModPath");
+$m->add_url('modules.php?ModStart=' . $ModStart . '&ModPath=' . $ModPath);
 
-include_once 'modules'. $ModPathX . '/support/sform/formulaire.php';
+include_once 'modules' . $ModPathX . '/support/sform/formulaire.php';
 
 // Fabrique le formulaire et assure sa gestion
 switch ($link_fiche_detail) {

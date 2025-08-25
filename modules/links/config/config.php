@@ -22,8 +22,8 @@ $links_url = false - true;
 // Allow to register links with the Topic's information (true) or not (false)
 $links_topic = true;
 
-// Allow to limit the number of subcat showed in main page ("limit 0,0" => no subcat / "limit 0,3" => 3 subcat ... / "" => no limit )
-// You can also do a more complexe query : for exemple $subcat_limit="ASC limit 0,5" because the $subcat_limit complete the sql query !
+// Allow to limit the number of subcat showed in main page ('limit 0,0' => no subcat / 'limit 0,3' => 3 subcat ... / '' => no limit )
+// You can also do a more complexe query : for exemple $subcat_limit='ASC limit 0,5' because the $subcat_limit complete the sql query !
 $subcat_limit = '';
 
 // $links_anonaddlinklock
@@ -33,6 +33,6 @@ $subcat_limit = '';
 //   -1 : anonymous only
 //    0 : All (like config.php)
 //    1 : Member only (like config.php)
-//    2 to 126 : group' members ("gp1,gp2,gp3" is also possible)
+//    2 to 126 : group' members ('gp1,gp2,gp3' is also possible)
 //
 // exepmle : $links_anonaddlinklock=-127;

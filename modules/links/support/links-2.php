@@ -69,9 +69,9 @@ function NewLinks($newlinkshowdays)
     while ($counter <= 7 - 1) {
         $newlinkdayRaw = (time() - (86400 * $counter));
 
-        $newlinkday = date("d-M-Y", $newlinkdayRaw);
-        $newlinkView = date("F d, Y", $newlinkdayRaw);
-        $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
+        $newlinkday = date('d-M-Y', $newlinkdayRaw);
+        $newlinkView = date('F d, Y', $newlinkdayRaw);
+        $newlinkDB = Date('Y-m-d', $newlinkdayRaw);
 
         $result = sql_query("SELECT * 
                              FROM " . $links_DB . "links_links 
@@ -90,7 +90,7 @@ function NewLinks($newlinkshowdays)
     while ($counter <= 30 - 1) {
         $newlinkdayRaw = (time() - (86400 * $counter));
 
-        $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
+        $newlinkDB = Date('Y-m-d', $newlinkdayRaw);
 
         $result = sql_query("SELECT * 
                              FROM " . $links_DB . "links_links 
@@ -120,11 +120,11 @@ function NewLinks($newlinkshowdays)
     while ($counter <= $newlinkshowdays - 1) {
         $newlinkdayRaw = (time() - (86400 * $counter));
 
-        $newlinkday = date("d-M-Y", $newlinkdayRaw);
+        $newlinkday = date('d-M-Y', $newlinkdayRaw);
 
-        $newlinkView = date(str_replace("%", "", translate('linksdatestring')), $newlinkdayRaw);
+        $newlinkView = date(str_replace('%', '', translate('linksdatestring')), $newlinkdayRaw);
 
-        $newlinkDB = Date("Y-m-d", $newlinkdayRaw);
+        $newlinkDB = Date('Y-m-d', $newlinkdayRaw);
 
         $result = sql_query("SELECT * 
                              FROM " . $links_DB . "links_links 
