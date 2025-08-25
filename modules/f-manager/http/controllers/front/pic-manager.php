@@ -403,9 +403,9 @@ if ($inclusion) {
         echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" />
             <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
-            <link rel="stylesheet" id="fw_css" href="themes/_skins/' . $skin . '/bootstrap.min.css" />
+            <link rel="stylesheet" id="fw_css" href="assets/skins/' . $skin . '/bootstrap.min.css" />
             <link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />
-            <link rel="stylesheet" id="fw_css_extra" href="themes/_skins/' . $skin . '/extra.css" />
+            <link rel="stylesheet" id="fw_css_extra" href="assets/skins/' . $skin . '/extra.css" />
             <link href="' . $css_fma . '" title="default" rel="stylesheet" type="text/css" media="all" />
             <script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         </head>

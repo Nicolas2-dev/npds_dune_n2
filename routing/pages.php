@@ -224,13 +224,6 @@ $PAGES['modules.php?ModPath=links/admin&ModStart=links*']['blocs'] = "2";
 $PAGES['modules.php?ModPath=links/admin&ModStart=links*']['TinyMce'] = 1;
 $PAGES['modules.php?ModPath=links/admin&ModStart=links*']['TinyMce-theme'] = "full";
 
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['title'] = "[french]Gestionnaire de fichiers[/french][english]Files manager[/english][spanish]Administrador de Ficheros[/spanish][german]Datei-Manager[/german][chinese]Files manager[/chinese]";
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['run'] = "yes";
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['blocs'] = "-1";
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['TinyMce'] = 1;
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['TinyMce-theme'] = "short";
-$PAGES['modules.php?ModPath=f-manager&ModStart=f-manager*']['css'] = array($nuke_url . '/assets/shared/bootstrap/dist/css/bootstrap-icons.css+');
-
 $PAGES['modules.php?ModPath=comments&ModStart=reply*']['title'] = "[french]Commentaires[/french][english]Comments[/english][spanish]Comentarios[/spanish][german]Kommentare[/german][chinese]Comments[/chinese]";
 $PAGES['modules.php?ModPath=comments&ModStart=reply*']['run'] = "yes";
 $PAGES['modules.php?ModPath=comments&ModStart=reply*']['blocs'] = "2";
