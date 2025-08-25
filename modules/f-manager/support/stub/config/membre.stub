@@ -50,7 +50,7 @@ $tri_fma = array(
 // REPERTOIRES ----
 // ----------------
 // Vous pouvez limiter la navigation à un sous-répertoire se trouvant sous la racine de votre site
-// => $basedir_fma=$racine_fma.'/static';
+// => $basedir_fma=$racine_fma.'/storage/static';
 $basedir_fma = $racine_fma . '/storage/users_private/' . $cookie[1];
 
 // $dirlimit_fma permet de contrôler la navigation dans des sous-répertoires
