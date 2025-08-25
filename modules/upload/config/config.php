@@ -26,22 +26,22 @@ $DOCUMENTROOT = '';
 $autorise_upload_p = 'true';
 
 // Sous répertoire : n'utiliser que si votre NPDS n'est pas directement dans la racine de votre site
-// par exemple si : www.mon_site/npds/.... alors $racine="/npds" (avec le / DEVANT) sinon $racine="";
+// par exemple si : www.mon_site/npds/.... alors $racine='/npds' (avec le / DEVANT) sinon $racine='';
 $racine = '';
 
 // Répertoire de téléchargement (avec le / terminal)
-$rep_upload = '/modules/upload/upload/';
+$rep_upload = '/modules/upload/stoarge/';
 
 // Répertoire de stockage des fichiers temporaires (avec le / terminal)
-$rep_cache = '/modules/upload/tmp/';
+$rep_cache = '/modules/storage/tmp/';
 
 // Répertoire/fichier de stockage de la log de téléchargement (par défaut /slogs/security.log)
-$rep_log = '/slogs/security.log';
+$rep_log = '/storage/logs/security.log';
 
 // URL HTTP de votre site (exemple : http://www.monsite.org)  !
 $url_upload = 'http://localhost';
 
-// URL de la feuille de style à utiliser pour la présentation de la fenetre d'upload (ou "")
+// URL de la feuille de style à utiliser pour la présentation de la fenetre d'upload (ou '')
 
 global $cookie, $user, $Default_Theme, $theme;
 
@@ -56,7 +56,7 @@ if (isset($user)) {
 
     $tmp_theme = $cookie[9];
 
-    if (!$file = @opendir("themes/$cookie[9]")) {
+    if (!$file = @opendir('themes/' . $cookie[9])) {
         $tmp_theme = $Default_Theme;
     }
 } else {
@@ -65,13 +65,13 @@ if (isset($user)) {
 
 /*
 pour une css dans le theme courant utiliser :
-$url_upload_css = $racine."/themes/".$tmp_theme."/style/style.css";
+$url_upload_css = $racine.'/themes/'.$tmp_theme.'/assets/css/style.css';
 */
 $url_upload_css = '/assets/shared/bootstrap/dist/css/bootstrap.min.css';
 
 
 /* -------------- DIVERS -------------- */
-// Gére l'affichage de la Banque Images et Documents : "0000" => rien / "1111" => tous
+// Gére l'affichage de la Banque Images et Documents : '0000' => rien / '1111' => tous
 // 1 (true) ou 0 (False)
 // - 1er position   : afficher les images de !divers
 // - 2ième position : afficher les images de !mime

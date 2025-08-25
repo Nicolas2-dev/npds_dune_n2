@@ -58,7 +58,7 @@ class OAuthServer
         $consumer = $this->get_consumer($request);
 
         // requires authorized request token
-        $token = $this->get_token($request, $consumer, "request");
+        $token = $this->get_token($request, $consumer, 'request');
 
         $this->check_signature($request, $consumer, $token);
 
@@ -77,7 +77,7 @@ class OAuthServer
         $this->get_version($request);
 
         $consumer = $this->get_consumer($request);
-        $token = $this->get_token($request, $consumer, "access");
+        $token = $this->get_token($request, $consumer, 'access');
 
         $this->check_signature($request, $consumer, $token);
 
@@ -90,11 +90,11 @@ class OAuthServer
      */
     private function get_version(&$request)
     {
-        $version = $request->get_parameter("oauth_version");
+        $version = $request->get_parameter('oauth_version');
 
         if (!$version) {
             // Service Providers MUST assume the protocol version to be 1.0 if this parameter is not present. 
-            // Chapter 7.0 ("Accessing Protected Ressources")
+            // Chapter 7.0 ('Accessing Protected Ressources')
             $version = '1.0';
         }
 
@@ -111,10 +111,10 @@ class OAuthServer
     private function get_signature_method(&$request)
     {
         $signature_method =
-            @$request->get_parameter("oauth_signature_method");
+            @$request->get_parameter('oauth_signature_method');
 
         if (!$signature_method) {
-            // According to chapter 7 ("Accessing Protected Ressources") the signature-method
+            // According to chapter 7 ('Accessing Protected Ressources') the signature-method
             // parameter is required, and we can't just fallback to PLAINTEXT
             throw new OAuthException('No signature method parameter. This parameter is required');
         }
@@ -138,16 +138,16 @@ class OAuthServer
      */
     private function get_consumer(&$request)
     {
-        $consumer_key = @$request->get_parameter("oauth_consumer_key");
+        $consumer_key = @$request->get_parameter('oauth_consumer_key');
 
         if (!$consumer_key) {
-            throw new OAuthException("Invalid consumer key");
+            throw new OAuthException('Invalid consumer key');
         }
 
         $consumer = $this->data_store->lookup_consumer($consumer_key);
 
         if (!$consumer) {
-            throw new OAuthException("Invalid consumer");
+            throw new OAuthException('Invalid consumer');
         }
 
         return $consumer;
@@ -156,7 +156,7 @@ class OAuthServer
     /**
      * try to find the token for the provided request's token key
      */
-    private function get_token(&$request, $consumer, $token_type = "access")
+    private function get_token(&$request, $consumer, $token_type = 'access')
     {
         $token_field = @$request->get_parameter('oauth_token');
         $token = $this->data_store->lookup_token(
@@ -196,7 +196,7 @@ class OAuthServer
         );
 
         if (!$valid_sig) {
-            throw new OAuthException("Invalid signature");
+            throw new OAuthException('Invalid signature');
         }
     }
 

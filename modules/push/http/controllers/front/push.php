@@ -19,8 +19,8 @@ if (!function_exists('Mysql_Connexion')) {
 }
 
 include 'modules/push/language/' . $language . '/' . $language . '.php';
-include 'config.php';
-include 'cache.php';
+include 'modules/push/config/config.php';
+include 'modules/push/config/cache.php';
 
 function push_menu()
 {
@@ -55,7 +55,7 @@ function index()
 {
     global $options;
 
-    push_header("menu");
+    push_header('menu');
     push_menu();
 
     if (substr((string) $options, 0, 1) == 1) {
@@ -149,7 +149,8 @@ function new_show($sid, $offset)
 
         echo "document.write('<span style=\"font-size: 11px;\"><b>.:|<a href=\"$nuke_url/article.php?sid=$sid\" target=\"_blank\">" . aff_langue($title) . "</a>|:.</b></span><br />');\n";
 
-        formatTimestamp($time);
+        //formatTimestamp($time);
+        formatTimes($time);
 
         $topictext = str_replace("'", "\'", $topictext);
 

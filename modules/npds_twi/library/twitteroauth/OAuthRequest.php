@@ -34,7 +34,7 @@ class OAuthRequest
      */
     public static function from_request($http_method = NULL, $http_url = NULL, $parameters = NULL)
     {
-        $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
+        $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')
             ? 'http'
             : 'https';
 
@@ -60,10 +60,10 @@ class OAuthRequest
             // It's a POST request of the proper content-type, so parse POST
             // parameters and add those overriding any duplicates from GET
             if (
-                $http_method == "POST"
+                $http_method == 'POST'
                 && @strstr(
-                    $request_headers["Content-Type"],
-                    "application/x-www-form-urlencoded"
+                    $request_headers['Content-Type'],
+                    'application/x-www-form-urlencoded'
                 )
             ) {
                 $post_data = OAuthUtil::parse_parameters(
@@ -74,7 +74,7 @@ class OAuthRequest
 
             // We have a Authorization-header with OAuth data. Parse the header
             // and add those overriding any duplicates from GET or POST
-            if (@substr($request_headers['Authorization'], 0, 6) == "OAuth ") {
+            if (@substr($request_headers['Authorization'], 0, 6) == 'OAuth ') {
                 $header_parameters = OAuthUtil::split_header(
                     $request_headers['Authorization']
                 );
@@ -94,10 +94,10 @@ class OAuthRequest
         @$parameters or $parameters = array();
 
         $defaults = array(
-            "oauth_version" => OAuthRequest::$version,
-            "oauth_nonce" => OAuthRequest::generate_nonce(),
-            "oauth_timestamp" => OAuthRequest::generate_timestamp(),
-            "oauth_consumer_key" => $consumer->key
+            'oauth_version' => OAuthRequest::$version,
+            'oauth_nonce' => OAuthRequest::generate_nonce(),
+            'oauth_timestamp' => OAuthRequest::generate_timestamp(),
+            'oauth_consumer_key' => $consumer->key
         );
 
         if ($token) {
@@ -150,7 +150,7 @@ class OAuthRequest
         $params = $this->parameters;
 
         // Remove oauth_signature if present
-        // Ref: Spec: 9.1.1 ("The oauth_signature parameter MUST be excluded.")
+        // Ref: Spec: 9.1.1 ('The oauth_signature parameter MUST be excluded.')
         if (isset($params['oauth_signature'])) {
             unset($params['oauth_signature']);
         }
@@ -250,7 +250,7 @@ class OAuthRequest
         $total = array();
 
         foreach ($this->parameters as $k => $v) {
-            if (substr($k, 0, 5) != "oauth")
+            if (substr($k, 0, 5) != 'oauth')
                 continue;
 
             if (is_array($v)) {
@@ -277,14 +277,14 @@ class OAuthRequest
     public function sign_request($signature_method, $consumer, $token)
     {
         $this->set_parameter(
-            "oauth_signature_method",
+            'oauth_signature_method',
             $signature_method->get_name(),
             false
         );
 
         $signature = $this->build_signature($signature_method, $consumer, $token);
 
-        $this->set_parameter("oauth_signature", $signature, false);
+        $this->set_parameter('oauth_signature', $signature, false);
     }
 
     public function build_signature($signature_method, $consumer, $token)

@@ -26,9 +26,9 @@ function marquetapage_add($uri, $topic, $action)
             $uri = $nuke_url . $uri;
         } else {
             if ($_SERVER['SERVER_PORT'] == '80') {
-                $uri = "http://" . $_SERVER['SERVER_NAME'] . $uri;
+                $uri = 'http://' . $_SERVER['SERVER_NAME'] . $uri;
             } else {
-                $uri = "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . $uri;
+                $uri = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $uri;
             }
         }
 
@@ -38,7 +38,7 @@ function marquetapage_add($uri, $topic, $action)
         redirect_url($uri);
     }
 
-    if (($action == "sp_tapage") and ($cookie[0])) {
+    if (($action == 'sp_tapage') and ($cookie[0])) {
         $result = sql_query("SELECT uri 
                              FROM " . sql_prefix('marquetapage') . " 
                              WHERE uid='$cookie[0]' 

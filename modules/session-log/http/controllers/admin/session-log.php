@@ -26,8 +26,8 @@ global $language, $ModPath, $ModStart;
 
 $hlpfile = 'modules/' . $ModPath . '/manuels/' . $language . '/' . $language . '/logs.php';
 
-include 'modules/upload/upload.conf.php';
-include 'modules/geoloc/geoloc_locip.php';
+include 'modules/upload/config/config.php';
+include 'modules/geoloc/support/geoloc_locip.php';
 
 if ($DOCUMENTROOT == '') {
 
@@ -39,7 +39,7 @@ if ($DOCUMENTROOT == '') {
     }
 }
 
-$FileSecure = $DOCUMENTROOT . $racine . '/slogs/security.log';
+$FileSecure = $DOCUMENTROOT . $racine . '/storage/logs/security.log';
 $FileUpload = $DOCUMENTROOT . $rep_log;
 $RepTempFil = $DOCUMENT_ROOT . $rep_cache;
 
@@ -379,7 +379,7 @@ if ($subop == 'security') {
 }
 
 // Voir le contenu du fichier d'upload si différent de security.log (upload.conf.php)
-if ($subop == "upload") {
+if ($subop == 'upload') {
     $UpLog = '';
 
     if ($FileUpload != $FileSecure) {

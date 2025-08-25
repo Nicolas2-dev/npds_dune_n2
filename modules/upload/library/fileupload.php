@@ -171,7 +171,7 @@ if (!isset($FILEUPLOAD)) {
             global $DOCUMENTROOT;
             $rep = $DOCUMENTROOT;
 
-            settype($log_filename, "string");
+            settype($log_filename, 'string');
 
             if ($insert_base == true) {
 
@@ -202,7 +202,7 @@ if (!isset($FILEUPLOAD)) {
 
                 $log_filename = $dest_file;
             } else {
-                if ($this->apli == "minisite") {
+                if ($this->apli == 'minisite') {
 
                     # copy temporary file to the upload directory
                     # -------------------------------------------
@@ -219,7 +219,7 @@ if (!isset($FILEUPLOAD)) {
                     @chmod($rep . $rep_upload_minisite . $name, 0766);
 
                     $log_filename = $rep . $rep_upload_minisite . $name;
-                } elseif ($this->apli == "editeur") {
+                } elseif ($this->apli == 'editeur') {
 
                     # copy temporary file to the upload directory
                     # -------------------------------------------

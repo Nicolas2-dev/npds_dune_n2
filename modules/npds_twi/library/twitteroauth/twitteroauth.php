@@ -7,7 +7,16 @@
  */
 
 /* Load OAuth lib. You can find it at http://oauth.net */
-require_once('OAuth.php');
+require_once 'modules/npds_twi/twitteroauth/OAuthDataStore.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthException.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthRequest.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthServer.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthSignatureMethod_HMAC_SHA1.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthSignatureMethod_PLAINTEXT.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthSignatureMethod_RSA_SHA1.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthSignatureMethod.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthToken.php';
+require_once 'modules/npds_twi/twitteroauth/OAuthUtil.php';
 
 /**
  * Twitter OAuth class
@@ -22,7 +31,7 @@ class TwitterOAuth
     public $url;
 
     /* Set up the API root URL. */
-    public $host = "https://api.twitter.com/1/";
+    public $host = 'https://api.twitter.com/1/';
 
     /* Set timeout default. */
     public $timeout = 30;
