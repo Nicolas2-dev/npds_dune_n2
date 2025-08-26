@@ -169,13 +169,13 @@ function user_is_moderator($uidX, $passwordX, $forum_accessX)
 
     $userX = sql_fetch_assoc($result1);
 
+    $password = $userX['pass']; 
+
     $result2 = sql_query("SELECT level 
                           FROM " . sql_prefix('users_status') . " 
                           WHERE uid = '$uidX'");
 
     $userX = sql_fetch_assoc($result2);
-
-    $password = $userX['pass'];
 
     if ((md5($password) == $passwordX) and ($forum_accessX <= $userX['level']) and ($userX['level'] > 1)) {
         return $userX['level'];
