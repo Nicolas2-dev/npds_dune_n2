@@ -38,10 +38,14 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     // report toutes les erreurs.
     // error_reporting(E_ALL);
 
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();
+    $debug = false;
 
+    if($debug) {
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+        $whoops->register();
+    }
+    
     function getip()
     {
         if (isset($_SERVER)) {
