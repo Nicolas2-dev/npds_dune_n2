@@ -1,29 +1,69 @@
 <?php
 
+namespace App\Support\Compress;
+
+use App\Support\Compress\Archive;
+
+
 /**
  * Classe pour la gestion des fichiers ZIP
+ * Hérite de la classe Archive.
  */
 class ZipFile extends Archive
 {
+
+    /** 
+     * @var string Répertoire courant pour l'ajout de fichiers 
+     */
     protected string $cwd = './';
 
+    /** 
+     * @var string Commentaire de l'archive ZIP 
+     */
     protected string $comment = '';
 
+    /** 
+     * @var int Niveau de compression (0 à 9) 
+     */
     protected int $level = 9;
 
+    /** 
+     * @var int Position actuelle dans l'archive 
+     */
     protected int $offset = 0;
 
+    /** 
+     * @var int Activer la récursivité pour sous-dossiers 
+     */
     protected int $recurseSd = 1;
 
+    /**  
+     * @var int Indique si le chemin doit être conservé
+     */
     protected int $storePath = 1;
 
+    /**  
+     * @var int Temps de remplacement pour les fichiers
+     */
     protected int $replaceTime = 0;
 
+    /** 
+     * @var array Stocke les en-têtes centraux des fichiers 
+     */
     protected array $central = [];
 
+    /** 
+     * @var array Stocke les données compressées de l'archive 
+     */
     protected array $zipData = [];
 
 
+    /**
+     * Constructeur
+     *
+     * @param string $cwd Répertoire de travail
+     * @param array $flags Options : 'time', 'recursesd', 'storepath', 'level', 'comment'
+     */
     public function __construct(string $cwd = './', array $flags = [])
     {
         parent::__construct($flags);
@@ -53,9 +93,14 @@ class ZipFile extends Archive
 
     /**
      * Ajoute un fichier à l'archive ZIP
+     *
+     * @param string $data Contenu du fichier
+     * @param string $filename Nom du fichier dans l'archive
+     * @param array $flags Options : 'time' pour définir la date du fichier
      */
     public function addFile(string $data, string $filename, array $flags = []): void
     {
+        // Gestion du chemin selon storePath
         if ($this->storePath !== 1) {
             $filename = str_contains($filename, '/') ? substr($filename, strrpos($filename, '/') + 1) : $filename;
         } else {
@@ -65,8 +110,15 @@ class ZipFile extends Archive
         $timestamp = !empty($this->replaceTime) ? $this->replaceTime : ($flags['time'] ?? time());
         $mtime = getdate($timestamp);
 
-        $dosTime = ($mtime['year'] - 1980) << 25 | $mtime['mon'] << 21 | $mtime['mday'] << 16 |
-            $mtime['hours'] << 11 | $mtime['minutes'] << 5 | ($mtime['seconds'] >> 1);
+        // Conversion en format DOS pour ZIP
+        $dosTime = (
+            $mtime['year'] - 1980) << 25 
+            | $mtime['mon'] << 21 
+            | $mtime['mday'] << 16 
+            | $mtime['hours'] << 11 
+            | $mtime['minutes'] << 5 
+            | ($mtime['seconds'] >> 1
+        );
 
         $mtimePacked = pack('V', $dosTime);
 
@@ -80,18 +132,18 @@ class ZipFile extends Archive
             return;
         }
 
-        // Retire les en-têtes GZIP (2 premiers octets) et la fin (4 derniers octets)
+        // Retire les en-têtes GZIP
         $compressed = substr($compressed, 2, -4);
         $compLength = strlen($compressed);
 
-        // En-tête de fichier local
+        // Création de l'en-tête local
         $localHeader = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00" . $mtimePacked .
             pack('VVVvv', $crc32, $compLength, $normalLength, strlen($filename), 0x00);
 
         $this->zipData[] = $localHeader . $filename . $compressed .
             pack('VVV', $crc32, $compLength, $normalLength);
 
-        // En-tête central
+        // Création de l'en-tête central
         $centralHeader = "\x50\x4b\x01\x02\x00\x00\x14\x00\x00\x00\x08\x00" . $mtimePacked .
             pack(
                 'VVVvvvvvVV',
@@ -113,6 +165,8 @@ class ZipFile extends Archive
 
     /**
      * Ajoute plusieurs fichiers à l'archive
+     *
+     * @param array $fileList Liste des fichiers à ajouter
      */
     protected function addFiles(array $fileList): void
     {
@@ -120,14 +174,10 @@ class ZipFile extends Archive
         @chdir($this->cwd);
 
         foreach ($fileList as $current) {
-            if (!@file_exists($current)) {
-                continue;
-            }
+            if (!@file_exists($current)) continue;
 
             $stat = stat($current);
-            if ($stat === false) {
-                continue;
-            }
+            if ($stat === false) continue;
 
             $data = '';
             if ($stat[7] > 0) {
@@ -148,7 +198,9 @@ class ZipFile extends Archive
     }
 
     /**
-     * Retourne les données de l'archive ZIP
+     * Retourne les données binaires de l'archive ZIP
+     *
+     * @return string Données de l'archive
      */
     public function getArchiveData(): string
     {
@@ -164,21 +216,23 @@ class ZipFile extends Archive
                 strlen($central),
                 strlen($zipData),
                 strlen($this->comment)
-            ) .
-            $this->comment;
+            ) . $this->comment;
 
         return $zipData . $central . $endOfCentral;
     }
 
     /**
-     * Télécharge le fichier ZIP
+     * Envoie le fichier ZIP au navigateur pour téléchargement
+     *
+     * @param string $filename Nom du fichier ZIP
      */
     public function fileDownload(string $filename): void
     {
-        header("Content-Type: application/zip; name=\"$filename\"");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Content-Type: application/zip; name="'.$filename.'"');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
         header('Pragma: no-cache');
         header('Expires: 0');
+
         echo $this->getArchiveData();
     }
 }

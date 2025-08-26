@@ -79,9 +79,6 @@ function displayUsers()
 
 function extractUserCSV()
 {
-    include 'library/compress/Archive.php';
-    include 'library/compress/helpers.php';
-
     $MSos = get_os();
 
     if ($MSos) {

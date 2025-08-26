@@ -2,9 +2,12 @@
     "name": "nicolas/npds_dune_n2",
     "autoload": {
         "psr-4": {
-            "App\\": "/",
+            "App\\": "/app",
             "Npds\\": "/npds"
-        }
+        },
+        "files": [
+            "app/Support/helpers.php"
+        ]
     },
     "authors": [
         {

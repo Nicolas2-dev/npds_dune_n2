@@ -49,9 +49,14 @@ if ((isset($aid)) and (isset($pwd)) and ($op == 'login')) {
 
             $dbpass = $setinfo['pwd'];
 
-            $pwd = (PHP_VERSION_ID >= 80200)
-                ? mb_convert_encoding($pwd, 'ISO-8859-1', 'UTF-8')
-                : utf8_decode($pwd);
+            // ne sert a rien !
+            //$pwd = (PHP_VERSION_ID >= 80200)
+            //    ? mb_convert_encoding($pwd, 'ISO-8859-1', 'UTF-8')
+            //    : utf8_decode($pwd);
+
+            // compatible avec PHP 7.x, 8.0, 8.2 et 8.4+
+            $pwd = mb_convert_encoding($pwd, 'ISO-8859-1', 'UTF-8');
+
 
             $scryptPass = null;
 

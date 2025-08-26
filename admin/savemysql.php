@@ -28,9 +28,6 @@ admindroits($aid, $f_meta_nom);
 
 $name = $aid;
 
-include 'library/compress/Archive.php';
-include 'library/compress/helpers.php';
-
 mysqli_set_charset($dblink, 'utf8mb4');
 
 function PrepareString($a_string = '')
@@ -288,7 +285,7 @@ function dbSave_tofile($repertoire, $linebyline = 0, $savemysql_size = 256)
 
                 if ($linebyline == 1) {
                     if (strlen($data1) > ($savemysql_size * 1024)) {
-                        send_tofile($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
+                        send_to_file($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
 
                         $data1 = '';
                         $ifile++;
@@ -301,7 +298,7 @@ function dbSave_tofile($repertoire, $linebyline = 0, $savemysql_size = 256)
 
             if ($linebyline == 0) {
                 if (strlen($data1) > ($savemysql_size * 1024)) {
-                    send_tofile($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
+                    send_to_file($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
                     $data1 = '';
                     $ifile++;
                 }
@@ -309,7 +306,7 @@ function dbSave_tofile($repertoire, $linebyline = 0, $savemysql_size = 256)
         }
 
         if (strlen($data1) > 0) {
-            send_tofile($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
+            send_to_file($data0 . $data1, $repertoire, $filename . '-' . sprintf('%03d', $ifile), 'sql', $MSos);
             $data1 = '';
             $ifile++;
         }
