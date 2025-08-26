@@ -34,6 +34,14 @@ class Archive
     protected array $errors = [];
 
     /**
+     * Détermine si la récursion est activée
+     *
+     * @var int
+     */
+    protected int $recurseSd = 0;
+
+    
+    /**
      * Constructeur
      * 
      * @param array $flags Tableau associatif de paramètres :
