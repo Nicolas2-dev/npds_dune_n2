@@ -32,7 +32,7 @@ echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/ext
 echo '<script type="text/javascript" src="assets/shared/jquery/plugin/tableExport/tableExport.js" async="async"></script>';
 
 //
-echo '<script type="text/javascript" src="assets/js/npds_js_cookie.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/jscookie/js.cookie.js" async="async"></script>';
 
 //
 echo '<script type="text/javascript" src="assets/shared/jquery/jquery-ui.min.js" ></script>';
