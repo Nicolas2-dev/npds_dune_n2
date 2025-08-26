@@ -801,7 +801,7 @@ CREATE TABLE rblocks (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO rblocks VALUES (1, '[french]Un Bloc ...[/french][english]One Block ...[/english][chinese]&#x4E00;&#x5757;...[/chinese][spanish]Un Bloque...[/spanish][german]Ein Block[/german]', 'Vous pouvez ajouter, &eacute;diter et supprimer des Blocs &agrave; votre convenance.', '0', 99, 0, 1, 0, '');
-INSERT INTO rblocks VALUES (2, 'Information', '<p align="center"><a href="http://www.npds.org" target="_blank"><img src="assets/shared/powered/miniban-bleu.png" border="0" alt="npds_logo" /></a></p>', '0', 0, 0, 1, 0, '');
+INSERT INTO rblocks VALUES (2, 'Information', '<p align="center"><a href="http://www.npds.org" target="_blank"><img src="assets/images/powered/miniban-bleu.png" border="0" alt="npds_logo" /></a></p>', '0', 0, 0, 1, 0, '');
 INSERT INTO rblocks VALUES (3, 'Bloc membre', 'function#userblock', '0', 5, 0, 1, 0, '');
 INSERT INTO rblocks VALUES (4, 'Lettre d''information', 'function#lnlbox', '0', 6, 86400, 1, 0, '');
 INSERT INTO rblocks VALUES (5, 'Anciens Articles', 'function#oldNews\r\nparams#$storynum', '0', 4, 3600, 1, 0, '');

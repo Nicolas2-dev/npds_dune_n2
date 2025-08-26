@@ -20,7 +20,7 @@
 #autodoc localiser_ip() : construit la carte pour l'ip géoréférencée ($iptoshow) à localiser
 function localiser_ip($iptoshow)
 {
-    include 'modules/geoloc/config/config';
+    include 'modules/geoloc/config/config.php';
 
     global $iptoshow;
 
