@@ -5,5 +5,3 @@ npds/*
 !npds/.gitkeep
 
 /vendor/
-
-composer.lock
