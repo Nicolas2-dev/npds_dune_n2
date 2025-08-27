@@ -1,0 +1,67 @@
+<?php
+
+// 1. Initialiser les langues
+init_lang('fr', 'en'); // La langue système = "fr", la langue utilisateur = "en"
+
+// 2. Récupérer les codes ISO
+echo get_iso_lang();          // "fr" (code de la langue système courante)
+echo get_iso_lang('en');      // "en" (code ISO pour "en")
+
+// 3. Récupérer le code du pays
+echo get_country_lang();      // "FR" (pays associé à la langue courante)
+echo get_country_lang('en');  // "US"
+
+// 4. Récupérer la langue complète (locale)
+echo get_full_lang();                  // "fr_FR"
+echo get_full_lang('en', '-');         // "en-US"
+
+// 5. Récupérer le nom local de la langue
+echo get_name_lang();       // "Français"
+echo get_name_lang('en');   // "English"
+
+// 6. Récupérer l'information de la langue
+echo get_info_lang();       // "French language"
+echo get_info_lang('en');   // "English language"
+
+// 7. Récupérer la direction du texte
+echo get_direction_lang();       // "ltr"
+echo get_direction_lang('ar');   // "rtl"
+
+// 8. Définir la langue système
+set_language('es'); // Changer la langue système en espagnol
+echo get_language(); // "es"
+
+// 9. Définir la langue utilisateur
+set_user_language('de'); // Changer la langue utilisateur en allemand
+echo get_user_language(); // "de"
+
+// 10. Récupérer les langues actuelles
+echo get_language();       // "es"
+echo get_user_language();  // "de"
+
+// 11. Réinitialiser les langues
+flush_lang(); // Vide les réglages et force le recalcul
+echo get_language();       // Retourne à la valeur par défaut ou null
+echo get_user_language();  // Retourne à la valeur par défaut ou null
+
+// 12. Ajout d'une langue
+add_language('pt', [
+    'info'   => 'Portuguese',
+    'name'   => 'Português',
+    'locale' => 'pt_PT',
+    'dir'    => 'ltr',
+]);
+
+// Récupération de toutes les langues
+$all = get_languages();
+
+// Exemple d'affichage
+print_r($all['pt']);
+
+Array
+(
+    [info] => Portuguese
+    [name] => Português
+    [locale] => pt_PT
+    [dir] => ltr
+)

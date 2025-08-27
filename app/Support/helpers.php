@@ -47,3 +47,156 @@ if (! function_exists('send_to_file')) {
         FileSender::sendToFile($line, $repertoire, $filename, $extension, $MSos);
     }
 }
+
+if (! function_exists('format_aid_header')) {
+    #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
+    function format_aid_header($aid)
+    {
+        $holder = sql_query("SELECT url, email 
+                            FROM " . sql_prefix('authors') . " 
+                            WHERE aid='$aid'");
+
+        if ($holder) {
+            list($url, $email) = sql_fetch_row($holder);
+
+            if (isset($url)) {
+                echo '<a href="' . $url . '" >' . $aid . '</a>';
+            } elseif (isset($email)) {
+                echo '<a href="mailto:' . $email . '" >' . $aid . '</a>';
+            } else {
+                echo $aid;
+            }
+        }
+    }
+}
+
+// SuperCache Function
+
+if (! function_exists('q_select')) {
+    // Ces fonctions sont en dehors de la Classe pour permettre un appel sans instanciation d'objet
+    function q_select($Xquery, $retention = 3600)
+    {
+        global $SuperCache, $cache_obj;
+
+        if (($SuperCache) && ($cache_obj)) {
+            $row = $cache_obj->CachingQuery($Xquery, $retention);
+
+            return $row;
+        } else {
+            $result = @sql_query($Xquery);
+
+            $tab_tmp = [];
+
+            while ($row = sql_fetch_assoc($result)) {
+                $tab_tmp[] = $row;
+            }
+
+            return $tab_tmp;
+        }
+    }
+}
+
+if (! function_exists('pg_clean')) {
+    function pg_clean($request)
+    {
+        global $CACHE_CONFIG;
+
+        $page = md5($request);
+
+        $dh = opendir($CACHE_CONFIG['data_dir']);
+
+        while (false !== ($filename = readdir($dh))) {
+            if (
+                $filename === '.'
+                || $filename === '..'
+                || (strpos($filename, $page) === false)
+            ) {
+                continue;
+            }
+
+            unlink($CACHE_CONFIG['data_dir'] . $filename);
+        }
+
+        closedir($dh);
+    }
+}
+
+if (! function_exists('q_clean')) {
+    function q_clean()
+    {
+        global $CACHE_CONFIG;
+
+        $dh = opendir($CACHE_CONFIG['data_dir'] . 'sql');
+
+        while (false !== ($filename = readdir($dh))) {
+            if ($filename === '.' or $filename === '..') {
+                continue;
+            }
+
+            if (is_file($CACHE_CONFIG['data_dir'] . 'sql/' . $filename)) {
+                unlink($CACHE_CONFIG['data_dir'] . 'sql/' . $filename);
+            }
+        }
+
+        closedir($dh);
+
+        $fp = fopen($CACHE_CONFIG['data_dir'] . 'sql/.htaccess', 'w');
+
+        @fputs($fp, 'Deny from All');
+        fclose($fp);
+    }
+}
+
+if (! function_exists('sc_lean')) {
+    function sc_lean()
+    {
+        global $CACHE_CONFIG;
+
+        $dh = opendir($CACHE_CONFIG['data_dir']);
+
+        while (false !== ($filename = readdir($dh))) {
+            if (
+                $filename === '.'
+                || $filename === '..'
+                || $filename === 'ultramode.txt'
+                || $filename === 'net2zone.txt'
+                || $filename === 'sql' ||
+                $filename === 'index.html'
+            ) {
+                continue;
+            }
+
+            if (is_file($CACHE_CONFIG['data_dir'] . $filename)) {
+                unlink($CACHE_CONFIG['data_dir'] . $filename);
+            }
+        }
+
+        closedir($dh);
+
+        Q_Clean();
+    }
+}
+
+if (! function_exists('sc_infos')) {
+    #autodoc SC_infos() : Indique le status de SuperCache
+    function sc_infos()
+    {
+        global $SuperCache, $npds_sc;
+
+        $infos = '';
+
+        if ($SuperCache) {
+            /*
+            $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
+            */
+            
+            if ($npds_sc) {
+                $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
+            } else {
+                $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
+            }
+        }
+
+        return $infos;
+    }
+}

@@ -1,0 +1,38 @@
+// Initialiser les langues
+LanguageManager::init('fr', 'en');
+
+// Récupérer la langue sélectionnée (priorité utilisateur)
+echo LanguageManager::getFull(); // ex: "en_US"
+
+// Récupérer le code ISO
+echo LanguageManager::getIso(); // "en"
+
+// Récupérer le code du pays
+echo LanguageManager::getCountry(); // "US"
+
+// Récupérer le code complet avec séparateur personnalisé
+echo LanguageManager::getFull(null, '-'); // "en-US"
+
+// Récupérer le nom de la langue dans sa langue locale
+echo LanguageManager::getName(); // "English"
+
+// Récupérer la description en anglais
+echo LanguageManager::getInfo(); // "English"
+
+// Récupérer la direction du texte
+echo LanguageManager::getDirection(); // "ltr"
+
+// Définir une nouvelle langue système
+LanguageManager::setLanguage('de');
+
+// Définir une nouvelle langue utilisateur
+LanguageManager::setUserLanguage('fr');
+
+// Obtenir la langue système
+echo LanguageManager::getLanguage(); // "de"
+
+// Obtenir la langue utilisateur
+echo LanguageManager::getUserLanguage(); // "fr"
+
+// Réinitialiser la sélection
+LanguageManager::flush();

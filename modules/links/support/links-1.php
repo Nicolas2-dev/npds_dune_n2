@@ -262,7 +262,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     $title = removeHack(stripslashes(FixQuotes($title)));
     $url = removeHack(stripslashes(FixQuotes($url)));
-    $description = dataimagetofileurl($description, 'modules/upload/upload/lindes');
+    $description = dataimagetofileurl($description, 'modules/upload/storage/lindes');
     $description = removeHack(stripslashes(FixQuotes($description)));
     $name = removeHack(stripslashes(FixQuotes($name)));
     $email = removeHack(stripslashes(FixQuotes($email)));
