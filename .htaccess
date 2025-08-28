@@ -1,0 +1,20 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} (.*\.)?twotwo.twocms.fr [NC]
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(.*\.)?twocms.fr [NC]
+RewriteRule \.(bmp|dib|rle|emf|wmf|gif|jpg|jpeg|jpe|jif|jfif|pcx|png|tga|tiff|tif)$ - [NC,F,L]
+# Redirections https twotwo.twocms.fr
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} !on
+RewriteCond %{HTTP_HOST} ^(?:www\.)?twotwo.twocms\.fr(?:.*)$ [nc]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [redirect=301,L]
+
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_URI} !/public/
+RewriteRule  (.*) public/$1
+</IfModule>
+

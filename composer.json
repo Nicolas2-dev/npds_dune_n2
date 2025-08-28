@@ -2,8 +2,8 @@
     "name": "nicolas/npds_dune_n2",
     "autoload": {
         "psr-4": {
-            "App\\": "/app",
-            "Npds\\": "/npds"
+            "App\\": "app/",
+            "Npds\\": "npds/"
         },
         "files": [
             "storage/generated_helpers_autoload.php"

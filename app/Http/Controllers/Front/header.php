@@ -378,7 +378,10 @@ if ($tiny_mce) {
     $tiny_mce_init = false;
 }
 
-// Chargeur de CSS via PAGES.PHP
+// Chargeur de CSS via PAGES.PHP 
+
+// !!! Note : ici bug sur css qui et envoyer sur head qui lui renvoie sur import_css() qui renvoie sur import_css_javascript() 
+// et $css fini par etre ecraser par  $oups = $PAGES[$css_pages_ref]['css'];  ==> $css = substr($oups, 0, -1);
 
 if (array_key_exists($pages_ref, $PAGES)) {
     if (array_key_exists('css', $PAGES[$pages_ref])) {
