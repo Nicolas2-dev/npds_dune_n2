@@ -6,8 +6,24 @@ namespace App\Library\Validation;
 class Validation
 {
 
-    #autodoc adminfoot($fv,$fv_parametres,$arg1,$foo) : fin d'affichage avec form validateur ou pas, ses parametres (js), fermeture div admin et inclusion footer.php  $fv=> fv : inclusion du validateur de form , $fv_parametres=> éléments de l'objet fields differents input (objet js ex :   xxx: {},...) si !###! est trouvé dans la variable la partie du code suivant sera inclu à la fin de la fonction d'initialisation, $arg1=>js pur au début du script js, $foo =='' ==> </div> et inclusion footer.php $foo =='foo' ==> inclusion footer.php
-    function adminfoot($fv, $fv_parametres, $arg1, $foo)
+    /**
+     * Génère le footer de l'administration avec support du validateur de formulaire et inclusion des scripts JS.
+     *
+     * Cette fonction inclut :
+     * - Les scripts nécessaires à FormValidation (Bootstrap 5 et locales)
+     * - Le validateur personnalisé pour les mots de passe
+     * - La configuration des champs passés en paramètre
+     * - La fermeture de la div admin et l'inclusion de footer.php selon le paramètre `$foo`
+     *
+     * @param string $fv Indique si le validateur de formulaire doit être inclus ('fv') ou non.
+     * @param string $fv_parametres Paramètres JS des champs du formulaire séparés par '!###!'. La première partie est utilisée pour l'objet `fields`, la seconde pour le code à exécuter après l'initialisation.
+     * @param string $arg1 JS pur injecté au début du script FormValidation.
+     * @param string $foo Détermine le comportement final :
+     *                    - '' : ferme la div admin et inclut footer.php
+     *                    - 'foo' : inclut seulement footer.php
+     * @return void
+     */
+    public static function adminfoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
     {
         global $minpass;
 

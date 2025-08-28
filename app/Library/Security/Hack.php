@@ -6,8 +6,18 @@ namespace App\Library\Security;
 class Hack
 {
 
-    #autodoc removeHack($Xstring) : Permet de rechercher et de remplacer "some bad words" dans une chaine // Preg_replace by Pascalp
-    function removeHack($Xstring)
+    /**
+     * Permet de rechercher et de remplacer "some bad words" et entités NCR
+     * dans une chaîne.
+     *
+     * Cette fonction utilise preg_replace pour convertir des NCRs décimaux,
+     * hexadécimaux et Unicode Halfwidth/Fullwidth en leurs caractères ASCII
+     * équivalents.
+     *
+     * @param string $Xstring La chaîne à nettoyer.
+     * @return string La chaîne après remplacement des entités et caractères interdits.
+     */
+    public static function removeHack(string $Xstring): string
     {
         if ($Xstring != '') {
             $npds_forbidden_words = array(

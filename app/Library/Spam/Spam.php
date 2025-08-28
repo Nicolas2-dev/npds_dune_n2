@@ -6,8 +6,12 @@ namespace App\Library\Spam;
 class Spam
 {
 
-    #autodoc Q_spambot() : forge un champ de formulaire (champ de saisie : $asb_reponse / champ hidden : asb_question) permettant de déployer une fonction anti-spambot
-    function Q_spambot()
+    /**
+     * Forge un champ de formulaire anti-spambot.
+     *
+     * @return string HTML du champ de formulaire
+     */
+    public static function Q_spambot(): string
     {
         // Idée originale, développement et intégration - Gérald MARINO alias neo-machine
         // Rajout brouillage anti_spam() : David MARTINET, alias Boris (2011)
@@ -76,7 +80,7 @@ class Spam
         if (function_exists('imagepng')) {
             $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
         } else {
-            $aff = anti_spam($aff . ' = ', 0);
+            $aff = static::anti_spam($aff . ' = ', 0);
         }
 
         $tmp = '';
@@ -99,8 +103,14 @@ class Spam
         return $tmp;
     }
 
-    #autodoc L_spambot($ip, $status) : Log spambot activity : $ip="" => getip of the current user OR $ip="x.x.x.x" / $status = Op to do : true => not log or suppress log - false => log+1 - ban => Ban an IP 
-    function L_spambot($ip, $status)
+    /**
+     * Log l'activité d'un spambot et gère les bans.
+     *
+     * @param string $ip Adresse IP à loguer (vide pour IP courante)
+     * @param string $status Statut à appliquer : 'true' = pas de log, 'false' = log+1, 'ban' = ban IP
+     * @return void
+     */
+    public static function L_spambot(string $ip, string $status): void
     {
         $cpt_sup = 0;
         $maj_fic = false;
@@ -164,8 +174,15 @@ class Spam
         }
     }
 
-    #autodoc R_spambot($asb_question, $asb_reponse, $message) : valide le champ $asb_question avec la valeur de $asb_reponse (anti-spambot) et filtre le contenu de $message si nécessaire
-    function R_spambot($asb_question, $asb_reponse, $message = '')
+    /**
+     * Valide la réponse à un anti-spambot et filtre le message.
+     *
+     * @param string $asb_question Question chiffrée
+     * @param string $asb_reponse Réponse donnée par l'utilisateur
+     * @param string $message Contenu du message à vérifier
+     * @return bool True si validé, false sinon
+     */
+    public static function R_spambot(string $asb_question, string $asb_reponse, string $message = ''): bool
     {
         // idée originale, développement et intégration - Gérald MARINO alias neo-machine
         global $user;
@@ -197,40 +214,51 @@ class Spam
                     preg_match_all('#http://#', $message, $regs);
 
                     if (count($regs[0]) > 2) {
-                        L_spambot('', 'false');
+                        static::L_spambot('', 'false');
 
                         return false;
                     } else {
-                        L_spambot('', 'true');
+                        static::L_spambot('', 'true');
 
                         return true;
                     }
                 } else {
-                    L_spambot('', 'false');
+                    static::L_spambot('', 'false');
 
                     return false;
                 }
             } else {
-                L_spambot('', 'true');
+                static::L_spambot('', 'true');
 
                 return true;
             }
         } else {
-            L_spambot('', 'false');
+            static::L_spambot('', 'false');
 
             return false;
         }
     }
     
-    #autodoc preg_anti_spam($str) : Permet l'utilisation de la fonction anti_spam via preg_replace
-    function preg_anti_spam($ibid)
+    /**
+     * Permet d'utiliser la fonction anti_spam via preg_replace.
+     *
+     * @param string $ibid Chaine à encoder
+     * @return string Chaine encodée pour mailto
+     */
+    public static function preg_anti_spam(string $ibid): string
     {
         // Adaptation - David MARTINET alias Boris (2011)
-        return "<a href=\"mailto:" . anti_spam($ibid, 1) . "\" target=\"_blank\">" . anti_spam($ibid, 0) . "</a>";
+        return "<a href=\"mailto:" . static::anti_spam($ibid, 1) . "\" target=\"_blank\">" . static::anti_spam($ibid, 0) . "</a>";
     }
 
-    #autodoc anti_spam($str [, $highcode]) : Encode une chaine en mélangeant caractères normaux, codes décimaux et hexa. Si $highcode == 1, utilise également le codage ASCII (compatible uniquement avec des mailto et des URL, pas pour affichage)
-    function anti_spam($str, $highcode = 0)
+    /**
+     * Encode une chaîne pour protection anti-spam.
+     *
+     * @param string $str Chaine à encoder
+     * @param int $highcode 0 = mix simple, 1 = codage ASCII pour mailto/URL
+     * @return string Chaine encodée
+     */
+    public static function anti_spam(string $str, int $highcode = 0): string
     {
         // Idée originale : Pomme (2004). Nouvelle version : David MARTINET alias Boris (2011)
         $str_encoded = "";
@@ -271,7 +299,7 @@ class Spam
         }
 
         return $str_encoded;
-}
+    }
 
 }
 

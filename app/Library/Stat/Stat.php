@@ -6,8 +6,16 @@ namespace App\Library\Stat;
 class Stat
 {
 
-    #autodoc Site_Load() : Maintient les informations de NB connexion (membre, anonyme) - globalise la variable $who_online_num et maintient le fichier cache/site_load.log &agrave; jour<br />Indispensable pour la gestion de la 'clean_limit' de SuperCache
-    function Site_Load()
+    /**
+     * Maintient les informations de nombre de connexions (membres, anonymes)
+     * et met à jour le fichier cache `site_load.log`.
+     * Indispensable pour la gestion de la 'clean_limit' de SuperCache.
+     *
+     * @global int $who_online_num
+     * @global bool $SuperCache
+     * @return array{0:int,1:int} Tableau contenant le nombre de membres en ligne [0] et le nombre d'invités en ligne [1]
+     */
+    public static function Site_Load(): array
     {
         global $SuperCache, $who_online_num;
 
@@ -38,8 +46,18 @@ class Stat
         return array($member_online_num, $guest_online_num);
     }
 
-    #autodoc req_stat() : Retourne un tableau contenant les nombres pour les statistiques du site (stats.php)
-    function req_stat()
+    /**
+     * Retourne un tableau contenant les statistiques du site (membres, news, critiques, forums, sujets, pages vues).
+     *
+     * @return array<int> Tableau contenant les statistiques dans l'ordre suivant :
+     *  [0] => nombre de membres
+     *  [1] => nombre de news
+     *  [2] => nombre de critiques
+     *  [3] => nombre de forums
+     *  [4] => nombre de sujets
+     *  [5] => nombre total de pages vues
+     */
+    public static function req_stat(): array
     {
         // Les membres
         $result = sql_query("SELECT uid 

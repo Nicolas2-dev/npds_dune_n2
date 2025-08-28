@@ -6,8 +6,16 @@ namespace App\Library\Url;
 class Url
 {
 
-    #autodoc redirect_url($urlx) : Permet une redirection javascript / en lieu et place de header('location: ...');
-    function redirect_url($urlx)
+    /**
+     * Redirige vers une URL donnée en utilisant JavaScript.
+     *
+     * Cette méthode génère un script JavaScript qui change la location du document.
+     * Utile lorsque l'utilisation de `header('Location: ...')` n'est pas possible.
+     *
+     * @param string $urlx L'URL vers laquelle rediriger.
+     * @return void
+     */
+    public static function redirect_url(string $urlx): void
     {
         echo "<script type=\"text/javascript\">\n";
         echo "//<![CDATA[\n";

@@ -6,8 +6,19 @@ namespace App\Library\Session;
 class Session
 {
 
-    #autodoc session_manage() : Mise à jour la table session
-    function session_manage()
+    /**
+     * Met à jour la table des sessions pour l'utilisateur actuel ou invité.
+     *
+     * Cette fonction gère :
+     * - L'identification de l'utilisateur ou de l'invité
+     * - La suppression des sessions expirées
+     * - La limitation temporaire pour certains robots (badbot control)
+     * - La mise à jour ou l'insertion de la session dans la base
+     * - La mise à jour de la dernière visite de l'utilisateur connecté
+     *
+     * @return void
+     */
+    public static function session_manage(): void
     {
         global $cookie, $REQUEST_URI, $nuke_url;
 

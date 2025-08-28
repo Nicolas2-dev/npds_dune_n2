@@ -15,65 +15,133 @@
 // dans un même FORMULAIRE des champs avec ET sans TinyMce / Rajout de l'anti_spambot
 ################################################################################################
 
-// Constante
-define('CRLF', "\n");
+namespace App\Library\Sform;
 
-if (!isset($sform_path)) {
-    $sform_path = '';
-}
 
 class Sform
 {
 
-    // form fields
-    var $form_fields = [];
+    /**
+     * Constante représentant un saut de ligne (Carriage Return + Line Feed).
+     *
+     * Utile pour séparer les lignes dans les textes ou fichiers, 
+     * notamment lors de la génération de contenu multi-lignes.
+     */
+    public const CRLF = "\n";
 
-    // form title
-    var $title;
+    /**
+     * Champs du formulaire.
+     *
+     * @var array
+     */
+    public array $form_fields = [];
 
-    // obligatoire message
-    var $mess;
+    /**
+     * Titre du formulaire.
+     *
+     * @var string|null
+     */
+    public ?string $title = null;
 
-    // form title
-    var $form_title;
+    /**
+     * Message obligatoire.
+     *
+     * @var string|null
+     */
+    public ?string $mess = null;
 
-    // Form id (for custom css) Jireck add
-    var $form_id;
+    /**
+     * Titre du formulaire (duplicate?).
+     *
+     * @var string|null
+     */
+    public ?string $form_title = null;
 
-    // form method (Post or Get)
-    var $form_method;
+    /**
+     * ID du formulaire (pour CSS personnalisé).
+     *
+     * @var string|null
+     */
+    public ?string $form_id = null;
 
-    // form key (for mysql stockage)
-    var $form_key;
+    /**
+     * Méthode du formulaire (POST ou GET).
+     *
+     * @var string|null
+     */
+    public ?string $form_method = null;
 
-    // value of the form key (for mysql stockage)
-    var $form_key_value;
+    /**
+     * Clé du formulaire (pour stockage MySQL).
+     *
+     * @var string|null
+     */
+    public ?string $form_key = null;
 
-    // Status of the key (open or close)
-    var $form_key_status = 'open';
+    /**
+     * Valeur de la clé du formulaire (pour stockage MySQL).
+     *
+     * @var string|null
+     */
+    public ?string $form_key_value = null;
 
-    // the name off all submit buttons of the form
-    var $submit_value = '';
+    /**
+     * Statut de la clé (open ou close).
+     *
+     * @var string
+     */
+    public string $form_key_status = 'open';
 
-    // Protect the data with a password
-    var $form_password_access = '';
+    /**
+     * Nom de tous les boutons submit du formulaire.
+     *
+     * @var string
+     */
+    public string $submit_value = '';
 
-    // answer table
-    var $answer = [];
+    /**
+     * Protection du formulaire avec un mot de passe.
+     *
+     * @var string
+     */
+    public string $form_password_access = '';
 
-    // sring which will be inserted into javascript check function
-    var $form_check = 'true';
+    /**
+     * Tableau des réponses.
+     *
+     * @var array
+     */
+    public array $answer = [];
 
-    // path at 'action' option of form
-    var $url;
+    /**
+     * Chaîne insérée dans la fonction de vérification JavaScript.
+     *
+     * @var string
+     */
+    public string $form_check = 'true';
 
-    // Value of the size attribute of a form-field
-    var $field_size = 50;
+    /**
+     * Chemin utilisé dans l'attribut 'action' du formulaire.
+     *
+     * @var string|null
+     */
+    public ?string $url = null;
+
+    /**
+     * Valeur de l'attribut size d'un champ du formulaire.
+     *
+     * @var int
+     */
+    public int $field_size = 50;
 
 
-    // Interrogate the object for identify the position of an item
-    // public void
-    function interro_fields($ibid)
+    /**
+     * Interroge le formulaire pour identifier la position d'un champ par son nom.
+     *
+     * @param string $ibid Nom du champ à rechercher
+     * @return int|string Retourne l'index du champ dans $form_fields ou 'no' si non trouvé
+     */
+    public function interro_fields(string $ibid): int|string
     {
         $number = 'no';
 
@@ -89,7 +157,14 @@ class Sform
         return $number;
     }
 
-    function interro_array($ibid0, $ibid1)
+    /**
+     * Interroge un tableau pour identifier la position d'un élément par sa valeur 'en'.
+     *
+     * @param array<int, array<string, mixed>> $ibid0 Tableau à parcourir
+     * @param string $ibid1 Valeur à rechercher dans la clé 'en'
+     * @return int|string Retourne l'index de l'élément ou 'no' si non trouvé
+     */
+    public function interro_array(array $ibid0, string $ibid1): int|string
     {
         $number = 'no';
 
@@ -103,72 +178,101 @@ class Sform
         return $number;
     }
 
-    // Change the default (50) value for the html attribute SIZE of form-field
-    // public void
-    function add_form_field_size($en)
+    /**
+     * Change la taille par défaut des champs du formulaire.
+     *
+     * @param int|string $en
+     * @return void
+     */
+    public function add_form_field_size(int|string $en): void
     {
         $this->field_size = $en;
     }
 
-    // add title of <form> / This is also the id_form field in the database (unique)
-    // public void
-    function add_form_title($en)
+    /**
+     * Définit le titre du formulaire (identifiant unique en base).
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_form_title(string $en): void
     {
         $this->form_title = $en;
     }
 
-
-    // add id of <form> // Jireck add
-    // public void
-    function add_form_id($en)
+    /**
+     * Définit l'ID du formulaire.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_form_id(string $en): void
     {
         $this->form_id = $en;
     }
 
-
-    // add method of <form action=> Get or Post
-    // public void
-    function add_form_method($en)
+    /**
+     * Définit la méthode HTTP du formulaire (GET ou POST).
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_form_method(string $en): void
     {
         $this->form_method = $en;
     }
 
-
-    // add form check after submit for obligatory fields
-    // public void
-    function add_form_check($en)
+    /**
+     * Active la vérification des champs obligatoires après soumission.
+     *
+     * @param bool $en
+     * @return void
+     */
+    public function add_form_check(bool $en): void
     {
         $this->form_check = $en;
     }
 
-
-    // add the return url after action
-    // public void
-    function add_url($en)
+    /**
+     * Définit l'URL de redirection après soumission.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_url(string $en): void
     {
         $this->url = $en;
     }
 
-
-    // designate a specfific field off the form as key in the DB
-    // public void
-    function add_key($en)
+    /**
+     * Définit le champ clé du formulaire pour la base de données.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_key(string $en): void
     {
         $this->form_key = $en;
     }
 
-
-    // add the name for all submit buttons of <form>
-    // public void
-    function add_submit_value($en)
+    /**
+     * Définit le nom pour tous les boutons submit du formulaire.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_submit_value(string $en): void
     {
         $this->submit_value = $en;
     }
 
-
-    // Lock the Key of <form> for disable edit
-    // public void
-    function key_lock($en)
+    /**
+     * Verrouille ou déverrouille la clé du formulaire.
+     *
+     * @param string $en 'open' pour déverrouiller, autre pour verrouiller
+     * @return void
+     */
+    public function key_lock(string $en): void
     {
         if ($en == 'open') {
             $this->form_key_status = 'open';
@@ -177,19 +281,40 @@ class Sform
         }
     }
 
-
-    // add mess
-    // public void
-    function add_mess($en)
+    /**
+     * Ajoute un message général au formulaire.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_mess(string $en): void
     {
         $this->mess = $en;
     }
 
-
-    // add fields text,hidden,textarea,password,submit,reset,email
-    // public void
-    function add_field($name, $en, $value = '', $type = 'text', $obligation = false, $size = '50', $diviseur = '5', $ctrl = '')
-    {
+    /**
+     * Ajoute un champ texte, textarea, password, submit, reset, email ou hidden.
+     *
+     * @param string $name
+     * @param string $en
+     * @param string $value
+     * @param string $type
+     * @param bool $obligation
+     * @param int|string $size
+     * @param int|string $diviseur
+     * @param string $ctrl
+     * @return void
+     */
+    public function add_field(
+        string      $name,
+        string      $en,
+        string      $value = '',
+        string      $type = 'text',
+        bool        $obligation = false,
+        int|string  $size = 50,
+        int|string  $diviseur = 5,
+        string      $ctrl = ''
+    ): void {
         if ($type == 'submit') {
             $name = $this->submit_value;
         }
@@ -206,10 +331,17 @@ class Sform
         );
     }
 
-
-    // add field checkbox
-    // public void
-    function add_checkbox($name, $en, $value = '', $obligation = false, $checked = false)
+    /**
+     * Ajoute un champ checkbox.
+     *
+     * @param string $name
+     * @param string $en
+     * @param string $value
+     * @param bool $obligation
+     * @param bool $checked
+     * @return void
+     */
+    public function add_checkbox(string $name, string $en, string $value = '', bool $obligation = false, bool $checked = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -221,10 +353,18 @@ class Sform
         );
     }
 
-
-    // add field select
-    // public void
-    function add_select($name, $en, $values, $obligation = false, $size = 1, $multiple = false)
+    /**
+     * Ajoute un champ select.
+     *
+     * @param string $name
+     * @param string $en
+     * @param array<int, string> $values
+     * @param bool $obligation
+     * @param int $size
+     * @param bool $multiple
+     * @return void
+     */
+    public function add_select(string $name, string $en, array $values, bool $obligation = false, int $size = 1, bool $multiple = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -237,10 +377,16 @@ class Sform
         );
     }
 
-
-    // add field radio
-    // public void
-    function add_radio($name, $en, $values, $obligation = false)
+    /**
+     * Ajoute un champ radio.
+     *
+     * @param string $name
+     * @param string $en
+     * @param array<int, string> $values
+     * @param bool $obligation
+     * @return void
+     */
+    public function add_radio(string $name, string $en, array $values, bool $obligation = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -251,11 +397,27 @@ class Sform
         );
     }
 
-
-    // add fields date or stamp : date field of type date, stamp hidden field value timestamp
-    // public void
-    function add_date($name, $en, $value, $type = 'date', $modele = 'm/d/Y', $obligation = false, $size = '10')
-    {
+    /**
+     * Ajoute un champ date ou timestamp.
+     *
+     * @param string $name
+     * @param string $en
+     * @param string|int $value
+     * @param string $type
+     * @param string $modele
+     * @param bool $obligation
+     * @param int|string $size
+     * @return void
+     */
+    public function add_date(
+        string      $name,
+        string      $en,
+        string|int  $value,
+        string      $type = 'date',
+        string      $modele = 'm/d/Y',
+        bool        $obligation = false,
+        int|string  $size = 10
+    ): void {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
             'type'          => $type,
@@ -268,18 +430,24 @@ class Sform
         );
     }
 
-
-    // add title of the HTML tab
-    // public void
-    function add_title($en)
+    /**
+     * Définit le titre de l'onglet HTML.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_title(string $en): void
     {
         $this->title = $en;
     }
 
-
-    // add comment into HTML tab
-    // public void
-    function add_comment($en)
+    /**
+     * Ajoute un commentaire dans le formulaire.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_comment(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -287,10 +455,13 @@ class Sform
         );
     }
 
-
-    // add extra into HTML tab (link html tags ...)
-    // public void
-    function add_extra($en)
+    /**
+     * Ajoute un contenu extra dans le formulaire.
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_extra(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -298,10 +469,13 @@ class Sform
         );
     }
 
-
-    // add extra into HTML tab (link html tags ...) print in form but not in response
-    // public void
-    function add_extra_hidden($en)
+    /**
+     * Ajoute un contenu extra caché dans le formulaire (affiché mais non dans la réponse).
+     *
+     * @param string $en
+     * @return void
+     */
+    public function add_extra_hidden(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -309,10 +483,12 @@ class Sform
         );
     }
 
-
-    // add Q_spambot mainfile fonction
-    // public void
-    function add_Qspam()
+    /**
+     * Ajoute le champ anti-spam Q_spambot.
+     *
+     * @return void
+     */
+    public function add_Qspam(): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => '',
@@ -320,9 +496,15 @@ class Sform
         );
     }
 
-    // add field EXTENDER javas only for select field, html for all fields except radio
-    // public void
-    function add_extender($name, $javas, $html)
+    /**
+     * Ajoute un champ EXTENDER (JavaScript et HTML).
+     *
+     * @param string $name
+     * @param string $javas
+     * @param string $html
+     * @return void
+     */
+    public function add_extender(string $name, string $javas, string $html): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'      => $name . 'extender',
@@ -331,10 +513,16 @@ class Sform
         );
     }
 
-
-    // add upload field (only for design, no upload mechanism is inside sform)
-    // public void
-    function add_upload($name, $en, $size = '50', $file_size = 0)
+    /**
+     * Ajoute un champ upload (design seulement, pas de mécanisme d'upload intégré).
+     *
+     * @param string $name
+     * @param string $en
+     * @param int|string $size
+     * @param int $file_size
+     * @return void
+     */
+    public function add_upload(string $name, string $en, int|string $size = 50, int $file_size = 0): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'      => $name,
@@ -346,10 +534,16 @@ class Sform
         );
     }
 
-
-    // print <form> into html output / IF no method (form_method) is affected : the <form>  </form> is not write (useful to insert SFORM in existing form)
-    // public string
-    function print_form($bg)
+    /**
+     * Génère le code HTML d'un formulaire basé sur les propriétés de l'objet.
+     *
+     * Si `form_method` n'est pas défini, le <form></form> n'est pas généré.
+     * Utile pour insérer SFORM dans un formulaire existant.
+     *
+     * @param string $bg Paramètre utilisé pour le style de fond (non utilisé dans le code actuel).
+     * @return string Le HTML généré du formulaire.
+     */
+    public function print_form(string $bg): string
     {
         if (isset($this->form_id)) {
             $id_form = 'id="' . $this->form_id . '"';
@@ -738,25 +932,28 @@ class Sform
 
         // cette condition n'est pas fonctionnelle ???
         if ($this->form_check != 'false') {
-            $str .= "<script type=\"text/javascript\">//<![CDATA[" . CRLF;
-            $str .= "var f=document.forms['" . $this->form_title . "'];" . CRLF;
-            $str .= "function check(){" . CRLF;
-            $str .= " if(" . $this->form_check . "){" . CRLF;
-            $str .= "   f.submit();" . CRLF;
-            $str .= "   return true;" . CRLF;
-            $str .= " } else {" . CRLF;
-            $str .= "   alert('" . $this->mess . "');" . CRLF;
-            $str .= "   return false;" . CRLF;
-            $str .= "}}" . CRLF;
+            $str .= "<script type=\"text/javascript\">//<![CDATA[" . self::CRLF;
+            $str .= "var f=document.forms['" . $this->form_title . "'];" . self::CRLF;
+            $str .= "function check(){" . self::CRLF;
+            $str .= " if(" . $this->form_check . "){" . self::CRLF;
+            $str .= "   f.submit();" . self::CRLF;
+            $str .= "   return true;" . self::CRLF;
+            $str .= " } else {" . self::CRLF;
+            $str .= "   alert('" . $this->mess . "');" . self::CRLF;
+            $str .= "   return false;" . self::CRLF;
+            $str .= "}}" . self::CRLF;
             $str .= "//]]></script>\n";
         }
 
         return $str;
     }
 
-    // return ALL FIELDS as HIDDEN
-    // public string
-    function print_form_hidden()
+    /**
+     * Retourne tous les champs du formulaire sous forme de champs cachés HTML.
+     *
+     * @return string
+     */
+    public function print_form_hidden(): string
     {
         $str = '';
 
@@ -778,9 +975,12 @@ class Sform
         return $str;
     }
 
-    // make the answer array
-    // private string
-    function make_response()
+    /**
+     * Génère le tableau de réponses du formulaire basé sur les champs définis.
+     *
+     * @return void
+     */
+    private function make_response(): void
     {
         for ($i = 0; $i < count($this->form_fields); $i++) {
             $this->answer[$i] = '';
@@ -890,8 +1090,13 @@ class Sform
         }
     }
 
-    // Read Data structure and build a plain-text response
-    function write_sform_data($response)
+    /**
+     * Read Data structure and build a plain-text response.
+     *
+     * @param array $response
+     * @return string
+     */
+    function write_sform_data(array $response): string
     {
         $content = "<CONTENTS>\n";
 
@@ -906,8 +1111,14 @@ class Sform
         return addslashes($content);
     }
 
-    // Read Data structure and build the Internal Data Structure
-    function read_load_sform_data($line, $op)
+    /**
+     * Read Data structure and build the Internal Data Structure.
+     *
+     * @param string $line
+     * @param string $op
+     * @return string
+     */
+    function read_load_sform_data(string $line, string $op): string
     {
         if ((!stristr($line, "<CONTENTS>")) and (!stristr($line, "</CONTENTS>"))) {
 
@@ -1020,13 +1231,15 @@ class Sform
         return $op;
     }
 
-    /*
-    print html response
-    $bg      => Class for TR or TD
-    $retour  => Comment for the link at the end of the page OR ="not_echo" for not 'echo' the reply but return in a string !
-    $action  => url to go
-    */
-    function aff_response($bg, $retour = '', $action = '')
+    /**
+     * Print HTML response.
+     *
+     * @param string $bg Class for TR or TD
+     * @param string $retour Comment for the link at the end of the page OR "not_echo"
+     * @param string $action URL to go
+     * @return string|null
+     */
+    function aff_response(string $bg, string $retour = '', string $action = '') // : ?string
     {
         // modif Field en lieu et place des $GLOBALS ....
         settype($str, 'string');
@@ -1156,8 +1369,16 @@ class Sform
         }
     }
 
-    // Control the respect of Data Type
-    function control($name, $nom, $valeur, $controle)
+    /**
+     * Control the respect of Data Type
+     *
+     * @param string $name
+     * @param string $nom
+     * @param string $valeur
+     * @param string $controle
+     * @return void
+     */
+    function control(string $name, string $nom, string $valeur, string $controle): void
     {
         $i = $this->interro_fields($name);
 
@@ -1248,7 +1469,14 @@ class Sform
         }
     }
 
-    function error($ibid, $car)
+    /**
+     * Affiche un message d'erreur et un formulaire de retour.
+     *
+     * @param string $ibid Identifiant du message à afficher
+     * @param string $car  Contenu du message
+     * @return void
+     */
+    function error(string $ibid, string $car): void
     {
         echo '<div class="alert alert-danger">' . aff_langue($ibid) . ' =&#62; <span>' . stripslashes($car) . '</span></div>';
 
@@ -1266,9 +1494,16 @@ class Sform
         include 'footer.php';
     }
 
-    // Mysql Interface
-    // If the first char of $mess_ok is : ! => the button is hidden
-    function sform_browse_mysql($pas, $mess_passwd, $mess_ok, $presentation = '')
+    /**
+     * Affiche les données d'un formulaire depuis MySQL pour navigation/browse.
+     *
+     * @param int    $pas          Nombre d'éléments par ligne
+     * @param string $mess_passwd  Message pour le champ mot de passe
+     * @param string $mess_ok      Message pour le bouton de validation (peut être masqué avec !)
+     * @param string $presentation Mode d'affichage ('liste' ou autre)
+     * @return void
+     */
+    function sform_browse_mysql(int $pas, string $mess_passwd, string $mess_ok, string $presentation = ''): void
     {
         $result = sql_query("SELECT key_value, passwd 
                              FROM " . sql_prefix('sform') . " 
@@ -1328,7 +1563,13 @@ class Sform
         echo "</td></tr></table></form>";
     }
 
-    function sform_read_mysql($clef)
+    /**
+     * Lit les données d'un formulaire depuis MySQL.
+     *
+     * @param string $clef Clé à rechercher
+     * @return bool|null   Retourne true si trouvé, false si non trouvé, null si $clef vide
+     */
+    function sform_read_mysql(string $clef) // : ?bool
     {
         global $op;
 
@@ -1361,7 +1602,13 @@ class Sform
         }
     }
 
-    function sform_insert_mysql($response)
+    /**
+     * Insère une réponse de formulaire dans la base MySQL.
+     *
+     * @param array $response Données du formulaire
+     * @return string|null    Message d'erreur en cas d'échec, sinon null
+     */
+    function sform_insert_mysql(array $response) // : ?string
     {
         $content = $this->write_sform_data($response);
 
@@ -1373,7 +1620,12 @@ class Sform
         }
     }
 
-    function sform_delete_mysql()
+    /**
+     * Supprime une entrée de formulaire dans MySQL.
+     *
+     * @return string|null Message d'erreur en cas d'échec, sinon null
+     */
+    function sform_delete_mysql() // : ?string
     {
         $sql = "DELETE FROM " . sql_prefix('sform') . " 
                 WHERE id_form='" . $this->form_title . "' 
@@ -1385,7 +1637,13 @@ class Sform
         }
     }
 
-    function sform_modify_mysql($response)
+    /**
+     * Modifie une entrée de formulaire existante dans MySQL.
+     *
+     * @param array $response Données à mettre à jour
+     * @return string|null    Message d'erreur en cas d'échec, sinon null
+     */
+    function sform_modify_mysql(array $response) // : ?string
     {
         $content = $this->write_sform_data($response);
 
@@ -1398,7 +1656,13 @@ class Sform
         }
     }
 
-    function sform_read_mysql_XML($clef)
+    /**
+     * Lit les données d'un formulaire depuis MySQL et analyse le XML.
+     *
+     * @param string $clef Clé à rechercher
+     * @return bool        Retourne true si trouvé et analysé, false sinon
+     */
+    function sform_read_mysql_XML(string $clef): bool
     {
         if ($clef != '') {
             $clef = urldecode($clef);
@@ -1427,7 +1691,13 @@ class Sform
         }
     }
 
-    function sform_XML_tag($value)
+    /**
+     * Traite les tags XML d'un formulaire et met à jour les valeurs des champs.
+     *
+     * @param array $value Structure renvoyée par xml_parse_into_struct
+     * @return void
+     */
+    function sform_XML_tag(array $value): void
     {
         foreach ($value as $num => $val) {
 
@@ -1484,4 +1754,5 @@ class Sform
             }
         }
     }
+    
 }

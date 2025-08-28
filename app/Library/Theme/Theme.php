@@ -6,8 +6,13 @@ namespace App\Library\Theme;
 class Theme
 {
 
-    #autodoc theme_image($theme_img) : Retourne le chemin complet si l'image est trouvée dans le répertoire image du thème sinon false
-    public static function image($theme_img)
+    /**
+     * Retourne le chemin complet de l'image si elle existe dans le répertoire du thème.
+     *
+     * @param string $theme_img Nom du fichier image
+     * @return string|false Chemin complet si trouvé, sinon false
+     */
+    public static function image(string $theme_img): string|false
     {
         global $theme;
 
@@ -18,34 +23,42 @@ class Theme
         return false;
     }
 
-    #autodoc theme_image($theme_img) : Retourne le chemin complet si l'image est trouvée dans le répertoire image du thème sinon false
-    function theme_image($theme_img)
+    /**
+     * Alias de self::image() pour retrouver une image dans le thème actif.
+     *
+     * @param string $theme_img Nom du fichier image
+     * @return string|false Chemin complet si trouvé, sinon false
+     */
+    public static function theme_image($theme_img)
     {
-        global $theme;
-
-        if (@file_exists('themes/'. $theme .'/assets/'. $theme_img)) {
-            return 'themes/'. $theme .'/assets/'. $theme_img;
-        }
-
-        return false;
+        return static::image($theme_img);
     }
     
-    function theme_list()
+    /**
+     * Retourne la liste des thèmes disponibles dans le dossier 'themes'.
+     *
+     * Les dossiers commençant par "_" ou contenant "base" ou un "." sont ignorés.
+     *
+     * @return string Liste des thèmes séparés par un espace
+     */
+    public static function theme_list(): string
     {
+        $themelist = [];
         $handle = opendir('themes');
 
-        while (false !== ($file = readdir($handle))) {
-            if (($file[0] !== '_')
-                and (!strstr($file, '.'))
-                //and (!strstr($file, '__vierge'))
-                and (!strstr($file, 'base'))
-            ) {
-                $themelist[] = $file;
+        if ($handle !== false) {
+            while (false !== ($file = readdir($handle))) {
+                if (($file[0] !== '_')
+                    && (!strstr($file, '.'))
+                    && (!strstr($file, 'base'))
+                ) {
+                    $themelist[] = $file;
+                }
             }
-        }
 
-        natcasesort($themelist);
-        closedir($handle);
+            natcasesort($themelist);
+            closedir($handle);
+        }
 
         return implode(' ', $themelist);
     }

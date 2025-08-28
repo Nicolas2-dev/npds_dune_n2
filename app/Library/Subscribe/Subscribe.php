@@ -6,10 +6,24 @@ namespace App\Library\Subscribe;
 class Subscribe
 {
 
-    #autodoc subscribe_mail($Xtype, $Xtopic,$Xforum, $Xresume, $Xsauf) : Assure l'envoi d'un mail pour un abonnement
-    function subscribe_mail($Xtype, $Xtopic, $Xforum, $Xresume, $Xsauf)
+    /**
+     * Assure l'envoi d'un mail pour un abonnement à un topic ou forum.
+     *
+     * @param string $Xtype  Type d'abonnement : "topic" ou "forum"
+     * @param int|string $Xtopic ID du topic concerné
+     * @param int|string $Xforum ID du forum concerné
+     * @param string $Xresume Texte du dernier message à inclure
+     * @param int|string $Xsauf ID de l'utilisateur à exclure de l'envoi
+     * @return void
+     */
+    public static function subscribe_mail(
+        string      $Xtype,
+        int|string  $Xtopic,
+        int|string  $Xforum,
+        string      $Xresume,
+        int|string  $Xsauf
+    ): void
     {
-        // $Xtype : topic, forum ... / $Xtopic clause WHERE / $Xforum id of forum / $Xresume Text passed / $Xsauf not this userid
         global $sitename, $nuke_url;
 
         if ($Xtype == 'topic') {
@@ -91,8 +105,19 @@ class Subscribe
         }
     }
 
-    #autodoc subscribe_query($Xuser,$Xtype, $Xclef) : Retourne true si le membre est abonné; à un topic ou forum
-    function subscribe_query($Xuser, $Xtype, $Xclef)
+    /**
+     * Vérifie si un membre est abonné à un topic ou un forum.
+     *
+     * @param int|string $Xuser ID de l'utilisateur
+     * @param string $Xtype Type d'abonnement : "topic" ou "forum"
+     * @param int|string $Xclef ID du topic ou du forum
+     * @return bool True si l'utilisateur est abonné, false sinon
+     */
+    public static function subscribe_query(
+        int|string  $Xuser, 
+        string      $Xtype, 
+        int|string  $Xclef
+    ): bool
     {
         if ($Xtype == 'topic') {
             $result = sql_query("SELECT topicid 

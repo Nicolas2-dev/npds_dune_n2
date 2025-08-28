@@ -6,7 +6,20 @@ namespace App\Library\Security;
 class UrlProtector
 {
 
-    function url_protect($arr, $key)
+    /**
+     * Vérifie et protège les URL contre les contenus ou clés interdites.
+     *
+     * Cette fonction :
+     * - Inclut la configuration `url_protect.php` contenant les mots clés et contenus interdits
+     * - Décode l'URL passée et effectue des comparaisons avec les valeurs interdites
+     * - Bloque l'accès si une correspondance est trouvée en appelant `access_denied()`
+     *
+     * @param string $arr La valeur de l'URL à vérifier (ex: `$_GET['param']`)
+     * @param string $key La clé associée dans l'URL (ex: `'param'`)
+     *
+     * @return void
+     */
+    public static function url_protect(string $arr, string $key): void
     {
         // include url_protect Bad Words and create the filter function
         include 'config/url_protect.php';
