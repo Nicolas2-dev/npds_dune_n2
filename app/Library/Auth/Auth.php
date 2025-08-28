@@ -6,47 +6,65 @@ namespace App\Library\auth;
 class Auth
 {
 
-    #autodoc getusrinfo($user) : Renvoi le contenu de la table users pour le user uname
-    function getusrinfo($user)
+    /**
+     * Récupère les informations d'un utilisateur depuis la table `users`.
+     *
+     * @param string $user Contenu du cookie encodé en base64 contenant les informations de l'utilisateur
+     * @return array|null Retourne un tableau associatif contenant les informations de l'utilisateur,
+     *                    ou null si l'utilisateur n'existe pas.
+     */
+    public static function getusrinfo(string $user): ?array
     {
         $cookie = explode(':', base64_decode($user));
 
         $result = sql_query("SELECT pass 
-                            FROM " . sql_prefix('users') . " 
-                            WHERE uname='$cookie[1]'");
+                             FROM " . sql_prefix('users') . " 
+                             WHERE uname='$cookie[1]'");
 
         list($pass) = sql_fetch_row($result);
 
-        $userinfo = '';
-
-        if (($cookie[2] == md5($pass)) and ($pass != '')) {
+        if (($cookie[2] === md5($pass)) && ($pass !== '')) {
             $result = sql_query("SELECT uid, name, uname, email, femail, url, user_avatar, user_occ, user_from, user_intrest, user_sig, user_viewemail, user_theme, pass, storynum, umode, uorder, thold, noscore, bio, ublockon, ublock, theme, commentmax, user_journal, send_email, is_visible, mns, user_lnl 
-                                FROM " . sql_prefix('users') . " 
-                                WHERE uname='$cookie[1]'");
+                                 FROM " . sql_prefix('users') . " 
+                                 WHERE uname='$cookie[1]'");
 
             if (sql_num_rows($result) == 1) {
-                $userinfo = sql_fetch_assoc($result);
-            } else {
-                echo '<strong>' . translate('Un problème est survenu') . '.</strong>';
-            }
+                return sql_fetch_assoc($result);
+            } 
+            //else {
+            //
+            //    // Pas d'echo ici, cela pourrait poser un problème d'affichage !
+            //    // On retourne null ou on effectue un log.
+            //    // echo '<strong>' . translate('Un problème est survenu') . '.</strong>';
+            //}
         }
 
-        return $userinfo;
+        return null;
     }
 
-    #autodoc AutoReg() : Si AutoRegUser=true et que le user ne dispose pas du droit de connexion : RAZ du cookie NPDS<br />retourne False ou True
-    function AutoReg()
+    /**
+     * Vérifie et gère l'auto-enregistrement des utilisateurs.
+     *
+     * Si la configuration `AutoRegUser` est activée et que l'utilisateur
+     * ne dispose pas du droit de connexion, le cookie NPDS est réinitialisé.
+     *
+     * @return bool True si l'utilisateur peut rester connecté / auto-enregistré,
+     *              False si le cookie NPDS a été réinitialisé.
+     */
+    public static function AutoReg(): bool
     {
         global $AutoRegUser, $user;
 
-        if (!$AutoRegUser) {
+        $autoregEnabled = (bool) $AutoRegUser;
+
+        if (!$autoregEnabled) {
             if (isset($user)) {
 
                 $cookie = explode(':', base64_decode($user));
 
                 list($test) = sql_fetch_row(sql_query("SELECT open 
-                                                    FROM " . sql_prefix('users_status') . " 
-                                                    WHERE uid='$cookie[0]'"));
+                                                       FROM " . sql_prefix('users_status') . " 
+                                                       WHERE uid='$cookie[0]'"));
 
                 if (!$test) {
                     setcookie('user', '', 0);
@@ -63,8 +81,20 @@ class Auth
         }
     }
 
-    #autodoc autorisation($auto) : Retourne true ou false en fonction des paramètres d'autorisation de NPDS (Administrateur, anonyme, Membre, Groupe de Membre, Tous)
-    function autorisation($auto)
+    /**
+     * Vérifie les autorisations NPDS.
+     *
+     * Retourne true ou false selon le type d'autorisation demandé.
+     *
+     * @param string $auto Type d'autorisation à vérifier. Les valeurs possibles peuvent être :
+     *                     - 'admin'      : administrateur
+     *                     - 'anonymous'  : utilisateur non connecté
+     *                     - 'member'     : membre connecté
+     *                     - 'group'      : groupe de membre
+     *                     - 'all'        : tout le monde
+     * @return bool True si l'utilisateur a l'autorisation, false sinon.
+     */
+    public static function autorisation(string $auto): bool
     {
         global $user, $admin;
 
@@ -102,21 +132,25 @@ class Auth
         return $affich;
     }
 
-    #autodoc secur_static($sec_type) : Pour savoir si le visiteur est un : membre ou admin (static.php et banners.php par exemple)
-    function secur_static($sec_type)
+    /**
+     * Vérifie le statut du visiteur.
+     *
+     * Cette fonction permet de savoir si le visiteur est :
+     * - un membre enregistré
+     * - un administrateur
+     *
+     * @param string $typeStatut Le type de statut à vérifier ('member' ou 'admin').
+     * @return bool True si le visiteur correspond au type, false sinon.
+     */
+    public static function secur_static(string $typeStatut): bool
     {
         global $user, $admin;
 
-        switch ($sec_type) {
-
-            case 'member':
-                return isset($user);
-                break;
-
-            case 'admin':
-                return isset($admin);
-                break;
-        }
+        return match ($typeStatut) {
+            'member' => isset($user),
+            'admin'  => isset($admin),
+            default  => false,
+        };
     }
 
 }

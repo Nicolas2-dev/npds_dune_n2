@@ -6,25 +6,37 @@ namespace App\Library\Editeur;
 class Editeur
 {
 
-    #autodoc aff_editeur($Xzone, $Xactiv) : Charge l'éditeur ... ou non : $Xzone = nom du textarea / $Xactiv = deprecated <br /> si $Xzone="custom" on utilise $Xactiv pour passer des paramètres spécifiques
-    function aff_editeur($Xzone, $Xactiv)
+    /**
+     * Charge et retourne l'éditeur WYSIWYG pour un textarea donné.
+     *
+     * Cette fonction génère le code HTML nécessaire pour afficher un éditeur riche.
+     * 
+     * @param string $Xzone Nom du textarea à éditer.
+     * @param mixed $Xactiv Paramètre déprécié, utilisé uniquement si $Xzone = "custom" pour passer des options spécifiques.
+     * @return string HTML de l'éditeur à afficher.
+     */
+    public static function aff_editeur(string $Xzone, mixed $Xactiv): string
     {
-        global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl;
+        //global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl;
+        global $tiny_mce;
 
-        $tmp = '';
+        $output = '';
 
-        if ($tiny_mce) {
-            static $tmp_Xzone;
+        if (!$tiny_mce) {
+            return $output;
+        }
+            
+        static $tmp_Xzone;
 
-            if ($Xzone == 'tiny_mce') {
-                if ($Xactiv == 'end') {
+        if ($Xzone == 'tiny_mce') {
+            if ($Xactiv == 'end') {
 
-                    if (substr((string) $tmp_Xzone, -1) == ',') {
-                        $tmp_Xzone = substr_replace((string) $tmp_Xzone, '', -1);
-                    }
+                if (substr((string) $tmp_Xzone, -1) == ',') {
+                    $tmp_Xzone = substr_replace((string) $tmp_Xzone, '', -1);
+                }
 
-                    if ($tmp_Xzone) {
-                        $tmp = "<script type=\"text/javascript\">
+                if ($tmp_Xzone) {
+                    $output = "<script type=\"text/javascript\">
                         //<![CDATA[
                             document.addEventListener(\"DOMContentLoaded\", function(e) {
                                 tinymce.init({
@@ -32,24 +44,21 @@ class Editeur
                                 mobile: {menubar: true},
                                 language : '" . language_iso(1, '', '') . "',";
 
-                        include 'shared/tinymce/themes/advanced/npds.conf.php';
+                    include 'shared/tinymce/themes/advanced/npds.conf.php';
 
-                        $tmp .= '});
+                    $output .= '});
                             });
                         //]]>
                         </script>';
-                    }
-                } else {
-                    $tmp .= '<script type="text/javascript" src="shared/tinymce/tinymce.min.js"></script>';
                 }
             } else {
-                $tmp_Xzone .= $Xzone != 'custom' ? $Xzone . ',' : $Xactiv . ',';
+                $output .= '<script type="text/javascript" src="shared/tinymce/tinymce.min.js"></script>';
             }
         } else {
-            $tmp = '';
+            $tmp_Xzone .= $Xzone != 'custom' ? $Xzone . ',' : $Xactiv . ',';
         }
 
-        return $tmp;
+        return $output;
     }
 
 }

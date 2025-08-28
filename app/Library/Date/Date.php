@@ -2,49 +2,89 @@
 
 namespace App\Library\Date;
 
+use IntlDateFormatter;
+
 
 class Cookie
 {
 
-    #autodoc NightDay() : Pour obtenir Nuit ou Jour ... Un grand Merci à P.PECHARD pour cette fonction
-    function NightDay()
+    /**
+     * Détermine si c'est actuellement le jour ou la nuit.
+     * Se base sur l'heure de lever et de coucher du soleil définies dans les variables globales `$lever` et `$coucher`.
+     *
+     * @global string $lever  Heure de lever du soleil (format accepté par strtotime)
+     * @global string $coucher Heure de coucher du soleil (format accepté par strtotime)
+     * @return string 'Jour' si l'heure actuelle est entre le lever et le coucher, 'Nuit' sinon
+     */
+    function NightDay(): string
     {
         global $lever, $coucher;
 
-        $Maintenant = strtotime('now');
+        $maintenant = strtotime('now');
 
-        $Jour = strtotime($lever);
-        $Nuit = strtotime($coucher);
+        $jour = strtotime($lever);
+        $nuit = strtotime($coucher);
 
-        if ($Maintenant - $Jour < 0 xor $Maintenant - $Nuit > 0) {
-            return 'Nuit';
-        } else {
-            return 'Jour';
-        }
+        return ($maintenant - $jour < 0 xor $maintenant - $nuit > 0) ? 'Nuit' : 'Jour';
     }
-    
-    #autodoc formatTimes($time) : Formate un timestamp ou une chaine de date formatée correspondant à l'argument obligatoire $time - le décalage $gmt défini dans les préférences n'est pas appliqué
-    function formatTimes($time, $dateStyle = IntlDateFormatter::SHORT, $timeStyle = IntlDateFormatter::NONE, $timezone = 'Europe/Paris')
-    {
-        $locale = language_iso(1, '_', 1); // Utilise la langue de l'affichage du site
+
+    /**
+     * Formate un timestamp ou une chaîne de date en fonction des styles de date/heure donnés.
+     * Le décalage GMT défini dans les préférences n'est pas appliqué.
+     *
+     * @param int|string $time        Timestamp Unix ou chaîne de date compréhensible par strtotime
+     * @param int        $dateStyle   Style de date selon IntlDateFormatter (default: IntlDateFormatter::SHORT)
+     * @param int        $timeStyle   Style d'heure selon IntlDateFormatter (default: IntlDateFormatter::NONE)
+     * @param string     $timezone    Fuseau horaire à utiliser (default: 'Europe/Paris')
+     * @return string   Date formatée avec première lettre en majuscule et encodage HTML
+     */
+    function formatTimes(
+        int|string  $time,
+        int         $dateStyle = IntlDateFormatter::SHORT,
+        int         $timeStyle = IntlDateFormatter::NONE,
+        string      $timezone  = 'Europe/Paris'
+    ): string {
+        // Utilise la langue de l'affichage du site.
+        $locale = language_iso(1, '_', 1); 
+
         $fmt = datefmt_create($locale, $dateStyle, $timeStyle, $timezone, IntlDateFormatter::GREGORIAN);
 
-        $timestamp = is_numeric($time) ? $time : strtotime($time);
-        $date_au_format = ucfirst(htmlentities($fmt->format($timestamp), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
+        $timestamp = is_numeric($time) ? (int) $time : strtotime($time);
 
-        return $date_au_format;
+        return ucfirst(htmlentities($fmt->format($timestamp), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
     }
 
-    #autodoc getPartOfTime($time) : découpe/extrait/formate et plus grâce au paramètre $format.... un timestamp ou une chaine de date formatée correspondant à l'argument obligatoire $time -
-    function getPartOfTime($time, $format, $timezone = 'Europe/Paris')
-    {
+    /**
+     * Extrait et formate une partie d'un timestamp ou d'une chaîne de date.
+     * Le format de sortie est défini via le paramètre $format (pattern IntlDateFormatter).
+     *
+     * @param int|string $time       Timestamp Unix ou chaîne de date compréhensible par strtotime
+     * @param string     $format     Pattern de formatage compatible IntlDateFormatter
+     * @param string     $timezone   Fuseau horaire à utiliser (default: 'Europe/Paris')
+     * @return string   Date formatée avec première lettre en majuscule et encodage HTML
+     */
+    function getPartOfTime(
+        int|string  $time,
+        string      $format,
+        string      $timezone = 'Europe/Paris'
+    ): string {
+        // Utilise la langue de l'affichage du site.
         $locale = language_iso(1, '_', 1);
-        $timestamp = is_numeric($time) ? $time : strtotime($time);
+        
+        $timestamp = is_numeric($time) ? (int) $time : strtotime($time);
 
-        $fmt = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone, IntlDateFormatter::GREGORIAN, $format);
-        $date_au_format = $fmt->format($timestamp);
+        $fmt = new IntlDateFormatter(
+            $locale, 
+            IntlDateFormatter::FULL, 
+            IntlDateFormatter::FULL, 
+            $timezone, 
+            IntlDateFormatter::GREGORIAN, 
+            $format
+        );
 
-        return ucfirst(htmlentities($date_au_format, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
+        $dateFormat = $fmt->format($timestamp);
+
+        return ucfirst(htmlentities($dateFormat, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
     }
 
 }

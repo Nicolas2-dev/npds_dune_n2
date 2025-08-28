@@ -6,6 +6,12 @@ namespace App\Library\Page;
 class PageRef
 {
 
+    protected static $templates = [
+        'theme_css' => '<link href="themes/%s/assets/css/%s" rel="stylesheet" type="text/css" media="all" />',
+        'tab_css'   => '<link href="%s" rel="stylesheet" type="text/css" media="all" />',
+    ];
+
+
     /**
      * 
      *
@@ -14,7 +20,7 @@ class PageRef
      *
      * @return  [type]                  [return description]
      */
-    public static function import_page_ref_css(string $css_pages_ref, string $css)
+    public static function import_page_ref_css(string $css_pages_ref, string $css) // Bug : $css ne sert a rien puisque écraser plus bas !!!
     {
         // Chargeur CSS spécifique
         if ($css_pages_ref) {
@@ -35,14 +41,13 @@ class PageRef
                     }
 
                     if (stristr($tab_css, 'http://') || stristr($tab_css, 'https://')) {
-                        $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
-
+                        $admtmp = sprintf(static::$templates['tab_css'], $tab_css);
                     } else {
                         if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $tab_css) and ($tab_css != '')) {
-                            $admtmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $tab_css . "' rel='stylesheet' type='text/css' media='all' />";
+                            $admtmp = sprintf(static::$templates['theme_css'], $tmp_theme, $tab_css);
 
-                        } elseif (file_exists("$tab_css") and ($tab_css != '')) {
-                            $admtmp = "<link href='$tab_css' rel='stylesheet' type='text/css' media='all' />";
+                        } elseif (file_exists($tab_css) and ($tab_css != '')) {
+                            $admtmp = sprintf(static::$templates['tab_css'], $tab_css);
                         }
                     }
 
@@ -58,19 +63,18 @@ class PageRef
                 settype($oups, 'string');
 
                 $op = substr($oups, -1);
-                $css = substr($oups, 0, -1);
+                $css = substr($oups, 0, -1); // Bug : écrasement de la variable $css !!!
 
                 if (($css != '') and (file_exists('themes/' . $tmp_theme . '/assets/css/' . $css))) {
                     if ($op == '-') {
-                        $tmp = "<link href='themes/" . $tmp_theme . "/assets/css/" . $css . "' rel='stylesheet' type='text/css' media='all' />";
+                        $tmp = sprintf(static::$templates['theme_css'], $tmp_theme, $css);
                     } else {
-                        $tmp .= "<link href='themes/" . $tmp_theme . "/assets/css/" . $css . "' rel='stylesheet' type='text/css' media='all' />";
+                        $tmp .= sprintf(static::$templates['theme_css'], $tmp_theme, $css);
                     }
                 }
             }
 
-            return $tmp;           
+            return $tmp;
         }
     }
-
 }

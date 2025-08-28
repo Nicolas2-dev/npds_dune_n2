@@ -6,8 +6,13 @@ namespace App\Library\Cookie;
 class Cookie
 {
 
-    #autodoc cookiedecode($user) : Décode le cookie membre et vérifie certaines choses (password)
-    function cookiedecode($user)
+    /**
+     * Décode le cookie membre et vérifie certaines informations (ex. mot de passe).
+     *
+     * @param string $user Valeur du cookie à décoder
+     * @return mixed Données décodées du cookie ou false si invalide
+     */
+    public static function cookiedecode(string $user): ?array
     {
         global $language;
 
@@ -60,6 +65,8 @@ class Cookie
                 header('Location: index.php');
             }
         }
+
+        return null;
     }
 
 }

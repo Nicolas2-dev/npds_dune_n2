@@ -6,40 +6,32 @@ namespace App\Library\Edito;
 class Edito
 {
 
-    #autodoc fab_edito() : Construit l'edito
-    function fab_edito()
+    /**
+     * Construit et retourne l'édito.
+     *
+     * Cette fonction lit le fichier d'édito approprié selon que l'utilisateur est connecté ou non,
+     * gère l'affichage conditionnel basé sur les paramètres de jour/nuit et la durée de validité,
+     * et retourne le contenu final formaté.
+     *
+     * @return array Tableau contenant :
+     *               - bool $affich Indique si l'édito doit être affiché.
+     *               - string $Xcontents Contenu de l'édito prêt à l'affichage.
+     */
+    public static function fab_edito(): array
     {
         global $cookie;
 
         if (isset($cookie[3])) {
-            if (file_exists('storage/static/edito_membres.txt')) {
-                $fp = fopen('storage/static/edito_membres.txt', 'r');
-
-                if (filesize('storage/static/edito_membres.txt') > 0) {
-                    $Xcontents = fread($fp, filesize('storage/static/edito_membres.txt'));
-                }
-
-                fclose($fp);
+            if (file_exists($path = 'storage/static/edito_membres.txt')) {
+                $Xcontents = static::readFile($path);
             } else {
-                if (file_exists('storage/static/edito.txt')) {
-                    $fp = fopen('storage/static/edito.txt', 'r');
-
-                    if (filesize('storage/static/edito.txt') > 0) {
-                        $Xcontents = fread($fp, filesize('storage/static/edito.txt'));
-                    }
-
-                    fclose($fp);
+                if (file_exists($path = 'storage/static/edito.txt')) {
+                    $Xcontents = static::readFile($path);
                 }
             }
         } else {
-            if (file_exists('storage/static/edito.txt')) {
-                $fp = fopen('storage/static/edito.txt', 'r');
-
-                if (filesize('storage/static/edito.txt') > 0) {
-                    $Xcontents = fread($fp, filesize('storage/static/edito.txt'));
-                }
-
-                fclose($fp);
+            if (file_exists($path = 'storage/static/edito.txt')) {
+                $Xcontents = static::readFile($path);
             }
         }
 
@@ -86,7 +78,27 @@ class Edito
 
         $Xcontents = meta_lang(aff_langue($Xcontents));
 
-        return array($affich, $Xcontents);
+        return [$affich, $Xcontents];
     }
 
+    /**
+     * Lit le contenu d'un fichier et retourne une chaîne vide si le fichier est vide ou introuvable.
+     *
+     * @param string $path Chemin complet du fichier à lire.
+     * @return string Contenu du fichier, ou une chaîne vide si le fichier est vide ou ne peut être lu.
+     */
+    private function readFile(string $path): string 
+    {
+        if (is_readable($path) && filesize($path) > 0) {
+            $fp = fopen($path, 'r');
+
+            $content = fread($fp, filesize($path));
+
+            fclose($fp);
+
+            return $content ?: '';
+        }
+
+        return '';
+    }
 }

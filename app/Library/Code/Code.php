@@ -6,44 +6,83 @@ namespace App\Library\Code;
 class Code
 {
 
-    #autodoc af_cod($ibid) : Analyse le contenu d'une chaîne et converti les pseudo-balises [code]...[/code] et leur contenu en html
-    function change_cod($r)
+    /**
+     * Convertit les pseudo-balises [code]...[/code] et leur contenu en HTML.
+     *
+     * Cette fonction est utilisée comme callback pour `preg_replace_callback()`.
+     * Elle échappe le contenu du code pour l'afficher correctement dans le HTML.
+     *
+     * @param array $matches Tableau contenant les parties capturées par l'expression régulière.
+     *                       Indexs utilisés : 
+     *                       - [2] : nom de la balise HTML (ex: pre, code)
+     *                       - [3] : langage du code (ex: php, js)
+     *                       - [5] : contenu du code
+     * @return string HTML généré pour le bloc de code
+     */
+    public static function change_cod(array $matches): string
     {
-        return '<' . $r[2] . ' class="language-' . $r[3] . '">' . htmlentities($r[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') . '</' . $r[2] . '>';
+        return '<' . $matches[2] . ' class="language-' . $matches[3] . '">' . 
+               htmlentities($matches[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') . 
+               '</' . $matches[2] . '>';
     }
 
-    function af_cod($ibid)
+    /**
+     * Analyse le contenu d'une chaîne et convertit les pseudo-balises [code]...[/code]
+     * et leur contenu en HTML.
+     *
+     * @param string $content Chaîne à analyser
+     * @param bool|null $convertNewlines Indique si les sauts de ligne doivent être convertis en <br />. Par défaut false.
+     * @return string Chaîne transformée avec les balises [code] converties en HTML
+     */
+    public static function af_cod(string $content, ?bool $convertNewlines = false): string
     {
-        $pat = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
-        $ibid = preg_replace_callback($pat, 'change_cod', $ibid, -1, $nb);
-        //   $ibid= str_replace(array("\r\n", "\r", "\n"), "<br />",$ibid);
+        $pattern = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
+        
+        $content = preg_replace_callback($pattern, 'change_cod', $content, -1, $count);
 
-        return $ibid;
-    }
-
-    #autodoc desaf_cod($ibid) : Analyse le contenu d'une chaîne et converti les balises html <code>...</code> en pseudo-balises [code]...[/code]
-    function desaf_cod($ibid)
-    {
-        $pat = '#(<)(\w+)\s+(class="language-)([^">]*)(">)(.*?)\1/\2>#';
-
-        function rechange_cod($r)
-        {
-            return '[' . $r[2] . ' ' . $r[4] . ']' . $r[6] . '[/' . $r[2] . ']';
+        if ($convertNewlines) {
+            $content = nl2br($content);
         }
 
-        $ibid = preg_replace_callback($pat, 'rechange_cod', $ibid, -1);
-
-        return $ibid;
+        return $content;
     }
 
-    #autodoc aff_code($ibid) : Analyse le contenu d'une chaîne et converti les balises [code]...[/code]
-    function aff_code($ibid)
+    /**
+     * Convertit le contenu HTML des balises <code class="language-...">...</code>
+     * en pseudo-balises [code]...[/code].
+     *
+     * @param string $content Contenu à analyser
+     * @return string Contenu avec les balises HTML converties en pseudo-balises
+     */
+    public static function desaf_cod(string $content): string
+    {
+        $pattern = '#(<)(\w+)\s+(class="language-)([^">]*)(">)(.*?)\1/\2>#';
+
+        $content = preg_replace_callback(
+            $pattern,
+            function (array $matches): string {
+                return '[' . $matches[2] . ' ' . $matches[4] . ']' . $matches[6] . '[/' . $matches[2] . ']';
+            },
+            $content
+        );
+
+        return $content;
+    }
+
+    /**
+     * Analyse le contenu d'une chaîne et convertit les balises [code]...[/code]
+     * en code HTML syntaxé via `highlight_string`.
+     *
+     * @param string $content Contenu à analyser
+     * @return string Contenu avec les balises [code] remplacées par du HTML coloré
+     */
+    public static function aff_code(string $content): string
     {
         $pasfin = true;
 
         while ($pasfin) {
-            $pos_deb = strpos($ibid, '[code]', 0);
-            $pos_fin = strpos($ibid, '[/code]', 0);
+            $pos_deb = strpos($content, '[code]', 0);
+            $pos_fin = strpos($content, '[/code]', 0);
 
             // ne pas confondre la position ZERO et NON TROUVE !
             if ($pos_deb === false) {
@@ -56,17 +95,17 @@ class Code
 
             if (($pos_deb >= 0) and ($pos_fin >= 0)) {
                 ob_start();
-                    highlight_string(substr($ibid, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
+                    highlight_string(substr($content, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
                     $fragment = ob_get_contents();
                 ob_end_clean();
 
-                $ibid = str_replace(substr($ibid, $pos_deb, ($pos_fin - $pos_deb + 7)), $fragment, $ibid);
+                $content = str_replace(substr($content, $pos_deb, ($pos_fin - $pos_deb + 7)), $fragment, $content);
             } else {
                 $pasfin = false;
             }
         }
 
-        return $ibid;
+        return $content;
     }
 
 }

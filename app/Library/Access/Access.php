@@ -6,7 +6,7 @@ namespace App\Library\Access;
 class Access
 {
 
-    function access_denied()
+    public static function access_denied()
     {
         include 'admin/die.php';
     }

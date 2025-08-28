@@ -6,40 +6,54 @@ namespace App\Library\Chat;
 class Chat
 {
 
-    #autodoc if_chat() : Retourne le nombre de connecté au Chat
-    function if_chat($pour)
+    /**
+     * Retourne le nombre d'utilisateurs connectés au chat pour un contexte donné.
+     *
+     * @param string $pour Contexte ou identifiant pour filtrer les autorisations
+     * @return int Nombre d'utilisateurs connectés
+     */
+    public static function if_chat(string $pour): int
     {
         $auto = autorisation_block('params#' . $pour);
-        $dimauto = count($auto);
-        $numofchatters = 0;
 
-        if ($dimauto <= 1) {
-            $result = sql_query("SELECT DISTINCT ip 
-                                FROM " . sql_prefix('chatbox') . " 
-                                WHERE id='" . $auto[0] . "' 
-                                AND date >= " . (time() - (60 * 3)) . "");
+        $activeChatUsers = 0;
 
-            $numofchatters = sql_num_rows($result);
+        if (count($auto) <= 1) {
+            $activeWindow = time() - 60 * 3; // 3 minutes
+
+            $activeChatUsers = sql_num_rows(sql_query(
+                "SELECT DISTINCT ip 
+                 FROM " . sql_prefix('chatbox') . " 
+                 WHERE id='" . (int) $auto[0] . "' 
+                 AND date >= " . $activeWindow . ""));
         }
 
-        return $numofchatters;
+        return $activeChatUsers;
     }
 
-    #autodoc insertChat($username, $message, $dbname, $id) : Insère un record dans la table Chat / on utilise id pour filtrer les messages - id = l'id du groupe
-    function insertChat($username, $message, $dbname, $id)
+    /**
+     * Insère un message dans la table `chatbox`.
+     *
+     * @param string $username Nom de l'utilisateur qui envoie le message
+     * @param string $message  Contenu du message
+     * @param int    $dbname   ID de la base ou du contexte (table liée)
+     * @param int    $id       ID du groupe pour filtrer les messages
+     * @return void
+     */
+    public static function insertChat(string $username, string $message, int $dbname, int $id): void
     {
-        if ($message != '') {
-            $username = removeHack(stripslashes(FixQuotes(strip_tags(trim($username)))));
-            $message =  removeHack(stripslashes(FixQuotes(strip_tags(trim($message)))));
-
-            $ip = getip();
-
-            settype($id, 'integer');
-            settype($dbname, 'integer');
-
-            $result = sql_query("INSERT INTO " . sql_prefix('chatbox') . " 
-                                VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
+        if ($message === '') {
+            return;
         }
+
+        // Nettoyage des données
+        $username   = removeHack(stripslashes(FixQuotes(strip_tags(trim($username)))));
+        $message    = removeHack(stripslashes(FixQuotes(strip_tags(trim($message)))));
+        $ip         = getip();
+
+        // Insertion en base
+        sql_query("INSERT INTO " . sql_prefix('chatbox') . " 
+                   VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
     }
 
 }
