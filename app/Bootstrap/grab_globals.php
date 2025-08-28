@@ -46,39 +46,6 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         $whoops->register();
     }
     
-    function getip()
-    {
-        if (isset($_SERVER)) {
-            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                $realip = $_SERVER['HTTP_CLIENT_IP'];
-            } else {
-                $realip = $_SERVER['REMOTE_ADDR'];
-            }
-        } else {
-            if (getenv('HTTP_X_FORWARDED_FOR')) {
-                $realip = getenv('HTTP_X_FORWARDED_FOR');
-            } elseif (getenv('HTTP_CLIENT_IP')) {
-                $realip = getenv('HTTP_CLIENT_IP');
-            } else {
-                $realip = getenv('REMOTE_ADDR');
-            }
-        }
-
-        if (strpos($realip, ',') > 0) {
-            $realip = substr($realip, 0, strpos($realip, ',') - 1);
-        }
-
-        // from Gu1ll4um3r0m41n - 08-05-2007 - dev 2012
-        return trim($realip);
-    }
-
-    function access_denied()
-    {
-        include 'admin/die.php';
-    }
-
     // First of all : Spam from IP / |5 indicate that the same IP has passed 6 times with status KO in the anti_spambot function
     $path_log = 'storage/logs/spam.log';
 
@@ -121,37 +88,6 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         }
     }
 
-    function addslashes_GPC(&$arr)
-    {
-        $arr = addslashes($arr);
-    }
-
-    function url_protect($arr, $key)
-    {
-        // include url_protect Bad Words and create the filter function
-        include 'config/url_protect.php';
-
-        // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
-        $arr = rawurldecode($arr);
-        $RQ_tmp = strtolower($arr);
-        $RQ_tmp_large = strtolower($key) . '=' . $RQ_tmp;
-
-        if (
-            in_array($RQ_tmp, $bad_uri_content)
-            or
-            in_array($RQ_tmp_large, $bad_uri_content)
-            or
-            in_array($key, $bad_uri_key, true)
-            or
-            count($badname_in_uri) > 0
-        ) {
-            unset($bad_uri_content);
-            unset($bad_uri_key);
-            unset($badname_in_uri);
-
-            access_denied();
-        }
-    }
 
     // Get values, slash, filter and extract
     if (!empty($_GET)) {

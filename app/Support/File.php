@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Library\Theme\Theme;
+
 /**
  * Classe File
  *
@@ -78,7 +80,7 @@ class File
         switch (strtoupper($Format)) {
 
             case 'IMG':
-                if ($ibid = theme_image('images/upload/file_types/' . $this->extention . '.gif')) {
+                if ($ibid = Theme::image('images/upload/file_types/' . $this->extention . '.gif')) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/upload/file_types/' . $this->extention . '.gif';

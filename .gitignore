@@ -1,7 +1,1 @@
-# ignorer tout dans npds/
-npds/*
-
-# mais pas ce fichier spécial
-!npds/.gitkeep
-
 /vendor/

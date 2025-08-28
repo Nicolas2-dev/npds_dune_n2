@@ -122,7 +122,11 @@ class Sanitize
         }
 
         return $what;
-}
+    }
 
+    function addslashes_GPC(&$arr)
+    {
+        $arr = addslashes($arr);
+    }
 
 }

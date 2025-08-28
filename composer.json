@@ -6,7 +6,7 @@
             "Npds\\": "/npds"
         },
         "files": [
-            "app/Support/helpers.php"
+            "storage/generated_helpers_autoload.php"
         ]
     },
     "authors": [
@@ -21,5 +21,10 @@
     },
     "require": {
         "phpmailer/phpmailer": "^6.10"
+    },    
+    "scripts": {
+        "post-autoload-dump": [
+            "php -r \"require __DIR__.'/npds/Support/HelperGenerator.php'; \\Npds\\Support\\HelperGenerator::generate();\""
+        ]
     }
 }

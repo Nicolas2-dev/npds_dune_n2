@@ -32,4 +32,28 @@ class Online
         return array($content1, $content2);
     }
 
+    #autodoc online_members () : liste des membres connect&eacute;s <br /> Retourne un tableau dont la position 0 est le nombre, puis la liste des username | time <br />Appel : $xx=online_members(); puis $xx[x]['username'] $xx[x]['time'] ...
+    function online_members()
+    {
+        $result = sql_query("SELECT username, guest, time 
+                            FROM " . sql_prefix('session') . " 
+                            WHERE guest='0' 
+                            ORDER BY username ASC");
+
+        $i = 0;
+
+        $members_online[$i] = sql_num_rows($result);
+
+        while ($session = sql_fetch_assoc($result)) {
+            if (isset($session['guest']) and $session['guest'] == 0) {
+                $i++;
+
+                $members_online[$i]['username'] = $session['username'];
+                $members_online[$i]['time'] = $session['time'];
+            }
+        }
+
+        return $members_online;
+    }
+
 }

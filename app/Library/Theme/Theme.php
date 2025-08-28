@@ -7,12 +7,24 @@ class Theme
 {
 
     #autodoc theme_image($theme_img) : Retourne le chemin complet si l'image est trouvée dans le répertoire image du thème sinon false
+    public static function image($theme_img)
+    {
+        global $theme;
+
+        if (@file_exists('themes/'. $theme .'/assets/'. $theme_img)) {
+            return 'themes/'. $theme .'/assets/'. $theme_img;
+        }
+
+        return false;
+    }
+
+    #autodoc theme_image($theme_img) : Retourne le chemin complet si l'image est trouvée dans le répertoire image du thème sinon false
     function theme_image($theme_img)
     {
         global $theme;
 
         if (@file_exists('themes/'. $theme .'/assets/'. $theme_img)) {
-            return ('themes/'. $theme .'/assets/'. $theme_img);
+            return 'themes/'. $theme .'/assets/'. $theme_img;
         }
 
         return false;

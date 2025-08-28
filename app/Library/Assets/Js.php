@@ -111,4 +111,17 @@ class Js
         return $scri_js;
     }
 
+    #autodoc JavaPopUp($F,$T,$W,$H) : Personnalise une ouverture de fenêtre (popup)
+    function JavaPopUp($F, $T, $W, $H)
+    {
+        // 01.feb.2002 by GaWax
+        if ($T == '') {
+            $T = '@ ' . time() . ' ';
+        }
+
+        $PopUp = "'$F','$T','menubar=no,location=no,directories=no,status=no,copyhistory=no,height=$H,width=$W,toolbar=no,scrollbars=yes,resizable=yes'";
+
+        return $PopUp;
+    }
+
 }
