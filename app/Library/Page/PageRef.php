@@ -5,7 +5,15 @@ namespace App\Library\Page;
 
 class PageRef
 {
-
+    
+    /**
+     * Modèles HTML pour l'inclusion des fichiers CSS.
+     *
+     * - 'theme_css' : modèle pour les fichiers CSS situés dans le dossier du thème actif.
+     * - 'tab_css'   : modèle pour les fichiers CSS avec un chemin absolu ou relatif direct.
+     *
+     * @var array<string, string>
+     */
     protected static $templates = [
         'theme_css' => '<link href="themes/%s/assets/css/%s" rel="stylesheet" type="text/css" media="all" />',
         'tab_css'   => '<link href="%s" rel="stylesheet" type="text/css" media="all" />',
@@ -13,14 +21,19 @@ class PageRef
 
 
     /**
-     * 
+     * Charge les fichiers CSS spécifiques à une page donnée.
      *
-     * @param   string  $css_pages_ref  [$css_pages_ref description]
-     * @param   string  $css            cette argument ne sert a rien ou c'est un bug car dans le code du dessous $css et ecraser par $css = substr($oups, 0, -1);!!!
+     * Cette méthode inclut les fichiers CSS définis dans le tableau $PAGES pour
+     * la page référencée par $css_pages_ref. Les URLs absolues sont directement
+     * utilisées, tandis que les fichiers locaux sont recherchés dans le thème actif
+     * ou à l'emplacement fourni.
      *
-     * @return  [type]                  [return description]
+     * @param string $css_pages_ref Référence de la page dont on veut charger le CSS
+     * @param string $css           Ce paramètre est écrasé dans le code et n'est pas utilisé
+     *
+     * @return string|null Le bloc HTML <link> pour inclure les CSS, ou null si aucun CSS trouvé
      */
-    public static function import_page_ref_css(string $css_pages_ref, string $css) // Bug : $css ne sert a rien puisque écraser plus bas !!!
+    public static function import_page_ref_css(string $css_pages_ref, string $css): ?string // Bug : $css ne sert a rien puisque écraser plus bas !!!
     {
         // Chargeur CSS spécifique
         if ($css_pages_ref) {
@@ -77,4 +90,5 @@ class PageRef
             return $tmp;
         }
     }
+
 }

@@ -96,3 +96,33 @@ if (! function_exists('pollMain'))
         themesidebox($boxTitle, $boxContent);
     }
 }
+
+if (! function_exists('PollNewest'))
+{
+    #autodoc PollNewest() : Bloc Sondage <br />=> syntaxe : <br />function#pollnewest<br />params#ID_du_sondage OU vide (dernier sondage créé)
+    function PollNewest(?int $id = null): void
+    {
+        // snipe : multi-poll evolution
+        if ($id != 0) {
+            settype($id, 'integer');
+
+            list($ibid, $pollClose) = pollSecur($id);
+
+            if ($ibid) {
+                pollMain($ibid, $pollClose);
+            }
+        } elseif ($result = sql_query("SELECT pollID 
+                                    FROM " . sql_prefix('poll_data') . " 
+                                    ORDER BY pollID DESC 
+                                    LIMIT 1")) {
+
+            list($pollID) = sql_fetch_row($result);
+
+            list($ibid, $pollClose) = pollSecur($pollID);
+
+            if ($ibid) {
+                pollMain($ibid, $pollClose);
+            }
+        }
+    }
+}

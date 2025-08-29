@@ -18,6 +18,9 @@
 /*  Revision : 2018 Version: 1.5 / support php 7                        */
 /************************************************************************/
 
+namespace App\Library\Cache;
+
+
 class SuperCacheEmpty
 {
 

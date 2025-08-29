@@ -6,8 +6,20 @@ namespace App\Library\Pollbooth;
 class Pollbooth
 {
 
-    #autodoc pollSecur($pollID) : Assure la gestion des sondages membres
-    function pollSecur($pollID)
+    /**
+     * Assure la gestion sécurisée des sondages pour les membres.
+     *
+     * Vérifie le type de sondage et si l'utilisateur est autorisé à y accéder.
+     *
+     * @param int|string $pollID Identifiant du sondage.
+     * @return array{0: int|string, 1: int} Tableau contenant :
+     *   - [0] : l'identifiant du sondage.
+     *   - [1] : l'état de fermeture du sondage :
+     *       0 => sondage ouvert
+     *       1 => sondage fermé
+     *       99 => sondage réservé aux membres non connectés
+     */
+    public static function pollSecur(int|string $pollID): array
     {
         global $user;
 
@@ -30,34 +42,7 @@ class Pollbooth
             }
         }
 
-        return array($pollID, $pollClose);
+        return [$pollID, $pollClose];
     }
-
-    #autodoc PollNewest() : Bloc Sondage <br />=> syntaxe : <br />function#pollnewest<br />params#ID_du_sondage OU vide (dernier sondage créé)
-    function PollNewest(?int $id = null): void
-    {
-        // snipe : multi-poll evolution
-        if ($id != 0) {
-            settype($id, 'integer');
-
-            list($ibid, $pollClose) = pollSecur($id);
-
-            if ($ibid) {
-                pollMain($ibid, $pollClose);
-            }
-        } elseif ($result = sql_query("SELECT pollID 
-                                    FROM " . sql_prefix('poll_data') . " 
-                                    ORDER BY pollID DESC 
-                                    LIMIT 1")) {
-
-            list($pollID) = sql_fetch_row($result);
-
-            list($ibid, $pollClose) = pollSecur($pollID);
-
-            if ($ibid) {
-                pollMain($ibid, $pollClose);
-            }
-        }
-}
 
 }

@@ -6,8 +6,20 @@ namespace App\Library\Media;
 class Base64Image
 {
 
-    #autodoc dataimagetofileurl($base_64_string, $output_path) : Analyse la chaine $base_64_string pour touver "src data:image" SI oui : fabrication de fichiers (gif | png | jpeg) (avec $output_path) - redimensionne l'image si supérieure aux dimensions maxi fixées et remplacement de "src data:image" par "src url", et retourne $base_64_string modifié ou pas
-    function dataimagetofileurl($base_64_string, $output_path)
+    /**
+     * Analyse une chaîne contenant des images encodées en base64 et les transforme en fichiers.
+     * Remplace les `src="data:image/..."` par `src="$output_path"` et redimensionne si nécessaire.
+     *
+     * @param string $content La chaîne contenant les images encodées en base64
+     * @param string $outputPath Le dossier de destination pour les fichiers images
+     * @param int $maxWidth Largeur maximale pour le redimensionnement (par défaut 800)
+     * @param int $maxHeight Hauteur maximale pour le redimensionnement (par défaut 600)
+     *
+     * @return string Contenu avec les images remplacées par des URLs de fichiers
+     *
+     * @throws RuntimeException Si l'image est invalide ou non supportée
+     */
+    public static function dataimagetofileurl(
     {
         $rechdataimage = '#src=\\\"(data:image/[^"]+)\\\"#m';
 

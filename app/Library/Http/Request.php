@@ -6,7 +6,14 @@ namespace App\Library\Http;
 class Request
 {
 
-    function getip()
+    /**
+     * Récupère l'adresse IP réelle du client.
+     *
+     * Tente de déterminer l'IP en fonction des en-têtes HTTP et des variables serveur.
+     *
+     * @return string Adresse IP du client
+     */
+    public static function getip(): string
     {
         if (isset($_SERVER)) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {

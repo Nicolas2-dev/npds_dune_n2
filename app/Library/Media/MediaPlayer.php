@@ -6,8 +6,15 @@ namespace App\Library\Media;
 class MediaPlayer
 {
 
-    #autodoc aff_video_yt($ibid) : analyse et génère un tag à la volée pour les video youtube,vimeo, dailymotion $ibid - JPB 01-2011/18
-    function aff_video_yt($ibid)
+    /**
+     * Analyse un texte et remplace les shortcodes vidéo ([video_yt], [video_vm], [video_dm])
+     * par des balises HTML d'intégration.
+     *
+     * @param string $content Texte contenant des shortcodes vidéo
+     *
+     * @return string Contenu avec les vidéos intégrées
+     */
+    public static function aff_video_yt(string $content): string
     {
         $videoprovider = array('yt', 'vm', 'dm');
 

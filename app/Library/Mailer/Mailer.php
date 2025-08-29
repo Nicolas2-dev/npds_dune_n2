@@ -2,13 +2,36 @@
 
 namespace App\Library\Mailer;
 
+use Exception;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\PHPMailer;
+
 
 class Mailer
 {
 
-    #autodoc send_email($email, $subject, $message, $from, $priority, $mime, $file) : Pour envoyer un mail en texte ou html avec ou sans pieces jointes  / $mime = 'text', 'html' 'html-nobr'-(sans application de nl2br) ou 'mixed'-(avec piece(s) jointe(s) : génération ou non d'un DKIM suivant option choisie) 
-    function send_email($email, $subject, $message, $from = "", $priority = false, $mime = "text", $file = null)
-    {
+    /**
+     * Envoie un mail en texte ou HTML, avec ou sans pièce jointe.
+     *
+     * @param string $email     Destinataire
+     * @param string $subject   Sujet du mail
+     * @param string $message   Contenu du mail
+     * @param string $from      Expéditeur (optionnel)
+     * @param bool   $priority  Priorité haute si true
+     * @param string $mime      'text', 'html', 'html-nobr', 'mixed'
+     * @param string|array|null $file Chemin de la pièce jointe ou tableau ['file'=>..,'name'=>..]
+     *
+     * @return bool True si mail envoyé, false sinon
+     */
+    public static function send_email(
+        string $email,
+        string $subject,
+        string $message,
+        string $from = '',
+        bool $priority = false,
+        string $mime = 'text',
+        string|array|null $file = null
+    ): bool {
         global $mail_fonction, $adminmail, $sitename, $NPDS_Key, $nuke_url;
 
         $From_email = $from != '' ? $from : $adminmail;
@@ -144,8 +167,16 @@ class Mailer
         return $result ? true : false;
     }
 
-    #autodoc copy_to_email($to_userid,$sujet,$message) : Pour copier un subject+message dans un email ($to_userid)
-    function copy_to_email($to_userid, $sujet, $message)
+    /**
+     * Copie un sujet + message dans l'email d'un utilisateur identifié par son ID.
+     *
+     * @param int    $to_userid ID de l'utilisateur destinataire
+     * @param string $sujet     Sujet du mail
+     * @param string $message   Contenu du mail (HTML)
+     *
+     * @return void
+     */
+    public static function copy_to_email(int $to_userid, string $sujet, string $message): void
     {
         $result = sql_query("SELECT email, send_email 
                             FROM " . sql_prefix('users') . " 
@@ -154,8 +185,8 @@ class Mailer
         list($mail, $avertir_mail) = sql_fetch_row($result);
 
         if (($mail) and ($avertir_mail == 1)) {
-            send_email($mail, $sujet, $message, '', true, 'html', '');
+            static::send_email($mail, $sujet, $message, '', true, 'html', '');
         }
-}
+    }
     
 }

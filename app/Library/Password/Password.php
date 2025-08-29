@@ -6,14 +6,28 @@ namespace App\Library\Password;
 class Password
 {
 
-    #autodoc getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms=100) : permet de calculer le coût algorythmique optimum pour la procédure de hashage ($AlgoCrypt) d'un mot de pass ($pass) avec un temps minimum alloué ($min_ms)
-    function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
+    /**
+     * Calcule le coût optimal pour le hashage d'un mot de passe avec Bcrypt ou autre algorithme compatible.
+     *
+     * Cette méthode teste les coûts de 8 à 12 et retourne le premier coût dont
+     * le temps de calcul dépasse le temps minimum alloué.
+     *
+     * @param string $pass Mot de passe à hasher.
+     * @param int $algoCrypt Constante de l'algorithme de hashage (ex: PASSWORD_BCRYPT).
+     * @param int $min_ms Temps minimum en millisecondes pour le calcul du hash (par défaut 100 ms).
+     * @return int|null Coût optimal détecté, ou null si aucun coût ne dépasse le temps minimum.
+     */
+    public static function getOptimalBcryptCostParameter(string $pass, int $algoCrypt, int $min_ms = 100): ?int
     {
         for ($i = 8; $i < 13; $i++) {
-            $calculCost = ['cost' => $i];
+
+            $calculCost = [
+                'cost' => $i
+            ];
+            
             $time_start = microtime(true);
 
-            password_hash($pass, $AlgoCrypt, $calculCost);
+            password_hash($pass, $algoCrypt, $calculCost);
 
             $time_end = microtime(true);
 
@@ -21,6 +35,8 @@ class Password
                 return $i;
             }
         }
+
+        return null;
     }
     
 }

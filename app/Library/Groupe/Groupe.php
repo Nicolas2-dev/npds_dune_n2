@@ -6,8 +6,13 @@ namespace App\Library\Groupe;
 class Groupe
 {
 
-    #autodoc valid_group($xuser) : Retourne un tableau contenant la liste des groupes d'appartenance d'un membre
-    function valid_group($xuser)
+    /**
+     * Retourne un tableau contenant la liste des groupes d'appartenance d'un membre.
+     *
+     * @param string|null $xuser Chaîne encodée en base64 contenant l'UID de l'utilisateur
+     * @return array<string>|string Tableau de groupes ou chaîne vide si aucun utilisateur
+     */
+    public static function valid_group(?string $xuser): array|string
     {
         if ($xuser) {
             $userdata = explode(':', base64_decode($xuser));
@@ -26,8 +31,12 @@ class Groupe
         return $tab_groupe;
     }
 
-    #autodoc liste_group() : Retourne une liste des groupes disponibles dans un tableau
-    function liste_group()
+    /**
+     * Retourne une liste des groupes disponibles dans un tableau.
+     *
+     * @return array<int|string, string> Tableau associatif [id => nom du groupe]
+     */
+    public static function liste_group(): array
     {
         $r = sql_query("SELECT groupe_id, groupe_name 
                         FROM " . sql_prefix('groupes') . " 
@@ -44,14 +53,26 @@ class Groupe
         return $tmp_groupe;
     }
 
-    #autodoc groupe_forum($forum_groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) forum de type groupe
-    function groupe_forum($forum_groupeX, $tab_groupeX)
+    /**
+     * Vérifie l'autorisation d'un membre pour un forum de type groupe.
+     *
+     * @param string $forum_groupeX ID(s) du forum (virgule séparés)
+     * @param array<string> $tab_groupeX Groupes de l'utilisateur
+     * @return bool True si autorisé, false sinon
+     */
+    public static function groupe_forum(string $forum_groupeX, array $tab_groupeX): bool
     {
-        return groupe_autorisation($forum_groupeX, $tab_groupeX);
+        return static::groupe_autorisation($forum_groupeX, $tab_groupeX);
     }
 
-    #autodoc groupe_autorisation($groupeX, $tab_groupeX) : Retourne true ou false en fonction de l'autorisation d'un membre sur 1 (ou x) groupe
-    function groupe_autorisation($groupeX, $tab_groupeX)
+    /**
+     * Vérifie l'autorisation d'un membre pour un ou plusieurs groupes.
+     *
+     * @param string $groupeX ID(s) du groupe (virgule séparés)
+     * @param array<string> $tab_groupeX Groupes de l'utilisateur
+     * @return bool True si autorisé, false sinon
+     */
+    public static function groupe_autorisation(string $groupeX, array $tab_groupeX): bool
     {
         $tab_groupe = explode(',', $groupeX);
 
@@ -75,7 +96,15 @@ class Groupe
         return $ok;
     }
 
-    function fab_espace_groupe($gr, $t_gr, $i_gr)
+    /**
+     * Génère l'affichage de l'espace d'un groupe.
+     *
+     * @param int|string $gr ID du groupe
+     * @param int $t_gr Type d'affichage (1 = titre visible)
+     * @param int $i_gr Affichage de l'image (1 = afficher)
+     * @return string HTML du bloc groupe
+     */
+    public static function fab_espace_groupe(int|string $gr, int $t_gr, int $i_gr): string
     {
         global $short_user, $dblink;
 
@@ -411,6 +440,5 @@ class Groupe
 
         return $content;
     }
-
 
 }

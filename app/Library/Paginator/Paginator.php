@@ -6,8 +6,19 @@ namespace App\Library\Paginator;
 class Paginator
 {
 
-    #autodoc paginate_single($url, $urlmore, $total, $current, $adj, $topics_per_page, $start) : Retourne un bloc de pagination
-    function paginate_single($url, $urlmore, $total, $current, $adj, $topics_per_page, $start)
+    /**
+     * Retourne un bloc de pagination basé sur le numéro de page courant.
+     *
+     * @param string $url URL de base pour les liens de pagination
+     * @param string $urlmore Chaîne à ajouter après le numéro de page
+     * @param int $total Nombre total de pages
+     * @param int $current Page courante
+     * @param int $adj Nombre de pages adjacentes à afficher autour de la page courante
+     * @param int $topics_per_page Nombre de topics par page (non utilisé ici)
+     * @param int $start Index de départ (non utilisé ici)
+     * @return string Bloc HTML de pagination
+     */
+    public static function paginate_single(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
         $prev = $current - 1; // page précédente
         $next = $current + 1; // page suivante
@@ -103,8 +114,19 @@ class Paginator
         return $pagination;
     }
 
-    #autodoc paginate($url, $urlmore, $total, $current, $adj, $topics_per_page, $start) : Retourne un bloc de pagination
-    function paginate($url, $urlmore, $total, $current, $adj, $topics_per_page, $start)
+    /**
+     * Retourne un bloc de pagination basé sur l'offset (start) et le nombre de topics par page.
+     *
+     * @param string $url URL de base pour les liens de pagination
+     * @param string $urlmore Chaîne à ajouter après l'offset
+     * @param int $total Nombre total de pages
+     * @param int $current Page courante (indexée à 0)
+     * @param int $adj Nombre de pages adjacentes à afficher autour de la page courante
+     * @param int $topics_per_page Nombre de topics par page
+     * @param int $start Index de départ (offset)
+     * @return string Bloc HTML de pagination
+     */
+    public static function paginate(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
         $prev = $start - $topics_per_page; // page précédente
         $next = $start + $topics_per_page; // page suivante

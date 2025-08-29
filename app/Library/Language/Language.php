@@ -6,8 +6,15 @@ namespace App\Library\Language;
 class Language
 {
 
-    #autodoc language_iso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2 $l=> 0 ou 1(requis), $s (séparateur - | _) , $c=> 0 ou 1 (requis)
-    function language_iso($l, $s, $c)
+    /**
+     * Retourne un code ISO de langue/pays selon les paramètres.
+     *
+     * @param int $l 1 pour inclure le code langue ISO 639-1, sinon 0
+     * @param string $s Séparateur entre langue et pays (ex: '-', '_')
+     * @param int $c 1 pour inclure le code pays ISO 3166-2, sinon 0
+     * @return string Code formaté (ex: fr-FR, en, US, etc.)
+     */
+    public static function language_iso($l, $s, $c): string
     {
         global $language, $user_language;
 
@@ -71,7 +78,12 @@ class Language
         return $ietf;
     }
 
-    function language_list()
+    /**
+     * Liste tous les dossiers de langues et les écrit dans storage/locale/language.php.
+     *
+     * @return string Liste des langues séparées par espace.
+     */
+    public static function language_list(): string
     {
         $local_path = '';
         $languageslist = '';
@@ -98,8 +110,16 @@ class Language
         return $languageslist;
     }
 
-    #autodoc aff_langue($ibid) : Analyse le contenu d'une chaine et converti la section correspondante ([langue] OU [!langue] ...[/langue]) &agrave; la langue / [transl] ... [/transl] permet de simuler un appel translate('xxxx')
-    function aff_langue($ibid)
+    /**
+     * Analyse le contenu d'une chaîne et convertit les sections correspondantes aux langues.
+     * - [langue]...[/langue] affiche le contenu selon la langue courante.
+     * - [!langue]...[/langue] masque le contenu si ce n'est pas la langue courante.
+     * - [transl]...[/transl] simule un appel translate().
+     *
+     * @param string|null $ibid Chaîne à analyser et à transformer.
+     * @return string Chaîne transformée avec les sections traduites.
+     */
+    public static function aff_langue(?string $ibid): string
     {
         global $language, $tab_langue;
 
@@ -178,8 +198,12 @@ class Language
         return $ibid;
     }
 
-    #autodoc make_tab_langue() : Charge le tableau TAB_LANGUE qui est utilisé par les fonctions multi-langue
-    function make_tab_langue()
+    /**
+     * Charge le tableau des langues disponibles.
+     *
+     * @return array<string> Tableau des langues.
+     */
+    public static function make_tab_langue(): array
     {
         global $language, $languageslist;
 
@@ -190,8 +214,13 @@ class Language
         return $tab_langue;
     }
 
-    #autodoc aff_localzone_langue($ibid) : Charge une zone de formulaire de selection de la langue
-    function aff_localzone_langue($ibid)
+    /**
+     * Génère une zone HTML de sélection de langue.
+     *
+     * @param string $ibid Nom du champ select.
+     * @return string HTML du formulaire de sélection de langue.
+     */
+    public static function aff_localzone_langue(string $ibid): string
     {
         global $tab_langue;
 
@@ -215,8 +244,15 @@ class Language
         return $M_langue;
     }
 
-    #autodoc aff_local_langue($ibid_index, $ibid, $mess) : Charge une FORM de selection de langue $ibid_index = URL de la Form, $ibid = nom du champ
-    function aff_local_langue($ibid_index, $ibid, $mess = '')
+    /**
+     * Génère un formulaire complet de sélection de langue.
+     *
+     * @param string $ibid_index URL du formulaire. Si vide, utilise la page actuelle.
+     * @param string $ibid Nom du champ de sélection.
+     * @param string $mess Message à afficher avant la sélection.
+     * @return string HTML du formulaire complet.
+     */
+    public static function aff_local_langue(string $ibid_index, string $ibid, string $mess = ''): string
     {
         if ($ibid_index == '') {
             global $REQUEST_URI;
@@ -225,15 +261,21 @@ class Language
 
         $M_langue = '<form action="' . $ibid_index . '" name="local_user_language" method="post">';
 
-        $M_langue .= $mess . aff_localzone_langue($ibid);
+        $M_langue .= $mess . static::aff_localzone_langue($ibid);
 
         $M_langue .= '</form>';
 
         return $M_langue;
     }
 
-    #autodoc preview_local_langue($local_user_language,$ibid) : appel la fonction aff_langue en modifiant temporairement la valeur de la langue
-    function preview_local_langue($local_user_language, $ibid)
+    /**
+     * Prévisualise une chaîne avec une langue temporaire.
+     *
+     * @param string|null $local_user_language Langue temporaire à utiliser.
+     * @param string $ibid Chaîne à traduire.
+     * @return string Chaîne traduite avec la langue temporaire.
+     */
+    public static function preview_local_langue(?string $local_user_language, string $ibid): string
     {
         if ($local_user_language) {
 
@@ -242,8 +284,8 @@ class Language
             $old_langue = $language;
             $language = $local_user_language;
 
-            $tab_langue = make_tab_langue();
-            $ibid = aff_langue($ibid);
+            $tab_langue = static::make_tab_langue();
+            $ibid = static::aff_langue($ibid);
 
             $language = $old_langue;
         }

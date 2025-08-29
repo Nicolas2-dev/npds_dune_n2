@@ -6,7 +6,13 @@ namespace App\Library\Media;
 class Smilies
 {
 
-    function smilie($message)
+    /**
+     * Transforme les codes texte de smilies en images.
+     *
+     * @param string $message Message contenant des codes de smilies (ex: :-)
+     * @return string Message avec les smilies remplacés par des <img>
+     */
+    public static function smilie(string $message): string
     {
         // Tranforme un :-) en IMG
         global $theme;
@@ -49,7 +55,13 @@ class Smilies
         return $message;
     }
 
-    function smile($message)
+    /**
+     * Transforme les images de smilies en codes texte (inverse de smilie()).
+     *
+     * @param string $message Message contenant des <img> de smilies
+     * @return string Message avec les images remplacées par leurs codes texte
+     */
+    public static function smile(string $message): string
     {
         // Tranforme une IMG en :-)
         global $theme;
@@ -85,8 +97,12 @@ class Smilies
         return $message;
     }
 
-    // ne fonctionne pas dans tous les contextes car on a pas la variable du theme !?
-    function putitems_more()
+    /**
+     * Affiche les smilies supplémentaires avec liens pour insertion dans un message.
+     *
+     * @return void
+     */
+    public static function putitems_more(): void
     {
         global $theme, $tmp_theme;
 
@@ -123,8 +139,13 @@ class Smilies
         }
     }
 
-    #autodoc putitems($targetarea) : appel un popover pour la saisie des emoji (Unicode v13) dans un textarea défini par $targetarea
-    function putitems($targetarea)
+    /**
+     * Affiche un bouton popover pour insérer des emoji Unicode dans un textarea.
+     *
+     * @param string $targetarea ID du textarea cible
+     * @return void
+     */
+    public static function putitems(string $targetarea): void
     {
         echo '<div title="' . translate('Cliquez pour insérer des emoji dans votre message') . '" data-bs-toggle="tooltip">
             <button class="btn btn-link ps-0" type="button" id="button-textOne" data-bs-toggle="emojiPopper" data-bs-target="#' . $targetarea . '">

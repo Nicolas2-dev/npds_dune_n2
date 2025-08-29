@@ -7,46 +7,6 @@ class Stat
 {
 
     /**
-     * Maintient les informations de nombre de connexions (membres, anonymes)
-     * et met à jour le fichier cache `site_load.log`.
-     * Indispensable pour la gestion de la 'clean_limit' de SuperCache.
-     *
-     * @global int $who_online_num
-     * @global bool $SuperCache
-     * @return array{0:int,1:int} Tableau contenant le nombre de membres en ligne [0] et le nombre d'invités en ligne [1]
-     */
-    public static function Site_Load(): array
-    {
-        global $SuperCache, $who_online_num;
-
-        $guest_online_num = 0;
-        $member_online_num = 0;
-
-        $result = sql_query("SELECT COUNT(username) AS TheCount, guest 
-                            FROM " . sql_prefix('session') . " 
-                            GROUP BY guest");
-
-        while ($TheResult = sql_fetch_assoc($result)) {
-            if ($TheResult['guest'] == 0) {
-                $member_online_num = $TheResult['TheCount'];
-            } else {
-                $guest_online_num = $TheResult['TheCount'];
-            }
-        }
-
-        $who_online_num = $guest_online_num + $member_online_num;
-
-        if ($SuperCache) {
-            $file = fopen('storage/logs/site_load.log', 'w');
-
-            fwrite($file, $who_online_num);
-            fclose($file);
-        }
-
-        return array($member_online_num, $guest_online_num);
-    }
-
-    /**
      * Retourne un tableau contenant les statistiques du site (membres, news, critiques, forums, sujets, pages vues).
      *
      * @return array<int> Tableau contenant les statistiques dans l'ordre suivant :

@@ -2,13 +2,19 @@
 
 namespace App\Library\Forum;
 
+use IntlDateFormatter;
+
 
 class Forum
 {
 
-    //
-
-    function get_total_topics($forum_id)
+    /**
+     * Retourne le nombre total de sujets dans un forum.
+     *
+     * @param int $forum_id ID du forum
+     * @return int|string Le nombre de sujets, ou 'ERROR' en cas de problème
+     */
+    public static function get_total_topics(int $forum_id): int|string
     {
         $sql = "SELECT COUNT(*) AS total 
                 FROM " . sql_prefix('forumtopics') . " 
@@ -27,7 +33,16 @@ class Forum
         return $myrow['total'];
     }
 
-    function get_total_posts($fid, $tid, $type, $Mmod)
+    /**
+     * Retourne le nombre total de posts pour un forum, un topic ou un utilisateur.
+     *
+     * @param int $fid ID du forum
+     * @param int|null $tid ID du topic (optionnel)
+     * @param string $type 'forum', 'topic' ou 'user'
+     * @param bool $Mmod Indique si l'utilisateur est modérateur
+     * @return int|string Nombre de posts, ou 'ERROR' en cas de problème
+     */
+    public static function get_total_posts(int $fid, ?int $tid, string $type, bool $Mmod): int|string
     {
         $post_aff = $Mmod ? '' : " AND post_aff='1'";
 
@@ -64,7 +79,16 @@ class Forum
         return $myrow['total'];
     }
 
-    function get_last_post($id, $type, $cmd, $Mmod)
+    /**
+     * Récupère le dernier post d'un forum ou d'un topic.
+     *
+     * @param int $id ID du forum ou topic
+     * @param string $type 'forum' ou 'topic'
+     * @param string $cmd Commande (ex: 'infos')
+     * @param bool $Mmod Ancien paramètre non utilisé
+     * @return string Informations sur le dernier post
+     */
+    public static function get_last_post(int $id, string $type, string $cmd, bool $Mmod): string
     {
         // $Mmod ne sert plus - maintenu pour compatibilité
         switch ($type) {
@@ -112,10 +136,14 @@ class Forum
         return $val;
     }
 
-    //
-
-    #autodoc get_contributeurs($fid, $tid) : Retourne une chaine des id des contributeurs du sujet
-    function get_contributeurs($fid, $tid)
+    /**
+     * Retourne une chaîne des IDs des contributeurs d'un sujet.
+     *
+     * @param int $fid ID du forum
+     * @param int $tid ID du topic
+     * @return string IDs des contributeurs séparés par espace
+     */
+    public static function get_contributeurs(int $fid, int $tid): string
     {
         $rowQ1 = Q_Select("SELECT DISTINCT poster_id 
                         FROM " . sql_prefix('posts') . " 
@@ -133,7 +161,13 @@ class Forum
         return chop($posterids);
     }
 
-    function get_moderator($user_id)
+    /**
+     * Retourne le ou les noms des modérateurs à partir de leur user_id.
+     *
+     * @param string|int $user_id ID(s) de l'utilisateur(s)
+     * @return string Liste des noms séparés par espace ou 'None' si aucun
+     */
+    public static function get_moderator(string|int $user_id): string
     {
         $user_id = str_replace(",", "' or uid='", $user_id);
 
@@ -156,7 +190,15 @@ class Forum
         return chop($modslist);
     }
 
-    function user_is_moderator($uidX, $passwordX, $forum_accessX)
+    /**
+     * Vérifie si un utilisateur est modérateur sur un forum.
+     *
+     * @param int $uidX ID de l'utilisateur
+     * @param string $passwordX Mot de passe hashé fourni
+     * @param int $forum_accessX Niveau d'accès requis
+     * @return int|false Niveau si modérateur, false sinon
+     */
+    public static function user_is_moderator(int $uidX, string $passwordX, int $forum_accessX): int|false
     {
         $result1 = sql_query("SELECT pass 
                             FROM " . sql_prefix('users') . " 
@@ -179,7 +221,13 @@ class Forum
         }
     }
 
-    function get_userdata_from_id($userid)
+    /**
+     * Récupère les données utilisateurs à partir de l'ID.
+     *
+     * @param int $userid ID de l'utilisateur
+     * @return array Données combinées des tables users et users_status
+     */
+    public static function get_userdata_from_id(int $userid): array
     {
         $sql1 = "SELECT * 
                 FROM " . sql_prefix('users') . " 
@@ -202,7 +250,13 @@ class Forum
         return $myrow;
     }
 
-    function get_userdata_extend_from_id($userid)
+    /**
+     * Récupère les données étendues de l'utilisateur à partir de l'ID.
+     *
+     * @param int $userid ID de l'utilisateur
+     * @return array Données de la table users_extend
+     */
+    public static function get_userdata_extend_from_id(int $userid): array
     {
         $sql1 = "SELECT * 
                 FROM " . sql_prefix('users_extend') . " 
@@ -213,7 +267,13 @@ class Forum
         return $myrow;
     }
 
-    function get_userdata($username)
+    /**
+     * Récupère les informations d'un utilisateur par son nom d'utilisateur
+     *
+     * @param string $username Nom d'utilisateur
+     * @return array Informations de l'utilisateur
+     */
+    public static function get_userdata(string $username): array
     {
         $sql = "SELECT * 
                 FROM " . sql_prefix('users') . " 
@@ -230,9 +290,14 @@ class Forum
         return $myrow;
     }
 
-    //
-
-    function does_exists($id, $type)
+    /**
+     * Vérifie l'existence d'un forum ou d'un topic
+     *
+     * @param int $id ID de l'élément
+     * @param string $type 'forum' ou 'topic'
+     * @return bool
+     */
+    public static function does_exists(int $id, string $type): bool
     {
         switch ($type) {
 
@@ -260,7 +325,13 @@ class Forum
         return 1;
     }
 
-    function is_locked($topic)
+    /**
+     * Vérifie si un topic est verrouillé
+     *
+     * @param int $topic ID du topic
+     * @return bool
+     */
+    public static function is_locked(int $topic): bool
     {
         $sql = "SELECT topic_status 
                 FROM " . sql_prefix('forumtopics') . " 
@@ -281,7 +352,12 @@ class Forum
         }
     }
 
-    function HTML_Add()
+    /**
+     * Génère la barre HTML pour l'édition (gras, italique, tableaux, vidéos, etc.)
+     *
+     * @return string HTML de la barre d'édition
+     */
+    public static function HTML_Add(): string
     {
         $affich = '<div class="mt-2">
             <a href="javascript: addText(\'&lt;b&gt;\',\'&lt;/b&gt;\');" title="' . translate('Gras') . '" data-bs-toggle="tooltip" ><i class="fa fa-bold fa-lg me-2 mb-3"></i></a>
@@ -331,7 +407,13 @@ class Forum
         return $affich;
     }
 
-    function emotion_add($image_subject)
+    /**
+     * Génère la liste des icônes de sujet pour le forum
+     *
+     * @param string $image_subject Image actuellement sélectionnée
+     * @return string HTML contenant les radios pour chaque image
+     */
+    public static function emotion_add(string $image_subject): string
     {
         global $theme;
 
@@ -380,7 +462,13 @@ class Forum
         return $temp;
     }
 
-    function make_clickable($text)
+    /**
+     * Transforme les URLs et emails en liens cliquables
+     *
+     * @param string $text Texte à transformer
+     * @return string Texte avec liens HTML
+     */
+    public static function make_clickable(string $text): string
     {
         $ret = '';
         $ret = preg_replace('#(^|\s)(http|https|ftp|sftp)(://)([^\s]*)#i', ' <a href="$2$3$4" target="_blank">$2$3$4</a>', $text);
@@ -389,7 +477,13 @@ class Forum
         return $ret;
     }
 
-    function undo_htmlspecialchars($input)
+    /**
+     * Annule les entités HTML
+     *
+     * @param string $input Texte encodé
+     * @return string Texte décodé
+     */
+    public static function undo_htmlspecialchars(string $input): string
     {
         $input = preg_replace('/&gt;/i', '>', $input);
         $input = preg_replace('/&lt;/i', '<', $input);
@@ -399,9 +493,12 @@ class Forum
         return $input;
     }
 
-    //
-
-    function searchblock()
+    /**
+     * Génère le formulaire de recherche pour le forum
+     *
+     * @return string HTML du formulaire
+     */
+    public static function searchblock(): string
     {
         $ibid = '<form class="row" id="forum_search" action="searchbb.php" method="post" name="forum_search">
             <input type="hidden" name="addterm" value="any" />
@@ -417,9 +514,15 @@ class Forum
         return $ibid;
     }
 
-    //
-
-    function member_qualif($poster, $posts, $rank)
+    /**
+     * Génère les qualifications d'un membre en fonction de ses posts et de son rang
+     *
+     * @param string $poster Nom de l'utilisateur
+     * @param int $posts Nombre de messages
+     * @param string|null $rank Rang de l'utilisateur
+     * @return string HTML des qualifications et badges
+     */
+    public static function member_qualif(string $poster, int $posts, ?string $rank = null): string
     {
         global $anonymous;
 
@@ -476,7 +579,17 @@ class Forum
         return $tmp;
     }
 
-    function control_efface_post($apli, $post_id, $topic_id, $IdForum)
+    /**
+     * Supprime les fichiers attachés à un post, topic ou forum
+     *
+     * @param string $apli Identifiant de l'application
+     * @param string|int|null $post_id ID du post
+     * @param string|int|null $topic_id ID du topic
+     * @param string|int|null $IdForum ID du forum
+     *
+     * @return void
+     */
+    public static function control_efface_post(string $apli, $post_id = null, $topic_id = null, $IdForum = null): void
     {
         global $upload_table;
 
@@ -509,7 +622,12 @@ class Forum
         @sql_query($sql2);
     }
 
-    function autorize()
+    /**
+     * Vérifie si l'utilisateur est autorisé à modérer un post
+     *
+     * @return bool True si autorisé, False sinon
+     */
+    public static function autorize(): bool
     {
         global $IdPost, $IdTopic, $IdForum, $user;
 
@@ -550,9 +668,18 @@ class Forum
         return $Mmod;
     }
 
-    //
-
-    function anti_flood($modoX, $paramAFX, $poster_ipX, $userdataX, $gmtX)
+    /**
+     * Vérifie l'anti-flood pour un utilisateur non modérateur
+     *
+     * @param bool $modoX True si modérateur
+     * @param int $paramAFX Paramètre anti-flood (nombre max de posts)
+     * @param string $poster_ipX IP du poster
+     * @param array $userdataX Données de l'utilisateur ['uid' => int, 'uname' => string]
+     * @param int $gmtX Décalage GMT en heures
+     *
+     * @return void
+     */
+    public static function anti_flood(bool $modoX, int $paramAFX, string $poster_ipX, array $userdataX, int $gmtX): void
     {
         // anti_flood : nb de post dans les 90 puis 30 dernières minutes / les modérateurs echappent à cette règle
         // security.log est utilisée pour enregistrer les tentatives
@@ -592,9 +719,14 @@ class Forum
         }
     }
 
-    //
-
-    function forum($rowQ1)
+    /**
+     * Génère l'affichage HTML des forums pour la catégorie donnée.
+     *
+     * @param array<int, array<string,mixed>>|null $rowQ1 Liste des catégories avec leurs informations. 
+     *                                                   Chaque élément doit contenir au minimum 'cat_id' et 'cat_title'.
+     * @return string HTML généré pour l'affichage des forums
+     */
+    public static function forum(?array $rowQ1): string
     {
         global $user, $subscribe, $theme, $admin, $adminforum;
 
@@ -867,8 +999,13 @@ class Forum
         return $ibid;
     }
 
-    // fonction appelée par le meta-mot forum_subfolder()
-    function sub_forum_folder($forum)
+    /**
+     * Retourne l'icône d'un sous-forum selon que l'utilisateur a lu tous les sujets ou non.
+     *
+     * @param int $forum L'identifiant du forum
+     * @return string HTML de l'image correspondant au statut du forum
+     */
+    public static function sub_forum_folder(int $forum): string
     {
         global $user;
 
@@ -913,16 +1050,25 @@ class Forum
         return $ibid;
     }
 
-    //
-
-    function fakedmail($r)
+    /**
+     * Applique un filtre anti-spam sur une chaîne.
+     *
+     * @param array $r Tableau contenant au moins l'élément [1] à filtrer
+     * @return string Chaîne filtrée
+     */
+    public static function fakedmail(array $r): string
     {
         return preg_anti_spam($r[1]);
     }
 
-    #autodoc checkdnsmail($email) : Contrôle si le domaine existe et si il dispose d'un serveur de mail
-    function checkdnsmail($email)
-    {
+    /**
+     * Vérifie si le domaine d'une adresse email existe et possède un enregistrement MX.
+     *
+     * @param string $email Adresse email à tester
+     * @return bool True si le domaine possède un serveur de mail, false sinon
+     */
+    public static function checkdnsmail(string $email): bool
+    {   
         $ibid = explode('@', $email);
 
         if (!checkdnsrr($ibid[1], 'MX')) {
@@ -932,8 +1078,13 @@ class Forum
         }
     }
 
-    #autodoc isbadmailuser($utilisateur) : utilisateur dans le fichier des mails incorrect true or false 
-    function isbadmailuser($utilisateur)
+    /**
+     * Vérifie si un nom d'utilisateur est listé dans le fichier des emails interdits.
+     *
+     * @param string $username Nom d'utilisateur à vérifier
+     * @return bool True si l'utilisateur est interdit, false sinon
+     */
+    public static function isbadmailuser(string $username): bool
     {
         $contents = '';
 
@@ -947,7 +1098,7 @@ class Forum
 
         fclose($handle);
 
-        if (strstr($contents, '#' . $utilisateur . '|')) {
+        if (strstr($contents, '#' . $username . '|')) {
             return true;
         } else {
             return false;

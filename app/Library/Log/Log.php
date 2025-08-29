@@ -6,8 +6,15 @@ namespace App\Library\Log;
 class Log
 {
 
-    #autodoc Ecr_Log($fic_log, $req_log, $mot_log) : Pour &eacute;crire dans un log (security.log par exemple)
-    function Ecr_Log($fic_log, $req_log, $mot_log)
+    /**
+     * Écrit dans un fichier de log.
+     *
+     * @param string $fic_log Nom du fichier de log (ex: "security" pour security.log)
+     * @param string $req_log Description de l'action ou de l'information à logger
+     * @param string $mot_log Informations supplémentaires ; si vide, l'IP est enregistrée
+     * @return void
+     */
+    public static function Ecr_Log(string $fic_log, string $req_log, string $mot_log): void
     {
         // $Fic_log= the file name :
         //  => "security" for security maters

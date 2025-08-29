@@ -6,8 +6,14 @@ namespace App\Library\News;
 class News
 {
 
-    #autodoc ctrl_aff($ihome, $catid) : Gestion + fine des destinataires (-1, 0, 1, 2 -> 127, -127)
-    function ctrl_aff($ihome, $catid = 0)
+    /**
+     * Contrôle l'affichage d'un article ou d'une news selon le paramètre ihome et le catid.
+     *
+     * @param int $ihome Paramètre de visibilité (-1, 0, 1, 2...127, -127)
+     * @param int $catid Identifiant de la catégorie (par défaut 0)
+     * @return bool Retourne true si l'article doit être affiché, false sinon
+     */
+    public static function ctrl_aff(int $ihome, int $catid = 0): bool
     {
         global $user;
 
@@ -42,8 +48,16 @@ class News
         return $affich;
     }
 
-    #autodoc news_aff($type_req, $sel, $storynum, $oldnum) : Une des fonctions fondamentales de NPDS / assure la gestion de la selection des News en fonctions des critères de publication
-    function news_aff($type_req, $sel, $storynum, $oldnum)
+    /**
+     * Récupère les news selon le type de requête et les critères de sélection.
+     *
+     * @param string $type_req Type de sélection ('index', 'old_news', 'big_story', 'big_topic', 'libre', 'archive')
+     * @param string $sel Clause SQL WHERE ou similaire pour filtrer les news
+     * @param int $storynum Nombre d'articles à récupérer
+     * @param int|string $oldnum Ancien nombre d'articles (utilisé pour certains calculs)
+     * @return array Tableau contenant les news récupérées
+     */
+    public static function news_aff(string $type_req, string $sel, int $storynum, int|string $oldnum): array
     {
         // pas stabilisé ...!
         // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
@@ -132,7 +146,7 @@ class News
                 $ihome = 0;
             }
 
-            if (ctrl_aff($ihome, $catid)) {
+            if (static::ctrl_aff($ihome, $catid)) {
 
                 if (($type_req == 'index') or ($type_req == 'libre')) {
                     $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
@@ -178,14 +192,29 @@ class News
         return $tab;
     }
 
-    #autodoc themepreview($title, $hometext, $bodytext, $notes) : Permet de prévisualiser la présentation d'un NEW
-    function themepreview($title, $hometext, $bodytext = '', $notes = '')
+    /**
+     * Prévisualise la présentation d'une news.
+     *
+     * @param string $title Titre de l'article
+     * @param string $hometext Texte d'introduction
+     * @param string $bodytext Texte complet (optionnel)
+     * @param string $notes Notes supplémentaires (optionnel)
+     * @return void
+     */
+    public static function themepreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
     {
         echo "$title<br />" . meta_lang($hometext) . "<br />" . meta_lang($bodytext) . "<br />" . meta_lang($notes);
     }
 
-    #autodoc prepa_aff_news($op,$catid) : Prépare, serialize et stock dans un tableau les news répondant aux critères<br />$op="" ET $catid="" : les news // $op="categories" ET $catid="catid" : les news de la catégorie catid //  $op="article" ET $catid=ID_X : l'article d'ID X // Les news des sujets : $op="topics" ET $catid="topic"
-    function prepa_aff_news($op, $catid, $marqeur)
+    /**
+     * Prépare et sérialise les news répondant aux critères spécifiés.
+     *
+     * @param string $op Type d'opération ('', 'categories', 'article', 'topics', 'news')
+     * @param int|string $catid Identifiant de catégorie, topic ou article selon l'opération
+     * @param int $marqeur Index de départ pour la sélection des news
+     * @return void
+     */
+    public static function prepa_aff_news(string $op, int|string $catid, int $marqeur): void
     {
         global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
 
@@ -206,7 +235,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = news_aff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = static::news_aff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
 
@@ -217,7 +246,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+            $xtab = static::news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
             $storynum = sizeof($xtab);
 
@@ -228,14 +257,14 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = news_aff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = static::news_aff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
 
         } elseif ($op == 'article') {
-            $xtab = news_aff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
+            $xtab = static::news_aff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
         } else {
-            $xtab = news_aff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
+            $xtab = static::news_aff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
         }
 
         $story_limit = 0;
@@ -249,7 +278,7 @@ class News
             $printP = '<a href="print.php?sid=' . $s_sid . '" class="me-3" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-print"></i></a>&nbsp;';
             $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $s_sid . '" class="me-3" title="' . translate('Envoyer cet article à un ami') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-at"></i></a>';
 
-            getTopics($s_sid);
+            static::getTopics($s_sid);
 
             $title      = aff_langue(stripslashes($title));
             $hometext   = aff_langue(stripslashes($hometext));
@@ -321,7 +350,7 @@ class News
     }
 
     #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
-    function getTopics($s_sid)
+    public static function getTopics($s_sid)
     {
         global $topicname, $topicimage, $topictext;
 
@@ -351,7 +380,7 @@ class News
     }
 
     #autodoc ultramode() : Génération des fichiers ultramode.txt et net2zone.txt dans /cache
-    function ultramode()
+    public static function ultramode()
     {
         global $nuke_url, $storyhome;
 
@@ -362,7 +391,7 @@ class News
 
         $storynum = $storyhome;
 
-        $xtab = news_aff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+        $xtab = static::news_aff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
 
         $story_limit = 0;
 

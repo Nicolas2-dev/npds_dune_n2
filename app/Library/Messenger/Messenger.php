@@ -6,14 +6,25 @@ namespace App\Library\Messenger;
 class Messenger
 {
 
-    #autodoc Mess_Check_Mail($username) : Appel la fonction d'affichage du groupe check_mail (theme principal de NPDS) sans class
-    function Mess_Check_Mail($username)
+    /**
+     * Appel la fonction d'affichage du groupe check_mail (theme principal de NPDS) sans class
+     *
+     * @param string $username Nom de l'utilisateur
+     * @return void
+     */
+    public static function Mess_Check_Mail(string $username): void
     {
-        Mess_Check_Mail_interface($username, '');
+        static::Mess_Check_Mail_interface($username, '');
     }
 
-    #autodoc Mess_Check_Mail_interface($username, $class) : Affiche le groupe check_mail (theme principal de NPDS)
-    function Mess_Check_Mail_interface($username, $class)
+    /**
+     * Affiche le groupe check_mail (theme principal de NPDS)
+     *
+     * @param string $username Nom de l'utilisateur
+     * @param string $class Classe CSS optionnelle
+     * @return void
+     */
+    public static function Mess_Check_Mail_interface(string $username, string $class): void
     {
         global $anonymous;
 
@@ -42,8 +53,14 @@ class Messenger
         }
     }
 
-    #autodoc Mess_Check_Mail_Sub($username, $class) : Affiche le groupe check_mail (theme principal de NPDS) / SOUS-Fonction
-    function Mess_Check_Mail_Sub($username, $class)
+    /**
+     * Affiche le groupe check_mail (theme principal de NPDS) / SOUS-Fonction
+     *
+     * @param string $username Nom de l'utilisateur
+     * @param string $class Classe CSS optionnelle
+     * @return string Contenu HTML du groupe check_mail
+     */
+    public static function Mess_Check_Mail_Sub(string $username, string $class): string
     {
         global $user;
 
@@ -93,18 +110,33 @@ class Messenger
         return ("$Mel : $YNmail / $Ymail");
     }
 
-    #autodoc Form_instant_message($to_userid) : Ouvre la page d'envoi d'un MI (Message Interne)
-    function Form_instant_message($to_userid)
+    /**
+     * Ouvre la page d'envoi d'un MI (Message Interne)
+     *
+     * @param string $to_userid Identifiant du destinataire
+     * @return void
+     */
+    public static function Form_instant_message(string $to_userid): void
     {
         include 'header.php';
 
-        write_short_private_message(removeHack($to_userid));
+        static::write_short_private_message(removeHack($to_userid));
 
         include 'footer.php';
     }
 
-    #autodoc writeDB_private_message($to_userid,$image,$subject,$from_userid,$message, $copie) : Insère un MI dans la base et le cas échéant envoi un mail
-    function writeDB_private_message($to_userid, $image, $subject, $from_userid, $message, $copie)
+    /**
+     * Insère un MI dans la base et, le cas échéant, envoie un mail
+     *
+     * @param string $to_userid Identifiant du destinataire
+     * @param string $image Image associée au message
+     * @param string $subject Sujet du message
+     * @param string $from_userid Identifiant de l'expéditeur
+     * @param string $message Contenu du message
+     * @param bool $copie Conserver une copie pour l'expéditeur
+     * @return void
+     */
+    public static function writeDB_private_message(string $to_userid, string $image, string $subject, string $from_userid, string $message, bool $copie): void
     {
         $res = sql_query("SELECT uid, user_langue 
                         FROM " . sql_prefix('users') . " 
@@ -153,8 +185,13 @@ class Messenger
         }
     }
 
-    #autodoc write_short_private_message($to_userid) : Formulaire d'écriture d'un MI
-    function write_short_private_message($to_userid)
+    /**
+     * Formulaire d'écriture d'un MI (Message Interne)
+     *
+     * @param string $to_userid Identifiant du destinataire
+     * @return void
+     */
+    public static function write_short_private_message(string $to_userid): void
     {
         echo '<h2>' . translate('Message à un membre') . '</h2>
         <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>

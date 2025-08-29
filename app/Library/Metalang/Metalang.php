@@ -2,21 +2,35 @@
 
 namespace App\Library\Metalang;
 
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 
 class Metalang
 {
 
-    // Cette fonction doit être utilisée pour filtrer les arguments des requêtes SQL et est
-    // automatiquement appelée par META-LANG lors de passage de paramètres
-    function arg_filter($arg)
+/**
+ * Filtre un argument passé aux requêtes SQL.
+ * Cette fonction est automatiquement appelée par META-LANG lors du passage de paramètres.
+ *
+ * @param string $arg L'argument à filtrer.
+ * @return string L'argument filtré.
+ */
+public static function arg_filter(string $arg): string
     {
         return removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
 
-    // Cette fonction est utilisée pour intégrer des smilies et comme service pour theme_img()
-    function MM_img($ibid)
+/**
+ * Génère le code HTML pour un smiley ou une image.
+ * Utilisée pour intégrer des smilies et comme service pour theme_img().
+ *
+ * @param string $ibid Nom ou identifiant de l'image.
+ * @return string|false Code HTML de l'image ou false si l'image n'existe pas.
+ */
+public static function MM_img(string $ibid): string|false
     {
-        $ibid = arg_filter($ibid);
+        $ibid = static::arg_filter($ibid);
         $ibidX = theme_image($ibid);
 
         if ($ibidX) {
@@ -32,7 +46,15 @@ class Metalang
         return $ret;
     }
 
-    function charg($funct, $arguments)
+/**
+ * Appelle une fonction avec un nombre variable d'arguments.
+ * Les arguments sont filtrés si c'est un tableau.
+ *
+ * @param callable $funct La fonction à exécuter.
+ * @param array|mixed $arguments Les arguments à passer à la fonction.
+ * @return mixed Le résultat de l'exécution de la fonction.
+ */
+public static function charg(callable $funct, mixed $arguments): mixed
     {
         if (is_array($arguments)) {
 
@@ -80,7 +102,7 @@ class Metalang
         return $cmd;
     }
 
-    function match_uri($racine, $R_uri)
+    public static function match_uri($racine, $R_uri)
     {
         $tab_uri = explode(' ', $R_uri);
 
@@ -93,7 +115,17 @@ class Metalang
         return false;
     }
 
-    function charg_metalang()
+    /**
+     * Charge le glossaire des meta-langues depuis la base de données ou le cache.
+     *
+     * @global bool $SuperCache
+     * @global array $CACHE_TIMINGS
+     * @global string $REQUEST_URI
+     * @global string $NPDS_Prefix
+     *
+     * @return array Glossaire des meta-langues
+     */
+    public static function charg_metalang(): array
     {
         global $SuperCache, $CACHE_TIMINGS, $REQUEST_URI, $NPDS_Prefix;
 
@@ -128,7 +160,7 @@ class Metalang
                 // => Exemples : index.php user.php forum.php static.php
 
                 if ($uri != '') {
-                    $match = match_uri($racine['path'], $uri);
+                    $match = static::match_uri($racine['path'], $uri);
 
                     if (($match and $type_uri == '+') or (!$match and $type_uri == '-')) {
                         $glossaire[$def]['content'] = $content;
@@ -148,7 +180,14 @@ class Metalang
         return $glossaire;
     }
 
-    function ana_args($arg)
+    /**
+     * Analyse les arguments d'une fonction meta-lang.
+     *
+     * @param string $arg Chaîne d'arguments séparés par des virgules ou entre guillemets
+     *
+     * @return array Liste des arguments analysés
+     */
+    public static function ana_args(string $arg): array
     {
         if (substr($arg, -1) == "\"") {
             $arguments[0] = str_replace("\"", '', $arg);
@@ -159,7 +198,20 @@ class Metalang
         return $arguments;
     }
 
-    function meta_lang($Xcontent)
+    /**
+     * Traite le contenu textuel pour remplacer les meta-langues.
+     *
+     * @param string $Xcontent Contenu texte à analyser et transformer
+     *
+     * @global array $meta_glossaire
+     * @global bool $admin
+     * @global bool $NPDS_debug
+     * @global string $NPDS_debug_str
+     * @global int $NPDS_debug_cycle
+     *
+     * @return string Contenu transformé avec les meta-langues appliquées
+     */
+    public static function meta_lang(string $Xcontent): string
     {
         global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle;
 
@@ -220,7 +272,7 @@ class Metalang
                             $op = 2;
                             $Rword = substr($word, 0, $ibid);
                             $arg = substr($word, $ibid + 1, strlen($word) - ($ibid + 2));
-                            $arguments = ana_args($arg);
+                            $arguments = static::ana_args($arg);
                         } else {
                             $op = 1;
                             $Rword = substr($word, 0, -1);
@@ -274,7 +326,7 @@ class Metalang
                     if ($car_meta) {
                         $Rword = substr($Cword, 1, $car_meta - 1);
                         $arg = substr($Cword, $car_meta + 1);
-                        $arguments = ana_args($arg);
+                        $arguments = static::ana_args($arg);
 
                         if (array_key_exists('!' . $Rword . '!', $meta_glossaire)) {
                             $Cword = $meta_glossaire['!' . $Rword . '!']['content'];
@@ -305,7 +357,7 @@ class Metalang
                             @eval($Cword);
                         }
 
-                        $Cword = charg($Rword, $arguments);
+                        $Cword = static::charg($Rword, $arguments);
                         $Rword = $word;
                     }
                 }

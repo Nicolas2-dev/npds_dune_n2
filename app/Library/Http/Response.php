@@ -6,8 +6,16 @@ namespace App\Library\Http;
 class Response
 {
 
-    #autodoc file_contents_exist() : Controle de réponse// c'est pas encore assez fin not work with https probably
-    function file_contents_exist($url, $response_code = 200)
+    /**
+     * Vérifie si une URL répond avec un code HTTP spécifique.
+     *
+     * Note : Fonction basique, peut ne pas fonctionner correctement avec HTTPS.
+     *
+     * @param string $url URL à vérifier
+     * @param int $response_code Code HTTP attendu (par défaut 200)
+     * @return bool Retourne true si l'URL renvoie le code attendu, false sinon
+     */
+    public static function file_contents_exist(string $url, int $response_code = 200): bool
     {
         $headers = get_headers($url);
 
