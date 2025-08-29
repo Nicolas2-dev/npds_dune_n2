@@ -2,8 +2,25 @@
 
 namespace Npds\Support;
 
+
 class HelperGenerator
 {
+
+    /**
+     * Génère un fichier d'autoload pour tous les fichiers `helpers.php` trouvés dans
+     * les dossiers NPDS, Library et Support.
+     *
+     * Cette méthode parcourt récursivement les répertoires suivants :
+     * - npds
+     * - app/Library
+     * - app/Support
+     *
+     * Pour chaque fichier `helpers.php` trouvé, elle ajoute un `require_once` dans
+     * le fichier `storage/generated_helpers_autoload.php`.  
+     * Le fichier est réécrit uniquement si son contenu a changé.
+     *
+     * @return void
+     */
     public static function generate(): void
     {
         $folders = [
