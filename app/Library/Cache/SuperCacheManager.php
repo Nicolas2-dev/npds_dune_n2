@@ -21,20 +21,44 @@
 namespace App\Library\Cache;
 
 
+/**
+ * Classe de gestion du cache des pages.
+ */
 class SuperCacheManager
 {
 
-    public $request_uri;
+    /**
+     * URI de la requête en cours
+     */
+    public string $request_uri;
 
-    public $query_string;
+    /**
+     * Chaîne de requête (query string)
+     */
+    public string $query_string;
 
-    public $php_self;
+    /**
+     * Nom du script PHP exécuté (PHP_SELF)
+     */
+    public string $php_self;
 
-    public $genereting_output;
+    /**
+     * Indique l'état du cache :
+     * -1 = exclus du cache
+     * 0 = non généré
+     * 1 = génération en cours
+     */
+    public int $genereting_output;
 
-    public $site_overload;
+    /**
+     * Indique si le site est en surcharge
+     */
+    public bool $site_overload;
 
 
+    /**
+     * Constructeur : initialise les propriétés de cache et contrôle la surcharge du site
+     */
     public function __construct()
     {
         global $CACHE_CONFIG;
@@ -74,7 +98,12 @@ class SuperCacheManager
         }
     }
 
-    public function startCachingPage()
+    /**
+     * Démarre la mise en cache de la page
+     *
+     * @return void
+     */
+    public function startCachingPage(): void
     {
         global $CACHE_TIMINGS, $CACHE_CONFIG, $CACHE_QUERYS;
 
@@ -110,7 +139,12 @@ class SuperCacheManager
         }
     }
 
-    public function endCachingPage()
+    /**
+     * Termine la mise en cache de la page si nécessaire
+     *
+     * @return void
+     */
+    public function endCachingPage(): void
     {
         if ($this->genereting_output == 1) {
             $output = ob_get_contents();
@@ -124,7 +158,14 @@ class SuperCacheManager
         }
     }
 
-    public function checkCache($request, $refresh)
+    /**
+     * Vérifie si une page est présente dans le cache et retourne son contenu si valide.
+     *
+     * @param string $request La clé de la requête pour le cache
+     * @param int $refresh Durée de vie du cache en secondes
+     * @return string Contenu du cache ou chaîne vide si non trouvé ou expiré
+     */
+    public function checkCache(string $request, int $refresh): string
     {
         global $CACHE_CONFIG, $user, $language;
 
@@ -167,7 +208,14 @@ class SuperCacheManager
         }
     }
 
-    public function insertIntoCache($content, $request)
+    /**
+     * Insère le contenu dans le cache pour une requête donnée.
+     *
+     * @param string $content Contenu à mettre en cache
+     * @param string $request La clé de la requête pour le cache
+     * @return void
+     */
+    public function insertIntoCache(string $content, string $request): void
     {
         global $CACHE_CONFIG, $user, $language;
 
@@ -209,7 +257,14 @@ class SuperCacheManager
         $npds_sc = false;
     }
 
-    public function logVisit($request, $type)
+    /**
+     * Journalise une visite pour les statistiques.
+     *
+     * @param string $request La requête visitée
+     * @param string $type Type de visite (ex: NORMAL, CLEAN, etc.)
+     * @return void
+     */
+    public function logVisit(string $request, string $type): void
     {
         global $CACHE_CONFIG;
 
@@ -229,7 +284,12 @@ class SuperCacheManager
         fclose($fp);
     }
 
-    public function cacheCleanup()
+    /**
+     * Nettoie le cache en supprimant les fichiers trop anciens selon la configuration.
+     *
+     * @return void
+     */
+    public function cacheCleanup(): void
     {
         // Cette fonction n'est plus adaptée au nombre de fichiers manipulé par SuperCache
         global $CACHE_CONFIG;
@@ -291,7 +351,10 @@ class SuperCacheManager
         }
     }
 
-    public function UsercacheCleanup()
+    /**
+     * Nettoie le cache de l'utilisateur connecté.
+     */
+    public function UsercacheCleanup(): void
     {
         global $CACHE_CONFIG, $user;
 
@@ -322,7 +385,12 @@ class SuperCacheManager
         closedir($dh);
     }
 
-    public function startCachingBlock($Xblock)
+    /**
+     * Démarre la mise en cache d'un bloc de page.
+     *
+     * @param string $Xblock
+     */
+    public function startCachingBlock(string $Xblock): void
     {
         global $CACHE_TIMINGS, $CACHE_CONFIG, $CACHE_QUERYS;
 
@@ -349,7 +417,12 @@ class SuperCacheManager
         }
     }
 
-    public function endCachingBlock($Xblock)
+    /**
+     * Termine la mise en cache d'un bloc de page.
+     *
+     * @param string $Xblock
+     */
+    public function endCachingBlock(string $Xblock): void
     {
         if ($this->genereting_output == 1) {
             $output = ob_get_contents();
@@ -359,7 +432,14 @@ class SuperCacheManager
         }
     }
 
-    public function CachingQuery($Xquery, $retention)
+    /**
+     * Met en cache le résultat d'une requête SQL.
+     *
+     * @param string $Xquery
+     * @param int $retention
+     * @return array
+     */
+    public function CachingQuery(string $Xquery, int $retention): array
     {
         global $CACHE_CONFIG;
 
@@ -407,7 +487,13 @@ class SuperCacheManager
         }
     }
 
-    public function startCachingObjet($Xobjet)
+    /**
+     * Démarre la mise en cache d'un objet.
+     *
+     * @param string $Xobjet
+     * @return mixed
+     */
+    public function startCachingObjet(string $Xobjet): mixed
     {
         global $CACHE_TIMINGS, $CACHE_CONFIG, $CACHE_QUERYS;
 
@@ -437,7 +523,13 @@ class SuperCacheManager
         }
     }
 
-    public function endCachingObjet($Xobjet, $Xtab)
+    /**
+     * Termine la mise en cache d'un objet.
+     *
+     * @param string $Xobjet
+     * @param mixed $Xtab
+     */
+    public function endCachingObjet(string $Xobjet, mixed $Xtab): void
     {
         if ($this->genereting_output == 1) {
             $this->insertIntoCache(serialize($Xtab), 'objet' . $Xobjet);

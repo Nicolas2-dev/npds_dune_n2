@@ -19,8 +19,12 @@ define('NPDS_DEBUG', $debugmysql);
 
 $sql_nbREQ = 0;
 
-#autodoc Mysql_Connexion() : Connexion plus détaillée ($mysql_p=true => persistente connexion) - Attention : le type de SGBD n'a pas de lien avec le nom de cette fonction
-function Mysql_Connexion()
+/**
+ * Initialise la connexion à la base de données.
+ * 
+ * @return mysqli|false Retourne l'objet mysqli si la connexion est réussie, sinon false.
+ */
+function Mysql_Connexion(): mysqli|false
 {
    $ret_p = sql_connect();
 
@@ -42,8 +46,12 @@ function Mysql_Connexion()
    return $ret_p;
 }
 
-// Connexion
-function sql_connect()
+/**
+ * Crée la connexion MySQLi avec gestion des erreurs et persistante optionnelle.
+ * 
+ * @return mysqli|false
+ */
+function sql_connect(): mysqli|false
 {
    global $mysql_p, $dbhost, $dbuname, $dbpass, $dbname, $dblink, $mysql_error;
 
@@ -75,8 +83,10 @@ function sql_connect()
    }
 }
 
-// Erreur survenue
-function sql_error()
+/**
+ * Retourne le dernier message d'erreur SQL.
+ */
+function sql_error(): string
 {
    global $dblink;
 
@@ -94,8 +104,13 @@ function sql_error()
    return $error;
 }
 
-// Exécution de requête
-function sql_query($sql)
+/**
+ * Exécute une requête SQL avec échappement amélioré pour INSERT/UPDATE.
+ * 
+ * @param string $sql
+ * @return mysqli_result|false
+ */
+function sql_query(string $sql): mysqli_result|false
 {
    global $sql_nbREQ, $dblink;
 
@@ -179,8 +194,10 @@ function sql_query($sql)
    return $query_id;
 }
 
-// Tableau Associatif du résultat
-function sql_fetch_assoc($q_id = '')
+/**
+ * Retourne le résultat en tableau associatif.
+ */
+function sql_fetch_assoc(mysqli_result|null $q_id = null): array|null
 {
    if (empty($q_id)) {
       global $query_id;
@@ -191,8 +208,10 @@ function sql_fetch_assoc($q_id = '')
    return mysqli_fetch_assoc($q_id);
 }
 
-// Tableau Numérique du résultat
-function sql_fetch_row($q_id = '')
+/**
+ * Retourne le résultat en tableau numérique.
+ */
+function sql_fetch_row(mysqli_result|null $q_id = null): array|null
 {
    if (empty($q_id)) {
       global $query_id;
@@ -203,8 +222,10 @@ function sql_fetch_row($q_id = '')
    return mysqli_fetch_row($q_id);
 }
 
-// Tableau du résultat
-function sql_fetch_array($q_id = '')
+/**
+ * Retourne le résultat en tableau mixte.
+ */
+function sql_fetch_array(mysqli_result|null $q_id = null): array|null
 {
    if (empty($q_id)) {
       global $query_id;
@@ -215,8 +236,10 @@ function sql_fetch_array($q_id = '')
    return mysqli_fetch_array($q_id);
 }
 
-// Resultat sous forme d'objet
-function sql_fetch_object($q_id = '')
+/**
+ * Retourne le résultat sous forme d'objet.
+ */
+function sql_fetch_object(mysqli_result|null $q_id = null): object|null
 {
    if (empty($q_id)) {
       global $query_id;
@@ -227,8 +250,10 @@ function sql_fetch_object($q_id = '')
    return mysqli_fetch_object($q_id);
 }
 
-// Nombre de lignes d'un résultat
-function sql_num_rows($q_id = '')
+/**
+ * Retourne le nombre de lignes du résultat.
+ */
+function sql_num_rows(mysqli_result|null $q_id = null): int
 {
    if (empty($q_id)) {
       global $query_id;
@@ -239,8 +264,10 @@ function sql_num_rows($q_id = '')
    return mysqli_num_rows($q_id);
 }
 
-// Nombre de champs d'une requête
-function sql_num_fields($q_id = '')
+/**
+ * Retourne le nombre de champs dans la requête.
+ */
+function sql_num_fields(mysqli_result|null $q_id = null): int
 {
    global $dblink;
 
@@ -253,24 +280,30 @@ function sql_num_fields($q_id = '')
    return mysqli_field_count($dblink);
 }
 
-// Nombre de lignes affectées par les requêtes de type INSERT, UPDATE et DELETE
-function sql_affected_rows()
+/**
+ * Retourne le nombre de lignes affectées par INSERT, UPDATE, DELETE.
+ */
+function sql_affected_rows(): int
 {
    global $dblink;
 
    return mysqli_affected_rows($dblink);
 }
 
-// Le dernier identifiant généré par un champ de type AUTO_INCREMENT
-function sql_last_id()
+/**
+ * Retourne le dernier ID AUTO_INCREMENT.
+ */
+function sql_last_id(): int
 {
    global $dblink;
 
    return mysqli_insert_id($dblink);
 }
 
-// Lister les tables
-function sql_list_tables($dbnom = '')
+/**
+ * Liste les tables d'une base de données.
+ */
+function sql_list_tables(string $dbnom = ''): mysqli_result|false
 {
    if (empty($dbnom)) {
       global $dbname;
@@ -281,8 +314,10 @@ function sql_list_tables($dbnom = '')
    return sql_query("SHOW TABLES FROM $dbnom");
 }
 
-// Contrôle
-function sql_select_db()
+/**
+ * Sélectionne la base de données courante.
+ */
+function sql_select_db(): bool
 {
    global $dbname, $dblink;
 
@@ -293,16 +328,20 @@ function sql_select_db()
    }
 }
 
-// Libère toute la mémoire et les ressources utilisées par la requête $query_id
-function sql_free_result($q_id)
+/**
+ * Libère les ressources de la requête.
+ */
+function sql_free_result(mysqli_result $q_id) //: void //: bool
 {
    if ($q_id instanceof mysqli_result) {
       return mysqli_free_result($q_id);
    }
 }
 
-// Ferme la connexion avec la Base de données
-function sql_close()
+/**
+ * Ferme la connexion MySQL.
+ */
+function sql_close()// : void // : bool
 {
    global $dblink, $mysql_p;
 
@@ -311,8 +350,10 @@ function sql_close()
    }
 }
 
-// retourn la table prefixer.
-function sql_prefix($table = '')
+/**
+ * Retourne le nom complet d'une table avec préfixe.
+ */
+function sql_prefix(string $table = ''): string
 {
    global $NPDS_Prefix;
 

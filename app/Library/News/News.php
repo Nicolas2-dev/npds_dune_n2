@@ -214,7 +214,7 @@ class News
      * @param int $marqeur Index de départ pour la sélection des news
      * @return void
      */
-    public static function prepa_aff_news(string $op, int|string $catid, int $marqeur): void
+    public static function prepa_aff_news(string $op, int|string $catid, int $marqeur)  // : void
     {
         global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
 

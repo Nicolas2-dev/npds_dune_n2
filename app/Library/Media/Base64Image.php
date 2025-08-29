@@ -7,23 +7,21 @@ class Base64Image
 {
 
     /**
-     * Analyse une chaîne contenant des images encodées en base64 et les transforme en fichiers.
-     * Remplace les `src="data:image/..."` par `src="$output_path"` et redimensionne si nécessaire.
+     * Convertit les images encodées en base64 dans une chaîne HTML
+     * en fichiers physiques, puis remplace les balises `<img>` avec
+     * le chemin du fichier généré.
      *
-     * @param string $content La chaîne contenant les images encodées en base64
-     * @param string $outputPath Le dossier de destination pour les fichiers images
-     * @param int $maxWidth Largeur maximale pour le redimensionnement (par défaut 800)
-     * @param int $maxHeight Hauteur maximale pour le redimensionnement (par défaut 600)
+     * @param string $base64String Chaîne HTML contenant des images en base64.
+     * @param string $outputPath   Chemin du dossier où enregistrer les images.
+     * @return string              HTML modifié avec les URLs des fichiers images.
      *
-     * @return string Contenu avec les images remplacées par des URLs de fichiers
-     *
-     * @throws RuntimeException Si l'image est invalide ou non supportée
+     * @throws RuntimeException    Si une image est invalide ou non supportée.
      */
-    public static function dataimagetofileurl(
+    public static function dataimagetofileurl(string $base64String, string $outputPath): string
     {
         $rechdataimage = '#src=\\\"(data:image/[^"]+)\\\"#m';
 
-        preg_match_all($rechdataimage, $base_64_string, $dataimages);
+        preg_match_all($rechdataimage, $base64String, $dataimages);
 
         $j = 0;
         $timgw = 800;
@@ -47,8 +45,8 @@ class Base64Image
                 die('Image non supportée');
             }
 
-            $output_file = $output_path . $j . '_' . $ra . '_' . time() . '.' . $ext;
-            $base_64_string = preg_replace($rechdataimage, 'class="img-fluid" src="' . $output_file . '" loading="lazy"', $base_64_string, 1);
+            $output_file = $outputPath . $j . '_' . $ra . '_' . time() . '.' . $ext;
+            $base_64_string = preg_replace($rechdataimage, 'class="img-fluid" src="' . $output_file . '" loading="lazy"', $base64String, 1);
 
             if ($size[0] > $timgw or $size[1] > $timgh) {
                 $timgh = round(($timgw / $size[0]) * $size[1]);

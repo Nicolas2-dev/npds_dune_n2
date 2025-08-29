@@ -16,7 +16,7 @@ class Cookie
      * @global string $coucher Heure de coucher du soleil (format accepté par strtotime)
      * @return string 'Jour' si l'heure actuelle est entre le lever et le coucher, 'Nuit' sinon
      */
-    function NightDay(): string
+    public static function NightDay(): string
     {
         global $lever, $coucher;
 
@@ -38,7 +38,7 @@ class Cookie
      * @param string     $timezone    Fuseau horaire à utiliser (default: 'Europe/Paris')
      * @return string   Date formatée avec première lettre en majuscule et encodage HTML
      */
-    function formatTimes(
+    public static function formatTimes(
         int|string  $time,
         int         $dateStyle = IntlDateFormatter::SHORT,
         int         $timeStyle = IntlDateFormatter::NONE,
@@ -63,7 +63,7 @@ class Cookie
      * @param string     $timezone   Fuseau horaire à utiliser (default: 'Europe/Paris')
      * @return string   Date formatée avec première lettre en majuscule et encodage HTML
      */
-    function getPartOfTime(
+    public static function getPartOfTime(
         int|string  $time,
         string      $format,
         string      $timezone = 'Europe/Paris'

@@ -10,6 +10,12 @@ use RecursiveDirectoryIterator;
 class Block
 {
 
+    /**
+     * Charge tous les fichiers PHP d'un répertoire et de ses sous-répertoires.
+     *
+     * @param string $dir Chemin du répertoire à parcourir.
+     * @return void
+     */
     function load_blocks(string $dir): void
     {
         if (!is_dir($dir)) {
@@ -28,8 +34,17 @@ class Block
         }
     }
 
-    #autodoc block_fonction($title, $contentX) : Assure la gestion des include# et function# des blocs de NPDS / le titre du bloc est exporté (global) )dans $block_title
-    function block_fonction($title, $contentX)
+    /**
+     * Exécute une fonction définie dans le contenu d'un bloc NPDS.
+     *
+     * Gère la syntaxe "function#" et "params#" pour appeler dynamiquement
+     * une fonction PHP avec ses paramètres.
+     *
+     * @param string $title   Titre du bloc (exporté dans $block_title global)
+     * @param string $contentX Contenu du bloc à analyser
+     * @return bool True si la fonction a été exécutée, false sinon
+     */
+    function block_fonction(string $title, string $contentX): bool
     {
         global $block_title;
 
@@ -116,8 +131,16 @@ class Block
         }
     }
 
-    #autodoc fab_block($title, $member, $content, $Xcache) : Assure la fabrication réelle et le Cache d'un bloc
-    function fab_block($title, $member, $content, $Xcache)
+    /**
+     * Fabrique un bloc NPDS et gère son cache.
+     *
+     * @param string $title   Titre du bloc
+     * @param int    $member  Niveau de membre requis pour voir le bloc
+     * @param string $content Contenu du bloc
+     * @param int    $Xcache  Durée de cache en secondes
+     * @return void
+     */
+    function fab_block(string $title, int $member, string $content, int $Xcache): void
     {
         global $SuperCache, $CACHE_TIMINGS;
 
@@ -334,20 +357,36 @@ class Block
         }
     }
 
-    #autodoc leftblocks() : Meta-Fonction / Blocs de Gauche
-    function leftblocks($moreclass)
+    /**
+     * Affiche tous les blocs de gauche.
+     *
+     * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
+     * @return void
+     */
+    function leftblocks(string $moreclass): void
     {
         Pre_fab_block('', 'LB', $moreclass);
     }
 
-    #autodoc rightblocks() : Meta-Fonction / Blocs de Droite
-    function rightblocks($moreclass)
+    /**
+     * Affiche tous les blocs de droite.
+     *
+     * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
+     * @return void
+     */
+    function rightblocks(string $moreclass): void
     {
         Pre_fab_block('', 'RB', $moreclass);
     }
 
-    #autodoc oneblock($Xid, $Xblock) : Alias de Pre_fab_block pour meta-lang
-    function oneblock($Xid, $Xblock)
+    /**
+     * Retourne le rendu HTML d'un bloc spécifique.
+     *
+     * @param int|string $Xid ID du bloc
+     * @param string $Xblock 'LB' ou 'RB'
+     * @return string HTML du bloc
+     */
+    function oneblock($Xid, string $Xblock): string
     {
         ob_start();
             Pre_fab_block($Xid, $Xblock, '');
@@ -357,8 +396,15 @@ class Block
         return $tmp;
     }
 
-    #autodoc Pre_fab_block($Xid, $Xblock, $moreclass) : Assure la fabrication d'un ou de tous les blocs Gauche et Droite
-    function Pre_fab_block($Xid, $Xblock, $moreclass)
+    /**
+     * Génère un ou plusieurs blocs (gauche/droite) avec leurs contenus.
+     *
+     * @param int|string $Xid ID du bloc à générer (vide pour tous)
+     * @param string $Xblock 'LB' pour gauche, 'RB' pour droite
+     * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
+     * @return void
+     */
+    function Pre_fab_block($Xid, string $Xblock, string $moreclass): void
     {
         global $htvar; // modif Jireck
 
@@ -400,8 +446,13 @@ class Block
         sql_free_result($result);
     }
 
-    #autodoc niv_block($Xcontent) : Retourne le niveau d'autorisation d'un block (et donc de certaines fonctions) / le paramètre (une expression régulière) est le contenu du bloc (function#....)
-    function niv_block($Xcontent)
+    /**
+     * Récupère le niveau d'autorisation d'un bloc à partir de son contenu.
+     *
+     * @param string $Xcontent Expression régulière correspondant au contenu du bloc (ex: 'function#...')
+     * @return string|null Retourne une chaîne "member,actif" si trouvé, sinon null
+     */
+    function niv_block(string $Xcontent): ?string
     {
         $result = sql_query("SELECT member, actif 
                             FROM " . sql_prefix('rblocks') . " 
@@ -426,8 +477,13 @@ class Block
         sql_free_result($result);
     }
 
-    #autodoc autorisation_block($Xcontent) : Retourne une chaine?? // array ou vide contenant la liste des autorisations (-127,-1,0,1,2...126)) SI le bloc est actif SINON "" / le paramètre est le contenu du bloc (function#....)
-    function autorisation_block($Xcontent)
+    /**
+     * Récupère la liste des autorisations valides d'un bloc.
+     *
+     * @param string $Xcontent Expression régulière correspondant au contenu du bloc (ex: 'function#...')
+     * @return array|string Retourne un tableau d'autorisations si actif, sinon une chaîne vide
+     */
+    function autorisation_block(string $Xcontent): array|string
     {
         $autoX = array(); //notice .... to follow
 

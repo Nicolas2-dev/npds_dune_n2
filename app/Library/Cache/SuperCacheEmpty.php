@@ -21,15 +21,22 @@
 namespace App\Library\Cache;
 
 
+/**
+ * Classe représentant un cache vide ou en cours de génération.
+ */
 class SuperCacheEmpty
 {
 
     /**
-     * Indique si le cache est en cours de génération
+     * Indique si le cache est en cours de génération.
      */
     public bool $genereting_output = false;
 
-    
+    /**
+     * Constructeur.
+     *
+     * @param bool $generating_output Détermine si le cache est en cours de génération
+     */
     public function __construct(bool $genereting_output = false)
     {
         $this->genereting_output = $genereting_output;
