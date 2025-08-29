@@ -12,9 +12,15 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-global $meta_glossaire;
+global $meta_glossaire; // pourquoi un global $meta_glossaire içi pffff 
 
-function local_var($Xcontent)
+/**
+ * Extrait une variable locale marquée par !var! dans le texte.
+ *
+ * @param string $Xcontent Contenu texte contenant éventuellement !var!VariableName
+ * @return string|null Retourne le nom de la variable si trouvé, sinon null
+ */
+function local_var(string $Xcontent): ?string
 {
     if (strstr($Xcontent, '!var!')) {
         $deb = strpos($Xcontent, '!var!', 0) + 5;
@@ -28,9 +34,43 @@ function local_var($Xcontent)
 
         return $H_var;
     }
+
+    return null;
 }
 
-function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $id)
+/**
+ * Génère le contenu d'une news pour l'index.
+ *
+ * @param string $aid ID de l'auteur
+ * @param string $informant Nom de l'émetteur
+ * @param int $time Timestamp
+ * @param string $title Titre de l'article
+ * @param int $counter Nombre de lectures
+ * @param string|int $topic ID du topic
+ * @param string $thetext Contenu de l'article
+ * @param string $notes Notes associées
+ * @param array $morelink Liens supplémentaires (read more, comments, etc.)
+ * @param string $topicname Nom du topic
+ * @param string $topicimage Image du topic
+ * @param string $topictext Description du topic
+ * @param string|int $id ID de l'article
+ * @return void
+ */
+function themeindex(
+    string      $aid, 
+    string      $informant, 
+    int         $time, 
+    string      $title, 
+    int         $counter, 
+    string|int  $topic, 
+    string      $thetext, 
+    string      $notes, 
+    array       $morelink, 
+    string      $topicname, 
+    string      $topicimage, 
+    string      $topictext, 
+    string|int  $id
+): void
 {
     global $tipath, $theme;
 
@@ -125,7 +165,39 @@ function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext,
     echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
-function themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicname, $topicimage, $topictext, $id, $previous_sid, $next_sid, $archive)
+/**
+ * Génère le contenu détaillé d'un article.
+ *
+ * @param string $aid ID de l'auteur
+ * @param string $informant Nom de l'émetteur
+ * @param int $time Timestamp
+ * @param string $title Titre de l'article
+ * @param string $thetext Contenu de l'article
+ * @param string|int $topic ID du topic
+ * @param string $topicname Nom du topic
+ * @param string $topicimage Image du topic
+ * @param string $topictext Description du topic
+ * @param string|int $id ID de l'article
+ * @param int|null $previous_sid ID de l'article précédent
+ * @param int|null $next_sid ID de l'article suivant
+ * @param string|null $archive Archive associée
+ * @return void
+ */
+function themearticle(
+    string $aid, 
+    string      $informant, 
+    int         $time, 
+    string      $title, 
+    string      $thetext, 
+    string|int  $topic, 
+    string      $topicname, 
+    string      $topicimage, 
+    string      $topictext, 
+    string|int  $id, 
+    ?int        $previous_sid, 
+    ?int        $next_sid, 
+    ?string     $archive
+    ): void
 {
     global $tipath, $theme, $counter, $boxtitle, $boxstuff;
 
@@ -200,7 +272,14 @@ function themearticle($aid, $informant, $time, $title, $thetext, $topic, $topicn
     echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
-function themesidebox($title, $content)
+/**
+ * Génère un bloc latéral pour le thème.
+ *
+ * @param string $title Titre du bloc
+ * @param string $content Contenu HTML du bloc
+ * @return void
+ */
+function themesidebox(string $title, string $content): void
 {
     global $theme, $B_class_title, $B_class_content, $bloc_side, $htvar;
 
@@ -251,7 +330,16 @@ function themesidebox($title, $content)
     echo '</div>';
 }
 
-function themedito($content)
+/**
+ * Affiche l'éditorial d'un thème.
+ *
+ * Cherche le fichier `editorial.php` dans le thème actif, puis dans le thème de base.  
+ * Remplace le placeholder `!editorial_content!` par le contenu fourni et applique la fonction `meta_lang()` et `aff_langue()`.
+ *
+ * @param string $content Le contenu à insérer dans l'éditorial.
+ * @return string|false Le chemin du fichier inclus, ou false si non trouvé.
+ */
+function themedito(string $content): string|false
 {
     global $theme;
 
@@ -283,8 +371,20 @@ function themedito($content)
 
     return $inclusion;
 }
-#autodoc userpopover($who, $dim, $avpop) : à partir du nom de l'utilisateur ($who) $avpop à 1 : affiche son avatar (ou avatar defaut) au dimension ($dim qui défini la class n-ava-$dim)<br /> $avpop à 2 : l'avatar affiché commande un popover contenant diverses info de cet utilisateur et liens associés
-function userpopover($who, $dim, $avpop)
+
+/**
+ * Génère un avatar ou un popover utilisateur.
+ *
+ * Selon la valeur de `$avpop` :
+ * - 1 : Affiche l'avatar seul.
+ * - 2 : Affiche l'avatar avec un popover contenant les informations et liens de l'utilisateur.
+ *
+ * @param string $who Nom de l'utilisateur.
+ * @param int $dim Taille de l'avatar (détermine la classe CSS `n-ava-$dim`).
+ * @param int $avpop Mode d'affichage : 1 pour avatar seul, 2 pour popover.
+ * @return string|null HTML de l'avatar ou du popover, ou null si l'utilisateur n'existe pas.
+ */
+function userpopover(string $who, int $dim, int $avpop): ?string
 {
     global $short_user, $user;
 
@@ -406,4 +506,6 @@ function userpopover($who, $dim, $avpop)
 
         return $userpop;
     }
+
+    return null;
 }
