@@ -49,8 +49,17 @@ if (! function_exists('send_to_file')) {
 }
 
 if (! function_exists('format_aid_header')) {
-    #autodoc formatAidHeader($aid) : Affiche URL et Email d'un auteur
-    function format_aid_header($aid)
+    /**
+     * Affiche le lien URL ou Email d'un auteur à partir de son aid.
+     *
+     * Si l'auteur a une URL, le lien pointe vers celle-ci.
+     * Sinon, si l'auteur a un email, le lien utilise "mailto:".
+     * Sinon, affiche simplement l'identifiant.
+     *
+     * @param string $aid Identifiant de l'auteur.
+     * @return void
+     */
+    function format_aid_header(string $aid): void
     {
         $holder = sql_query("SELECT url, email 
                             FROM " . sql_prefix('authors') . " 
@@ -73,8 +82,14 @@ if (! function_exists('format_aid_header')) {
 // SuperCache Function
 
 if (! function_exists('q_select')) {
-    // Ces fonctions sont en dehors de la Classe pour permettre un appel sans instanciation d'objet
-    function q_select($Xquery, $retention = 3600)
+    /**
+     * Exécute une requête SQL et renvoie le résultat, éventuellement via SuperCache.
+     *
+     * @param string $Xquery La requête SQL à exécuter.
+     * @param int $retention Durée de rétention du cache en secondes (par défaut 3600).
+     * @return array Tableau associatif des résultats.
+     */
+    function q_select(string $Xquery, int $retention = 3600): array
     {
         global $SuperCache, $cache_obj;
 
@@ -97,7 +112,13 @@ if (! function_exists('q_select')) {
 }
 
 if (! function_exists('pg_clean')) {
-    function pg_clean($request)
+    /**
+     * Supprime le cache d'une page spécifique.
+     *
+     * @param string $request L'identifiant de la page à nettoyer.
+     * @return void
+     */
+    function pg_clean(string $request): void
     {
         global $CACHE_CONFIG;
 
@@ -122,7 +143,12 @@ if (! function_exists('pg_clean')) {
 }
 
 if (! function_exists('q_clean')) {
-    function q_clean()
+    /**
+     * Nettoie tout le cache SQL.
+     *
+     * @return void
+     */
+    function q_clean(): void
     {
         global $CACHE_CONFIG;
 
@@ -148,7 +174,12 @@ if (! function_exists('q_clean')) {
 }
 
 if (! function_exists('sc_lean')) {
-    function sc_lean()
+    /**
+     * Nettoie tout le cache général, sauf fichiers de configuration spécifiques, puis nettoie le cache SQL.
+     *
+     * @return void
+     */
+    function sc_lean(): void
     {
         global $CACHE_CONFIG;
 
@@ -178,8 +209,10 @@ if (! function_exists('sc_lean')) {
 }
 
 if (! function_exists('sc_infos')) {
-    #autodoc SC_infos() : Indique le status de SuperCache
-    function sc_infos()
+    /**
+     * sc_infos() : Indique le statut de SuperCache
+     */
+    function sc_infos(): string
     {
         global $SuperCache, $npds_sc;
 
