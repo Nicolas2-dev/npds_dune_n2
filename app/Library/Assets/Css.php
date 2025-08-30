@@ -8,14 +8,31 @@ use App\Library\Page\PageRef;
 class Css
 {
 
-    #autodoc import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : recherche et affiche la CSS (site, langue courante ou par défaut) / Charge la CSS complémentaire / le HTML ne contient que de simple quote pour être compatible avec javascript
+    /**
+     * Recherche et génère les balises <link> pour inclure les fichiers CSS.
+     * 
+     * Charge :
+     * - le framework CSS (ex: bootstrap)
+     * - le CSS principal du thème pour la langue courante
+     * - les CSS alternatifs ou spécifiques à l'impression
+     * 
+     * Le HTML généré utilise des quotes simples pour être compatible avec JavaScript.
+     *
+     * @param string      $tmp_theme       Nom du thème temporaire
+     * @param string      $language        Code langue courant (ex: "fr")
+     * @param string      $fw_css          Nom du framework CSS
+     * @param string|null $css_pages_ref   Références CSS spécifiques aux pages (optionnel)
+     * @param string|null $css             CSS supplémentaire (optionnel)
+     *
+     * @return string HTML des balises <link> pour les fichiers CSS
+     */
     public static function import_css_javascript(
         string $tmp_theme, 
         string $language, 
         string $fw_css, 
         ?string $css_pages_ref = '', 
-        ?string $css = '')
-    {
+        ?string $css = ''
+    ): string {
         $tmp = '';
 
         // CSS framework
@@ -53,14 +70,25 @@ class Css
         return $tmp;
     }
 
-    #autodoc import_css($tmp_theme, $language, $fw_css, $css_pages_ref, $css) : Fonctionnement identique à import_css_javascript sauf que le code HTML en retour ne contient que de double quote
+    /**
+     * Fonction identique à import_css_javascript mais retourne du HTML
+     * avec des quotes doubles, compatible directement pour l'inclusion dans du code HTML standard.
+     *
+     * @param string      $tmp_theme       Nom du thème temporaire
+     * @param string      $language        Code langue courant (ex: "fr")
+     * @param string      $fw_css          Nom du framework CSS
+     * @param string|null $css_pages_ref   Références CSS spécifiques aux pages (optionnel)
+     * @param string|null $css             CSS supplémentaire (optionnel)
+     *
+     * @return string HTML des balises <link> avec double quotes
+     */
     public static function import_css(
         string $tmp_theme, 
         string $language, 
         string $fw_css, 
         ?string $css_pages_ref = '', 
-        ?string $css = '')
-    {
+        ?string $css = ''
+    ): string {
         return str_replace("'", "\"", static::import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
     }
 }
