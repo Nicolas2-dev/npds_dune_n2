@@ -1,5 +1,8 @@
 <?php
 
+use Npds\Contracts\Http\Kernel;
+use Npds\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +18,24 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use App\Library\Assets\Css;
 
-echo 'coucou je suis npds mvc en cour de dev !';
+/*
+|--------------------------------------------------------------------------
+| Exécution de l'application
+|--------------------------------------------------------------------------
+|
+| Une fois que nous avons l'application, nous pouvons traiter la requête entrante
+| en utilisant le kernel HTTP de l'application. Ensuite, nous renverrons la réponse
+| au navigateur du client, lui permettant de profiter de notre application.
+|
+*/
 
-$tmp = '';
+$app = require_once __DIR__.'/../app/Platform/Bootstrap.php';
 
-$tmp .= Css::import_css('npds-boost_sk', 'french', 'cerulean');
+$kernel = $app->make(Kernel::class);
 
-//$tmp .= Css::import_css_javascript('npds-boost_sk', 'french', 'cerulean');
+$response = $kernel->handle(
+    $request = Request::capture()
+); //->send();
 
-dump($tmp);
+dump($app, $response);

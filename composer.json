@@ -6,7 +6,9 @@
             "Npds\\": "npds/"
         },
         "files": [
-            "storage/generated_helpers_autoload.php"
+            "storage/generated_helpers_autoload.php",
+            "npds/Collections/helpers.php",
+            "npds/Support/helpers.php"
         ]
     },
     "authors": [
@@ -20,7 +22,12 @@
         "symfony/var-dumper": "^7.3"
     },
     "require": {
-        "phpmailer/phpmailer": "^6.10"
+        "phpmailer/phpmailer": "^6.10",
+        "psr/container": "^2.0",
+        "symfony/http-foundation": "^7.3",
+        "nesbot/carbon": "^3.10",
+        "symfony/http-kernel": "^7.3",
+        "symfony/routing": "^7.3"
     },    
     "scripts": {
         "post-autoload-dump": [
