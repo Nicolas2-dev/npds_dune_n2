@@ -30,7 +30,7 @@ function groupe($groupe)
 {
     $les_groupes = explode(',', $groupe);
 
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $nbg = 0;
     $str = '';

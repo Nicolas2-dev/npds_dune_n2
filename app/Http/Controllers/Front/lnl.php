@@ -33,7 +33,7 @@ function SuserCheck($email)
         $stop = translate('Erreur : une adresse Email ne peut pas contenir d\'espaces');
     }
 
-    if (checkdnsmail($email) === false) {
+    if (checkDnsMail($email) === false) {
         $stop = translate('Erreur : DNS ou serveur de mail incorrect');
     }
 

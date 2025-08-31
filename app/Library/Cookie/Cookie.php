@@ -12,7 +12,7 @@ class Cookie
      * @param string $user Valeur du cookie à décoder
      * @return mixed Données décodées du cookie ou false si invalide
      */
-    public static function cookiedecode(string $user): ?array
+    public static function cookieDecode(string $user): ?array
     {
         global $language;
 
@@ -68,5 +68,4 @@ class Cookie
 
         return null;
     }
-
 }

@@ -58,7 +58,7 @@ if (isset($user) and $user != '') {
 
         $tmp_theme = $theme;
 
-        if (!$file = @opendir('themes/'. $theme)) {
+        if (!$file = @opendir('themes/' . $theme)) {
             $tmp_theme = $Default_Theme;
         }
     } else {
@@ -74,7 +74,7 @@ $skin = $skin == '' ? 'default' : $skin;
 
 include 'storage/meta/meta.php';
 
-echo import_css($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), '');
+echo importCss($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), '');
 
 include 'library/formhelp.java.php';
 

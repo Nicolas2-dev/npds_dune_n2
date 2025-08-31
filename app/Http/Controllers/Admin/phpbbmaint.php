@@ -51,7 +51,7 @@ function ForumMaintMarkTopics()
         <tbody>';
 
     if (!$r = sql_query("DELETE FROM " . sql_prefix('forum_read'))) {
-        forumerror('0001');
+        forumError('0001');
     } else {
         $resultF = sql_query("SELECT forum_id 
                               FROM " . sql_prefix('forums') . " 
@@ -213,24 +213,24 @@ function ForumMaintTopicMassiveSup($topics)
                         WHERE topic_id = '$topic_id'";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0009');
+                    forumError('0009');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id = '$topic_id'";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0010');
+                    forumError('0010');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
                         WHERE topicid = '$topic_id'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0001');
+                    forumError('0001');
                 }
 
-                control_efface_post('forum_npds', '', $topic_id, '');
+                controlEffacePost('forum_npds', '', $topic_id, '');
             }
         }
     }
@@ -246,24 +246,24 @@ function ForumMaintTopicSup($topic)
             WHERE topic_id = '$topic'";
 
     if (!$result = sql_query($sql)) {
-        forumerror('0009');
+        forumError('0009');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
             WHERE topic_id = '$topic'";
 
     if (!$result = sql_query($sql)) {
-        forumerror('0010');
+        forumError('0010');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
             WHERE topicid = '$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0001');
+        forumError('0001');
     }
 
-    control_efface_post('forum_npds', '', $topic, '');
+    controlEffacePost('forum_npds', '', $topic, '');
 
     Q_Clean();
 
@@ -277,7 +277,7 @@ function SynchroForum()
                                FROM " . sql_prefix('forumtopics') . " 
                                ORDER BY topic_id ASC")) {
 
-        forumerror('0009');
+        forumError('0009');
     }
 
     while (list($topi_cid, $foru_mid) = sql_fetch_row($result1)) {
@@ -293,7 +293,7 @@ function SynchroForum()
     if (!$result1 = sql_query("SELECT topicid, uid, rid 
                                FROM " . sql_prefix('forum_read') . " 
                                ORDER BY topicid ASC")) {
-        forumerror('0009');
+        forumError('0009');
     }
 
     while (list($topicid, $uid, $rid) = sql_fetch_row($result1)) {
@@ -405,7 +405,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0010');
+        forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('posts') . " 
@@ -413,7 +413,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0010');
+        forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -421,7 +421,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     $sql = "UPDATE $upload_table 
@@ -519,7 +519,7 @@ function ForumMaintAdmin()
 
     $arg1 = 'var formulid = ["faddeletetop"];';
 
-    echo auto_complete('forname', 'forum_name', 'forums', 'titreforum', '86400');
+    echo autoComplete('forname', 'forum_name', 'forums', 'titreforum', '86400');
 
     adminfoot('fv', $fv_parametres, $arg1, '');
 }

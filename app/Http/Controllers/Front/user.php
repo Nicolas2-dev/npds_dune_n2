@@ -64,7 +64,7 @@ function userCheck($uname, $email)
         $stop = '<i class="fa fa-exclamation me-2"></i>' . translate('Erreur : une adresse Email ne peut pas contenir d\'espaces');
     }
 
-    if (checkdnsmail($email) === false) {
+    if (checkDnsMail($email) === false) {
         $stop = translate('Erreur : DNS ou serveur de mail incorrect') . '!<br />';
     }
 
@@ -121,7 +121,7 @@ function makePass()
     return $makepass;
 }
 
-function showimage() 
+function showimage()
 {
     echo "<script type=\"text/javascript\">
         //<![CDATA[
@@ -131,14 +131,14 @@ function showimage()
                 }
 
                 document.images.avatar.src=\n";
-        
-                if ($ibid = theme_image('forum/avatar/blank.gif')) {
-                    $imgtmp = substr($ibid,0,strrpos($ibid,'/') + 1); 
-                } else {
-                    $imgtmp = 'assets/images/forum/avatar/';
-                }
-                    
-                echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
+
+    if ($ibid = theme_image('forum/avatar/blank.gif')) {
+        $imgtmp = substr($ibid, 0, strrpos($ibid, '/') + 1);
+    } else {
+        $imgtmp = 'assets/images/forum/avatar/';
+    }
+
+    echo "'$imgtmp' + document.Register.user_avatar.options[document.Register.user_avatar.selectedIndex].value\n";
     echo "  }
         //]]>
     </script>";
@@ -284,7 +284,7 @@ function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fr
 
 function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1)
 {
-    global $makepass, $adminmail, $sitename, $AutoRegUser, $memberpass, $gmt, $NPDS_Key, $nuke_url;
+    global $makepass, $adminmail, $sitename, $autoRegUser, $memberpass, $gmt, $NPDS_Key, $nuke_url;
 
     if (!isset($_SERVER['HTTP_REFERER'])) {
         Ecr_Log('security', 'Ghost form in user.php registration. => NO REFERER', '');
@@ -334,7 +334,7 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
 
         $attach = $user_sig ? 1 : 0;
 
-        if (($AutoRegUser == 1) or (!isset($AutoRegUser))) {
+        if (($autoRegUser == 1) or (!isset($autoRegUser))) {
             $result = sql_query("INSERT INTO " . sql_prefix('users_status') . " 
                                  VALUES ('$usr_id', '0', '$attach', '0', '1', '1', '')");
         } else {
@@ -499,7 +499,7 @@ function userinfo($uname)
 
     $my_rs = '';
 
-    $posterdata_extend = get_userdata_extend_from_id($uid);
+    $posterdata_extend = getUserDataExtendFromId($uid);
 
     if (!$short_user) {
         include 'modules/reseaux-sociaux/config/config.php';
@@ -537,7 +537,7 @@ function userinfo($uname)
         }
     }
 
-    $posterdata = get_userdata_from_id($uid);
+    $posterdata = getUserDataFromId($uid);
     $useroutils = '';
 
     if (($user) and ($uid != 1)) {
@@ -839,8 +839,8 @@ function userinfo($uname)
         if (($forum_type == '5') or ($forum_type == '7')) {
             $ok_affich = false;
 
-            $tab_groupe = valid_group($user);
-            $ok_affich = groupe_forum($forum_pass, $tab_groupe);
+            $tab_groupe = validGroup($user);
+            $ok_affich = groupeForum($forum_pass, $tab_groupe);
         } else {
             $ok_affich = true;
         }
@@ -946,7 +946,7 @@ function main($user)
 
         include 'footer.php';
     } elseif (isset($user)) {
-        $cookie = cookiedecode($user);
+        $cookie = cookieDecode($user);
 
         userinfo($cookie[1]);
     }
@@ -1278,7 +1278,7 @@ function edituser()
 
     include_once 'functions.php';
 
-    $userinfo = getusrinfo($user);
+    $userinfo = getUserInfo($user);
 
     member_menu($userinfo['mns'], $userinfo['uname']);
 
@@ -1300,7 +1300,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 {
     global $user, $userinfo, $minpass;
 
-    $cookie = cookiedecode($user);
+    $cookie = cookieDecode($user);
     $check = $cookie[1];
 
     $result = sql_query("SELECT uid, email 
@@ -1418,7 +1418,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 }
 
                 if ($pass != '') {
-                    cookiedecode($user);
+                    cookieDecode($user);
 
                     $AlgoCrypt  = PASSWORD_BCRYPT;
                     $min_ms     = 100;
@@ -1496,7 +1496,7 @@ function edithome()
     include 'header.php';
     include_once 'functions.php';
 
-    $userinfo = getusrinfo($user);
+    $userinfo = getUserInfo($user);
 
     member_menu($userinfo['mns'], $userinfo['uname']);
 
@@ -1567,7 +1567,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
 {
     global $user;
 
-    $cookie = cookiedecode($user);
+    $cookie = cookieDecode($user);
     $check = $cookie[1];
 
     $result = sql_query("SELECT uid 
@@ -1585,7 +1585,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
                    SET storynum='$storynum', ublockon='$ublockon', ublock='$ublock' 
                    WHERE uid='$uid'");
 
-        $userinfo = getusrinfo($user);
+        $userinfo = getUserInfo($user);
 
         docookie($userinfo['uid'], $userinfo['uname'], $userinfo['pass'], $userinfo['storynum'], $userinfo['umode'], $userinfo['uorder'], $userinfo['thold'], $userinfo['noscore'], $userinfo['ublockon'], $userinfo['theme'], $userinfo['commentmax'], '');
 
@@ -1606,7 +1606,7 @@ function chgtheme()
     include 'header.php';
     include_once 'functions.php';
 
-    $userinfo = getusrinfo($user);
+    $userinfo = getUserInfo($user);
 
     $ibid = explode('+', $userinfo['theme']);
     $theme = $ibid[0];
@@ -1733,7 +1733,7 @@ function savetheme($uid, $theme)
 {
     global $user;
 
-    $cookie = cookiedecode($user);
+    $cookie = cookieDecode($user);
 
     $result = sql_query("SELECT uid 
                          FROM " . sql_prefix('users') . " 
@@ -1746,7 +1746,7 @@ function savetheme($uid, $theme)
                    SET theme='$theme' 
                    WHERE uid='$uid'");
 
-        $userinfo = getusrinfo($user);
+        $userinfo = getUserInfo($user);
 
         docookie(
             $userinfo['uid'],
@@ -1780,7 +1780,7 @@ function editjournal()
     include 'header.php';
     include_once 'functions.php';
 
-    $userinfo = getusrinfo($user);
+    $userinfo = getUserInfo($user);
 
     member_menu($userinfo['mns'], $userinfo['uname']);
 
@@ -1789,7 +1789,7 @@ function editjournal()
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <textarea class="tin form-control" rows="25" name="journal">' . $userinfo['user_journal'] . '</textarea>'
-        . aff_editeur('journal', '') . '
+        . affEditeur('journal', '') . '
             </div>
         </div>
         <input type="hidden" name="uname" value="' . $userinfo['uname'] . '" />
@@ -1817,7 +1817,7 @@ function savejournal($uid, $journal, $datetime)
 {
     global $user;
 
-    $cookie = cookiedecode($user);
+    $cookie = cookieDecode($user);
 
     $result = sql_query("SELECT uid 
                          FROM " . sql_prefix('users') . " 
@@ -2040,7 +2040,7 @@ switch ($op) {
         break;
 
     default:
-        if (!AutoReg()) {
+        if (!autoReg()) {
             unset($user);
         }
 

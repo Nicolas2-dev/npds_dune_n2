@@ -69,25 +69,27 @@ function PrintPage($oper, $DB, $nl, $sid)
     }
 
     if ($oper == 'static') {
-        if (preg_match('#^[a-z0-9_\.-]#i', $sid) 
-        and !stristr($sid, '.*://') 
-        and !stristr($sid, '..') 
-        and !stristr($sid, '../') 
-        and !stristr($sid, 'script') 
-        and !stristr($sid, 'cookie') 
-        and !stristr($sid, 'iframe') 
-        and  !stristr($sid, 'applet') 
-        and !stristr($sid, 'object') 
-        and !stristr($sid, 'meta')) {
-            if (file_exists('storage/static/'. $sid)) {
+        if (
+            preg_match('#^[a-z0-9_\.-]#i', $sid)
+            and !stristr($sid, '.*://')
+            and !stristr($sid, '..')
+            and !stristr($sid, '../')
+            and !stristr($sid, 'script')
+            and !stristr($sid, 'cookie')
+            and !stristr($sid, 'iframe')
+            and  !stristr($sid, 'applet')
+            and !stristr($sid, 'object')
+            and !stristr($sid, 'meta')
+        ) {
+            if (file_exists('storage/static/' . $sid)) {
 
                 ob_start();
-                    include 'storage/static/'. $sid;
-                    $remp = ob_get_contents();
+                include 'storage/static/' . $sid;
+                $remp = ob_get_contents();
                 ob_end_clean();
 
                 if ($DB) {
-                    $remp = meta_lang(aff_code(aff_langue($remp)));
+                    $remp = meta_lang(affCode(aff_langue($remp)));
                 }
 
                 if ($nl) {
@@ -120,7 +122,7 @@ function PrintPage($oper, $DB, $nl, $sid)
 
             $tmp_theme = $cookie[9];
 
-            if (!$file = @opendir('themes/'. $cookie[9])) {
+            if (!$file = @opendir('themes/' . $cookie[9])) {
                 $tmp_theme = $Default_Theme;
             }
         } else {
@@ -146,8 +148,8 @@ function PrintPage($oper, $DB, $nl, $sid)
 
         if (($oper == 'news') or ($oper == 'archive')) {
 
-            $hometext = meta_lang(aff_code(aff_langue($hometext)));
-            $bodytext = meta_lang(aff_code(aff_langue($bodytext)));
+            $hometext = meta_lang(affCode(aff_langue($hometext)));
+            $bodytext = meta_lang(affCode(aff_langue($bodytext)));
 
             echo '<span class="float-end" style="font-size: .8rem;"> ' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br />
                 <hr />
@@ -159,7 +161,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 echo $bodytext . '<br /><br />';
             }
 
-            echo meta_lang(aff_code(aff_langue($notes)));
+            echo meta_lang(affCode(aff_langue($notes)));
 
             echo '</div>';
 

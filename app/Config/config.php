@@ -269,7 +269,7 @@ $httprefmax = 1000;
 # $short_user:       Activate Short User registration (without ICQ, MSN, ...)? (1=Yes 0=No)
 # $member_list:      Make the members List Private (only for members) or Public (Private=Yes Public=No)
 # $download_cat:     Witch category do you want to show first in download section?
-# $AutoRegUser:      Allow automated new-user creation (sending email and allowed connection)
+# $autoRegUser:      Allow automated new-user creation (sending email and allowed connection)
 # $short_review:     For transform reviews like "gold book" (1=Yes, 0=no)
 # $subscribe:        Allow your members to subscribe to topics, ... (1=Yes, 0=no)
 # $member_invisible: Allow members to hide from other members, ... (1=Yes, 0=no)
@@ -282,7 +282,7 @@ $avatar_size = "80*100";
 $short_user = 1;
 $member_list = 1;
 $download_cat = "Tous";
-$AutoRegUser = 1;
+$autoRegUser = 1;
 $short_review = 0;
 $subscribe = 1;
 $member_invisible = 0;

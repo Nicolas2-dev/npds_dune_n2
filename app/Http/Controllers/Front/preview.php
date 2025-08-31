@@ -40,7 +40,7 @@ switch ($acc) {
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = af_cod($messageP);
+            $messageP = afCode($messageP);
             $messageP = str_replace("\n", '<br />', $messageP);
         }
 
@@ -49,7 +49,7 @@ switch ($acc) {
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = make_clickable($messageP);
+            $messageP = makeClickable($messageP);
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
@@ -66,7 +66,7 @@ switch ($acc) {
 
     case 'reply':
         if (array_key_exists(1, $userdata)) {
-            $userdata = get_userdata($userdata[1]);
+            $userdata = getUserData($userdata[1]);
         }
 
         if ($allow_html == 0 || isset($html)) {
@@ -78,7 +78,7 @@ switch ($acc) {
         }
 
         if (($forum_type != '6') and ($forum_type != '5')) {
-            $messageP = af_cod($messageP);
+            $messageP = afCode($messageP);
             $messageP = str_replace("\n", '<br />', $messageP);
         }
 
@@ -87,7 +87,7 @@ switch ($acc) {
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = make_clickable($messageP);
+            $messageP = makeClickable($messageP);
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
@@ -99,7 +99,7 @@ switch ($acc) {
         break;
 
     case 'editpost':
-        $userdata = get_userdata($userdata[1]);
+        $userdata = getUserData($userdata[1]);
 
         settype($post_id, "integer");
 
@@ -110,7 +110,7 @@ switch ($acc) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumerror('0022');
+            forumError('0022');
         }
 
         $row2 = sql_fetch_assoc($result);
@@ -135,7 +135,7 @@ switch ($acc) {
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = af_cod($messageP);
+            $messageP = afCode($messageP);
             $messageP = str_replace("\n", '<br />', removeHack($messageP));
             $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
 
@@ -150,7 +150,7 @@ switch ($acc) {
         break;
 }
 
-$theposterdata = get_userdata_from_id($userdatat[0]);
+$theposterdata = getUserDataFromId($userdatat[0]);
 
 echo '<div class="mb-3">
 <h4 class="mb-3">' . translate('Prévisualiser') . '</h4>
@@ -172,7 +172,7 @@ if ($smilies) {
                 }
             }
 
-            echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . member_qualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
+            echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
         }
     } else {
         echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $anonymous . '" data-bs-content=\'' . $anonymous . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="icone ' . $anonymous . '" /></a>';

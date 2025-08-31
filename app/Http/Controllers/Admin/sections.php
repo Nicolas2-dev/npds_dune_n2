@@ -27,7 +27,7 @@ $hlpfile = 'admin/manuels/' . $language . '/sections.html';
 function groupe($groupe)
 {
     $les_groupes = explode(',', $groupe);
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $nbg = 0;
     $str = '';
@@ -364,7 +364,7 @@ function sections()
                             <span class="ms-auto">
                             <a href="sections.php?op=viewarticle&amp;artid=' . $artid . '&amp;prev=1"><i class="fa fa-eye fa-lg"></i></a>&nbsp;';
 
-                            if ($droit_pub > 0 and $droit_pub != 4) { 
+                            if ($droit_pub > 0 and $droit_pub != 4) {
                                 echo '<a href="admin.php?op=secartedit&amp;artid=' . $artid . '" ><i class="fa fa-edit fa-lg"></i></a>&nbsp;';
                             }
 
@@ -422,7 +422,7 @@ function sections()
                     <textarea class="tin form-control" name="content" rows="30"></textarea>
                 </div>
                 </div>
-                ' . aff_editeur('content', '') . '
+                ' . affEditeur('content', '') . '
                 <input type="hidden" name="op" value="secarticleadd" />
                 <input type="hidden" name="autho" value="' . $aid . '" />';
 
@@ -553,7 +553,7 @@ function new_rub_section($type)
                 <label class="col-form-label" for="introd">' . adm_translate('Texte d\'introduction') . '</label>
                 <textarea class="tin form-control" name="introd" rows="30"></textarea>';
 
-        echo aff_editeur("introd", '');
+        echo affEditeur("introd", '');
 
         echo '</div>';
 
@@ -568,7 +568,6 @@ function new_rub_section($type)
 
         $arg1 = 'var formulid = ["newsection"];
             inpandfieldlen("secname",255);';
-
     } else if ($type == "rub") {
         echo '<hr />
             <h3 class="mb-3">' . adm_translate('Ajouter une nouvelle Rubrique') . '</h3>
@@ -583,7 +582,7 @@ function new_rub_section($type)
                 <textarea class="tin form-control" id="introc" name="introc" rows="30" ></textarea>
                 </div>';
 
-        echo aff_editeur('introc', '');
+        echo affEditeur('introc', '');
 
         echo '<div class="mb-3">
                 <input type="hidden" name="op" value="rubriquemake" />
@@ -718,7 +717,7 @@ function updatecompat($article, $admin_rub, $idx)
     global $aid;
     Ecr_Log('security', sprintf('UpdateCompatSujets(%s) by AID : %s', $article, $aid), '');
 
-    Header('Location: admin.php?op=secartedit&artid='. $article);
+    Header('Location: admin.php?op=secartedit&artid=' . $article);
 }
 // Fonction publications connexes
 
@@ -777,7 +776,7 @@ function rubriquedit($rubid)
                 <textarea class="tin form-control" id="introc" name="introc" rows="30" >' . $intro . '</textarea>
                 </div>
             </div>
-            ' . aff_editeur('introc', '') . '
+            ' . affEditeur('introc', '') . '
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-3 pt-0" for="enligne">' . adm_translate('En Ligne') . '</label>';
 
@@ -838,7 +837,7 @@ function rubriquemake($rubname, $introc)
 
         sql_query("INSERT INTO " . sql_prefix('sections') . " 
                    VALUES (NULL,'A modifier !', '', '', '$rublast', '<p>Cette sous-rubrique a été créé automatiquement. <br />Vous pouvez la personaliser et ensuite rattacher les publications que vous souhaitez.</p>','99','0')");
-        
+
         $result = sql_query("SELECT secid 
                              FROM " . sql_prefix('sections') . " 
                              ORDER BY secid DESC 
@@ -983,7 +982,7 @@ function sectionedit($secid)
         <textarea class="tin form-control" id="introd" name="introd" rows="20">' . $intro . '</textarea>
     </div>';
 
-    echo aff_editeur('introd', '');
+    echo affEditeur('introd', '');
 
     droits($userlevel);
 
@@ -1136,7 +1135,7 @@ function secartedit($artid)
                 </div>
             </div>';
 
-    echo aff_editeur('content', '');
+    echo affEditeur('content', '');
 
     echo '<div class="mb-3 row">
         <div class="col-sm-12">';
@@ -1262,7 +1261,7 @@ function secartupdate($artid)
                 <textarea class="tin form-control" id="content" name="content" rows="30">' . $content . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('content', '');
+        ' . affEditeur('content', '');
 
     droits($userlevel);
 
@@ -1329,7 +1328,7 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
         Ecr_Log('security', sprintf('UpdateArticleSections(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
     }
 
-    Header('Location: admin.php?op=secartedit&artid='. $artid);
+    Header('Location: admin.php?op=secartedit&artid=' . $artid);
 }
 
 function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
@@ -1350,7 +1349,7 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
         Ecr_Log('security', sprintf('UpdateArticleSectionsTempo(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
     }
 
-    Header('Location: admin.php?op=secartupdate&artid='. $artid);
+    Header('Location: admin.php?op=secartupdate&artid=' . $artid);
 }
 
 function secartpublish($artid, $secid, $title, $content, $author, $members, $Mmembers)

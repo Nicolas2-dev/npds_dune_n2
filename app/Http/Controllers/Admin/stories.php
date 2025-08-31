@@ -80,7 +80,7 @@ function puthome($ihome)
     </div>';
 
     // ---- Groupes
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $tmp_groupe = '';
 
@@ -662,7 +662,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo aff_editeur('hometext', '');
+    echo affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -671,7 +671,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -680,7 +680,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo aff_editeur('notes', '');
+    echo affEditeur('notes', '');
 
     $dd_pub = substr($date_debval, 0, 10);
     $fd_pub = substr($date_finval, 0, 10);
@@ -851,7 +851,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo aff_editeur('hometext', '');
+    echo affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -860,7 +860,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -869,7 +869,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo aff_editeur('notes', '');
+    echo affEditeur('notes', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -1134,7 +1134,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo aff_editeur("hometext", "true");
+    echo affEditeur("hometext", "true");
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte complet') . '</label>
@@ -1143,7 +1143,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo aff_editeur("bodytext", "true");
+    echo affEditeur("bodytext", "true");
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -1152,7 +1152,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo aff_editeur('notes', '');
+    echo affEditeur('notes', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-6" for="Cdate">' . adm_translate('Changer la date') . '?</label>
@@ -1511,7 +1511,7 @@ function adminStory()
             </div>
         </div>';
 
-    echo aff_editeur('hometext', '');
+    echo affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -1520,7 +1520,7 @@ function adminStory()
             </div>
         </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -1704,7 +1704,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 </div>
             </div>';
 
-    echo aff_editeur("hometext", "true");
+    echo affEditeur("hometext", "true");
 
     echo '<div class="mb-3 row">
                 <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -1713,7 +1713,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 </div>
             </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 

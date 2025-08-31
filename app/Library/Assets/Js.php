@@ -3,7 +3,7 @@
 namespace App\Library\Assets;
 
 
-class Js 
+class Js
 {
 
     /**
@@ -21,11 +21,11 @@ class Js
      * @return string Retourne le code JavaScript complet à insérer dans la page si $inputId est défini,
      *                sinon retourne uniquement le tableau JavaScript.
      */
-    public static function auto_complete(
-        string  $jsArrayName, 
-        string  $columnName, 
-        string  $tableName, 
-        ?string $inputId = null, 
+    public static function autoComplete(
+        string  $jsArrayName,
+        string  $columnName,
+        string  $tableName,
+        ?string $inputId = null,
         ?int    $cacheTime = null
     ) {
         $list_json = '';
@@ -83,13 +83,13 @@ class Js
      * 
      * @return string Code HTML <script> pour l'auto-complete.
      */
-    public static function auto_complete_multi(
-        string  $jsArrayName, 
-        string  $columnName, 
-        string  $tableName, 
-        string  $inputId, 
-        ?string  $sqlCondition = null): string
-    {
+    public static function autoCompleteMulti(
+        string  $jsArrayName,
+        string  $columnName,
+        string  $tableName,
+        string  $inputId,
+        ?string  $sqlCondition = null
+    ): string {
         $list_json = '';
         $list_json .= $jsArrayName . ' = [';
 
@@ -163,17 +163,16 @@ class Js
      *
      * @return string Chaîne de paramètres à passer à `window.open()`
      */
-    public static function JavaPopUp(
-        string  $url, 
-        string  $title, 
-        int     $width, 
-        int     $height): string
-    {
+    public static function javaPopup(
+        string  $url,
+        string  $title,
+        int     $width,
+        int     $height
+    ): string {
         if ($title === '') {
             $title = '@ ' . time() . ' ';
         }
 
         return "'$url', '$title', 'menubar=no,location=no,directories=no,status=no,copyhistory=no,height=$height,width=$width,toolbar=no,scrollbars=yes,resizable=yes'";
     }
-
 }

@@ -12,9 +12,9 @@ class Chat
      * @param string $pour Contexte ou identifiant pour filtrer les autorisations
      * @return int Nombre d'utilisateurs connectés
      */
-    public static function if_chat(string $pour): int
+    public static function ifChat(string $pour): int
     {
-        $auto = autorisation_block('params#' . $pour);
+        $auto = autorisationBlock('params#' . $pour);
 
         $activeChatUsers = 0;
 
@@ -25,7 +25,8 @@ class Chat
                 "SELECT DISTINCT ip 
                  FROM " . sql_prefix('chatbox') . " 
                  WHERE id='" . (int) $auto[0] . "' 
-                 AND date >= " . $activeWindow . ""));
+                 AND date >= " . $activeWindow . ""
+            ));
         }
 
         return $activeChatUsers;
@@ -55,5 +56,4 @@ class Chat
         sql_query("INSERT INTO " . sql_prefix('chatbox') . " 
                    VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
     }
-
 }

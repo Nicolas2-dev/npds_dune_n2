@@ -35,7 +35,7 @@ if ($FmaRep) {
 
         // Si je ne trouve pas de fichier - est-ce que l'utilisateur fait partie d'un groupe ?
         if (!file_exists('modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php')) {
-            $tab_groupe = valid_group($user);
+            $tab_groupe = validGroup($user);
 
             if ($tab_groupe) {
 
@@ -678,7 +678,7 @@ switch ($op) {
                     $suffix = strtoLower(substr(strrchr($att_name, '.'), 1));
 
                     if (in_array($suffix, $tabW)) {
-                        $edit_file .= aff_editeur('editfile', 'true');
+                        $edit_file .= affEditeur('editfile', 'true');
                     }
 
                     $edit_file .= '<button class="btn btn-primary" type="submit" name="ok">' . fma_translate('Ok') . '</button>
@@ -1306,7 +1306,7 @@ if ($inclusion) {
         //if (file_exists('themes/' . $Default_Theme . '/routing/pages.php')) {
         //    require_once 'themes/' . $Default_Theme . '/routing/pages.php';
         //} else {
-            require_once 'modules/f-manager/routes/pages/pages.php';
+        require_once 'modules/f-manager/routes/pages/pages.php';
         //}
 
         $Titlesitename = aff_langue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
@@ -1354,7 +1354,7 @@ if ($inclusion) {
             if ($tiny_mce_init) {
                 $tiny_mce_theme = $PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['TinyMce-theme'];
 
-                echo aff_editeur('tiny_mce', 'begin');
+                echo affEditeur('tiny_mce', 'begin');
             }
         }
 
@@ -1419,7 +1419,7 @@ if ($inclusion) {
 
         if ($tiny_mce) {
             if ($tiny_mce_init) {
-                echo aff_editeur('tiny_mce', 'end');
+                echo affEditeur('tiny_mce', 'end');
             }
         }
     } else {

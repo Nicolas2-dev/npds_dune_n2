@@ -54,7 +54,7 @@ function defaultDisplay()
     include 'header.php';
 
     if ($user) {
-        $userinfo = getusrinfo($user);
+        $userinfo = getUserInfo($user);
     }
 
     echo '<h2>' . translate('Proposer un article') . '</h2>
@@ -119,7 +119,7 @@ function defaultDisplay()
         </div>
     </div>';
 
-    echo aff_editeur('story', '');
+    echo affEditeur('story', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="bodytext">' . translate('Texte complet') . '</label>
@@ -128,7 +128,7 @@ function defaultDisplay()
             </div>
         </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     publication('', '', '', '', 0);
 
@@ -186,8 +186,8 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
         }
     }
 
-    $storyX = aff_code($story);
-    $bodytextX = aff_code($bodytext);
+    $storyX = affCode($story);
+    $bodytextX = affCode($bodytext);
 
     themepreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
 
@@ -229,7 +229,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             <span class="help-block">' . translate('Les spécialistes peuvent utiliser du HTML, mais attention aux erreurs') . '</span>
             <textarea class="tin form-control" rows="25" name="story">' . $story . '</textarea>';
 
-    echo aff_editeur('story', '');
+    echo affEditeur('story', '');
 
     echo '</div>
     </div>
@@ -240,7 +240,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             </div>
         </div>';
 
-    echo aff_editeur('bodytext', '');
+    echo affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -271,7 +271,7 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, '')) {
             Ecr_Log('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
-            
+
             redirect_url('index.php');
             die();
         }
@@ -319,7 +319,7 @@ switch ($op) {
     case 'Prévisualiser':
     case translate('Prévisualiser'):
         if ($user) {
-            $userinfo = getusrinfo($user);
+            $userinfo = getUserInfo($user);
             $name = $userinfo['uname'];
         } else {
             $name = $anonymous;

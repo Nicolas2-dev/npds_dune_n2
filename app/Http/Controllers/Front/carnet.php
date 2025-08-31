@@ -31,7 +31,7 @@ if (!$user) {
     $userdata = explode(':', $userX);
 
     if ($userdata[9] != '') {
-        if (!$file = @opendir('themes/'. $userdata[9])) {
+        if (!$file = @opendir('themes/' . $userdata[9])) {
             $tmp_theme = $Default_Theme;
         } else {
             $tmp_theme = $userdata[9];
@@ -48,7 +48,7 @@ if (!$user) {
 
     echo '<link id="bsth" rel="stylesheet" href="assets/skins/default/bootstrap.min.css" />';
 
-    echo import_css($tmp_theme, $language, '', '', '');
+    echo importCss($tmp_theme, $language, '', '', '');
 
     include 'library/formhelp.java.php';
 

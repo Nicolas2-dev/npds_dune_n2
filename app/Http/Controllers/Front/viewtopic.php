@@ -67,7 +67,7 @@ $rowQ1 = Q_Select("SELECT forum_id
                    WHERE topic_id='$topic'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -78,7 +78,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -96,8 +96,8 @@ if (($forum_type == 5) or ($forum_type == 7)) {
     $ok_affiche = false;
 
     if (isset($user)) {
-        $tab_groupe = valid_group($user); // en ano et admin $user n'existe pas ?  notice ....
-        $ok_affiche = groupe_forum($myrow['forum_pass'], $tab_groupe);
+        $tab_groupe = validGroup($user); // en ano et admin $user n'existe pas ?  notice ....
+        $ok_affiche = groupeForum($myrow['forum_pass'], $tab_groupe);
     }
 
     //:: ici 
@@ -116,7 +116,7 @@ if (isset($user)) {
     $userdata = explode(':', $userX);
 }
 
-$moderator = get_moderator($mod);
+$moderator = getModerator($mod);
 $moderator = explode(' ', $moderator);
 
 $Mmod = false;
@@ -136,7 +136,7 @@ $sql = "SELECT topic_title, topic_status, topic_poster
         FROM " . sql_prefix('forumtopics') . " 
         WHERE topic_id = '$topic'";
 
-$total = get_total_posts($forum, $topic, 'topic', $Mmod);
+$total = getTotalPosts($forum, $topic, 'topic', $Mmod);
 
 if ($total > $posts_per_page) {
     $times = 0;
@@ -173,7 +173,7 @@ if ($start >= 1) {
 }
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
@@ -198,7 +198,7 @@ function aff_pub_in($lock_state, $topic, $forum, $mod)
     }
 }
 
-$contributeurs = get_contributeurs($forum, $topic);
+$contributeurs = getContributeurs($forum, $topic);
 $contributeurs = explode(' ', $contributeurs);
 
 $total_contributeurs = count($contributeurs);
@@ -220,14 +220,12 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
-
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
-
     } elseif ($forum_access == 2) {
-        if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
+        if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
         }
     }
@@ -244,14 +242,12 @@ if ($forum_access != 9) {
 
     if ($forum_access == 0) {
         $allow_to_post = true;
-
     } elseif ($forum_access == 1) {
         if (isset($user)) {
             $allow_to_post = true;
         }
-
     } elseif ($forum_access == 2) {
-        if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
+        if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_post = true;
         }
     }
@@ -269,7 +265,7 @@ echo '</h3>
             <div class=" align-self-center me-auto">';
 
 for ($i = 0; $i < $total_contributeurs; $i++) {
-    $contri = get_userdata_from_id($contributeurs[$i]);
+    $contri = getUserDataFromId($contributeurs[$i]);
 
     if ($contributeurs[$i] !== '0') {
         if ($contri['user_avatar'] != '') {
@@ -300,7 +296,7 @@ echo '<div class="d-flex">
    <div class=" align-self-center me-auto">';
 
 for ($i = 0; $i < $ibidcountmod; $i++) {
-    $modera = get_userdata($moderator[$i]);
+    $modera = getUserData($moderator[$i]);
 
     if ($modera['user_avatar'] != '') {
         if (stristr($modera['user_avatar'], 'users_private')) {
@@ -376,7 +372,7 @@ if (isset($start)) {
 }
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $mycount = sql_num_rows($result);
@@ -452,7 +448,7 @@ if ($ibid = theme_image('forum/icons/new.gif')) {
 }
 
 do {
-    $posterdata = get_userdata_from_id($myrow['poster_id']);
+    $posterdata = getUserDataFromId($myrow['poster_id']);
     if ($myrow['poster_id'] !== '0') {
 
         $posts = $posterdata['posts'];
@@ -464,7 +460,7 @@ do {
         $my_rs = '';
 
         if (!$short_user) {
-            $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
+            $posterdata_extend = getUserDataExtendFromId($myrow['poster_id']);
 
             include 'modules/reseaux-sociaux/config/config.php';
             include 'modules/geoloc/config/config.php';
@@ -561,7 +557,7 @@ do {
                 }
             }
 
-            echo '<a style="position:absolute; top:0.5rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div> \'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
+            echo '<a style="position:absolute; top:0.5rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div> \'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
             <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
         } else {
             echo '<a style="position:absolute; top:0.5rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
@@ -612,7 +608,7 @@ do {
     if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
         $message = smilie($message);
         $message = aff_video_yt($message);
-        $message = af_cod($message);
+        $message = afCode($message);
         $message = str_replace("\n", '<br />', $message);
     }
 
@@ -653,7 +649,7 @@ do {
                 $allow_to_post = true;
             }
         } elseif ($forum_access == 2) {
-            if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
+            if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
                 $allow_to_post = true;
             }
         }

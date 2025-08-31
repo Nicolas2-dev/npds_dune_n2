@@ -68,11 +68,11 @@ function displayUsers()
 
     include 'library/sform/extend-user/adm_extend-user.php';
 
-    echo auto_complete('membre', 'uname', 'users', 'chng_uid', '86400');
+    echo autoComplete('membre', 'uname', 'users', 'chng_uid', '86400');
 
     echo '<hr />
         <h3 class="mb-3">' . adm_translate('Fonctions') . '</h3>
-        <a href="admin.php?op=checkdnsmail_users">' . adm_translate('Contrôler les serveurs de mail de tous les utilisateurs') . '</a><br />';
+        <a href="admin.php?op=checkDnsMail_users">' . adm_translate('Contrôler les serveurs de mail de tous les utilisateurs') . '</a><br />';
 
     adminfoot('', '', '', '');
 }
@@ -294,7 +294,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
     include_once 'functions.php';
 
-    if (checkdnsmail($chng_email) === false) {
+    if (checkDnsMail($chng_email) === false) {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         include 'header.php';
@@ -463,7 +463,7 @@ function nonallowedUsers()
     adminfoot('', '', '', '');
 }
 
-function checkdnsmailusers()
+function checkDnsMailusers()
 {
     global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $adminmail, $page, $end, $autocont;
 
@@ -533,7 +533,7 @@ function checkdnsmailusers()
     $datelimit = '';
 
     while (list($uid, $uname, $email) = sql_fetch_row($result)) {
-        if (checkdnsmail($email) === true and isbadmailuser($uid) === true) {
+        if (checkDnsMail($email) === true and isBadMailUser($uid) === true) {
             $re = '/#' . $uid . '\|(\d+)/m';
             $maj = preg_replace($re, '', $contents);
 
@@ -543,8 +543,8 @@ function checkdnsmailusers()
             fclose($file);
         }
 
-        if (checkdnsmail($email) === false) {
-            if (isbadmailuser($uid) === false) {
+        if (checkDnsMail($email) === false) {
+            if (isBadMailUser($uid) === false) {
                 $arrayusers[] = '#' . $uid . '|' . time();
 
                 //suspension des souscriptions
@@ -569,7 +569,7 @@ function checkdnsmailusers()
                 $datelimit = date('d/m/Y', time() + 5184000);
             }
 
-            if (isbadmailuser($uid) === true) {
+            if (isBadMailUser($uid) === true) {
                 $re = '/#' . $uid . '\|(\d+)/m';
                 preg_match($re, $contents, $res);
 
@@ -603,7 +603,7 @@ function checkdnsmailusers()
         $ck = $autocont == 1 ? 'checked="checked"' : '';
 
         echo '<div>' . adm_translate('Serveurs de mails contrôlés') . '<span class="badge bg-success float-end">' . ($page * $pagesize) . '</span><br /></div>
-        <a class="btn btn-success btn-sm mt-2" href="admin.php?op=checkdnsmail_users&amp;page=' . $next_page . '&amp;end=' . $end . '">Continuer</a>
+        <a class="btn btn-success btn-sm mt-2" href="admin.php?op=checkDnsMail_users&amp;page=' . $next_page . '&amp;end=' . $end . '">Continuer</a>
         <hr />
         <div class="form-check form-check-reverse text-end fs-6">
             <label class="form-check-label small" for="#controlauto">Pour un passage automatique au contrôle du (des) prochain(s) lot : cocher.</label>
@@ -614,14 +614,14 @@ function checkdnsmailusers()
             $(function () {
                 check = $("#controlauto").is(":checked");
                 if(check)
-                setTimeout(function(){ document.location.href="admin.php?op=checkdnsmail_users&page=' . $next_page . '&end=' . $end . '&autocont=1"; }, 3000);
+                setTimeout(function(){ document.location.href="admin.php?op=checkDnsMail_users&page=' . $next_page . '&end=' . $end . '&autocont=1"; }, 3000);
             });
             $("#controlauto").on("click", function(){
                 check = $("#controlauto").is(":checked");
                 if(check)
-                setTimeout(function(){ document.location.href="admin.php?op=checkdnsmail_users&page=' . $next_page . '&end=' . $end . '&autocont=1"; }, 3000);
+                setTimeout(function(){ document.location.href="admin.php?op=checkDnsMail_users&page=' . $next_page . '&end=' . $end . '&autocont=1"; }, 3000);
                 else
-                setTimeout(function(){ document.location.href="admin.php?op=checkdnsmail_users&page=' . $next_page . '&end=' . $end . '&autocont=0"; }, 3000);
+                setTimeout(function(){ document.location.href="admin.php?op=checkDnsMail_users&page=' . $next_page . '&end=' . $end . '&autocont=0"; }, 3000);
             });
         //]]>
         </script>';
@@ -845,7 +845,7 @@ switch ($op) {
             fclose($file);
 
             global $aid;
-            Ecr_Log('security', sprintf('DeleteUser(%s) by AID : %s', $del.'_uid', $aid), '');
+            Ecr_Log('security', sprintf('DeleteUser(%s) by AID : %s', $del . '_uid', $aid), '');
         }
 
         if ($referer != 'memberslist.php') {
@@ -895,7 +895,7 @@ switch ($op) {
 
         include_once 'functions.php';
 
-        if (checkdnsmail($add_email) === false) {
+        if (checkDnsMail($add_email) === false) {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             include 'header.php';
@@ -926,7 +926,7 @@ switch ($op) {
         $sql = 'INSERT INTO ' . sql_prefix('users') . ' ';
         $sql .= "(uid,name,uname,email,femail,url,user_regdate,user_from,user_occ,user_intrest,user_viewemail,user_avatar,user_sig,bio,pass,hashkey,send_email,is_visible,mns,theme) ";
         $sql .= "VALUES (NULL,'$add_name','$add_uname','$add_email','$add_femail','$add_url','$user_regdate','$add_user_from','$add_user_occ','$add_user_intrest','$add_user_viewemail','$add_avatar','$add_user_sig','$add_bio','$add_pass','1','$add_send_email','$add_is_visible','$add_mns','$Default_Theme+$Default_Skin')";
-        
+
         $result = sql_query($sql);
 
         list($usr_id) = sql_fetch_row(sql_query("SELECT uid 
@@ -982,8 +982,8 @@ switch ($op) {
         nonallowedUsers();
         break;
 
-    case 'checkdnsmail_users':
-        checkdnsmailusers();
+    case 'checkDnsMail_users':
+        checkDnsMailusers();
         break;
 
     case 'mod_users':

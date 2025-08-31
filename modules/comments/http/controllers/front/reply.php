@@ -82,7 +82,7 @@ if (isset($submitS)) {
             include 'header.php';
         } else {
             if (($username == '') or ($password == '')) {
-                forumerror('0027');
+                forumError('0027');
             } else {
                 $result = sql_query("SELECT pass 
                                      FROM " . sql_prefix('users') . " 
@@ -93,18 +93,18 @@ if (isset($submitS)) {
                 $passwd = (!$system) ? crypt($password, $pass) : $password;
 
                 if ((strcmp($passwd, $pass) == 0) and ($pass != '')) {
-                    $userdata = get_userdata($username);
+                    $userdata = getUserData($username);
 
                     include 'header.php';
                 } else {
-                    forumerror('0028');
+                    forumError('0028');
                 }
             }
         }
     } else {
         $userX = base64_decode($user);
         $userdata = explode(':', $userX);
-        $userdata = get_userdata($userdata[1]);
+        $userdata = getUserData($userdata[1]);
 
         include 'header.php';
     }
@@ -116,7 +116,7 @@ if (isset($submitS)) {
         $hostname = $dns_verif ? gethostbyaddr($poster_ip) : $poster_ip;
 
         // anti flood
-        anti_flood($Mmod, $anti_flood, $poster_ip, $userdata, $gmt);
+        antiFlood($Mmod, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
         if (isset($asb_question) and isset($asb_reponse)) {
@@ -140,10 +140,10 @@ if (isset($submitS)) {
             $message .= ' [addsig]';
         }
 
-        $message = af_cod($message);
+        $message = afCode($message);
         $message = smile($message);
 
-        $message = make_clickable($message);
+        $message = makeClickable($message);
         $message = removeHack($message);
 
         $image_subject = '';
@@ -156,7 +156,7 @@ if (isset($submitS)) {
                 VALUES ('0', '$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         } else {
             $IdPost = sql_last_id();
         }
@@ -168,7 +168,7 @@ if (isset($submitS)) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumerror('0029');
+            forumError('0029');
         }
 
         // ordre de mise à jour d'un champ externe ?
@@ -228,16 +228,16 @@ if (isset($submitS)) {
             if (isset($user)) {
                 $userY = base64_decode($user);
                 $userdata = explode(':', $userY);
-                $userdata = get_userdata($userdata[1]);
+                $userdata = getUserData($userdata[1]);
             } else {
                 $userdata = array('uid' => 1);
-                $userdata = get_userdata($userdata['uid']);
+                $userdata = getUserData($userdata['uid']);
             }
 
-            $theposterdata = get_userdata_from_id($userdata['uid']);
+            $theposterdata = getUserDataFromId($userdata['uid']);
 
             $messageP = $message;
-            $messageP = af_cod($messageP);
+            $messageP = afCode($messageP);
 
             echo '<h4>' . translate('Prévisualiser') . '</h4>
             <div class="row">
@@ -257,7 +257,7 @@ if (isset($submitS)) {
                         }
                     }
 
-                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . member_qualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
+                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
                 }
             }
 
@@ -319,7 +319,7 @@ if (isset($submitS)) {
                     $text = str_replace('<br />', "\n", $text);
                     $text = stripslashes($text);
 
-                    $text = desaf_cod($text);
+                    $text = desafCode($text);
 
                     $reply = ($m['post_time'] != '' && $m['uname'] != '')
                         ? '<div class="blockquote">' . translate('Citation') . ' : <strong>' . $m['uname'] . '</strong>' . "\n" . $text . '</div>'
@@ -346,7 +346,7 @@ if (isset($submitS)) {
             echo '</div>';
 
             echo ($allow_html == 1)
-                ? '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add()
+                ? '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd()
                 : '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
 
             echo '</div>
@@ -449,7 +449,7 @@ if (isset($submitS)) {
 
             while ($myrow = sql_fetch_assoc($result)) {
 
-                $posterdata = get_userdata_from_id($myrow['poster_id']);
+                $posterdata = getUserDataFromId($myrow['poster_id']);
 
                 echo '<div class="card my-3">
                 <div class="card-header">';

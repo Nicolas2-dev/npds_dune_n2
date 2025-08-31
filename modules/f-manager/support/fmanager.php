@@ -87,24 +87,25 @@ function fma_autorise($type, $dir)
     if ($autorise_arbo) {
         $auto_dir = '';
 
-        if (($autorise_arbo == 'membre') 
-        && ($user)) {
+        if (($autorise_arbo == 'membre')
+            && ($user)
+        ) {
             $auto_dir = true;
-
-        } elseif (($autorise_arbo == 'anonyme') 
-        && (!$user)) {
+        } elseif (($autorise_arbo == 'anonyme')
+            && (!$user)
+        ) {
             $auto_dir = true;
-
-        } elseif (($autorise_arbo == 'admin') 
-        && ($admin)) {
+        } elseif (($autorise_arbo == 'admin')
+            && ($admin)
+        ) {
             $auto_dir = true;
+        } elseif (($autorise_arbo != 'membre')
+            && ($autorise_arbo != 'anonyme')
+            && ($autorise_arbo != 'admin')
+            && ($user)
+        ) {
 
-        } elseif (($autorise_arbo != 'membre') 
-        && ($autorise_arbo != 'anonyme') 
-        && ($autorise_arbo != 'admin') 
-        && ($user)) {
-
-            $tab_groupe = valid_group($user);
+            $tab_groupe = validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {
@@ -152,20 +153,21 @@ function fma_autorise($type, $dir)
 function chmod_pres($ibid, $champ)
 {
     $options = [
-        '400' => 'r--------', 
-        '444' => 'r-x------', 
-        '500' => 'r--------', 
-        '544' => 'r-xr--r--', 
-        '600' => 'rw-------', 
-        '644' => 'rw-r--r--', 
-        '655' => 'rw-r-xr-x', 
-        '666' => 'rw-rw-rw-', 
-        '700' => 'rwx------', 
-        '744' => 'rwxr--r--', 
-        '755' => 'rwxr-xr-x', 
-        '766' => 'rwxrw-rw-', 
-        '770' => 'rwxrwx---', 
-        '777' => 'rwxrwxrwx'];
+        '400' => 'r--------',
+        '444' => 'r-x------',
+        '500' => 'r--------',
+        '544' => 'r-xr--r--',
+        '600' => 'rw-------',
+        '644' => 'rw-r--r--',
+        '655' => 'rw-r-xr-x',
+        '666' => 'rw-rw-rw-',
+        '700' => 'rwx------',
+        '744' => 'rwxr--r--',
+        '755' => 'rwxr-xr-x',
+        '766' => 'rwxrw-rw-',
+        '770' => 'rwxrwx---',
+        '777' => 'rwxrwxrwx'
+    ];
 
     $chmod = '';
 

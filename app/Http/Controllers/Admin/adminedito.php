@@ -80,12 +80,12 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
                 </div>
             </div>';
 
-        echo aff_editeur('XeditoJ', '');
+        echo affEditeur('XeditoJ', '');
 
         echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="XeditoN">' . adm_translate('La nuit') . '</label>';
 
-        echo aff_editeur('XeditoN', '');
+        echo affEditeur('XeditoN', '');
 
         echo '<div class="col-sm-12">
             <textarea class="tin form-control" name="XeditoN" rows="20">';
@@ -172,7 +172,7 @@ function edito_mod_save($edito_type, $XeditoJ, $XeditoN, $aff_jours, $aff_jour, 
     }
 
     global $aid;
-    Ecr_Log('security', 'editoSave () by AID : '. $aid, '');
+    Ecr_Log('security', 'editoSave () by AID : ' . $aid, '');
 
     redirect_url('admin.php?op=Edito');
 }

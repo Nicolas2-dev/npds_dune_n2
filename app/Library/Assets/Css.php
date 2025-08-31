@@ -26,11 +26,11 @@ class Css
      *
      * @return string HTML des balises <link> pour les fichiers CSS
      */
-    public static function import_css_javascript(
-        string $tmp_theme, 
-        string $language, 
-        string $fw_css, 
-        ?string $css_pages_ref = '', 
+    public static function importCssJavascript(
+        string $tmp_theme,
+        string $language,
+        string $fw_css,
+        ?string $css_pages_ref = '',
         ?string $css = ''
     ): string {
         $tmp = '';
@@ -71,7 +71,7 @@ class Css
     }
 
     /**
-     * Fonction identique à import_css_javascript mais retourne du HTML
+     * Fonction identique à importCssJavascript mais retourne du HTML
      * avec des quotes doubles, compatible directement pour l'inclusion dans du code HTML standard.
      *
      * @param string      $tmp_theme       Nom du thème temporaire
@@ -82,13 +82,13 @@ class Css
      *
      * @return string HTML des balises <link> avec double quotes
      */
-    public static function import_css(
-        string $tmp_theme, 
-        string $language, 
-        string $fw_css, 
-        ?string $css_pages_ref = '', 
+    public static function importCss(
+        string $tmp_theme,
+        string $language,
+        string $fw_css,
+        ?string $css_pages_ref = '',
         ?string $css = ''
     ): string {
-        return str_replace("'", "\"", static::import_css_javascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
+        return str_replace("'", "\"", static::importCssJavascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
     }
 }

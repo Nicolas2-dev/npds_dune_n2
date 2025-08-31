@@ -15,7 +15,7 @@ class Editeur
      * @param mixed $Xactiv Paramètre déprécié, utilisé uniquement si $Xzone = "custom" pour passer des options spécifiques.
      * @return string HTML de l'éditeur à afficher.
      */
-    public static function aff_editeur(string $Xzone, mixed $Xactiv): string
+    public static function affEditeur(string $Xzone, mixed $Xactiv): string
     {
         //global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl;
         global $tiny_mce;
@@ -25,7 +25,7 @@ class Editeur
         if (!$tiny_mce) {
             return $output;
         }
-            
+
         static $tmp_Xzone;
 
         if ($Xzone == 'tiny_mce') {
@@ -60,5 +60,4 @@ class Editeur
 
         return $output;
     }
-
 }

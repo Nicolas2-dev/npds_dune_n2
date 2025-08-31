@@ -21,15 +21,12 @@ class News
 
         if ($ihome == -1 and (!$user)) {
             $affich = true;
-
         } elseif ($ihome == 0) {
             $affich = true;
-
         } elseif ($ihome == 1) {
             $affich = $catid > 0 ? false : true;
-
         } elseif (($ihome > 1) and ($ihome <= 127)) {
-            $tab_groupe = valid_group($user);
+            $tab_groupe = validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {
@@ -153,7 +150,6 @@ class News
                                         FROM " . sql_prefix('stories') . " 
                                         WHERE sid='$s_sid' 
                                         AND archive='0'");
-
                 }
 
                 if ($type_req == 'archive') {
@@ -238,7 +234,6 @@ class News
             $xtab = static::news_aff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
-
         } elseif ($op == 'topics') {
             settype($marqeur, 'integer');
 
@@ -249,7 +244,6 @@ class News
             $xtab = static::news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
             $storynum = sizeof($xtab);
-
         } elseif ($op == 'news') {
             settype($marqeur, 'integer');
 
@@ -260,7 +254,6 @@ class News
             $xtab = static::news_aff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
-
         } elseif ($op == 'article') {
             $xtab = static::news_aff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
         } else {
@@ -335,8 +328,8 @@ class News
             $news_tab[$story_limit]['title']        = serialize($title);
             $news_tab[$story_limit]['counter']      = serialize($counter);
             $news_tab[$story_limit]['topic']        = serialize($topic);
-            $news_tab[$story_limit]['hometext']     = serialize(meta_lang(aff_code($hometext)));
-            $news_tab[$story_limit]['notes']        = serialize(meta_lang(aff_code($notes)));
+            $news_tab[$story_limit]['hometext']     = serialize(meta_lang(affCode($hometext)));
+            $news_tab[$story_limit]['notes']        = serialize(meta_lang(affCode($notes)));
             $news_tab[$story_limit]['morelink']     = serialize($morelink);
             $news_tab[$story_limit]['topicname']    = serialize($topicname);
             $news_tab[$story_limit]['topicimage']   = serialize($topicimage);
@@ -415,5 +408,4 @@ class News
         fclose($file);
         fclose($file2);
     }
-
 }

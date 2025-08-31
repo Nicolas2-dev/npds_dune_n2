@@ -116,7 +116,7 @@ function FaqCatGo($id_cat)
 
     while (list($id, $question, $answer, $categories) = sql_fetch_row($result)) {
         $faq_cat = aff_langue($categories);
-        $answer = aff_code(aff_langue($answer));
+        $answer = affCode(aff_langue($answer));
 
         $lst_qr .= '<li id="qr_' . $id . '" class="list-group-item">
             <div class="topi">
@@ -156,7 +156,7 @@ function FaqCatGo($id_cat)
                 </div>
             </div>';
 
-    echo aff_editeur('answer', false);
+    echo affEditeur('answer', false);
 
     echo '<div class="mb-3 row">
                 <div class="col-sm-12 d-flex flex-row justify-content-start flex-wrap">
@@ -267,7 +267,7 @@ function FaqCatGoEdit($id)
     <div class="card card-body mb-3">
     <p>' . preview_local_langue($local_user_language, $question) . '</p>';
 
-    $answer = aff_code($answer);
+    $answer = affCode($answer);
 
     echo '<p>' . meta_lang(preview_local_langue($local_user_language, $answer)) . '</p>
     </div>';
@@ -288,7 +288,7 @@ function FaqCatGoEdit($id)
                 <textarea class="tin form-control" name="answer" rows="15">' . $answer . '</textarea>
                 </div>
             </div>
-            ' . aff_editeur('answer', '') . '
+            ' . affEditeur('answer', '') . '
             <div class="mb-3 row">
                 <div class="col-sm-12 d-flex flex-row justify-content-center flex-wrap">
                 <input type="hidden" name="id" value="' . $id . '">

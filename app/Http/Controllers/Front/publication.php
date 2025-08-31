@@ -17,10 +17,10 @@ function code_aff($subject, $story, $bodytext, $notes)
 {
     global $local_user_language;
 
-    $subjectX   = aff_code(preview_local_langue($local_user_language, $subject));
-    $storyX     = aff_code(preview_local_langue($local_user_language, $story));
-    $bodytextX  = aff_code(preview_local_langue($local_user_language, $bodytext));
-    $notesX     = aff_code(preview_local_langue($local_user_language, $notes));
+    $subjectX   = affCode(preview_local_langue($local_user_language, $subject));
+    $storyX     = affCode(preview_local_langue($local_user_language, $story));
+    $bodytextX  = affCode(preview_local_langue($local_user_language, $bodytext));
+    $notesX     = affCode(preview_local_langue($local_user_language, $notes));
 
     themepreview($subjectX, $storyX, $bodytextX, $notesX);
 }

@@ -135,7 +135,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
             </div>
         </div>';
 
-        aff_editeur('xtext', '');
+        affEditeur('xtext', '');
 
         echo '<div class="mb-3 row">
                 <input type="hidden" name="lid" value="' . $lid . '" />

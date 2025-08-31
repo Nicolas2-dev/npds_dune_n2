@@ -19,7 +19,7 @@ class Download
      * @param string $ordre Critère d'ordre : 'dcounter' ou 'ddate'
      * @return string HTML du bloc de téléchargement
      */
-    public static function topdownload_data(string $form, string $ordre): string
+    public static function topDownloadData(string $form, string $ordre): string
     {
         global $top, $long_chain;
 
@@ -35,7 +35,7 @@ class Download
                             LIMIT 0, $top");
 
         $lugar = 1;
-        
+
         $ibid = '';
 
         while (list($did, $dcounter, $dfilename, $dcategory, $ddate, $dperm) = sql_fetch_row($result)) {
@@ -87,5 +87,4 @@ class Download
 
         return $ibid;
     }
-
 }

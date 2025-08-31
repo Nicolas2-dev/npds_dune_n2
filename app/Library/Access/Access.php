@@ -11,9 +11,8 @@ class Access
      *
      * @return void
      */
-    public static function access_denied(): void
+    public static function accessDenied(): void
     {
         include 'admin/die.php';
     }
-
 }

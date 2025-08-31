@@ -15,7 +15,7 @@ class Error
      * @param string $e_code Code d'erreur du forum (ex: '0001', '0025', etc.)
      * @return void Cette fonction termine le script, ne retourne jamais.
      */
-    public static function forumerror(string $e_code): void
+    public static function forumError(string $e_code): void
     {
         global $sitename, $header;
 
@@ -74,5 +74,4 @@ class Error
         include 'footer.php';
         die();
     }
-
 }

@@ -84,7 +84,7 @@ function puthome($ihome)
     </div>';
 
     // ---- Groupes
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $tmp_groupe = '';
 
@@ -300,7 +300,7 @@ function autoEdit($anid)
     code_aff('<div class="d-flex"><div class="w-100 p-2 ps-0"><h3>' . $titre . '</h3></div><div class="align-self-center p-2 flex-shrink-1 h3">' . $topiclogo . '</div></div>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
 
     echo '<hr /><b>' . adm_translate('Utilisateur') . '</b>' . $informant . '<br />';
-    
+
     echo '</div>
     <form action="admin.php" method="post" name="adminForm" id="autoedit">
         <div class="mb-3 row">
@@ -357,14 +357,14 @@ function autoEdit($anid)
                 <textarea class="tin form-control" rows="25" id="hometext" name="hometext" >' . $hometext . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('hometext', '') . '
+        ' . affEditeur('hometext', '') . '
         <div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
             <div class="col-sm-12">
                 <textarea class="tin form-control" rows="25" id="bodytext" name="bodytext" >' . $bodytext . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('bodytext', '');
+        ' . affEditeur('bodytext', '');
 
     if ($aid != $informant) {
         echo '<div class="mb-3 row">
@@ -373,7 +373,7 @@ function autoEdit($anid)
                 <textarea class="tin form-control" rows="7" id="notes" name="notes">' . $notes . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('notes', '');
+        ' . affEditeur('notes', '');
     }
 
     $dd_pub = substr($date_debval, 0, 10);
@@ -441,7 +441,7 @@ function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $cati
         ultramode();
     }
 
-    Header('Location: admin.php?op=autoEdit&anid='. $anid);
+    Header('Location: admin.php?op=autoEdit&anid=' . $anid);
 }
 
 switch ($op) {

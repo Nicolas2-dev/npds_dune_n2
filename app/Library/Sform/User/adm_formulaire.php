@@ -193,7 +193,7 @@ $m->add_select('chng_rank', adm_translate('Rôle de l\'Utilisateur'), $tmp_tempo
 
 // ---- Groupes
 $les_groupes = explode(',', $groupe);
-$mX = liste_group();
+$mX = listeGroup();
 
 $nbg = 0;
 

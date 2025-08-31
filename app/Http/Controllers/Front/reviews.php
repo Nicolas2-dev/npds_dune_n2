@@ -189,7 +189,6 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     if ($reviewer == '' || $email == '') {
         $error = 1;
         echo '<div class="alert alert-danger">' . translate('Vous devez entrer votre nom et votre adresse Email') . '</div>';
-
     } else if ($reviewer != '' && $email != '') {
         if (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email)) {
             $error = 1;
@@ -198,7 +197,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
         include_once 'functions.php';
 
-        if (checkdnsmail($email) === false) {
+        if (checkDnsMail($email) === false) {
             $error = 1;
             echo '<div class="alert alert-danger">' . translate('Erreur : DNS ou serveur de mail incorrect') . '</div>';
         }
@@ -274,7 +273,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="consent" name="consent" value="1" required="required"/>
                     <label class="form-check-label" for="consent">'
-                . aff_langue($accept) . '
+            . aff_langue($accept) . '
                         <span class="text-danger"> *</span>
                     </label>
                 </div>
@@ -324,15 +323,15 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
         }
     }
 
-    echo ($id != 0) 
-        ? '<h2>' . translate('Modification d\'une critique') . '</h2>' 
+    echo ($id != 0)
+        ? '<h2>' . translate('Modification d\'une critique') . '</h2>'
         : '<h2>' . translate('Ecrire une critique') . '</h2>';
 
     echo '<hr />
     <div class="alert alert-success">';
 
-    echo ($id != 0) 
-        ? translate('Merci d\'avoir modifié cette critique') . '.' 
+    echo ($id != 0)
+        ? translate('Merci d\'avoir modifié cette critique') . '.'
         : translate('Merci d\'avoir posté cette critique') . ', ' . $reviewer;
 
     echo '<br />';
@@ -342,14 +341,12 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
                    VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
-
     } elseif (($admin) && ($id != 0)) {
         sql_query("UPDATE " . sql_prefix('reviews') . " 
                    SET date='$date', title='$title', text='$text', reviewer='$reviewer', email='$email', score='$score', cover='$cover', url='$url', url_title='$url_title', hits='$hits' 
                    WHERE id='$id'");
 
         echo translate('Dès maintenant disponible dans la base de données des critiques.');
-
     } else {
         sql_query("INSERT INTO " . sql_prefix('reviews_add') . " 
                    VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$url', '$url_title')");
@@ -546,7 +543,7 @@ function showcontent($id)
     if ($cover != '') {
         echo '<img class="img-fluid" src="assets/shared/reviews/' . $cover . '" alt="reviews image" loading="lazy" />';
     }
-    
+
     echo $text;
 
     echo '<br /><br />
@@ -764,7 +761,7 @@ function del_review($id_del)
 
         // commentaires
         if (file_exists('modules/comments/config/reviews.php')) {
-            include 'modules/comments/config/reviews.php' ;
+            include 'modules/comments/config/reviews.php';
 
             sql_query("DELETE FROM " . sql_prefix('posts') . " 
                        WHERE forum_id='$forum' 

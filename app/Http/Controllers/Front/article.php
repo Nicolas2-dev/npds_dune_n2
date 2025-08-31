@@ -56,9 +56,9 @@ if ($SuperCache) {
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
     $title      = aff_langue(stripslashes($title));
-    $hometext   = aff_code(aff_langue(stripslashes($hometext)));
-    $bodytext   = aff_code(aff_langue(stripslashes($bodytext)));
-    $notes      = aff_code(aff_langue(stripslashes($notes)));
+    $hometext   = affCode(aff_langue(stripslashes($hometext)));
+    $bodytext   = affCode(aff_langue(stripslashes($bodytext)));
+    $notes      = affCode(aff_langue(stripslashes($notes)));
 
     if ($notes != '') {
         $notes = '<div class="note blockquote">' . translate('Note') . ' : ' . $notes . '</div>';

@@ -48,15 +48,16 @@ function select_start_page($op)
 {
     global $Start_Page, $index;
 
-    if (!AutoReg()) {
+    if (!autoReg()) {
         global $user;
         unset($user);
     }
 
-    if (($Start_Page == '') 
-    || ($op == 'index.php') 
-    || ($op == 'edito') 
-    || ($op == 'edito-nonews')) {
+    if (($Start_Page == '')
+        || ($op == 'index.php')
+        || ($op == 'edito')
+        || ($op == 'edito-nonews')
+    ) {
         $index = 1;
 
         theindex($op, '', '');
@@ -74,13 +75,13 @@ function automatednews()
     $day = $today['mday'];
 
     if ($day < 10) {
-        $day = '0'.$day;
+        $day = '0' . $day;
     }
 
     $month = $today['mon'];
 
     if ($month < 10) {
-        $month = '0'.$month;
+        $month = '0' . $month;
     }
 
     $year = $today['year'];
@@ -168,7 +169,7 @@ function automatednews()
 
 function aff_edito()
 {
-    list($affich, $Xcontents) = fab_edito();
+    list($affich, $Xcontents) = fabEdito();
 
     if (($affich) and ($Xcontents != '')) {
         $notitle = false;
@@ -342,10 +343,11 @@ function theindex($op, $catid, $marqeur)
         automatednews();
 
         global $theme;
-        if (($op == 'newcategory') 
-        || ($op == 'newtopic') 
-        || ($op == 'newindex') 
-        || ($op == 'edito-newindex')) {
+        if (($op == 'newcategory')
+            || ($op == 'newtopic')
+            || ($op == 'newindex')
+            || ($op == 'edito-newindex')
+        ) {
             aff_news($op, $catid, $marqeur);
         } else {
             if (file_exists('themes/' . $theme . '/views/central.php')) {

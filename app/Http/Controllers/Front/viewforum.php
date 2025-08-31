@@ -102,13 +102,13 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0002');
+    forumError('0002');
 }
 
 $myrow = $rowQ1[0];
 
 $forum_name = stripslashes($myrow['forum_name']);
-$moderator = get_moderator($myrow['forum_moderator']);
+$moderator = getModerator($myrow['forum_moderator']);
 
 $forum_access = $myrow['forum_access'];
 
@@ -122,7 +122,7 @@ if (($op == 'solved') and ($topic_id) and ($forum) and ($sec_clef)) {
                      WHERE topic_id='$topic_id'";
 
             if (!$r = sql_query($sqlS)) {
-                forumerror('0011');
+                forumError('0011');
             }
         }
 
@@ -138,8 +138,8 @@ if (($myrow['forum_type'] == 5) or ($myrow['forum_type'] == 7)) {
     $ok_affiche = false;
 
     if (isset($user)) {
-        $tab_groupe = valid_group($user);
-        $ok_affiche = groupe_forum($myrow['forum_pass'], $tab_groupe);
+        $tab_groupe = validGroup($user);
+        $ok_affiche = groupeForum($myrow['forum_pass'], $tab_groupe);
     }
 
     if ($ok_affiche) {
@@ -165,7 +165,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     $moderator_data = explode(' ', $moderator);
 
     for ($i = 0; $i < count($moderator_data); $i++) {
-        $modera = get_userdata($moderator_data[$i]);
+        $modera = getUserData($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
             if (stristr($modera['user_avatar'], 'users_private')) {
@@ -242,7 +242,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         $allow_to_post = true;
 
         if ($forum_access == 2) {
-            if (!user_is_moderator($userR[0], $userR[2], $forum_access)) {
+            if (!userIsModerator($userR[0], $userR[2], $forum_access)) {
                 $allow_to_post = false;
             }
         }
@@ -267,7 +267,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     $Mmod = false;
 
     for ($i = 0; $i < count($moderator_data); $i++) {
-        $modera = get_userdata($moderator_data[$i]);
+        $modera = getUserData($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
             if (stristr($modera['user_avatar'], 'users_private')) {
@@ -305,7 +305,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             LIMIT $start, $topics_per_page";
 
     if (!$result = sql_query($sql)) {
-        forumerror('0004');
+        forumError('0004');
     }
 
     if ($ibid = theme_image('forum/icons/red_folder.gif')) {
@@ -339,7 +339,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         do {
             echo '<tr>';
 
-            $replys = get_total_posts($forum, $myrow['topic_id'], 'topic', $Mmod);
+            $replys = getTotalPosts($forum, $myrow['topic_id'], 'topic', $Mmod);
             $replys--;
 
             if ($replys >= 0) {
@@ -456,7 +456,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                     echo '<td>&nbsp;</td>
                     </tr>';
                 } else {
-                    echo '<td class="small">' . get_last_post($myrow['topic_id'], "topic", "infos", $Mmod) . '</td>
+                    echo '<td class="small">' . getLastPost($myrow['topic_id'], "topic", "infos", $Mmod) . '</td>
                     </tr>';
                 }
             }
@@ -481,7 +481,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             WHERE forum_id='$forum' $closol";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     list($all_topics) = sql_fetch_row($r);
@@ -509,7 +509,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
 
     echo '<div class="mb-2"></div>' . paginate('viewforum.php?forum=' . $forum . '&amp;start=', $closol, $nbPages, $current, 1, $topics_per_page, $start);
 
-    echo searchblock();
+    echo searchBlock();
 
     echo '<blockquote class="blockquote my-3">';
 

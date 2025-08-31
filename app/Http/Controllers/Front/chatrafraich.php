@@ -107,7 +107,7 @@ if ($result) {
         );
 
         $message = preg_replace(array_keys($chat_forbidden_words), array_values($chat_forbidden_words), $message);
-        $message = str_replace('"', '\"', make_clickable($message));
+        $message = str_replace('"', '\"', makeClickable($message));
         $thing .= "<div class='chattexte'>" . removeHack($message) . "</div></div>";
 
         $repere = $date_message;
@@ -124,7 +124,7 @@ if ($aff_entetes == '1') {
     include 'storage/meta/meta.php';
 
     $Xthing .= $l_meta;
-    $Xthing .= str_replace("\n", '', import_css_javascript($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), ''));
+    $Xthing .= str_replace("\n", '', importCssJavascript($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), ''));
     $Xthing .= "</head><body id='chat'>";
     $Xthing = "\"" . str_replace("'", "\'", $Xthing) . "\"";
 }

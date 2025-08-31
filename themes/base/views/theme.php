@@ -57,31 +57,28 @@ function local_var(string $Xcontent): ?string
  * @return void
  */
 function themeindex(
-    string      $aid, 
-    string      $informant, 
-    int         $time, 
-    string      $title, 
-    int         $counter, 
-    string|int  $topic, 
-    string      $thetext, 
-    string      $notes, 
-    array       $morelink, 
-    string      $topicname, 
-    string      $topicimage, 
-    string      $topictext, 
+    string      $aid,
+    string      $informant,
+    int         $time,
+    string      $title,
+    int         $counter,
+    string|int  $topic,
+    string      $thetext,
+    string      $notes,
+    array       $morelink,
+    string      $topicname,
+    string      $topicimage,
+    string      $topictext,
     string|int  $id
-): void
-{
+): void {
     global $tipath, $theme;
 
     $inclusion = false;
 
     if (file_exists('themes/' . $theme . '/views/partials/news/index-news.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/news/index-news.php';
-
     } elseif (file_exists('themes/base/views/partials/news/index-news.php')) {
         $inclusion = 'themes/base/views/partials/news/index-news.php';
-
     } else {
         echo 'index-news.php manquant / not find !<br />';
         die();
@@ -184,31 +181,28 @@ function themeindex(
  * @return void
  */
 function themearticle(
-    string $aid, 
-    string      $informant, 
-    int         $time, 
-    string      $title, 
-    string      $thetext, 
-    string|int  $topic, 
-    string      $topicname, 
-    string      $topicimage, 
-    string      $topictext, 
-    string|int  $id, 
-    ?int        $previous_sid, 
-    ?int        $next_sid, 
+    string $aid,
+    string      $informant,
+    int         $time,
+    string      $title,
+    string      $thetext,
+    string|int  $topic,
+    string      $topicname,
+    string      $topicimage,
+    string      $topictext,
+    string|int  $id,
+    ?int        $previous_sid,
+    ?int        $next_sid,
     ?string     $archive
-    ): void
-{
+): void {
     global $tipath, $theme, $counter, $boxtitle, $boxstuff;
 
     $inclusion = false;
 
     if (file_exists("themes/" . $theme . "/views/partials/news/detail-news.php")) {
         $inclusion = "themes/" . $theme . "/views/partials/news/detail-news.php";
-
     } elseif (file_exists("themes/base/views/partials/news/detail-news.php")) {
         $inclusion = "themes/base/views/partials/news/detail-news.php";
-
     } else {
         echo 'detail-news.php manquant / not find !<br />';
         die();
@@ -296,10 +290,8 @@ function themesidebox(string $title, string $content): void
     if (!$inclusion) {
         if (file_exists('themes/' . $theme . '/views/partials/block/bloc.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/block/bloc.php';
-
         } elseif (file_exists('themes/base/views/partials/block/bloc.php')) {
             $inclusion = 'themes/base/views/partials/block/bloc.php';
-
         } else {
             echo 'bloc.php manquant / not find !<br />';
             die();
@@ -347,10 +339,8 @@ function themedito(string $content): string|false
 
     if (file_exists('themes/' . $theme . '/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/' . $theme . '/views/partials/edito/editorial.php';
-
     } elseif (file_exists('themes/base/views/partials/edito/editorial.php')) {
         $inclusion = 'themes/base/views/partials/edito/editorial.php';
-
     } else {
         echo 'editorial.php manquant / not find !<br />';
         die();
@@ -396,7 +386,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
 
     if (sql_num_rows($result)) {
 
-        $temp_user = get_userdata($who);
+        $temp_user = getUserData($who);
 
         $socialnetworks = array();
         $posterdata_extend = array();
@@ -407,7 +397,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
         if (!$short_user) {
             if ($temp_user['uid'] != 1) {
 
-                $posterdata_extend = get_userdata_extend_from_id($temp_user['uid']);
+                $posterdata_extend = getUserDataExtendFromId($temp_user['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
                 include 'modules/geoloc/config/config.php';

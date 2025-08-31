@@ -145,7 +145,7 @@ class Messenger
         list($to_useridx, $user_languex) = sql_fetch_row($res);
 
         if ($to_useridx == '') {
-            forumerror('0016');
+            forumError('0016');
         } else {
             $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
@@ -160,7 +160,7 @@ class Messenger
                     VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message')";
 
             if (!$result = sql_query($sql)) {
-                forumerror('0020');
+                forumError('0020');
             }
 
             if ($copie) {
@@ -168,7 +168,7 @@ class Messenger
                         VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message', '1', '1')";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0020');
+                    forumError('0020');
                 }
             }
 

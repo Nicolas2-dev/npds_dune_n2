@@ -19,11 +19,11 @@ class Code
      *                       - [5] : contenu du code
      * @return string HTML généré pour le bloc de code
      */
-    public static function change_cod(array $matches): string
+    public static function changeCode(array $matches): string
     {
-        return '<' . $matches[2] . ' class="language-' . $matches[3] . '">' . 
-               htmlentities($matches[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') . 
-               '</' . $matches[2] . '>';
+        return '<' . $matches[2] . ' class="language-' . $matches[3] . '">' .
+            htmlentities($matches[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') .
+            '</' . $matches[2] . '>';
     }
 
     /**
@@ -34,11 +34,11 @@ class Code
      * @param bool|null $convertNewlines Indique si les sauts de ligne doivent être convertis en <br />. Par défaut false.
      * @return string Chaîne transformée avec les balises [code] converties en HTML
      */
-    public static function af_cod(string $content, ?bool $convertNewlines = false): string
+    public static function afCode(string $content, ?bool $convertNewlines = false): string
     {
         $pattern = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
-        
-        $content = preg_replace_callback($pattern, 'change_cod', $content, -1, $count);
+
+        $content = preg_replace_callback($pattern, 'changeCode', $content, -1, $count);
 
         if ($convertNewlines) {
             $content = nl2br($content);
@@ -54,7 +54,7 @@ class Code
      * @param string $content Contenu à analyser
      * @return string Contenu avec les balises HTML converties en pseudo-balises
      */
-    public static function desaf_cod(string $content): string
+    public static function desafCode(string $content): string
     {
         $pattern = '#(<)(\w+)\s+(class="language-)([^">]*)(">)(.*?)\1/\2>#';
 
@@ -76,7 +76,7 @@ class Code
      * @param string $content Contenu à analyser
      * @return string Contenu avec les balises [code] remplacées par du HTML coloré
      */
-    public static function aff_code(string $content): string
+    public static function affCode(string $content): string
     {
         $pasfin = true;
 
@@ -95,8 +95,8 @@ class Code
 
             if (($pos_deb >= 0) and ($pos_fin >= 0)) {
                 ob_start();
-                    highlight_string(substr($content, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
-                    $fragment = ob_get_contents();
+                highlight_string(substr($content, $pos_deb + 6, ($pos_fin - $pos_deb - 6)));
+                $fragment = ob_get_contents();
                 ob_end_clean();
 
                 $content = str_replace(substr($content, $pos_deb, ($pos_fin - $pos_deb + 7)), $fragment, $content);
@@ -107,5 +107,4 @@ class Code
 
         return $content;
     }
-
 }

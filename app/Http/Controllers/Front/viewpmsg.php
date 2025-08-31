@@ -30,7 +30,7 @@ if (!$user) {
 
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
-    $userdata = get_userdata($userdata[1]);
+    $userdata = getUserData($userdata[1]);
 
     $sqlT = "SELECT DISTINCT dossier 
              FROM " . sql_prefix('priv_msgs') . " 
@@ -89,7 +89,7 @@ if (!$user) {
     $resultID = sql_query($sql);
 
     if (!$resultID) {
-        forumerror('0005');
+        forumError('0005');
     }
 
     if (!$total_messages = sql_num_rows($resultID)) {
@@ -132,7 +132,7 @@ if (!$user) {
         while ($myrow = sql_fetch_assoc($resultID)) {
 
             $myrow['subject'] = strip_tags($myrow['subject']);
-            $posterdata = get_userdata_from_id($myrow['from_userid']);
+            $posterdata = getUserDataFromId($myrow['from_userid']);
 
             if ($dossier == 'All') {
                 $myrow['dossier'] = 'All';
@@ -209,7 +209,7 @@ if (!$user) {
     $resultID = sql_query($sql);
 
     if (!$resultID) {
-        forumerror('0005');
+        forumError('0005');
     }
 
     $total_messages = sql_num_rows($resultID);
@@ -273,7 +273,7 @@ if (!$user) {
         }
 
         $myrow['subject'] = strip_tags($myrow['subject']);
-        $posterdata = get_userdata_from_id($myrow['to_userid']);
+        $posterdata = getUserDataFromId($myrow['to_userid']);
 
         echo '<td><a href="readpmsg.php?start=' . $count . '&amp;total_messages=' . $total_messages . '&amp;type=outbox" >' . $posterdata['uname'] . '</a></td>
                <td>' . aff_langue($myrow['subject']) . '</td>

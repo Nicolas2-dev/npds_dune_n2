@@ -50,8 +50,8 @@ if (! function_exists('RecentForumPosts_fab')) {
             if (($row[6] == '5') or ($row[6] == '7')) {
                 $ok_affich = false;
 
-                $tab_groupe = valid_group($user);
-                $ok_affich = groupe_forum($row[7], $tab_groupe);
+                $tab_groupe = validGroup($user);
+                $ok_affich = groupeForum($row[7], $tab_groupe);
             } else {
                 $ok_affich = true;
             }

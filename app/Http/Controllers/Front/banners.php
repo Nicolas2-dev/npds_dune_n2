@@ -49,13 +49,13 @@ function viewbanner()
             $okprint = true;
         } else {
             if ($userlevel == 1) {
-                if (secur_static('member')) {
+                if (securStatic('member')) {
                     $okprint = true;
                 }
             }
 
             if ($userlevel == 3) {
-                if (secur_static('admin')) {
+                if (securStatic('admin')) {
                     $okprint = true;
                 }
             }

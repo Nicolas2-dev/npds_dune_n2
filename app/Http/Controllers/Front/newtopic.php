@@ -35,7 +35,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -43,11 +43,11 @@ $myrow = $rowQ1[0];
 $forum_name = $myrow['forum_name'];
 $forum_access = $myrow['forum_access'];
 
-$moderator = get_moderator($myrow['forum_moderator']);
+$moderator = getModerator($myrow['forum_moderator']);
 
 $moderator = explode(' ', $moderator);
 
-$moderatorX = get_moderator($myrow['forum_moderator']);
+$moderatorX = getModerator($myrow['forum_moderator']);
 
 if (isset($user)) {
     $userX = base64_decode($user);
@@ -62,7 +62,7 @@ if (isset($user)) {
         }
     }
 
-    $userdata = get_userdata($userdata[1]);
+    $userdata = getUserData($userdata[1]);
 }
 
 if (($myrow['forum_type'] == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
@@ -73,8 +73,8 @@ if ($forum_access == 9) {
     header('Location: forum.php');
 }
 
-if (!does_exists($forum, 'forum')) {
-    forumerror('0030');
+if (!doesExists($forum, 'forum')) {
+    forumError('0030');
 }
 
 // Forum ARBRE
@@ -99,7 +99,7 @@ if (isset($submitS)) {
             include 'header.php';
         } else {
             if (($username == '') or ($password == '')) {
-                forumerror('0027');
+                forumError('0027');
             } else {
                 $modo = '';
 
@@ -110,16 +110,16 @@ if (isset($submitS)) {
                 list($pass) = sql_fetch_row($result);
 
                 if ((password_verify($password, $pass)) and ($pass != '')) {
-                    $userdata = get_userdata($username);
+                    $userdata = getUserData($username);
 
                     include 'header.php';
                 } else {
-                    forumerror('0028');
+                    forumError('0028');
                 }
             }
         }
     } else {
-        $modo = user_is_moderator($userdata['uid'], $userdata['uname'], $forum_access);
+        $modo = userIsModerator($userdata['uid'], $userdata['uname'], $forum_access);
 
         include 'header.php';
     }
@@ -131,7 +131,7 @@ if (isset($submitS)) {
         $hostname = ($dns_verif) ? gethostbyaddr($poster_ip) : '';
 
         // anti flood
-        anti_flood($modo, $anti_flood, $poster_ip, $userdata, $gmt);
+        antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, $message)) {
@@ -158,7 +158,7 @@ if (isset($submitS)) {
         }
 
         //if (($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
-        //    // $message = af_cod($message);
+        //    // $message = afCode($message);
         //}
 
         if (($allow_bbcode) and ($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
@@ -166,7 +166,7 @@ if (isset($submitS)) {
         }
 
         if (($myrow['forum_type'] != 6) and ($myrow['forum_type'] != 5)) {
-            $message = make_clickable($message);
+            $message = makeClickable($message);
             $message = removeHack($message);
         }
 
@@ -187,7 +187,7 @@ if (isset($submitS)) {
         $sql .= ')';
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         }
 
         $topic_id = sql_last_id();
@@ -197,7 +197,7 @@ if (isset($submitS)) {
                 VALUES ('$topic_id', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         } else {
             $IdPost = sql_last_id();
         }
@@ -209,7 +209,7 @@ if (isset($submitS)) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumerror('0029');
+            forumError('0029');
         }
 
         $topic = $topic_id;
@@ -242,7 +242,7 @@ if (isset($submitS)) {
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
 
-    $posterdata = get_userdata_from_id($userdata[0]);
+    $posterdata = getUserDataFromId($userdata[0]);
 
     if ($smilies) {
         if (isset($user)) {
@@ -276,7 +276,7 @@ if (isset($submitS)) {
     $moderator_data = explode(' ', $moderatorX);
 
     for ($i = 0; $i < count($moderator_data); $i++) {
-        $modera = get_userdata($moderator_data[$i]);
+        $modera = getUserData($moderator_data[$i]);
 
         if ($modera['user_avatar'] != '') {
             if (stristr($modera['user_avatar'], 'users_private')) {
@@ -333,7 +333,7 @@ if (isset($submitS)) {
             $allow_to_post = 1;
         }
     } elseif ($forum_access == 2) {
-        if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
+        if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
             echo '<strong>' . translate('Auteur') . ' :</strong>';
             echo $userdata[1];
 
@@ -380,7 +380,7 @@ if (isset($submitS)) {
                     <label class="form-label">' . translate('Icone du message') . '</label>
                     <div class="col-sm-12">
                     <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
-                    ' . emotion_add($image_subject) . '
+                    ' . emotionAdd($image_subject) . '
                     </div>
                     </div>
                 </div>';
@@ -403,7 +403,7 @@ if (isset($submitS)) {
             echo '</div>';
 
             if ($allow_html == 1) {
-                echo '<span class="text-success float-end mt-2" title="HTML ' . translate('On') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+                echo '<span class="text-success float-end mt-2" title="HTML ' . translate('On') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
             } else {
                 echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Off') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
             }

@@ -17,7 +17,7 @@ class Edito
      *               - bool $affich Indique si l'édito doit être affiché.
      *               - string $Xcontents Contenu de l'édito prêt à l'affichage.
      */
-    public static function fab_edito(): array
+    public static function fabEdito(): array
     {
         global $cookie;
 
@@ -46,11 +46,11 @@ class Edito
                 $affichJ = false;
                 $affichN = false;
 
-                if ((NightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked')) {
+                if ((nightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked')) {
                     $affichJ = true;
                 }
 
-                if ((NightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked')) {
+                if ((nightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked')) {
                     $affichN = true;
                 }
             }
@@ -87,7 +87,7 @@ class Edito
      * @param string $path Chemin complet du fichier à lire.
      * @return string Contenu du fichier, ou une chaîne vide si le fichier est vide ou ne peut être lu.
      */
-    private function readFile(string $path): string 
+    private function readFile(string $path): string
     {
         if (is_readable($path) && filesize($path) > 0) {
             $fp = fopen($path, 'r');

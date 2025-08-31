@@ -324,7 +324,7 @@ function Configure()
         <select class="form-select" id="xlanguage" name="xlanguage">';
 
     $languageslist = explode(' ', language_list());
-    
+
     $nb_language = sizeof($languageslist);
 
     for ($i = 0; $i < $nb_language; $i++) {
@@ -1376,17 +1376,17 @@ function Configure()
         </div>
     </div>
     <div class="mb-3 row">
-        <label class="col-form-label col-sm-8" for="xAutoRegUser">' . adm_translate('Autoriser la création automatique des membres') . '</label>
+        <label class="col-form-label col-sm-8" for="xautoRegUser">' . adm_translate('Autoriser la création automatique des membres') . '</label>
         <div class="col-sm-4 my-2">';
 
     $cky = '';
     $ckn = '';
 
-    if (($AutoRegUser == '') and ($AutoRegUser != 0)) {
-        $AutoRegUser = 1;
+    if (($autoRegUser == '') and ($autoRegUser != 0)) {
+        $autoRegUser = 1;
     }
 
-    if ($AutoRegUser == 1) {
+    if ($autoRegUser == 1) {
         $cky = 'checked="checked"';
         $ckn = '';
     } else {
@@ -1395,12 +1395,12 @@ function Configure()
     }
 
     echo '<div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="xAutoRegUser_y" name="xAutoRegUser" value="1" ' . $cky . ' />
-            <label class="form-check-label" for="xAutoRegUser_y">' . adm_translate('Oui') . '</label>
+            <input type="radio" class="form-check-input" id="xautoRegUser_y" name="xautoRegUser" value="1" ' . $cky . ' />
+            <label class="form-check-label" for="xautoRegUser_y">' . adm_translate('Oui') . '</label>
         </div>
         <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="xAutoRegUser_n" name="xAutoRegUser" value="0" ' . $ckn . ' />
-            <label class="form-check-label" for="xAutoRegUser_n">' . adm_translate('Non') . '</label>
+            <input type="radio" class="form-check-input" id="xautoRegUser_n" name="xautoRegUser" value="0" ' . $ckn . ' />
+            <label class="form-check-label" for="xautoRegUser_n">' . adm_translate('Non') . '</label>
         </div>
         </div>
     </div>
@@ -1488,7 +1488,7 @@ function Configure()
         <div class="col-sm-4 my-2">';
 
     if (($CloseRegUser == '') and ($CloseRegUser != 1)) {
-        $AutoRegUser = 0; // ????????
+        $autoRegUser = 0; // ????????
     }
 
     $cky = '';
@@ -2055,6 +2055,6 @@ switch ($op) {
     case 'ConfigSave':
         include 'admin/settings_save.php';
 
-        ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, $xslogan, $xstartdate, $xadminmail, $xtop, $xstoryhome, $xoldnum, $xultramode, $xanonpost, $xDefault_Theme, $xbanners, $xmyIP, $xfoot1, $xfoot2, $xfoot3, $xfoot4, $xbackend_title, $xbackend_language, $xbackend_image, $xbackend_width, $xbackend_height, $xlanguage, $xlocale, $xperpage, $xpopular, $xnewlinks, $xtoplinks, $xlinksresults, $xlinks_anonaddlinklock, $xnotify, $xnotify_email, $xnotify_subject, $xnotify_message, $xnotify_from, $xmoderate, $xanonymous, $xmaxOptions, $xsetCookies, $xtipath, $xuserimg, $xadminimg, $xadmingraphic, $xadmart, $xminpass, $xhttpref, $xhttprefmax, $xpollcomm, $xlinkmainlogo, $xstart_page, $xsmilies, $xOnCatNewLink, $xEmailFooter, $xshort_user, $xgzhandler, $xrss_host_verif, $xcache_verif, $xmember_list, $xdownload_cat, $xmod_admin_news, $xgmt, $xAutoRegUser, $xTitlesitename, $xfilemanager, $xshort_review, $xnot_admin_count, $xadmin_cook_duration, $xuser_cook_duration, $xtroll_limit, $xsubscribe, $xCloseRegUser, $xshort_menu_admin, $xmail_fonction, $xmemberpass, $xshow_user, $xdns_verif, $xmember_invisible, $xavatar_size, $xlever, $xcoucher, $xmulti_langue, $xadmf_ext, $xsavemysql_size, $xsavemysql_mode, $xtiny_mce, $xnpds_twi, $xnpds_fcb, $xDefault_Skin, $xsmtp_host, $xsmtp_auth, $xsmtp_username, $xsmtp_password, $xsmtp_secure, $xsmtp_crypt, $xsmtp_port, $xdkim_auto);
+        ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, $xslogan, $xstartdate, $xadminmail, $xtop, $xstoryhome, $xoldnum, $xultramode, $xanonpost, $xDefault_Theme, $xbanners, $xmyIP, $xfoot1, $xfoot2, $xfoot3, $xfoot4, $xbackend_title, $xbackend_language, $xbackend_image, $xbackend_width, $xbackend_height, $xlanguage, $xlocale, $xperpage, $xpopular, $xnewlinks, $xtoplinks, $xlinksresults, $xlinks_anonaddlinklock, $xnotify, $xnotify_email, $xnotify_subject, $xnotify_message, $xnotify_from, $xmoderate, $xanonymous, $xmaxOptions, $xsetCookies, $xtipath, $xuserimg, $xadminimg, $xadmingraphic, $xadmart, $xminpass, $xhttpref, $xhttprefmax, $xpollcomm, $xlinkmainlogo, $xstart_page, $xsmilies, $xOnCatNewLink, $xEmailFooter, $xshort_user, $xgzhandler, $xrss_host_verif, $xcache_verif, $xmember_list, $xdownload_cat, $xmod_admin_news, $xgmt, $xautoRegUser, $xTitlesitename, $xfilemanager, $xshort_review, $xnot_admin_count, $xadmin_cook_duration, $xuser_cook_duration, $xtroll_limit, $xsubscribe, $xCloseRegUser, $xshort_menu_admin, $xmail_fonction, $xmemberpass, $xshow_user, $xdns_verif, $xmember_invisible, $xavatar_size, $xlever, $xcoucher, $xmulti_langue, $xadmf_ext, $xsavemysql_size, $xsavemysql_mode, $xtiny_mce, $xnpds_twi, $xnpds_fcb, $xDefault_Skin, $xsmtp_host, $xsmtp_auth, $xsmtp_username, $xsmtp_password, $xsmtp_secure, $xsmtp_crypt, $xsmtp_port, $xdkim_auto);
         break;
 }

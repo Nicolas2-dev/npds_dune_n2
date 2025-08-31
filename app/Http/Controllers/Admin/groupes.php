@@ -155,7 +155,7 @@ function group_liste()
         foreach ($tab_groupeIII as $bidon => $gp) {
             $lst_user_json = '';
 
-            $result = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
+            $result = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupeForum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
                                                  FROM " . sql_prefix('groupes') . " 
                                                  WHERE groupe_id='$gp'"));
 
@@ -223,7 +223,7 @@ function group_liste()
                         <div id="moderation_' . $uidX . '_' . $gp . '" class="collapse">';
 
                     // traitement moderateur
-                    if ($result['groupe_forum'] == 1) {
+                    if ($result['groupeForum'] == 1) {
 
                         $pat = '#\b' . $uidX . '\b#';
 
@@ -292,7 +292,7 @@ function group_liste()
                 ? '<a class="btn btn-outline-danger btn-sm col-lg-6 col-md-1 col-sm-2 col-3 mb-1 border-0" href="admin.php?op=workspace_archive&amp;groupe_id=' . $gp . '" title="' . adm_translate('Désactiver gestionnaire de fichiers du groupe') . ' ' . $gp . '" data-bs-toggle="tooltip"  ><i class="far fa-folder fa-lg fa-fw"></i><i class="fa fa-minus"></i></a>'
                 : '<a class="btn btn-outline-secondary btn-sm col-lg-6 col-md-1 col-sm-2 col-3 mb-1 border-0" href="admin.php?op=workspace_create&amp;groupe_id=' . $gp . '" title="' . adm_translate('Activer gestionnaire de fichiers du groupe') . ' ' . $gp . '" data-bs-toggle="tooltip"  ><i class="far fa-folder fa-lg fa-fw"></i><i class="fa fa-plus"></i></a>';
 
-            echo $result['groupe_forum'] == 1
+            echo $result['groupeForum'] == 1
                 ? '<a class="btn btn-outline-danger btn-sm col-lg-6 col-md-1 col-sm-2 col-3 mb-1 border-0" href="admin.php?op=forum_groupe_delete&amp;groupe_id=' . $gp . '" title="' . adm_translate('Supprimer forum du groupe') . ' ' . $gp . '" data-bs-toggle="tooltip"  ><i class="fa fa-list-alt fa-lg fa-fw"></i><i class="fa fa-minus"></i></a>'
                 : '<a class="btn btn-outline-secondary btn-sm col-lg-6 col-md-1 col-sm-2 col-3 mb-1 border-0" href="javascript:void(0);" onclick="javascript:choisir_mod_forum(\'' . $gp . '\',\'' . $result['groupe_name'] . '\',\'' . $lst_user_json . '\',\'' . $lst_uid_json . '\');" title="' . adm_translate('Créer forum du groupe') . ' ' . $gp . '" data-bs-toggle="tooltip"  ><i class="fa fa-list-alt fa-lg fa-fw"></i> <i class="fa fa-plus"></i></a>';
 
@@ -396,8 +396,8 @@ function membre_add($gp)
     inpandfieldlen("luname",255);';
 
     echo (mysqli_get_client_info() <= '8.0')
-        ? auto_complete_multi('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'[[:<:]]' . $gp . '[[:>:]]\'')
-        : auto_complete_multi('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'\\b' . $gp . '\\b\'');
+        ? autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'[[:<:]]' . $gp . '[[:>:]]\'')
+        : autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'\\b' . $gp . '\\b\'');
 
     adminfoot('fv', '', $arg1, '');
 }
@@ -754,8 +754,9 @@ function workspace_create($groupe_id)
 {
     //==>creation fichier conf du groupe
     @copy(
-        'modules/f-manager/support/config/groupe.stub', 
-        'modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
+        'modules/f-manager/support/config/groupe.stub',
+        'modules/f-manager/storage/users/groupe_' . $groupe_id . '.php'
+    );
 
     $file = file('modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
     $file[29] = "   \$access_fma = \"$groupe_id\";\n";
@@ -924,7 +925,7 @@ function forum_groupe_create($groupe_id, $groupe_name, $description, $moder)
 
     // ajout etat forum (1 ou 0) dans le groupe
     sql_query("UPDATE " . sql_prefix('groupes') . " 
-               SET groupe_forum = '1' WHERE groupe_id = '$groupe_id';");
+               SET groupeForum = '1' WHERE groupe_id = '$groupe_id';");
 
     global $aid;
     Ecr_Log('security', sprintf('CreateForumWS(%s) by AID : %s', $groupe_id, $aid), '');
@@ -960,7 +961,7 @@ function forum_groupe_delete($groupe_id)
 
     // remise à 0 forum dans le groupe
     sql_query("UPDATE " . sql_prefix('groupes') . " 
-               SET groupe_forum = '0' 
+               SET groupeForum = '0' 
                WHERE groupe_id='$groupe_id'");
 
     global $aid;
@@ -1221,7 +1222,7 @@ function groupe_member_ask()
         if ($fileinfo->isFile() and strpos($fileinfo->getFilename(), 'ask4group') !== false) {
             $us_gr = explode('_', $fileinfo->getFilename());
 
-            $myrow = get_userdata_from_id($us_gr[1]);
+            $myrow = getUserDataFromId($us_gr[1]);
 
             $r = sql_query("SELECT groupe_name 
                             FROM " . sql_prefix('groupes') . " 

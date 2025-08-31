@@ -175,7 +175,7 @@ function topicsmanager()
     inpandfieldlen("topicimage",20);
     inpandfieldlen("topicadmin",255);';
 
-    echo auto_complete_multi('admin', 'aid', 'authors', 'topicadmin', '');
+    echo autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
     sql_free_result($result);
     adminfoot('fv', $fv_parametres, $arg1, '');
@@ -345,7 +345,7 @@ function topicedit($topicid)
         inpandfieldlen("name",30);
         inpandfieldlen("url",320);';
 
-    echo auto_complete_multi('admin', 'aid', 'authors', 'topicadmin', '');
+    echo autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
     adminfoot('fv', $fv_parametres, $arg1, '');
 }
@@ -425,7 +425,7 @@ function relatedsave($tid, $rid, $name, $url)
                SET name='$name', url='$url' 
                WHERE rid='$rid'");
 
-    Header('Location: admin.php?op=topicedit&topicid='. $tid);
+    Header('Location: admin.php?op=topicedit&topicid=' . $tid);
 }
 
 function relateddelete($tid, $rid)
@@ -433,7 +433,7 @@ function relateddelete($tid, $rid)
     sql_query("DELETE FROM " . sql_prefix('related') . " 
                WHERE rid='$rid'");
 
-    Header('Location: admin.php?op=topicedit&topicid='. $tid);
+    Header('Location: admin.php?op=topicedit&topicid=' . $tid);
 }
 
 function topicmake($topicname, $topicimage, $topictext, $topicadmin)
@@ -547,7 +547,7 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
                    VALUES (NULL, '$topicid', '$name', '$url')");
     }
 
-    Header('Location: admin.php?op=topicedit&topicid='.$topicid);
+    Header('Location: admin.php?op=topicedit&topicid=' . $topicid);
 }
 
 function topicdelete($topicid, $ok = 0)

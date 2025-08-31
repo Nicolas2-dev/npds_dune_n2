@@ -148,7 +148,7 @@ function Detail_Header_Footer($ibid, $type)
         global $tiny_mce_relurl;
         $tiny_mce_relurl = false;
 
-        echo aff_editeur('xtext', '');
+        echo affEditeur('xtext', '');
     }
 
     echo ($type == 'HED')
@@ -241,7 +241,7 @@ function Detail_Body($ibid)
         global $tiny_mce_relurl;
         $tiny_mce_relurl = false;
 
-        echo aff_editeur('xtext', 'false');
+        echo affEditeur('xtext', 'false');
     }
 
     echo '<input type="hidden" name="op" value="lnl_Add_Body_Mod" />
@@ -288,7 +288,7 @@ function Add_Body()
     global $tiny_mce_relurl;
     $tiny_mce_relurl = false;
 
-    echo aff_editeur('xtext', 'false');
+    echo affEditeur('xtext', 'false');
 
     echo '<div class="mb-3 row">
                 <input type="hidden" name="op" value="lnl_Add_Body_Submit" />
@@ -395,7 +395,7 @@ function Add_Header_Footer($ibid)
     global $tiny_mce_relurl;
     $tiny_mce_relurl = false;
 
-    echo aff_editeur('xtext', 'false');
+    echo affEditeur('xtext', 'false');
 
     echo '<input type="hidden" name="op" value="' . $va . '" />
                 <button class="btn btn-primary col-sm-12 col-md-6" type="submit"><i class="fa fa-plus-square fa-lg"></i>&nbsp;' . adm_translate('Ajouter') . ' ' . adm_translate('$ti') . '</button>
@@ -557,7 +557,7 @@ function main()
                 </div>
             </div>';
 
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $tmp_groupe = '';
 
@@ -1138,7 +1138,7 @@ switch ($op) {
                                                AND u.uid=s.uid 
                                                AND u.email!='' 
                                                AND u.user_lnl='1'");
-                                               
+
                     $nrows = sql_num_rows($mysql_result);
                 }
             }

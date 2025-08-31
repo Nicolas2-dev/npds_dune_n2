@@ -140,8 +140,8 @@ function listsections($rubric)
                         $aff1 = aff_langue($secname) . '<span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Articles') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_art . '</span></span>';
 
                         if ($image != '') {
-                            if (file_exists('assets/images/sections/'. $image)) {
-                                $imgtmp = 'assets/images/sections/'. $image;
+                            if (file_exists('assets/images/sections/' . $image)) {
+                                $imgtmp = 'assets/images/sections/' . $image;
                             } else {
                                 $imgtmp = $image;
                             }
@@ -283,8 +283,8 @@ function listarticles($secid)
             }
 
             if ($image != '') {
-                if (file_exists('assets/shared/sections/'. $image)) {
-                    $imgtmp = 'assets/shared/sections/'. $image;
+                if (file_exists('assets/shared/sections/' . $image)) {
+                    $imgtmp = 'assets/shared/sections/' . $image;
                 } else {
                     $imgtmp = $image;
                 }
@@ -457,7 +457,7 @@ function viewarticle($artid, $page)
                 </nav>';
             }
 
-            $Xcontent = aff_code(aff_langue($Xcontent));
+            $Xcontent = affCode(aff_langue($Xcontent));
 
             echo '<div id="art_sect">' . meta_lang($Xcontent) . '</div>';
 
@@ -547,8 +547,8 @@ function PrintSecPage($artid)
 
     $pos = strpos($site_logo, "/");
 
-    echo $pos 
-        ? '<img src="' . $site_logo . '" alt="logo" />' 
+    echo $pos
+        ? '<img src="' . $site_logo . '" alt="logo" />'
         : '<img src="assets/images/npds/' . $site_logo . '" alt="logo" />';
 
     $result = sql_query("SELECT title, content 
@@ -559,7 +559,7 @@ function PrintSecPage($artid)
 
     echo '<strong class="my-3 d-block">' . aff_langue($title) . '</strong></p>';
 
-    $content = aff_code(aff_langue($content));
+    $content = affCode(aff_langue($content));
     $pos_page = strpos($content, "[page");
 
     if ($pos_page) {
@@ -630,7 +630,7 @@ switch ($op) {
 
     default:
         settype($rubric, 'string');
-        
+
         listsections($rubric);
         break;
 }

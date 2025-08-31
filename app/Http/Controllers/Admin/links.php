@@ -103,7 +103,7 @@ function links()
                 <textarea class="tin form-control" id="xtextenattente" name="xtext" rows="10">' . $xtext . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('xtext', '') . '
+        ' . affEditeur('xtext', '') . '
         <div class="mb-3 row">
             <label class="col-form-label col-sm-4 " for="nameenattente">' . adm_translate('Nom') . '</label>
             <div class="col-sm-8">
@@ -244,7 +244,7 @@ function links()
         </div>';
 
         if ($adminform == '') {
-            echo aff_editeur('xtext', '');
+            echo affEditeur('xtext', '');
         }
 
         echo '<div class="mb-3 row">
@@ -511,7 +511,7 @@ function LinksModLink($lid)
             </div>
         </div>';
 
-    echo aff_editeur('xtext', '');
+    echo affEditeur('xtext', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-4 " for="name">' . adm_translate('Nom') . '</label>

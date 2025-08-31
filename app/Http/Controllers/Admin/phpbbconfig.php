@@ -38,7 +38,7 @@ function ForumConfigAdmin()
 
     $result = sql_query("SELECT * FROM " . sql_prefix('config'));
 
-    list($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $forum_attachments, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved) = sql_fetch_row($result);
+    list($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $forum_attachments, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved) = sql_fetch_row($result);
 
     echo '
     <hr />
@@ -141,10 +141,10 @@ function ForumConfigAdmin()
             </div>
         </div>
         <div class="mb-3 row">
-            <label class="col-form-label col-sm-5" for="anti_flood">' . adm_translate('Nombre maximum de contributions par IP et par période de 30 minutes (0=système inactif)') . '</label>
+            <label class="col-form-label col-sm-5" for="antiFlood">' . adm_translate('Nombre maximum de contributions par IP et par période de 30 minutes (0=système inactif)') . '</label>
             <div class="col-sm-7">
-                <input class="form-control" type="text" min="0" id="anti_flood" name="anti_flood" maxlength="6" value="' . $anti_flood . '" />
-                <span class="help-block text-end" id="countcar_anti_flood"></span>
+                <input class="form-control" type="text" min="0" id="antiFlood" name="antiFlood" maxlength="6" value="' . $antiFlood . '" />
+                <span class="help-block text-end" id="countcar_antiFlood"></span>
             </div>
         </div>
         <div class="row">
@@ -278,7 +278,7 @@ function ForumConfigAdmin()
                 }
             }
         },
-        anti_flood: {
+        antiFlood: {
             validators: {
                 regexp: {
                 regexp:/^\d{1,6}$/,
@@ -291,7 +291,7 @@ function ForumConfigAdmin()
         inpandfieldlen("posts_per_page",255);
         inpandfieldlen("hot_threshold",255);
         inpandfieldlen("topics_per_page",255);
-        inpandfieldlen("anti_flood",255);
+        inpandfieldlen("antiFlood",255);
         inpandfieldlen("rank1",255);
         inpandfieldlen("rank2",255);
         inpandfieldlen("rank3",255);
@@ -301,10 +301,10 @@ function ForumConfigAdmin()
     adminfoot('fv', $fv_parametres, $arg1, '');
 }
 
-function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved)
+function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved)
 {
     sql_query("UPDATE " . sql_prefix('config') . " 
-               SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', anti_flood='$anti_flood', solved='$solved'");
+               SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', antiFlood='$antiFlood', solved='$solved'");
 
     Q_Clean();
 

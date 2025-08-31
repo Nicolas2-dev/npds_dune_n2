@@ -40,12 +40,12 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
 
     $debug = false;
 
-    if($debug) {
+    if ($debug) {
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
         $whoops->register();
     }
-    
+
     // First of all : Spam from IP / |5 indicate that the same IP has passed 6 times with status KO in the anti_spambot function
     $path_log = 'storage/logs/spam.log';
 
@@ -57,7 +57,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
             $ipv = strstr($ipadr, ':') ? '6' : '4';
 
             if (in_array($ipadr . '|5', $tab_spam)) {
-                access_denied();
+                accessDenied();
             }
 
             // nous pouvons bannir une plage d'adresse ip en V4 (dans l'admin IPban sous forme x.x.%|5 ou x.x.x.%|5)
@@ -65,11 +65,11 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
                 $ip4detail = explode('.', $ipadr);
 
                 if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.%|5', $tab_spam)) {
-                    access_denied();
+                    accessDenied();
                 }
 
                 if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.' . $ip4detail[2] . '.%|5', $tab_spam)) {
-                    access_denied();
+                    accessDenied();
                 }
             }
 
@@ -78,11 +78,11 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
                 $ip6detail = explode(':', $ipadr);
 
                 if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':%|5', $tab_spam)) {
-                    access_denied();
+                    accessDenied();
                 }
 
                 if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':' . $ip6detail[2] . ':%|5', $tab_spam)) {
-                    access_denied();
+                    accessDenied();
                 }
             }
         }
@@ -106,12 +106,12 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         if(!isset($_SERVER['HTTP_REFERER'])) {
             Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
             L_spambot('', 'false');
-            access_denied();
+            accessDenied();
             
         } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
             Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
             L_spambot('', "false");
-            access_denied();
+            accessDenied();
         }
         */
 

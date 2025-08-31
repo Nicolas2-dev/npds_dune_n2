@@ -37,7 +37,7 @@ if (isset($user) and $user != '') {
 
         $tmp_theme = $theme;
 
-        if (!$file = @opendir('themes/'. $theme)) {
+        if (!$file = @opendir('themes/' . $theme)) {
             $tmp_theme = $Default_Theme;
         }
     } else {
@@ -55,7 +55,7 @@ $Titlesitename = 'META-LANG';
 
 include 'storage/meta/meta.php';
 
-echo import_css($tmp_theme, $language, $skin, '', '');
+echo importCss($tmp_theme, $language, $skin, '', '');
 
 $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description 
                 FROM " . sql_prefix('metalang') . " 

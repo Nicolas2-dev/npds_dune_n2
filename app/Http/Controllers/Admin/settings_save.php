@@ -12,7 +12,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, $xslogan, $xstartdate, $xadminmail, $xtop, $xstoryhome, $xoldnum, $xultramode, $xanonpost, $xDefault_Theme, $xbanners, $xmyIP, $xfoot1, $xfoot2, $xfoot3, $xfoot4, $xbackend_title, $xbackend_language, $xbackend_image, $xbackend_width, $xbackend_height, $xlanguage, $xlocale, $xperpage, $xpopular, $xnewlinks, $xtoplinks, $xlinksresults, $xlinks_anonaddlinklock, $xnotify, $xnotify_email, $xnotify_subject, $xnotify_message, $xnotify_from, $xmoderate, $xanonymous, $xmaxOptions, $xsetCookies, $xtipath, $xuserimg, $xadminimg, $xadmingraphic, $xadmart, $xminpass, $xhttpref, $xhttprefmax, $xpollcomm, $xlinkmainlogo, $xstart_page, $xsmilies, $xOnCatNewLink, $xEmailFooter, $xshort_user, $xgzhandler, $xrss_host_verif, $xcache_verif, $xmember_list, $xdownload_cat, $xmod_admin_news, $xgmt, $xAutoRegUser, $xTitlesitename, $xfilemanager, $xshort_review, $xnot_admin_count, $xadmin_cook_duration, $xuser_cook_duration, $xtroll_limit, $xsubscribe, $xCloseRegUser, $xshort_menu_admin, $xmail_fonction, $xmemberpass, $xshow_user, $xdns_verif, $xmember_invisible, $xavatar_size, $xlever, $xcoucher, $xmulti_langue, $xadmf_ext, $xsavemysql_size, $xsavemysql_mode, $xtiny_mce, $xnpds_twi, $xnpds_fcb, $xDefault_Skin, $xsmtp_host, $xsmtp_auth, $xsmtp_username, $xsmtp_password, $xsmtp_secure, $xsmtp_crypt, $xsmtp_port, $xdkim_auto)
+function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, $xslogan, $xstartdate, $xadminmail, $xtop, $xstoryhome, $xoldnum, $xultramode, $xanonpost, $xDefault_Theme, $xbanners, $xmyIP, $xfoot1, $xfoot2, $xfoot3, $xfoot4, $xbackend_title, $xbackend_language, $xbackend_image, $xbackend_width, $xbackend_height, $xlanguage, $xlocale, $xperpage, $xpopular, $xnewlinks, $xtoplinks, $xlinksresults, $xlinks_anonaddlinklock, $xnotify, $xnotify_email, $xnotify_subject, $xnotify_message, $xnotify_from, $xmoderate, $xanonymous, $xmaxOptions, $xsetCookies, $xtipath, $xuserimg, $xadminimg, $xadmingraphic, $xadmart, $xminpass, $xhttpref, $xhttprefmax, $xpollcomm, $xlinkmainlogo, $xstart_page, $xsmilies, $xOnCatNewLink, $xEmailFooter, $xshort_user, $xgzhandler, $xrss_host_verif, $xcache_verif, $xmember_list, $xdownload_cat, $xmod_admin_news, $xgmt, $xautoRegUser, $xTitlesitename, $xfilemanager, $xshort_review, $xnot_admin_count, $xadmin_cook_duration, $xuser_cook_duration, $xtroll_limit, $xsubscribe, $xCloseRegUser, $xshort_menu_admin, $xmail_fonction, $xmemberpass, $xshow_user, $xdns_verif, $xmember_invisible, $xavatar_size, $xlever, $xcoucher, $xmulti_langue, $xadmf_ext, $xsavemysql_size, $xsavemysql_mode, $xtiny_mce, $xnpds_twi, $xnpds_fcb, $xDefault_Skin, $xsmtp_host, $xsmtp_auth, $xsmtp_username, $xsmtp_password, $xsmtp_secure, $xsmtp_crypt, $xsmtp_port, $xdkim_auto)
 {
     include 'config/config.php';
 
@@ -414,7 +414,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     $content .= "# \$short_user:       Activate Short User registration (without ICQ, MSN, ...)? (1=Yes 0=No)\n";
     $content .= "# \$member_list:      Make the members List Private (only for members) or Public (Private=Yes Public=No)\n";
     $content .= "# \$download_cat:     Witch category do you want to show first in download section?\n";
-    $content .= "# \$AutoRegUser:      Allow automated new-user creation (sending email and allowed connection)\n";
+    $content .= "# \$autoRegUser:      Allow automated new-user creation (sending email and allowed connection)\n";
     $content .= "# \$short_review:     For transform reviews like \"gold book\" (1=Yes, 0=no)\n";
     $content .= "# \$subscribe:        Allow your members to subscribe to topics, ... (1=Yes, 0=no)\n";
     $content .= "# \$member_invisible: Allow members to hide from other members, ... (1=Yes, 0=no)\n";
@@ -427,7 +427,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     $content .= "\$short_user = $xshort_user;\n";
     $content .= "\$member_list = $xmember_list;\n";
     $content .= "\$download_cat = \"$xdownload_cat\";\n";
-    $content .= "\$AutoRegUser = $xAutoRegUser;\n";
+    $content .= "\$autoRegUser = $xautoRegUser;\n";
     $content .= "\$short_review = $xshort_review;\n";
     $content .= "\$subscribe = $xsubscribe;\n";
     $content .= "\$member_invisible = $xmember_invisible;\n";
@@ -552,7 +552,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     fclose($file);
 
     global $aid;
-    Ecr_Log('security', 'ConfigSave() by AID : '.$aid, '');
+    Ecr_Log('security', 'ConfigSave() by AID : ' . $aid, '');
 
     SC_Clean();
 

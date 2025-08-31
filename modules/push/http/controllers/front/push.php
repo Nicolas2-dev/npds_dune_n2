@@ -156,16 +156,16 @@ function new_show($sid, $offset)
 
         echo "document.write('" . push_translate('Posted by') . " <b>$informant</b> : $datetime (" . htmlspecialchars($topictext, ENT_COMPAT | ENT_HTML401, 'UTF-8') . ")');\n";
         echo "document.write('<br /><br />');\n";
-        echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(aff_code(aff_langue($hometext)))), "win", "html")) . "<br />');\n";
+        echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(affCode(aff_langue($hometext)))), "win", "html")) . "<br />');\n";
 
         if ($bodytext != "") {
             echo "document.write('<br />');\n";
-            echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(aff_code(aff_langue($bodytext)))), "win", "html")) . "<br />');\n";
+            echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(affCode(aff_langue($bodytext)))), "win", "html")) . "<br />');\n";
         }
 
         if ($notes != "") {
             echo "document.write('<br />');\n";
-            echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(aff_code(aff_langue($notes)))), "win", "html")) . "');\n";
+            echo "document.write('" . links(convert_nl(str_replace("'", "\'", meta_lang(affCode(aff_langue($notes)))), "win", "html")) . "');\n";
         }
 
         echo "document.write('<br /><span style=\"font-size: 11px;\">.: <a href=\"javascript: history.go(0)\">" . push_translate('Home') . "</a> :.</span>');\n";
@@ -274,7 +274,7 @@ function faq_show($id_cat)
         $question = str_replace("'", "\'", $question);
 
         echo "document.write('<b>" . aff_langue($question) . "</b>');\n";
-        echo "document.write('<p align=\"justify\">" . links(convert_nl(str_replace("'", "\'", meta_lang(aff_code(aff_langue($answer)))), "win", "html")) . "</p><br />');\n";
+        echo "document.write('<p align=\"justify\">" . links(convert_nl(str_replace("'", "\'", meta_lang(affCode(aff_langue($answer)))), "win", "html")) . "</p><br />');\n";
     }
 
     echo "document.write('.: <a href=\"javascript: history.go(0)\" style=\"font-size: 11px;\">" . push_translate('Home') . "</a> :.');\n";

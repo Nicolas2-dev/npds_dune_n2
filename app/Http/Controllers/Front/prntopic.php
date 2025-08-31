@@ -28,7 +28,7 @@ $rowQ1 = Q_Select("SELECT forum_id
                    WHERE topic_id='$topic'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -39,7 +39,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -56,8 +56,8 @@ if (($forum_type == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
 if (($forum_type == 5) or ($forum_type == 7)) {
     $ok_affiche = false;
 
-    $tab_groupe = valid_group($user);
-    $ok_affiche = groupe_forum($myrow['forum_pass'], $tab_groupe);
+    $tab_groupe = validGroup($user);
+    $ok_affiche = groupeForum($myrow['forum_pass'], $tab_groupe);
 
     if (!$ok_affiche) {
         header('location: forum.php');
@@ -74,7 +74,7 @@ if (isset($user)) {
     $userdata = explode(':', $userX);
 }
 
-$moderator = get_moderator($mod);
+$moderator = getModerator($mod);
 $moderator = explode(' ', $moderator);
 
 $Mmod = false;
@@ -93,7 +93,7 @@ $sql = "SELECT topic_title, topic_status
         WHERE topic_id = '$topic'";
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
@@ -127,7 +127,7 @@ $sql = "SELECT *
         AND post_id='$post_id'" . $post_aff;
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
@@ -147,14 +147,14 @@ if ($allow_upload_forum) {
 }
 
 if ($myrow['poster_id'] != 0) {
-    $posterdata = get_userdata_from_id($myrow['poster_id']);
+    $posterdata = getUserDataFromId($myrow['poster_id']);
     $posts = $posterdata['posts'];
 }
 
 include 'storage/meta/meta.php';
 
 echo '<link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
-    ' . import_css($tmp_theme, $language, '', '', '') . '
+    ' . importCss($tmp_theme, $language, '', '', '') . '
     </head>
     <body>
         <div max-width="640" class="container p-3 n-hyphenate">

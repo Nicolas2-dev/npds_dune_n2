@@ -125,7 +125,7 @@ switch ($apli) {
 
                         include 'storage/meta/meta.php';
 
-                        echo import_css($Default_Theme, $language, '', '', '');
+                        echo importCss($Default_Theme, $language, '', '', '');
 
                         echo '</head>
                         <body>

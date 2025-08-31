@@ -78,7 +78,7 @@ if ($Mmod) {
                     AND topic_id = '$topic'";
 
             if (!$result = sql_query($sql)) {
-                forumerror('0009');
+                forumError('0009');
             }
 
             // ordre de mise à jour d'un champ externe ?
@@ -99,11 +99,11 @@ if ($Mmod) {
                     AND u.uid = p.poster_id";
 
             if (!$r = sql_query($sql)) {
-                forumerror('0013');
+                forumError('0013');
             }
 
             if (!$m = sql_fetch_assoc($r)) {
-                forumerror('0014');
+                forumError('0014');
             }
 
             echo '<h2 class="mb-3">' . translate('Commentaire') . '</h2>

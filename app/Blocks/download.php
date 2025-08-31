@@ -1,7 +1,6 @@
 <?php
 
-if (! function_exists('topdownload'))
-{ 
+if (! function_exists('topdownload')) {
     #autodoc topdownload() : Bloc topdownload <br />=> syntaxe : function#topdownload
     function topdownload()
     {
@@ -10,7 +9,7 @@ if (! function_exists('topdownload'))
         $title = $block_title == '' ? translate('Les plus téléchargés') : $block_title;
 
         $boxstuff = '<ul>';
-        $boxstuff .= topdownload_data('short', 'dcounter');
+        $boxstuff .= topDownloadData('short', 'dcounter');
         $boxstuff .= '</ul>';
 
         if (strpos($boxstuff, '<li') === false) {
@@ -21,8 +20,7 @@ if (! function_exists('topdownload'))
     }
 }
 
-if (! function_exists('lastdownload'))
-{ 
+if (! function_exists('lastdownload')) {
     #autodoc lastdownload() : Bloc lastdownload <br />=> syntaxe : function#lastdownload
     function lastdownload()
     {
@@ -31,7 +29,7 @@ if (! function_exists('lastdownload'))
         $title = $block_title == '' ? translate('Fichiers les + récents') : $block_title;
 
         $boxstuff = '<ul>';
-        $boxstuff .= topdownload_data('short', 'ddate');
+        $boxstuff .= topDownloadData('short', 'ddate');
         $boxstuff .= '</ul>';
 
         if (strpos($boxstuff, '<li') === false) {

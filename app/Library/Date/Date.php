@@ -16,7 +16,7 @@ class Cookie
      * @global string $coucher Heure de coucher du soleil (format accepté par strtotime)
      * @return string 'Jour' si l'heure actuelle est entre le lever et le coucher, 'Nuit' sinon
      */
-    public static function NightDay(): string
+    public static function nightDay(): string
     {
         global $lever, $coucher;
 
@@ -45,7 +45,7 @@ class Cookie
         string      $timezone  = 'Europe/Paris'
     ): string {
         // Utilise la langue de l'affichage du site.
-        $locale = language_iso(1, '_', 1); 
+        $locale = language_iso(1, '_', 1);
 
         $fmt = datefmt_create($locale, $dateStyle, $timeStyle, $timezone, IntlDateFormatter::GREGORIAN);
 
@@ -70,15 +70,15 @@ class Cookie
     ): string {
         // Utilise la langue de l'affichage du site.
         $locale = language_iso(1, '_', 1);
-        
+
         $timestamp = is_numeric($time) ? (int) $time : strtotime($time);
 
         $fmt = new IntlDateFormatter(
-            $locale, 
-            IntlDateFormatter::FULL, 
-            IntlDateFormatter::FULL, 
-            $timezone, 
-            IntlDateFormatter::GREGORIAN, 
+            $locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            $timezone,
+            IntlDateFormatter::GREGORIAN,
             $format
         );
 
@@ -86,5 +86,4 @@ class Cookie
 
         return ucfirst(htmlentities($dateFormat, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8'));
     }
-
 }

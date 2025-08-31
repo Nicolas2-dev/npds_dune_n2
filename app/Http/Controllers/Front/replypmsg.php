@@ -48,24 +48,24 @@ if (isset($user)) {
     $userX      = base64_decode($user);
     $userdataX  = explode(':', $userX);
 
-    $userdata = get_userdata($userdataX[1]);
-    $usermore = get_userdata_from_id($cookie[0]);
+    $userdata = getUserData($userdataX[1]);
+    $usermore = getUserDataFromId($cookie[0]);
 
     if ($submitS) {
         if ($subject == '') {
-            forumerror('0017');
+            forumError('0017');
         }
 
         $subject = removeHack($subject);
 
         if ($smilies) {
             if ($image_subject == '') {
-                forumerror('0018');
+                forumError('0018');
             }
         }
 
         if ($message == '') {
-            forumerror('0019');
+            forumError('0019');
         }
 
         if ($allow_html == 0 || isset($html)) {
@@ -76,14 +76,14 @@ if (isset($user)) {
             $message .= '<br /><br />' . $userdata['user_sig'];
         }
 
-        $message = aff_code($message);
+        $message = affCode($message);
         $message = str_replace("\n", '<br />', $message);
 
         if ($allow_bbcode) {
             $message = smile($message);
         }
 
-        $message = make_clickable($message);
+        $message = makeClickable($message);
         $message = removeHack(addslashes($message));
         $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
@@ -104,7 +104,7 @@ if (isset($user)) {
                             VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                     if (!$result = sql_query($sql)) {
-                        forumerror('0020');
+                        forumError('0020');
                     }
 
                     if ($copie) {
@@ -112,7 +112,7 @@ if (isset($user)) {
                                 VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                         if (!$result = sql_query($sql)) {
-                            forumerror('0020');
+                            forumError('0020');
                         }
                     }
 
@@ -139,13 +139,13 @@ if (isset($user)) {
             list($to_userid, $user_langue) = sql_fetch_row($res);
 
             if (($to_userid == '') or ($to_userid == 1)) {
-                forumerror('0016');
+                forumError('0016');
             } else {
                 $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
                         VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0020');
+                    forumError('0020');
                 }
 
                 if ($copie) {
@@ -153,7 +153,7 @@ if (isset($user)) {
                             VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                     if (!$result = sql_query($sql)) {
-                        forumerror('0020');
+                        forumError('0020');
                     }
                 }
 
@@ -198,7 +198,7 @@ if (isset($user)) {
             }
 
             if (!sql_query($sql)) {
-                forumerror('0021');
+                forumError('0021');
             } else {
                 $status = 1;
             }
@@ -224,7 +224,7 @@ if (isset($user)) {
                     AND to_userid='" . $userdata['uid'] . "'";
         }
         if (!sql_query($sql)) {
-            forumerror('0021');
+            forumError('0021');
         } else {
             header('Location: viewpmsg.php');
         }
@@ -247,7 +247,7 @@ if (isset($user)) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumerror('0005');
+            forumError('0005');
         }
 
         header('Location: viewpmsg.php');
@@ -274,7 +274,7 @@ if (isset($user)) {
 
             $tmp_theme = $theme;
 
-            if (!$file = @opendir('themes/'. $theme)) {
+            if (!$file = @opendir('themes/' . $theme)) {
                 $tmp_theme = $Default_Theme;
             }
         } else {
@@ -283,12 +283,12 @@ if (isset($user)) {
 
         $skin = $skin == '' ? 'default' : $skin;
 
-        include 'themes/'. $tmp_theme .'/views/theme.php';
+        include 'themes/' . $tmp_theme . '/views/theme.php';
         include 'storage/meta/meta.php';
         include 'themes/base/bootstrap/header_before.php';
         include 'themes/base/bootstrap/header_head.php';
 
-        echo import_css($tmp_theme, $language, $skin, '', '');
+        echo importCss($tmp_theme, $language, $skin, '', '');
 
         echo '</head>
         <body class="my-4 mx-4">';
@@ -311,34 +311,34 @@ if (isset($user)) {
             $result = sql_query($sql);
 
             if (!$result) {
-                forumerror('0022');
+                forumError('0022');
             }
 
             $row = sql_fetch_assoc($result);
 
             if (!$row) {
-                forumerror('0023');
+                forumError('0023');
             }
 
-            $fromuserdata = get_userdata_from_id($row['from_userid']);
+            $fromuserdata = getUserDataFromId($row['from_userid']);
 
             if (array_key_exists(0, $fromuserdata)) {
                 if ($fromuserdata[0] == 1) {
-                    forumerror('0101');
+                    forumError('0101');
                 }
             }
 
-            $touserdata = get_userdata_from_id($row['to_userid']);
+            $touserdata = getUserDataFromId($row['to_userid']);
 
             if (($user) and ($userdata['uid'] != $touserdata['uid'])) {
-                forumerror('0024');
+                forumError('0024');
             }
         }
 
         echo '<h2><a href="viewpmsg.php"><i class="me-2 fa fa-inbox"></i></a>' . translate('Message personnel') . '</h2>
         <hr />
         <blockquote class="blockquote">' . translate('A propos des messages publiés :') . '<br />' .
-        translate('Tous les utilisateurs enregistrés peuvent poster des messages privés.') . '</blockquote>';
+            translate('Tous les utilisateurs enregistrés peuvent poster des messages privés.') . '</blockquote>';
 
         settype($submitP, 'string');
 
@@ -357,7 +357,7 @@ if (isset($user)) {
                 $Xmessage .= '<div class="n-signature">' . nl2br($userdata['user_sig']) . '</div>';
             }
 
-            $Xmessage = aff_code($Xmessage);
+            $Xmessage = affCode($Xmessage);
             $Xmessage = str_replace("\n", '<br />', $Xmessage);
 
             if ($allow_bbcode) {
@@ -365,7 +365,7 @@ if (isset($user)) {
                 $Xmessage = aff_video_yt($Xmessage);
             }
 
-            $Xmessage = make_clickable($Xmessage);
+            $Xmessage = makeClickable($Xmessage);
 
             echo $Xmessage;
             echo '<hr />';
@@ -394,7 +394,7 @@ if (isset($user)) {
         }
 
         if (!$reply) {
-            $carnet = JavaPopUp("carnet.php", "CARNET", 300, 350);
+            $carnet = javaPopup("carnet.php", "CARNET", 300, 350);
             $carnet = '<a href="javascript:void(0);" onclick="window.open(' . $carnet . '); ">';
 
             echo $carnet . '<span class="small">' . translate('Carnet d\'adresses') . '</span></a>';
@@ -447,7 +447,7 @@ if (isset($user)) {
                 <label class="col-form-label col-sm-12">' . translate('Icone du message') . '</label>
                 <div class="col-sm-12">
                 <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
-                ' . emotion_add($image_subject) . '
+                ' . emotionAdd($image_subject) . '
                 </div>
                 </div>
             </div>';
@@ -460,7 +460,7 @@ if (isset($user)) {
                 <div class="card-header">';
 
         if ($allow_html == 1) {
-            echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+            echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
         } else {
             echo '<span class="text-danger float-end" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         }
@@ -597,7 +597,7 @@ if (isset($user)) {
         } else {
             echo '<input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
 
-            echo auto_complete('membre', 'uname', 'users', 'to_user', '86400');
+            echo autoComplete('membre', 'uname', 'users', 'to_user', '86400');
         }
 
         echo '</div>

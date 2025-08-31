@@ -42,7 +42,7 @@ switch ($pdst) {
         echo '<div id="col_RB" class="collapse show col-lg-3 ">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
 
-        rightblocks($moreclass);
+        rightBlocks($moreclass);
 
         echo '</div>
                 </div>
@@ -58,7 +58,7 @@ switch ($pdst) {
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
 
-        leftblocks($moreclass);
+        leftBlocks($moreclass);
 
         echo '</div>
         </div>';
@@ -68,7 +68,7 @@ switch ($pdst) {
         echo '<div id="col_RB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
 
-        rightblocks($moreclass);
+        rightBlocks($moreclass);
 
         echo '</div>
                 </div>
@@ -84,7 +84,7 @@ switch ($pdst) {
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
 
-        leftblocks($moreclass);
+        leftBlocks($moreclass);
 
         echo '</div>
                 </div>

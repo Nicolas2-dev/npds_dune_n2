@@ -1,7 +1,6 @@
 <?php
 
-if (! function_exists('searchbox'))
-{ 
+if (! function_exists('searchbox')) {
     #autodoc searchbox() : Bloc Search-engine <br />=> syntaxe : function#searchbox
     function searchbox()
     {
@@ -9,7 +8,7 @@ if (! function_exists('searchbox'))
 
         $title = $block_title == '' ? translate('Recherche') : $block_title;
 
-        $content = '<form id="searchblock" action="search.php" method="get">
+        $content = '<form id="searchBlock" action="search.php" method="get">
             <input class="form-control" type="text" name="query" />
         </form>';
 

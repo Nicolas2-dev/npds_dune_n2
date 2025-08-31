@@ -30,7 +30,7 @@ if (!$user) {
 
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
-    $userdata = get_userdata($userdata[1]);
+    $userdata = getUserData($userdata[1]);
 
     settype($start, 'integer');
     settype($type, 'string');
@@ -65,7 +65,7 @@ if (!$user) {
     $resultID = sql_query($sql);
 
     if (!$resultID) {
-        forumerror('0005');
+        forumError('0005');
     } else {
         $myrow = sql_fetch_assoc($resultID);
 
@@ -77,7 +77,7 @@ if (!$user) {
             $result = sql_query($sql);
 
             if (!$result) {
-                forumerror('0005');
+                forumError('0005');
             }
         }
     }
@@ -98,7 +98,7 @@ if (!$user) {
         <div class="card mb-3">
             <div class="card-header">';
 
-        $posterdata = ($type == 'outbox') ? get_userdata_from_id($myrow['to_userid']) : get_userdata_from_id($myrow['from_userid']);
+        $posterdata = ($type == 'outbox') ? getUserDataFromId($myrow['to_userid']) : getUserDataFromId($myrow['from_userid']);
 
         $posts = $posterdata['posts'];
 
@@ -110,7 +110,7 @@ if (!$user) {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = get_userdata_extend_from_id($posterdata['uid']);
+                $posterdata_extend = getUserDataExtendFromId($posterdata['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
@@ -190,7 +190,7 @@ if (!$user) {
             if ($posterdata['uid'] <> 1) {
                 $aff_reso = isset($my_rsos[0]) ? $my_rsos[0] : '';
 
-                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
             } else {
                 echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title=\'<i class="fa fa-cogs fa-lg"></i>\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
             }

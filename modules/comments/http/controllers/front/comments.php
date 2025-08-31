@@ -149,7 +149,7 @@ $sql = "SELECT *
         LIMIT $C_start, $comments_per_page";
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $mycount = sql_num_rows($result);
@@ -165,7 +165,7 @@ if ($mycount) {
     }
 
     do {
-        $posterdata = get_userdata_from_id($myrow['poster_id']);
+        $posterdata = getUserDataFromId($myrow['poster_id']);
 
         if ($myrow['poster_id'] !== '0') {
 
@@ -178,7 +178,7 @@ if ($mycount) {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = get_userdata_extend_from_id($myrow['poster_id']);
+                $posterdata_extend = getUserDataExtendFromId($myrow['poster_id']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
@@ -269,7 +269,7 @@ if ($mycount) {
                     }
                 }
 
-                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . member_qualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" loading="lazy" /></a>
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" loading="lazy" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
             } else {
                 echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" loading="lazy" /></a>

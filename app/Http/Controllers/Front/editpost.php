@@ -29,7 +29,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -37,7 +37,7 @@ $myrow = $rowQ1[0];
 $forum_type = $myrow['forum_type'];
 $forum_access = $myrow['forum_access'];
 
-$moderator = get_moderator($myrow['forum_moderator']);
+$moderator = getModerator($myrow['forum_moderator']);
 
 if (isset($user)) {
     $userX = base64_decode($user);
@@ -67,7 +67,7 @@ if ($submitS) {
     $result = sql_query($sql);
 
     if (!$result) {
-        forumerror('0022');
+        forumError('0022');
     }
 
     $row = sql_fetch_assoc($result);
@@ -76,15 +76,15 @@ if ($submitS) {
         $ok_maj = true;
     } else {
         if (!$Mmod) {
-            forumerror('0035');
+            forumError('0035');
         }
 
-        if ((user_is_moderator($userdata[0], $userdata[2], $forum_access) < 2)) {
-            forumerror('0036');
+        if ((userIsModerator($userdata[0], $userdata[2], $forum_access) < 2)) {
+            forumError('0036');
         }
     }
 
-    $userdata = get_userdata($userdata[1]);
+    $userdata = getUserData($userdata[1]);
 
     if ($allow_html == 0 || isset($html)) {
         $message = htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
@@ -95,8 +95,8 @@ if ($submitS) {
     }
 
     if (($forum_type != 6) and ($forum_type != 5)) {
-        $message = make_clickable($message);
-        $message = af_cod($message);
+        $message = makeClickable($message);
+        $message = afCode($message);
         $message = str_replace("\n", "<br />", removeHack($message));
         $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate('Message édité par') . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
     } else {
@@ -118,7 +118,7 @@ if ($submitS) {
                 WHERE (post_id = '$post_id')";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0001');
+            forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -126,7 +126,7 @@ if ($submitS) {
                 WHERE topicid = '" . $row['topic_id'] . "'";
 
         if (!$r = sql_query($sql)) {
-            forumerror('0001');
+            forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('forumtopics') . " 
@@ -134,7 +134,7 @@ if ($submitS) {
                 WHERE topic_id = '" . $row['topic_id'] . "'";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         }
 
         redirect_url("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
@@ -148,17 +148,17 @@ if ($submitS) {
                     WHERE post_id='$post_id'";
 
             if (!$r = sql_query($sql)) {
-                forumerror('0001');
+                forumError('0001');
             }
 
-            control_efface_post("forum_npds", $post_id, '', '');
+            controlEffacePost("forum_npds", $post_id, '', '');
 
-            if (get_total_posts($forum, $row['topic_id'], "topic", $Mmod) == 0) {
+            if (getTotalPosts($forum, $row['topic_id'], "topic", $Mmod) == 0) {
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id = '" . $row['topic_id'] . "'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0001');
+                    forumError('0001');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
@@ -182,7 +182,7 @@ if ($submitS) {
                         WHERE topic_id = '" . $row['topic_id'] . "'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0001');
+                    forumError('0001');
                 }
             }
 
@@ -205,25 +205,24 @@ if ($submitS) {
             XOR (p.poster_id=0))";
 
     if (!$result = sql_query($sql)) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     $myrow = sql_fetch_assoc($result);
 
     if ((!$Mmod) and ($userdata[0] != $myrow['uid'])) {
-        forumerror('0035');
+        forumError('0035');
     }
 
     if (!$result = sql_query("SELECT topic_title, topic_status 
                               FROM " . sql_prefix('forumtopics') . " 
-                              WHERE topic_id='" . $myrow['topic_id'] . "'")) 
-    {
-        forumerror('0001');
+                              WHERE topic_id='" . $myrow['topic_id'] . "'")) {
+        forumError('0001');
     } else {
         list($title, $topic_status) = sql_fetch_row($result);
 
         if (($topic_status != 0) and !$Mmod) {
-            forumerror('0025');
+            forumError('0025');
         }
     }
 
@@ -232,7 +231,7 @@ if ($submitS) {
     if ($submitP) {
         $acc = 'editpost';
         $title = stripslashes($subject);
-        $message = stripslashes(make_clickable($message));
+        $message = stripslashes(makeClickable($message));
 
         include 'preview.php';
     } else {
@@ -243,8 +242,8 @@ if ($submitS) {
         if (($forum_type != 6) and ($forum_type != 5)) {
             $message = str_replace("<br />", "\n", $message);
             $message = smile($message);
-            $message = desaf_cod($message);
-            $message = undo_htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+            $message = desafCode($message);
+            $message = undoHtmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         } else {
             $message = htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         }
@@ -272,7 +271,7 @@ if ($submitS) {
             echo "<input type=\"hidden\" name=\"subject\" value=\"" . htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\" />";
         }
     } else {
-        forumerror('0036');
+        forumError('0036');
     }
 
     if ($smilies) {
@@ -280,7 +279,7 @@ if ($submitS) {
             <span class="col-form-label">' . translate('Icone du message') . '</span>
             <div class="col-sm-12">
                 <div class="border rounded pt-2 px-2 n-fond_subject">
-                ' . emotion_add($image_subject) . '
+                ' . emotionAdd($image_subject) . '
                 </div>
             </div>
         </div>';
@@ -302,7 +301,7 @@ if ($submitS) {
     echo '</div>';
 
     if ($allow_html == 1) {
-        echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+        echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
     } else {
         echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
     }

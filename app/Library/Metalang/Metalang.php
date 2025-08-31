@@ -9,26 +9,26 @@ use App\Library\Cache\SuperCacheManager;
 class Metalang
 {
 
-/**
- * Filtre un argument passé aux requêtes SQL.
- * Cette fonction est automatiquement appelée par META-LANG lors du passage de paramètres.
- *
- * @param string $arg L'argument à filtrer.
- * @return string L'argument filtré.
- */
-public static function arg_filter(string $arg): string
+    /**
+     * Filtre un argument passé aux requêtes SQL.
+     * Cette fonction est automatiquement appelée par META-LANG lors du passage de paramètres.
+     *
+     * @param string $arg L'argument à filtrer.
+     * @return string L'argument filtré.
+     */
+    public static function arg_filter(string $arg): string
     {
         return removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
 
-/**
- * Génère le code HTML pour un smiley ou une image.
- * Utilisée pour intégrer des smilies et comme service pour theme_img().
- *
- * @param string $ibid Nom ou identifiant de l'image.
- * @return string|false Code HTML de l'image ou false si l'image n'existe pas.
- */
-public static function MM_img(string $ibid): string|false
+    /**
+     * Génère le code HTML pour un smiley ou une image.
+     * Utilisée pour intégrer des smilies et comme service pour theme_img().
+     *
+     * @param string $ibid Nom ou identifiant de l'image.
+     * @return string|false Code HTML de l'image ou false si l'image n'existe pas.
+     */
+    public static function MM_img(string $ibid): string|false
     {
         $ibid = static::arg_filter($ibid);
         $ibidX = theme_image($ibid);
@@ -46,15 +46,15 @@ public static function MM_img(string $ibid): string|false
         return $ret;
     }
 
-/**
- * Appelle une fonction avec un nombre variable d'arguments.
- * Les arguments sont filtrés si c'est un tableau.
- *
- * @param callable $funct La fonction à exécuter.
- * @param array|mixed $arguments Les arguments à passer à la fonction.
- * @return mixed Le résultat de l'exécution de la fonction.
- */
-public static function charg(callable $funct, mixed $arguments): mixed
+    /**
+     * Appelle une fonction avec un nombre variable d'arguments.
+     * Les arguments sont filtrés si c'est un tableau.
+     *
+     * @param callable $funct La fonction à exécuter.
+     * @param array|mixed $arguments Les arguments à passer à la fonction.
+     * @return mixed Le résultat de l'exécution de la fonction.
+     */
+    public static function charg(callable $funct, mixed $arguments): mixed
     {
         if (is_array($arguments)) {
 
@@ -400,12 +400,11 @@ public static function charg(callable $funct, mixed $arguments): mixed
 
         // traitement [code] ... [/code]
         if (strstr($Xcontent, '[code]')) {
-            $Xcontent = aff_code($Xcontent);
+            $Xcontent = affCode($Xcontent);
         }
 
         $NPDS_debug_cycle++;
 
         return $Xcontent;
     }
-
 }

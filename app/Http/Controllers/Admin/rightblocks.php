@@ -23,7 +23,7 @@ $f_meta_nom = 'blocks';
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'admin/manuels/' . $language . '/rightblocks.html';
+$hlpfile = 'admin/manuels/' . $language . '/rightBlocks.html';
 
 function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRaide, $SHTML, $css)
 {
@@ -50,7 +50,7 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
                VALUES (NULL,'$title','$content', '$members', '$Rindex', '$Scache', '1', '$css', '$BRaide')");
 
     global $aid;
-    Ecr_Log('security', sprintf('MakeRightBlock(%s) by AID : %s', aff_langue($title) , $aid), '');
+    Ecr_Log('security', sprintf('MakeRightBlock(%s) by AID : %s', aff_langue($title), $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }

@@ -44,7 +44,7 @@ $mainfile = 1;
 require_once 'auth.inc.php';
 
 if (isset($user)) {
-    $cookie = cookiedecode($user);
+    $cookie = cookieDecode($user);
 }
 
 session_manage();
@@ -57,5 +57,4 @@ $meta_glossaire = charg_metalang();
 date_default_timezone_set('Europe/Paris');
 
 // charegement des blocks.
-load_blocks('blocks');
-
+loadBlocks('blocks');

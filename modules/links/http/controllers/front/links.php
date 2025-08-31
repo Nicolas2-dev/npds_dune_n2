@@ -60,7 +60,7 @@ function menu()
 
     echo '
         <li class="nav-item"><a class="nav-link ' . $ne_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=NewLinks" >' . translate('Nouveautés') . '</a></li>
-        <li class="nav-item"><a class="nav-link " href="#linksearchblock">' . translate('Recherche') . '</a></li>
+        <li class="nav-item"><a class="nav-link " href="#linksearchBlock">' . translate('Recherche') . '</a></li>
     </ul>';
 }
 
@@ -68,7 +68,7 @@ function SearchForm()
 {
     global $ModPath, $ModStart, $links_topic;
 
-    echo '<div class="card card-body mb-3" id="linksearchblock">
+    echo '<div class="card card-body mb-3" id="linksearchBlock">
         <h3 class="mb-3">' . translate('Recherche') . '</h3>
         <form action="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=search" method="post">';
 
@@ -353,7 +353,7 @@ function viewlink($cid, $min, $orderby, $show)
 
         settype($affsouscat, 'string');
 
-        $filen = 'modules/'.$ModPath.'/support/links.ban_02.php';
+        $filen = 'modules/' . $ModPath . '/support/links.ban_02.php';
 
         if (file_exists($filen)) {
             include $filen;

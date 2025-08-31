@@ -60,6 +60,6 @@
     <h3><?php echo $top; ?> [transl]Les plus téléchargés[/transl] <span class="text-body-secondary float-end">[transl]Téléchargements[/transl]</span></h3>
     <div class="clearfix"></div>
     <ol class="list-group" id="topdownload">
-        <?php echo topdownload_data("long", "dcounter"); ?>
+        <?php echo topDownloadData("long", "dcounter"); ?>
     </ol>
 </div>

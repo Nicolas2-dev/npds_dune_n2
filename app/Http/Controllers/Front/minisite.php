@@ -30,7 +30,7 @@ function MNSremoveHack($Xstring)
     if ($tiny_mce) {
         if (!$blog_editor) {
             $tiny_mce_theme = 'full';
-            $blog_editor = aff_editeur('tiny_mce', 'begin') . aff_editeur('story', 'false') . aff_editeur('tiny_mce', 'end');
+            $blog_editor = affEditeur('tiny_mce', 'begin') . affEditeur('story', 'false') . affEditeur('tiny_mce', 'end');
         }
     }
 
@@ -300,7 +300,7 @@ if (($op != '') and ($op)) {
         if (dirname($op) != 'groupe') {
 
             // single user
-            $userdata = get_userdata($op);
+            $userdata = getUserData($op);
 
             if (array_key_exists('mns', $userdata) and $userdata['mns'] == true) {
                 $affich = true;
@@ -338,7 +338,7 @@ if (($op != '') and ($op)) {
 
                 function adm_translate() {};
 
-                $gX = liste_group();
+                $gX = listeGroup();
 
                 foreach ($gX as $g_id => $g_name) {
                     if ($g_id == basename($op)) {
@@ -347,7 +347,7 @@ if (($op != '') and ($op)) {
                 }
             }
 
-            $tabgp = valid_group($user);
+            $tabgp = validGroup($user);
 
             if (is_array($tabgp)) {
                 foreach ($tabgp as $auto) {
@@ -495,7 +495,7 @@ if ($affich) {
         if ($adminblog) {
             echo '<script type="text/javascript">
                     //<![CDATA[
-                        $(".modal-body").load("modules/blog/views/manuels/'. $language .'/readme.' . $language . '.txt"
+                        $(".modal-body").load("modules/blog/views/manuels/' . $language . '/readme.' . $language . '.txt"
                         , function(dataaide, textStatus, jqxhr) {
                             $("#aide_mns").html(dataaide.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"));
                         });

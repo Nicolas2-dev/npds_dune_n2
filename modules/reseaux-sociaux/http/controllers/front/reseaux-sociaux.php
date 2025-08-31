@@ -46,7 +46,7 @@ if (!$user) {
 }
 
 global $cookie, $language;
-$userdata = get_userdata_from_id($cookie[0]);
+$userdata = getUserDataFromId($cookie[0]);
 
 $ModStart = 'reseaux-sociaux';
 
@@ -103,7 +103,7 @@ function EditReseaux($ModPath, $ModStart)
     include 'header.php';
 
     global $cookie;
-    $posterdata_extend = get_userdata_extend_from_id($cookie[0]);
+    $posterdata_extend = getUserDataExtendFromId($cookie[0]);
 
     if ($posterdata_extend['M2'] != '') {
         $i = 0;

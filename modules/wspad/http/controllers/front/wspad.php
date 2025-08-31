@@ -45,21 +45,21 @@ if (
 global $title, $language, $user, $admin, $nuke_url;
 // For More security
 
-if (file_exists('modules/'. $ModPath .'/routes/pages/pages.php')) {
-    include 'modules/'. $ModPath .'/routes/pages/pages.php';
+if (file_exists('modules/' . $ModPath . '/routes/pages/pages.php')) {
+    include 'modules/' . $ModPath . '/routes/pages/pages.php';
 }
 
-include_once('modules/'. $ModPath .'/language/'. $language .'/'. $language .'.php'); {
-    include_once 'modules/'. $ModPath .'/config/config.php';
+include_once('modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php'); {
+    include_once 'modules/' . $ModPath . '/config/config.php';
 }
 
 // limite l'utilisation aux membres et admin
 settype($member, 'integer');
 
 if ($user or $admin) {
-    $tab_groupe = valid_group($user);
+    $tab_groupe = validGroup($user);
 
-    if (groupe_autorisation($member, $tab_groupe)) {
+    if (groupeAutorisation($member, $tab_groupe)) {
         $groupe = $member;
         $auteur = $cookie[1];
     } else {
@@ -284,9 +284,11 @@ function Liste_Page()
                     <td class="small">' . formatTimes($modtime, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</td>';
 
                 // voir la révision du ranq x
-                $PopUp = JavaPopUp(
-                    'modules.php?ModPath=' . $ModPath . '&amp;ModStart=preview&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq), 
-                    'NPDS_wspad', 500, 400
+                $PopUp = javaPopup(
+                    'modules.php?ModPath=' . $ModPath . '&amp;ModStart=preview&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
+                    'NPDS_wspad',
+                    500,
+                    400
                 );
 
                 $aff .= '<td>
@@ -306,9 +308,11 @@ function Liste_Page()
                     </a>';
 
                     // exporter la révision du ranq x
-                    $PopUp = JavaPopUp(
-                        'modules.php?ModPath=' . $ModPath . '&amp;ModStart=export&amp;type=doc&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq), 
-                        'NPDS_wspad', 5, 5
+                    $PopUp = javaPopup(
+                        'modules.php?ModPath=' . $ModPath . '&amp;ModStart=export&amp;type=doc&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
+                        'NPDS_wspad',
+                        5,
+                        5
                     );
 
                     $aff .= '<a class="ms-2 fs-5" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . wspad_trans('Exporter .doc') . '" data-bs-toggle="tooltip" data-bs-placement="left">
@@ -355,7 +359,7 @@ function Page($page, $ranq)
             }
             function TimerAct() {
                 clearTimeout(timerID);
-                ws_verrou('". $auteur ."', '". $page ."', '". $groupe ."');
+                ws_verrou('" . $auteur . "', '" . $page . "', '" . $groupe . "');
                 TimerInit();
             }
             function TimerDes() {
@@ -374,10 +378,10 @@ function Page($page, $ranq)
                 } else {
                     xmlhttp=new ActiveXObject(\"Microsoft.XMLHTTP\");
                 }
-                var url='modules/". $ModPath ."/http/controllers/front/ws_verrou.php?verrou_user='+xuser+'&verrou_page='+xpage+'&verrou_groupe='+xgroupe+'&random='+Math.random();
+                var url='modules/" . $ModPath . "/http/controllers/front/ws_verrou.php?verrou_user='+xuser+'&verrou_page='+xpage+'&verrou_groupe='+xgroupe+'&random='+Math.random();
                 xmlhttp.open('GET', url, true);
                 xmlhttp.send();
-                document.getElementById('verrous').src='modules/". $ModPath ."/assets/images/ajax_waiting.gif';
+                document.getElementById('verrous').src='modules/" . $ModPath . "/assets/images/ajax_waiting.gif';
                 document.getElementById('mess').innerHTML='';
             }
             document.getElementsByTagName('body')[0].setAttribute('onload','TimerInit();');
@@ -481,7 +485,7 @@ function Page($page, $ranq)
             </textarea>
         </div>';
 
-    echo aff_editeur('content', '');
+    echo affEditeur('content', '');
 
     if ($edition) {
         echo '<div class="mb-3">

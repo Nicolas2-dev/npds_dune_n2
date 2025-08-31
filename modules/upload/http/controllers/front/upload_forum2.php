@@ -26,7 +26,7 @@ $forum = $IdForum;
 
 include_once 'auth.php';
 include_once 'functions.php';
-include_once 'modules/upload/language/'. $language .'/upload.lang-'. $language .'.php';
+include_once 'modules/upload/language/' . $language . '/upload.lang-' . $language . '.php';
 include_once 'modules/upload/config/upload.conf.forum.php';
 include_once 'modules/upload/support/upload.func.forum.php';
 include_once 'library/file/File.php';
@@ -73,7 +73,7 @@ if ($userdata[9] != '') {
 
     $tmp_theme = $theme;
 
-    if (!$file = @opendir('themes/'. $theme)) {
+    if (!$file = @opendir('themes/' . $theme)) {
         $tmp_theme = $Default_Theme;
     }
 } else {
@@ -86,7 +86,7 @@ echo '<link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" /
 <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />';
 
-echo import_css($tmp_theme, $language, $skin, '', '');
+echo importCss($tmp_theme, $language, $skin, '', '');
 
 echo '</head>
     <body class="bg-body-tertiary">';
@@ -97,12 +97,12 @@ $sql = "SELECT forum_moderator
         WHERE forum_id = '$forum'";
 
 if (!$result = sql_query($sql)) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
 
-$moderator = get_moderator($myrow['forum_moderator']);
+$moderator = getModerator($myrow['forum_moderator']);
 
 $moderator = explode(' ', $moderator);
 

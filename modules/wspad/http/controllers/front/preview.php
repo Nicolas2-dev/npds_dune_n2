@@ -80,7 +80,7 @@ include 'storage/meta/meta.php';
 
 echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />';
 
-echo import_css($tmp_theme, $language, $skin, '', '');
+echo importCss($tmp_theme, $language, $skin, '', '');
 
 echo '</head>
     <body style="padding: 10px; background:#ffffff;">';

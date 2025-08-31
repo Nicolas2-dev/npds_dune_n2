@@ -74,7 +74,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
 
     // Tiny_mce
     if ($tiny_mce_init) {
-        echo aff_editeur('tiny_mce', 'begin');
+        echo affEditeur('tiny_mce', 'begin');
     }
 
     // include externe JAVASCRIPT file from modules/include or themes/.../include for functions, codes in the <body onload="..." event...
@@ -120,7 +120,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         include 'themes/' . $tmp_theme . '/bootstrap/header_head.php';
     }
 
-    echo import_css($tmp_theme, $language, '', $css_pages_ref, $css);
+    echo importCss($tmp_theme, $language, '', $css_pages_ref, $css);
 
     // Mod by Jireck - Chargeur de JS via PAGES.PHP
     if ($js) {
@@ -131,7 +131,6 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
                 } else {
                     if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
                         echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
-
                     } elseif (file_exists("$tab_js") and ($tab_js != "")) {
                         echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
                     }
@@ -140,7 +139,6 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         } else {
             if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
                 echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
-
             } elseif (file_exists($js)) {
                 echo '<script type="text/javascript" src="' . $js . '"></script>';
             }
@@ -380,7 +378,7 @@ if ($tiny_mce) {
 
 // Chargeur de CSS via PAGES.PHP 
 
-// !!! Note : ici bug sur css qui et envoyer sur head qui lui renvoie sur import_css() qui renvoie sur import_css_javascript() 
+// !!! Note : ici bug sur css qui et envoyer sur head qui lui renvoie sur importCss() qui renvoie sur importCssJavascript() 
 // et $css fini par etre ecraser par  $oups = $PAGES[$css_pages_ref]['css'];  ==> $css = substr($oups, 0, -1);
 
 if (array_key_exists($pages_ref, $PAGES)) {

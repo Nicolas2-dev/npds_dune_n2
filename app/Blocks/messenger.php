@@ -99,7 +99,7 @@ if (! function_exists('instant_members_message')) {
                                                             AND type_msg='0'"));
 
                     if ($new_messages > 0) {
-                        $PopUp = JavaPopUp('readpmsg_imm.php?op=new_msg', 'IMM', 600, 500);
+                        $PopUp = javaPopup('readpmsg_imm.php?op=new_msg', 'IMM', 600, 500);
                         $PopUp = "<a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">";
 
                         $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
@@ -116,7 +116,7 @@ if (! function_exists('instant_members_message')) {
                                                             AND dossier='...'"));
 
                         if ($messages > 0) {
-                            $PopUp = JavaPopUp('readpmsg_imm.php?op=msg', 'IMM', 600, 500);
+                            $PopUp = javaPopup('readpmsg_imm.php?op=msg', 'IMM', 600, 500);
                             $PopUp = '<a href="javascript:void(0);" onclick="window.open(' . $PopUp . ');">';
 
                             $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';

@@ -125,7 +125,7 @@ function displayadmins()
         <tbody>';
 
     while (list($a_aid, $name, $url, $email, $supadm) = sql_fetch_row($result)) {
-        if ($supadm == 1) { 
+        if ($supadm == 1) {
             echo '<tr class="table-danger">';
         } else {
             echo '<tr>';
@@ -218,8 +218,8 @@ function displayadmins()
         ' . $scri_check;
 
     $arg1 = 'var formulid = ["nou_adm"];
-        ' . auto_complete('admin', 'aid', 'authors', '', '0') . '
-        ' . auto_complete('adminname', 'name', 'authors', '', '0') . '
+        ' . autoComplete('admin', 'aid', 'authors', '', '0') . '
+        ' . autoComplete('adminname', 'name', 'authors', '', '0') . '
         inpandfieldlen("add_aid",30);
         inpandfieldlen("add_name",50);
         inpandfieldlen("add_email",254);
@@ -451,7 +451,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
     include_once 'functions.php';
 
-    if (checkdnsmail($chng_email) === false) {
+    if (checkDnsMail($chng_email) === false) {
         global $hlpfile;
 
         include 'header.php';
@@ -472,8 +472,8 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
     if (!$ori_radminsuper and $chng_radminsuper) {
         @copy(
-            'modules/f-manager/support/stub/config/admin.stub', 
-            'modules/f-manager/storage/users/' . strtolower($chng_aid) .' .php'
+            'modules/f-manager/support/stub/config/admin.stub',
+            'modules/f-manager/storage/users/' . strtolower($chng_aid) . ' .php'
         );
 
         deletedroits($chng_aid);
@@ -491,7 +491,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
     if (($chng_radminsuper or $ad_d_27 != '') and !file_exists('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php')) {
         @copy(
-            'modules/f-manager/support/stub/config/admin.stub', 
+            'modules/f-manager/support/stub/config/admin.stub',
             'modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php'
         );
     }
@@ -615,7 +615,7 @@ switch ($op) {
 
         include_once 'functions.php';
 
-        if (checkdnsmail($add_email) === false) {
+        if (checkDnsMail($add_email) === false) {
             global $hlpfile;
 
             include 'header.php';
@@ -642,7 +642,7 @@ switch ($op) {
         // Copie du fichier pour filemanager
         if ($add_radminsuper or isset($ad_d_27)) { // $ad_d_27 pas là ?
             @copy(
-                'modules/f-manager/support/stub/config/admin.stub', 
+                'modules/f-manager/support/stub/config/admin.stub',
                 'modules/f-manager/storage/users/' . strtolower($add_aid) . '.php'
             );
         }

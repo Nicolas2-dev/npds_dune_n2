@@ -247,7 +247,7 @@ function links()
                 </div>
             </div>';
 
-        echo aff_editeur('xtext', '');
+        echo affEditeur('xtext', '');
 
         echo '<div class="mb-3 row">
                     <label class="col-form-label col-sm-3" for="name">' . translate('Nom') . '</label>
@@ -369,7 +369,7 @@ function links()
         </div>';
 
         if ($adminform == '') {
-            echo aff_editeur("xtext", "false");
+            echo affEditeur("xtext", "false");
         }
 
         echo '<div class="mb-3 row">
@@ -720,7 +720,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 </div>
             </div>';
 
-        echo aff_editeur('xtext', '');
+        echo affEditeur('xtext', '');
 
         echo '
             <div class="mb-3 row">

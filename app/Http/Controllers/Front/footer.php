@@ -88,7 +88,7 @@ function footer_before()
 
 global $tiny_mce;
 if ($tiny_mce) {
-    echo aff_editeur('tiny_mce', 'end');
+    echo affEditeur('tiny_mce', 'end');
 }
 
 // include externe file from modules/include for functions, codes ...

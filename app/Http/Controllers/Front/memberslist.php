@@ -18,7 +18,7 @@ if (!function_exists('Mysql_Connexion')) {
 include 'functions.php';
 
 // Make Member_list Private or not
-if (!AutoReg()) {
+if (!autoReg()) {
     unset($user);
 }
 
@@ -366,7 +366,7 @@ if ($letter != 'front') {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = get_userdata_extend_from_id($temp_user['uid']);
+                $posterdata_extend = getUserDataExtendFromId($temp_user['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
                 include 'modules/geoloc/config/config.php';
@@ -474,7 +474,7 @@ if ($letter != 'front') {
 
                 if ($sortby != 'user_from ASC') {
                     if ($admin) {
-                        if (isbadmailuser($temp_user['uid']) === true) {
+                        if (isBadMailUser($temp_user['uid']) === true) {
                             echo '<td class="table-danger"><small>' . $temp_user['email'] . '</small></td>';
                         } else {
                             echo '<td><small>' . preg_anti_spam($temp_user['email']) . '</small></td>';

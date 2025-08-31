@@ -47,7 +47,7 @@ include_once 'functions.php';
 
 if ($subscribe) {
     //proto
-    if (isbadmailuser($userinfo['uid']) === false) {
+    if (isBadMailUser($userinfo['uid']) === false) {
         if ($userinfo['send_email'] == 1) {
             $checked = true;
         } else {
@@ -70,7 +70,7 @@ if ($member_invisible) {
 
 // LNL
 //proto
-if (isbadmailuser($userinfo['uid']) === false) {
+if (isBadMailUser($userinfo['uid']) === false) {
     if ($userinfo['user_lnl']) {
         $checked = true;
     } else {

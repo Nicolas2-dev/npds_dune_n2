@@ -13,7 +13,7 @@ class Auth
      * @return array|null Retourne un tableau associatif contenant les informations de l'utilisateur,
      *                    ou null si l'utilisateur n'existe pas.
      */
-    public static function getusrinfo(string $user): ?array
+    public static function getUserInfo(string $user): ?array
     {
         $cookie = explode(':', base64_decode($user));
 
@@ -30,7 +30,7 @@ class Auth
 
             if (sql_num_rows($result) == 1) {
                 return sql_fetch_assoc($result);
-            } 
+            }
             //else {
             //
             //    // Pas d'echo ici, cela pourrait poser un problème d'affichage !
@@ -45,19 +45,19 @@ class Auth
     /**
      * Vérifie et gère l'auto-enregistrement des utilisateurs.
      *
-     * Si la configuration `AutoRegUser` est activée et que l'utilisateur
+     * Si la configuration `autoRegUser` est activée et que l'utilisateur
      * ne dispose pas du droit de connexion, le cookie NPDS est réinitialisé.
      *
      * @return bool True si l'utilisateur peut rester connecté / auto-enregistré,
      *              False si le cookie NPDS a été réinitialisé.
      */
-    public static function AutoReg(): bool
+    public static function autoReg(): bool
     {
-        global $AutoRegUser, $user;
+        global $autoRegUser, $user;
 
-        $autoregEnabled = (bool) $AutoRegUser;
+        $autoRegEnabled = (bool) $autoRegUser;
 
-        if (!$autoregEnabled) {
+        if (!$autoRegEnabled) {
             if (isset($user)) {
 
                 $cookie = explode(':', base64_decode($user));
@@ -109,7 +109,7 @@ class Auth
         }
 
         if ($auto > 1) {
-            $tab_groupe = valid_group($user);
+            $tab_groupe = validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {
@@ -142,7 +142,7 @@ class Auth
      * @param string $typeStatut Le type de statut à vérifier ('member' ou 'admin').
      * @return bool True si le visiteur correspond au type, false sinon.
      */
-    public static function secur_static(string $typeStatut): bool
+    public static function securStatic(string $typeStatut): bool
     {
         global $user, $admin;
 
@@ -152,5 +152,4 @@ class Auth
             default  => false,
         };
     }
-
 }

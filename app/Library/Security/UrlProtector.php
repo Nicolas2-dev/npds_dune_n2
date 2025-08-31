@@ -12,7 +12,7 @@ class UrlProtector
      * Cette fonction :
      * - Inclut la configuration `url_protect.php` contenant les mots clés et contenus interdits
      * - Décode l'URL passée et effectue des comparaisons avec les valeurs interdites
-     * - Bloque l'accès si une correspondance est trouvée en appelant `access_denied()`
+     * - Bloque l'accès si une correspondance est trouvée en appelant `accessDenied()`
      *
      * @param string $arr La valeur de l'URL à vérifier (ex: `$_GET['param']`)
      * @param string $key La clé associée dans l'URL (ex: `'param'`)
@@ -42,8 +42,7 @@ class UrlProtector
             unset($bad_uri_key);
             unset($badname_in_uri);
 
-            access_denied();
+            accessDenied();
         }
     }
-
 }

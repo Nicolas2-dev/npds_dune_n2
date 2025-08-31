@@ -12,7 +12,7 @@ class Groupe
      * @param string|null $xuser Chaîne encodée en base64 contenant l'UID de l'utilisateur
      * @return array<string>|string Tableau de groupes ou chaîne vide si aucun utilisateur
      */
-    public static function valid_group(?string $xuser): array|string
+    public static function validGroup(?string $xuser): array|string
     {
         if ($xuser) {
             $userdata = explode(':', base64_decode($xuser));
@@ -36,7 +36,7 @@ class Groupe
      *
      * @return array<int|string, string> Tableau associatif [id => nom du groupe]
      */
-    public static function liste_group(): array
+    public static function listeGroup(): array
     {
         $r = sql_query("SELECT groupe_id, groupe_name 
                         FROM " . sql_prefix('groupes') . " 
@@ -60,9 +60,9 @@ class Groupe
      * @param array<string> $tab_groupeX Groupes de l'utilisateur
      * @return bool True si autorisé, false sinon
      */
-    public static function groupe_forum(string $forum_groupeX, array $tab_groupeX): bool
+    public static function groupeForum(string $forum_groupeX, array $tab_groupeX): bool
     {
-        return static::groupe_autorisation($forum_groupeX, $tab_groupeX);
+        return static::groupeAutorisation($forum_groupeX, $tab_groupeX);
     }
 
     /**
@@ -72,7 +72,7 @@ class Groupe
      * @param array<string> $tab_groupeX Groupes de l'utilisateur
      * @return bool True si autorisé, false sinon
      */
-    public static function groupe_autorisation(string $groupeX, array $tab_groupeX): bool
+    public static function groupeAutorisation(string $groupeX, array $tab_groupeX): bool
     {
         $tab_groupe = explode(',', $groupeX);
 
@@ -104,11 +104,11 @@ class Groupe
      * @param int $i_gr Affichage de l'image (1 = afficher)
      * @return string HTML du bloc groupe
      */
-    public static function fab_espace_groupe(int|string $gr, int $t_gr, int $i_gr): string
+    public static function fabEspaceEroupe(int|string $gr, int $t_gr, int $i_gr): string
     {
         global $short_user, $dblink;
 
-        $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupe_forum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
+        $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupeForum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
                                         FROM " . sql_prefix('groupes') . " 
                                         WHERE groupe_id='$gr'"));
 
@@ -145,8 +145,8 @@ class Groupe
                 FROM " . sql_prefix('users_status') . " 
                 WHERE ";
 
-        $query .= (version_compare($mysql_version, '8.0.4', '>=')) 
-            ? "groupe REGEXP '\\\\b$gr\\\\b'" 
+        $query .= (version_compare($mysql_version, '8.0.4', '>='))
+            ? "groupe REGEXP '\\\\b$gr\\\\b'"
             : "groupe REGEXP '[[:<:]]" . $gr . "[[:>:]]'";
 
         $query .= " ORDER BY uid ASC";
@@ -178,7 +178,7 @@ class Groupe
 
                 include_once 'functions.php';
 
-                $posterdata_extend = get_userdata_extend_from_id($uid);
+                $posterdata_extend = getUserDataExtendFromId($uid);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
@@ -262,10 +262,10 @@ class Groupe
             } else if (stristr($user_avatar, 'users_private')) {
                 $imgtmp = $user_avatar;
             } else {
-                if ($ibid = theme_image('forum/avatar/'. $user_avatar)) {
+                if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
                     $imgtmp = $ibid;
                 } else {
-                    $imgtmp = 'assets/images/forum/avatar/'. $user_avatar;
+                    $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
                 }
 
                 if (!file_exists($imgtmp)) {
@@ -286,7 +286,7 @@ class Groupe
             }
 
             $li_ic .= '<img class="n-smil" src="' . $imgtmp . '" alt="avatar" loading="lazy" />';
-            
+
             $li_mb .= '<li class="list-group-item list-group-item-action d-flex flex-row p-2">
                 <div id="li_mb_' . $uname . '_' . $gr . '" class="n-ellipses">
                 ' . $conn . '<a class="ms-2" tabindex="0" data-bs-title="' . $uname . '" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-content=\'<div class="list-group mb-3">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">';
@@ -317,7 +317,7 @@ class Groupe
         $lst_for_tog = '';
         $nb_for_gr = '';
 
-        if ($rsql['groupe_forum'] == 1) {
+        if ($rsql['groupeForum'] == 1) {
             $res_forum = sql_query("SELECT forum_id, forum_name 
                                     FROM " . sql_prefix('forums') . " 
                                     WHERE forum_pass REGEXP '$gr'");
@@ -326,7 +326,7 @@ class Groupe
 
             if ($nb_foru >= 1) {
                 $lst_for_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_for_gr_' . $gr . '" class="text-primary" id="show_lst_for_' . $gr . '" title="' . translate('Déplier la liste') . '" ><i id="i_lst_for_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
-                
+
                 $lst_for .= '<ul id="lst_for_gr_' . $gr . '" class="list-group ul_bloc_ws collapse" style ="list-style-type:none;">';
 
                 $nb_for_gr = '  <span class="badge bg-secondary float-end">' . $nb_foru . '</span>';
@@ -363,7 +363,7 @@ class Groupe
 
             if ($nb_doc >= 1) {
                 $lst_doc_tog = '<a data-bs-toggle="collapse" data-bs-target="#lst_doc_gr_' . $gr . '" class="text-primary" id="show_lst_doc_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_doc_gr_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a>';
-                
+
                 $lst_doc .= '<ul id="lst_doc_gr_' . $gr . '" class="list-group ul_bloc_ws mt-3 collapse">';
 
                 $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
@@ -419,7 +419,7 @@ class Groupe
         settype($chat_img, 'string');
 
         if ($rsql['groupe_chat'] == 1) {
-            $PopUp = JavaPopUp('chat.php?id=' . $gr . '&amp;auto=' . encrypt(serialize($gr)), 'chat' . $gr, 380, 480);
+            $PopUp = javaPopup('chat.php?id=' . $gr . '&amp;auto=' . encrypt(serialize($gr)), 'chat' . $gr, 380, 480);
 
             if (array_key_exists('chat_info_' . $gr, $_COOKIE)) {
                 if ($_COOKIE['chat_info_' . $gr]) {
@@ -440,5 +440,4 @@ class Groupe
 
         return $content;
     }
-
 }

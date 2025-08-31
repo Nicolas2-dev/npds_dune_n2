@@ -14,7 +14,7 @@
 /************************************************************************/
 /************************************************************************/
 /* You can secur the access to static page by using the methode         */
-/* describe in model.txt, simply add phpcode to call secur_static       */
+/* describe in model.txt, simply add phpcode to call securStatic       */
 /* new function (in mainfile.php).                                      */
 /* this function accept one param with three values :                   */
 /* - member / admin                                                     */
@@ -74,17 +74,17 @@ if (($op != '') && ($op)) {
         && !stristr($op, 'meta')
     ) {
 
-        if (file_exists('storage/static/'. $op)) {
+        if (file_exists('storage/static/' . $op)) {
             if (!$metalang and !$nl) {
-                include 'storage/static/'. $op;
+                include 'storage/static/' . $op;
             } else {
                 ob_start();
-                    include 'storage/static/'. $op;
-                    $remp = ob_get_contents();
+                include 'storage/static/' . $op;
+                $remp = ob_get_contents();
                 ob_end_clean();
 
                 if ($metalang) {
-                    $remp = meta_lang(aff_code(aff_langue($remp)));
+                    $remp = meta_lang(affCode(aff_langue($remp)));
                 }
 
                 if ($nl) {

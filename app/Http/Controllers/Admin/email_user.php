@@ -99,7 +99,7 @@ function email_user()
         </div>
     </div>';
 
-    echo aff_editeur('AdmMI', '');
+    echo affEditeur('AdmMI', '');
 
     echo '<div class="mb-3 row">
                 <div class="col-sm-12">
@@ -146,7 +146,7 @@ function email_user()
     $arg1 = 'var formulid = ["emailuseradm"];
         inpandfieldlen("subject",100);';
 
-    echo auto_complete('membre', 'uname', 'users', 'username', '86400');
+    echo autoComplete('membre', 'uname', 'users', 'username', '86400');
 
     adminfoot('fv', '', $arg1, '');
 }

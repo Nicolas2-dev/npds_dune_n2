@@ -33,7 +33,7 @@ function groupe($groupe)
 {
     $les_groupes = explode(',', $groupe);
 
-    $mX = liste_group();
+    $mX = listeGroup();
 
     $nbg = 0;
     $str = '';
@@ -305,7 +305,7 @@ function DownloadAdmin()
                 <textarea class="tin form-control" id="xtext" name="xtext" rows="20" ></textarea>
             </div>
         </div>
-        ' . aff_editeur('xtext', '') . '
+        ' . affEditeur('xtext', '') . '
         <fieldset>
             <legend>' . adm_translate('Droits') . '</legend>';
 
@@ -424,7 +424,7 @@ function DownloadEdit($did)
                 <textarea class="tin form-control" id="xtext" name="xtext" rows="20" >' . $ddescription . '</textarea>
             </div>
         </div>
-        ' . aff_editeur('xtext', '');
+        ' . affEditeur('xtext', '');
 
     echo '<fieldset>
             <legend>' . adm_translate('Droits') . '</legend>';

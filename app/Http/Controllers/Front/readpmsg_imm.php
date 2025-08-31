@@ -73,7 +73,7 @@ function show_imm($op)
 
         include 'themes/' . $theme . '/views/theme.php';
 
-        $userdata = get_userdata($userdata[1]);
+        $userdata = getUserData($userdata[1]);
 
         $sql = ($op != 'new_msg')
             ? "SELECT * FROM " . sql_prefix('priv_msgs') . " 
@@ -103,14 +103,14 @@ function show_imm($op)
                 include 'storage/meta/meta.php';
                 include 'themes/base/bootstrap/header_head.php';
 
-                echo import_css($tmp_theme, $language, $skin, '', '');
+                echo importCss($tmp_theme, $language, $skin, '', '');
 
                 echo '</head>
                 <body>
                     <div class="p-3">';
             }
 
-            $posterdata = get_userdata_from_id($myrow['from_userid']);
+            $posterdata = getUserDataFromId($myrow['from_userid']);
 
             echo '<div class="card mb-3">
                <div class="card-body">
@@ -133,7 +133,7 @@ function show_imm($op)
             /*
             $posts = $posterdata['posts'];
             if ($posterdata['uid'] <> 1) {
-                echo member_qualif($posterdata['uname'], $posts, $posterdata['rang']);
+                echo memberQualif($posterdata['uname'], $posts, $posterdata['rang']);
             }
             */
 
@@ -210,7 +210,7 @@ function sup_imm($msg_id)
                 AND to_userid='$cookie[0]'";
 
         if (!sql_query($sql)) {
-            forumerror('0021');
+            forumError('0021');
         }
     }
 }
@@ -228,7 +228,7 @@ function read_imm($msg_id, $sub_op)
                 AND to_userid='$cookie[0]'";
 
         if (!sql_query($sql)) {
-            forumerror('0021');
+            forumError('0021');
         }
 
         if ($sub_op == 'reply') {

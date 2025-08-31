@@ -96,31 +96,31 @@ if ($admin) {
         <tbody>
             <tr>
                 <td>' . translate('Nb. pages vues') . ' : </td>
-                '. row_span($totalz, $xtotalz) .'
+                ' . row_span($totalz, $xtotalz) . '
             </tr>
             <tr>
                 <td>' . translate('Nb. de membres') . ' : </td>
-                '. row_span($membres, $xmembres) .'
+                ' . row_span($membres, $xmembres) . '
             </tr>
             <tr>
                 <td>' . translate('Nb. d\'articles') . ' : </td>
-                '. row_span($totala, $xtotala) .'
+                ' . row_span($totala, $xtotala) . '
             </tr>
             <tr>
                 <td>' . translate('Nb. de forums') . ' : </td>
-                '. row_span($totalc, $xtotalc) .'
+                ' . row_span($totalc, $xtotalc) . '
             </tr>
             <tr>
                 <td>' . translate('Nb. de sujets') . ' : </td>
-                '. row_span($totald, $xtotald) .'
+                ' . row_span($totald, $xtotald) . '
             </tr>
             <tr>
                 <td>' . translate('Nb. de critiques') . ' : </td>
-                '. row_span($totalb, $xtotalb) .'
+                ' . row_span($totalb, $xtotalb) . '
             </tr>
             <tr>
                 <td>' . translate('Nb abonnés à lettre infos') . ' : </td>
-                '. row_span($totalnl, $xtotalnl) .'
+                ' . row_span($totalnl, $xtotalnl) . '
             </tr>';
 
     $xfile = "<?php\n";
@@ -203,7 +203,7 @@ if ($admin) {
                     ORDER BY forum_index, forum_id";
 
         if (!$sub_result = sql_query($sub_sql)) {
-            forumerror('0022');
+            forumError('0022');
         }
 
         if ($myrow = sql_fetch_assoc($sub_result)) {
@@ -215,11 +215,11 @@ if ($admin) {
             do {
                 $num_for++;
 
-                $last_post = get_last_post($myrow['forum_id'], 'forum', 'infos', true);
+                $last_post = getLastPost($myrow['forum_id'], 'forum', 'infos', true);
 
                 echo '<tr>';
 
-                $total_topics = get_total_topics($myrow['forum_id']);
+                $total_topics = getTotalTopics($myrow['forum_id']);
 
                 $name = stripslashes($myrow['forum_name']);
                 $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
@@ -246,7 +246,7 @@ if ($admin) {
 
                 echo '</span> -/- ' . $total_topics . '</td>';
 
-                $total_posts = get_total_posts($myrow['forum_id'], "", "forum", false);
+                $total_posts = getTotalPosts($myrow['forum_id'], "", "forum", false);
                 $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
 
                 echo '<td class="text-center"><span class="text-danger">';

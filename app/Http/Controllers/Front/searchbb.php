@@ -36,7 +36,7 @@ function ancre($forum_id, $topic_id, $post_id, $posts_per_page)
                         ORDER BY post_id ASC", 600);
 
     if (!$rowQ1) {
-        forumerror('0015');
+        forumError('0015');
     }
 
     $i = 0;
@@ -107,7 +107,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_id
                     FROM " . sql_prefix('forums'), 3600);
 
 if (!$rowQ1) {
-    forumerror('0015');
+    forumError('0015');
 }
 
 foreach ($rowQ1 as $row) {
@@ -217,13 +217,13 @@ if (isset($username) && $username != '') {
     if (!$result = sql_query("SELECT uid 
                               FROM " . sql_prefix('users') . " 
                               WHERE uname='$username'")) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     list($userid) = sql_fetch_row($result);
 
-    $addquery .= isset($addquery) 
-        ? " AND p.poster_id='$userid' AND u.uname='$username'" 
+    $addquery .= isset($addquery)
+        ? " AND p.poster_id='$userid' AND u.uname='$username'"
         : " p.poster_id='$userid' AND u.uname='$username'";
 }
 
@@ -235,8 +235,8 @@ if (!$user) {
     $addquery .= " AND f.forum_type!='5' AND f.forum_type!='7' AND f.forum_type!='9'";
 }
 
-$query .= isset($addquery) 
-    ? " WHERE $addquery AND  " 
+$query .= isset($addquery)
+    ? " WHERE $addquery AND  "
     : ' WHERE ';
 
 settype($sortby, 'integer');
@@ -257,13 +257,13 @@ if ($sortby == 3) {
     $sortbyR = 'u.uname';
 }
 
-$query .= isset($only_solved) 
+$query .= isset($only_solved)
     ? " p.topic_id = t.topic_id 
        AND p.forum_id = f.forum_id 
        AND p.poster_id = u.uid 
        AND t.topic_status='2' 
        GROUP BY t.topic_title, u.uid, p.topic_id, p.post_id 
-       ORDER BY $sortbyR DESC" 
+       ORDER BY $sortbyR DESC"
 
     : " p.topic_id = t.topic_id 
        AND p.forum_id = f.forum_id 
@@ -297,8 +297,8 @@ if ($affiche) {
         if (($row['forum_type'] == 5) or ($row['forum_type'] == 7)) {
             $ok_affich = false;
 
-            $tab_groupe = valid_group($user);
-            $ok_affich = groupe_forum($row['forum_pass'], $tab_groupe);
+            $tab_groupe = validGroup($user);
+            $ok_affich = groupeForum($row['forum_pass'], $tab_groupe);
         } else {
             $ok_affich = true;
         }
@@ -339,6 +339,6 @@ if ($affiche) {
 
 sql_free_result($result);
 
-echo auto_complete('membre', 'uname', 'users', 'username', '86400');
+echo autoComplete('membre', 'uname', 'users', 'username', '86400');
 
 include 'footer.php';

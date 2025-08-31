@@ -129,7 +129,7 @@ function AddLink()
                 </div>
             </div>';
 
-        echo aff_editeur('xtext', '');
+        echo affEditeur('xtext', '');
 
         global $cookie;
         $nom = isset($cookie) ? $cookie[1] : '';

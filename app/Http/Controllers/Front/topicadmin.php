@@ -74,16 +74,16 @@ if (isset($user)) {
                        WHERE forum_id = '$forum'", 3600);
 
     if (!$rowQ1) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     $myrow = $rowQ1[0];
 
-    $moderator = explode(' ', get_moderator($myrow['forum_moderator']));
+    $moderator = explode(' ', getModerator($myrow['forum_moderator']));
 
     for ($i = 0; $i < count($moderator); $i++) {
         if (($userdata[1] == $moderator[$i])) {
-            if (user_is_moderator($userdata[0], $userdata[2], $myrow['forum_access'])) {
+            if (userIsModerator($userdata[0], $userdata[2], $myrow['forum_access'])) {
                 $Mmod = true;
             }
 
@@ -93,7 +93,7 @@ if (isset($user)) {
 }
 
 if ((!$Mmod) and ($adminforum == 0)) {
-    forumerror('0007');
+    forumError('0007');
 }
 
 if ((isset($submit)) and ($mode == 'move')) {
@@ -102,7 +102,7 @@ if ((isset($submit)) and ($mode == 'move')) {
             WHERE topic_id='$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0010');
+        forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('posts') . " 
@@ -111,14 +111,14 @@ if ((isset($submit)) and ($mode == 'move')) {
             AND forum_id='$forum'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0010');
+        forumError('0010');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
             WHERE topicid='$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumerror('0001');
+        forumError('0001');
     }
 
     $sql = "UPDATE $upload_table 
@@ -206,26 +206,26 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND forum_id='$forum'";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0009');
+                    forumError('0009');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id='$topic'";
 
                 if (!$result = sql_query($sql)) {
-                    forumerror('0010');
+                    forumError('0010');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
                         WHERE topicid='$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0001');
+                    forumError('0001');
                 }
 
-                control_efface_post("forum_npds", "", $topic, "");
+                controlEffacePost("forum_npds", "", $topic, "");
 
-                header('location: viewforum.php?forum='. $forum);
+                header('location: viewforum.php?forum=' . $forum);
                 break;
 
             case 'lock':
@@ -234,10 +234,10 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id='$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0011');
+                    forumError('0011');
                 }
 
-                header('location: '. $url_ret .'?topic='. $topic .'&forum='. $forum);
+                header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;
 
             case 'unlock':
@@ -256,10 +256,10 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id = '$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0012');
+                    forumError('0012');
                 }
 
-                header('location: '. $url_ret .'?topic='. $topic .'&forum='. $forum);
+                header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;
 
             case 'first':
@@ -268,10 +268,10 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id = '$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0011');
+                    forumError('0011');
                 }
 
-                header('location: '. $url_ret .'?topic='. $topic .'&forum='. $forum);
+                header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;
 
             case 'viewip':
@@ -284,11 +284,11 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND u.uid = p.poster_id";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0013');
+                    forumError('0013');
                 }
 
                 if (!$m = sql_fetch_assoc($r)) {
-                    forumerror('0014');
+                    forumError('0014');
                 }
 
                 echo '<h2 class="mb-3">' . translate('Forum') . '</h2>
@@ -318,16 +318,16 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND u.uid = p.poster_id";
 
                 if (!$r = sql_query($sql)) {
-                    forumerror('0013');
+                    forumError('0013');
                 }
 
                 if (!$m = sql_fetch_assoc($r)) {
-                    forumerror('0014');
+                    forumError('0014');
                 }
 
                 L_spambot($m['poster_ip'], 'ban');
 
-                header('location: '. $url_ret .'?topic='. $topic .'&forum='. $forum);
+                header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;
 
             case 'aff':
@@ -337,7 +337,7 @@ if ((isset($submit)) and ($mode == 'move')) {
 
                 sql_query($sql);
 
-                header('location: '. $url_ret .'?topic='. $topic .'&forum='. $forum);
+                header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;
         }
     } else {

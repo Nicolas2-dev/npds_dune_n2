@@ -230,4 +230,4 @@ flatpickr("#T1", {
 });';
 
 $arg1 = 'var formulid = ["register"];
-    ' . auto_complete('aruser', 'uname', 'users', '', '0');
+    ' . autoComplete('aruser', 'uname', 'users', '', '0');

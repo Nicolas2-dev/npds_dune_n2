@@ -35,7 +35,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumerror('0001');
+    forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -54,12 +54,12 @@ if ($forum_access == 9) {
     header('Location: forum.php');
 }
 
-if (is_locked($topic)) {
-    forumerror('0025');
+if (isLocked($topic)) {
+    forumError('0025');
 }
 
-if (!does_exists($forum, 'forum') || !does_exists($topic, 'topic')) {
-    forumerror('0026');
+if (!doesExists($forum, 'forum') || !doesExists($topic, 'topic')) {
+    forumError('0026');
 }
 
 settype($submitS, 'string');
@@ -78,7 +78,7 @@ if ($submitS) {
             include 'header.php';
         } else {
             if (($username == '') or ($password == '')) {
-                forumerror('0027');
+                forumError('0027');
             } else {
                 $result = sql_query("SELECT pass 
                                      FROM " . sql_prefix('users') . " 
@@ -87,22 +87,22 @@ if ($submitS) {
                 list($pass) = sql_fetch_row($result);
 
                 if ((password_verify($password, $pass)) and ($pass != '')) {
-                    $userdata = get_userdata($username);
+                    $userdata = getUserData($username);
 
                     if ($userdata['uid'] == 1) {
-                        forumerror('0027');
+                        forumError('0027');
                     } else {
                         include 'header.php';
                     }
                 } else {
-                    forumerror('0028');
+                    forumError('0028');
                 }
 
-                $modo = user_is_moderator($username, $pass, $forum_access);
+                $modo = userIsModerator($username, $pass, $forum_access);
 
                 if ($forum_access == 2) {
                     if (!$modo) {
-                        forumerror('0027');
+                        forumError('0027');
                     }
                 }
             }
@@ -115,15 +115,15 @@ if ($submitS) {
             $userdata[0] = 0;
         }
 
-        $modo = user_is_moderator($userdata[0], $userdata[2], $forum_access);
+        $modo = userIsModerator($userdata[0], $userdata[2], $forum_access);
 
         if ($forum_access == 2) {
             if (!$modo) {
-                forumerror('0027');
+                forumError('0027');
             }
         }
 
-        $userdata = get_userdata($userdata[1]);
+        $userdata = getUserData($userdata[1]);
 
         include 'header.php';
     }
@@ -134,7 +134,7 @@ if ($submitS) {
         $hostname = ($dns_verif) ? gethostbyaddr($poster_ip) : '';
 
         // anti flood
-        anti_flood($modo, $anti_flood, $poster_ip, $userdata, $gmt);
+        antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
         if (!R_spambot($asb_question, $asb_reponse, $message)) {
@@ -153,7 +153,7 @@ if ($submitS) {
         }
 
         if (($forum_type != '6') and ($forum_type != '5')) {
-            $message = aff_code($message);
+            $message = affCode($message);
             $message = str_replace("\n", '<br />', $message);
         }
 
@@ -162,7 +162,7 @@ if ($submitS) {
         }
 
         if (($forum_type != '6') and ($forum_type != '5')) {
-            $message = make_clickable($message);
+            $message = makeClickable($message);
             $message = removeHack($message);
         }
 
@@ -175,7 +175,7 @@ if ($submitS) {
                 VALUES ('$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname', $post)";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         } else {
             $IdPost = sql_last_id();
         }
@@ -185,7 +185,7 @@ if ($submitS) {
                 WHERE topic_id = '$topic'";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0020');
+            forumError('0020');
         }
 
         $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -194,7 +194,7 @@ if ($submitS) {
                 AND uid <> '" . $userdata['uid'] . "'";
 
         if (!$r = sql_query($sql)) {
-            forumerror('0001');
+            forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('users_status') . " 
@@ -204,7 +204,7 @@ if ($submitS) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumerror('0029');
+            forumError('0029');
         }
 
         $sql = "SELECT t.topic_notify, u.email, u.uname, u.uid, u.user_langue 
@@ -213,7 +213,7 @@ if ($submitS) {
                 AND t.topic_poster = u.uid";
 
         if (!$result = sql_query($sql)) {
-            forumerror('0022');
+            forumError('0022');
         }
 
         $m = sql_fetch_assoc($result);
@@ -284,7 +284,7 @@ if ($submitS) {
         $userdata[0] = 0;
     }
 
-    $moderator = get_moderator($mod);
+    $moderator = getModerator($mod);
     $moderator = explode(' ', $moderator);
     $Mmod = false;
 
@@ -297,7 +297,7 @@ if ($submitS) {
                 ' . translate('Modéré par : ');
 
     for ($i = 0; $i < count($moderator); $i++) {
-        $modera = get_userdata($moderator[$i]);
+        $modera = getUserData($moderator[$i]);
 
         if ($modera['user_avatar'] != '') {
             if (stristr($modera['user_avatar'], 'users_private')) {
@@ -345,7 +345,7 @@ if ($submitS) {
             $allow_to_reply = true;
         }
     } elseif ($forum_access == 2) {
-        if (user_is_moderator($userdata[0], $userdata[2], $forum_access)) {
+        if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_reply = true;
         }
     }
@@ -379,7 +379,7 @@ if ($submitS) {
                 <label class="form-label">' . translate('Icone du message') . '</label>
                 <div class="col-sm-12">
                     <div class="card card-body n-fond_subject d-flex flex-row flex-wrap">
-                    ' . emotion_add($image_subject) . '
+                    ' . emotionAdd($image_subject) . '
                     </div>
                 </div>
             </div>';
@@ -397,7 +397,7 @@ if ($submitS) {
         echo '</div>';
 
         if ($allow_html == 1) {
-            echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . HTML_Add();
+            echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
         } else {
             echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         }

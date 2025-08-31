@@ -82,23 +82,24 @@ function fma_autorise($type, $dir)
     if ($autorise_arbo) {
         $auto_dir = '';
 
-        if (($autorise_arbo == 'membre') 
-        && ($user)) {
+        if (($autorise_arbo == 'membre')
+            && ($user)
+        ) {
             $auto_dir = true;
-
-        } elseif (($autorise_arbo == 'anonyme') 
-        && (!$user)) {
+        } elseif (($autorise_arbo == 'anonyme')
+            && (!$user)
+        ) {
             $auto_dir = true;
-
-        } elseif (($autorise_arbo == 'admin') 
-        && ($admin)) {
+        } elseif (($autorise_arbo == 'admin')
+            && ($admin)
+        ) {
             $auto_dir = true;
-
-        } elseif (($autorise_arbo != 'membre') 
-        && ($autorise_arbo != 'anonyme') 
-        && ($autorise_arbo != 'admin') 
-        && ($user)) {
-            $tab_groupe = valid_group($user);
+        } elseif (($autorise_arbo != 'membre')
+            && ($autorise_arbo != 'anonyme')
+            && ($autorise_arbo != 'admin')
+            && ($user)
+        ) {
+            $tab_groupe = validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {

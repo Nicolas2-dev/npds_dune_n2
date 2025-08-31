@@ -10,7 +10,7 @@ $menuser = '';
 if ($user) {
     include_once 'functions.php';
 
-    $userdata = get_userdata_from_id($cookie[0]);
+    $userdata = getUserDataFromId($cookie[0]);
 
     $username = $cookie[1];
 
@@ -109,10 +109,10 @@ if (autorisation(-1)) {
                 <?php print $bal; ?>
             </ul>
 
-            <?php 
+            <?php
             if (autorisation(-127)) {
-                echo '<div class="d-flex float-end"><a href="admin.php" title="[french]Administration[/french][english]Administration[/english][chinese]&#31649;&#29702;[/chinese][spanish]Administraci&oacute;n[/spanish][german]Verwaltung[/german]" data-bs-toggle="tooltip" data-bs-placement="left"><i id="cogs" class="fa fa-cogs fa-lg"></i></a></div>'; 
-            } 
+                echo '<div class="d-flex float-end"><a href="admin.php" title="[french]Administration[/french][english]Administration[/english][chinese]&#31649;&#29702;[/chinese][spanish]Administraci&oacute;n[/spanish][german]Verwaltung[/german]" data-bs-toggle="tooltip" data-bs-placement="left"><i id="cogs" class="fa fa-cogs fa-lg"></i></a></div>';
+            }
             ?>
         </div>
     </div>
@@ -132,15 +132,15 @@ if (autorisation(-1)) {
 </div>
 <script type="text/javascript">
     //<![CDATA[
-        $(document).ready(function() {
-            var chat_pour = ['chat_tous', 'chat_membres', 'chat_anonyme', 'chat_admin'];
-            chat_pour.forEach(function(ele) {
-                if ($('#' + ele + '_encours').length) {
-                    var clon = $('#' + ele + '_encours').clone().attr('id', ele + '_ico');
-                    $(".navbar-nav").append(clon);
-                    $('#' + ele + '_ico').wrapAll('<li class="nav-item" />');
-                }
-            })
+    $(document).ready(function() {
+        var chat_pour = ['chat_tous', 'chat_membres', 'chat_anonyme', 'chat_admin'];
+        chat_pour.forEach(function(ele) {
+            if ($('#' + ele + '_encours').length) {
+                var clon = $('#' + ele + '_encours').clone().attr('id', ele + '_ico');
+                $(".navbar-nav").append(clon);
+                $('#' + ele + '_ico').wrapAll('<li class="nav-item" />');
+            }
         })
+    })
     //]]>
 </script>

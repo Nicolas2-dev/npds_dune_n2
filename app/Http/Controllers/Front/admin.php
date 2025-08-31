@@ -16,7 +16,7 @@ if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
-include 'language/'. $language .'/lang-adm-' . $language . '.php';
+include 'language/' . $language . '/lang-adm-' . $language . '.php';
 
 function Access_Error()
 {
@@ -60,7 +60,6 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
 
     if (file_exists($adminimg . $ficone . '.' . $admf_ext)) {
         $img_adm = '<img src="' . $adminimg . $ficone . '.' . $admf_ext . '" class="me-2" alt="' . $f_titre . '" loading="lazy" />';
-
     } elseif (stristr($_SERVER['QUERY_STRING'], "Extend-Admin-SubModule") || $adm_img_mod == 1) {
 
         $img_adm = (file_exists('modules/' . $ModPath . '/assets/images/' . $ModPath . '.' . $admf_ext))
@@ -822,7 +821,7 @@ function adminMain($deja_affiches)
             } else {
                 if ($affiche) {
                     echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/images/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
-                    
+
                     if ($ihome == 1) {
                         echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . aff_langue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
                     } else {
@@ -947,7 +946,7 @@ if ($admintest) {
 
         case 'ForumConfigChange':
             include 'admin/phpbbconfig.php';
-            ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $anti_flood, $solved);
+            ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved);
             break;
 
         case 'MaintForumAdmin':
@@ -1263,14 +1262,14 @@ if ($admintest) {
         case 'deleterblock':
         case 'changerblock':
         case 'gaucherblock':
-            include 'admin/rightblocks.php';
+            include 'admin/rightBlocks.php';
             break;
 
         case 'makelblock':
         case 'deletelblock':
         case 'changelblock':
         case 'droitelblock':
-            include 'admin/leftblocks.php';
+            include 'admin/leftBlocks.php';
             break;
 
         case 'ablock':
@@ -1325,7 +1324,7 @@ if ($admintest) {
         case 'extractUserCSV':
         case 'unsubUser':
         case 'nonallowed_users':
-        case 'checkdnsmail_users':
+        case 'checkDnsMail_users':
             include 'admin/users.php';
             break;
 
