@@ -272,7 +272,7 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
             if (stristr($contri['user_avatar'], 'users_private')) {
                 $imgtmp = $contri['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $contri['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $contri['user_avatar'];
@@ -302,7 +302,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
         if (stristr($modera['user_avatar'], 'users_private')) {
             $imgtmp = $modera['user_avatar'];
         } else {
-            if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
+            if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
                 $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -429,19 +429,19 @@ if (isset($user)) {
     }
 }
 
-if ($ibid = theme_image('forum/rank/post.gif')) {
+if ($ibid = themeImage('forum/rank/post.gif')) {
     $imgtmpP = $ibid;
 } else {
     $imgtmpP = 'assets/images/forum/rank/post.gif';
 }
 
-if ($ibid = theme_image('forum/icons/posticon.gif')) {
+if ($ibid = themeImage('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
     $imgtmpPI = 'assets/images/forum/icons/posticon.gif';
 }
 
-if ($ibid = theme_image('forum/icons/new.gif')) {
+if ($ibid = themeImage('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
     $imgtmpNE = 'assets/images/forum/icons/new.gif';
@@ -515,7 +515,7 @@ do {
             }
 
             if ($posterdata['femail'] != '') {
-                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -549,7 +549,7 @@ do {
                 if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgtmp = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                    if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -574,7 +574,7 @@ do {
     echo '<span class="float-end">';
 
     if ($myrow['image'] != '') {
-        if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
+        if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
@@ -607,7 +607,7 @@ do {
 
     if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
         $message = smilie($message);
-        $message = aff_video_yt($message);
+        $message = affVideoYt($message);
         $message = afCode($message);
         $message = str_replace("\n", '<br />', $message);
     }

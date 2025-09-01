@@ -41,7 +41,7 @@ if (!$user) {
 
     $resultT = sql_query($sqlT);
 
-    member_menu($userdata['mns'], $userdata['uname']);
+    memberMenu($userdata['mns'], $userdata['uname']);
 
     echo '<div class="card card-body mt-3">
         <h2><a href="replypmsg.php?send=1" title="' . translate('Ecrire un nouveau message privé') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate('Message personnel') . " - </span>" . translate('Boîte de réception') . '</h2>
@@ -158,7 +158,7 @@ if (!$user) {
 
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
-                    if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
+                    if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -175,7 +175,7 @@ if (!$user) {
             echo ($posterdata['uid'] <> 1) ? $posterdata['uname'] : $sitename;
 
             echo '</td>
-                    <td>' . aff_langue($myrow['subject']) . '</td>
+                    <td>' . affLangue($myrow['subject']) . '</td>
                     <td class="small">' . formatTimes($myrow['msg_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>
                 </tr>';
 
@@ -261,7 +261,7 @@ if (!$user) {
 
         if ($smilies) {
             if ($myrow['msg_image'] != '') {
-                if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
+                if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -276,7 +276,7 @@ if (!$user) {
         $posterdata = getUserDataFromId($myrow['to_userid']);
 
         echo '<td><a href="readpmsg.php?start=' . $count . '&amp;total_messages=' . $total_messages . '&amp;type=outbox" >' . $posterdata['uname'] . '</a></td>
-               <td>' . aff_langue($myrow['subject']) . '</td>
+               <td>' . affLangue($myrow['subject']) . '</td>
                <td>' . $myrow['msg_time'] . '</td>
             </tr>';
 

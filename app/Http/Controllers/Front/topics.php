@@ -25,9 +25,8 @@ if ($op != 'maj_subscribe') {
 
     $inclusion = false;
 
-    if (file_exists('themes/'. $theme .'/views/partials/news/topics.php')) {
-        $inclusion = 'themes/'. $theme .'/views/partials/news/topics.php';
-
+    if (file_exists('themes/' . $theme . '/views/partials/news/topics.php')) {
+        $inclusion = 'themes/' . $theme . '/views/partials/news/topics.php';
     } elseif (file_exists('themes/base/views/partials/news/topics.php')) {
         $inclusion = 'themes/base/views/partials/news/topics.php';
     } else {
@@ -40,7 +39,7 @@ if ($op != 'maj_subscribe') {
 
         $Xcontent = ob_get_contents();
         ob_end_clean();
-        echo meta_lang(aff_langue($Xcontent));
+        echo metaLang(affLangue($Xcontent));
     }
 
     include 'footer.php';
@@ -66,7 +65,7 @@ if ($op != 'maj_subscribe') {
                 }
             }
 
-            redirect_url('topics.php');
+            redirectUrl('topics.php');
         }
     }
 }

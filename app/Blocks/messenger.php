@@ -24,7 +24,7 @@ if (! function_exists('instant_members_message')) {
 
             $boxstuff = '<ul>';
 
-            $ibid = online_members();
+            $ibid = onlineMembers();
 
             $rank1 = '';
 
@@ -79,7 +79,7 @@ if (! function_exists('instant_members_message')) {
                             }
                         }
 
-                        if ($ibidR = theme_image('forum/rank/' . $rank . '.gif')) {
+                        if ($ibidR = themeImage('forum/rank/' . $rank . '.gif')) {
                             $imgtmpA = $ibidR;
                         } else {
                             $imgtmpA = 'assets/images/forum/rank/' . $rank . '.gif';
@@ -87,7 +87,7 @@ if (! function_exists('instant_members_message')) {
 
                         $messR = 'rank' . $rank;
 
-                        $tmpR = "<img src=\"" . $imgtmpA . "\" border=\"0\" alt=\"" . aff_langue($$messR) . "\" title=\"" . aff_langue($$messR) . "\" loading=\"lazy\" />";
+                        $tmpR = "<img src=\"" . $imgtmpA . "\" border=\"0\" alt=\"" . affLangue($$messR) . "\" title=\"" . affLangue($$messR) . "\" loading=\"lazy\" />";
                     } else {
                         $tmpR = '&nbsp;';
                     }
@@ -138,7 +138,7 @@ if (! function_exists('instant_members_message')) {
             themesidebox($block_title, $boxstuff);
         } else {
             if ($admin) {
-                $ibid = online_members();
+                $ibid = onlineMembers();
 
                 if ($ibid[0]) {
                     for ($i = 1; $i <= $ibid[0]; $i++) {

@@ -552,7 +552,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     fclose($file);
 
     global $aid;
-    Ecr_Log('security', 'ConfigSave() by AID : ' . $aid, '');
+    ecrireLog('security', 'ConfigSave() by AID : ' . $aid, '');
 
     SC_Clean();
 

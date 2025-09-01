@@ -188,7 +188,7 @@ function links()
                 $sel = 'selected="selected"';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -202,7 +202,7 @@ function links()
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle) . ' / ' . aff_langue($stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle) . ' / ' . affLangue($stitle) . '</option>';
             }
         }
 
@@ -230,7 +230,7 @@ function links()
                     $sel = 'selected="selected" ';
                 }
 
-                echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+                echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
                 $sel = '';
             }
@@ -323,7 +323,7 @@ function links()
             <select class="form-select" id="catlinkadd" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -331,7 +331,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -353,7 +353,7 @@ function links()
             echo '<option value="">' . translate('Tous les sujets') . '</option>';
 
             while (list($topicid, $topics) = sql_fetch_row($toplist)) {
-                echo '<option value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+                echo '<option value="' . $topicid . '">' . affLangue($topics) . '</option>';
             }
 
             echo '</select>
@@ -446,7 +446,7 @@ function links()
                 <select class="form-select" id="modcat" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -454,7 +454,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -500,7 +500,7 @@ function links()
                 <select class="form-select" id="cidsubcatadd" name="cid">';
 
         while (list($ccid, $ctitle) = sql_fetch_row($result)) {
-            echo '<option value="' . $ccid . '">' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '">' . affLangue($ctitle) . '</option>';
         }
 
         echo '</select>
@@ -591,7 +591,7 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 
             include 'config/signat.php';
 
-            send_email($email, $subject, $message, '', false, 'html', '');
+            sendEmail($email, $subject, $message, '', false, 'html', '');
         }
     }
 
@@ -658,7 +658,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 $sel = 'selected="selected"';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -672,7 +672,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -697,7 +697,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 if ($topicid == $topicid_card)
                     $sel = 'selected="selected"';
 
-                echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+                echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
                 $sel = '';
             }
@@ -1006,7 +1006,7 @@ function LinksModCat($cat)
         echo '<form method="post" action="modules.php">
             <input type="hidden" name="ModPath" value="' . $ModPath . '" />
             <input type="hidden" name="ModStart" value="' . $ModStart . '" />
-            ' . translate('Nom de la catégorie : ') . aff_langue($ctitle) . '<br /><br />
+            ' . translate('Nom de la catégorie : ') . affLangue($ctitle) . '<br /><br />
             ' . translate('Nom de la sous-catégorie : ') . '
             <input class="form-control" type="text" name="title" value="' . $stitle . '" maxlength="250" /></span>
             <input type="hidden" name="sub" value="1" />

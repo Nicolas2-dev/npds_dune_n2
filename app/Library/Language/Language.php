@@ -14,7 +14,7 @@ class Language
      * @param int $c 1 pour inclure le code pays ISO 3166-2, sinon 0
      * @return string Code formaté (ex: fr-FR, en, US, etc.)
      */
-    public static function language_iso($l, $s, $c): string
+    public static function languageIso($l, $s, $c): string
     {
         global $language, $user_language;
 
@@ -83,7 +83,7 @@ class Language
      *
      * @return string Liste des langues séparées par espace.
      */
-    public static function language_list(): string
+    public static function languageList(): string
     {
         $local_path = '';
         $languageslist = '';
@@ -119,7 +119,7 @@ class Language
      * @param string|null $ibid Chaîne à analyser et à transformer.
      * @return string Chaîne transformée avec les sections traduites.
      */
-    public static function aff_langue(?string $ibid): string
+    public static function affLangue(?string $ibid): string
     {
         global $language, $tab_langue;
 
@@ -203,7 +203,7 @@ class Language
      *
      * @return array<string> Tableau des langues.
      */
-    public static function make_tab_langue(): array
+    public static function makeTabLangue(): array
     {
         global $language, $languageslist;
 
@@ -220,7 +220,7 @@ class Language
      * @param string $ibid Nom du champ select.
      * @return string HTML du formulaire de sélection de langue.
      */
-    public static function aff_localzone_langue(string $ibid): string
+    public static function affLocalzoneLangue(string $ibid): string
     {
         global $tab_langue;
 
@@ -252,7 +252,7 @@ class Language
      * @param string $mess Message à afficher avant la sélection.
      * @return string HTML du formulaire complet.
      */
-    public static function aff_local_langue(string $ibid_index, string $ibid, string $mess = ''): string
+    public static function affLocalLangue(string $ibid_index, string $ibid, string $mess = ''): string
     {
         if ($ibid_index == '') {
             global $REQUEST_URI;
@@ -261,7 +261,7 @@ class Language
 
         $M_langue = '<form action="' . $ibid_index . '" name="local_user_language" method="post">';
 
-        $M_langue .= $mess . static::aff_localzone_langue($ibid);
+        $M_langue .= $mess . static::affLocalzoneLangue($ibid);
 
         $M_langue .= '</form>';
 
@@ -275,7 +275,7 @@ class Language
      * @param string $ibid Chaîne à traduire.
      * @return string Chaîne traduite avec la langue temporaire.
      */
-    public static function preview_local_langue(?string $local_user_language, string $ibid): string
+    public static function previewLocalLangue(?string $local_user_language, string $ibid): string
     {
         if ($local_user_language) {
 
@@ -284,13 +284,12 @@ class Language
             $old_langue = $language;
             $language = $local_user_language;
 
-            $tab_langue = static::make_tab_langue();
-            $ibid = static::aff_langue($ibid);
+            $tab_langue = static::makeTabLangue();
+            $ibid = static::affLangue($ibid);
 
             $language = $old_langue;
         }
 
         return $ibid;
     }
-
 }

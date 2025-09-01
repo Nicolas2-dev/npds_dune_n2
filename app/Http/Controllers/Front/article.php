@@ -29,8 +29,8 @@ if (!isset($archive)) {
 }
 
 $xtab = (!$archive)
-    ? news_aff('libre', "WHERE sid='$sid'", 1, 1)
-    : news_aff('archive', "WHERE sid='$sid'", 1, 1);
+    ? newsAff('libre', "WHERE sid='$sid'", 1, 1)
+    : newsAff('archive', "WHERE sid='$sid'", 1, 1);
 
 list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -55,18 +55,18 @@ if ($SuperCache) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
-    $title      = aff_langue(stripslashes($title));
-    $hometext   = affCode(aff_langue(stripslashes($hometext)));
-    $bodytext   = affCode(aff_langue(stripslashes($bodytext)));
-    $notes      = affCode(aff_langue(stripslashes($notes)));
+    $title      = affLangue(stripslashes($title));
+    $hometext   = affCode(affLangue(stripslashes($hometext)));
+    $bodytext   = affCode(affLangue(stripslashes($bodytext)));
+    $notes      = affCode(affLangue(stripslashes($notes)));
 
     if ($notes != '') {
         $notes = '<div class="note blockquote">' . translate('Note') . ' : ' . $notes . '</div>';
     }
 
     $bodytext = $bodytext == ''
-        ? meta_lang($hometext . '<br />' . $notes)
-        : meta_lang($hometext . '<br />' . $bodytext . '<br />' . $notes);
+        ? metaLang($hometext . '<br />' . $notes)
+        : metaLang($hometext . '<br />' . $bodytext . '<br />' . $notes);
 
     if ($informant == '') {
         $informant = $anonymous;
@@ -81,7 +81,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
         list($title1) = sql_fetch_row($resultx);
 
-        $title = '<a href="index.php?op=newindex&amp;catid=' . $catid . '"><span>' . aff_langue($title1) . '</span></a> : ' . $title;
+        $title = '<a href="index.php?op=newindex&amp;catid=' . $catid . '"><span>' . affLangue($title1) . '</span></a> : ' . $title;
     }
 
     $boxtitle = translate('Liens relatifs');
@@ -103,8 +103,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
                 ' . translate('En savoir plus à propos de') . ' : 
             </a>
             <span class="h5">
-                <span class="badge bg-secondary" title="' . $topicname . '<hr />' . aff_langue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                    ' . aff_langue($topicname) . '
+                <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                    ' . affLangue($topicname) . '
                 </span>
             </span>
         </li>
@@ -119,20 +119,20 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
             ' . translate('L\'article le plus lu à propos de') . ' : 
         </span>
         <span class="h5">
-            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . aff_langue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                ' . aff_langue($topicname) . '
+            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                ' . affLangue($topicname) . '
             </span>
         </span>
     </div>';
 
-    $xtab = news_aff("big_story", "WHERE topic=$topic", 1, 1);
+    $xtab = newsAff("big_story", "WHERE topic=$topic", 1, 1);
 
     list($topstory, $ttitle) = $xtab[0];
 
     $boxstuff .= '<ul>
         <li>
             <a href="article.php?sid=' . $topstory . '" >
-                ' . aff_langue($ttitle) . '
+                ' . affLangue($ttitle) . '
             </a>
         </li>
     </ul>
@@ -141,15 +141,15 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
             ' . translate('Les dernières nouvelles à propos de') . ' : 
         </span>
         <span class="h5">
-            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . aff_langue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                ' . aff_langue($topicname) . '
+            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                ' . affLangue($topicname) . '
             </span>
         </span>
     </div>';
 
     $xtab = (!$archive)
-        ? news_aff('libre', "WHERE topic=$topic AND archive='0' ORDER BY sid DESC LIMIT 0,5", 0, 5)
-        : news_aff('archive', "WHERE topic=$topic AND archive='1' ORDER BY sid DESC LIMIT 0,5", 0, 5);
+        ? newsAff('libre', "WHERE topic=$topic AND archive='0' ORDER BY sid DESC LIMIT 0,5", 0, 5)
+        : newsAff('archive', "WHERE topic=$topic AND archive='1' ORDER BY sid DESC LIMIT 0,5", 0, 5);
 
     $story_limit = 0;
 
@@ -160,11 +160,11 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
         list($sid1, $catid1, $aid1, $title1) = $xtab[$story_limit];
         $story_limit++;
 
-        $title1 = aff_langue(addslashes($title1));
+        $title1 = affLangue(addslashes($title1));
 
         $boxstuff .= '<li>
             <a href="article.php?sid=' . $sid1 . '&amp;archive=' . $archive . '" >
-                ' . aff_langue(stripslashes($title1)) . '
+                ' . affLangue(stripslashes($title1)) . '
             </a>
         </li>';
     }
@@ -180,11 +180,11 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     </p>';
 
     if (!$archive) {
-        $previous_tab = news_aff('libre', "WHERE sid<'$sid' ORDER BY sid DESC ", 0, 1);
-        $next_tab = news_aff('libre', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
+        $previous_tab = newsAff('libre', "WHERE sid<'$sid' ORDER BY sid DESC ", 0, 1);
+        $next_tab = newsAff('libre', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
     } else {
-        $previous_tab = news_aff('archive', "WHERE sid<'$sid' ORDER BY sid DESC", 0, 1);
-        $next_tab = news_aff('archive', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
+        $previous_tab = newsAff('archive', "WHERE sid<'$sid' ORDER BY sid DESC", 0, 1);
+        $next_tab = newsAff('archive', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
     }
 
     if (array_key_exists(0, $previous_tab)) {

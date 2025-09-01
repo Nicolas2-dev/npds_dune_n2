@@ -29,13 +29,13 @@ if (file_exists('themes/' . $theme . '/views/partials/footer/footer.php')) {
 
 if ($rep) {
     ob_start();
-        include 'themes/' . $rep . '/views/partials/footer/footer.php';
-        $Xcontent = ob_get_contents();
+    include 'themes/' . $rep . '/views/partials/footer/footer.php';
+    $Xcontent = ob_get_contents();
     ob_end_clean();
 
     if ($ContainerGlobal) {
         $Xcontent .= $ContainerGlobal;
     }
 
-    echo meta_lang(aff_langue($Xcontent));
+    echo metaLang(affLangue($Xcontent));
 }

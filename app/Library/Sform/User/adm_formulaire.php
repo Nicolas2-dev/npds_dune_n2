@@ -165,27 +165,27 @@ if (($chng_rank == '') or ($chng_rank == '0')) {
 }
 
 if (!is_null($rank1)) {
-    $tmp_tempo[1]['en'] = aff_langue($rank1);
+    $tmp_tempo[1]['en'] = affLangue($rank1);
     $tmp_tempo[1]['selected'] = $chng_rank == 1 ? true : false;
 }
 
 if (!is_null($rank2)) {
-    $tmp_tempo[2]['en'] = aff_langue($rank2);
+    $tmp_tempo[2]['en'] = affLangue($rank2);
     $tmp_tempo[2]['selected'] = $chng_rank == 2 ? true : false;
 }
 
 if (!is_null($rank3)) {
-    $tmp_tempo[3]['en'] = aff_langue($rank3);
+    $tmp_tempo[3]['en'] = affLangue($rank3);
     $tmp_tempo[3]['selected'] = $chng_rank == 3 ? true : false;
 }
 
 if (!is_null($rank4)) {
-    $tmp_tempo[4]['en'] = aff_langue($rank4);
+    $tmp_tempo[4]['en'] = affLangue($rank4);
     $tmp_tempo[4]['selected'] = $chng_rank == 4 ? true : false;
 }
 
 if (!is_null($rank5)) {
-    $tmp_tempo[5]['en'] = aff_langue($rank5);
+    $tmp_tempo[5]['en'] = affLangue($rank5);
     $tmp_tempo[5]['selected'] = $chng_rank == 5 ? true : false;
 }
 
@@ -465,7 +465,7 @@ flatpickr("#T1", {
     maxDate:"today",
     minDate:"' . date("Y-m-d", (time() - 3784320000)) . '",
     dateFormat:"d/m/Y",
-    "locale": "' . language_iso(1, '', '') . '",
+    "locale": "' . languageIso(1, '', '') . '",
 });';
 
-$m->add_extra(adminfoot('fv', $fv_parametres, $arg1, '1'));
+$m->add_extra(adminFoot('fv', $fv_parametres, $arg1, '1'));

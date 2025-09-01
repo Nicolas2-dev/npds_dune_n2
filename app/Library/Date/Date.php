@@ -45,7 +45,7 @@ class Cookie
         string      $timezone  = 'Europe/Paris'
     ): string {
         // Utilise la langue de l'affichage du site.
-        $locale = language_iso(1, '_', 1);
+        $locale = languageIso(1, '_', 1);
 
         $fmt = datefmt_create($locale, $dateStyle, $timeStyle, $timezone, IntlDateFormatter::GREGORIAN);
 
@@ -69,7 +69,7 @@ class Cookie
         string      $timezone = 'Europe/Paris'
     ): string {
         // Utilise la langue de l'affichage du site.
-        $locale = language_iso(1, '_', 1);
+        $locale = languageIso(1, '_', 1);
 
         $timestamp = is_numeric($time) ? (int) $time : strtotime($time);
 

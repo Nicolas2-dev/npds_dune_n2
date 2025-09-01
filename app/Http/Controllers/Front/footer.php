@@ -36,7 +36,7 @@ function footmsg()
 
     $foot .= '</p>';
 
-    echo aff_langue($foot);
+    echo affLangue($foot);
 }
 
 function foot()

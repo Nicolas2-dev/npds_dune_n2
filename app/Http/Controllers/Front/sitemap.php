@@ -152,11 +152,12 @@ function sitemapothers($PAGES)
 
     foreach ($PAGES as $name => $loc) {
         if (isset($PAGES[$name]['sitemap'])) {
-            if (($PAGES[$name]['run'] == 'yes') 
-            && ($name != 'article.php') 
-            && ($name != 'forum.php') 
-            && ($name != 'sections.php') 
-            && ($name != 'download.php')) {
+            if (($PAGES[$name]['run'] == 'yes')
+                && ($name != 'article.php')
+                && ($name != 'forum.php')
+                && ($name != 'sections.php')
+                && ($name != 'download.php')
+            ) {
                 $tmp .= "<url>\n";
                 $tmp .= "<loc>$nuke_url/" . str_replace("&", "&amp;", $name) . "</loc>\n";
                 $tmp .= "<lastmod>" . date("Y-m-d", time()) . "</lastmod>\n";
@@ -201,7 +202,7 @@ function sitemap_create($PAGES, $filename)
     fwrite($file, $ibid);
     fclose($file);
 
-    Ecr_Log('sitemap', 'sitemap generated : ' . date('H:i:s', time()), '');
+    ecrireLog('sitemap', 'sitemap generated : ' . date('H:i:s', time()), '');
 }
 
 /* -----------------------------------------*/

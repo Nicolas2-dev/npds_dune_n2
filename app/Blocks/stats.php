@@ -1,7 +1,6 @@
 <?php
 
-if (! function_exists('Site_Activ'))
-{ 
+if (! function_exists('Site_Activ')) {
     #autodoc:<Mainfile.php>
     #autodoc <span class="text-success">BLOCS NPDS</span>:
     #autodoc Site_Activ() : Bloc activité du site <br />=> syntaxe : function#Site_Activ
@@ -9,7 +8,7 @@ if (! function_exists('Site_Activ'))
     {
         global $startdate, $top;
 
-        list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
+        list($membres, $totala, $totalb, $totalc, $totald, $totalz) = reqStat();
 
         $aff = '<p class="text-center">' . translate('Pages vues depuis') . ' ' . $startdate . ' : <span class="fw-semibold">' . wrh($totalz) . '</span></p>
             <ul class="list-group mb-3" id="site_active">
@@ -20,11 +19,11 @@ if (! function_exists('Site_Activ'))
             <li class="my-1">' . translate('Nb. de critiques') . ' <span class="badge rounded-pill bg-secondary float-end">' . wrh($totalb) . '</span></li>
             </ul>';
 
-        if ($ibid = theme_image('box/top.gif')) {
+        if ($ibid = themeImage('box/top.gif')) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = false;
-        } 
+        }
 
         if ($imgtmp) {
             $aff .= '<p class="text-center">
@@ -32,11 +31,11 @@ if (! function_exists('Site_Activ'))
                     <img src="' . $imgtmp . '" alt="' . translate('Top') . ' ' . $top . '" />
                 </a>&nbsp;&nbsp;';
 
-            if ($ibid = theme_image('box/stat.gif')) {
+            if ($ibid = themeImage('box/stat.gif')) {
                 $imgtmp = $ibid;
             } else {
                 $imgtmp = false;
-            } 
+            }
 
             $aff .= '<a href="stats.php">
                     <img src="' . $imgtmp . '" alt="' . translate('Statistiques') . '" />

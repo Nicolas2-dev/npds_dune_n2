@@ -133,7 +133,7 @@ function SelectCategory($cat)
             $sel = '';
         }
 
-        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . aff_langue($title) . '</option>';
+        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . affLangue($title) . '</option>';
     }
 
     echo '</select>
@@ -195,13 +195,13 @@ function autoStory()
 
             if ($affiche) {
                 echo '<tr>
-                    <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . aff_langue($title) . '</a></td>
+                    <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . affLangue($title) . '</a></td>
                     <td>' . $date_au_format . '</td>
                     <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '"><i class="fa fa-edit fa-lg me-2" title="' . adm_translate('Afficher l\'article') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=autoDelete&amp;anid=' . $anid . '">&nbsp;<i class="fas fa-trash fa-lg text-danger" title="' . adm_translate('Effacer l\'Article') . '" data-bs-toggle="tooltip" ></i></a></td>
                 </tr>';
             } else {
                 echo '<tr>
-                    <td><i>' . aff_langue($title) . '</i></td>
+                    <td><i>' . affLangue($title) . '</i></td>
                     <td>' . $date_au_format . '</td>
                     <td>&nbsp;</td>
                 </tr>';
@@ -212,7 +212,7 @@ function autoStory()
     echo '</tbody>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function autoDelete($anid)
@@ -273,7 +273,7 @@ function autoEdit($anid)
         header('location: admin.php?op=autoStory');
     }
 
-    $topiclogo = '<span class="badge bg-secondary" title="' . $topictext . '" data-bs-toggle="tooltip" data-bs-placement="left"><strong>' . aff_langue($topicname) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary" title="' . $topictext . '" data-bs-toggle="tooltip" data-bs-placement="left"><strong>' . affLangue($topicname) . '</strong></span>';
 
     include 'header.php';
 
@@ -282,11 +282,11 @@ function autoEdit($anid)
 
     echo '<hr />
     <h3>' . adm_translate('Editer l\'Article Automatique') . '</h3>
-    ' . aff_local_langue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
+    ' . affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
     <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -340,7 +340,7 @@ function autoEdit($anid)
         if ($affiche) {
             $sel = $topicid == $topic ? 'selected="selected" ' : '';
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
         }
     }
 
@@ -412,7 +412,7 @@ function autoEdit($anid)
         const mem_n = document.querySelector("#members1");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur)

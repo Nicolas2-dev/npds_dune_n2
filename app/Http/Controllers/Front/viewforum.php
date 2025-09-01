@@ -171,7 +171,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                $imgtmp = ($ibid = theme_image('forum/avatar/' . $modera['user_avatar']))
+                $imgtmp = ($ibid = themeImage('forum/avatar/' . $modera['user_avatar']))
                     ? $ibid
                     : 'assets/images/forum/avatar/' . $modera['user_avatar'];
             }
@@ -204,7 +204,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     $arg1 = 'var formulid=["privforumentry"];
         inpandfieldlen("forum_pass",60);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 } elseif (($Forum_passwd == $myrow['forum_pass']) or ($adminforum == 1)) {
 
     if (($myrow['forum_type'] == 9) and (!$user)) {
@@ -273,7 +273,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -308,13 +308,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         forumError('0004');
     }
 
-    if ($ibid = theme_image('forum/icons/red_folder.gif')) {
+    if ($ibid = themeImage('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
         $imgtmpR = 'assets/images/forum/icons/red_folder.gif';
     }
 
-    if ($ibid = theme_image('forum/icons/posticon.gif')) {
+    if ($ibid = themeImage('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
         $imgtmpP = 'assets/images/forum/icons/posticon.gif';
@@ -396,7 +396,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 echo '<td>' . $image . '</td>';
 
                 if ($image_subject != '') {
-                    if ($ibid = theme_image('forum/subject/' . $image_subject)) {
+                    if ($ibid = themeImage('forum/subject/' . $image_subject)) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $image_subject;

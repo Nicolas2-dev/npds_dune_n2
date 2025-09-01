@@ -78,7 +78,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
                 $sel = 'selected';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -92,7 +92,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -151,7 +151,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
 
         include 'modules/' . $ModPath . '/support/sform/link_maj.php';
 
-        adminfoot('fv', '', '', 'nodiv');
+        adminFoot('fv', '', '', 'nodiv');
 
         include 'footer.php';
     } else {

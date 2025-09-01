@@ -45,7 +45,7 @@ class Groupe
         $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
 
         while ($mX = sql_fetch_assoc($r)) {
-            $tmp_groupe[$mX['groupe_id']] = aff_langue($mX['groupe_name']);
+            $tmp_groupe[$mX['groupe_id']] = affLangue($mX['groupe_name']);
         }
 
         sql_free_result($r);
@@ -129,10 +129,10 @@ class Groupe
         $content .= '<div id="bloc_ws_' . $gr . '">';
 
         if ($t_gr == 1) {
-            $content .= '<span style="font-size: 120%; font-weight:bolder;">' . aff_langue($rsql['groupe_name']) . '</span>' . "\n";
+            $content .= '<span style="font-size: 120%; font-weight:bolder;">' . affLangue($rsql['groupe_name']) . '</span>' . "\n";
         }
 
-        $content .= '<p>' . aff_langue($rsql['groupe_description']) . '</p>';
+        $content .= '<p>' . affLangue($rsql['groupe_description']) . '</p>';
 
         if (file_exists('storage/users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1)) {
             $content .= '<img src="storage/users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
@@ -163,7 +163,7 @@ class Groupe
         $li_mb .= '<div class="my-4">
             <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
 
-        $tab = online_members();
+        $tab = onlineMembers();
 
         $li_mb .= '<ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
 
@@ -238,7 +238,7 @@ class Groupe
             }
 
             if ($femail != '') {
-                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . antiSpam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($url != '') {
@@ -262,7 +262,7 @@ class Groupe
             } else if (stristr($user_avatar, 'users_private')) {
                 $imgtmp = $user_avatar;
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
+                if ($ibid = themeImage('forum/avatar/' . $user_avatar)) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;

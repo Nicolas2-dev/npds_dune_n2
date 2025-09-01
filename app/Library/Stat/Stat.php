@@ -17,7 +17,7 @@ class Stat
      *  [4] => nombre de sujets
      *  [5] => nombre total de pages vues
      */
-    public static function req_stat(): array
+    public static function reqStat(): array
     {
         // Les membres
         $result = sql_query("SELECT uid 
@@ -79,5 +79,4 @@ class Stat
 
         return $xtab;
     }
-
 }

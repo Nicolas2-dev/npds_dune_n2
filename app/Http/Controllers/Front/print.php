@@ -24,7 +24,7 @@ function PrintPage($oper, $DB, $nl, $sid)
     $aff = true;
 
     if ($oper == 'news') {
-        $xtab = news_aff('libre', "WHERE sid='$sid'", 1, 1);
+        $xtab = newsAff('libre', "WHERE sid='$sid'", 1, 1);
 
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -40,7 +40,7 @@ function PrintPage($oper, $DB, $nl, $sid)
     }
 
     if ($oper == 'archive') {
-        $xtab = news_aff('archive', "WHERE sid='$sid'", 1, 1);
+        $xtab = newsAff('archive', "WHERE sid='$sid'", 1, 1);
 
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -89,7 +89,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 ob_end_clean();
 
                 if ($DB) {
-                    $remp = meta_lang(affCode(aff_langue($remp)));
+                    $remp = metaLang(affCode(affLangue($remp)));
                 }
 
                 if ($nl) {
@@ -144,16 +144,16 @@ function PrintPage($oper, $DB, $nl, $sid)
             echo '<img class="img-fluid d-block mx-auto" src="assets/images/npds/' . $site_logo . '" alt="website logo" />';
         }
 
-        echo '<h1 class="d-block text-center my-4">' . aff_langue($title) . '</h1>';
+        echo '<h1 class="d-block text-center my-4">' . affLangue($title) . '</h1>';
 
         if (($oper == 'news') or ($oper == 'archive')) {
 
-            $hometext = meta_lang(affCode(aff_langue($hometext)));
-            $bodytext = meta_lang(affCode(aff_langue($bodytext)));
+            $hometext = metaLang(affCode(affLangue($hometext)));
+            $bodytext = metaLang(affCode(affLangue($bodytext)));
 
             echo '<span class="float-end" style="font-size: .8rem;"> ' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br />
                 <hr />
-                <h2 class="mb-3">' . translate('Sujet : ') . ' ' . aff_langue($topictext) . '</h2>
+                <h2 class="mb-3">' . translate('Sujet : ') . ' ' . affLangue($topictext) . '</h2>
             </div>
             <div>' . $hometext . '<br /><br />';
 
@@ -161,7 +161,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 echo $bodytext . '<br /><br />';
             }
 
-            echo meta_lang(affCode(aff_langue($notes)));
+            echo metaLang(affCode(affLangue($notes)));
 
             echo '</div>';
 
@@ -187,7 +187,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 echo '<h2 class="mb-3">' . translate('Liens') . ' : ' . $url . '</h2>';
             }
 
-            echo '<div>' . aff_langue($description) . '</div>
+            echo '<div>' . affLangue($description) . '</div>
             <hr />
             <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
             <a href="' . $nuke_url . '">' . $nuke_url . '</a></p>';

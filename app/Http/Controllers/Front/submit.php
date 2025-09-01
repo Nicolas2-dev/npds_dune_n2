@@ -99,7 +99,7 @@ function defaultDisplay()
         echo '<option ' . $sel . ' value="' . $topicid . '">';
 
         if ($topics != '') {
-            echo aff_langue($topics);
+            echo affLangue($topics);
         } else {
             echo $topiname;
         }
@@ -149,8 +149,8 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
 
     include 'header.php';
 
-    $story      = stripslashes(dataimagetofileurl($story, 'cache/ai'));
-    $bodytext   = stripslashes(dataimagetofileurl($bodytext, 'cache/ac'));
+    $story      = stripslashes(dataImageToFileUrl($story, 'cache/ai'));
+    $bodytext   = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
     $subject    = stripslashes(str_replace('"', '&quot;', (strip_tags($subject))));
 
     echo '<h2>' . translate('Proposer un article') . '</h2>
@@ -172,10 +172,10 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
         list($topictext, $topicimage, $topicname) = sql_fetch_row($result);
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end" title="' . aff_langue($topictext) . '" data-bs-toggle="tooltip">' . aff_langue($topicname) . '</span>';
+    $topiclogo = '<span class="badge bg-secondary float-end" title="' . affLangue($topictext) . '" data-bs-toggle="tooltip">' . affLangue($topicname) . '</span>';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -189,7 +189,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
     $storyX = affCode($story);
     $bodytextX = affCode($bodytext);
 
-    themepreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
+    themePreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
 
     echo '</div>
     <div class="mb-3 row">
@@ -214,7 +214,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             $sel = 'selected="selected" ';
         }
 
-        echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+        echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
         $sel = '';
     }
@@ -244,7 +244,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
-    echo Q_spambot();
+    echo questionSpambot();
 
     echo '<div class="mb-3 row">
             <div class="col-sm-12">
@@ -269,16 +269,16 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         $name = $anonymous;
 
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, '')) {
-            Ecr_Log('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
+        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+            ecrireLog('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
     }
 
-    $story      = dataimagetofileurl($story, 'cache/ai');
-    $bodytext   = dataimagetofileurl($bodytext, 'cache/ac');
+    $story      = dataImageToFileUrl($story, 'cache/ai');
+    $bodytext   = dataImageToFileUrl($bodytext, 'cache/ac');
 
     $subject    = removeHack(stripslashes(FixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
     $story      = removeHack(stripslashes(FixQuotes($story)));
@@ -292,7 +292,7 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         if ($notify) {
             global $notify_email, $notify_subject, $notify_message, $notify_from;
 
-            send_email($notify_email, $notify_subject, $notify_message, $notify_from, false, "html", '');
+            sendEmail($notify_email, $notify_subject, $notify_message, $notify_from, false, "html", '');
         }
 
         include 'header.php';

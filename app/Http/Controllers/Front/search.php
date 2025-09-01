@@ -63,18 +63,14 @@ settype($type, 'string');
 
 if ($type == 'users') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans la base des utilisateurs') . '</h2><hr />';
-
 } elseif ($type == 'sections') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans les rubriques') . '</h2><hr />';
-
 } elseif ($type == 'reviews') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans les critiques') . '</h2><hr />';
-
 } elseif ($type == 'archive') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' <span class="text-lowercase">' . translate('Archives') . '</span></h2><hr />';
-
 } else {
-    echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' ' . aff_langue($topictext) . '</h2><hr />';
+    echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' ' . affLangue($topictext) . '</h2><hr />';
 }
 
 echo '<form action="search.php" method="get">';
@@ -84,7 +80,7 @@ if (($type == 'users') OR ($type == 'sections') OR ($type == 'reviews')) {
     echo "<img src=\"" . $tipath . "all-topics.gif\" align=\"left\" border=\"0\" alt=\"\" />";
 } else {
     if ((($topicimage) or ($topicimage != '')) and (file_exists($tipath$topicimage))) {
-        echo "<img src=\"" . $tipath$topicimage . "\" align=\"right\" border=\"0\" alt=\"" . aff_langue($topictext) . "\" />";
+        echo "<img src=\"" . $tipath$topicimage . "\" align=\"right\" border=\"0\" alt=\"" . affLangue($topictext) . "\" />";
     }
 }
 */
@@ -108,7 +104,7 @@ while (list($topicid, $topics) = sql_fetch_row($toplist)) {
         $sel = 'selected="selected" ';
     }
 
-    echo '<option ' . $sel . ' value="' . $topicid . '">' . substr_replace(aff_langue($topics), '...', 25, -1) . '</option>';
+    echo '<option ' . $sel . ' value="' . $topicid . '">' . substr_replace(affLangue($topics), '...', 25, -1) . '</option>';
 
     $sel = '';
 }
@@ -131,7 +127,7 @@ while (list($catid, $title) = sql_fetch_row($catlist)) {
         $sel = 'selected="selected" ';
     }
 
-    echo '<option ' . $sel . ' value="' . $catid . '">' . aff_langue($title) . '</option>';
+    echo '<option ' . $sel . ' value="' . $catid . '">' . affLangue($title) . '</option>';
 
     $sel = '';
 }
@@ -292,7 +288,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
     $x = 0;
 
     if ($SuperCache) {
-        $cache_clef = '[objet]==>'. $q;
+        $cache_clef = '[objet]==>' . $q;
         $CACHE_TIMINGS[$cache_clef] = 3600;
 
         $cache_obj = new SuperCacheManager();
@@ -311,7 +307,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
         if ($result) {
             while (list($sid, $aid, $title, $time, $url, $topic, $informant, $ihome) = sql_fetch_row($result)) {
-                if (ctrl_aff($ihome, 0)) {
+                if (ctrlAff($ihome, 0)) {
                     $tab_sid[$x]['sid']         = $sid;
                     $tab_sid[$x]['aid']         = $aid;
                     $tab_sid[$x]['title']       = $title;
@@ -357,7 +353,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
         $date_au_format = formatTimes($tab_sid[$i]['time'], IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
 
         echo '<tr>
-            <td><span>[' . ($i + 1) . ']</span>&nbsp;' . translate('Contribution de') . ' <a href="user.php?op=userinfo&amp;uname=' . $tab_sid[$i]['informant'] . '">' . $tab_sid[$i]['informant'] . '</a> :<br /><strong><a href="' . $furl . '">' . aff_langue($tab_sid[$i]['title']) . '</a></strong><br /><span>' . translate('Posté par ') . ' <a href="' . $tab_sid[$i]['url'] . '" >' . $tab_sid[$i]['aid'] . '</a></span> ' . translate('le') . ' ' . $date_au_format . '</td>
+            <td><span>[' . ($i + 1) . ']</span>&nbsp;' . translate('Contribution de') . ' <a href="user.php?op=userinfo&amp;uname=' . $tab_sid[$i]['informant'] . '">' . $tab_sid[$i]['informant'] . '</a> :<br /><strong><a href="' . $furl . '">' . affLangue($tab_sid[$i]['title']) . '</a></strong><br /><span>' . translate('Posté par ') . ' <a href="' . $tab_sid[$i]['url'] . '" >' . $tab_sid[$i]['aid'] . '</a></span> ' . translate('le') . ' ' . $date_au_format . '</td>
         </tr>';
     }
 
@@ -487,11 +483,11 @@ if ($type == "stories" or $type == "archive" or !$type) {
             $row3 = $rowQ3[0];
 
             if ($row3['rubname'] != 'Divers' and $row3['rubname'] != 'Presse-papiers') {
-                $surl = 'sections.php?op=listarticles&amp;secid='. $secid;
-                $furl = 'sections.php?op=viewarticle&amp;artid='. $artid;
+                $surl = 'sections.php?op=listarticles&amp;secid=' . $secid;
+                $furl = 'sections.php?op=viewarticle&amp;artid=' . $artid;
 
                 echo '<tr>
-                <td><a href="' . $furl . '">' . aff_langue($title) . '</a> ' . translate('dans la sous-rubrique') . ' <a href="' . $surl . '">' . aff_langue($row2['secname']) . '</a></td>
+                <td><a href="' . $furl . '">' . affLangue($title) . '</a> ' . translate('dans la sous-rubrique') . ' <a href="' . $surl . '">' . affLangue($row2['secname']) . '</a></td>
                 </tr>';
 
                 $x++;
@@ -568,7 +564,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
         } else {
             echo '<div class="alert alert-danger lead" role="alert">' . translate('Aucune correspondance à votre recherche n\'a été trouvée') . '</div>';
         }
-        
+
         $prev = $min - $offset;
 
         echo '<p align="left">

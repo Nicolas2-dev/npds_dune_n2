@@ -23,7 +23,7 @@ class Validation
      *                    - 'foo' : inclut seulement footer.php
      * @return void
      */
-    public static function adminfoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
+    public static function adminFoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
     {
         global $minpass;
 
@@ -35,7 +35,7 @@ class Validation
 
             echo '<script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, "_", 1) . '.min.js"></script>
+            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . languageIso(1, "_", 1) . '.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
             <script type="text/javascript" src="assets/js/npds_checkfieldinp.js"></script>
@@ -107,8 +107,8 @@ class Validation
                 formulid.forEach(function(item, index, array) {
                     const fvitem = FormValidation.formValidation(
                         document.getElementById(item),{
-                        locale: "' . language_iso(1, "_", 1) . '",
-                        localization: FormValidation.locales.' . language_iso(1, "_", 1) . ',
+                        locale: "' . languageIso(1, "_", 1) . '",
+                        localization: FormValidation.locales.' . languageIso(1, "_", 1) . ',
                         fields: {';
 
             if ($fv_parametres != '') {
@@ -184,5 +184,4 @@ class Validation
                 break;
         }
     }
-    
 }

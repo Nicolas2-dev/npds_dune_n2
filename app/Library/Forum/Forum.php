@@ -417,7 +417,7 @@ class Forum
     {
         global $theme;
 
-        if ($ibid = theme_image('forum/subject/index.html')) {
+        if ($ibid = themeImage('forum/subject/index.html')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/subject';
         } else {
             $imgtmp = 'assets/images/forum/subject';
@@ -528,7 +528,7 @@ class Forum
 
         $tmp = '';
 
-        if ($ibid = theme_image('forum/rank/post.gif')) {
+        if ($ibid = themeImage('forum/rank/post.gif')) {
             $imgtmpP = $ibid;
         } else {
             $imgtmpP = 'assets/images/forum/rank/post.gif';
@@ -563,7 +563,7 @@ class Forum
             }
 
             if ($rank) {
-                if ($ibid = theme_image('forum/rank/' . $rank . '.gif') or $ibid = theme_image('forum/rank/' . $rank . '.png')) {
+                if ($ibid = themeImage('forum/rank/' . $rank . '.gif') or $ibid = themeImage('forum/rank/' . $rank . '.png')) {
                     $imgtmpA = $ibid;
                 } else {
                     $imgtmpA = 'assets/images/forum/rank/' . $rank . '.png';
@@ -572,7 +572,7 @@ class Forum
                 $rank = 'rank' . $rank;
 
                 global $$rank;
-                $tmp .= '<div class="my-2"><img class="n-smil" src="' . $imgtmpA . '" alt="logo rôle" loading="lazy" />&nbsp;' . aff_langue($$rank) . '</div>';
+                $tmp .= '<div class="my-2"><img class="n-smil" src="' . $imgtmpA . '" alt="logo rôle" loading="lazy" />&nbsp;' . affLangue($$rank) . '</div>';
             }
         }
 
@@ -702,7 +702,7 @@ class Forum
             list($time90) = sql_fetch_row(sql_query($sql . $timebase . $sql2));
 
             if ($time90 > ($paramAFX * 2)) {
-                Ecr_Log('security', 'Forum Anti-Flood : ' . $compte, '');
+                ecrireLog('security', 'Forum Anti-Flood : ' . $compte, '');
 
                 forumError(translate('Vous n\'êtes pas autorisé à participer à ce forum'));
             } else {
@@ -711,7 +711,7 @@ class Forum
                 list($time30) = sql_fetch_row(sql_query($sql . $timebase . $sql2));
 
                 if ($time30 > $paramAFX) {
-                    Ecr_Log('security', 'Forum Anti-Flood : ' . $compte, '');
+                    ecrireLog('security', 'Forum Anti-Flood : ' . $compte, '');
 
                     forumError(translate('Vous n\'êtes pas autorisé à participer à ce forum'));
                 }
@@ -765,13 +765,13 @@ class Forum
             $tab_groupe = validGroup($user);
         }
 
-        if ($ibid = theme_image('forum/icons/red_folder.gif')) {
+        if ($ibid = themeImage('forum/icons/red_folder.gif')) {
             $imgtmpR = $ibid;
         } else {
             $imgtmpR = 'assets/images/forum/icons/red_folder.gif';
         }
 
-        if ($ibid = theme_image('forum/icons/folder.gif')) {
+        if ($ibid = themeImage('forum/icons/folder.gif')) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/icons/folder.gif';
@@ -900,7 +900,7 @@ class Forum
                                         </span>
                                     </span>';
 
-                                $desc = stripslashes(meta_lang($myrow['forum_desc']));
+                                $desc = stripslashes(metaLang($myrow['forum_desc']));
 
                                 if ($desc != '') {
                                     $ibid .= '<span class="d-flex w-100 mt-1">' . $desc . '</span>';
@@ -1029,13 +1029,13 @@ class Forum
 
         list($totalF) = sql_fetch_row($result);
 
-        if ($ibid = theme_image('forum/icons/red_sub_folder.gif')) {
+        if ($ibid = themeImage('forum/icons/red_sub_folder.gif')) {
             $imgtmpR = $ibid;
         } else {
             $imgtmpR = 'assets/images/forum/icons/red_sub_folder.gif';
         }
 
-        if ($ibid = theme_image('forum/icons/sub_folder.gif')) {
+        if ($ibid = themeImage('forum/icons/sub_folder.gif')) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/icons/sub_folder.gif';
@@ -1058,7 +1058,7 @@ class Forum
      */
     public static function fakedMail(array $r): string
     {
-        return preg_anti_spam($r[1]);
+        return pregAntiSpam($r[1]);
     }
 
     /**

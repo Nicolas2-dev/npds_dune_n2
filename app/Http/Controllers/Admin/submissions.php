@@ -93,13 +93,13 @@ function submissions()
                 $subject = adm_translate('Aucun Sujet');
             }
 
-            $subject = aff_langue($subject);
+            $subject = affLangue($subject);
 
             if ($affiche) {
-                echo '<img class=" " src="assets/images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . aff_langue($topictext) . '</a></td>
+                echo '<img class=" " src="assets/images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . affLangue($topictext) . '</a></td>
                 <td align="left"><a href="admin.php?op=DisplayStory&amp;qid=' . $qid . '">' . ucfirst($subject) . '</a></td>';
             } else {
-                echo aff_langue($topictext) . '</td>
+                echo affLangue($topictext) . '</td>
                 <td><i>' . ucfirst($subject) . '</i></td>';
             }
 
@@ -124,7 +124,7 @@ function submissions()
         }
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 switch ($op) {

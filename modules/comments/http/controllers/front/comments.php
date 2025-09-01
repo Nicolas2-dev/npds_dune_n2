@@ -158,7 +158,7 @@ $myrow = sql_fetch_assoc($result);
 $count = 0;
 
 if ($mycount) {
-    if ($ibid = theme_image("forum/icons/posticon.gif")) {
+    if ($ibid = themeImage("forum/icons/posticon.gif")) {
         $imgtmpPI = $ibid;
     } else {
         $imgtmpPI = "assets/images/forum/icons/posticon.gif";
@@ -226,7 +226,7 @@ if ($mycount) {
                 }
 
                 if ($posterdata['femail'] != '') {
-                    $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                    $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                 }
 
                 if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -263,7 +263,7 @@ if ($mycount) {
                     if (stristr($posterdata['user_avatar'], "users_private")) {
                         $imgtmp = $posterdata['user_avatar'];
                     } else {
-                        $imgtmp = $ibid = theme_image("forum/avatar/" . $posterdata['user_avatar'])
+                        $imgtmp = $ibid = themeImage("forum/avatar/" . $posterdata['user_avatar'])
                             ? $ibid
                             : "assets/images/forum/avatar/" . $posterdata['user_avatar'];
                     }
@@ -281,7 +281,7 @@ if ($mycount) {
                 : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
-        $imgtmp = $ibid = theme_image('forum/subject/00.png') ? $ibid : 'assets/images/forum/subject/00.png';
+        $imgtmp = $ibid = themeImage('forum/subject/00.png') ? $ibid : 'assets/images/forum/subject/00.png';
 
         echo '<span class="float-end"><img class="n-smil" src="' . $imgtmp . '" alt="" /></span>
             </div>';
@@ -293,7 +293,7 @@ if ($mycount) {
 
         if ($allow_bbcode) {
             $message = smilie($message);
-            $message = aff_video_yt($message);
+            $message = affVideoYt($message);
         }
 
         if (array_key_exists('user_sig', $posterdata)) {

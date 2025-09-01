@@ -100,7 +100,7 @@ function ForumMaintMarkTopics()
     echo '</tbody>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ForumMaintTopics($before, $forum_name)
@@ -166,7 +166,7 @@ function ForumMaintTopics($before, $forum_name)
         </div>
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ForumMaintTopicDetail($topic, $topic_title)
@@ -201,7 +201,7 @@ function ForumMaintTopicDetail($topic, $topic_title)
 
     sql_free_result($resultTT);
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ForumMaintTopicMassiveSup($topics)
@@ -393,7 +393,7 @@ function MergeForum()
 
     sql_free_result($result);
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function MergeForumAction($oriforum, $destforum)
@@ -495,7 +495,7 @@ function ForumMaintAdmin()
         </div>
     </form>
     <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-    <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
+    <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
     <script type="text/javascript">
     //<![CDATA[
         $(document).ready(function() {
@@ -511,7 +511,7 @@ function ForumMaintAdmin()
             altInput: true,
             altFormat: "l j F Y",
             dateFormat:"Y-m-d",
-            "locale": "' . language_iso(1, '', '') . '",
+            "locale": "' . languageIso(1, '', '') . '",
             onChange: function() {
                 fvitem.revalidateField(\'before\');
             }
@@ -521,5 +521,5 @@ function ForumMaintAdmin()
 
     echo autoComplete('forname', 'forum_name', 'forums', 'titreforum', '86400');
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }

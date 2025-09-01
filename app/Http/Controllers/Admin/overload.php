@@ -267,7 +267,7 @@ function main()
         inpandfieldlen("xt_memberlist",6);
         inpandfieldlen("xt_modules",6);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 switch ($op) {
@@ -275,7 +275,7 @@ switch ($op) {
         save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules);
 
         global $aid;
-        Ecr_Log('security', "ChangeSuperCache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules) by AID : $aid", '');
+        ecrireLog('security', "ChangeSuperCache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules) by AID : $aid", '');
 
         Header('Location: admin.php?op=supercache');
         break;
@@ -283,7 +283,7 @@ switch ($op) {
     case 'supercache_empty':
         SC_clean();
         global $aid;
-        Ecr_Log('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
+        ecrireLog('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
 
         Header('Location: admin.php?op=supercache');
         break;

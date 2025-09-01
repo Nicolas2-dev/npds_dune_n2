@@ -88,7 +88,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
         $req = '';
 
         $req = sql_query("SELECT $v 
-                          FROM ". sql_prefix('users_extend') ." 
+                          FROM " . sql_prefix('users_extend') . " 
                           WHERE $v !=''");
 
         if (!sql_num_rows($req)) {
@@ -707,7 +707,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     </form>
     </div>
     <div class="col-sm-4">
-    <div id="map_conf" lang="' . language_iso(1, 0, 0) . '"></div>
+    <div id="map_conf" lang="' . languageIso(1, 0, 0) . '"></div>
         Icônes en service
     </div>
     </div>';
@@ -1154,7 +1154,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
 
     echo $aff . $scri;
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function SaveSetgeoloc($api_key_azure, $api_key_mapbox, $ch_lat, $ch_lon, $cartyp, $geo_ip, $api_key_ipdata, $key_lookup, $co_unit, $mark_typ, $ch_img, $nm_img_acg, $nm_img_mbcg, $nm_img_mbg, $w_ico, $h_ico, $f_mbg, $mbg_sc, $mbg_t_ep, $mbg_t_co, $mbg_t_op, $mbg_f_co, $mbg_f_op, $mbgc_sc, $mbgc_t_ep, $mbgc_t_co, $mbgc_t_op, $mbgc_f_co, $mbgc_f_op, $acg_sc, $acg_t_ep, $acg_t_co, $acg_t_op, $acg_f_co, $acg_f_op, $cartyp_b, $img_mbgb, $w_ico_b, $h_ico_b, $h_b, $z_b, $ModPath, $ModStart)

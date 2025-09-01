@@ -1,8 +1,7 @@
 <?php
 
 
-if (! function_exists('block_skin'))
-{ 
+if (! function_exists('block_skin')) {
     /* 
      * destination : un bloc
      * syntaxe : function#block_skin()
@@ -106,6 +105,6 @@ if (! function_exists('block_skin'))
         global $block_title;
         $title = $block_title == '' ? translate('Theme Skin') : $block_title;
 
-        themesidebox($title, aff_langue($content));
+        themesidebox($title, affLangue($content));
     }
 }

@@ -36,5 +36,5 @@ if ($ModPath != '') {
         include $controllerPath;
     }
 } else {
-    redirect_url(urldecode($ModStart));
+    redirectUrl(urldecode($ModStart));
 }

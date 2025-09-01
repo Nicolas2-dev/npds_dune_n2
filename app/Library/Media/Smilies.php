@@ -17,7 +17,7 @@ class Smilies
         // Tranforme un :-) en IMG
         global $theme;
 
-        if ($ibid = theme_image('forum/smilies/smilies.php')) {
+        if ($ibid = themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/';
@@ -38,7 +38,7 @@ class Smilies
             }
         }
 
-        if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
+        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';
@@ -66,7 +66,7 @@ class Smilies
         // Tranforme une IMG en :-)
         global $theme;
 
-        if ($ibid = theme_image('forum/smilies/smilies.php')) {
+        if ($ibid = themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/';
@@ -80,7 +80,7 @@ class Smilies
             }
         }
 
-        if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
+        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';
@@ -102,7 +102,7 @@ class Smilies
      *
      * @return void
      */
-    public static function putitems_more(): void
+    public static function putitemsMore(): void
     {
         global $theme, $tmp_theme;
 
@@ -112,7 +112,7 @@ class Smilies
 
         echo '<p align="center">' . translate('Cliquez pour insérer des émoticons dans votre message') . '</p>';
 
-        if ($ibid = theme_image('forum/smilies/more/smilies.php')) {
+        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';
@@ -165,5 +165,4 @@ class Smilies
             //]]>
         </script>';
     }
-
 }

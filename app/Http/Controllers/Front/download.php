@@ -71,8 +71,8 @@ function geninfo($did, $out_template)
                <p><strong>' . translate('Version') . '&nbsp;:</strong>&nbsp;' . $dver . '</p>
                <p><strong>' . translate('Date de chargement sur le serveur') . '&nbsp;:</strong>&nbsp;' . formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</p>
                <p><strong>' . translate('Chargements') . '&nbsp;:</strong>&nbsp;' . wrh($dcounter) . '</p>
-               <p><strong>' . translate('Catégorie') . '&nbsp;:</strong>&nbsp;' . aff_langue(stripslashes($dcategory)) . '</p>
-               <p><strong>' . translate('Description') . '&nbsp;:</strong>&nbsp;' . aff_langue(stripslashes($ddescription)) . '</p>
+               <p><strong>' . translate('Catégorie') . '&nbsp;:</strong>&nbsp;' . affLangue(stripslashes($dcategory)) . '</p>
+               <p><strong>' . translate('Description') . '&nbsp;:</strong>&nbsp;' . affLangue(stripslashes($ddescription)) . '</p>
                <p><strong>' . translate('Auteur') . '&nbsp;:</strong>&nbsp;' . $duser . '</p>
                <p><strong>' . translate('Page d\'accueil') . '&nbsp;:</strong>&nbsp;<a href="http://' . $dweb . '" target="_blank">' . $dweb . '</a></p>';
 
@@ -128,10 +128,10 @@ function tlist()
         echo '<p class="p-2 mb-0">';
 
         if ($category == $cate) {
-            echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong class="align-middle">' . aff_langue($category) . '<span class="badge bg-secondary ms-2 float-end my-2">' . $dcount . '</span></strong>';
+            echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong class="align-middle">' . affLangue($category) . '<span class="badge bg-secondary ms-2 float-end my-2">' . $dcount . '</span></strong>';
         } else {
             $category2 = urlencode($category);
-            echo '<a href="download.php?dcategory=' . $category2 . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . aff_langue($category) . '</span></a><span class="badge bg-secondary ms-2 my-2 float-end">' . $dcount . '</span>';
+            echo '<a href="download.php?dcategory=' . $category2 . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . affLangue($category) . '</span></a><span class="badge bg-secondary ms-2 my-2 float-end">' . $dcount . '</span>';
         }
 
         echo '</p>';
@@ -286,7 +286,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
     if ($dcategory == translate('Tous')) {
         echo '<b>' . translate('Tous') . '</b>';
     } else {
-        echo '<b>' . aff_langue(stripslashes($dcategory)) . '</b>';
+        echo '<b>' . affLangue(stripslashes($dcategory)) . '</b>';
     }
 
     echo '</i>&nbsp;' . translate('trié par ordre') . '&nbsp;';
@@ -439,7 +439,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
             : $FichX->file_size_auto($durl, 2);
 
         echo '</td>
-            <td>' . aff_langue(stripslashes($dcat)) . '</td>
+            <td>' . affLangue(stripslashes($dcat)) . '</td>
             <td class="small text-center">' . formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
             <td class="small text-center">' . $dver . '</td>
             <td class="small text-center">' . wrh($dcounter) . '</td>';
@@ -463,7 +463,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
     $dcategory = StripSlashes($dcategory);
 
     echo '<div class="mt-3"></div>
-    ' . paginate_single('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, '', $page);
+    ' . paginateSingle('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, '', $page);
 }
 
 function main()
@@ -567,7 +567,7 @@ function broken($did)
 
             include 'config/signat.php';
 
-            send_email($notify_email, html_entity_decode(translate('Rapporter un lien rompu'), ENT_COMPAT | ENT_HTML401, 'UTF-8'), nl2br($message), $notify_from, false, "html", '');
+            sendEmail($notify_email, html_entity_decode(translate('Rapporter un lien rompu'), ENT_COMPAT | ENT_HTML401, 'UTF-8'), nl2br($message), $notify_from, false, "html", '');
 
             include 'header.php';
 

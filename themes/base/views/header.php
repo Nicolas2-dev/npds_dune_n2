@@ -30,7 +30,7 @@ if (file_exists('themes/' . $theme . '/views/partials/header/header.php')) {
 }
 
 if ($rep) {
-    if (file_exists('themes/base/bootstrap/body_onload.php') || file_exists('themes/'. $theme .'/bootstrap/body_onload.php')) {
+    if (file_exists('themes/base/bootstrap/body_onload.php') || file_exists('themes/' . $theme . '/bootstrap/body_onload.php')) {
         $onload_init = ' onload="init();"';
     } else {
         $onload_init = '';
@@ -44,15 +44,15 @@ if ($rep) {
     }
 
     ob_start();
-        // landing page
-        if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/views/partials/header/header_landing.php')) {
-            include 'themes/' . $rep . '/views/partials/header/header_landing.php';
-        } else {
-            include 'themes/' . $rep . '/views/partials/header/header.php';
-        }
+    // landing page
+    if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/views/partials/header/header_landing.php')) {
+        include 'themes/' . $rep . '/views/partials/header/header_landing.php';
+    } else {
+        include 'themes/' . $rep . '/views/partials/header/header.php';
+    }
 
-        $Xcontent = ob_get_contents();
+    $Xcontent = ob_get_contents();
     ob_end_clean();
 
-    echo meta_lang(aff_langue($Xcontent));
+    echo metaLang(affLangue($Xcontent));
 }

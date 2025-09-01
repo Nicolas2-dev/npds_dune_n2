@@ -37,7 +37,7 @@ function FriendSend($sid, $archive)
     echo '<div class="card card-body">
     <h2><i class="fa fa-at fa-lg text-body-secondary"></i>&nbsp;' . translate('Envoi de l\'article à un ami') . '</h2>
     <hr />
-    <p class="lead">' . translate('Vous allez envoyer cet article') . ' : <strong>' . aff_langue($title) . '</strong></p>
+    <p class="lead">' . translate('Vous allez envoyer cet article') . ' : <strong>' . affLangue($title) . '</strong></p>
     <form id="friendsendstory" action="friend.php" method="post">
         <input type="hidden" name="sid" value="' . $sid . '" />';
 
@@ -76,7 +76,7 @@ function FriendSend($sid, $archive)
             <span class="help-block text-end"><span class="muted" id="countcar_ymail"></span></span>
         </div>';
 
-    echo '' . Q_spambot();
+    echo '' . questionSpambot();
 
     echo '<input type="hidden" name="archive" value="' . $archive . '" />
         <input type="hidden" name="op" value="SendStory" />
@@ -89,7 +89,7 @@ function FriendSend($sid, $archive)
         inpandfieldlen("fname",100);
         inpandfieldlen("fmail",254);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse)
@@ -98,10 +98,10 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
 
     if (!$user) {
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, '')) {
-            Ecr_Log('security', sprintf('Send-Story Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
+        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+            ecrireLog('security', sprintf('Send-Story Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
     }
@@ -130,9 +130,9 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
         translate('Bonjour') . " $fname :\n\n"
             . translate('Votre ami') . " $yname "
             . translate('a trouvé cet article intéressant et a souhaité vous l\'envoyer.') . "\n\n"
-            . aff_langue($title) . "\n"
+            . affLangue($title) . "\n"
             . translate('Date :') . " $time\n"
-            . translate('Sujet : ') . aff_langue($topictext) . "\n\n"
+            . translate('Sujet : ') . affLangue($topictext) . "\n\n"
             . translate('L\'article') . " : <a href=\"$nuke_url/article.php?sid=$sid&amp;archive=$archive\">"
             . "$nuke_url/article.php?sid=$sid&amp;archive=$archive</a>\n\n"
     );
@@ -156,13 +156,13 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
     }
 
     if (!$stop) {
-        send_email($fmail, $subject, $message, $ymail, false, 'html', '');
+        sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
     } else {
         $title = '';
         $fname = '';
     }
 
-    $title = urlencode(aff_langue($title));
+    $title = urlencode(affLangue($title));
     $fname = urlencode($fname);
 
     Header('Location: friend.php?op=StorySent&title=' . $title . '&fname=' . $fname);
@@ -228,7 +228,7 @@ function RecommendSite()
             <label for="fmail">' . translate('Email du destinataire') . '</label>
             <span class="help-block text-end"><span class="muted" id="countcar_fmail"></span></span>
         </div>
-        ' . Q_spambot() . '
+        ' . questionSpambot() . '
         <div class="mb-3 row">
             <div class="col-sm-8 ms-sm-auto">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-at"></i>&nbsp;' . translate('Envoyer') . '</button>
@@ -242,7 +242,7 @@ function RecommendSite()
         inpandfieldlen("fname",100);
         inpandfieldlen("fmail",100);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
@@ -251,10 +251,10 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
 
     if (!$user) {
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, '')) {
-            Ecr_Log('security', sprintf('Friend Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
+        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+            ecrireLog('security', sprintf('Friend Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
     }
@@ -285,7 +285,7 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
     }
 
     if (!$stop) {
-        send_email($fmail, $subject, $message, $ymail, false, 'html', '');
+        sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
     } else {
         $fname = '';
     }

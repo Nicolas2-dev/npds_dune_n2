@@ -147,7 +147,7 @@ function ConfigFiles($contents, $files)
         ';
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ConfigFiles_save($Xtxt, $Xfiles)
@@ -199,7 +199,7 @@ function ConfigFiles_save($Xtxt, $Xfiles)
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('SaveConfigFile(%s) by AID : %s', $Xfiles, $aid), '');
+    ecrireLog('security', sprintf('SaveConfigFile(%s) by AID : %s', $Xfiles, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }
@@ -217,7 +217,7 @@ function delete_configfile($fileX)
         <p><strong>' . adm_translate('Supprimer le fichier') . ' ' . $fileX . ' ? </strong><br /><br /><a class="btn btn-danger btn-sm" href="admin.php?op=ConfigFiles_delete&amp;file=' . $fileX . '">' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ConfigFiles_delete($modele)
@@ -241,7 +241,7 @@ function ConfigFiles_delete($modele)
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('DeleteConfigFile(%s) by AID : %s', $modele, $aid), '');
+    ecrireLog('security', sprintf('DeleteConfigFile(%s) by AID : %s', $modele, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }
@@ -262,7 +262,7 @@ function copy_sample($fileX)
         <p>' . adm_translate('Créer le fichier en utilisant le modèle') . ' ? <br /><br /><a class="btn btn-primary" href="admin.php?op=ConfigFiles_create&amp;modele=' . $fileX . '" >' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ConfigFiles_create($modele)
@@ -272,38 +272,31 @@ function ConfigFiles_create($modele)
     if ($modele == 'header_before') {
         @copy('themes/base/bootstrap/stub/sample.header_before.php', 'themes/base/bootstrap/header_before.php');
         @chmod('themes/base/bootstrap/header_before.php', 0766);
-
     } elseif ($modele == 'header_head') {
         @copy('themes/base/bootstrap/stub/sample.header_head.php', 'themes/base/bootstrap/header_head.php');
         @chmod('themes/base/bootstrap/header_head.php', 0766);
-
     } elseif ($modele == 'body_onload') {
         @copy('themes/base/bootstrap/stub/sample.body_onload.php', 'themes/base/bootstrap/body_onload.php');
         @chmod('themes/base/bootstrap/body_onload.php', 0766);
-
     } elseif ($modele == 'header_after') {
         @copy('themes/base/bootstrap/stub/sample.header_after.php', 'themes/base/bootstrap/header_after.php');
         @chmod('themes/base/bootstrap/header_after.php', 0766);
-
     } elseif ($modele == 'footer_before') {
         copy('themes/base/bootstrap/stub/sample.footer_before.php', 'themes/base/bootstrap/footer_before.php');
         chmod('themes/base/bootstrap/footer_before.php', 0766);
-
     } elseif ($modele == 'footer_after') {
         @copy('themes/base/bootstrap/stub/sample.footer_after.php', 'themes/base/bootstrap/footer_after.php');
         @chmod('themes/base/bootstrap/footer_after.php', 0766);
-
     } elseif ($modele == 'new_user') {
         @copy('themes/base/bootstrap/stub/sample.new_user.php', 'themes/base/bootstrap/new_user.php');
         @chmod('themes/base/bootstrap/new_user.php', 0766);
-
     } elseif ($modele == 'user') {
         @copy('themes/base/bootstrap/stub/sample.user.php', 'themes/base/bootstrap/user.php');
         @chmod('themes/base/bootstrap/user.php', 0766);
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('CreateConfigFile(%s) by AID : %s', $modele, $aid), '');
+    ecrireLog('security', sprintf('CreateConfigFile(%s) by AID : %s', $modele, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }

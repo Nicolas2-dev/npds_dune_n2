@@ -1912,7 +1912,7 @@ $affi = '
     <h3 class="mt-4 mb-3">' . geoloc_translate('Géolocalisation des membres du site') . '<span class="float-end"><span class="badge bg-secondary me-2" title ="' . geoloc_translate('Membres du site') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $total_membre . '</span></span></h3>
     <div class=" mb-4">
         <div id="map-wrapper" class="ol-fullscreen my-3">
-            <div id="map" lang="' . language_iso(1, 0, 0) . '" class="map" tabindex="20">
+            <div id="map" lang="' . languageIso(1, 0, 0) . '" class="map" tabindex="20">
                 <div id="ol_tooltip"></div>
                 <div id="ol_popup" class="ol-popup"></div>
                 <div style="display: none;">

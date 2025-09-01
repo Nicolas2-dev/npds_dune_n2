@@ -36,10 +36,10 @@ function IMysql_Connexion()
 $langue = isset($langue) ? $langue : 'french';
 
 if ($langue) {
-    if (file_exists($fichier_lang = 'install/language/'. $langue .'/' . language_iso(1, 0, 0) . '.php')) {
+    if (file_exists($fichier_lang = 'install/language/' . $langue . '/' . languageIso(1, 0, 0) . '.php')) {
         include_once $fichier_lang;
     } else {
-        include_once 'install/language/'. $langue .'/' . $langue . '.php';
+        include_once 'install/language/' . $langue . '/' . $langue . '.php';
     }
 }
 
@@ -94,13 +94,13 @@ function verif_chmod()
     global $stopngo, $listfich;
 
     $file_to_check = array(
-        'storage/abla/log.php', 
-        'config/cache.config.php', 
-        'config/config.php', 
-        'config/filemanager.conf', 
-        'storage/logs/security.log', 
-        'storage/meta/meta.php', 
-        'storage/static/edito.txt', 
+        'storage/abla/log.php',
+        'config/cache.config.php',
+        'config/config.php',
+        'config/filemanager.conf',
+        'storage/logs/security.log',
+        'storage/meta/meta.php',
+        'storage/static/edito.txt',
         'modules/upload/config/config.php'
     );
 
@@ -237,8 +237,9 @@ function write_users($adminlogin, $adminpass1, $adminpass2)
                                     SET aid='$adminlogin', pwd='$adminpwd', hashkey='1' 
                                     WHERE radminsuper='1'");
 
-                copy('modules/f-manager/support/stub/config/admin.stub', 
-                     'modules/f-manager/storage/users/' . strtolower($adminlogin) . '.php'
+                copy(
+                    'modules/f-manager/support/stub/config/admin.stub',
+                    'modules/f-manager/storage/users/' . strtolower($adminlogin) . '.php'
                 );
 
                 if (!$result1) {
@@ -283,8 +284,8 @@ function write_upload($new_max_size, $new_DOCUMENTROOT, $new_autorise_upload_p, 
     return $stage8_ok;
 }
 
-#autodoc language_iso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2  $l=> 0 ou 1(requis), $s, $c=> 0 ou 1 (requis)
-function language_iso($l, $s, $c)
+#autodoc languageIso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2  $l=> 0 ou 1(requis), $s, $c=> 0 ou 1 (requis)
+function languageIso($l, $s, $c)
 {
     global $langue;
 
@@ -358,7 +359,7 @@ function formval($fv, $fv_parametres, $arg1, $foo)
         echo '
         <script type="text/javascript" src="assets/js/es6-shim.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . language_iso(1, '_', 1) . '.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . languageIso(1, '_', 1) . '.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
         <script type="text/javascript" src="assets/js/checkfieldinp.js"></script>
@@ -429,8 +430,8 @@ function formval($fv, $fv_parametres, $arg1, $foo)
             formulid.forEach(function(item, index, array) {
                 const fvitem = FormValidation.formValidation(
                     document.getElementById(item),{
-                    locale: "' . language_iso(1, "_", 1) . '",
-                    localization: FormValidation.locales.' . language_iso(1, "_", 1) . ',
+                    locale: "' . languageIso(1, "_", 1) . '",
+                    localization: FormValidation.locales.' . languageIso(1, "_", 1) . ',
                     fields: {';
 
         if ($fv_parametres != '') {
@@ -521,7 +522,7 @@ function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
     }
 }
 
-function theme_list()
+function themeList()
 {
     $handle = opendir('themes');
 

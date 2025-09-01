@@ -133,10 +133,10 @@ if ($submitS) {
         antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, $message)) {
-            Ecr_Log('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
+        if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+            ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
 
@@ -235,18 +235,18 @@ if ($submitS) {
 
             include 'config/signat.php';
 
-            send_email($m['email'], $subject, $message, '', true, "html", '');
+            sendEmail($m['email'], $subject, $message, '', true, "html", '');
 
             $sauf = $m['uid'];
         }
 
         global $subscribe;
         if ($subscribe) {
-            if (subscribe_query($userdata['uid'], 'forum', $forum)) {
+            if (subscribeQuery($userdata['uid'], 'forum', $forum)) {
                 $sauf = $userdata['uid'];
             }
 
-            subscribe_mail('forum', $topic, $forum, '', $sauf);
+            subscribeMail('forum', $topic, $forum, '', $sauf);
         }
 
         if (isset($upload)) {
@@ -254,12 +254,12 @@ if ($submitS) {
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
 
-            redirect_url('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
+            redirectUrl('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
 
             die();
         }
 
-        redirect_url('viewforum.php?forum=' . $forum);
+        redirectUrl('viewforum.php?forum=' . $forum);
     } else {
         echo '<h4 class="my-3">' . translate('Poster une réponse dans le sujet') . '</h4>
         <p class="alert alert-danger">' . translate('Vous devez taper un message à poster.') . '</p>
@@ -291,7 +291,7 @@ if ($submitS) {
                 if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgava = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                    if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
                         $imgava = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -299,7 +299,7 @@ if ($submitS) {
                 }
             }
         } else {
-            if ($ibid = theme_image('forum/avatar/blank.gif')) {
+            if ($ibid = themeImage('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
                 $imgava = 'assets/images/forum/avatar/blank.gif';
@@ -327,7 +327,7 @@ if ($submitS) {
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -536,7 +536,7 @@ if ($submitS) {
 
         echo '</div>
         </div>
-        ' . Q_spambot() . '
+        ' . questionSpambot() . '
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <input type="hidden" name="forum" value="' . $forum . '" />
@@ -651,7 +651,7 @@ if ($submitS) {
                     }
 
                     if ($posterdata['femail'] != '') {
-                        $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                        $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                     }
 
                     if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -676,7 +676,7 @@ if ($submitS) {
                         if (stristr($posterdata['user_avatar'], 'users_private')) {
                             $imgtmp = $posterdata['user_avatar'];
                         } else {
-                            if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                            if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                                 $imgtmp = $ibid;
                             } else {
                                 $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -699,7 +699,7 @@ if ($submitS) {
             echo '<span class="float-end">';
 
             if ($myrow['image'] != '') {
-                if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
+                if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
@@ -707,7 +707,7 @@ if ($submitS) {
 
                 echo '<img class="n-smil" src="' . $imgtmp . '"  alt="" />';
             } else {
-                if ($ibid = theme_image('forum/subject/icons/posticon.gif')) {
+                if ($ibid = themeImage('forum/subject/icons/posticon.gif')) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/icons/posticon.gif';
@@ -726,7 +726,7 @@ if ($submitS) {
 
             if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
                 $message = smilie($message);
-                $message = aff_video_yt($message);
+                $message = affVideoYt($message);
                 $message = afCode($message);
                 $message = str_replace("\n", '<br />', $message);
             }

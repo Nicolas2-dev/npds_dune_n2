@@ -107,7 +107,7 @@ function viewbanner()
 
             if ($imageurl != '') {
                 echo '<a href="banners.php?op=click&amp;bid=' . $bid . '" target="_blank">
-                    <img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="banner" loading="lazy" />
+                    <img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" loading="lazy" />
                 </a>';
             } else {
                 if (stristr($clickurl, '.txt')) {
@@ -141,7 +141,7 @@ function clickbanner($bid)
         $clickurl = $nuke_url;
     }
 
-    Header('Location: ' . aff_langue($clickurl));
+    Header('Location: ' . affLangue($clickurl));
 }
 
 function clientlogin()
@@ -170,7 +170,7 @@ function clientlogin()
 
     $arg1 = 'var formulid=["loginbanner"];';
 
-    adminfoot('fv', '', $arg1, 'no');
+    adminFoot('fv', '', $arg1, 'no');
 
     footer_page();
 }
@@ -313,7 +313,7 @@ function bannerstats($login, $pass)
                 echo '<div class="card card-body mb-3">';
 
                 if ($imageurl != '') {
-                    echo '<p><img src="' . aff_langue($imageurl) . '" class="img-fluid" />'; //pourquoi aff_langue ??
+                    echo '<p><img src="' . affLangue($imageurl) . '" class="img-fluid" />'; //pourquoi affLangue ??
                 } else {
                     echo '<p>';
                     echo $clickurl;
@@ -322,7 +322,7 @@ function bannerstats($login, $pass)
                 echo '<h4 class="mb-2">Banner ID : ' . $bid . '</h4>';
 
                 if ($imageurl != '') {
-                    echo '<p>' . translate('Cette bannière est affichée sur l\'url') . ' : <a href="' . aff_langue($clickurl) . '" target="_Blank" >[ URL ]</a></p>';
+                    echo '<p>' . translate('Cette bannière est affichée sur l\'url') . ' : <a href="' . affLangue($clickurl) . '" target="_Blank" >[ URL ]</a></p>';
                 }
 
                 echo '<form action="banners.php" method="get">';
@@ -391,7 +391,7 @@ function bannerstats($login, $pass)
             echo '</tbody>
             </table>';
 
-            adminfoot('fv', '', '', 'no');
+            adminFoot('fv', '', '', 'no');
 
             footer_page();
         } else {
@@ -469,7 +469,7 @@ function EmailStats($login, $cid, $bid)
 
             include 'config/signat.php';
 
-            send_email($email, $subject, $message, '', true, 'html', '');
+            sendEmail($email, $subject, $message, '', true, 'html', '');
 
             header_page();
 
@@ -562,7 +562,7 @@ switch ($op) {
         if ($banners) {
             viewbanner();
         } else {
-            redirect_url('index.php');
+            redirectUrl('index.php');
         }
         break;
 }

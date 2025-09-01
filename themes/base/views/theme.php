@@ -126,7 +126,7 @@ function themeindex(
     $Xsujet = '';
 
     if ($topicimage != '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -159,7 +159,7 @@ function themeindex(
         "'!N_suite!'i"          => $morel
     );
 
-    echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+    echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
 /**
@@ -236,7 +236,7 @@ function themearticle(
     $printP = '<a href="print.php?sid=' . $id . '" title="' . translate("Page spéciale pour impression") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-print"></i></a>';
     $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $id . '" title="' . translate("Envoyer cet article à un ami") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-at"></i></a>';
 
-    if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+    if (!$imgtmp = themeImage('topics/' . $topicimage)) {
         $imgtmp = $tipath . $topicimage;
     }
 
@@ -263,7 +263,7 @@ function themearticle(
         "'!N_nb_lecture!'i"         => $counter
     );
 
-    echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+    echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
 /**
@@ -317,7 +317,7 @@ function themesidebox(string $title, string $content): void
 
     echo $htvar;
 
-    echo meta_lang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
+    echo metaLang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
 
     echo '</div>';
 }
@@ -326,7 +326,7 @@ function themesidebox(string $title, string $content): void
  * Affiche l'éditorial d'un thème.
  *
  * Cherche le fichier `editorial.php` dans le thème actif, puis dans le thème de base.  
- * Remplace le placeholder `!editorial_content!` par le contenu fourni et applique la fonction `meta_lang()` et `aff_langue()`.
+ * Remplace le placeholder `!editorial_content!` par le contenu fourni et applique la fonction `metaLang()` et `affLangue()`.
  *
  * @param string $content Le contenu à insérer dans l'éditorial.
  * @return string|false Le chemin du fichier inclus, ou false si non trouvé.
@@ -356,7 +356,7 @@ function themedito(string $content): string|false
             "'!editorial_content!'i"    => $content
         );
 
-        echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
     }
 
     return $inclusion;
@@ -452,7 +452,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
             }
 
             if ($temp_user['femail'] != '') {
-                $useroutils .= '<li><a class="dropdown-item  text-center text-md-start" href="mailto:' . anti_spam($temp_user['femail'], 1) . '" target="_blank" title="' . translate("Email") . '" ><i class="fa fa-at fa-lg align-middle fa-fw"></i><span class="ms-2 d-none d-md-inline">' . translate("Email") . '</span></a></li>';
+                $useroutils .= '<li><a class="dropdown-item  text-center text-md-start" href="mailto:' . antiSpam($temp_user['femail'], 1) . '" target="_blank" title="' . translate("Email") . '" ><i class="fa fa-at fa-lg align-middle fa-fw"></i><span class="ms-2 d-none d-md-inline">' . translate("Email") . '</span></a></li>';
             }
 
             if ($temp_user['uid'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -473,7 +473,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
         if (stristr($temp_user['user_avatar'], 'users_private')) {
             $imgtmp = $temp_user['user_avatar'];
         } else {
-            $imgtmp = theme_image('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/images/forum/avatar/' . $temp_user['user_avatar'];
+            $imgtmp = themeImage('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/images/forum/avatar/' . $temp_user['user_avatar'];
         }
 
         $userpop = $avpop == 1

@@ -61,7 +61,7 @@ function etape_5()
         <div class="form-floating mb-3">
             <select class="form-select" id="new_Default_Theme" name="new_Default_Theme" />';
 
-    $themelist = explode(' ', theme_list());
+    $themelist = explode(' ', themeList());
 
     $sel = '';
 

@@ -63,7 +63,7 @@ function ablock()
         }
     }
 
-    adminfoot('fv', '', $arg1 ?? '', '');
+    adminFoot('fv', '', $arg1 ?? '', '');
 }
 
 function changeablock($title, $content)
@@ -77,7 +77,7 @@ function changeablock($title, $content)
                 SET title='$title', content='$content' 
                 WHERE id='2'");
 
-    Ecr_Log('security', 'ChangeAdminBlock() by AID : ' . $aid, '');
+    ecrireLog('security', 'ChangeAdminBlock() by AID : ' . $aid, '');
 
     Header('Location: admin.php?op=adminMain');
 }

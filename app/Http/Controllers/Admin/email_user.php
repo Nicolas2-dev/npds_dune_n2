@@ -70,7 +70,7 @@ function email_user()
                            ORDER BY groupe_id ASC");
 
     while (list($groupe_id, $groupe_name) = sql_fetch_row($resultID)) {
-        echo '<option value="' . $groupe_id . '">' . $groupe_id . ' - ' . aff_langue($groupe_name);
+        echo '<option value="' . $groupe_id . '">' . $groupe_id . ' - ' . affLangue($groupe_name);
     }
 
     echo '</select>
@@ -148,7 +148,7 @@ function email_user()
 
     echo autoComplete('membre', 'uname', 'users', 'username', '86400');
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur)
@@ -247,7 +247,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
 
                     include 'config/signat.php';
 
-                    copy_to_email($to_userid, $sujet, $message);
+                    copyToEmail($to_userid, $sujet, $message);
                     $message = $old_message;
                 }
             }
@@ -256,7 +256,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('SendEmailToUser(%s) by AID : %s', $subject, $aid), '');
+    ecrireLog('security', sprintf('SendEmailToUser(%s) by AID : %s', $subject, $aid), '');
 
     global $hlpfile;
 
@@ -273,7 +273,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
         echo '<div class="alert alert-danger"><strong>"' . stripslashes($subject) . '"</strong>' . adm_translate('n\'a pas été envoyée') . '.</div>';
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 switch ($op) {

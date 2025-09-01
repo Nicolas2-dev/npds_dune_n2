@@ -189,7 +189,7 @@ function avatar($user_avatar)
     } else if (stristr($user_avatar, 'users_private')) {
         $imgtmp = $user_avatar;
     } else {
-        if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
+        if ($ibid = themeImage('forum/avatar/' . $user_avatar)) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
@@ -415,7 +415,7 @@ if ($letter != 'front') {
             }
 
             if ($temp_user['femail'] != '') {
-                $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . anti_spam($temp_user['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" ><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . antiSpam($temp_user['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" ><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($temp_user['url'] != '') {
@@ -477,11 +477,11 @@ if ($letter != 'front') {
                         if (isBadMailUser($temp_user['uid']) === true) {
                             echo '<td class="table-danger"><small>' . $temp_user['email'] . '</small></td>';
                         } else {
-                            echo '<td><small>' . preg_anti_spam($temp_user['email']) . '</small></td>';
+                            echo '<td><small>' . pregAntiSpam($temp_user['email']) . '</small></td>';
                         }
                     } else {
                         if ($temp_user['user_viewemail']) {
-                            echo '<td><small>' . preg_anti_spam($temp_user['email']) . '</small></td>';
+                            echo '<td><small>' . pregAntiSpam($temp_user['email']) . '</small></td>';
                         } else {
                             echo '<td><small>' . substr($temp_user['femail'], 0, strpos($temp_user['femail'], "@")) . '</small></td>';
                         }
@@ -562,7 +562,7 @@ if ($letter != 'front') {
             $current = $nbPages;
         }
 
-        echo paginate_single('memberslist.php?letter=' . $letter . '&amp;sortby=' . $sortby . '&amp;list=' . $list . '&amp;gr_from_ws=' . $gr_from_ws . '&amp;page=', '', $nbPages, $current, $adj = 3, '', '');
+        echo paginateSingle('memberslist.php?letter=' . $letter . '&amp;sortby=' . $sortby . '&amp;list=' . $list . '&amp;gr_from_ws=' . $gr_from_ws . '&amp;page=', '', $nbPages, $current, $adj = 3, '', '');
     } else {
         echo '<div class="mt-3 lead align-middle"><span class="badge bg-secondary lead">' . $num_rows_per_order . '</span> ' . translate('Utilisateurs trouvés') . '</div>';
     }

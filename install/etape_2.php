@@ -28,8 +28,8 @@ function etape_2()
 
     $stage = 2;
 
-    //if (file_exists('install/language/licence/' . language_iso(1, 0, 0) . '.txt')) {
-    //    $licence_file = 'install/language/licence/' . language_iso(1, 0, 0) . '.txt';
+    //if (file_exists('install/language/licence/' . languageIso(1, 0, 0) . '.txt')) {
+    //    $licence_file = 'install/language/licence/' . languageIso(1, 0, 0) . '.txt';
 
     if (file_exists('install/licence/' . $langue . '.txt')) {
         $licence_file = 'install/licence/' . $langue . '.txt';

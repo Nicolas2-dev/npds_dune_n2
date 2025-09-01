@@ -15,7 +15,7 @@ class Url
      * @param string $urlx L'URL vers laquelle rediriger.
      * @return void
      */
-    public static function redirect_url(string $urlx): void
+    public static function redirectUrl(string $urlx): void
     {
         echo "<script type=\"text/javascript\">\n";
         echo "//<![CDATA[\n";
@@ -23,5 +23,4 @@ class Url
         echo "//]]>\n";
         echo "</script>";
     }
-    
 }

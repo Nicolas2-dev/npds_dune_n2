@@ -15,7 +15,7 @@ class Response
      * @param int $response_code Code HTTP attendu (par défaut 200)
      * @return bool Retourne true si l'URL renvoie le code attendu, false sinon
      */
-    public static function file_contents_exist(string $url, int $response_code = 200): bool
+    public static function fileContentsExist(string $url, int $response_code = 200): bool
     {
         $headers = get_headers($url);
 
@@ -25,5 +25,4 @@ class Response
             return false;
         }
     }
-    
 }

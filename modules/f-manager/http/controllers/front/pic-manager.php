@@ -96,7 +96,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     $cur_nav_encrypt = rawurlencode(encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirect_url('modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode(encrypt(dirname($base))));
+    redirectUrl('modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode(encrypt(dirname($base))));
 }
 
 // gestion des types d'extension de fichiers
@@ -315,7 +315,7 @@ chdir($racine_fma . '/');
 
 if (isset($user)) {
 
-    $themelist = explode(' ', theme_list());
+    $themelist = explode(' ', themeList());
     $pos = array_search($cookie[9], $themelist);
 
     if ($pos !== false) {
@@ -370,7 +370,7 @@ if ($inclusion) {
             require_once 'modules/f-manager/routes/pages/pages.php';
         }
 
-        $Titlesitename = aff_langue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
+        $Titlesitename = affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -425,7 +425,7 @@ if ($inclusion) {
         echo "\n";
     }
 
-    echo meta_lang(aff_langue($Xcontent));
+    echo metaLang(affLangue($Xcontent));
 
     // Foot banner de présentation F-Manager
     if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php')) {

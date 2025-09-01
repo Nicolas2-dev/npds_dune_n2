@@ -24,7 +24,7 @@ if (file_exists($local_path . 'storage/locale/language.php')) {
    include($local_path . 'storage/locale/language.php');
 } else {
    //include($local_path . 'manuels/list.php');
-   $languageslist = language_list();
+   $languageslist = languageList();
 }
 
 if (isset($choice_user_language)) {
@@ -37,7 +37,7 @@ if (isset($choice_user_language)) {
 
       if ((stristr($languageslist, $choice_user_language)) and ($choice_user_language != ' ')) {
          setcookie('user_language', $choice_user_language, $timeX);
-         
+
          $user_language = $choice_user_language;
       }
    }

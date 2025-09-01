@@ -18,7 +18,7 @@ class Session
      *
      * @return void
      */
-    public static function session_manage(): void
+    public static function sessionManage(): void
     {
         global $cookie, $REQUEST_URI, $nuke_url;
 
@@ -48,12 +48,12 @@ class Session
         // proto en test badbotcontrol ...
         // bad robot limited at x connections ...
         $gulty_robots = array(
-            'facebookexternalhit', 
-            'Amazonbot', 
-            'ClaudeBot', 
-            'bingbot', 
-            'Applebot', 
-            'AhrefsBot', 
+            'facebookexternalhit',
+            'Amazonbot',
+            'ClaudeBot',
+            'bingbot',
+            'Applebot',
+            'AhrefsBot',
             'SemrushBot'
         ); // to be defined in config.php ...
 
@@ -97,5 +97,4 @@ class Session
                     VALUES ('$username', '" . time() . "', '$ip', '$guest', '$REQUEST_URI', '" . getenv('HTTP_USER_AGENT') . "')");
         }
     }
-
 }

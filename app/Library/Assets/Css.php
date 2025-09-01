@@ -65,7 +65,7 @@ class Css
             $tmp .= '<link href="../themes/base/assets/css/style.css" title="default" rel="stylesheet" type="text/css" media="all" />';
         }
 
-        //$tmp .= PageRef::import_page_ref_css($css_pages_ref, $css); // note ici voir pour le bug $css
+        //$tmp .= PageRef::importPageRefCss($css_pages_ref, $css); // note ici voir pour le bug $css
 
         return $tmp;
     }

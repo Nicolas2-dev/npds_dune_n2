@@ -20,7 +20,7 @@ function Admin_alert($motif)
     setcookie('admin', '', 0);
     unset($admin);
 
-    Ecr_Log('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
+    ecrireLog('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
 
     include 'storage/meta/meta.php';
 
@@ -69,7 +69,7 @@ if ((isset($aid)) and (isset($pwd)) and ($op == 'login')) {
                     $options    = [
                         'cost' => getOptimalBcryptCostParameter($pwd, $AlgoCrypt, $min_ms)
                     ];
-                    
+
                     $hashpass   = password_hash($pwd, $AlgoCrypt, $options);
 
                     $pwd = crypt($pwd, $hashpass);

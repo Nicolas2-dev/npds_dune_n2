@@ -44,7 +44,7 @@ Cette version est la première compatible avec php8 et mysql8.
 - bug track :
    nombreuses corrections : var $NPDS-PREFIX manquante, non globalisée ou globalisée inutilement. Ces erreurs impactaient surtout les sites à tables préfixée (requêtes sql défaillantes) 
    missing globalisation var $NPDS-PREFIX dans réseaux sociaux.
-   implémentation dataimagetofileurl() dans les minisite
+   implémentation dataImageToFileUrl() dans les minisite
    création du répertoire utilisateur (si n'existe pas) à partir de l'édition du journal utilisateur ...
    tarteaucitron NO gtag @ start (minisite et core)
    deux each oubliés dans filemanager.php et class.navigator.php
@@ -62,7 +62,7 @@ Cette version est la première compatible avec php8 et mysql8.
    correction typo sur la variable $time dans modules/links/links.php
    correction lors de la recherche dans utilisateurs la variable $t présente dans les url de pagination non défini et non nécessaire  : rectification des deux urls (search.php)...
    correction (searchbb.php) fonctionnement chaotique entrainant des constructions de requêtes sql non conformes
-   correction (mainfile.php) fonction req_stat() surincrémentation du compteur + libération mysqli après les requêtes
+   correction (mainfile.php) fonction reqStat() surincrémentation du compteur + libération mysqli après les requêtes
    correction (reply.php, replyH.php, viewtopicH.php) erreur quand $userdata non défini (user non connecté...)
    correction lnl bug sur le "each déguisé" (php8) et remplisage d'un tableau non défini.. qui affectait l'envoi vers groupe
 - thèmes
@@ -122,7 +122,7 @@ améliorations :
 -- ajout de l'attribut lang dans balise html
 
 sécurité :
-suite audit thanks @Nosp, renforcement de url_protect, des accès aux fichiers, et xss sur chat ... 
+suite audit thanks @Nosp, renforcement de urlProtect, des accès aux fichiers, et xss sur chat ... 
 
 
 ################################################################################

@@ -61,7 +61,8 @@ $whatondb = sql_query("SELECT mnom
 while ($row = sql_fetch_row($whatondb)) {
     if (!in_array($row[0], $modlist)) {
         sql_query("DELETE FROM " . sql_prefix('modules') . " 
-                   WHERE mnom='" . $row[0] . "'");}
+                   WHERE mnom='" . $row[0] . "'");
+    }
 }
 
 foreach ($modlist as $value) {
@@ -71,9 +72,10 @@ foreach ($modlist as $value) {
 
     $moexiste = sql_num_rows($queryexiste);
 
-    if ($moexiste !== 1){
+    if ($moexiste !== 1) {
         sql_query("INSERT INTO " . sql_prefix('modules') . " 
-                   VALUES (NULL, '" . $value . "', '0')");}
+                   VALUES (NULL, '" . $value . "', '0')");
+    }
 }
 
 adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -99,21 +101,21 @@ while ($row = sql_fetch_assoc($result)) {
     $icomod = '';
     $clatd = '';
 
-    $icomod = file_exists('modules/' . $row['mnom'] . '/assets/images/' . $row['mnom'] . '.png') 
-        ? '<img class="adm_img" src="modules/' . $row['mnom'] . '/assets/images/' . $row['mnom'] . '.png" alt="icon_' . $row['mnom'] . '" title="" />' 
+    $icomod = file_exists('modules/' . $row['mnom'] . '/assets/images/' . $row['mnom'] . '.png')
+        ? '<img class="adm_img" src="modules/' . $row['mnom'] . '/assets/images/' . $row['mnom'] . '.png" alt="icon_' . $row['mnom'] . '" title="" />'
         : '<img class="adm_img" src="assets/images/admin/module.png" alt="icon_module" title="" />';
 
     if ($row["minstall"] == 0) {
-        $status_chngac = file_exists('modules/' . $row['mnom'] . '/config/install.php') 
-            ? '<a class="text-success" href="admin.php?op=Module-Install&amp;ModInstall=' . $row['mnom'] . '&amp;subop=install" ><i class="fa fa-compress fa-lg"></i><i class="fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Installer le module') . '" data-bs-toggle="tooltip"></i></a>' 
+        $status_chngac = file_exists('modules/' . $row['mnom'] . '/config/install.php')
+            ? '<a class="text-success" href="admin.php?op=Module-Install&amp;ModInstall=' . $row['mnom'] . '&amp;subop=install" ><i class="fa fa-compress fa-lg"></i><i class="fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Installer le module') . '" data-bs-toggle="tooltip"></i></a>'
             : '<a class="text-success" href="admin.php?op=Module-Install&amp;ModInstall=' . $row['mnom'] . '&amp;subop=install"><i class="fa fa-check fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Pas d\'installeur disponible') . ' ' . adm_translate('Marquer le module comme installé') . '" data-bs-toggle="tooltip"></i></a>';
-        
+
         $clatd = 'table-danger';
     } else {
-        $status_chngac =  file_exists('modules/' . $row['mnom'] . '/config/install.php') 
-            ? '<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa-expand fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Désinstaller le module') . '" data-bs-toggle="tooltip"></i></a>' 
-            :'<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa fa-ban fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Marquer le module comme désinstallé') . '" data-bs-toggle="tooltip"</i></a>';
-        
+        $status_chngac =  file_exists('modules/' . $row['mnom'] . '/config/install.php')
+            ? '<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa-expand fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Désinstaller le module') . '" data-bs-toggle="tooltip"></i></a>'
+            : '<a class="text-danger" href="admin.php?op=Module-Install&amp;ModDesinstall=' . $row['mnom'] . '" ><i class="fa fa fa-ban fa-lg"></i><i class="fa fa fa-puzzle-piece fa-2x fa-rotate-90" title="' . adm_translate('Marquer le module comme désinstallé') . '" data-bs-toggle="tooltip"</i></a>';
+
         $clatd = 'table-success';
     }
 
@@ -127,4 +129,4 @@ while ($row = sql_fetch_assoc($result)) {
 echo '</tbody>
 </table>';
 
-adminfoot('', '', '', '');
+adminFoot('', '', '', '');

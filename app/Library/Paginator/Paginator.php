@@ -18,7 +18,7 @@ class Paginator
      * @param int $start Index de départ (non utilisé ici)
      * @return string Bloc HTML de pagination
      */
-    public static function paginate_single(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
+    public static function paginateSingle(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
         $prev = $current - 1; // page précédente
         $next = $current + 1; // page suivante
@@ -225,5 +225,4 @@ class Paginator
 
         return $pagination;
     }
-
 }

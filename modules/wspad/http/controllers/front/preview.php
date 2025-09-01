@@ -101,6 +101,6 @@ echo '<h2>' . $wspad[0] . '</h2>
         [ ' . wspad_trans("révision") . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . " / " . $time . ' ]
     </span>
     <hr />
-    ' . aff_langue($row['content']) . '
+    ' . affLangue($row['content']) . '
 </body>
 </html>';

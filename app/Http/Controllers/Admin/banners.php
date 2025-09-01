@@ -67,8 +67,8 @@ function BannersAdmin()
         $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
         $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
-        //  | <span class="small"><a href="#" class="tooltip">'.basename(aff_langue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
-        
+        //  | <span class="small"><a href="#" class="tooltip">'.basename(affLangue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
+
         echo '<tr>
                 <td>' . $bid . '</td>
                 <td>' . $name . '</td>
@@ -121,7 +121,7 @@ function BannersAdmin()
             <td>' . $left . '</td>
             <td>' . $clicks . '</td>
             <td>' . $percent . '%</td>
-            <td>' . $name . ' | <span class="small">' . basename(aff_langue($imageurl)) . '</span></td>
+            <td>' . $name . ' | <span class="small">' . basename(affLangue($imageurl)) . '</span></td>
             <td><a href="admin.php?op=BannerEdit&amp;bid=' . $bid . '" ><i class="fa fa-edit fa-lg me-3" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=BannerDelete&amp;bid=' . $bid . '&amp;ok=0" class="text-danger"><i class="fas fa-trash fa-lg" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"></i></a></td>
             </tr>';
     }
@@ -322,7 +322,7 @@ function BannersAdmin()
             }
         },';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function BannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
@@ -375,8 +375,8 @@ function BannerDelete($bid, $ok = 0)
         echo '<hr />
         <h3 class="text-danger">' . adm_translate('Effacer Bannière') . '</h3>';
 
-        echo $imageurl != '' 
-            ? '<a href="' . aff_langue($clickurl) . '"><img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="banner" /></a><br />' 
+        echo $imageurl != ''
+            ? '<a href="' . affLangue($clickurl) . '"><img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" /></a><br />'
             : $clickurl;
 
         echo '<table data-toggle="table" data-mobile-responsive="true">
@@ -417,7 +417,7 @@ function BannerDelete($bid, $ok = 0)
         <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer cette Bannière ?') . '<br />
         <a class="btn btn-danger btn-sm mt-3" href="admin.php?op=BannerDelete&amp;bid=' . $bid . '&amp;ok=1">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm mt-3" href="admin.php?op=BannersAdmin" >' . adm_translate('Non') . '</a></div>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function BannerEdit($bid)
@@ -439,7 +439,7 @@ function BannerEdit($bid)
     <h3 class="mb-2">' . adm_translate('Edition Bannière') . '</h3>';
 
     if ($imageurl != '') {
-        echo '<img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="banner" /><br />';
+        echo '<img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" /><br />';
     } else {
         echo $clickurl;
     }
@@ -503,7 +503,7 @@ function BannerEdit($bid)
         inpandfieldlen("imageurl",320);
         inpandfieldlen("clickurl",320);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function BannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
@@ -558,8 +558,8 @@ function BannerClientDelete($cid, $ok = 0)
             echo '<br /><span class="text-danger"><b>' . adm_translate('ATTENTION !!!') . '</b></span><br />' . adm_translate('Cet annonceur a les BANNIERES ACTIVES suivantes dans') . ' ' . $sitename . '</div>';
         }
         while (list($imageurl, $clickurl) = sql_fetch_row($result2)) {
-            echo $imageurl != '' 
-                ? '<img class="img-fluid" src="' . aff_langue($imageurl) . '" alt="" /><br />' 
+            echo $imageurl != ''
+                ? '<img class="img-fluid" src="' . affLangue($imageurl) . '" alt="" /><br />'
                 : $clickurl . '<br />';
         }
     }
@@ -567,7 +567,7 @@ function BannerClientDelete($cid, $ok = 0)
     echo '<div class="alert alert-danger mt-3">' . adm_translate('Etes-vous sûr de vouloir effacer cet annonceur et TOUTES ses bannières ?') . '</div>
     <a href="admin.php?op=BannerClientDelete&amp;cid=' . $cid . '&amp;ok=1" class="btn btn-danger">' . adm_translate('Oui') . '</a> <a href="admin.php?op=BannersAdmin" class="btn btn-secondary">' . adm_translate('Non') . '</a>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function BannerClientEdit($cid)
@@ -639,7 +639,7 @@ function BannerClientEdit($cid)
             }
         },';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function BannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)

@@ -47,7 +47,7 @@ admindroits($aid, $f_meta_nom);
 $hlpfile = 'modules/upload/views/manuels/' . $language . '/upload.php';
 
 global $language;
-include 'modules/upload/language/'. $language .'/upload.lang-'. $language .'.php';
+include 'modules/upload/language/' . $language . '/upload.lang-' . $language . '.php';
 
 function upConfigure($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
 {
@@ -171,7 +171,7 @@ function upConfigure($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
         <label class="col-form-label col-sm-4" for="xextension_autorise">Extensions</label>
             <div class="col-sm-8">
                 <select multiple="multiple" class="form-select" id="xextension_autorise" name="xextension_autorise[]" size="8">'
-                    . $opt . '
+        . $opt . '
                 </select>
                 <span class="help-block">Extensions des fichiers autorisés</span>
             </div>
@@ -337,7 +337,7 @@ function upConfigure($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
         inpandfieldlen("xheight_max",3);
         inpandfieldlen("xquota",9);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function uploadSave($xmax_size, $xdocumentroot, $xautorise_upload_p, $xracine, $xrep_upload, $xrep_cache, $xrep_log, $xurl_upload, $xurl_upload_css, $xed_profil, $xed_nb_images, $xextension_autorise, $xwidth_max, $xheight_max, $xquota)

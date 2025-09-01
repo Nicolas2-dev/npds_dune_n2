@@ -135,7 +135,7 @@ function MetaTagAdmin(bool $meta_saved = false)
         inpandfieldlen("newtagcopyright",100);
         inpandfieldlen("newtagrevisitafter",30);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function GetMetaTags($filename)
@@ -155,23 +155,18 @@ function GetMetaTags($filename)
 
             if (preg_match('#<!DOCTYPE\s+html>#', $aline, $regs)) {
                 $tags['doc_type'] = 'HTML 5.1';
-
             } elseif (preg_match("#<meta (name|http-equiv|property)=\"([^\"]*)\" content=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[2] = strtolower($regs[2]);
                 $tags[$regs[2]] = $regs[3];
-
             } elseif (preg_match("#<meta (charset)=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
-
             } elseif (preg_match("#<meta (content-type)=\"([^\"]*)\" content=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[2] = strtolower($regs[2]);
                 $tags[$regs[2]] = $regs[3];
-
             } elseif (preg_match("#<html (lang)=\"([^\"]*)\"#i", $aline, $regs)) {
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
-
             } elseif (preg_match("#<doctype (lang)=\"([^\"]*)\"#i", $aline, $regs)) { //je pense qu'elle ne sert à rien ..et qu'elle ne doit rien trouver ...
                 $regs[1] = strtolower($regs[1]);
                 $tags[$regs[1]] = $regs[2];
@@ -214,7 +209,7 @@ function MetaTagSave($filename, $tags)
         $content .= "\$meta_op = isset(\$meta_op) ? \$meta_op : '' ;\n";
         $content .= "\$m_description = isset(\$m_description) ? \$m_description : '' ;\n";
         $content .= "\$m_keywords = isset(\$m_keywords) ? \$m_keywords : '' ;\n";
-        $content .= "\$lang = language_iso(1, '', 0);\n";
+        $content .= "\$lang = languageIso(1, '', 0);\n";
         $content .= "if (\$meta_doctype==\"\")\n";
 
         if (!empty($tags['doctype'])) {
@@ -345,7 +340,7 @@ function MetaTagSave($filename, $tags)
         fclose($fh);
 
         global $aid;
-        Ecr_Log('security', sprintf('MetaTagsave() by AID : %s', $aid), '');
+        ecrireLog('security', sprintf('MetaTagsave() by AID : %s', $aid), '');
 
         return true;
     }

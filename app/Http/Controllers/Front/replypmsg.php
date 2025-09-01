@@ -125,7 +125,7 @@ if (isset($user)) {
 
                         include 'config/signat.php';
 
-                        copy_to_email($to_userid, $sujet, stripslashes($message));
+                        copyToEmail($to_userid, $sujet, stripslashes($message));
 
                         $message = $old_message; // what this
                     }
@@ -165,7 +165,7 @@ if (isset($user)) {
 
                     include 'config/signat.php';
 
-                    copy_to_email($to_userid, $sujet, stripslashes($message));
+                    copyToEmail($to_userid, $sujet, stripslashes($message));
                 }
             }
         }
@@ -362,7 +362,7 @@ if (isset($user)) {
 
             if ($allow_bbcode) {
                 $Xmessage = smilie($Xmessage);
-                $Xmessage = aff_video_yt($Xmessage);
+                $Xmessage = affVideoYt($Xmessage);
             }
 
             $Xmessage = makeClickable($Xmessage);
@@ -607,7 +607,7 @@ if (isset($user)) {
         $arg1 = 'var formulid=["pmessage"]
             inpandfieldlen("subject",100);';
 
-        adminfoot('', '', $arg1, 'foo');
+        adminFoot('', '', $arg1, 'foo');
     }
 } else {
     Header('Location: user.php');

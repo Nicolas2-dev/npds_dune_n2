@@ -16,14 +16,13 @@ class Subscribe
      * @param int|string $Xsauf ID de l'utilisateur à exclure de l'envoi
      * @return void
      */
-    public static function subscribe_mail(
+    public static function subscribeMail(
         string      $Xtype,
         int|string  $Xtopic,
         int|string  $Xforum,
         string      $Xresume,
         int|string  $Xsauf
-    ): void
-    {
+    ): void {
         global $sitename, $nuke_url;
 
         if ($Xtype == 'topic') {
@@ -76,14 +75,14 @@ class Subscribe
                 if ($Xtype == 'topic') {
                     $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Sujet") . " => " . strip_tags($abo) . "\n\n";
                     $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => $Xresume\n\n";
-                    
+
                     $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/search.php?query=&topic=$Xtopic\">$nuke_url/search.php?query=&topic=$Xtopic</a>\n\n";
                 }
 
                 if ($Xtype == 'forum') {
                     $entete = translate_ml($user_langue, "Vous recevez ce Mail car vous vous êtes abonné à : ") . translate_ml($user_langue, "Forum") . " => " . strip_tags($abo) . "\n\n";
                     $resume = translate_ml($user_langue, "Le titre de la dernière publication est") . " => ";
-                    
+
                     $url = translate_ml($user_langue, "L'URL pour cet article est : ") . "<a href=\"$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999#lastpost\">$nuke_url/$hrefX?topic=$Xtopic&forum=$Xforum&start=9999</a>\n\n";
 
                     if ($Xresume != '') {
@@ -100,7 +99,7 @@ class Subscribe
 
                 include 'config/signat.php';
 
-                send_email($email, $subject, $message, '', true, 'html');
+                sendEmail($email, $subject, $message, '', true, 'html');
             }
         }
     }
@@ -113,12 +112,11 @@ class Subscribe
      * @param int|string $Xclef ID du topic ou du forum
      * @return bool True si l'utilisateur est abonné, false sinon
      */
-    public static function subscribe_query(
-        int|string  $Xuser, 
-        string      $Xtype, 
+    public static function subscribeQuery(
+        int|string  $Xuser,
+        string      $Xtype,
         int|string  $Xclef
-    ): bool
-    {
+    ): bool {
         if ($Xtype == 'topic') {
             $result = sql_query("SELECT topicid 
                                 FROM " . sql_prefix('subscribe') . " 
@@ -141,5 +139,4 @@ class Subscribe
             return false;
         }
     }
-    
 }

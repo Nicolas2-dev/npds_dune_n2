@@ -77,7 +77,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
 
             fclose($fp);
 
-            redirect_url('minisite.php?op=' . $op);
+            redirectUrl('minisite.php?op=' . $op);
         }
 
         // Ajouter - Ecriture
@@ -99,12 +99,12 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
 
             $newsto = date('d m Y') . '!;!' . $title . '!;!' . $formatted;
-            $newsto = dataimagetofileurl($newsto, 'storage/users_private/' . $op . '/mns');
+            $newsto = dataImageToFileUrl($newsto, 'storage/users_private/' . $op . '/mns');
 
             fwrite($fp, StripSlashes($newsto) . "\n");
             fclose($fp);
 
-            redirect_url('minisite.php?op=' . $op);
+            redirectUrl('minisite.php?op=' . $op);
         }
 
         // Ajouter
@@ -149,7 +149,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
 
             $newsto = date('d m Y') . '!;!' . $title . '!;!' . $formatted;
-            $newsto = dataimagetofileurl($newsto, 'storage/users_private/' . $op . '/mns');
+            $newsto = dataImageToFileUrl($newsto, 'storage/users_private/' . $op . '/mns');
 
             $xnews[$index] = StripSlashes($newsto) . "\n";
             $xnews = array_reverse($xnews);
@@ -161,7 +161,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
             fclose($fp);
 
-            redirect_url('minisite.php?op=' . $op);
+            redirectUrl('minisite.php?op=' . $op);
         }
 
         // Modifier
@@ -215,7 +215,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
 
         $content .= '<div class="card mb-3">
             <div class="card-body">
-                <h2 class="card-title">' . aff_langue($crtsplit[1]) . '</h2>
+                <h2 class="card-title">' . affLangue($crtsplit[1]) . '</h2>
                 <h6 class="card-subtitle text-body-secondary">' . translate('Posté le ') . ' ' . $crtsplit[0] . '</h6>
             </div>
             <div class=" card-body">' . convert_ressources($crtsplit[2]) . '</div>';

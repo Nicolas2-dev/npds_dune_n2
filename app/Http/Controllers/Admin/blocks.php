@@ -212,7 +212,7 @@ function blocks()
             echo '<td align="left">
                 <a class="tog" id="show_bloga_' . $id . '" title="' . adm_translate('Déplier la liste') . '"><i id="i_bloga_' . $id . '" class="fa fa-caret-down fa-lg text-primary me-2" ></i></a>';
 
-            echo aff_langue($title) . ' ' . $funct . '</td>';
+            echo affLangue($title) . ' ' . $funct . '</td>';
 
             echo $Sactif
                 ? ' <td class="d-none d-sm-table-cell text-center">' . adm_translate('Oui') . '</td>'
@@ -383,7 +383,7 @@ function blocks()
             echo '<td align="left">
                 <a data-bs-toggle="collapse" data-bs-target="#blodr_' . $id . '" aria-expanded="false" aria-controls="blodr_' . $id . '" class="tog tooltipbyclass" id="show_blodr_' . $id . '" title="' . adm_translate('Déplier la liste') . '"><i id="i_blodr_' . $id . '" class="fa fa-caret-down fa-lg text-primary me-2" ></i></a>';
 
-            echo aff_langue($title) . ' ' . $funct . '</td>';
+            echo affLangue($title) . ' ' . $funct . '</td>';
 
             echo $Sactif
                 ? '<td class="d-none d-sm-table-cell text-center" >' . adm_translate('Oui') . '</td>'
@@ -560,7 +560,7 @@ function blocks()
     $arg1 = 'var formulid = ["blocknewblock"];
         inpandfieldlen("nblock_title",1000);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 switch ($op) {

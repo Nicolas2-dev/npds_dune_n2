@@ -178,7 +178,7 @@ if ($smilies) {
             if (stristr($posterdata['user_avatar'], 'users_private')) {
                 $imgtmp = $posterdata['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -203,7 +203,7 @@ echo '</div>
         <small>' . translate('Posté : ') . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</small> ';
 
 if ($myrow['image'] != '') {
-    if ($ibid = theme_image('forum/subject/' . $myrow['image'])) {
+    if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
         $imgtmp = $ibid;
     } else {
         $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];

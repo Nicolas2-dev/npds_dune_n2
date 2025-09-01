@@ -129,7 +129,7 @@ function Detail_Header_Footer($ibid, $type)
 
     if ($tmp[1] == 1) {
         echo '<code> HTML</code></h3>
-        <div class="card card-body">' . meta_lang($tmp[0]) . '</div>';
+        <div class="card card-body">' . metaLang($tmp[0]) . '</div>';
     } else {
         echo '<code>' . adm_translate('TEXTE') . '</code></h3>
         <div class="card card-body">' . nl2br($tmp[0]) . '</div>';
@@ -164,7 +164,7 @@ function Detail_Header_Footer($ibid, $type)
         </div>
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function ShowBody()
@@ -223,7 +223,7 @@ function Detail_Body($ibid)
 
     if ($tmp[1] == 1) {
         echo adm_translate('Prévisualiser') . ' <code>HTML</code></h3>
-        <div class="card card-body">' . meta_lang($tmp[0]) . '</div>';
+        <div class="card card-body">' . metaLang($tmp[0]) . '</div>';
     } else {
         echo adm_translate('Prévisualiser') . ' <code>' . adm_translate('TEXTE') . '</code></h3>
         <div class="card card-body">' . nl2br($tmp[0]) . '</div>';
@@ -254,7 +254,7 @@ function Detail_Body($ibid)
         </div>
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Add_Body()
@@ -310,7 +310,7 @@ function Add_Body()
 
     $arg1 = 'var formulid = ["lnlbody"];';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Add_Body_Submit($Ytext, $Yhtml)
@@ -415,7 +415,7 @@ function Add_Header_Footer($ibid)
 
     $arg1 = 'var formulid = ["lnlheadfooter"];';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Add_Header_Footer_Submit($ibid, $xtext, $xhtml)
@@ -608,7 +608,7 @@ function main()
     $arg1 = 'var formulid = ["ltesto","lsendo"];
         inpandfieldlen("Xsubject",255);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Del_Question($retour, $param)
@@ -626,7 +626,7 @@ function Del_Question($retour, $param)
     <a href="admin.php?op=' . $retour . '&amp;' . $param . '" class="btn btn-danger btn-sm">' . adm_translate('Oui') . '</a>
     <a href="javascript:history.go(-1)" class="btn btn-secondary btn-sm">' . adm_translate('Non') . '</a>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Test($Yheader, $Ybody, $Yfooter)
@@ -671,7 +671,7 @@ function Test($Yheader, $Ybody, $Yfooter)
         <h3 class="mb-3">' . adm_translate('Prévisualiser') . ' HTML</h3>';
 
         $Xmime = 'html-nobr';
-        $message = meta_lang($Xheader[0] . $Xbody[0] . $Xfooter[0]);
+        $message = metaLang($Xheader[0] . $Xbody[0] . $Xfooter[0]);
     } else {
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Prévisualiser') . ' ' . adm_translate('TEXTE') . '</h3>';
@@ -686,9 +686,9 @@ function Test($Yheader, $Ybody, $Yfooter)
     <a class="btn btn-secondary my-3" href="javascript:history.go(-1)" >' . adm_translate('Retour en arrière') . '</a>';
 
     global $adminmail;
-    send_email($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
+    sendEmail($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function lnl_list()
@@ -765,7 +765,7 @@ function lnl_list()
     echo '</tbody>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function lnl_user_list()
@@ -817,7 +817,7 @@ function lnl_user_list()
     </table>
     <br /><a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 switch ($op) {
@@ -986,7 +986,7 @@ switch ($op) {
 
         global $sitename;
         $Xmime = $Yheader[1] == 1 ? 'html-nobr' : 'text';
-        $message = ($Xmime == 'html-nobr') ? meta_lang($message) : $message;
+        $message = ($Xmime == 'html-nobr') ? metaLang($message) : $message;
 
         if ($Xtype == 'All') {
             $Xtype = 'Out';
@@ -1018,7 +1018,7 @@ switch ($op) {
                                 $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien') . " : $nuke_url/lnl.php?op=unsubscribe&email=$email";
                             }
 
-                            send_email($email, $subject, $Xmessage, '', true, $Xmime, '');
+                            sendEmail($email, $subject, $Xmessage, '', true, $Xmime, '');
 
                             $number_send++;
                         }
@@ -1092,7 +1092,7 @@ switch ($op) {
                     if (($email != 'Anonyme') or ($email != 'Anonymous')) {
                         if ($email != '') {
                             if (($message != '') and ($subject != '')) {
-                                send_email($email, $subject, $message, '', true, $Xmime, '');
+                                sendEmail($email, $subject, $message, '', true, $Xmime, '');
                                 $number_send++;
                             }
                         }

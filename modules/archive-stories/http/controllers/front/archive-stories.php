@@ -38,8 +38,8 @@ if (!function_exists('Mysql_Connexion')) {
 
 include_once 'functions.php';
 
-include 'modules/'. $ModPath .'/config/config.php';
-include 'modules/'. $ModPath .'/config/cache.php';
+include 'modules/' . $ModPath . '/config/config.php';
+include 'modules/' . $ModPath . '/config/cache.php';
 
 if (!isset($start)) {
     $start = 0;
@@ -57,7 +57,7 @@ if ($SuperCache) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
     if ($arch_titre) {
-        echo aff_langue($arch_titre);
+        echo affLangue($arch_titre);
     }
 
     echo '<hr />
@@ -94,8 +94,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     }
 
     $xtab = $arch == 0
-        ? news_aff("libre", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount)
-        : news_aff("archive", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount);
+        ? newsAff("libre", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount)
+        : newsAff("archive", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount);
 
     $ibid = 0;
     $story_limit = 0;
@@ -117,9 +117,9 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
             list($title1) = sql_fetch_row($resultm);
 
-            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . aff_langue(ucfirst($title)) . '</a> [ <a href="index.php?op=newindex&amp;catid=' . $catid . '">' . aff_langue($title1) . '</a> ]';
+            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . affLangue(ucfirst($title)) . '</a> [ <a href="index.php?op=newindex&amp;catid=' . $catid . '">' . affLangue($title1) . '</a> ]';
         } else {
-            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . aff_langue(ucfirst($title)) . '</a>';
+            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . affLangue(ucfirst($title)) . '</a>';
         }
 
         echo '<tr>

@@ -69,7 +69,7 @@ function mblock()
         }
     }
 
-    adminfoot('fv', '', '', '');
+    adminFoot('fv', '', '', '');
 }
 
 function changemblock($title, $content)
@@ -82,7 +82,7 @@ function changemblock($title, $content)
     sql_query("UPDATE " . sql_prefix('block') . " 
               SET title='$title', content='$content' WHERE id='1'");
 
-    Ecr_Log('security', sprintf('ChangeMainBlock(%s) by AID : %s', aff_langue($title), $aid), '');
+    ecrireLog('security', sprintf('ChangeMainBlock(%s) by AID : %s', affLangue($title), $aid), '');
 
     Header('Location: admin.php?op=adminMain');
 }

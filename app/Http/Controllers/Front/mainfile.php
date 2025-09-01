@@ -47,12 +47,12 @@ if (isset($user)) {
     $cookie = cookieDecode($user);
 }
 
-session_manage();
+sessionManage();
 
-$tab_langue = make_tab_langue();
+$tab_langue = makeTabLangue();
 
 global $meta_glossaire;
-$meta_glossaire = charg_metalang();
+$meta_glossaire = chargMetalang();
 
 date_default_timezone_set('Europe/Paris');
 

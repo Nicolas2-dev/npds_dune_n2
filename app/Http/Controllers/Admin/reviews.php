@@ -187,7 +187,7 @@ function reviews()
             inpandfieldlen("tit_cri",100);' . $jsfvc;
 
         echo '<script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
         <script type="text/javascript">
             //<![CDATA[
                 $(document).ready(function() {
@@ -197,7 +197,7 @@ function reviews()
                     altInput: true,
                     altFormat: "l j F Y",
                     dateFormat:"Y-m-d",
-                    "locale": "' . language_iso(1, '', '') . '",
+                    "locale": "' . languageIso(1, '', '') . '",
                 });
             //]]>
         </script>';
@@ -218,7 +218,7 @@ function reviews()
 
     sql_free_result($result);
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title)

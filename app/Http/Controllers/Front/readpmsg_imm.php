@@ -139,11 +139,11 @@ function show_imm($op)
 
             echo '<hr />';
 
-            echo '<h4>' . aff_langue($myrow['subject']);
+            echo '<h4>' . affLangue($myrow['subject']);
 
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
-                    if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
+                    if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -159,10 +159,10 @@ function show_imm($op)
 
             if ($allow_bbcode) {
                 $message = smilie($message);
-                $message = aff_video_yt($message);
+                $message = affVideoYt($message);
             }
 
-            $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', aff_langue($message)); // ne sert à rien ici ????
+            $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', affLangue($message)); // ne sert à rien ici ????
 
             echo $message . '<br />';
 

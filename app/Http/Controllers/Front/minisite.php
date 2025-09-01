@@ -269,7 +269,7 @@ function convert_ressources($Xcontent)
         }
     }
 
-    return aff_langue($Xcontent);
+    return affLangue($Xcontent);
 }
 
 // NPDS copyright ... don't remove !
@@ -312,7 +312,7 @@ if (($op != '') and ($op)) {
                     $direktori = 'assets/images/forum/avatar/';
 
                     if (function_exists('theme_image')) {
-                        if (theme_image('forum/avatar/blank.gif')) {
+                        if (themeImage('forum/avatar/blank.gif')) {
                             $direktori = 'themes/' . $theme . '/assets/images/forum/avatar/';
                         }
                     }
@@ -380,7 +380,7 @@ if ($affich) {
         echo '</style>';
 
         if (defined('CITRON')) {
-            echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
+            echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . languageIso(1, '', '') . '"; </script>
             <script type="text/javascript" src="shared/tarteaucitron/tarteaucitron.min.js"></script>
             <script type="text/javascript" src="assets/shared/js/npds_tarteaucitron.js"></script>';
         }
@@ -480,17 +480,17 @@ if ($affich) {
             "'!copyright!'i"            => $copyright,
             "'!avatar!'i"               => $avatar_mns,
             "'!id_mns!'i"               => $op,
-            "'!gr_name!'i"              => aff_langue($gr_name)
+            "'!gr_name!'i"              => affLangue($gr_name)
         );
 
         $Xcontent = preg_replace(array_keys($MNS_METALANG_words), array_values($MNS_METALANG_words), $Xcontent);
-        $Xcontent = meta_lang(MNSremoveHack($Xcontent));
+        $Xcontent = metaLang(MNSremoveHack($Xcontent));
 
         //applique aff_video que sur la partie affichage
         $rupt = strpos($Xcontent, '#v_yt#');
 
         echo substr($Xcontent, 0, $rupt);
-        echo aff_video_yt(substr($Xcontent, $rupt + 6));
+        echo affVideoYt(substr($Xcontent, $rupt + 6));
 
         if ($adminblog) {
             echo '<script type="text/javascript">

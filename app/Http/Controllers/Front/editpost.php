@@ -137,7 +137,7 @@ if ($submitS) {
             forumError('0020');
         }
 
-        redirect_url("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
+        redirectUrl("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
     } else {
         $indice = sql_num_rows(sql_query("SELECT post_id 
                                           FROM " . sql_prefix('posts') . " 
@@ -166,7 +166,7 @@ if ($submitS) {
 
                 @sql_query($sql);
 
-                redirect_url('viewforum.php?forum=' . $forum);
+                redirectUrl('viewforum.php?forum=' . $forum);
                 die();
             } else {
                 $result = sql_query("SELECT post_time, poster_id 
@@ -186,7 +186,7 @@ if ($submitS) {
                 }
             }
 
-            redirect_url($hrefX . '?topic=' . $row['topic_id'] . '&forum=' . $forum);
+            redirectUrl($hrefX . '?topic=' . $row['topic_id'] . '&forum=' . $forum);
         } else {
             echo '<div class="alert alert-danger">' . translate('Votre contribution n\'a pas été supprimée car au moins un post est encore rattaché (forum arbre).') . '</div>';
         }

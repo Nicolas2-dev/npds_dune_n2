@@ -47,6 +47,6 @@ include 'library/formhelp.java.php';
 
 echo '</head>
     <body class="p-2">
-    ' . putitems_more() . '
+    ' . putitemsMore() . '
     </body>
 </html>';

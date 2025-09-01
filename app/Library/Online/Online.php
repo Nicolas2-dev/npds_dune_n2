@@ -13,15 +13,15 @@ class Online
      *                                  [0] : message visiteurs/membres en ligne
      *                                  [1] : message de bienvenue pour l'utilisateur connecté ou invité
      */
-    public static function Who_Online(): array
+    public static function whoOnline(): array
     {
-        list($content1, $content2) = static::Who_Online_Sub();
+        list($content1, $content2) = static::whoOnlineSub();
 
         return array($content1, $content2);
     }
 
     /**
-     * Sous-fonction de Who_Online() utilisant Site_Load pour récupérer le nombre de membres et invités en ligne.
+     * Sous-fonction de whoOnline() utilisant Site_Load pour récupérer le nombre de membres et invités en ligne.
      *
      * @global array $cookie Tableau des cookies utilisateur
      * @global mixed $user Indique si l'utilisateur est connecté
@@ -29,11 +29,11 @@ class Online
      *                                  [0] : message visiteurs/membres en ligne
      *                                  [1] : message de bienvenue pour l'utilisateur connecté ou invité
      */
-    public static function Who_Online_Sub(): array
+    public static function whoOnlineSub(): array
     {
         global $user, $cookie;
 
-        list($member_online_num, $guest_online_num) = static::site_load();
+        list($member_online_num, $guest_online_num) = static::siteLoad();
 
         $content1 = "$guest_online_num " . translate('visiteur(s) et') . " $member_online_num " . translate('membre(s) en ligne.');
 
@@ -57,7 +57,7 @@ class Online
      *                            [0] : nombre de membres en ligne
      *                            [1] : nombre d'invités en ligne
      */
-    public static function Site_Load(): array
+    public static function siteLoad(): array
     {
         global $SuperCache, $who_online_num;
 
@@ -98,7 +98,7 @@ class Online
      *
      * @return array<int, mixed> Tableau contenant le nombre de membres et la liste des membres connectés
      */
-    public static function online_members(): array
+    public static function onlineMembers(): array
     {
         $result = sql_query("SELECT username, guest, time 
                             FROM " . sql_prefix('session') . " 
@@ -120,5 +120,4 @@ class Online
 
         return $members_online;
     }
-
 }

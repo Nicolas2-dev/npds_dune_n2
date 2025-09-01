@@ -142,7 +142,7 @@ function Liste_Page()
             </span>
             ' . wspad_trans('Document(s) et révision(s) disponible(s) pour le groupe') . ' 
             <span class="text-body-secondary">
-                ' . aff_langue($gp['groupe_name']) . " [$groupe]
+                ' . affLangue($gp['groupe_name']) . " [$groupe]
             </span>
         </h3>";
     } else {
@@ -513,7 +513,7 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = removeHack(stripslashes(FixQuotes(dataimagetofileurl($content, 'modules/upload/storage/ws'))));
+        $content = removeHack(stripslashes(FixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
         $auteur = removeHack(stripslashes(FixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 
@@ -597,7 +597,7 @@ include 'header.php';
 if (file_exists('modules/' . $ModPath . '/views/head.php')) {
     $Xcontent = join('', file('modules/' . $ModPath . '/views/head.php'));
 
-    echo meta_lang(aff_langue($Xcontent));
+    echo metaLang(affLangue($Xcontent));
 }
 
 switch ($op) {
@@ -628,7 +628,7 @@ if (file_exists('modules/' . $ModPath . '/views/foot.php')) {
 
     $Xcontent .= '<p class="text-end">NPDS WsPad ' . $version . ' by Dev&nbsp;&&nbsp;Jpb&nbsp;</p>';
 
-    echo meta_lang(aff_langue($Xcontent));
+    echo metaLang(affLangue($Xcontent));
 }
 
 include 'footer.php';

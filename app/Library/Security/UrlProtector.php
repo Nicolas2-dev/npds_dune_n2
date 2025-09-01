@@ -10,7 +10,7 @@ class UrlProtector
      * Vérifie et protège les URL contre les contenus ou clés interdites.
      *
      * Cette fonction :
-     * - Inclut la configuration `url_protect.php` contenant les mots clés et contenus interdits
+     * - Inclut la configuration `urlProtect.php` contenant les mots clés et contenus interdits
      * - Décode l'URL passée et effectue des comparaisons avec les valeurs interdites
      * - Bloque l'accès si une correspondance est trouvée en appelant `accessDenied()`
      *
@@ -19,10 +19,10 @@ class UrlProtector
      *
      * @return void
      */
-    public static function url_protect(string $arr, string $key): void
+    public static function urlProtect(string $arr, string $key): void
     {
-        // include url_protect Bad Words and create the filter function
-        include 'config/url_protect.php';
+        // include urlProtect Bad Words and create the filter function
+        include 'config/urlProtect.php';
 
         // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
         $arr = rawurldecode($arr);

@@ -87,12 +87,12 @@ function AddLink()
             <select class="form-select" id="cat" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
 
             $result2 = sql_query("select sid, title from " . $links_DB . "links_subcategories WHERE cid='$cid' ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title . '/' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . '/' . $stitle) . '</option>';
             }
         }
 
@@ -148,7 +148,7 @@ function AddLink()
                 </div>
             </div>';
 
-        echo Q_spambot();
+        echo questionSpambot();
 
         echo '<div class="mb-3 row">
                     <input type="hidden" name="op" value="Add" />
@@ -168,7 +168,7 @@ function AddLink()
 
         SearchForm();
 
-        adminfoot('fv', '', $arg1, '1');
+        adminFoot('fv', '', $arg1, '1');
 
         include 'footer.php';
     } else {
@@ -187,10 +187,10 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     if (!$user and !$admin) {
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, '')) {
-            Ecr_Log('security', 'Links Anti-Spam : url=' . $url, '');
+        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+            ecrireLog('security', 'Links Anti-Spam : url=' . $url, '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
     }
@@ -262,7 +262,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     $title = removeHack(stripslashes(FixQuotes($title)));
     $url = removeHack(stripslashes(FixQuotes($url)));
-    $description = dataimagetofileurl($description, 'modules/upload/storage/lindes');
+    $description = dataImageToFileUrl($description, 'modules/upload/storage/lindes');
     $description = removeHack(stripslashes(FixQuotes($description)));
     $name = removeHack(stripslashes(FixQuotes($name)));
     $email = removeHack(stripslashes(FixQuotes($email)));

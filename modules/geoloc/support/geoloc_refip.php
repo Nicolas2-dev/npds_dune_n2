@@ -47,7 +47,7 @@ if ($controle != 0) {
     $ibid = false;
 
     if (strstr($nuke_url, 'https')) {
-        if (file_contents_exist($file_path[0])) {
+        if (fileContentsExist($file_path[0])) {
 
             $loc = file_get_contents($file_path[0]);
             $loc_obj = json_decode($loc);
@@ -68,7 +68,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $api_key_ipdata != '') {
-            if (file_contents_exist($file_path[1])) {
+            if (fileContentsExist($file_path[1])) {
 
                 $loc = file_get_contents($file_path[1]);
                 $loc_obj = json_decode($loc);
@@ -90,7 +90,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $key_lookup != '') {
-            if (file_contents_exist($file_path[2])) {
+            if (fileContentsExist($file_path[2])) {
 
                 $loc = file_get_contents($file_path[2]);
                 $loc_obj = json_decode($loc);
@@ -107,7 +107,7 @@ if ($controle != 0) {
             }
         }
     } else if (strstr($nuke_url, 'http')) {
-        if (file_contents_exist($file_path[3])) {
+        if (fileContentsExist($file_path[3])) {
 
             $loc = file_get_contents($file_path[3]);
             $loc_obj = json_decode($loc);
@@ -126,7 +126,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $key_lookup != '') {
-            if (file_contents_exist($file_path[4])) {
+            if (fileContentsExist($file_path[4])) {
 
                 $loc = file_get_contents($file_path[4]);
                 $loc_obj = json_decode($loc);

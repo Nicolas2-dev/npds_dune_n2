@@ -110,7 +110,7 @@ while (list($def, $content, $type_meta, $type_uri, $uri, $description) = sql_fet
         echo '<td valign="top" align="left">' . $content . '</td>
             </tr>';
     } else {
-        echo '<td valign="top" align="left">' . aff_langue($description) . '</td>
+        echo '<td valign="top" align="left">' . affLangue($description) . '</td>
             </tr>';
     }
 

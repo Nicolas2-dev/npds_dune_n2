@@ -147,7 +147,7 @@ class Block
         global $SuperCache, $CACHE_TIMINGS;
 
         // Multi-Langue
-        $title = aff_langue($title);
+        $title = affLangue($title);
 
         // Bloc caché
         $hidden = false;
@@ -180,7 +180,7 @@ class Block
             }
         }
 
-        $content = aff_langue($content);
+        $content = affLangue($content);
 
         if (($SuperCache) and ($Xcache != 0)) {
             $cache_clef = md5($content);

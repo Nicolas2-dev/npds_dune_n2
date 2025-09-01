@@ -58,8 +58,8 @@ function topicsmanager()
 
             echo '</div>
                     <div class="">
-                        <h4 class="my-3"><a href="admin.php?op=topicedit&amp;topicid=' . $topicid . '" ><i class="fa fa-edit me-1 align-middle"></i>' . aff_langue($topicname) . '</a></h4>
-                        <p>' . aff_langue($topictext) . '</p>
+                        <h4 class="my-3"><a href="admin.php?op=topicedit&amp;topicid=' . $topicid . '" ><i class="fa fa-edit me-1 align-middle"></i>' . affLangue($topicname) . '</a></h4>
+                        <p>' . affLangue($topictext) . '</p>
                         <div id="shortcut-tools_' . $topicid . '" class="n-shortcut-tools" style="display:none;"><a class="text-danger btn" href="admin.php?op=topicdelete&amp;topicid=' . $topicid . '&amp;ok=0" ><i class="fas fa-trash fa-2x"></i></a></div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@ function topicsmanager()
     echo autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
     sql_free_result($result);
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function topicedit($topicid)
@@ -197,7 +197,7 @@ function topicedit($topicid)
     list($topicid, $topicname, $topicimage, $topictext, $topicadmin) = sql_fetch_row($result);
 
     echo '<hr />
-    <h3 class="mb-3">' . adm_translate('Editer le Sujet :') . ' <span class="text-body-secondary">' . aff_langue($topicname) . '</span></h3>';
+    <h3 class="mb-3">' . adm_translate('Editer le Sujet :') . ' <span class="text-body-secondary">' . affLangue($topicname) . '</span></h3>';
 
     if ($topicimage != '') {
         echo '<div class="card card-body my-4 py-3"><img class="img-fluid mx-auto d-block" src="' . $tipath . $topicimage . '" alt="image-sujet" /></div>';
@@ -273,7 +273,7 @@ function topicedit($topicid)
     */
 
     echo '<hr />
-    <h3 class="my-2">' . adm_translate('Gérer les Liens Relatifs : ') . ' <span class="text-body-secondary">' . aff_langue($topicname) . '</span></h3>';
+    <h3 class="my-2">' . adm_translate('Gérer les Liens Relatifs : ') . ' <span class="text-body-secondary">' . affLangue($topicname) . '</span></h3>';
 
     $res = sql_query("SELECT rid, name, url 
                       FROM " . sql_prefix('related') . " 
@@ -347,7 +347,7 @@ function topicedit($topicid)
 
     echo autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function relatededit($tid, $rid)
@@ -416,7 +416,7 @@ function relatededit($tid, $rid)
         inpandfieldlen("name",30);
         inpandfieldlen("url",320);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function relatedsave($tid, $rid, $name, $url)
@@ -455,7 +455,7 @@ function topicmake($topicname, $topicimage, $topictext, $topicadmin)
                VALUES (NULL,'$topicname', '$topicimage', '$topictext', '0', '$topicadmin')");
 
     global $aid;
-    Ecr_Log('security', sprintf('topicMake(%s) by AID : %s', $topicname, $aid), "");
+    ecrireLog('security', sprintf('topicMake(%s) by AID : %s', $topicname, $aid), "");
 
     $topicadminX = explode(",", $topicadmin);
 
@@ -540,7 +540,7 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
                WHERE topicid='$topicid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('topicChange(%s, %s) by AID : %s', $topicname, $topicid, $aid), '');
+    ecrireLog('security', sprintf('topicChange(%s, %s) by AID : %s', $topicname, $topicid, $aid), '');
 
     if ($name) {
         sql_query("INSERT INTO " . sql_prefix('related') . " 
@@ -563,17 +563,17 @@ function topicdelete($topicid, $ok = 0)
         sql_query("DELETE FROM " . sql_prefix('stories') . " 
                    WHERE topic='$topicid'");
 
-        Ecr_Log('security', sprintf('topicDelete (stories, %s) by AID : %s', $topicid, $aid), '');
+        ecrireLog('security', sprintf('topicDelete (stories, %s) by AID : %s', $topicid, $aid), '');
 
         sql_query("DELETE FROM " . sql_prefix('topics') . " 
                    WHERE topicid='$topicid'");
 
-        Ecr_Log('security', sprintf('topicDelete (topic, %s) by AID : %s', $topicid, $aid), '');
+        ecrireLog('security', sprintf('topicDelete (topic, %s) by AID : %s', $topicid, $aid), '');
 
         sql_query("DELETE FROM " . sql_prefix('related') . " 
                    WHERE tid='$topicid'");
 
-        Ecr_Log('security', sprintf('topicDelete (related, %s) by AID : %s', $topicid, $aid), '');
+        ecrireLog('security', sprintf('topicDelete (related, %s) by AID : %s', $topicid, $aid), '');
 
         // commentaires
         if (file_exists('modules/comments/config/article.php')) {
@@ -583,7 +583,7 @@ function topicdelete($topicid, $ok = 0)
                        WHERE forum_id='$forum' 
                        AND topic_id='$topic'");
 
-            Ecr_Log('security', sprintf('topicDelete (comments, %s) by AID : %s', $topicid, $aid), '');
+            ecrireLog('security', sprintf('topicDelete (comments, %s) by AID : %s', $topicid, $aid), '');
         }
 
         Header('Location: admin.php?op=topicsmanager');
@@ -601,7 +601,7 @@ function topicdelete($topicid, $ok = 0)
 
         list($topicimage, $topicname, $topictext) = sql_fetch_row($result2);
 
-        echo '<h3 class=""><span class="text-danger">' . adm_translate('Effacer le Sujet') . ' : </span>' . aff_langue($topicname) . '</h3>';
+        echo '<h3 class=""><span class="text-danger">' . adm_translate('Effacer le Sujet') . ' : </span>' . affLangue($topicname) . '</h3>';
         echo '<div class="alert alert-danger lead" role="alert">';
 
         if ($topicimage != '') {
@@ -616,7 +616,7 @@ function topicdelete($topicid, $ok = 0)
         <p><a class="btn btn-danger" href="admin.php?op=topicdelete&amp;topicid=' . $topicid . '&amp;ok=1">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-primary"href="admin.php?op=topicsmanager">' . adm_translate('Non') . '</a></p>
         </div>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     }
 }
 

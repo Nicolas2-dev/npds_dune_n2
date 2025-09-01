@@ -51,7 +51,7 @@ function Configuretwi($ModPath, $ModStart, $class_sty_2, $npds_twi_arti, $npds_t
         include('modules/' . $ModPath . '/config/config.php');
     }
 
-    $hlpfile = 'modules/' . $ModPath . '/views/manuels/'. $language . '/'. $language . '.html';
+    $hlpfile = 'modules/' . $ModPath . '/views/manuels/' . $language . '/' . $language . '.html';
 
     global $f_meta_nom, $f_titre, $adminimg, $npds_twi;
 
@@ -210,13 +210,13 @@ function Configuretwi($ModPath, $ModStart, $class_sty_2, $npds_twi_arti, $npds_t
 
     $arg1 = 'var formulid = ["twitterset"];';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function SaveSettwi($npds_twi_arti, $npds_twi_urshort, $npds_twi_post, $consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret, $tbox_width, $tbox_height, $class_sty_1, $class_sty_2, $ModPath, $ModStart)
 {
     //modifie le fichier de configuration
-    $file_conf = fopen('modules/'. $ModPath .'/config/config.php', 'w+');
+    $file_conf = fopen('modules/' . $ModPath . '/config/config.php', 'w+');
 
     $content = "<?php \n";
     $content .= "/************************************************************************/\n";

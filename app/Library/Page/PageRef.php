@@ -5,7 +5,7 @@ namespace App\Library\Page;
 
 class PageRef
 {
-    
+
     /**
      * Modèles HTML pour l'inclusion des fichiers CSS.
      *
@@ -33,7 +33,7 @@ class PageRef
      *
      * @return string|null Le bloc HTML <link> pour inclure les CSS, ou null si aucun CSS trouvé
      */
-    public static function import_page_ref_css(string $css_pages_ref, string $css): ?string // Bug : $css ne sert a rien puisque écraser plus bas !!!
+    public static function importPageRefCss(string $css_pages_ref, string $css): ?string // Bug : $css ne sert a rien puisque écraser plus bas !!!
     {
         // Chargeur CSS spécifique
         if ($css_pages_ref) {
@@ -58,7 +58,6 @@ class PageRef
                     } else {
                         if (file_exists('themes/' . $tmp_theme . '/assets/css/' . $tab_css) and ($tab_css != '')) {
                             $admtmp = sprintf(static::$templates['theme_css'], $tmp_theme, $tab_css);
-
                         } elseif (file_exists($tab_css) and ($tab_css != '')) {
                             $admtmp = sprintf(static::$templates['tab_css'], $tab_css);
                         }
@@ -89,6 +88,7 @@ class PageRef
 
             return $tmp;
         }
-    }
 
+        return null;
+    }
 }

@@ -60,7 +60,7 @@ function fab_feed($type, $filename, $timeout)
     $image->height = $backend_height;
     $rss->image = $image;
 
-    $xtab = news_aff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+    $xtab = newsAff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
 
     $story_limit = 0;
 
@@ -70,14 +70,14 @@ function fab_feed($type, $filename, $timeout)
         $story_limit++;
 
         $item = new FeedItem();
-        $item->title = preview_local_langue($backend_language, str_replace('&quot;', '\"', $title));
+        $item->title = previewLocalLangue($backend_language, str_replace('&quot;', '\"', $title));
         $item->link = $nuke_url . '/article.php?sid=' . $sid;
 
-        $item->description = meta_lang(preview_local_langue($backend_language, $hometext));
+        $item->description = metaLang(previewLocalLangue($backend_language, $hometext));
         $item->descriptionHtmlSyndicated = true;
 
         $item->date = strtotime(getPartOfTime($time, 'yyyy-MM-dd H:m:s'));
-        
+
         $item->source = $nuke_url;
         $item->author = $aid;
         $rss->addItem($item);

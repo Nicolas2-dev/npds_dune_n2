@@ -17,12 +17,12 @@ function code_aff($subject, $story, $bodytext, $notes)
 {
     global $local_user_language;
 
-    $subjectX   = affCode(preview_local_langue($local_user_language, $subject));
-    $storyX     = affCode(preview_local_langue($local_user_language, $story));
-    $bodytextX  = affCode(preview_local_langue($local_user_language, $bodytext));
-    $notesX     = affCode(preview_local_langue($local_user_language, $notes));
+    $subjectX   = affCode(previewLocalLangue($local_user_language, $subject));
+    $storyX     = affCode(previewLocalLangue($local_user_language, $story));
+    $bodytextX  = affCode(previewLocalLangue($local_user_language, $bodytext));
+    $notesX     = affCode(previewLocalLangue($local_user_language, $notes));
 
-    themepreview($subjectX, $storyX, $bodytextX, $notesX);
+    themePreview($subjectX, $storyX, $bodytextX, $notesX);
 }
 
 function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
@@ -131,7 +131,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
             </div>
         </div>
         <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . language_iso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
         <script type="text/javascript" src="assets/shared/clockpicker/bootstrap-clockpicker.min.js"></script>
         <script type="text/javascript">
         //<![CDATA[
@@ -149,7 +149,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
                 altInput: true,
                 altFormat: "l j F Y",
                 dateFormat:"Y-m-d",
-                "locale": "' . language_iso(1, '', '') . '",
+                "locale": "' . languageIso(1, '', '') . '",
             });
         //]]>
         </script>

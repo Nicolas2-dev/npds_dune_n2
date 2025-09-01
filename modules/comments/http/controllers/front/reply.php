@@ -120,10 +120,10 @@ if (isset($submitS)) {
 
         //anti_spambot
         if (isset($asb_question) and isset($asb_reponse)) {
-            if (!R_spambot($asb_question, $asb_reponse, $message)) {
-                Ecr_Log('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
+            if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+                ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
-                redirect_url($url_ret);
+                redirectUrl($url_ret);
                 die();
             }
         }
@@ -148,7 +148,7 @@ if (isset($submitS)) {
 
         $image_subject = '';
 
-        $message = addslashes(dataimagetofileurl($message, 'modules/upload/storage/co'));
+        $message = addslashes(dataImageToFileUrl($message, 'modules/upload/storage/co'));
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
 
@@ -184,10 +184,10 @@ if (isset($submitS)) {
 
             $cmessage = '🔔 ' . translate('Nouveau commentaire') . ' ==> <a href="' . $nuke_url . '/' . $url_ret . '">' . $nuke_url . '/' . $url_ret . '</a>';
 
-            send_email($notify_email, $csubject, $cmessage, $notify_from, false, 'html', '');
+            sendEmail($notify_email, $csubject, $cmessage, $notify_from, false, 'html', '');
         }
 
-        redirect_url($url_ret);
+        redirectUrl($url_ret);
     } else {
         echo '<h2><i class="far fa-comment text-body-secondary fa-lg me-2"></i>' . translate('Commentaire') . '</h2>
         <hr />
@@ -250,7 +250,7 @@ if (isset($submitS)) {
                     if (stristr($theposterdata['user_avatar'], 'users_private')) {
                         $imgtmp = $theposterdata['user_avatar'];
                     } else {
-                        if ($ibid = theme_image('forum/avatar/' . $theposterdata['user_avatar'])) {
+                        if ($ibid = themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
                             $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
@@ -409,7 +409,7 @@ if (isset($submitS)) {
             echo '</div>
             </div>';
 
-            echo Q_spambot();
+            echo questionSpambot();
 
             echo '<div class="mb-3 row">
                 <div class="col-sm-12">

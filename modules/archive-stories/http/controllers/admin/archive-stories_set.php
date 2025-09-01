@@ -47,14 +47,14 @@ $f_titre = adm_translate('Module') . ' : ' . $ModPath;
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 
-$hlpfile = 'modules/'. $ModPath .'/views/manuels/' . $language . '/'. $language .'/mod-archive-stories.';
+$hlpfile = 'modules/' . $ModPath . '/views/manuels/' . $language . '/' . $language . '/mod-archive-stories.';
 
 function ConfigureArchive($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
 {
     global $hlpfile;
 
-    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
-        include 'modules/'. $ModPath .'/config/config.php';
+    if (file_exists('modules/' . $ModPath . '/config/config.php')) {
+        include 'modules/' . $ModPath . '/config/config.php';
     }
 
     GraphicAdmin($hlpfile);
@@ -135,13 +135,13 @@ function ConfigureArchive($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
     $arg1 = 'var formulid=["archiveadm"];
         inpandfieldlen("arch_titre",400);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function SaveSetArchive_stories($maxcount, $arch, $arch_titre, $retcache, $ModPath, $ModStart)
 {
 
-    $file = fopen('modules/'. $ModPath .'/config/config.php', 'w');
+    $file = fopen('modules/' . $ModPath . '/config/config.php', 'w');
 
     $content = "<?php \n";
     $content .= "/************************************************************************/\n";
@@ -175,9 +175,9 @@ function SaveSetArchive_stories($maxcount, $arch, $arch_titre, $retcache, $ModPa
     fwrite($file, $content);
     fclose($file);
 
-    @chmod('modules/'. $ModPath .'/config/config.php', 0666);
+    @chmod('modules/' . $ModPath . '/config/config.php', 0666);
 
-    $file = fopen('modules/'. $ModPath .'/config/cache.php', 'w');
+    $file = fopen('modules/' . $ModPath . '/config/cache.php', 'w');
 
     $content = "<?php \n";
     $content .= "/************************************************************************/\n";
@@ -201,7 +201,7 @@ function SaveSetArchive_stories($maxcount, $arch, $arch_titre, $retcache, $ModPa
     fwrite($file, $content);
     fclose($file);
 
-    @chmod('modules/'. $ModPath .'/config/cache.php', 0666);
+    @chmod('modules/' . $ModPath . '/config/cache.php', 0666);
 }
 
 settype($subop, 'string');

@@ -125,7 +125,7 @@ function Ephemerids()
         <button class="btn btn-primary" type="submit">' . adm_translate('Editer') . '</button>
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Ephemeridsadd($did, $mid, $yid, $content)
@@ -172,7 +172,7 @@ function Ephemeridsmaintenance($did, $mid)
     while (list($eid, $did, $mid, $yid, $content) = sql_fetch_row($resultX)) {
         echo '<tr>
                 <td>' . $yid . '</td>
-                <td>' . aff_langue($content) . '</td>
+                <td>' . affLangue($content) . '</td>
                 <td><a href="admin.php?op=Ephemeridsedit&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit fa-lg me-2"></i></a>&nbsp;<a href="admin.php?op=Ephemeridsdel&amp;eid=' . $eid . '&amp;did=' . $did . '&amp;mid=' . $mid . '" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"><i class="fas fa-trash fa-lg text-danger"></i></a>
             </tr>';
     }
@@ -180,7 +180,7 @@ function Ephemeridsmaintenance($did, $mid)
     echo '</tbody>
         </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Ephemeridsdel($eid, $did, $mid)
@@ -224,7 +224,7 @@ function Ephemeridsedit($eid, $did, $mid)
         <button class="btn btn-primary" type="submit">' . adm_translate('Envoyer') . '</button>
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)

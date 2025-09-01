@@ -56,7 +56,7 @@ function poll_createPoll()
     while ($object = sql_fetch_assoc($result)) {
         echo '<tr>
             <td>' . $object["pollID"] . '</td>
-            <td>' . aff_langue($object["pollTitle"]) . '</td>
+            <td>' . affLangue($object["pollTitle"]) . '</td>
             <td>' . $object["voters"] . '</td>
             <td>
                 <a href="admin.php?op=editpollPosted&amp;id=' . $object["pollID"] . '"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer ce sondage') . '" data-bs-toggle="tooltip"></i></a>
@@ -112,7 +112,7 @@ function poll_createPoll()
         $arg1 .= 'inpandfieldlen("optionText' . $i . '",255)';
     }
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function poll_createPosted()
@@ -357,7 +357,7 @@ function poll_editPollPosted()
             $arg1 .= 'inpandfieldlen("optionText' . $i . '",255)';
         }
 
-        adminfoot('fv', '', $arg1, '');
+        adminFoot('fv', '', $arg1, '');
     } else {
         header('location: admin.php?op=editpoll');
     }

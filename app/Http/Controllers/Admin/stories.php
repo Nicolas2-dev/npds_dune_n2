@@ -133,7 +133,7 @@ function SelectCategory($cat)
             $sel = '';
         }
 
-        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . aff_langue($title) . '</option>';
+        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . affLangue($title) . '</option>';
     }
 
     echo '</select>
@@ -179,7 +179,7 @@ function AddCategory()
     $arg1 = 'var formulid = ["storiesaddcat"];
     inpandfieldlen("title",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function SaveCategory($title)
@@ -216,7 +216,7 @@ function SaveCategory($title)
     <h3 class="mb-3">' . adm_translate('Ajouter une nouvelle Catégorie') . '</h3>
     ' . $what1;
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function EditCategory($catid)
@@ -256,7 +256,7 @@ function EditCategory($catid)
         echo '<option name="catid" value="0">' . adm_translate('Articles') . '</option>';
 
         while (list($catid, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="catid" value="' . $catid . '">' . aff_langue($title) . '</option>';
+            echo '<option name="catid" value="' . $catid . '">' . affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -270,7 +270,7 @@ function EditCategory($catid)
             </div>
         </form>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     } else {
         echo '<form id="storieseditcat" action="admin.php" method="post">
             <div class="mb-3 row">
@@ -292,7 +292,7 @@ function EditCategory($catid)
         $arg1 = 'var formulid = ["storieseditcat"];
         inpandfieldlen("title",255);';
 
-        adminfoot('fv', '', $arg1, '');
+        adminFoot('fv', '', $arg1, '');
     }
 }
 
@@ -316,7 +316,7 @@ function SaveEditCategory($catid, $title)
                              SET title='$title' WHERE catid='$catid'");
 
         global $aid;
-        Ecr_Log('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
+        ecrireLog('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
     }
 
     include 'header.php';
@@ -328,7 +328,7 @@ function SaveEditCategory($catid, $title)
     <h3 class="mb-3">' . adm_translate('Edition des Catégories') . '</h3>
     ' . $what1;
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function DelCategory($cat)
@@ -366,7 +366,7 @@ function DelCategory($cat)
                     <select class="form-select" id="cat" name="cat">';
 
         while (list($catid, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="cat" value="' . $catid . '">' . aff_langue($title) . '</option>';
+            echo '<option name="cat" value="' . $catid . '">' . affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -391,7 +391,7 @@ function DelCategory($cat)
                        WHERE catid='$cat'");
 
             global $aid;
-            Ecr_Log('security', sprintf('DelCategory(%s) by AID : %s', $cat, $aid), '');
+            ecrireLog('security', sprintf('DelCategory(%s) by AID : %s', $cat, $aid), '');
 
             echo '<div class="alert alert-success" role="alert">' . adm_translate('Suppression effectuée') . '</div>';
         } else {
@@ -408,7 +408,7 @@ function DelCategory($cat)
         }
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 function YesDelCategory($catid)
 {
@@ -433,7 +433,7 @@ function YesDelCategory($catid)
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('YesDelCategory(%s) by AID : %s', $catid, $aid), '');
+    ecrireLog('security', sprintf('YesDelCategory(%s) by AID : %s', $catid, $aid), '');
 
     Header('Location: admin.php');
 }
@@ -463,7 +463,7 @@ function NoMoveCategory($catid, $newcat)
     <h3 class="mb-3">' . adm_translate('Affectation d\'Articles vers une nouvelle Catégorie') . '</h3>';
 
     if (!$newcat) {
-        echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . aff_langue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
+        echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . affLangue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
 
         $selcat = sql_query("SELECT catid, title 
                              FROM " . sql_prefix('stories_cat'));
@@ -476,7 +476,7 @@ function NoMoveCategory($catid, $newcat)
                     <option name="newcat" value="0">' . adm_translate('Articles') . '</option>';
 
         while (list($newcat, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="newcat" value="' . $newcat . '">' . aff_langue($title) . '</option>';
+            echo '<option name="newcat" value="' . $newcat . '">' . affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -505,12 +505,12 @@ function NoMoveCategory($catid, $newcat)
                    WHERE catid='$catid'");
 
         global $aid;
-        Ecr_Log('security', sprintf('NoMoveCategory(%s, %s) by AID : %s', $catid, $newcat, $aid), '');
+        ecrireLog('security', sprintf('NoMoveCategory(%s, %s) by AID : %s', $catid, $newcat, $aid), '');
 
         echo '<div class="alert alert-success"><strong>' . adm_translate('La ré-affectation est terminée !') . '</strong></div>';
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 // NEWS
@@ -562,7 +562,7 @@ function displayStory($qid)
         header('location: admin.php?op=submissions');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -573,11 +573,11 @@ function displayStory($qid)
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form action="admin.php" method="post" name="adminForm" id="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-        ' . aff_localzone_langue('local_user_language') . '
+        ' . affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -588,7 +588,7 @@ function displayStory($qid)
         }
     }
 
-    code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . meta_lang($story) . '</div>', meta_lang($bodytext), "");
+    code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . metaLang($story) . '</div>', metaLang($bodytext), "");
 
     echo '</div>
         <div class="mb-3 row">
@@ -637,7 +637,7 @@ function displayStory($qid)
                 $sel = 'selected="selected" ';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -703,7 +703,7 @@ function displayStory($qid)
 
     $arg1 = 'var formulid = ["adminForm"];';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
@@ -716,9 +716,9 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     $hlpfile = 'manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(dataimagetofileurl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(dataimagetofileurl($bodytext, 'cache/ac'));
-    $notes = stripslashes(dataimagetofileurl($notes, 'cache/an'));
+    $hometext = stripslashes(dataImageToFileUrl($hometext, 'cache/ai'));
+    $bodytext = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
+    $notes = stripslashes(dataImageToFileUrl($notes, 'cache/an'));
 
     if ($topic < 1) {
         $topic = 1;
@@ -748,7 +748,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         header('location: admin.php?op=submissions');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -759,11 +759,11 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form action="admin.php" method="post" name="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-        ' . aff_localzone_langue('local_user_language') . '
+        ' . affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -774,7 +774,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         }
     }
 
-    code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . meta_lang($hometext) . '</div>', meta_lang($bodytext), meta_lang($notes));
+    code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . metaLang($hometext) . '</div>', metaLang($bodytext), metaLang($notes));
 
     echo '</div>
         <div class="mb-3 row">
@@ -822,7 +822,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
                 $sel = 'selected="selected" ';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -883,7 +883,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         <input class="btn btn-primary my-2" type="submit" value="' . adm_translate('Ok') . '" />
     </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur)
@@ -913,9 +913,9 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
     $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = dataimagetofileurl($hometext, 'modules/upload/storage/ai');
-    $bodytext = dataimagetofileurl($bodytext, 'modules/upload/storage/ac');
-    $notes = dataimagetofileurl($notes, 'modules/upload/storage/an');
+    $hometext = dataImageToFileUrl($hometext, 'modules/upload/storage/ai');
+    $bodytext = dataImageToFileUrl($bodytext, 'modules/upload/storage/ac');
+    $notes = dataImageToFileUrl($notes, 'modules/upload/storage/an');
 
     $hometext = stripslashes(FixQuotes($hometext));
     $bodytext = stripslashes(FixQuotes($bodytext));
@@ -933,12 +933,12 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         $result = sql_query("INSERT INTO " . sql_prefix('stories') . " 
                              VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
 
-        Ecr_Log('security', sprintf('postStory(pub_immediate, %s) by AID : %s', $subject, $aid), '');
+        ecrireLog('security', sprintf('postStory(pub_immediate, %s) by AID : %s', $subject, $aid), '');
     } else {
         $result = sql_query("INSERT INTO " . sql_prefix('autonews') . " 
                              VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
 
-        Ecr_Log('security', sprintf('postStory(autonews, %s) by AID : %s', $subject, $aid), '');
+        ecrireLog('security', sprintf('postStory(autonews, %s) by AID : %s', $subject, $aid), '');
     }
 
     if (($uid != 1) and ($uid != '')) {
@@ -961,7 +961,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
         global $subscribe;
         if ($subscribe) {
-            subscribe_mail('topic', $topic, '', $subject, '');
+            subscribeMail('topic', $topic, '', $subject, '');
         }
 
         // Cluster Paradise
@@ -985,7 +985,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         // Réseaux sociaux
     }
 
-    redirect_url('admin.php?');
+    redirectUrl('admin.php?');
 }
 
 function editStory($sid)
@@ -1041,7 +1041,7 @@ function editStory($sid)
         header('location: admin.php');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topicname) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topicname) . '</strong></span>';
 
     include 'header.php';
 
@@ -1054,10 +1054,10 @@ function editStory($sid)
 
     list($topictext, $topicimage) = sql_fetch_row($result);
 
-    echo '<hr />' . aff_local_langue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
+    echo '<hr />' . affLocalLangue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -1115,7 +1115,7 @@ function editStory($sid)
         if ($affiche) {
             $sel = $topicid == $topic ? 'selected="selected"' : '';
 
-            echo '<option value="' . $topicid . '" ' . $sel . '>' . aff_langue($topics) . '</option>';
+            echo '<option value="' . $topicid . '" ' . $sel . '>' . affLangue($topics) . '</option>';
         }
     }
 
@@ -1215,7 +1215,7 @@ function editStory($sid)
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function deleteStory($qid)
@@ -1239,7 +1239,7 @@ function deleteStory($qid)
                          WHERE qid='$qid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('deleteStoryfromQueue(%s) by AID : %s', $qid, $aid), '');
+    ecrireLog('security', sprintf('deleteStoryfromQueue(%s) by AID : %s', $qid, $aid), '');
 }
 
 function removeStory($sid, $ok = 0)
@@ -1310,7 +1310,7 @@ function removeStory($sid, $ok = 0)
         }
 
         global $aid;
-        Ecr_Log('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
+        ecrireLog('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
 
         if ($ultramode) {
             ultramode();
@@ -1389,7 +1389,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     }
 
     global $aid;
-    Ecr_Log('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
+    ecrireLog('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
 
     if ($ultramode) {
         ultramode();
@@ -1414,7 +1414,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     //    include('modules/npds_twi/http/controllers/npds_to_fbk.php');
     //}
     // Réseaux sociaux
-    redirect_url('admin.php?op=EditStory&sid=' . $sid);
+    redirectUrl('admin.php?op=EditStory&sid=' . $sid);
 }
 
 function adminStory()
@@ -1488,7 +1488,7 @@ function adminStory()
                 $sel = 'selected="selected"';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -1552,7 +1552,7 @@ function adminStory()
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
@@ -1562,8 +1562,8 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(dataimagetofileurl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(dataimagetofileurl($bodytext, 'cache/ac'));
+    $hometext = stripslashes(dataImageToFileUrl($hometext, 'cache/ai'));
+    $bodytext = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
 
     settype($sel, 'string');
 
@@ -1601,7 +1601,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     // controle droit
     // admindroits($aid,$f_meta_nom); // à voir l'intégration avec les droits sur les topics ...
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . aff_langue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -1615,11 +1615,11 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form id="storiespreviswart" action="admin.php" method="post" name="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label> 
-        ' . aff_localzone_langue('local_user_language') . '
+        ' . affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = theme_image('topics/' . $topicimage)) {
+        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -1673,7 +1673,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 $sel = 'selected="selected"';
             }
 
-            echo ' <option ' . $sel . ' value="' . $topicid . '">' . aff_langue($topics) . '</option>';
+            echo ' <option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -1750,7 +1750,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 settype($catid, 'integer');

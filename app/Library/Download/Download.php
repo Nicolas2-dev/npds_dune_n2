@@ -71,7 +71,7 @@ class Download
                         $ibid .= '<li class="ms-4 my-1">
                             <a href="download.php?op=mydown&amp;did=' . $did . '" >
                                 ' . $dfilename . '
-                            </a> (' . translate('Catégorie') . ' : ' . aff_langue(stripslashes($dcategory)) . ')&nbsp;
+                            </a> (' . translate('Catégorie') . ' : ' . affLangue(stripslashes($dcategory)) . ')&nbsp;
                             <span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span>
                         </li>';
                     }

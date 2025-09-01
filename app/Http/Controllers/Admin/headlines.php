@@ -24,7 +24,7 @@ $f_titre = adm_translate('Grands Titres de sites de News');
 admindroits($aid, $f_meta_nom);
 
 global $language;
-$hlpfile = 'admin/manuels/'.$language.'/headlines.html';
+$hlpfile = 'admin/manuels/' . $language . '/headlines.html';
 
 function HeadlinesAdmin()
 {
@@ -116,7 +116,7 @@ function HeadlinesAdmin()
         inpandfieldlen("url",320);
         inpandfieldlen("headlinesurl",320);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function HeadlinesEdit($hid)
@@ -191,7 +191,7 @@ function HeadlinesEdit($hid)
         inpandfieldlen("url",320);
         inpandfieldlen("headlinesurl",320);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status)

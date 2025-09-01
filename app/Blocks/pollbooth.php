@@ -1,7 +1,6 @@
 <?php
 
-if (! function_exists('pollMain'))
-{ 
+if (! function_exists('pollMain')) {
     #autodoc pollMain($pollID,$pollClose) : Construit le bloc sondage
     function pollMain($pollID, $pollClose)
     {
@@ -28,7 +27,7 @@ if (! function_exists('pollMain'))
         global $block_title;
         $boxTitle = $block_title == '' ? translate('Sondage') :  $block_title;
 
-        $boxContent .= '<legend>' . aff_langue($pollTitle) . '</legend>';
+        $boxContent .= '<legend>' . affLangue($pollTitle) . '</legend>';
 
         $result = sql_query("SELECT pollID, optionText, optionCount, voteID 
                             FROM " . sql_prefix('poll_data') . " 
@@ -45,7 +44,7 @@ if (! function_exists('pollMain'))
             while ($object = sql_fetch_assoc($result)) {
                 $boxContent .= '<div class="form-check">
                     <input class="form-check-input" type="radio" id="voteID' . $j . '" name="voteID" value="' . $object['voteID'] . '" />
-                    <label class="form-check-label d-block" for="voteID' . $j . '" >' . aff_langue($object['optionText']) . '</label>
+                    <label class="form-check-label d-block" for="voteID' . $j . '" >' . affLangue($object['optionText']) . '</label>
                 </div>';
 
                 $sum = $sum + $object['optionCount'];
@@ -55,7 +54,7 @@ if (! function_exists('pollMain'))
             $boxContent .= '</div>';
         } else {
             while ($object = sql_fetch_assoc($result)) {
-                $boxContent .= '&nbsp;' . aff_langue($object['optionText']) . '<br />';
+                $boxContent .= '&nbsp;' . affLangue($object['optionText']) . '<br />';
                 $sum = $sum + $object['optionCount'];
             }
         }
@@ -76,7 +75,7 @@ if (! function_exists('pollMain'))
             </a>
             <ul class="list-group mt-3">
                 <li class="list-group-item">' . translate('Votes : ') . ' <span class="badge rounded-pill bg-secondary float-end">' . $sum . '</span></li>';
-        
+
         if ($pollcomm) {
             if (file_exists($path = 'modules/comments/config/pollBoth.php')) {
                 include $path;
@@ -97,8 +96,7 @@ if (! function_exists('pollMain'))
     }
 }
 
-if (! function_exists('PollNewest'))
-{
+if (! function_exists('PollNewest')) {
     #autodoc PollNewest() : Bloc Sondage <br />=> syntaxe : <br />function#pollnewest<br />params#ID_du_sondage OU vide (dernier sondage créé)
     function PollNewest(?int $id = null): void
     {

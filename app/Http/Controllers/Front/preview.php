@@ -53,7 +53,7 @@ switch ($acc) {
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
-                $messageP = aff_video_yt($messageP);
+                $messageP = affVideoYt($messageP);
             }
         }
 
@@ -91,7 +91,7 @@ switch ($acc) {
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
-                $messageP = aff_video_yt($messageP);
+                $messageP = affVideoYt($messageP);
             }
         }
 
@@ -140,7 +140,7 @@ switch ($acc) {
             $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
 
             if ($allow_bbcode) {
-                $messageP = aff_video_yt($messageP);
+                $messageP = affVideoYt($messageP);
             }
         } else {
             $messageP .= "\n\n" . translate('Message édité par') . ' : ' . $userdata['uname'];
@@ -165,7 +165,7 @@ if ($smilies) {
             if (stristr($theposterdata['user_avatar'], "users_private")) {
                 $imgtmp = $theposterdata['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $theposterdata['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
@@ -185,7 +185,7 @@ echo '&nbsp;<span style="position:absolute; left:6rem;" class="text-body-seconda
     <span class="float-end">';
 
 if (isset($image_subject)) {
-    if ($ibid = theme_image('forum/subject/' . $image_subject)) {
+    if ($ibid = themeImage('forum/subject/' . $image_subject)) {
         $imgtmp = $ibid;
     } else {
         $imgtmp = 'assets/images/forum/subject/' . $image_subject;
@@ -193,7 +193,7 @@ if (isset($image_subject)) {
 
     echo '<img class="n-smil" src="' . $imgtmp . '" alt="icone du post" />';
 } else {
-    if ($ibid = theme_image('forum/icons/posticon.gif')) {
+    if ($ibid = themeImage('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
         $imgtmpP = 'assets/images/forum/icons/posticon.gif';

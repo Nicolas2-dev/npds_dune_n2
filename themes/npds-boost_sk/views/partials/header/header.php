@@ -58,7 +58,7 @@ if (autorisation(-1)) {
     } else if (stristr($user_avatar, 'users_private')) {
         $imgtmp = $user_avatar;
     } else {
-        if ($ibid = theme_image('forum/avatar/' . $user_avatar)) {
+        if ($ibid = themeImage('forum/avatar/' . $user_avatar)) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;

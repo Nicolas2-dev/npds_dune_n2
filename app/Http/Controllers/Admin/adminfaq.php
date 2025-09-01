@@ -53,7 +53,7 @@ function FaqAdmin()
     while (list($id_cat, $categories) = sql_fetch_row($result)) {
         echo '<tr>
                 <td>
-                <span title="ID : ' . $id_cat . '">' . aff_langue($categories) . '</span>
+                <span title="ID : ' . $id_cat . '">' . affLangue($categories) . '</span>
                 <br />
                 <a href="admin.php?op=FaqCatGo&amp;id_cat=' . $id_cat . '" class="noir">
                     <i class="fa fa-level-up-alt fa-lg fa-rotate-90 " title="' . adm_translate('Voir') . '" data-bs-toggle="tooltip"></i>
@@ -96,7 +96,7 @@ function FaqAdmin()
     $arg1 = 'var formulid = ["adminfaqcatad"];
         inpandfieldlen("categories",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatGo($id_cat)
@@ -115,17 +115,17 @@ function FaqCatGo($id_cat)
                             WHERE fa.id_cat='$id_cat' ORDER BY id");
 
     while (list($id, $question, $answer, $categories) = sql_fetch_row($result)) {
-        $faq_cat = aff_langue($categories);
-        $answer = affCode(aff_langue($answer));
+        $faq_cat = affLangue($categories);
+        $answer = affCode(affLangue($answer));
 
         $lst_qr .= '<li id="qr_' . $id . '" class="list-group-item">
             <div class="topi">
                 <h5 id="q_' . $id . '" class="list-group-item-heading">
                 <a class="" href="admin.php?op=FaqCatGoEdit&amp;id=' . $id . '" title="' . adm_translate('Editer la question réponse') . '" data-bs-toggle="tooltip">
-                    ' . aff_langue($question) . '
+                    ' . affLangue($question) . '
                 </a>
                 </h5>
-                <p class="list-group-item-text">' . meta_lang($answer) . '</p>
+                <p class="list-group-item-text">' . metaLang($answer) . '</p>
                 <div id="shortcut-tools_' . $id . '" class="n-shortcut-tools" style="display:none;">
                 <a class="text-danger btn" href="admin.php?op=FaqCatGoDel&amp;id=' . $id . '&amp;ok=0">
                     <i class="fas fa-trash fa-2x" title="' . adm_translate('Supprimer la question réponse') . '" data-bs-toggle="tooltip" data-bs-placement="left"></i>
@@ -191,7 +191,7 @@ function FaqCatGo($id_cat)
     $arg1 = 'var formulid = ["adminfaqquest"];
         inpandfieldlen("question",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatEdit($id_cat)
@@ -237,7 +237,7 @@ function FaqCatEdit($id_cat)
     $arg1 = 'var formulid = ["adminfaqcated"];
         inpandfieldlen("categories",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatGoEdit($id)
@@ -262,14 +262,14 @@ function FaqCatGoEdit($id)
     <h4>' . adm_translate('Prévisualiser') . '</h4>';
 
     echo '<label class="col-form-label" for="">'
-        . aff_local_langue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
+        . affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
     </label>
     <div class="card card-body mb-3">
-    <p>' . preview_local_langue($local_user_language, $question) . '</p>';
+    <p>' . previewLocalLangue($local_user_language, $question) . '</p>';
 
     $answer = affCode($answer);
 
-    echo '<p>' . meta_lang(preview_local_langue($local_user_language, $answer)) . '</p>
+    echo '<p>' . metaLang(previewLocalLangue($local_user_language, $answer)) . '</p>
     </div>';
 
     echo '<h4>' . adm_translate('Editer Question & Réponse') . '</h4>
@@ -303,7 +303,7 @@ function FaqCatGoEdit($id)
     $arg1 = 'var formulid = ["adminfaqquested"];
         inpandfieldlen("question",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatSave($old_id_cat, $id_cat, $categories)

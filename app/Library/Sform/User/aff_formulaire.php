@@ -22,7 +22,7 @@ if ($op != 'userinfo') {
     $direktori = 'assets/images/forum/avatar';
 
     if (function_exists('theme_image')) {
-        if (theme_image('forum/avatar/blank.gif')) {
+        if (themeImage('forum/avatar/blank.gif')) {
             $direktori = 'themes/' . $theme . '/assets/images/forum/avatar';
         }
     }

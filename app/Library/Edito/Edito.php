@@ -76,7 +76,7 @@ class Edito
             $affich = true;
         }
 
-        $Xcontents = meta_lang(aff_langue($Xcontents));
+        $Xcontents = metaLang(affLangue($Xcontents));
 
         return [$affich, $Xcontents];
     }

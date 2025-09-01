@@ -22,7 +22,7 @@ class UserMenu
      * @param string $uname Nom d'utilisateur utilisé pour les liens miniSite.
      * @return void Affiche directement le menu HTML.
      */
-    public static function member_menu(bool $minisite, string $uname): void
+    public static function memberMenu(bool $minisite, string $uname): void
     {
         global $op;
 
@@ -36,11 +36,11 @@ class UserMenu
         $cl_u    = $_SERVER['REQUEST_URI'] === '/user.php' ? 'active' : '';
 
         $cl_pm   = str_contains($_SERVER['REQUEST_URI'], '/viewpmsg.php') ? 'active' : '';
-        
+
         $cl_rs   = in_array($_SERVER['QUERY_STRING'], [
-                        'ModPath=reseaux-sociaux&ModStart=reseaux-sociaux',
-                        'ModPath=reseaux-sociaux&ModStart=reseaux-sociaux&op=EditReseaux'
-                    ], true) ? 'active' : '';
+            'ModPath=reseaux-sociaux&ModStart=reseaux-sociaux',
+            'ModPath=reseaux-sociaux&ModStart=reseaux-sociaux&op=EditReseaux'
+        ], true) ? 'active' : '';
 
         echo '<ul class="nav nav-tabs d-flex flex-wrap"> 
             <li class="nav-item"><a class="nav-link ' . $cl_u . '" href="user.php" title="' . translate('Votre compte') . '" data-bs-toggle="tooltip" ><i class="fas fa-user fa-2x d-xl-none"></i><span class="d-none d-xl-inline"><i class="fas fa-user fa-lg"></i></span></a></li>
@@ -76,5 +76,4 @@ class UserMenu
         </ul>
         <div class="mt-3"></div>';
     }
-
 }

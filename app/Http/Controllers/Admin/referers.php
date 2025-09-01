@@ -98,7 +98,7 @@ function hreferer($filter)
         <li class="nav-item"><a class="nav-link" href="admin.php?op=archreferer&amp;filter=' . $filter . '">' . adm_translate('Archiver les Référants') . '</a></li>
     </ul>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function delreferer()

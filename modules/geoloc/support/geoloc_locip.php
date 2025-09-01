@@ -36,7 +36,7 @@ function localiser_ip($iptoshow)
             $row = sql_fetch_assoc($ip_location);
 
             $aff_location .= '<div class="col-md-5">
-                <div id="map_ip" style=" min-height:240px;" lang="' . language_iso(1, 0, 0) . '"></div>
+                <div id="map_ip" style=" min-height:240px;" lang="' . languageIso(1, 0, 0) . '"></div>
             </div>
             <script type="module">
             //<![CDATA[

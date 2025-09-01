@@ -40,10 +40,10 @@ echo '<link rel="stylesheet" href="assets/shared/prism/prism.css" />';
 echo '<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></script>';
 
 if (defined('CITRON')) {
-    if (function_exists('language_iso')) {
+    if (function_exists('languageIso')) {
         //RGPD tool
         echo '
-        <script type="text/javascript"> var tarteaucitronForceLanguage = "' . language_iso(1, '', '') . '"; </script>
+        <script type="text/javascript"> var tarteaucitronForceLanguage = "' . languageIso(1, '', '') . '"; </script>
         <script type="text/javascript" src="shared/tarteaucitron/tarteaucitron.min.js"></script>
         <script type="text/javascript" src="assets/js/npds_tarteaucitron.js"></script>';
     }

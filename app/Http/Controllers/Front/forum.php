@@ -61,7 +61,6 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     if ($catid != '') {
         if (file_exists('themes/' . $theme . '/views/partials/forum/forum-cat$catid.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/forum/forum-cat$catid.php';
-
         } elseif (file_exists('themes/base/views/partials/forum/forum-cat$catid.php')) {
             $inclusion = 'themes/base/views/partials/forum/forum-cat$catid.php';
         }
@@ -70,13 +69,10 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     if ($inclusion == false) {
         if (file_exists('themes/' . $theme . '/views/partials/forum/forum-adv.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/forum/forum-adv.php';
-
         } elseif (file_exists('themes/' . $theme . '/views/partials/forum/forum.php')) {
             $inclusion = 'themes/' . $theme . '/views/partials/forum/forum.php';
-
         } elseif (file_exists('themes/base/views/partials/forum/forum.php')) {
             $inclusion = 'themes/base/views/partials/forum/forum.php';
-
         } else {
             echo 'views/partials/forum/forum.php / not find !<br />';
         }
@@ -84,7 +80,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
     if ($inclusion) {
         $Xcontent = join('', file($inclusion));
-        echo meta_lang(aff_langue($Xcontent));
+        echo metaLang(affLangue($Xcontent));
     }
 }
 

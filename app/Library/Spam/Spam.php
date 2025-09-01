@@ -11,10 +11,10 @@ class Spam
      *
      * @return string HTML du champ de formulaire
      */
-    public static function Q_spambot(): string
+    public static function questionSpambot(): string
     {
         // Idée originale, développement et intégration - Gérald MARINO alias neo-machine
-        // Rajout brouillage anti_spam() : David MARTINET, alias Boris (2011)
+        // Rajout brouillage antiSpam() : David MARTINET, alias Boris (2011)
         // Other stuff : Dev 2012
         global $user;
 
@@ -80,7 +80,7 @@ class Spam
         if (function_exists('imagepng')) {
             $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
         } else {
-            $aff = static::anti_spam($aff . ' = ', 0);
+            $aff = static::antiSpam($aff . ' = ', 0);
         }
 
         $tmp = '';
@@ -110,7 +110,7 @@ class Spam
      * @param string $status Statut à appliquer : 'true' = pas de log, 'false' = log+1, 'ban' = ban IP
      * @return void
      */
-    public static function L_spambot(string $ip, string $status): void
+    public static function logSpambot(string $ip, string $status): void
     {
         $cpt_sup = 0;
         $maj_fic = false;
@@ -182,7 +182,7 @@ class Spam
      * @param string $message Contenu du message à vérifier
      * @return bool True si validé, false sinon
      */
-    public static function R_spambot(string $asb_question, string $asb_reponse, string $message = ''): bool
+    public static function reponseSpambot(string $asb_question, string $asb_reponse, string $message = ''): bool
     {
         // idée originale, développement et intégration - Gérald MARINO alias neo-machine
         global $user;
@@ -214,41 +214,41 @@ class Spam
                     preg_match_all('#http://#', $message, $regs);
 
                     if (count($regs[0]) > 2) {
-                        static::L_spambot('', 'false');
+                        static::logSpambot('', 'false');
 
                         return false;
                     } else {
-                        static::L_spambot('', 'true');
+                        static::logSpambot('', 'true');
 
                         return true;
                     }
                 } else {
-                    static::L_spambot('', 'false');
+                    static::logSpambot('', 'false');
 
                     return false;
                 }
             } else {
-                static::L_spambot('', 'true');
+                static::logSpambot('', 'true');
 
                 return true;
             }
         } else {
-            static::L_spambot('', 'false');
+            static::logSpambot('', 'false');
 
             return false;
         }
     }
-    
+
     /**
      * Permet d'utiliser la fonction anti_spam via preg_replace.
      *
      * @param string $ibid Chaine à encoder
      * @return string Chaine encodée pour mailto
      */
-    public static function preg_anti_spam(string $ibid): string
+    public static function pregAntiSpam(string $ibid): string
     {
         // Adaptation - David MARTINET alias Boris (2011)
-        return "<a href=\"mailto:" . static::anti_spam($ibid, 1) . "\" target=\"_blank\">" . static::anti_spam($ibid, 0) . "</a>";
+        return "<a href=\"mailto:" . static::antiSpam($ibid, 1) . "\" target=\"_blank\">" . static::antiSpam($ibid, 0) . "</a>";
     }
 
     /**
@@ -258,7 +258,7 @@ class Spam
      * @param int $highcode 0 = mix simple, 1 = codage ASCII pour mailto/URL
      * @return string Chaine encodée
      */
-    public static function anti_spam(string $str, int $highcode = 0): string
+    public static function antiSpam(string $str, int $highcode = 0): string
     {
         // Idée originale : Pomme (2004). Nouvelle version : David MARTINET alias Boris (2011)
         $str_encoded = "";
@@ -300,6 +300,4 @@ class Spam
 
         return $str_encoded;
     }
-
 }
-

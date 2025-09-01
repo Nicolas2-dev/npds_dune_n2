@@ -76,7 +76,7 @@ function sql_connect(): mysqli|false
       error_log($message = sprintf('Erreur de connexion SQL : %s', $mysql_error));
 
       if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
-         Ecr_Log('mysql', $message, '');
+         ecrireLog('mysql', $message, '');
       }
 
       return false;
@@ -142,7 +142,7 @@ function sql_query(string $sql): mysqli_result|false
       if (preg_match($pattern, $sql, $matches)) {
 
          // INSERT
-         if (!empty($matches[2])) { 
+         if (!empty($matches[2])) {
             $values = $matches[2];
 
             // On traite chaque valeur entre guillemets
@@ -156,8 +156,8 @@ function sql_query(string $sql): mysqli_result|false
 
             $sql = $matches[1] . $values . $matches[3];
 
-         // UPDATE   
-         } elseif (!empty($matches[5])) { 
+            // UPDATE   
+         } elseif (!empty($matches[5])) {
             $values = $matches[5];
             $values = preg_replace_callback(
                '/=\s*\'((?:[^\'\\\\]|\\\\.)*)\'/s',
@@ -175,7 +175,7 @@ function sql_query(string $sql): mysqli_result|false
    if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
       error_log($message = sprintf('Requête finale : %s', $sql));
 
-      Ecr_Log('mysql', $message, '');
+      ecrireLog('mysql', $message, '');
    }
 
    $query_id = mysqli_query($dblink, $sql);
@@ -185,7 +185,7 @@ function sql_query(string $sql): mysqli_result|false
       error_log($message = sprintf('Échec de la requête : %s - Erreur : %s', $sql, sql_error()));
 
       if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
-         Ecr_Log('mysql', $message, '');
+         ecrireLog('mysql', $message, '');
       }
 
       return false;
@@ -341,7 +341,7 @@ function sql_free_result(mysqli_result $q_id) //: void //: bool
 /**
  * Ferme la connexion MySQL.
  */
-function sql_close()// : void // : bool
+function sql_close() // : void // : bool
 {
    global $dblink, $mysql_p;
 
@@ -357,5 +357,5 @@ function sql_prefix(string $table = ''): string
 {
    global $NPDS_Prefix;
 
-   return $NPDS_Prefix.$table;
+   return $NPDS_Prefix . $table;
 }

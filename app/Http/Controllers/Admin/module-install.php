@@ -70,7 +70,7 @@ function nmig_Start($name_module, $txtdeb)
     <div class="">';
 
     if (isset($txtdeb) && $txtdeb != '') {
-        $display .= aff_langue($txtdeb);
+        $display .= affLangue($txtdeb);
     } else {
         $display .= '<p class="lead">' . adm_translate('Bonjour et bienvenue dans l\'installation automatique du module') . ' "' . $name_module . '"</p>
         <p>' . adm_translate('Ce programme d\'installation va configurer votre site internet pour utiliser ce module.') . '</p>
@@ -472,7 +472,7 @@ function nmig_txt($txtfin)
     global $ModInstall, $display;
 
     $display = '<hr />
-    <div class="lead mb-3">' . aff_langue($txtfin) . '</div>
+    <div class="lead mb-3">' . affLangue($txtfin) . '</div>
     <div class="text-center mb-3">
         <a class="btn btn-primary" href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e10" >' . adm_translate('Etape suivante') . '</a><br />
     </div>' . nmig_copyright();
@@ -523,7 +523,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
     if (file_exists('modules/' . $ModInstall . '/config/install.php')) {
         include('modules/' . $ModInstall . '/config/install.php');
     } else {
-        redirect_url('admin.php?op=modules');
+        redirectUrl('admin.php?op=modules');
         die();
     }
 
@@ -714,7 +714,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
                    SET minstall='0' 
                    WHERE mnom= '" . $ModDesinstall . "'");
 
-        redirect_url('admin.php?op=modules');
+        redirectUrl('admin.php?op=modules');
     }
 
     include 'header.php';
@@ -777,4 +777,4 @@ if ($ModInstall == '' && $ModDesinstall != '') {
 
 echo $display;
 
-adminfoot('', '', '', '');
+adminFoot('', '', '', '');

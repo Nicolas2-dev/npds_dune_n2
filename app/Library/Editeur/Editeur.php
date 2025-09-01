@@ -42,7 +42,7 @@ class Editeur
                                 tinymce.init({
                                 selector: 'textarea.tin',
                                 mobile: {menubar: true},
-                                language : '" . language_iso(1, '', '') . "',";
+                                language : '" . languageIso(1, '', '') . "',";
 
                     include 'shared/tinymce/themes/advanced/npds.conf.php';
 

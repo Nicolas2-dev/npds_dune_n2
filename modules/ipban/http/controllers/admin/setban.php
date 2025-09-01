@@ -20,7 +20,7 @@ $f_meta_nom = 'setban';
 //==> controle droit
 admindroits($aid, $f_meta_nom);
 
-include 'modules/' . $ModPath . '/language/'. $language. '/' . $language . '.php';
+include 'modules/' . $ModPath . '/language/' . $language . '/' . $language . '.php';
 
 $f_titre = ipban_translate('Administration de l\'IpBan');
 
@@ -71,7 +71,7 @@ function ConfigureBan($ModPath, $ModStart)
             </div>
         </form>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function SaveSetBan($Xip_ban)

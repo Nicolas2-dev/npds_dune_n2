@@ -23,7 +23,7 @@ class Mailer
      *
      * @return bool True si mail envoyé, false sinon
      */
-    public static function send_email(
+    public static function sendEmail(
         string $email,
         string $subject,
         string $message,
@@ -158,7 +158,7 @@ class Mailer
 
                 $result = true;
             } catch (Exception $e) {
-                Ecr_Log('smtpmail', "send Smtp mail by $email", "Message could not be sent. Mailer Error: $mail->ErrorInfo");
+                ecrireLog('smtpmail', "send Smtp mail by $email", "Message could not be sent. Mailer Error: $mail->ErrorInfo");
 
                 $result = false;
             }
@@ -176,7 +176,7 @@ class Mailer
      *
      * @return void
      */
-    public static function copy_to_email(int $to_userid, string $sujet, string $message): void
+    public static function copyToEmail(int $to_userid, string $sujet, string $message): void
     {
         $result = sql_query("SELECT email, send_email 
                             FROM " . sql_prefix('users') . " 
@@ -185,8 +185,7 @@ class Mailer
         list($mail, $avertir_mail) = sql_fetch_row($result);
 
         if (($mail) and ($avertir_mail == 1)) {
-            static::send_email($mail, $sujet, $message, '', true, 'html', '');
+            static::sendEmail($mail, $sujet, $message, '', true, 'html', '');
         }
     }
-    
 }

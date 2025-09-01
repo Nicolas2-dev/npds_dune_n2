@@ -298,7 +298,7 @@ function ForumConfigAdmin()
         inpandfieldlen("rank4",255);
         inpandfieldlen("rank5",255);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved)

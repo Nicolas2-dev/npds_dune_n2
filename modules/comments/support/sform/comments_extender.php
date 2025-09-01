@@ -30,10 +30,10 @@ $m->add_submit_value('submitS');
 
 $m->add_url('modules.php');
 
-include 'modules/comments/support/sform/'.$formulaire;
+include 'modules/comments/support/sform/' . $formulaire;
 
 if (!isset($GLOBALS['submitS'])) {
-    echo aff_langue($m->print_form(''));
+    echo affLangue($m->print_form(''));
 } else {
-    $message = aff_langue($m->aff_response('', 'not_echo', ''));
+    $message = affLangue($m->aff_response('', 'not_echo', ''));
 }

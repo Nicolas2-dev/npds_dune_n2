@@ -58,7 +58,7 @@ if ($admin) {
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     global $startdate;
-    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = req_stat();
+    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = reqStat();
 
     //LNL Email in outside table
     $result = sql_query("SELECT email 
@@ -271,7 +271,7 @@ if ($admin) {
     fwrite($file, $xfile);
     fclose($file);
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 } else {
-    redirect_url('index.php');
+    redirectUrl('index.php');
 }

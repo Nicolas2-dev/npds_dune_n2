@@ -13,7 +13,7 @@ class News
      * @param int $catid Identifiant de la catégorie (par défaut 0)
      * @return bool Retourne true si l'article doit être affiché, false sinon
      */
-    public static function ctrl_aff(int $ihome, int $catid = 0): bool
+    public static function ctrlAff(int $ihome, int $catid = 0): bool
     {
         global $user;
 
@@ -54,7 +54,7 @@ class News
      * @param int|string $oldnum Ancien nombre d'articles (utilisé pour certains calculs)
      * @return array Tableau contenant les news récupérées
      */
-    public static function news_aff(string $type_req, string $sel, int $storynum, int|string $oldnum): array
+    public static function newsAff(string $type_req, string $sel, int $storynum, int|string $oldnum): array
     {
         // pas stabilisé ...!
         // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
@@ -143,7 +143,7 @@ class News
                 $ihome = 0;
             }
 
-            if (static::ctrl_aff($ihome, $catid)) {
+            if (static::ctrlAff($ihome, $catid)) {
 
                 if (($type_req == 'index') or ($type_req == 'libre')) {
                     $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
@@ -197,9 +197,9 @@ class News
      * @param string $notes Notes supplémentaires (optionnel)
      * @return void
      */
-    public static function themepreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
+    public static function themePreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
     {
-        echo "$title<br />" . meta_lang($hometext) . "<br />" . meta_lang($bodytext) . "<br />" . meta_lang($notes);
+        echo "$title<br />" . metaLang($hometext) . "<br />" . metaLang($bodytext) . "<br />" . metaLang($notes);
     }
 
     /**
@@ -210,7 +210,7 @@ class News
      * @param int $marqeur Index de départ pour la sélection des news
      * @return void
      */
-    public static function prepa_aff_news(string $op, int|string $catid, int $marqeur)  // : void
+    public static function prepaAffNews(string $op, int|string $catid, int $marqeur)  // : void
     {
         global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
 
@@ -231,7 +231,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::news_aff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = static::newsAff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'topics') {
@@ -241,7 +241,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::news_aff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+            $xtab = static::newsAff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'news') {
@@ -251,13 +251,13 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::news_aff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = static::newsAff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'article') {
-            $xtab = static::news_aff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
+            $xtab = static::newsAff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
         } else {
-            $xtab = static::news_aff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
+            $xtab = static::newsAff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
         }
 
         $story_limit = 0;
@@ -273,13 +273,13 @@ class News
 
             static::getTopics($s_sid);
 
-            $title      = aff_langue(stripslashes($title));
-            $hometext   = aff_langue(stripslashes($hometext));
-            $notes      = aff_langue(stripslashes($notes));
-            $bodycount  = strlen(strip_tags(aff_langue($bodytext), '<img>'));
+            $title      = affLangue(stripslashes($title));
+            $hometext   = affLangue(stripslashes($hometext));
+            $notes      = affLangue(stripslashes($notes));
+            $bodycount  = strlen(strip_tags(affLangue($bodytext), '<img>'));
 
             if ($bodycount > 0) {
-                $bodycount = strlen(strip_tags(aff_langue($bodytext)));
+                $bodycount = strlen(strip_tags(affLangue($bodytext)));
 
                 if ($bodycount > 0) {
                     $morelink[0] = wrh($bodycount) . ' ' . translate('caractères de plus');
@@ -317,7 +317,7 @@ class News
                 $title = $title;
 
                 // Attention à cela aussi
-                $morelink[6] = ' <a href="index.php?op=newcategory&amp;catid=' . $catid . '">&#x200b;' . aff_langue($title1) . '</a>';
+                $morelink[6] = ' <a href="index.php?op=newcategory&amp;catid=' . $catid . '">&#x200b;' . affLangue($title1) . '</a>';
             } else {
                 $morelink[6] = '';
             }
@@ -328,8 +328,8 @@ class News
             $news_tab[$story_limit]['title']        = serialize($title);
             $news_tab[$story_limit]['counter']      = serialize($counter);
             $news_tab[$story_limit]['topic']        = serialize($topic);
-            $news_tab[$story_limit]['hometext']     = serialize(meta_lang(affCode($hometext)));
-            $news_tab[$story_limit]['notes']        = serialize(meta_lang(affCode($notes)));
+            $news_tab[$story_limit]['hometext']     = serialize(metaLang(affCode($hometext)));
+            $news_tab[$story_limit]['notes']        = serialize(metaLang(affCode($notes)));
             $news_tab[$story_limit]['morelink']     = serialize($morelink);
             $news_tab[$story_limit]['topicname']    = serialize($topicname);
             $news_tab[$story_limit]['topicimage']   = serialize($topicimage);
@@ -384,7 +384,7 @@ class News
 
         $storynum = $storyhome;
 
-        $xtab = static::news_aff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+        $xtab = static::newsAff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
 
         $story_limit = 0;
 
@@ -399,7 +399,7 @@ class News
             list($topictext, $topicimage) = sql_fetch_row($rfile2);
 
 
-            $hometext = meta_lang(strip_tags($hometext));
+            $hometext = metaLang(strip_tags($hometext));
 
             fwrite($file, "%%\n$title\n$nuke_url/article.php?sid=$sid\n$time\n$aid\n$topictext\n$hometext\n$topicimage\n");
             fwrite($file2, "<NEWS>\n<NBX>$topictext</NBX>\n<TITLE>" . stripslashes($title) . "</TITLE>\n<SUMMARY>$hometext</SUMMARY>\n<URL>$nuke_url/article.php?sid=$sid</URL>\n<AUTHOR>" . $aid . "</AUTHOR>\n</NEWS>\n\n");

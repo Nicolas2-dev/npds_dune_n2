@@ -259,7 +259,7 @@ function displayadmins()
             }
         },';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function modifyadmin($chng_aid)
@@ -424,7 +424,7 @@ function modifyadmin($chng_aid)
             fvitem.revalidateField("chng_pwd2");
         });';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function deletedroits($del_dr_aid)
@@ -567,7 +567,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
     }
 
     global $aid;
-    Ecr_Log('security', sprintf('ModifyAuthor(%s) by AID : %s', $chng_nam, $aid), '');
+    ecrireLog('security', sprintf('ModifyAuthor(%s) by AID : %s', $chng_nam, $aid), '');
 
     Header('Location: admin.php?op=mod_authors');
 }
@@ -648,7 +648,7 @@ switch ($op) {
         }
 
         global $aid;
-        Ecr_Log('security', printf('AddAuthor(%s) by AID : %s', $add_aid, $aid), '');
+        ecrireLog('security', printf('AddAuthor(%s) by AID : %s', $add_aid, $aid), '');
 
         Header('Location: admin.php?op=mod_authors');
         break;
@@ -668,7 +668,7 @@ switch ($op) {
             <a href="admin.php?op=deladminconf&amp;del_aid=' . $del_aid . '" class="btn btn-danger btn-sm">' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php?op=mod_authors" class="btn btn-secondary btn-sm">' . adm_translate('Non') . '</a>
         </div>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
         break;
 
     case 'deladminconf':
@@ -684,7 +684,7 @@ switch ($op) {
         @unlink('modules/f-manager/storage/users/' . strtolower($del_aid) . '.php');
 
         global $aid;
-        Ecr_Log('security', sprintf('DeleteAuthor(%s) by AID : %s', $del_aid, $aid), '');
+        ecrireLog('security', sprintf('DeleteAuthor(%s) by AID : %s', $del_aid, $aid), '');
 
         Header('Location: admin.php?op=mod_authors');
         break;

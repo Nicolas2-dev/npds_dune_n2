@@ -93,7 +93,7 @@ if (!$user) {
         echo '<div class="alert alert-danger lead">' . translate('Vous n\'avez aucun message.') . '</div>';
     } else {
         echo '<p class="lead">
-            <a href="viewpmsg.php">' . translate('Messages personnels') . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $Xdossier . '&nbsp;&raquo;&raquo;&nbsp;' . aff_langue($myrow['subject']) . '
+            <a href="viewpmsg.php">' . translate('Messages personnels') . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $Xdossier . '&nbsp;&raquo;&raquo;&nbsp;' . affLangue($myrow['subject']) . '
         </p>
         <div class="card mb-3">
             <div class="card-header">';
@@ -163,7 +163,7 @@ if (!$user) {
             }
 
             if ($posterdata['femail'] != '') {
-                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . anti_spam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($posterdata['url'] != '') {
@@ -180,7 +180,7 @@ if (!$user) {
             if (stristr($posterdata['user_avatar'], 'users_private')) {
                 $imgtmp = $posterdata['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -207,7 +207,7 @@ if (!$user) {
 
         if ($smilies) {
             if ($myrow['msg_image'] != '') {
-                if ($ibid = theme_image('forum/subject/' . $myrow['msg_image'])) {
+                if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -215,7 +215,7 @@ if (!$user) {
 
                 echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';
             } else {
-                if ($ibid = theme_image('forum/subject/00.png')) {
+                if ($ibid = themeImage('forum/subject/00.png')) {
                     $imgtmpPI = $ibid;
                 } else {
                     $imgtmpPI = 'assets/images/forum/subject/00.png';
@@ -230,16 +230,16 @@ if (!$user) {
         <div class="card-body">
             <div class="card-text pt-2">
                 <div class="text-end small">' . translate('Envoyé') . ' : ' . formatTimes($myrow['msg_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</div>
-                <hr /><strong>' . aff_langue($myrow['subject']) . '</strong><br />';
+                <hr /><strong>' . affLangue($myrow['subject']) . '</strong><br />';
 
         $message = stripslashes($myrow['msg_text']);
 
         if ($allow_bbcode) {
             $message = smilie($message);
-            $message = aff_video_yt($message);
+            $message = affVideoYt($message);
         }
 
-        $message = str_replace('[addsig]', '<br /><div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', aff_langue($message));
+        $message = str_replace('[addsig]', '<br /><div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', affLangue($message));
         echo $message;
 
         echo '</div>

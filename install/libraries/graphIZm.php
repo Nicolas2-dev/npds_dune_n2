@@ -23,7 +23,7 @@ function entete()
     global $langue, $cms_logo, $cms_name, $stage, $Version_Sub, $phpver, $sqlver;
 
     echo '<!DOCTYPE html>
-    <html lang="' . language_iso(1, 0, 0) . '">
+    <html lang="' . languageIso(1, 0, 0) . '">
     <head>
         <meta charset="utf-8">
         <title>NPDS IZ-Xinstall - Installation &amp; Configuration</title>

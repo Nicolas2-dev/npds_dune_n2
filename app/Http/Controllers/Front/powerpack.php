@@ -28,7 +28,7 @@ switch ($op) {
 
     // Instant Members Message
     case 'instant_message':
-        Form_instant_message($to_userid);
+        FormInstantMessage($to_userid);
         break;
 
     case 'write_instant_message':
@@ -48,7 +48,7 @@ switch ($op) {
                 $subject = FixQuotes($subject) . '';
                 $messages = FixQuotes($messages) . '';
 
-                writeDB_private_message($to_userid, '', $subject, $from_userid, $message, $copie);
+                dbWritePrivateMessage($to_userid, '', $subject, $from_userid, $message, $copie);
             }
         }
 

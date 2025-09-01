@@ -56,7 +56,7 @@ switch ($type) {
                                           AND ranq='" . $wspad[2] . "'"));
 
         // nettoyage des SPAN
-        $tmp = preg_replace('#style="[^\"]*\"#', "", aff_langue($row['content']));
+        $tmp = preg_replace('#style="[^\"]*\"#', "", affLangue($row['content']));
 
         $htmltodoc->createDoc($tmp, $wspad[0] . '-' . $wspad[2], true);
         break;

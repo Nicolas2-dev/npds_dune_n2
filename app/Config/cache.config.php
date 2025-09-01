@@ -39,7 +39,7 @@ $CACHE_CONFIG['save_stats'] = 0;
 $CACHE_CONFIG['exit'] = 0;
 
 // If the maximum number of "webuser" is ritched : SuperCache not clean the cache
-// compare with the value store in cache/site_load.log updated by the site_load() function of mainfile.php
+// compare with the value store in cache/site_load.log updated by the siteLoad() function of mainfile.php
 $CACHE_CONFIG['clean_limit'] = 300;
 
 // Same standard cache (not the functions for members) for anonymous and members

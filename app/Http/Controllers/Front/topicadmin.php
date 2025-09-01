@@ -325,7 +325,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                     forumError('0014');
                 }
 
-                L_spambot($m['poster_ip'], 'ban');
+                logSpambot($m['poster_ip'], 'ban');
 
                 header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;

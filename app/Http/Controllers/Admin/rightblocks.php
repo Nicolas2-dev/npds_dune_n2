@@ -50,7 +50,7 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
                VALUES (NULL,'$title','$content', '$members', '$Rindex', '$Scache', '1', '$css', '$BRaide')");
 
     global $aid;
-    Ecr_Log('security', sprintf('MakeRightBlock(%s) by AID : %s', aff_langue($title), $aid), '');
+    ecrireLog('security', sprintf('MakeRightBlock(%s) by AID : %s', affLangue($title), $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -84,7 +84,7 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
                WHERE id='$id'");
 
     global $aid;
-    Ecr_Log('security', sprintf('ChangeRightBlock(%s - %s) by AID : %s', aff_langue($title), $id, $aid), '');
+    ecrireLog('security', sprintf('ChangeRightBlock(%s - %s) by AID : %s', affLangue($title), $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -120,7 +120,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
                WHERE id='$id'");
 
     global $aid;
-    Ecr_Log('security', sprintf('MoveRightBlockToLeft(%s - %s) by AID : %s', aff_langue($title), $id, $aid), '');
+    ecrireLog('security', sprintf('MoveRightBlockToLeft(%s - %s) by AID : %s', affLangue($title), $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -131,7 +131,7 @@ function deleterblock($id)
                WHERE id='$id'");
 
     global $aid;
-    Ecr_Log('security', sprintf('DeleteRightBlock(%s) by AID : %s', $id, $aid), '');
+    ecrireLog('security', sprintf('DeleteRightBlock(%s) by AID : %s', $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }

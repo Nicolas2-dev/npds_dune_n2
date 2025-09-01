@@ -74,7 +74,7 @@ function displayUsers()
         <h3 class="mb-3">' . adm_translate('Fonctions') . '</h3>
         <a href="admin.php?op=checkDnsMail_users">' . adm_translate('Contrôler les serveurs de mail de tous les utilisateurs') . '</a><br />';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function extractUserCSV()
@@ -131,7 +131,7 @@ function extractUserCSV()
     send_file($line, 'annuaire', 'csv', $MSos);
 
     global $aid;
-    Ecr_Log('security', sprintf('ExtractUserCSV() by AID : %s', $aid), '');
+    ecrireLog('security', sprintf('ExtractUserCSV() by AID : %s', $aid), '');
 }
 
 function modifyUser($chng_user)
@@ -173,7 +173,7 @@ function modifyUser($chng_user)
         error_handler('Utilisateur inexistant !' . '<br />');
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function error_handler($ibid)
@@ -248,7 +248,7 @@ function Minisites($chng_mns, $chng_uname)
         unset($filelist);
 
         global $aid;
-        Ecr_Log('security', sprintf('CreateMiniSite(%s) by AID : %s', $chng_uname, $aid), '');
+        ecrireLog('security', sprintf('CreateMiniSite(%s) by AID : %s', $chng_uname, $aid), '');
     }
 }
 
@@ -268,7 +268,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
         echo error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
         return;
     }
 
@@ -285,7 +285,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
             echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
-            adminfoot('', '', '', '');
+            adminFoot('', '', '', '');
             return;
         }
 
@@ -304,7 +304,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
         echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
         return;
     }
 
@@ -405,7 +405,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
     fclose($file);
 
     global $aid;
-    Ecr_Log('security', sprintf('UpdateUser(%s, %s) by AID : %s', $chng_uid, $chng_uname, $aid), '');
+    ecrireLog('security', sprintf('UpdateUser(%s, %s) by AID : %s', $chng_uid, $chng_uname, $aid), '');
 
     global $referer;
     if ($referer != 'memberslist.php') {
@@ -460,7 +460,7 @@ function nonallowedUsers()
     echo '</body>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function checkDnsMailusers()
@@ -552,7 +552,7 @@ function checkDnsMailusers()
                            WHERE uid='$uid'");
 
                 global $aid;
-                Ecr_Log('security', sprintf('UnsubUser(%s) by AID : %s', $uid, $aid), "");
+                ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $uid, $aid), "");
 
                 //suspension de l'envoi des mails pour PM suspension lnl
                 sql_query("UPDATE " . sql_prefix('users') . " 
@@ -689,7 +689,7 @@ function checkDnsMailusers()
         echo '</div>';
     }
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 switch ($op) {
@@ -845,7 +845,7 @@ switch ($op) {
             fclose($file);
 
             global $aid;
-            Ecr_Log('security', sprintf('DeleteUser(%s) by AID : %s', $del . '_uid', $aid), '');
+            ecrireLog('security', sprintf('DeleteUser(%s) by AID : %s', $del . '_uid', $aid), '');
         }
 
         if ($referer != 'memberslist.php') {
@@ -875,7 +875,7 @@ switch ($op) {
 
             echo error_handler('<i class="fa fa-exclamation me-2"></i>' . adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
-            adminfoot('', '', '', '');
+            adminFoot('', '', '', '');
             return;
         }
 
@@ -889,7 +889,7 @@ switch ($op) {
 
             echo error_handler(adm_translate('Vous devez remplir tous les Champs') . '<br />'); // ce message n'est pas très précis ..
 
-            adminfoot('', '', '', '');
+            adminFoot('', '', '', '');
             return;
         }
 
@@ -905,7 +905,7 @@ switch ($op) {
 
             echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
-            adminfoot('', '', '', '');
+            adminFoot('', '', '', '');
             return;
         }
 
@@ -954,7 +954,7 @@ switch ($op) {
         Minisites($add_mns, $add_uname);
 
         global $aid;
-        Ecr_Log('security', sprintf('AddUser(%s, %s) by AID : %s', $add_name, $add_uname, $aid), '');
+        ecrireLog('security', sprintf('AddUser(%s, %s) by AID : %s', $add_name, $add_uname, $aid), '');
 
         Header('Location: admin.php?op=mod_users');
         break;
@@ -972,7 +972,7 @@ switch ($op) {
                        WHERE uid='$chng_uid'");
 
             global $aid;
-            Ecr_Log('security', sprintf('UnsubUser(%s) by AID : %s', $chng_uid, $aid), '');
+            ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $chng_uid, $aid), '');
         }
 
         Header('Location: admin.php?op=mod_users');

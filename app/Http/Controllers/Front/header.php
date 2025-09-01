@@ -310,7 +310,7 @@ if (array_key_exists($pages_ref, $PAGES)) {
     }
 
     $fin_title = substr($PAGES[$pages_ref]['title'], -1);
-    $TitlesitenameX = aff_langue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title']) - 1));
+    $TitlesitenameX = affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title']) - 1));
 
     if ($fin_title == '+') {
         $Titlesitename = $TitlesitenameX . ' - ' . $Titlesitename;
@@ -330,7 +330,7 @@ if (array_key_exists($pages_ref, $PAGES)) {
     if (!$title) {
         $title = ($fin_title == '+' or $fin_title == '-')
             ? $TitlesitenameX
-            : aff_langue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title'])));
+            : affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title'])));
     } else {
         $title = removeHack($title);
     }
@@ -339,14 +339,14 @@ if (array_key_exists($pages_ref, $PAGES)) {
     settype($m_description, 'string');
 
     if (array_key_exists('meta-description', $PAGES[$pages_ref]) and ($m_description == '')) {
-        $m_description = aff_langue($PAGES[$pages_ref]['meta-description']);
+        $m_description = affLangue($PAGES[$pages_ref]['meta-description']);
     }
 
     // meta keywords
     settype($m_keywords, 'string');
 
     if (array_key_exists('meta-keywords', $PAGES[$pages_ref]) and ($m_keywords == '')) {
-        $m_keywords = aff_langue($PAGES[$pages_ref]['meta-keywords']);
+        $m_keywords = affLangue($PAGES[$pages_ref]['meta-keywords']);
     }
 }
 

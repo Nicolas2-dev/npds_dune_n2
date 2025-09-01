@@ -59,7 +59,7 @@ if ($FmaRep) {
             // Est ce que je doit récupérer le theme si un utilisateur est connecté ?
             if (isset($user)) {
 
-                $themelist = explode(' ', theme_list());
+                $themelist = explode(' ', themeList());
                 $pos = array_search($cookie[9], $themelist);
 
                 if ($pos !== false) {
@@ -151,7 +151,7 @@ switch ($op) {
                         if (!$upload->saveAs($auto[2], $base . '/', 'userfile', true)) {
                             $Err = $upload->errors;
                         } else {
-                            Ecr_Log('security', 'Upload File', $log_dir . '/' . $filename . ' IP=>' . getip());
+                            ecrireLog('security', 'Upload File', $log_dir . '/' . $filename . ' IP=>' . getip());
                         }
                     } else {
                         $Err = $auto[1];
@@ -170,7 +170,7 @@ switch ($op) {
                 if (!$obj->Create('d', $base . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Create Directory', $log_dir . '/' . $userdir . ' IP=>' . getip());
+                    ecrireLog('security', 'Create Directory', $log_dir . '/' . $userdir . ' IP=>' . getip());
 
                     $fp = fopen($base . '/' . $auto[2] . '/.htaccess', 'w');
                     fputs($fp, 'Deny from All');
@@ -231,7 +231,7 @@ switch ($op) {
                     if (!$obj->Rename($auto[3] . '/' . $auto[2], $auto[3] . '/' . $autoD[2])) {
                         $Err = $obj->Errors;
                     } else {
-                        Ecr_Log('security', 'Rename Directory', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
+                        ecrireLog('security', 'Rename Directory', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
                     }
                 } else {
                     $Err = $autoD[1];
@@ -288,7 +288,7 @@ switch ($op) {
                 if (!$obj->RemoveDir($auto[3] . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Delete Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    ecrireLog('security', 'Delete Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -345,7 +345,7 @@ switch ($op) {
                     if (!$obj->ChgPerms($auto[3] . '/' . $auto[2], $chmoddir)) {
                         $Err = $obj->Errors;
                     } else {
-                        Ecr_Log('security', 'Chmod Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        ecrireLog('security', 'Chmod Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                     }
                 }
             } else {
@@ -363,7 +363,7 @@ switch ($op) {
                 if (!$obj->Create('f', $base . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Create File', $log_dir . '/' . $userfile . ' IP=>' . getip());
+                    ecrireLog('security', 'Create File', $log_dir . '/' . $userfile . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -420,7 +420,7 @@ switch ($op) {
                     if (!$obj->Rename($auto[3] . '/' . $auto[2], $auto[3] . '/' . $autoD[2])) {
                         $Err = $obj->Errors;
                     } else {
-                        Ecr_Log('security', 'Rename File', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
+                        ecrireLog('security', 'Rename File', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
                     }
                 } else {
                     $Err = $autoD[1];
@@ -498,7 +498,7 @@ switch ($op) {
                 if (!$obj->Move($auto[3] . '/' . $auto[2], $basedir_fma . $movefile . "/" . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Move File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
+                    ecrireLog('security', 'Move File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -518,7 +518,7 @@ switch ($op) {
                 if (!$obj->Copy($auto[3] . '/' . $auto[2], $basedir_fma . $movefile . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Copy File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
+                    ecrireLog('security', 'Copy File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -569,7 +569,7 @@ switch ($op) {
                 if (!$obj->Remove($auto[3] . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    Ecr_Log('security', 'Delete File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    ecrireLog('security', 'Delete File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -626,7 +626,7 @@ switch ($op) {
                     if (!$obj->ChgPerms($auto[3] . '/' . $auto[2], $chmodfile)) {
                         $Err = $obj->Errors;
                     } else {
-                        Ecr_Log('security', 'Chmod File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        ecrireLog('security', 'Chmod File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                     }
                 }
             } else {
@@ -707,10 +707,10 @@ switch ($op) {
                         fputs($fp, stripslashes($editfile));
                         fclose($fp);
 
-                        Ecr_Log('security', 'Edit File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        ecrireLog('security', 'Edit File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                     }
                 } else {
-                    Ecr_Log('security', 'Edit File forbidden', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    ecrireLog('security', 'Edit File forbidden', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -790,7 +790,7 @@ switch ($op) {
             fputs($fp, $refresh . "\n");
             fclose($fp);
 
-            Ecr_Log('security', 'Pic-Manager', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+            ecrireLog('security', 'Pic-Manager', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
         } else {
             $Err = $auto[1];
         }
@@ -858,7 +858,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     $cur_nav_encrypt = rawurlencode(encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirect_url("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt(dirname($base))));
+    redirectUrl("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt(dirname($base))));
 }
 
 foreach ($extensions as $extens) {
@@ -1131,11 +1131,11 @@ while ($obj->NextFile()) {
 }
 
 if (file_exists($infos_fma)) {
-    $infos = aff_langue(join('', file($infos_fma)));
+    $infos = affLangue(join('', file($infos_fma)));
 }
 
 // Form
-$upload_file = '<form id="uploadfichier" enctype="multipart/form-data" method="post" action="modules.php" lang="' . language_iso(1, '', '') . '">
+$upload_file = '<form id="uploadfichier" enctype="multipart/form-data" method="post" action="modules.php" lang="' . languageIso(1, '', '') . '">
         <input type="hidden" name="ModPath" value="' . $ModPath . '" />
         <input type="hidden" name="ModStart" value="' . $ModStart . '" />
         <input type="hidden" name="FmaRep" value="' . $FmaRep . '" />
@@ -1309,7 +1309,7 @@ if ($inclusion) {
         require_once 'modules/f-manager/routes/pages/pages.php';
         //}
 
-        $Titlesitename = aff_langue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
+        $Titlesitename = affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -1397,7 +1397,7 @@ if ($inclusion) {
 
     // l'insertion de la FORM d'édition doit intervenir à la fin du calcul de l'interface ... sinon on modifie le contenu
     // Meta_lang n'est pas chargé car trop lent pour une utilisation sur de gros répertoires
-    $Xcontent = aff_langue($Xcontent);
+    $Xcontent = affLangue($Xcontent);
     $Xcontent = str_replace('_edt_file', $edit_file, $Xcontent);
 
     echo $Xcontent;

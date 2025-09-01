@@ -91,7 +91,7 @@ function ForumAdmin()
 
     $arg1 = 'var formulid = ["forumaddcat"];';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function ForumGo($cat_id)
@@ -365,7 +365,7 @@ function ForumGo($cat_id)
     });
     impu.addEventListener("input", function(e) {fvitem.revalidateField("forum_pass");});';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumGoEdit($forum_id, $ctg)
@@ -699,7 +699,7 @@ function ForumGoEdit($forum_id, $ctg)
     });
     impu.addEventListener("input", function(e) {fvitem.revalidateField("forum_pass");});';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumCatEdit($cat_id)
@@ -758,7 +758,7 @@ function ForumCatEdit($cat_id)
 
     $arg1 = 'var formulid=["phpbbforumedcat"];';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumCatSave($old_catid, $cat_id, $cat_title)
@@ -776,7 +776,7 @@ function ForumCatSave($old_catid, $cat_id, $cat_title)
     Q_Clean();
 
     global $aid;
-    Ecr_Log('security', sprintf('UpdateForumCat(%s, %s, %s) by AID : %s', $old_catid, $cat_id, $cat_title, $aid), '');
+    ecrireLog('security', sprintf('UpdateForumCat(%s, %s, %s) by AID : %s', $old_catid, $cat_id, $cat_title, $aid), '');
 
     Header('Location: admin.php?op=ForumAdmin');
 }
@@ -843,7 +843,7 @@ function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_
         Q_Clean();
 
         global $aid;
-        Ecr_Log('security', sprintf('UpdateForum(%$, %s) by AID : %s', $forum_id, $forum_name, $aid), '');
+        ecrireLog('security', sprintf('UpdateForum(%$, %s) by AID : %s', $forum_id, $forum_name, $aid), '');
 
         Header('Location: admin.php?op=ForumGo&cat_id=' . $cat_id);
     }
@@ -855,7 +855,7 @@ function ForumCatAdd($catagories)
                VALUES (NULL, '$catagories')");
 
     global $aid;
-    Ecr_Log('security', sprintf('AddForumCat(%s) by AID : %s', $catagories, $aid), '');
+    ecrireLog('security', sprintf('AddForumCat(%s) by AID : %s', $catagories, $aid), '');
 
     Header('Location: admin.php?op=ForumAdmin');
 }
@@ -913,7 +913,7 @@ function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id
         Q_Clean();
 
         global $aid;
-        Ecr_Log('security', sprintf('AddForum(%s) by AID : %s', $forum_name, $aid), '');
+        ecrireLog('security', sprintf('AddForum(%s) by AID : %s', $forum_name, $aid), '');
 
         Header('Location: admin.php?op=ForumGo&cat_id=' . $cat_id);
     }
@@ -948,7 +948,7 @@ function ForumCatDel($cat_id, $ok = 0)
         Q_Clean();
 
         global $aid;
-        Ecr_Log('security', sprintf('DeleteForumCat(%s) by AID : %s', $cat_id, $aid), '');
+        ecrireLog('security', sprintf('DeleteForumCat(%s) by AID : %s', $cat_id, $aid), '');
 
         Header('Location: admin.php?op=ForumAdmin');
     } else {
@@ -964,7 +964,7 @@ function ForumCatDel($cat_id, $ok = 0)
             <a href="admin.php?op=ForumAdmin" class="btn btn-secondary">' . adm_translate('Non') . '</a>
         </div>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     }
 }
 
@@ -990,7 +990,7 @@ function ForumGoDel($forum_id, $ok = 0)
         Q_Clean();
 
         global $aid;
-        Ecr_Log('security', sprintf('DeleteForum(%s) by AID : %s', $forum_id, $aid), '');
+        ecrireLog('security', sprintf('DeleteForum(%s) by AID : %s', $forum_id, $aid), '');
 
         Header('Location: admin.php?op=ForumAdmin');
     } else {
@@ -1006,6 +1006,6 @@ function ForumGoDel($forum_id, $ok = 0)
             <a class="btn btn-secondary" href="admin.php?op=ForumAdmin" >' . adm_translate('Non') . '</a>
         </div>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     }
 }

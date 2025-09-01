@@ -14,7 +14,7 @@ class Log
      * @param string $mot_log Informations supplémentaires ; si vide, l'IP est enregistrée
      * @return void
      */
-    public static function Ecr_Log(string $fic_log, string $req_log, string $mot_log): void
+    public static function ecrireLog(string $fic_log, string $req_log, string $mot_log): void
     {
         // $Fic_log= the file name :
         //  => "security" for security maters
@@ -39,5 +39,4 @@ class Log
         flock($fp, 3);
         fclose($fp);
     }
-    
 }

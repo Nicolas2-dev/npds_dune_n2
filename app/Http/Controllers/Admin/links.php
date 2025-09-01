@@ -137,7 +137,7 @@ function links()
                 $sel = 'selected="selected" ';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . sql_prefix('links_subcategories') . " 
@@ -151,7 +151,7 @@ function links()
                     $sel = 'selected="selected" ';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . aff_langue($ctitle) . ' / ' . aff_langue($stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle) . ' / ' . affLangue($stitle) . '</option>';
             }
         }
 
@@ -221,7 +221,7 @@ function links()
                 <select class="form-select" id="cat" name="cat" id="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . sql_prefix('links_subcategories') . " 
@@ -229,7 +229,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title) . ' / ' . aff_langue($stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title) . ' / ' . affLangue($stitle) . '</option>';
             }
         }
 
@@ -325,7 +325,7 @@ function links()
                 <select class="form-select" name="cid">';
 
         while (list($ccid, $ctitle) = sql_fetch_row($result)) {
-            echo '<option value="' . $ccid . '">' . aff_langue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '">' . affLangue($ctitle) . '</option>';
         }
 
         echo '</select>
@@ -359,7 +359,7 @@ function links()
                     <select class="form-select" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . aff_langue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . sql_prefix('links_subcategories') . " 
@@ -367,7 +367,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . aff_langue($title) . ' / ' . aff_langue($stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title) . ' / ' . affLangue($stitle) . '</option>';
             }
         }
 
@@ -461,7 +461,7 @@ function links()
         inpandfieldlen("cattitle",100);
         inpandfieldlen("subcattitle",100);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function LinksModLink($lid)
@@ -553,7 +553,7 @@ function LinksModLink($lid)
             $sel = "selected";
         }
 
-        echo '<option value="' . $ccid . '" ' . $sel . '>' . aff_langue($ctitle) . '</option>';
+        echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
 
         $result3 = sql_query("SELECT sid, title 
                               FROM " . sql_prefix('links_subcategories') . " 
@@ -567,7 +567,7 @@ function LinksModLink($lid)
                 $sel = 'selected';
             }
 
-            echo '<option value="' . $ccid . '-' . $ssid . '" $sel>' . aff_langue($ctitle) . ' / ' . aff_langue($stitle) . '</option>';
+            echo '<option value="' . $ccid . '-' . $ssid . '" $sel>' . affLangue($ctitle) . ' / ' . affLangue($stitle) . '</option>';
         }
     }
 
@@ -680,7 +680,7 @@ function LinksModLink($lid)
 
     echo '</form>';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function LinksListBrokenLinks()
@@ -775,7 +775,7 @@ function LinksListBrokenLinks()
         </tbody>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function LinksDelBrokenLinks($lid)
@@ -787,7 +787,7 @@ function LinksDelBrokenLinks($lid)
                WHERE lid='$lid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('DeleteBrokensLinks(%s) by AID : %s', $lid, $aid), '');
+    ecrireLog('security', sprintf('DeleteBrokensLinks(%s) by AID : %s', $lid, $aid), '');
 
     Header('Location: admin.php?op=LinksListBrokenLinks');
 }
@@ -975,7 +975,7 @@ function LinksChangeModRequests($Xrequestid)
                WHERE requestid='$Xrequestid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('UpdateModRequestLinks(%s) by AID : %s', $Xrequestid, $aid), '');
+    ecrireLog('security', sprintf('UpdateModRequestLinks(%s) by AID : %s', $Xrequestid, $aid), '');
 
     Header('Location: admin.php?op=LinksListModRequests');
 }
@@ -1007,7 +1007,7 @@ function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
                WHERE lid='$lid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('UpdateLinks(%s, %s) by AID : %s', $lid, $title, $aid), '');
+    ecrireLog('security', sprintf('UpdateLinks(%s, %s) by AID : %s', $lid, $title, $aid), '');
 
     Header('Location: admin.php?op=links');
 }
@@ -1018,7 +1018,7 @@ function LinksDelLink($lid)
                WHERE lid='$lid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('DeleteLinks(%s) by AID : %s', $lid, $aid), '');
+    ecrireLog('security', sprintf('DeleteLinks(%s) by AID : %s', $lid, $aid), '');
 
     Header('Location: admin.php?op=links');
 }
@@ -1090,7 +1090,7 @@ function LinksModCat($cat)
 
         echo '<hr />
         <h3>' . adm_translate('Modifier la Catégorie') . ' </h3>
-        <p class="lead">' . adm_translate('Nom de la Catégorie : ') . aff_langue($ctitle) . '</p>
+        <p class="lead">' . adm_translate('Nom de la Catégorie : ') . affLangue($ctitle) . '</p>
         <form action="admin.php" method="get" id="linksmodcat">
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-4 " for="title">' . adm_translate('Nom de la Sous-catégorie') . '</label>
@@ -1115,7 +1115,7 @@ function LinksModCat($cat)
     $arg1 = 'var formulid = ["linksmodcat"];
         inpandfieldlen("title",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
@@ -1126,14 +1126,14 @@ function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
                    WHERE cid='$cid'");
 
         global $aid;
-        Ecr_Log('security', sprintf('UpdateCatLinks(%s, %s) by AID : %s', $cid, $title, $aid), '');
+        ecrireLog('security', sprintf('UpdateCatLinks(%s, %s) by AID : %s', $cid, $title, $aid), '');
     } else {
         sql_query("UPDATE " . sql_prefix('links_subcategories') . " 
                    SET title='$title' 
                    WHERE sid='$sid'");
 
         global $aid;
-        Ecr_Log('security', sprintf('UpdateSubCatLinks(%s, %s) by AID : %s', $cid, $title, $aid), '');
+        ecrireLog('security', sprintf('UpdateSubCatLinks(%s, %s) by AID : %s', $cid, $title, $aid), '');
     }
 
     Header('Location: admin.php?op=links');
@@ -1150,7 +1150,7 @@ function LinksDelCat($cid, $sid, $sub, $ok = 0)
                        WHERE sid='$sid'");
 
             global $aid;
-            Ecr_Log('security', sprintf('DeleteSubCatLinks(%s) by AID : %s', $sid, $aid), '');
+            ecrireLog('security', sprintf('DeleteSubCatLinks(%s) by AID : %s', $sid, $aid), '');
         } else {
             sql_query("DELETE FROM " . sql_prefix('links_categories') . " 
                        WHERE cid='$cid'");
@@ -1163,7 +1163,7 @@ function LinksDelCat($cid, $sid, $sub, $ok = 0)
                        AND sid=0");
 
             global $aid;
-            Ecr_Log('security', sprintf('DeleteCatLinks(%s) by AID : ', $cid, $aid), '');
+            ecrireLog('security', sprintf('DeleteCatLinks(%s) by AID : ', $cid, $aid), '');
         }
 
         Header('Location: admin.php?op=links');
@@ -1179,7 +1179,7 @@ function LinksDelNew($lid)
                WHERE lid='$lid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('DeleteNewLinks(%s) by AID : %s', $lid, $aid), '');
+    ecrireLog('security', sprintf('DeleteNewLinks(%s) by AID : %s', $lid, $aid), '');
 
     Header('Location: admin.php?op=links');
 }
@@ -1198,7 +1198,7 @@ function LinksAddCat($title, $cdescription)
                    VALUES (NULL, '$title', '$cdescription')");
 
         global $aid;
-        Ecr_Log('security', sprintf('AddCatLinks(%s) by AID : %s', $title, $aid), '');
+        ecrireLog('security', sprintf('AddCatLinks(%s) by AID : %s', $title, $aid), '');
 
         Header('Location: admin.php?op=links');
     }
@@ -1219,7 +1219,7 @@ function LinksAddSubCat($cid, $title)
                    VALUES (NULL, '$cid', '$title')");
 
         global $aid;
-        Ecr_Log('security', sprintf('AddSubCatLinks(%s) by AID : %s', $title, $aid), '');
+        ecrireLog('security', sprintf('AddSubCatLinks(%s) by AID : %s', $title, $aid), '');
 
         Header('Location: admin.php?op=links');
     }
@@ -1234,7 +1234,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
     sql_query("INSERT INTO " . sql_prefix('links_editorials') . " 
                VALUES ('$linkid', '$aid', now(), '$editorialtext', '$editorialtitle')");
 
-    Ecr_Log('security', sprintf('AddEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
+    ecrireLog('security', sprintf('AddEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
 
     message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial ajouté à la base de données') . '</strong></div>');
 }
@@ -1248,7 +1248,7 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
                WHERE linkid='$linkid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('ModEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
+    ecrireLog('security', sprintf('ModEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
 
     message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial modifié') . '</strong></div>');
 }
@@ -1259,7 +1259,7 @@ function LinksDelEditorial($linkid)
                WHERE linkid='$linkid'");
 
     global $aid;
-    Ecr_Log('security', sprintf('DeteteEditorialLinks(%s) by AID : %s', $linkid, $aid), '');
+    ecrireLog('security', sprintf('DeteteEditorialLinks(%s) by AID : %s', $linkid, $aid), '');
 
     message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial supprimé de la base de données') . '</strong></div>');
 }
@@ -1277,7 +1277,7 @@ function message_error($ibid)
     echo $ibid;
     echo '<a href="admin.php?op=links" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter)
@@ -1330,12 +1330,12 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $su
 
                 include 'config/signat.php';
 
-                send_email($email, $subject, $message, '', false, 'html', '');
+                sendEmail($email, $subject, $message, '', false, 'html', '');
             }
         }
 
         global $aid;
-        Ecr_Log('security', sprintf('AddLinks(%s) by AID : %s', $title, $aid), '');
+        ecrireLog('security', sprintf('AddLinks(%s) by AID : %s', $title, $aid), '');
 
         message_error('<div class="alert alert-success"><strong>' . adm_translate('Nouveau Lien ajouté dans la base de données') . '</strong></div>');
     }

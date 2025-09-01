@@ -243,7 +243,7 @@ function Configure()
         <div class="form-floating mb-3">
             <select class="form-select" id="xDefault_Theme" name="xDefault_Theme">';
 
-    $themelist = explode(" ", theme_list());
+    $themelist = explode(" ", themeList());
 
     for ($i = 0; $i < sizeof($themelist); $i++) {
         if ($themelist[$i] != '') {
@@ -323,7 +323,7 @@ function Configure()
         <div class="form-floating mb-3">
         <select class="form-select" id="xlanguage" name="xlanguage">';
 
-    $languageslist = explode(' ', language_list());
+    $languageslist = explode(' ', languageList());
 
     $nb_language = sizeof($languageslist);
 
@@ -1581,13 +1581,13 @@ function Configure()
         <label class="col-form-label col-sm-8" for="xdownload_cat">' . adm_translate('Rubrique de téléchargement') . '</label>
         <div class="col-sm-4">
         <select class="form-select" id="xdownload_cat" name="xdownload_cat">
-            <option value="' . $download_cat . '">' . aff_langue($download_cat) . '</option>';
+            <option value="' . $download_cat . '">' . affLangue($download_cat) . '</option>';
 
     $result = sql_query("SELECT distinct dcategory FROM " . sql_prefix('downloads'));
 
     while (list($category) = sql_fetch_row($result)) {
         $category = stripslashes($category);
-        echo '<option value="' . $category . '">' . aff_langue($category) . '</option>';
+        echo '<option value="' . $category . '">' . affLangue($category) . '</option>';
     }
 
     echo '<option value="' . adm_translate('Tous') . '">- ' . adm_translate('Tous') . '</option>
@@ -2043,7 +2043,7 @@ function Configure()
         inpandfieldlen("xadminimg",100);
         inpandfieldlen("xadmf_ext",3);';
 
-    adminfoot('fv', $fv_parametres, $arg1, '');
+    adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 switch ($op) {

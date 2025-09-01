@@ -94,7 +94,7 @@ if (! function_exists('q_select')) {
         global $SuperCache, $cache_obj;
 
         if (($SuperCache) && ($cache_obj)) {
-            $row = $cache_obj->CachingQuery($Xquery, $retention);
+            $row = $cache_obj->cachingQuery($Xquery, $retention);
 
             return $row;
         } else {
@@ -222,7 +222,7 @@ if (! function_exists('sc_infos')) {
             /*
             $infos = $npds_sc ? '<span class="small">'.translate('.:Page >> Super-Cache:.").'</span>':'';
             */
-            
+
             if ($npds_sc) {
                 $infos = '<span class="small">' . translate('.:Page >> Super-Cache:.') . '</span>';
             } else {

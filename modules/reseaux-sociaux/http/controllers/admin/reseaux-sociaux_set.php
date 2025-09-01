@@ -57,8 +57,8 @@ GraphicAdmin($hlpfile);
 
 function ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
 {
-    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
-        include 'modules/'. $ModPath .'/config/config.php';
+    if (file_exists('modules/' . $ModPath . '/config/config.php')) {
+        include 'modules/' . $ModPath . '/config/config.php';
     }
 
     adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -114,13 +114,13 @@ function ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
     echo '</tbody>
     </table>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
 {
-    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
-        include 'modules/'. $ModPath .'/config/config.php';
+    if (file_exists('modules/' . $ModPath . '/config/config.php')) {
+        include 'modules/' . $ModPath . '/config/config.php';
     }
 
     adminhead($f_meta_nom, $f_titre, $adminimg);
@@ -174,13 +174,13 @@ function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_
         inpandfieldlen("rs_url",100);
         inpandfieldlen("rs_ico",40);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
 function SaveSetReseaux($ModPath, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
 {
-    if (file_exists('modules/'. $ModPath .'/config/config.php')) {
-        include 'modules/'. $ModPath .'/config/config.php';
+    if (file_exists('modules/' . $ModPath . '/config/config.php')) {
+        include 'modules/' . $ModPath . '/config/config.php';
     }
 
     $newar = array($rs_id, $rs_url, $rs_ico);

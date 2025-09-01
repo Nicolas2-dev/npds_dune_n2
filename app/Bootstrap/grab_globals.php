@@ -94,7 +94,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         array_walk_recursive($_GET, 'addslashes_GPC');
         reset($_GET); // no need
 
-        array_walk_recursive($_GET, 'url_protect');
+        array_walk_recursive($_GET, 'urlProtect');
         extract($_GET, EXTR_OVERWRITE);
     }
 
@@ -104,13 +104,13 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         array_walk_recursive($_POST, 'post_protect');
 
         if(!isset($_SERVER['HTTP_REFERER'])) {
-            Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
-            L_spambot('', 'false');
+            ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
+            logSpambot('', 'false');
             accessDenied();
             
         } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
-            Ecr_Log('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
-            L_spambot('', "false");
+            ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
+            logSpambot('', "false");
             accessDenied();
         }
         */
@@ -125,19 +125,19 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
 
     if (isset($user)) {
         $ibid = explode(':', base64_decode($user));
-        array_walk($ibid, 'url_protect');
+        array_walk($ibid, 'urlProtect');
         $user = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($user))));
     }
 
     if (isset($user_language)) {
         $ibid = explode(':', $user_language);
-        array_walk($ibid, 'url_protect');
+        array_walk($ibid, 'urlProtect');
         $user_language = str_replace('%3A', ':', urlencode($user_language));
     }
 
     if (isset($admin)) {
         $ibid = explode(':', base64_decode($admin));
-        array_walk($ibid, 'url_protect');
+        array_walk($ibid, 'urlProtect');
         $admin = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($admin))));
     }
 

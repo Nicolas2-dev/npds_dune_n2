@@ -35,7 +35,7 @@ function marquetapage_add($uri, $topic, $action)
         sql_query("INSERT INTO " . sql_prefix('marquetapage') . " (uid, uri, topic) 
                    VALUES ('$cookie[0]', '$uri', '$topic')");
 
-        redirect_url($uri);
+        redirectUrl($uri);
     }
 
     if (($action == 'sp_tapage') and ($cookie[0])) {
@@ -49,7 +49,7 @@ function marquetapage_add($uri, $topic, $action)
                        WHERE uid='$cookie[0]' 
                        AND uri='$uri'");
 
-            redirect_url($uri);
+            redirectUrl($uri);
         }
     }
 
@@ -62,7 +62,7 @@ function marquetapage_add($uri, $topic, $action)
             sql_query("DELETE FROM " . sql_prefix('marquetapage') . " 
                        WHERE uid='$cookie[0]'");
 
-            redirect_url($uri);
+            redirectUrl($uri);
         }
     }
 }
@@ -76,13 +76,13 @@ function marquetapage()
         global $REQUEST_URI, $title, $post;
 
         // Ne sert a rien vue que les variable ne sont pas utilisé !!!
-        //if ($ibid = theme_image('modules/assets/images/add.gif')) {
+        //if ($ibid = themeImage('modules/assets/images/add.gif')) {
         //    $add = $ibid;
         //} else {
         //    $add = 'modules/marquetapage/assets/images/add.gif';
         //}
 
-        //if ($ibid = theme_image('modules/assets/images/addj.gif')) {
+        //if ($ibid = themeImage('modules/assets/images/addj.gif')) {
         //    $addj = $ibid;
         //} else {
         //    $addj = 'modules/marquetapage/assets/images/addj.gif';

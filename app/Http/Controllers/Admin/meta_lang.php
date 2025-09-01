@@ -55,7 +55,6 @@ function list_meta($meta, $type_meta)
                         FROM " . sql_prefix('metalang') . " 
                         WHERE type_meta = '" . $type_meta . "' 
                         ORDER BY type_meta, def ASC");
-
     } else {
         $Q = sql_query("SELECT def 
                         FROM " . sql_prefix('metalang') . " 
@@ -123,7 +122,7 @@ function list_type_meta($type_meta)
     return $list;
 }
 
-function List_Meta_Lang()
+function List_metaLang()
 {
     global $hlpfile, $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
 
@@ -132,7 +131,6 @@ function List_Meta_Lang()
                         FROM " . sql_prefix('metalang') . " 
                         WHERE def = '" . $meta . "' 
                         ORDER BY type_meta, def ASC");
-
     } else if (!empty($type_meta)) {
         $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire 
                         FROM " . sql_prefix('metalang') . " 
@@ -176,7 +174,7 @@ function List_Meta_Lang()
         } else if ($type_meta == 'mot') {
             $tablmeta_c .= '<td>' . $content . '</td>';
         } else {
-            $tablmeta_c .= '<td>' . aff_langue($description) . '</td>';
+            $tablmeta_c .= '<td>' . affLangue($description) . '</td>';
         }
 
         $tablmeta_c .= '</tr>';
@@ -220,10 +218,10 @@ function List_Meta_Lang()
 
     echo $tablmeta;
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
-function Edit_Meta_Lang()
+function Edit_metaLang()
 {
     global $hlpfile, $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
 
@@ -245,7 +243,7 @@ function Edit_Meta_Lang()
         echo '<h3>' . adm_translate('Modifier un ') . ' META-MOT</h3>';
     }
 
-    echo aff_local_langue('', 'local_user_language') . '<br />', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>';
+    echo affLocalLangue('', 'local_user_language') . '<br />', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>';
 
     echo '<div class="row">
         <div class="text-body-secondary col-sm-3">META</div>
@@ -264,7 +262,7 @@ function Edit_Meta_Lang()
 
         echo $cmd;
     } else {
-        echo preview_local_langue($local_user_language, aff_langue($Q['description']));
+        echo previewLocalLangue($local_user_language, affLangue($Q['description']));
     }
 
     echo '</div>
@@ -362,15 +360,15 @@ function Edit_Meta_Lang()
         $arg1 = 'var formulid = ["metalangedit"];
             inpandfieldlen("uri",255);';
 
-        adminfoot('fv', '', $arg1, '');
+        adminFoot('fv', '', $arg1, '');
     } else {
         go_back('');
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     }
 }
 
-function Creat_Meta_Lang()
+function Creat_metaLang()
 {
     global $hlpfile, $type_meta, $f_meta_nom, $f_titre, $adminimg;
 
@@ -423,7 +421,7 @@ function Creat_Meta_Lang()
             }
 
             if ($type_meta == "meta") {
-                echo "function MM_XYZ (\$arg) {\n   global \sql_prefix('');\n   \$arg = arg_filter(\$arg);\n\n   return(\$content);\n}";
+                echo "function MM_XYZ (\$arg) {\n   global \sql_prefix('');\n   \$arg = argFilter(\$arg);\n\n   return(\$content);\n}";
             }
 
             echo '</textarea>
@@ -468,10 +466,10 @@ function Creat_Meta_Lang()
         inpandfieldlen("def",50);
         inpandfieldlen("uri",255);';
 
-    adminfoot('fv', '', $arg1, '');
+    adminFoot('fv', '', $arg1, '');
 }
 
-function kill_Meta_Lang($nbr, $action)
+function kill_metaLang($nbr, $action)
 {
     $i = 0;
 
@@ -505,7 +503,7 @@ function meta_exist($def)
 
     echo '</div>';
 
-    adminfoot('', '', '', '');
+    adminFoot('', '', '', '');
 }
 
 function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc)
@@ -554,19 +552,19 @@ function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $d
 switch ($op) {
 
     case 'List_Meta_Lang':
-        List_Meta_Lang();
+        List_metaLang();
         break;
 
     case 'Creat_Meta_Lang':
-        Creat_Meta_Lang();
+        Creat_metaLang();
         break;
 
     case 'Edit_Meta_Lang':
-        Edit_Meta_Lang();
+        Edit_metaLang();
         break;
 
     case 'Kill_Meta_Lang':
-        kill_Meta_Lang($nbr, $action);
+        kill_metaLang($nbr, $action);
         break;
 
     case 'Valid_Meta_Lang':
@@ -574,6 +572,6 @@ switch ($op) {
         break;
 
     default:
-        List_Meta_Lang();
+        List_metaLang();
         break;
 }

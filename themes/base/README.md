@@ -13,11 +13,13 @@ Ce fichier contient les fonctions principales pour la gestion des thèmes et l'a
 **Description :** Extrait une variable locale depuis le contenu en cherchant le pattern `!var!`.
 
 **Paramètres :**
+
 - `$Xcontent` (string) : Le contenu dans lequel chercher la variable
 
 **Retour :** `string` - Le nom de la variable trouvée ou `null`
 
 **Utilisation :**
+
 ```php
 $content = "Ceci est un texte avec !var!mavariable et du contenu";
 $variable = local_var($content);
@@ -31,6 +33,7 @@ $variable = local_var($content);
 **Description :** Affiche un article dans la page d'accueil avec le template `index-news.html`.
 
 **Paramètres :**
+
 - `$aid` (string) : ID de l'auteur/publicateur
 - `$informant` (string) : Nom de l'émetteur
 - `$time` (timestamp) : Date/heure de publication
@@ -46,6 +49,7 @@ $variable = local_var($content);
 - `$id` (int) : ID de l'article
 
 **Variables de template disponibles :**
+
 - `!N_publicateur!` : Nom du publicateur
 - `!N_emetteur!` : Émetteur avec popover et lien profil
 - `!N_date!` : Date complète formatée
@@ -59,21 +63,22 @@ $variable = local_var($content);
 - `!N_suite!` : Liens "Lire la suite", commentaires, etc.
 
 **Utilisation :**
+
 ```php
 $morelink = [120, "Lire la suite", 5, "commentaires", "print", "friend", "Tech"];
 themeindex(
-    "admin", 
-    "john_doe", 
-    time(), 
-    "Mon titre d'article", 
-    150, 
-    1, 
-    "Contenu de l'article...", 
-    "Note importante", 
-    $morelink, 
-    "Technologie", 
-    "tech.png", 
-    "Articles sur la technologie", 
+    "admin",
+    "john_doe",
+    time(),
+    "Mon titre d'article",
+    150,
+    1,
+    "Contenu de l'article...",
+    "Note importante",
+    $morelink,
+    "Technologie",
+    "tech.png",
+    "Articles sur la technologie",
     123
 );
 ```
@@ -85,12 +90,14 @@ themeindex(
 **Description :** Affiche un article complet avec le template `detail-news.html`.
 
 **Paramètres :**
+
 - Paramètres identiques à `themeindex` plus :
 - `$previous_sid` (int) : ID de l'article précédent
 - `$next_sid` (int) : ID de l'article suivant
 - `$archive` (int) : Indicateur d'archive
 
 **Variables de template supplémentaires :**
+
 - `!N_previous_article!` : Lien vers l'article précédent
 - `!N_next_article!` : Lien vers l'article suivant
 - `!N_print!` : Lien d'impression
@@ -99,18 +106,19 @@ themeindex(
 - `!N_boxrel_stuff!` : Contenu des boîtes associées
 
 **Utilisation :**
+
 ```php
 themearticle(
-    "admin", 
-    "john_doe", 
-    time(), 
-    "Article détaillé", 
-    "Contenu complet...", 
-    1, 
-    "Technologie", 
-    "tech.png", 
-    "Articles tech", 
-    123, 
+    "admin",
+    "john_doe",
+    time(),
+    "Article détaillé",
+    "Contenu complet...",
+    1,
+    "Technologie",
+    "tech.png",
+    "Articles tech",
+    123,
     122,  // Article précédent
     124,  // Article suivant
     0     // Pas d'archive
@@ -124,16 +132,19 @@ themearticle(
 **Description :** Affiche un bloc latéral avec les templates `bloc-left.html`, `bloc-right.html` ou `bloc.html`.
 
 **Paramètres :**
+
 - `$title` (string) : Titre du bloc (utiliser "no-title" pour masquer)
 - `$content` (string) : Contenu HTML du bloc
 
 **Variables de template :**
+
 - `!B_title!` : Titre du bloc
 - `!B_content!` : Contenu du bloc
 - `!B_class_title!` : Classe CSS pour le titre
 - `!B_class_content!` : Classe CSS pour le contenu
 
 **Utilisation :**
+
 ```php
 // Bloc avec titre
 themesidebox("Menu Navigation", "<ul><li>Accueil</li><li>Articles</li></ul>");
@@ -149,14 +160,17 @@ themesidebox("no-title", "<div>Contenu sans titre</div>");
 **Description :** Affiche un éditorial avec le template `editorial.html`.
 
 **Paramètres :**
+
 - `$content` (string) : Contenu de l'éditorial
 
 **Variables de template :**
+
 - `!editorial_content!` : Contenu de l'éditorial
 
 **Retour :** `string` - Chemin du fichier template utilisé
 
 **Utilisation :**
+
 ```php
 $template_used = themedito("<p>Message éditorial important...</p>");
 ```
@@ -168,6 +182,7 @@ $template_used = themedito("<p>Message éditorial important...</p>");
 **Description :** Génère un avatar utilisateur avec popover d'informations.
 
 **Paramètres :**
+
 - `$who` (string) : Nom d'utilisateur
 - `$dim` (int) : Dimension de l'avatar (définit la classe CSS n-ava-{dim})
 - `$avpop` (int) : Type d'affichage
@@ -175,6 +190,7 @@ $template_used = themedito("<p>Message éditorial important...</p>");
   - `2` : Avatar avec popover interactif
 
 **Fonctionnalités du popover :**
+
 - Profil utilisateur
 - Envoi de message interne
 - Email (si autorisé)
@@ -184,6 +200,7 @@ $template_used = themedito("<p>Message éditorial important...</p>");
 - Réseaux sociaux
 
 **Utilisation :**
+
 ```php
 // Avatar simple 40px
 echo userpopover("john_doe", 40, 1);
@@ -208,16 +225,19 @@ echo userpopover("john_doe", 64, 2);
 ## Fichiers de templates requis
 
 ### Pour les articles :
+
 - `themes/{theme}/html/index-news.html` ou `themes/default/html/index-news.html`
 - `themes/{theme}/html/detail-news.html` ou `themes/default/html/detail-news.html`
 
 ### Pour les blocs :
+
 - `themes/{theme}/html/bloc-right.html` (bloc droit)
-- `themes/{theme}/html/bloc-left.html` (bloc gauche)  
+- `themes/{theme}/html/bloc-left.html` (bloc gauche)
 - `themes/{theme}/html/bloc.html` (bloc générique)
 - `themes/default/html/bloc.html` (fallback)
 
 ### Pour l'éditorial :
+
 - `themes/{theme}/html/editorial.html` ou `themes/default/html/editorial.html`
 
 ---
@@ -226,7 +246,7 @@ echo userpopover("john_doe", 64, 2);
 
 1. **Sécurité :** Les fonctions utilisent `preg_replace()` pour le remplacement des variables de template
 2. **Fallback :** Si un template n'existe pas dans le thème, le système utilise le thème par défaut
-3. **Multilangue :** Support des fonctions `translate()` et `aff_langue()`
+3. **Multilangue :** Support des fonctions `translate()` et `affLangue()`
 4. **Cache :** Utilisation d'`ob_start()` et `ob_get_contents()` pour la gestion des templates
 5. **Permissions :** Certaines fonctionnalités dépendent des droits utilisateur (`autorisation()`)
 
@@ -238,7 +258,7 @@ echo userpopover("john_doe", 64, 2);
 // Affichage d'un article sur la page d'accueil
 $morelink = [
     250,           // Nombre de caractères
-    "Lire plus",   // Texte du lien "lire la suite"  
+    "Lire plus",   // Texte du lien "lire la suite"
     3,             // Nombre de commentaires
     "commentaires", // Texte des commentaires
     "Imprimer",    // Texte impression
@@ -248,7 +268,7 @@ $morelink = [
 
 themeindex(
     "editeur1",
-    "redacteur_chef", 
+    "redacteur_chef",
     time(),
     "Nouvelle fonctionnalité disponible",
     75,
@@ -256,7 +276,7 @@ themeindex(
     "Nous sommes heureux d'annoncer... !var!highlight",
     "Mise à jour importante",
     $morelink,
-    "Développement", 
+    "Développement",
     "dev.png",
     "Articles sur le développement",
     456
@@ -264,7 +284,7 @@ themeindex(
 
 // Affichage d'un bloc latéral
 themesidebox(
-    "Derniers articles", 
+    "Derniers articles",
     "<ul><li><a href='#'>Article 1</a></li><li><a href='#'>Article 2</a></li></ul>"
 );
 ```

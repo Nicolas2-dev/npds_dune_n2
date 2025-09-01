@@ -6,110 +6,110 @@
 <script type="text/javascript" src="assets/js/npds_adapt.js"></script>
 <script type="text/javascript">
     //<![CDATA[
-        function htmlDecode(value) {
-            return $("<textarea/>").html(value).text();
-        }
+    function htmlDecode(value) {
+        return $("<textarea/>").html(value).text();
+    }
 
-        function htmlEncode(value) {
-            return $('<textarea/>').text(value).html();
-        }
+    function htmlEncode(value) {
+        return $('<textarea/>').text(value).html();
+    }
 
-        var has_submitted = 0;
+    var has_submitted = 0;
 
-        function checkForm(f) {
-            if (has_submitted == 0) {
-                sel = false;
-                for (i = 0; i < f.elements.length; i++) {
-                    if ((f.elements[i].name == 'del_att[]') && (f.elements[i].checked)) {
-                        sel = true;
-                        break;
-                    }
-                }
-                if (sel) {
-                    if (window.confirm(htmlDecode('"<?php echo upload_translate('Supprimer les fichiers sélectionnés ?') ?>"'))) {
-                        has_submitted = 1;
-                        setTimeout('has_submitted=0', 5000);
-                        return true;
-                    } else
-                        return false;
-                } else {
-                    has_submitted = 1;
-                    setTimeout('has_submitted=0', 5000);
-                    return true;
-                }
-            } else {
-                bootbox.alert(htmlDecode("<?php echo upload_translate('Cette page a déjà été envoyée, veuillez patienter') ?>"));
-                return false;
-            }
-        }
-
-        function uniqueSubmit(f) {
-            if (has_submitted == 0) {
-                has_submitted = 1;
-                setTimeout('has_submitted=0', 5000);
-                f.submit();
-            } else {
-                bootbox.alert(htmlDecode("<?php echo upload_translate('Cette page a déjà été envoyée, veuillez patienter') ?>"));
-                return false;
-            }
-        }
-
-        function deleteFile(f) {
+    function checkForm(f) {
+        if (has_submitted == 0) {
             sel = false;
-            
             for (i = 0; i < f.elements.length; i++) {
                 if ((f.elements[i].name == 'del_att[]') && (f.elements[i].checked)) {
                     sel = true;
                     break;
                 }
             }
-
-            if (sel == false) {
-                f.actiontype.value = '';
-                bootbox.alert(htmlDecode("<?php echo upload_translate('Vous devez tout d\'abord choisir la Pièce jointe à supprimer') ?>"));
-                return false;
+            if (sel) {
+                if (window.confirm(htmlDecode('"<?php echo upload_translate('Supprimer les fichiers sélectionnés ?') ?>"'))) {
+                    has_submitted = 1;
+                    setTimeout('has_submitted=0', 5000);
+                    return true;
+                } else
+                    return false;
             } else {
-                bootbox.confirm(htmlDecode("<?php echo upload_translate('Supprimer les fichiers sélectionnés ?') ?>"), function(result) {
-                    if (result === true) {
-                        f.actiontype.value = 'delete';
-                        uniqueSubmit(f);
-                        return true;
-                    } else
-                        return false;
-                });
+                has_submitted = 1;
+                setTimeout('has_submitted=0', 5000);
+                return true;
             }
+        } else {
+            bootbox.alert(htmlDecode("<?php echo upload_translate('Cette page a déjà été envoyée, veuillez patienter') ?>"));
+            return false;
         }
+    }
 
-        function visibleFile(f) {
-            f.actiontype.value = 'visible';
+    function uniqueSubmit(f) {
+        if (has_submitted == 0) {
+            has_submitted = 1;
+            setTimeout('has_submitted=0', 5000);
             f.submit();
+        } else {
+            bootbox.alert(htmlDecode("<?php echo upload_translate('Cette page a déjà été envoyée, veuillez patienter') ?>"));
+            return false;
         }
+    }
 
-        function InlineType(f) {
-            f.actiontype.value = 'update';
-            uniqueSubmit(f);
-        }
+    function deleteFile(f) {
+        sel = false;
 
-        function uploadFile(f) {
-            if (f.pcfile.value.length > 0) {
-                f.actiontype.value = 'upload';
-                uniqueSubmit(f);
-            } else {
-                f.actiontype.value = '';
-                bootbox.alert(htmlDecode("<?php echo upload_translate('Vous devez sélectionner un fichier') ?>"));
-                f.pcfile.focus();
+        for (i = 0; i < f.elements.length; i++) {
+            if ((f.elements[i].name == 'del_att[]') && (f.elements[i].checked)) {
+                sel = true;
+                break;
             }
         }
 
-        function confirmSendFile(f) {
-            bootbox.confirm("<?php echo upload_translate('Joindre le fichier maintenant ?') ?>",
-                function(result) {
-                    if (result === true) {
-                        uploadFile(f);
-                        return true;
-                    }
-                });
+        if (sel == false) {
+            f.actiontype.value = '';
+            bootbox.alert(htmlDecode("<?php echo upload_translate('Vous devez tout d\'abord choisir la Pièce jointe à supprimer') ?>"));
+            return false;
+        } else {
+            bootbox.confirm(htmlDecode("<?php echo upload_translate('Supprimer les fichiers sélectionnés ?') ?>"), function(result) {
+                if (result === true) {
+                    f.actiontype.value = 'delete';
+                    uniqueSubmit(f);
+                    return true;
+                } else
+                    return false;
+            });
         }
+    }
+
+    function visibleFile(f) {
+        f.actiontype.value = 'visible';
+        f.submit();
+    }
+
+    function InlineType(f) {
+        f.actiontype.value = 'update';
+        uniqueSubmit(f);
+    }
+
+    function uploadFile(f) {
+        if (f.pcfile.value.length > 0) {
+            f.actiontype.value = 'upload';
+            uniqueSubmit(f);
+        } else {
+            f.actiontype.value = '';
+            bootbox.alert(htmlDecode("<?php echo upload_translate('Vous devez sélectionner un fichier') ?>"));
+            f.pcfile.focus();
+        }
+    }
+
+    function confirmSendFile(f) {
+        bootbox.confirm("<?php echo upload_translate('Joindre le fichier maintenant ?') ?>",
+            function(result) {
+                if (result === true) {
+                    uploadFile(f);
+                    return true;
+                }
+            });
+    }
     //]]>
 </script>
 
@@ -130,7 +130,7 @@ global $ModPath, $ModStart, $IdPost, $IdForum, $apli, $Mmod;
 settype($att_table, 'string');
 settype($thanks_msg, 'string');
 
-echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data" name="form0" onsubmit="return checkForm(this);" lang="' . language_iso(1, '', '') . '">
+echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data" name="form0" onsubmit="return checkForm(this);" lang="' . languageIso(1, '', '') . '">
     <input type="hidden" name="actiontype" value="" />
     <input type="hidden" name="ModPath" value="' . $ModPath . '" />
     <input type="hidden" name="ModStart" value="' . $ModStart . '" />

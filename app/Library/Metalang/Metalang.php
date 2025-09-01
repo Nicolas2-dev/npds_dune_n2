@@ -16,7 +16,7 @@ class Metalang
      * @param string $arg L'argument à filtrer.
      * @return string L'argument filtré.
      */
-    public static function arg_filter(string $arg): string
+    public static function argFilter(string $arg): string
     {
         return removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
@@ -30,8 +30,8 @@ class Metalang
      */
     public static function MM_img(string $ibid): string|false
     {
-        $ibid = static::arg_filter($ibid);
-        $ibidX = theme_image($ibid);
+        $ibid = static::argFilter($ibid);
+        $ibidX = themeImage($ibid);
 
         if ($ibidX) {
             $ret = '<img src="' . $ibidX . '" alt="smiley" loading="lazy" />';
@@ -58,7 +58,7 @@ class Metalang
     {
         if (is_array($arguments)) {
 
-            array_walk($arguments, 'arg_filter');
+            array_walk($arguments, 'argFilter');
 
             $nbr = count($arguments);
 
@@ -102,7 +102,7 @@ class Metalang
         return $cmd;
     }
 
-    public static function match_uri($racine, $R_uri)
+    public static function matchUri($racine, $R_uri)
     {
         $tab_uri = explode(' ', $R_uri);
 
@@ -125,7 +125,7 @@ class Metalang
      *
      * @return array Glossaire des meta-langues
      */
-    public static function charg_metalang(): array
+    public static function chargMetalang(): array
     {
         global $SuperCache, $CACHE_TIMINGS, $REQUEST_URI, $NPDS_Prefix;
 
@@ -160,7 +160,7 @@ class Metalang
                 // => Exemples : index.php user.php forum.php static.php
 
                 if ($uri != '') {
-                    $match = static::match_uri($racine['path'], $uri);
+                    $match = static::matchUri($racine['path'], $uri);
 
                     if (($match and $type_uri == '+') or (!$match and $type_uri == '-')) {
                         $glossaire[$def]['content'] = $content;
@@ -187,7 +187,7 @@ class Metalang
      *
      * @return array Liste des arguments analysés
      */
-    public static function ana_args(string $arg): array
+    public static function anaArgs(string $arg): array
     {
         if (substr($arg, -1) == "\"") {
             $arguments[0] = str_replace("\"", '', $arg);
@@ -211,7 +211,7 @@ class Metalang
      *
      * @return string Contenu transformé avec les meta-langues appliquées
      */
-    public static function meta_lang(string $Xcontent): string
+    public static function metaLang(string $Xcontent): string
     {
         global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle;
 
@@ -272,7 +272,7 @@ class Metalang
                             $op = 2;
                             $Rword = substr($word, 0, $ibid);
                             $arg = substr($word, $ibid + 1, strlen($word) - ($ibid + 2));
-                            $arguments = static::ana_args($arg);
+                            $arguments = static::anaArgs($arg);
                         } else {
                             $op = 1;
                             $Rword = substr($word, 0, -1);
@@ -326,7 +326,7 @@ class Metalang
                     if ($car_meta) {
                         $Rword = substr($Cword, 1, $car_meta - 1);
                         $arg = substr($Cword, $car_meta + 1);
-                        $arguments = static::ana_args($arg);
+                        $arguments = static::anaArgs($arg);
 
                         if (array_key_exists('!' . $Rword . '!', $meta_glossaire)) {
                             $Cword = $meta_glossaire['!' . $Rword . '!']['content'];

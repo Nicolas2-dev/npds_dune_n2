@@ -16,8 +16,8 @@ class Theme
     {
         global $theme;
 
-        if (@file_exists('themes/'. $theme .'/assets/'. $theme_img)) {
-            return 'themes/'. $theme .'/assets/'. $theme_img;
+        if (@file_exists('themes/' . $theme . '/assets/' . $theme_img)) {
+            return 'themes/' . $theme . '/assets/' . $theme_img;
         }
 
         return false;
@@ -29,11 +29,11 @@ class Theme
      * @param string $theme_img Nom du fichier image
      * @return string|false Chemin complet si trouvé, sinon false
      */
-    public static function theme_image($theme_img)
+    public static function themeImage($theme_img)
     {
         return static::image($theme_img);
     }
-    
+
     /**
      * Retourne la liste des thèmes disponibles dans le dossier 'themes'.
      *
@@ -41,7 +41,7 @@ class Theme
      *
      * @return string Liste des thèmes séparés par un espace
      */
-    public static function theme_list(): string
+    public static function themeList(): string
     {
         $themelist = [];
         $handle = opendir('themes');
@@ -62,5 +62,4 @@ class Theme
 
         return implode(' ', $themelist);
     }
-
 }

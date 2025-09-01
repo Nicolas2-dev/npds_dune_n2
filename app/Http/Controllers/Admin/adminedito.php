@@ -49,7 +49,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
             </fieldset>
         </form>';
 
-        adminfoot('', '', '', '');
+        adminFoot('', '', '', '');
     } else {
         if ($edito_type == 'G') {
             $edito_typeL = ' ' . adm_translate('Anonyme');
@@ -143,7 +143,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
             }
         },';
 
-        adminfoot('fv', $fv_parametres, $arg1, '');
+        adminFoot('fv', $fv_parametres, $arg1, '');
     }
 }
 
@@ -172,9 +172,9 @@ function edito_mod_save($edito_type, $XeditoJ, $XeditoN, $aff_jours, $aff_jour, 
     }
 
     global $aid;
-    Ecr_Log('security', 'editoSave () by AID : ' . $aid, '');
+    ecrireLog('security', 'editoSave () by AID : ' . $aid, '');
 
-    redirect_url('admin.php?op=Edito');
+    redirectUrl('admin.php?op=Edito');
 }
 
 switch ($op) {

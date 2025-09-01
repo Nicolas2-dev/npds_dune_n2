@@ -32,7 +32,7 @@ function mapsections()
         while (list($rubid, $rubname) = sql_fetch_row($result)) {
 
             if ($rubname != '') {
-                $tmp .= '<li>' . aff_langue($rubname);
+                $tmp .= '<li>' . affLangue($rubname);
             }
 
             $result2 = sql_query("SELECT secid, secname, image, userlevel, intro 
@@ -45,7 +45,7 @@ function mapsections()
                 while (list($secid, $secname, $userlevel) = sql_fetch_row($result2)) {
 
                     if (autorisation($userlevel)) {
-                        $tmp .= '<ul><li>' . aff_langue($secname);
+                        $tmp .= '<ul><li>' . affLangue($secname);
 
                         $result3 = sql_query("SELECT artid, title 
                                               FROM " . sql_prefix('seccont') . " 
@@ -53,7 +53,7 @@ function mapsections()
 
                         while (list($artid, $title) = sql_fetch_row($result3)) {
                             $tmp .= "<ul>
-                            <li><a href=\"sections.php?op=viewarticle&amp;artid=$artid\">" . aff_langue($title) . '</a></li></ul>';
+                            <li><a href=\"sections.php?op=viewarticle&amp;artid=$artid\">" . affLangue($title) . '</a></li></ul>';
                         }
 
                         $tmp .= '</li>
@@ -127,7 +127,7 @@ function maptopics()
 
         $lis_top .= '<li>
             <a href="search.php?query=&amp;topic=' . $topicid . '">
-                ' . aff_langue($topictext) . '
+                ' . affLangue($topictext) . '
             </a>&nbsp;<span class="">(' . $nb_article . ')</span></li>';
     }
 
@@ -168,7 +168,7 @@ function mapcategories()
 
         $lis_cat .= '<li>
             <a href="index.php?op=newindex&amp;catid=' . $catid . '">
-                ' . aff_langue($title) . '
+                ' . affLangue($title) . '
             </a> <span class="float-end badge bg-secondary"> ' . $nb_article . ' </span>
         </li>' . "\n";
     }
@@ -205,7 +205,7 @@ function mapfaq()
 
     while (list($id_cat, $categories) = sql_fetch_row($result)) {
 
-        $catname = aff_langue($categories);
+        $catname = affLangue($categories);
         $lis_faq .= "<li>
             <a href=\"faq.php?id_cat=$id_cat&amp;myfaq=yes&amp;categories=" . urlencode($catname) . "\">
                 " . $catname . "

@@ -134,10 +134,10 @@ if (isset($submitS)) {
         antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, $message)) {
-            Ecr_Log('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic_title=' . $subject, '');
+        if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+            ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic_title=' . $subject, '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
 
@@ -216,7 +216,7 @@ if (isset($submitS)) {
 
         global $subscribe;
         if ($subscribe) {
-            subscribe_mail('forum', $topic, stripslashes($forum), stripslashes($Msubject), $userdata['uid']);
+            subscribeMail('forum', $topic, stripslashes($forum), stripslashes($Msubject), $userdata['uid']);
         }
 
         if (isset($upload)) {
@@ -225,7 +225,7 @@ if (isset($submitS)) {
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
 
-        redirect_url($hrefX . '?forum=' . $forum . '&topic=' . $topic);
+        redirectUrl($hrefX . '?forum=' . $forum . '&topic=' . $topic);
     } else {
         echo '<div class="alert alert-danger lead" role="alert">
             <i class="fa fa-exclamation-triangle fa-lg"></i>&nbsp;
@@ -250,7 +250,7 @@ if (isset($submitS)) {
                 if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgava = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = theme_image('forum/avatar/' . $posterdata['user_avatar'])) {
+                    if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
                         $imgava = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -258,7 +258,7 @@ if (isset($submitS)) {
                 }
             }
         } else {
-            if ($ibid = theme_image('forum/avatar/blank.gif')) {
+            if ($ibid = themeImage('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
                 $imgava = 'assets/images/forum/avatar/blank.gif';
@@ -282,7 +282,7 @@ if (isset($submitS)) {
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = theme_image('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -478,7 +478,7 @@ if (isset($submitS)) {
             echo '</div>
                 </div>
             </div>
-            ' . Q_spambot() . '
+            ' . questionSpambot() . '
             <div class="mb-3 row">
                 <div class="col-sm-12">
                     <input type="hidden" name="forum" value="' . $forum . '" />

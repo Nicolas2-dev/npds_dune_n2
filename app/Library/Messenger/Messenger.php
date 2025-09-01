@@ -12,9 +12,9 @@ class Messenger
      * @param string $username Nom de l'utilisateur
      * @return void
      */
-    public static function Mess_Check_Mail(string $username): void
+    public static function messCheckMail(string $username): void
     {
-        static::Mess_Check_Mail_interface($username, '');
+        static::messCheckMailInterface($username, '');
     }
 
     /**
@@ -24,11 +24,11 @@ class Messenger
      * @param string $class Classe CSS optionnelle
      * @return void
      */
-    public static function Mess_Check_Mail_interface(string $username, string $class): void
+    public static function messCheckMailInterface(string $username, string $class): void
     {
         global $anonymous;
 
-        if ($ibid = theme_image('fle_b.gif')) {
+        if ($ibid = themeImage('fle_b.gif')) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = false;
@@ -46,9 +46,9 @@ class Messenger
             }
         } else {
             if ($imgtmp) {
-                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . Mess_Check_Mail_Sub($username, $class);
+                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . messCheckMailSub($username, $class);
             } else {
-                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . Mess_Check_Mail_Sub($username, $class) . "]";
+                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . messCheckMailSub($username, $class) . "]";
             }
         }
     }
@@ -60,7 +60,7 @@ class Messenger
      * @param string $class Classe CSS optionnelle
      * @return string Contenu HTML du groupe check_mail
      */
-    public static function Mess_Check_Mail_Sub(string $username, string $class): string
+    public static function messCheckMailSub(string $username, string $class): string
     {
         global $user;
 
@@ -116,11 +116,11 @@ class Messenger
      * @param string $to_userid Identifiant du destinataire
      * @return void
      */
-    public static function Form_instant_message(string $to_userid): void
+    public static function FormInstantMessage(string $to_userid): void
     {
         include 'header.php';
 
-        static::write_short_private_message(removeHack($to_userid));
+        static::writeShortPrivateMessage(removeHack($to_userid));
 
         include 'footer.php';
     }
@@ -136,7 +136,7 @@ class Messenger
      * @param bool $copie Conserver une copie pour l'expéditeur
      * @return void
      */
-    public static function writeDB_private_message(string $to_userid, string $image, string $subject, string $from_userid, string $message, bool $copie): void
+    public static function dbWritePrivateMessage(string $to_userid, string $image, string $subject, string $from_userid, string $message, bool $copie): void
     {
         $res = sql_query("SELECT uid, user_langue 
                         FROM " . sql_prefix('users') . " 
@@ -180,7 +180,7 @@ class Messenger
 
                 include 'config/signat.php';
 
-                copy_to_email($to_useridx, $sujet, stripslashes($message));
+                copyToEmail($to_useridx, $sujet, stripslashes($message));
             }
         }
     }
@@ -191,7 +191,7 @@ class Messenger
      * @param string $to_userid Identifiant du destinataire
      * @return void
      */
-    public static function write_short_private_message(string $to_userid): void
+    public static function writeShortPrivateMessage(string $to_userid): void
     {
         echo '<h2>' . translate('Message à un membre') . '</h2>
         <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>

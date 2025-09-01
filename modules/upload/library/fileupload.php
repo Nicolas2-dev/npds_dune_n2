@@ -242,7 +242,7 @@ if (!isset($FILEUPLOAD)) {
                 }
             }
 
-            Ecr_Log('security', 'Upload File(s) : ' . getip(), $log_filename);
+            ecrireLog('security', 'Upload File(s) : ' . getip(), $log_filename);
 
             return true;
         }

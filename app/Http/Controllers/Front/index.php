@@ -117,7 +117,7 @@ function automatednews()
 
                     global $subscribe;
                     if ($subscribe) {
-                        subscribe_mail('topic', $topic, '', $subject, '');
+                        subscribeMail('topic', $topic, '', $subject, '');
                     }
 
                     // Réseaux sociaux
@@ -157,7 +157,7 @@ function automatednews()
                                    AND topic_id='$topic'");
                     }
 
-                    Ecr_Log('security', sprintf('removeStory(%s, epur) by automated epur : system', $sid), '');
+                    ecrireLog('security', sprintf('removeStory(%s, epur) by automated epur : system', $sid), '');
                 } else
                     sql_query("UPDATE " . sql_prefix('stories') . " 
                                SET archive='1' 
@@ -227,7 +227,7 @@ function aff_news($op, $catid, $marqeur)
         $op = 'categories';
     }
 
-    $news_tab = prepa_aff_news($op, $catid, $marqeur);
+    $news_tab = prepaAffNews($op, $catid, $marqeur);
     $story_limit = 0;
 
     // si le tableau $news_tab est vide alors return 

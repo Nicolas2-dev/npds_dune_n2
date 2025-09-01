@@ -27,7 +27,6 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     $inclusion = false;
     if (file_exists($path = 'themes/' . $theme . '/views/partials/topn/top.php')) {
         $inclusion = $path;
-
     } elseif (file_exists($path = 'themes/base/views/partials/top/top.php')) {
         $inclusion = $path;
     } else {
@@ -36,11 +35,11 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
     if ($inclusion) {
         ob_start();
-            include $inclusion;
-            $Xcontent = ob_get_contents();
+        include $inclusion;
+        $Xcontent = ob_get_contents();
         ob_end_clean();
 
-        echo meta_lang(aff_langue($Xcontent));
+        echo metaLang(affLangue($Xcontent));
     }
 }
 

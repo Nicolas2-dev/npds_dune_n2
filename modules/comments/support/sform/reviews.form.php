@@ -45,7 +45,7 @@ $m->add_field('file_name', '', $file_name, 'hidden', false);
 // Submit bouton and anti-spam
 $m->add_extra('<tr><td align="center" colspan="2"><br />');
 
-$m->add_extra_hidden(Q_spambot() . '&nbsp;&nbsp;');
+$m->add_extra_hidden(questionSpambot() . '&nbsp;&nbsp;');
 
 $m->add_field('SubmitS', '', translate('Valider'), 'submit', false);
 

@@ -111,8 +111,8 @@ class SuperCacheManager
             array_key_exists($this->php_self, $CACHE_TIMINGS)
             && $CACHE_TIMINGS[$this->php_self] > 0
             && ($this->query_string == ''
-            || (array_key_exists($this->php_self, $CACHE_QUERYS)
-            && preg_match('#' . $CACHE_QUERYS[$this->php_self] . '#', $this->query_string)))
+                || (array_key_exists($this->php_self, $CACHE_QUERYS)
+                    && preg_match('#' . $CACHE_QUERYS[$this->php_self] . '#', $this->query_string)))
         ) {
 
             $cached_page = $this->checkCache($this->request_uri, $CACHE_TIMINGS[$this->php_self]);
@@ -306,10 +306,12 @@ class SuperCacheManager
             $objet = 'SC';
 
             while (false !== ($filename = readdir($dh))) {
-                if ($filename === '.' 
-                || $filename === '..' 
-                || $filename === 'sql' 
-                || $filename === 'index.html') {
+                if (
+                    $filename === '.'
+                    || $filename === '..'
+                    || $filename === 'sql'
+                    || $filename === 'index.html'
+                ) {
                     continue;
                 }
 
@@ -327,8 +329,10 @@ class SuperCacheManager
             $objet .= '+SQL';
 
             while (false !== ($filename = readdir($dh))) {
-                if ($filename === '.' 
-                || $filename === '..') {
+                if (
+                    $filename === '.'
+                    || $filename === '..'
+                ) {
                     continue;
                 }
 
@@ -354,7 +358,7 @@ class SuperCacheManager
     /**
      * Nettoie le cache de l'utilisateur connecté.
      */
-    public function UsercacheCleanup(): void
+    public function usercacheCleanup(): void
     {
         global $CACHE_CONFIG, $user;
 
@@ -365,8 +369,10 @@ class SuperCacheManager
         $dh = opendir($CACHE_CONFIG['data_dir']);
 
         while (false !== ($filename = readdir($dh))) {
-            if ($filename === '.' 
-            || $filename === '..') {
+            if (
+                $filename === '.'
+                || $filename === '..'
+            ) {
                 continue;
             }
 
@@ -439,7 +445,7 @@ class SuperCacheManager
      * @param int $retention
      * @return array
      */
-    public function CachingQuery(string $Xquery, int $retention): array
+    public function cachingQuery(string $Xquery, int $retention) // : array
     {
         global $CACHE_CONFIG;
 
@@ -535,5 +541,4 @@ class SuperCacheManager
             $this->insertIntoCache(serialize($Xtab), 'objet' . $Xobjet);
         }
     }
-
 }

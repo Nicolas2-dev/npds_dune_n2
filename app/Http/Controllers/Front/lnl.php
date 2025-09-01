@@ -80,7 +80,7 @@ function subscribe($var)
         <hr />
         <p class="lead mb-2">' . translate('Gestion de vos abonnements') . ' : <strong>' . $var . '</strong></p>
         <form action="lnl.php" method="POST">
-            ' . Q_spambot() . '
+            ' . questionSpambot() . '
             <input type="hidden" name="email" value="' . $var . '" />
             <input type="hidden" name="op" value="subscribeOK" />
             <input type="submit" class="btn btn-outline-primary me-2" value="' . translate('Valider') . '" />
@@ -127,7 +127,7 @@ function subscribe_ok($xemail)
 
                 include 'config/signat.php';
 
-                send_email($xemail, $subject, $message, '', true, 'html', '');
+                sendEmail($xemail, $subject, $message, '', true, 'html', '');
 
                 echo '<div class="alert alert-success">' . translate('Merci d\'avoir consacré du temps pour vous enregistrer.') . '</div>
                 <a href="index.php">' . translate('Retour en arrière') . '</a>';
@@ -188,10 +188,10 @@ function unsubscribe($xemail)
                 include 'footer.php';
             }
         } else {
-            redirect_url('index.php');
+            redirectUrl('index.php');
         }
     } else {
-        redirect_url('index.php');
+        redirectUrl('index.php');
     }
 }
 
@@ -205,10 +205,10 @@ switch ($op) {
 
     case 'subscribeOK':
         //anti_spambot
-        if (!R_spambot($asb_question, $asb_reponse, '')) {
-            Ecr_Log('security', 'LNL Anti-Spam : email=' . $email, '');
+        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+            ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
 
-            redirect_url('index.php');
+            redirectUrl('index.php');
             die();
         }
 
