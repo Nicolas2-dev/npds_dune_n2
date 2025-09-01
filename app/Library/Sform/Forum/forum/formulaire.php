@@ -13,10 +13,10 @@
 
 // CE CHAMP est indispensable --- Don't remove this field
 // Champ text : Longueur = 50 / obligatoire / Pas de vérification
-$m->add_field('subject', 'Sujet', '', 'text', true, 50, '', '');
+$m->addField('subject', 'Sujet', '', 'text', true, 50, '', '');
 
 // Titre de la Grille de Formulaire
-$m->add_title('NPDS Forum Extender :: Probl&egrave;mes ');
+$m->addTitle('NPDS Forum Extender :: Probl&egrave;mes ');
 
 // Champ Combo : hauteur = 4 / Option par défaut Linux / titre 'Votre Système d'Exploitation'
 $tmp = array(
@@ -29,7 +29,7 @@ $tmp = array(
   'a7' => array('en' => '-: Autres ', 'selected' => false),
 );
 
-$m->add_select('t1', 'Votre Syst&egrave;me d\'Exploitation', $tmp, false, 4, false);
+$m->addSelect('t1', 'Votre Syst&egrave;me d\'Exploitation', $tmp, false, 4, false);
 
 // Champ Combo : hauteur = 2 / Option par défaut Apache + Php + MySql / titre 'Votre Package Web'
 $tmp = array(
@@ -41,7 +41,7 @@ $tmp = array(
   'b6' => array('en' => '-: Je ne sais pas ! ', 'selected' => false),
 );
 
-$m->add_select('t2', 'Votre Package Web', $tmp, false, 2, false);
+$m->addSelect('t2', 'Votre Package Web', $tmp, false, 2, false);
 
 // Champ Combo : hauteur = 2 / Option par défaut Php 8.x / titre 'Votre version de PHP'
 $tmp = array(
@@ -53,7 +53,7 @@ $tmp = array(
   'c6' => array('en' => '-: Je ne sais pas ! ', 'selected' => false),
 );
 
-$m->add_select('t3', 'Votre version de PHP', $tmp, false, 2, false);
+$m->addSelect('t3', 'Votre version de PHP', $tmp, false, 2, false);
 
 // Champ Combo : hauteur = 5 / Option par défaut NPDS RÉvolution 16.8 / Mutli-selection active / titre 'Version NPDS (voir statistiques du site)'
 $tmp = array(
@@ -72,7 +72,7 @@ $tmp = array(
   'n13' => array('en' => '-: NPDS RÉvolution 16.8 ', 'selected' => true),
 );
 
-$m->add_select('t4', 'Version NPDS (<a href="stats.php">voir statistiques du site</a>)', $tmp, false, 4, true);
+$m->addSelect('t4', 'Version NPDS (<a href="stats.php">voir statistiques du site</a>)', $tmp, false, 4, true);
 
 // Champ Combo : hauteur = 6 / Option par défaut Erreur(s) Php / titre "Type de problème"
 $tmp = array(
@@ -84,7 +84,7 @@ $tmp = array(
   'd6' => array('en' => '-: Autre(s) Erreur(s) ', 'selected' => false),
 );
 
-$m->add_select('t5', 'Type de probl&egrave;me', $tmp, false, 6, false);
+$m->addSelect('t5', 'Type de probl&egrave;me', $tmp, false, 6, false);
 
 // Champ Combo : hauteur = 5 / Option par défaut Autre(s) / titre 'Votre hébergeur'
 $tmp = array(
@@ -95,7 +95,7 @@ $tmp = array(
   'e5' => array('en' => '-: Autre(s) ', 'selected' => true),
 );
 
-$m->add_select('t6', 'Votre h&eacute;bergeur', $tmp, false, 5, false);
+$m->addSelect('t6', 'Votre h&eacute;bergeur', $tmp, false, 5, false);
 
 // Champ Radio : Option par défaut = 'OK, j'attends' / titre 'Votre Priorité'
 $tmp = array(
@@ -105,42 +105,42 @@ $tmp = array(
   'f4' => array('en' => 'Juste une infos ', 'checked' => false),
 );
 
-$m->add_radio('r1', 'Votre Priorité', $tmp, false);
+$m->addRadio('r1', 'Votre Priorité', $tmp, false);
 
 // ---------------------------------------------------------------------
 // CE CHAMP est indispensable --- Don't remove this field
 // Champ text : Longueur = 800 / TextArea / Obligatoire / Pas de Vérification
-$m->add_field('message', 'Description du problème', '', 'textarea', true, 800, 15, '');
+$m->addField('message', 'Description du problème', '', 'textarea', true, 800, 15, '');
 
 // Champ Boite à cocher / Valeur de retour true / coché
-$m->add_checkbox('sig', 'Inclure la signature', 'Oui', false, true);
+$m->addCheckbox('sig', 'Inclure la signature', 'Oui', false, true);
 
 // Champ Boite à cocher / Valeur de retour true / non-coché
-$m->add_checkbox('notify2', 'Notification par Email', 'Oui', false, false);
+$m->addCheckbox('notify2', 'Notification par Email', 'Oui', false, false);
 
 // CES CHAMPS sont indispensables --- Don't remove these fields
 // Champ Hidden
-$m->add_field('forum', '', $forum, 'hidden', false);
+$m->addField('forum', '', $forum, 'hidden', false);
 
-$m->add_extra('<br />');
+$m->addExtra('<br />');
 
 // Anti-Spam
-$m->add_Qspam();
+$m->addQspam();
 
 // Reset bouton
-$m->add_extra('
+$m->addExtra('
       <div class="mb-3 row">
          <div class="col-sm-8 ms-sm-auto" >');
 
-$m->add_field('Reset', '', translate("Annuler"), 'reset', false);
+$m->addField('Reset', '', translate("Annuler"), 'reset', false);
 
-$m->add_extra("&nbsp;&nbsp;&nbsp;");
+$m->addExtra("&nbsp;&nbsp;&nbsp;");
 
 // Submit bouton
-$m->add_field('Submit', '', 'Soumettre', 'submit', false);
+$m->addField('Submit', '', 'Soumettre', 'submit', false);
 
-$m->add_extra('
+$m->addExtra('
          </div>
       </div>');
 
-$m->add_field('submitS', '', 'submitS', 'hidden', false);
+$m->addField('submitS', '', 'submitS', 'hidden', false);

@@ -80,29 +80,29 @@ if (!isset($M2)) {
     $M2 = '';
 }
 
-$m->add_comment(affLangue('<div class="row"><p class="lead">[french]En savoir plus[/french][english]More[/english][spanish]M&#xE1;s[/spanish][german]Mehr[/german]</p></div>'));
+$m->addComment(affLangue('<div class="row"><p class="lead">[french]En savoir plus[/french][english]More[/english][spanish]M&#xE1;s[/spanish][german]Mehr[/german]</p></div>'));
 
-$m->add_field('C1', affLangue('[french]Activit&#x00E9; professionnelle[/french][english]Professional activity[/english][spanish]Actividad profesional[/spanish][german]Berufliche T&#xE4;tigkeit[/german]'), $C1, 'text', false, 100, '', '');
+$m->addField('C1', affLangue('[french]Activit&#x00E9; professionnelle[/french][english]Professional activity[/english][spanish]Actividad profesional[/spanish][german]Berufliche T&#xE4;tigkeit[/german]'), $C1, 'text', false, 100, '', '');
 
-$m->add_extender('C1', '', '<span class="help-block text-end" id="countcar_C1"></span>');
+$m->addExtender('C1', '', '<span class="help-block text-end" id="countcar_C1"></span>');
 
-$m->add_field('C2', affLangue('[french]Code postal[/french][english]Postal code[/english][spanish]C&#xF3;digo postal[/spanish][german]Postleitzahl[/german]'), $C2, 'text', false, 5, '', '');
+$m->addField('C2', affLangue('[french]Code postal[/french][english]Postal code[/english][spanish]C&#xF3;digo postal[/spanish][german]Postleitzahl[/german]'), $C2, 'text', false, 5, '', '');
 
-$m->add_extender('C2', '', '<span class="help-block text-end" id="countcar_C2"></span>');
+$m->addExtender('C2', '', '<span class="help-block text-end" id="countcar_C2"></span>');
 
-$m->add_date('T1', affLangue('[french]Date de naissance[/french][english]Birth date[/english][spanish]Fecha de nacimiento[/spanish][german]Geburtsdatum[/german]'), $T1, 'text', '', false, 20);
+$m->addDate('T1', affLangue('[french]Date de naissance[/french][english]Birth date[/english][spanish]Fecha de nacimiento[/spanish][german]Geburtsdatum[/german]'), $T1, 'text', '', false, 20);
 
-$m->add_extender('T1', '', '<span class="help-block">JJ/MM/AAAA</span>');
+$m->addExtender('T1', '', '<span class="help-block">JJ/MM/AAAA</span>');
 
-$m->add_field('M2', 'R&#x00E9;seaux sociaux', $M2, 'hidden', false);
+$m->addField('M2', 'R&#x00E9;seaux sociaux', $M2, 'hidden', false);
 
 include 'modules/geoloc/config/config.php';
 
-$m->add_comment(affLangue('<div class="row"><p class="lead"><a href="modules.php?ModPath=geoloc&amp;ModStart=geoloc"><i class="fas fa-map-marker-alt fa-2x" title="[french]Modifier ou d&#xE9;finir votre position[/french][english]Define or change your geolocation[/english][chinese]Define or change your geolocation[/chinese][spanish]Definir o cambiar la geolocalizaci&#243;n[/spanish][german]Definieren oder &#xE4;ndern Sie Ihre Geolokalisierung[/german]" data-bs-toggle="tooltip" data-bs-placement="right"></i></a>&nbsp;[french]G&#xE9;olocalisation[/french][english]Geolocation[/english][chinese]&#x5730;&#x7406;&#x5B9A;&#x4F4D;[/chinese][spanish]Geolocalizaci&#243;n[/spanish][german]Geolokalisierung[/german]</p></div>'));
+$m->addComment(affLangue('<div class="row"><p class="lead"><a href="modules.php?ModPath=geoloc&amp;ModStart=geoloc"><i class="fas fa-map-marker-alt fa-2x" title="[french]Modifier ou d&#xE9;finir votre position[/french][english]Define or change your geolocation[/english][chinese]Define or change your geolocation[/chinese][spanish]Definir o cambiar la geolocalizaci&#243;n[/spanish][german]Definieren oder &#xE4;ndern Sie Ihre Geolokalisierung[/german]" data-bs-toggle="tooltip" data-bs-placement="right"></i></a>&nbsp;[french]G&#xE9;olocalisation[/french][english]Geolocation[/english][chinese]&#x5730;&#x7406;&#x5B9A;&#x4F4D;[/chinese][spanish]Geolocalizaci&#243;n[/spanish][german]Geolokalisierung[/german]</p></div>'));
 
-$m->add_field($ch_lat, affLangue('[french]Latitude[/french][english]Latitude[/english][chinese]&#x7ECF;&#x5EA6;[/chinese][spanish]Latitud[/spanish][german]Breitengrad[/german]'), $$ch_lat, 'text', false, '', '', 'lat');
+$m->addField($ch_lat, affLangue('[french]Latitude[/french][english]Latitude[/english][chinese]&#x7ECF;&#x5EA6;[/chinese][spanish]Latitud[/spanish][german]Breitengrad[/german]'), $$ch_lat, 'text', false, '', '', 'lat');
 
-$m->add_field($ch_lon, affLangue('[french]Longitude[/french][english]Longitude[/english][chinese]&#x7EAC;&#x5EA6;[/chinese][spanish]Longitud[/spanish][german]L&#228;ngengrad[/german]'), $$ch_lon, 'text', false, '', '', 'long');
+$m->addField($ch_lon, affLangue('[french]Longitude[/french][english]Longitude[/english][chinese]&#x7EAC;&#x5EA6;[/chinese][spanish]Longitud[/spanish][german]L&#228;ngengrad[/german]'), $$ch_lon, 'text', false, '', '', 'long');
 
 // Les champ B1 et M2 sont utilisé par NPDS dans le cadre des fonctions USERs
 // Si vous avez besoin d'un ou de champs ci-dessous - le(s) définir selon vos besoins et l'(les) enlever du tableau $fielddispo
@@ -114,10 +114,10 @@ $fieldrest = array_diff($fielddispo, $geofield);
 
 //reset($fieldrest);
 foreach ($fieldrest as $k => $v) {
-    $m->add_field($v, $v, '', 'hidden', false);
+    $m->addField($v, $v, '', 'hidden', false);
 }
 
-$m->add_extra('
+$m->addExtra('
 <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
 <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
 <script type="text/javascript">

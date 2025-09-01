@@ -1336,7 +1336,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                 fclose($file);
 
                 if ($bio) {
-                    $bio = FixQuotes(strip_tags($bio));
+                    $bio = fixQuotes(strip_tags($bio));
                 }
 
                 $t = $attach ? 1 : 0;
@@ -1579,7 +1579,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
     if (($check == $uname) and ($uid == $vuid)) {
         $ublockon = $ublockon ? 1 : 0;
 
-        $ublock = removeHack(FixQuotes($ublock));
+        $ublock = removeHack(fixQuotes($ublock));
 
         sql_query("UPDATE " . sql_prefix('users') . " 
                    SET storynum='$storynum', ublockon='$ublockon', ublock='$ublock' 
@@ -1843,7 +1843,7 @@ function savejournal($uid, $journal, $datetime)
         }
 
         $journal = dataImageToFileUrl($journal, 'storage/users_private/' . $cookie[1] . '/jou'); //
-        $journal = removeHack(stripslashes(FixQuotes($journal)));
+        $journal = removeHack(stripslashes(fixQuotes($journal)));
 
         if ($datetime) {
             $journalentry = $journal;

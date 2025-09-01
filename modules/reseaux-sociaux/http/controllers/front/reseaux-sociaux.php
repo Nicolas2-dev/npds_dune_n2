@@ -199,7 +199,7 @@ function SaveSetReseaux($ModPath, $ModStart)
     }
 
     $li_rs = rtrim($li_rs, ';');
-    $li_rs = removeHack(stripslashes(FixQuotes($li_rs)));
+    $li_rs = removeHack(stripslashes(fixQuotes($li_rs)));
 
     sql_query("UPDATE " . sql_prefix('users_extend') . " 
                SET M2='$li_rs' 

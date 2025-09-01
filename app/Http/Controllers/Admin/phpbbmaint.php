@@ -143,7 +143,7 @@ function ForumMaintTopics($before, $forum_name)
                               ORDER BY topic_id ASC");
 
         while (list($topic_id, $topic_title) = sql_fetch_row($resultT)) {
-            $tt = $parse == 0 ? FixQuotes($topic_title) : stripslashes($topic_title);
+            $tt = $parse == 0 ? fixQuotes($topic_title) : stripslashes($topic_title);
 
             urlencode($tt);
 

@@ -43,8 +43,8 @@ if ($langue) {
     }
 }
 
-#autodoc FixQuotes($what) : Quote une chaîne contenant des '
-function FixQuotes($what = '')
+#autodoc fixQuotes($what) : Quote une chaîne contenant des '
+function fixQuotes($what = '')
 {
     $what = str_replace("&#39;", "'", $what);
     $what = str_replace("'", "''", $what);
@@ -173,7 +173,7 @@ function write_others($new_nuke_url, $new_sitename, $new_Titlesitename, $new_slo
     $new_Titlesitename = htmlentities(stripslashes($new_Titlesitename));
     $new_slogan = htmlentities(stripslashes($new_slogan));
     $new_startdate = stripslashes($new_startdate);
-    $new_nuke_url = FixQuotes($new_nuke_url);
+    $new_nuke_url = fixQuotes($new_nuke_url);
 
     $file = file('config/config.php');
 

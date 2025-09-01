@@ -102,33 +102,33 @@ if (!isset($groupe)) {
     $groupe = '';
 }
 
-$m->add_title(adm_translate('Utilisateur'));
+$m->addTitle(adm_translate('Utilisateur'));
 
-$m->add_mess(adm_translate('* Désigne un champ obligatoire'));
+$m->addMess(adm_translate('* Désigne un champ obligatoire'));
 
-$m->add_form_field_size(60);
+$m->addFormFieldSize(60);
 
 // return to the memberslist.php if necessary
-$m->add_field('referer', '', basename($referer), 'hidden', false);
+$m->addField('referer', '', basename($referer), 'hidden', false);
 
-$m->add_field('add_uname', adm_translate('Surnom'), $chng_uname, 'text', true, 25, '', '');
+$m->addField('add_uname', adm_translate('Surnom'), $chng_uname, 'text', true, 25, '', '');
 
-$m->add_extender('add_uname', '', '<span class="help-block"><span class="float-end" id="countcar_add_uname"></span></span>');
+$m->addExtender('add_uname', '', '<span class="help-block"><span class="float-end" id="countcar_add_uname"></span></span>');
 
-$m->add_field('add_name', adm_translate('Nom'), $chng_name, 'text', false, 60, '', '');
+$m->addField('add_name', adm_translate('Nom'), $chng_name, 'text', false, 60, '', '');
 
-$m->add_extender('add_name', '', '<span class="help-block"><span class="float-end" id="countcar_add_name"></span></span>');
+$m->addExtender('add_name', '', '<span class="help-block"><span class="float-end" id="countcar_add_name"></span></span>');
 
-$m->add_field('add_email', adm_translate('E-mail'), $chng_email, 'email', true, 60, '', '');
+$m->addField('add_email', adm_translate('E-mail'), $chng_email, 'email', true, 60, '', '');
 
-$m->add_extender('add_email', '', '<span class="help-block text-end" id="countcar_add_email"></span>');
+$m->addExtender('add_email', '', '<span class="help-block text-end" id="countcar_add_email"></span>');
 
-$m->add_field('add_femail', adm_translate('Adresse E-mail masquée'), $chng_femail, 'email', false, 60, '', '');
+$m->addField('add_femail', adm_translate('Adresse E-mail masquée'), $chng_femail, 'email', false, 60, '', '');
 
-$m->add_extender('add_femail', '', '<span class="help-block"><span class="float-end" id="countcar_add_femail"></span></span>');
+$m->addExtender('add_femail', '', '<span class="help-block"><span class="float-end" id="countcar_add_femail"></span></span>');
 
 if ($op == 'ModifyUser') {
-    $m->add_checkbox('raz_avatar', adm_translate('Revenir aux avatars standards'), 1, false, false);
+    $m->addCheckbox('raz_avatar', adm_translate('Revenir aux avatars standards'), 1, false, false);
 }
 
 $r = sql_query("SELECT access_id, access_title 
@@ -146,7 +146,7 @@ if ($mX = sql_fetch_assoc($r)) {
     } while ($mX = sql_fetch_assoc($r));
 }
 
-$m->add_select('add_level', adm_translate('Niveau de l\'Utilisateur'), $tmp_tempo, false, '', false);
+$m->addSelect('add_level', adm_translate('Niveau de l\'Utilisateur'), $tmp_tempo, false, '', false);
 
 // ---- Rôles
 unset($tmp_tempo);
@@ -189,7 +189,7 @@ if (!is_null($rank5)) {
     $tmp_tempo[5]['selected'] = $chng_rank == 5 ? true : false;
 }
 
-$m->add_select('chng_rank', adm_translate('Rôle de l\'Utilisateur'), $tmp_tempo, false, '', false);
+$m->addSelect('chng_rank', adm_translate('Rôle de l\'Utilisateur'), $tmp_tempo, false, '', false);
 
 // ---- Groupes
 $les_groupes = explode(',', $groupe);
@@ -221,7 +221,7 @@ if ($nbg > 7) {
     $nbg = 7;
 }
 
-$m->add_select('add_group', adm_translate('Groupe'), $tmp_groupe, false, $nbg, true);
+$m->addSelect('add_group', adm_translate('Groupe'), $tmp_groupe, false, $nbg, true);
 // ---- Groupes
 
 if ($open_user) {
@@ -230,7 +230,7 @@ if ($open_user) {
     $checked = false;
 }
 
-$m->add_checkbox('add_open_user', adm_translate('Autoriser la connexion'), 1, false, $checked);
+$m->addCheckbox('add_open_user', adm_translate('Autoriser la connexion'), 1, false, $checked);
 
 if ($mns) {
     $checked = true;
@@ -238,7 +238,7 @@ if ($mns) {
     $checked = false;
 }
 
-$m->add_checkbox('add_mns', adm_translate('Activer son MiniSite'), 1, false, $checked);
+$m->addCheckbox('add_mns', adm_translate('Activer son MiniSite'), 1, false, $checked);
 
 // LNL
 $cky = $user_lnl == 1 ? true : false;
@@ -249,7 +249,7 @@ $tmp = array(
     '0' => array('en' => adm_translate('Non'), 'checked' => $ckn),
 );
 
-$m->add_radio('user_lnl', translate('S\'inscrire à la liste de diffusion du site'), $tmp, false);
+$m->addRadio('user_lnl', translate('S\'inscrire à la liste de diffusion du site'), $tmp, false);
 
 // LNL
 if ($chng_user_viewemail) {
@@ -258,11 +258,11 @@ if ($chng_user_viewemail) {
     $checked = false;
 }
 
-$m->add_checkbox('add_user_viewemail', adm_translate('Autoriser les autres utilisateurs à voir son adresse E-mail'), 1, false, $checked);
+$m->addCheckbox('add_user_viewemail', adm_translate('Autoriser les autres utilisateurs à voir son adresse E-mail'), 1, false, $checked);
 
-$m->add_field('add_url', 'URL', $chng_url, 'url', false, 100, '', '');
+$m->addField('add_url', 'URL', $chng_url, 'url', false, 100, '', '');
 
-$m->add_extender('add_url', '', '<span class="help-block text-end" id="countcar_add_url"></span>');
+$m->addExtender('add_url', '', '<span class="help-block text-end" id="countcar_add_url"></span>');
 
 // ---- SUBSCRIBE and INVISIBLE
 if ($chng_send_email == 1) {
@@ -271,7 +271,7 @@ if ($chng_send_email == 1) {
     $checked = false;
 }
 
-$m->add_checkbox('add_send_email', adm_translate('M\'envoyer un Mel lorsque qu\'un Msg Int. arrive'), 1, false, $checked);
+$m->addCheckbox('add_send_email', adm_translate('M\'envoyer un Mel lorsque qu\'un Msg Int. arrive'), 1, false, $checked);
 
 if ($chng_is_visible == 1) {
     $checked = false;
@@ -279,19 +279,19 @@ if ($chng_is_visible == 1) {
     $checked = true;
 }
 
-$m->add_checkbox('add_is_visible', adm_translate('Membre invisible'), 1, false, $checked);
+$m->addCheckbox('add_is_visible', adm_translate('Membre invisible'), 1, false, $checked);
 
-$m->add_field('add_user_from', adm_translate('Situation géographique'), $chng_user_from, 'text', false, 100, '', '');
+$m->addField('add_user_from', adm_translate('Situation géographique'), $chng_user_from, 'text', false, 100, '', '');
 
-$m->add_extender('add_user_from', '', '<span class="help-block text-end" id="countcar_add_user_from"></span>');
+$m->addExtender('add_user_from', '', '<span class="help-block text-end" id="countcar_add_user_from"></span>');
 
-$m->add_field('add_user_occ', adm_translate('Activité'), $chng_user_occ, 'text', false, 100, '', '');
+$m->addField('add_user_occ', adm_translate('Activité'), $chng_user_occ, 'text', false, 100, '', '');
 
-$m->add_extender('add_user_occ', '', '<span class="help-block text-end" id="countcar_add_user_occ"></span>');
+$m->addExtender('add_user_occ', '', '<span class="help-block text-end" id="countcar_add_user_occ"></span>');
 
-$m->add_field('add_user_intrest', adm_translate('Centres d\'intérêt'), $chng_user_intrest, 'text', false, 150, '', '');
+$m->addField('add_user_intrest', adm_translate('Centres d\'intérêt'), $chng_user_intrest, 'text', false, 150, '', '');
 
-$m->add_extender('add_user_intrest', '', '<span class="help-block text-end" id="countcar_add_user_intrest"></span>');
+$m->addExtender('add_user_intrest', '', '<span class="help-block text-end" id="countcar_add_user_intrest"></span>');
 
 if ($attach == 1) {
     $checked = true;
@@ -299,15 +299,15 @@ if ($attach == 1) {
     $checked = false;
 }
 
-$m->add_checkbox('attach', adm_translate('Afficher signature'), 1, false, $checked);
+$m->addCheckbox('attach', adm_translate('Afficher signature'), 1, false, $checked);
 
-$m->add_field('add_user_sig', adm_translate('Signature'), $chng_user_sig, 'textarea', false, 255, 7, '', '');
+$m->addField('add_user_sig', adm_translate('Signature'), $chng_user_sig, 'textarea', false, 255, 7, '', '');
 
-$m->add_extender('add_user_sig', '', '<span class="help-block text-end" id="countcar_add_user_sig"></span>');
+$m->addExtender('add_user_sig', '', '<span class="help-block text-end" id="countcar_add_user_sig"></span>');
 
-$m->add_field('add_bio', adm_translate('Informations supplémentaires'), $chng_bio, 'textarea', false, 255, 7, '', '');
+$m->addField('add_bio', adm_translate('Informations supplémentaires'), $chng_bio, 'textarea', false, 255, 7, '', '');
 
-$m->add_extender('add_bio', '', '<span class="help-block text-end" id="countcar_add_bio" ></span>');
+$m->addExtender('add_bio', '', '<span class="help-block text-end" id="countcar_add_bio" ></span>');
 
 $requi = '';
 
@@ -316,16 +316,16 @@ if ($op == "ModifyUser")
 else
     $requi = true;
 
-$m->add_field('add_pass', adm_translate('Mot de Passe'), '', 'password', $requi, '40', '', '');
+$m->addField('add_pass', adm_translate('Mot de Passe'), '', 'password', $requi, '40', '', '');
 
-$m->add_extra('<div class="mb-3 row"><div class="col-sm-8 ms-sm-auto" ><div class="progress" style="height: 0.2rem;"><div id="passwordMeter_cont" class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div></div></div></div>');
+$m->addExtra('<div class="mb-3 row"><div class="col-sm-8 ms-sm-auto" ><div class="progress" style="height: 0.2rem;"><div id="passwordMeter_cont" class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div></div></div></div>');
 
-$m->add_extender('add_pass', '', '<span class="help-block text-end" id="countcar_add_pass"></span>');
+$m->addExtender('add_pass', '', '<span class="help-block text-end" id="countcar_add_pass"></span>');
 
 if ($op == "ModifyUser") {
-    $m->add_field('add_pass2', adm_translate('Entrez à nouveau le Mot de Passe') . '&nbsp;<span class="small">' . adm_translate('(seulement pour modifications)') . '</span>', '', 'password', false, 40, '', '');
+    $m->addField('add_pass2', adm_translate('Entrez à nouveau le Mot de Passe') . '&nbsp;<span class="small">' . adm_translate('(seulement pour modifications)') . '</span>', '', 'password', false, 40, '', '');
 
-    $m->add_extender('add_pass2', '', '<span class="help-block text-end" id="countcar_add_pass2"></span>');
+    $m->addExtender('add_pass2', '', '<span class="help-block text-end" id="countcar_add_pass2"></span>');
 }
 
 // --- EXTENDER
@@ -337,24 +337,24 @@ if (file_exists('library/sform/extend-user/extender/formulaire.php')) {
 // CES CHAMPS sont indispensables --- Don't remove these fields
 // Champ Hidden
 if ($op == 'displayUsers') {
-    $m->add_field('op', '', 'addUser', 'hidden', false);
+    $m->addField('op', '', 'addUser', 'hidden', false);
 }
 
 if ($op == 'ModifyUser') {
-    $m->add_field('op', '', 'updateUser', 'hidden', false);
+    $m->addField('op', '', 'updateUser', 'hidden', false);
 
-    $m->add_field('chng_uid', '', $chng_uid, 'hidden', false);
+    $m->addField('chng_uid', '', $chng_uid, 'hidden', false);
 }
 
 if ($chng_avatar != '') {
-    $m->add_field('add_avatar', '', $chng_avatar, 'hidden', false);
+    $m->addField('add_avatar', '', $chng_avatar, 'hidden', false);
 } else {
-    $m->add_field('add_avatar', '', 'blank.gif', 'hidden', false);
+    $m->addField('add_avatar', '', 'blank.gif', 'hidden', false);
 }
 
 include_once 'modules/geoloc/config/config.php';
 
-$m->add_extra('
+$m->addExtra('
 <div class="mb-3 row">
     <div class="col-sm-8 ms-sm-auto" >
         <button type="submit" class="btn btn-primary">' . translate('Valider') . '</button>
@@ -468,4 +468,4 @@ flatpickr("#T1", {
     "locale": "' . languageIso(1, '', '') . '",
 });';
 
-$m->add_extra(adminFoot('fv', $fv_parametres, $arg1, '1'));
+$m->addExtra(adminFoot('fv', $fv_parametres, $arg1, '1'));

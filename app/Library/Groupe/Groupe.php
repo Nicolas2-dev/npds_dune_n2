@@ -369,7 +369,7 @@ class Groupe
                 $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
 
                 while (list($p, $e, $m, $r) = sql_fetch_row($docs_gr)) {
-                    $surlignage = $couleur[hexfromchr($e)];
+                    $surlignage = $couleur[hexFromChr($e)];
                     $lst_doc .= '<li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
                 }
 

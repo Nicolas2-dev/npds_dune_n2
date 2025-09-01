@@ -996,11 +996,11 @@ function LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat)
         $cat[1] = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $url = stripslashes(FixQuotes($url));
-    $xtext = stripslashes(FixQuotes($xtext));
-    $name = stripslashes(FixQuotes($name));
-    $email = stripslashes(FixQuotes($email));
+    $title = stripslashes(fixQuotes($title));
+    $url = stripslashes(fixQuotes($url));
+    $xtext = stripslashes(fixQuotes($xtext));
+    $name = stripslashes(fixQuotes($name));
+    $email = stripslashes(fixQuotes($email));
 
     sql_query("UPDATE " . sql_prefix('links_links') . " 
                SET cid='$cat[0]', sid='$cat[1]', title='$title', url='$url', description='$xtext', name='$name', email='$email', hits='$hits' 
@@ -1229,7 +1229,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 {
     global $aid;
 
-    $editorialtext = stripslashes(FixQuotes($editorialtext));
+    $editorialtext = stripslashes(fixQuotes($editorialtext));
 
     sql_query("INSERT INTO " . sql_prefix('links_editorials') . " 
                VALUES ('$linkid', '$aid', now(), '$editorialtext', '$editorialtitle')");
@@ -1241,7 +1241,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 
 function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 {
-    $editorialtext = stripslashes(FixQuotes($editorialtext));
+    $editorialtext = stripslashes(fixQuotes($editorialtext));
 
     sql_query("UPDATE " . sql_prefix('links_editorials') . " 
                SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' 
@@ -1309,11 +1309,11 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $su
             $cat[1] = 0;
         }
 
-        $title = stripslashes(FixQuotes($title));
-        $url = stripslashes(FixQuotes($url));
-        $xtext = stripslashes(FixQuotes($xtext));
-        $name = stripslashes(FixQuotes($name));
-        $email = stripslashes(FixQuotes($email));
+        $title = stripslashes(fixQuotes($title));
+        $url = stripslashes(fixQuotes($url));
+        $xtext = stripslashes(fixQuotes($xtext));
+        $name = stripslashes(fixQuotes($name));
+        $email = stripslashes(fixQuotes($email));
 
         sql_query("INSERT INTO " . sql_prefix('links_links') . " 
                    VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$xtext', now(), '$name', '$email', '0', '$submitter', 0, 0, 0, 0)");

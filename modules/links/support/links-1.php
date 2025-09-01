@@ -260,12 +260,12 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
         $cat[1] = 0;
     }
 
-    $title = removeHack(stripslashes(FixQuotes($title)));
-    $url = removeHack(stripslashes(FixQuotes($url)));
+    $title = removeHack(stripslashes(fixQuotes($title)));
+    $url = removeHack(stripslashes(fixQuotes($url)));
     $description = dataImageToFileUrl($description, 'modules/upload/storage/lindes');
-    $description = removeHack(stripslashes(FixQuotes($description)));
-    $name = removeHack(stripslashes(FixQuotes($name)));
-    $email = removeHack(stripslashes(FixQuotes($email)));
+    $description = removeHack(stripslashes(fixQuotes($description)));
+    $name = removeHack(stripslashes(fixQuotes($name)));
+    $email = removeHack(stripslashes(fixQuotes($email)));
 
     sql_query("INSERT INTO " . $links_DB . "links_newlink 
                VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', '$name', '$email', '$submitter', '$topicL')");

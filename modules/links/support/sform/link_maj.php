@@ -28,31 +28,31 @@ include_once 'library/sform/sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title($ModPathX);
+$m->addFormTitle($ModPathX);
 
-$m->add_form_method('get');
+$m->addFormMethod('get');
 
-$m->add_form_check('true');
+$m->addFormCheck('true');
 
-$m->add_field($ModPathX . '_id', $ModPathX . '_id', $browse_key, 'text', true, 11, '', 'a-9');
+$m->addField($ModPathX . '_id', $ModPathX . '_id', $browse_key, 'text', true, 11, '', 'a-9');
 
-$m->add_key($ModPathX . '_id');
+$m->addKey($ModPathX . '_id');
 
-$m->add_url('modules.php');
+$m->addUrl('modules.php');
 
-$m->add_submit_value('modifylinkrequest_adv_infos');
+$m->addSubmitValue('modifylinkrequest_adv_infos');
 
-$m->add_field('ModStart', '', $ModStart, 'hidden', false);
+$m->addField('ModStart', '', $ModStart, 'hidden', false);
 
-$m->add_field('ModPath', '', $ModPath, 'hidden', false);
+$m->addField('ModPath', '', $ModPath, 'hidden', false);
 
 if (isset($author)) {
-   $m->add_field('author', '', $author, 'hidden', false);
+   $m->addField('author', '', $author, 'hidden', false);
 }
 
-$m->add_field('op', '', 'modifylinkrequest', 'hidden', false);
+$m->addField('op', '', 'modifylinkrequest', 'hidden', false);
 
-$m->add_field('lid', '', $browse_key, 'hidden', false);
+$m->addField('lid', '', $browse_key, 'hidden', false);
 
 include_once 'modules/' . $ModPathX . '/support/sform/formulaire.php';
 
@@ -61,40 +61,40 @@ function interface_function($browse_key)
 {
    global $m;
 
-   if ($m->sform_read_mysql($browse_key)) {
-      $m->add_field('', '', translate('Mise à jour'), 'submit', false);
-      $m->add_extra(' - ');
-      $m->add_field('', '', translate('Effacer'), 'submit', false);
+   if ($m->sformReadMysql($browse_key)) {
+      $m->addField('', '', translate('Mise à jour'), 'submit', false);
+      $m->addExtra(' - ');
+      $m->addField('', '', translate('Effacer'), 'submit', false);
    } else {
-      $m->add_field('', '', translate('Ajouter'), 'submit', false);
+      $m->addField('', '', translate('Ajouter'), 'submit', false);
    }
 
-   $m->key_lock('close');
+   $m->keyLock('close');
 
-   echo $m->print_form('class="ligna"');
+   echo $m->printForm('class="ligna"');
 }
 
 function Supprimer_function($browse_key)
 {
    global $m;
 
-   $m->sform_read_mysql($browse_key);
+   $m->sformReadMysql($browse_key);
    $m->form_key_value = $browse_key;
-   $m->sform_delete_mysql();
+   $m->sformDeleteMysql();
 }
 
 switch ($modifylinkrequest_adv_infos) {
 
    case translate('Ajouter'):
-      $m->make_response();
-      $m->sform_insert_mysql($m->answer);
+      $m->makeResponse();
+      $m->sformInsertMysql($m->answer);
 
       interface_function($browse_key);
       break;
 
    case translate('Effacer'):
-      $m->make_response();
-      $m->sform_delete_mysql();
+      $m->makeResponse();
+      $m->sformDeleteMysql();
 
       interface_function($browse_key);
       break;
@@ -104,8 +104,8 @@ switch ($modifylinkrequest_adv_infos) {
       break;
 
    case translate('Mise à jour'):
-      $m->make_response();
-      $m->sform_modify_mysql($m->answer);
+      $m->makeResponse();
+      $m->sformModifyMysql($m->answer);
 
       interface_function($browse_key);
       break;

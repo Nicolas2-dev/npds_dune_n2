@@ -20,22 +20,22 @@ include_once $sform_path . 'sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title('Bugs_Report');
+$m->addFormTitle('Bugs_Report');
 
-$m->add_form_method('post');
+$m->addFormMethod('post');
 
-$m->add_form_check('false');
+$m->addFormCheck('false');
 
-$m->add_mess(' * d&eacute;signe un champ obligatoire ');
+$m->addMess(' * d&eacute;signe un champ obligatoire ');
 
-$m->add_submit_value('submitS');
+$m->addSubmitValue('submitS');
 
-$m->add_url('newtopic.php');
+$m->addUrl('newtopic.php');
 
-include $sform_path . 'forum/'. $formulaire;
+include $sform_path . 'forum/' . $formulaire;
 
 if (isset($submitS)) {
-    $message = $m->aff_response('', 'not_echo', '');
+    $message = $m->affResponse('', 'not_echo', '');
 } else {
-    echo $m->print_form('');
+    echo $m->printForm('');
 }

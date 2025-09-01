@@ -438,7 +438,7 @@ function relateddelete($tid, $rid)
 
 function topicmake($topicname, $topicimage, $topictext, $topicadmin)
 {
-    $topicname = stripslashes(FixQuotes($topicname));
+    $topicname = stripslashes(fixQuotes($topicname));
     $istopicname = sql_num_rows(sql_query("SELECT * 
                                            FROM " . sql_prefix('topics') . " 
                                            WHERE topicname='$topicname'"));
@@ -448,8 +448,8 @@ function topicmake($topicname, $topicimage, $topictext, $topicadmin)
         die();
     }
 
-    $topicimage = stripslashes(FixQuotes($topicimage));
-    $topictext = stripslashes(FixQuotes($topictext));
+    $topicimage = stripslashes(fixQuotes($topicimage));
+    $topictext = stripslashes(fixQuotes($topictext));
 
     sql_query("INSERT INTO " . sql_prefix('topics') . " 
                VALUES (NULL,'$topicname', '$topicimage', '$topictext', '0', '$topicadmin')");
@@ -528,12 +528,12 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin,
         }
     }
 
-    $topicname = stripslashes(FixQuotes($topicname));
-    $topicimage = stripslashes(FixQuotes($topicimage));
-    $topictext = stripslashes(FixQuotes($topictext));
+    $topicname = stripslashes(fixQuotes($topicname));
+    $topicimage = stripslashes(fixQuotes($topicimage));
+    $topictext = stripslashes(fixQuotes($topictext));
 
-    $name = stripslashes(FixQuotes($name));
-    $url = stripslashes(FixQuotes($url));
+    $name = stripslashes(fixQuotes($name));
+    $url = stripslashes(fixQuotes($url));
 
     sql_query("UPDATE " . sql_prefix('topics') . " 
                SET topicname='$topicname', topicimage='$topicimage', topictext='$topictext', topicadmin='$topicadmin' 

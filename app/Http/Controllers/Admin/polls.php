@@ -120,7 +120,7 @@ function poll_createPosted()
     global $maxOptions, $pollTitle, $optionText, $poll_type;
 
     $timeStamp = time();
-    $pollTitle = FixQuotes($pollTitle);
+    $pollTitle = fixQuotes($pollTitle);
 
     $result = sql_query("INSERT INTO " . sql_prefix('poll_desc') . " 
                          VALUES (0, '$pollTitle', '$timeStamp', 0)");
@@ -129,7 +129,7 @@ function poll_createPosted()
 
     for ($i = 1; $i <= sizeof($optionText); $i++) {
         if ($optionText[$i] != '') {
-            $optionText[$i] = FixQuotes($optionText[$i]);
+            $optionText[$i] = fixQuotes($optionText[$i]);
         }
 
         $result = sql_query("INSERT INTO " . sql_prefix('poll_data') . " (pollID, optionText, optionCount, voteID, pollType) 
@@ -375,7 +375,7 @@ function poll_SendEditPoll()
 
     for ($i = 1; $i <= sizeof($optionText); $i++) {
         if ($optionText[$i] != '') {
-            $optionText[$i] = FixQuotes($optionText[$i]);
+            $optionText[$i] = fixQuotes($optionText[$i]);
         }
 
         $result = sql_query("UPDATE " . sql_prefix('poll_data') . " 

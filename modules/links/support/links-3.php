@@ -170,9 +170,9 @@ function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmi
             $cat[1] = 0;
         }
 
-        $title          = stripslashes(FixQuotes($title));
-        $url            = stripslashes(FixQuotes($url));
-        $description    = stripslashes(FixQuotes($description));
+        $title          = stripslashes(fixQuotes($title));
+        $url            = stripslashes(fixQuotes($url));
+        $description    = stripslashes(fixQuotes($description));
 
         if ($modifysubmitter == -9) {
             $modifysubmitter = '';

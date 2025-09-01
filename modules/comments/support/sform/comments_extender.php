@@ -18,22 +18,22 @@ include_once 'library/sform/sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title('coolsus');
+$m->addFormTitle('coolsus');
 
-$m->add_form_method('post');
+$m->addFormMethod('post');
 
-$m->add_form_check('false');
+$m->addFormCheck('false');
 
-$m->add_mess('[french]* désigne un champ obligatoire[/french][english]* required field[/english]');
+$m->addMess('[french]* désigne un champ obligatoire[/french][english]* required field[/english]');
 
-$m->add_submit_value('submitS');
+$m->addSubmitValue('submitS');
 
-$m->add_url('modules.php');
+$m->addUrl('modules.php');
 
 include 'modules/comments/support/sform/' . $formulaire;
 
 if (!isset($GLOBALS['submitS'])) {
-    echo affLangue($m->print_form(''));
+    echo affLangue($m->printForm(''));
 } else {
-    $message = affLangue($m->aff_response('', 'not_echo', ''));
+    $message = affLangue($m->affResponse('', 'not_echo', ''));
 }

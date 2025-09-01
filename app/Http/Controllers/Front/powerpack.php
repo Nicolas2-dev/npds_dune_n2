@@ -45,8 +45,8 @@ switch ($op) {
             $from_userid = $uid['uid'];
 
             if (($subject != '') or ($message != '')) {
-                $subject = FixQuotes($subject) . '';
-                $messages = FixQuotes($messages) . '';
+                $subject = fixQuotes($subject) . '';
+                $messages = fixQuotes($messages) . '';
 
                 dbWritePrivateMessage($to_userid, '', $subject, $from_userid, $message, $copie);
             }

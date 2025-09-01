@@ -280,9 +280,9 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
     $story      = dataImageToFileUrl($story, 'cache/ai');
     $bodytext   = dataImageToFileUrl($bodytext, 'cache/ac');
 
-    $subject    = removeHack(stripslashes(FixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
-    $story      = removeHack(stripslashes(FixQuotes($story)));
-    $bodytext   = removeHack(stripslashes(FixQuotes($bodytext)));
+    $subject    = removeHack(stripslashes(fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
+    $story      = removeHack(stripslashes(fixQuotes($story)));
+    $bodytext   = removeHack(stripslashes(fixQuotes($bodytext)));
 
     sql_query("INSERT INTO " . sql_prefix('queue') . " 
                VALUES (NULL, '$uid', '$name', '$subject', '$story', '$bodytext', now(), '$topic', '$date_debval', '$date_finval', '$epur')");

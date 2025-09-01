@@ -228,7 +228,7 @@ if ($allow_bbcode) {
 //      $message = preg_replace('#_blank(")#i', '_blank\1 class=\1\1', $message);
 // }
 
-// $message = split_string_without_space($message, 80); // fonction génère erreur !! ?????
+// $message = splitStringWithoutSpace($message, 80); // fonction génère erreur !! ?????
 
 if (($forum_type == '6') or ($forum_type == '5')) {
     highlight_string(stripslashes($myrow['post_text'])) . '<br /><br />';

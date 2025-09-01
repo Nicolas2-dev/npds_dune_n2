@@ -77,7 +77,7 @@ if ($user or $admin) {
     header('location: index.php');
 }
 
-$surlignage = $couleur[hexfromchr($auteur)];
+$surlignage = $couleur[hexFromChr($auteur)];
 
 // Paramètres utilisé par le script
 $ThisFile = 'modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart;
@@ -278,7 +278,7 @@ function Liste_Page()
                 $aff .= '<tr>
                     <td>' . $ibid . $ranq . '</td>
                     <td>
-                        <div class="me-1" style="float: left; margin-top: 0.5rem; width: 1.5rem; height: 1.5rem; border-radius:50%; background-color: ' . $couleur[hexfromchr($editedby)] . ';"></div>
+                        <div class="me-1" style="float: left; margin-top: 0.5rem; width: 1.5rem; height: 1.5rem; border-radius:50%; background-color: ' . $couleur[hexFromChr($editedby)] . ';"></div>
                         ' . userpopover($editedby, '40', 2) . '&nbsp;' . $editedby . '
                     </td>
                     <td class="small">' . formatTimes($modtime, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</td>';
@@ -513,8 +513,8 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = removeHack(stripslashes(FixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
-        $auteur = removeHack(stripslashes(FixQuotes($auteur)));
+        $content = removeHack(stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
+        $auteur = removeHack(stripslashes(fixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 
                                           FROM " . sql_prefix('wspad') . " 
@@ -534,7 +534,7 @@ switch ($op) {
         break;
 
     case 'supp':
-        $auteur = removeHack(stripslashes(FixQuotes($auteur)));
+        $auteur = removeHack(stripslashes(fixQuotes($auteur)));
 
         $result = sql_query("DELETE FROM " . sql_prefix('wspad') . " 
                              WHERE page='$page' 
@@ -584,7 +584,7 @@ switch ($op) {
         $date_finval = ($deb_year + 99) . '-01-01 00:00:00';
 
         $result = sql_query("INSERT INTO " . sql_prefix('queue') . " 
-                             VALUES (NULL, $cookie[0], '$auteur', '$page', '" . FixQuotes($row['content']) . "', '', now(), '', '$date_debval', '$date_finval', '0')");
+                             VALUES (NULL, $cookie[0], '$auteur', '$page', '" . fixQuotes($row['content']) . "', '', now(), '', '$date_debval', '$date_finval', '0')");
         break;
 }
 

@@ -419,11 +419,11 @@ function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $cati
 {
     global $ultramode;
 
-    $title = stripslashes(FixQuotes(str_replace('"', '&quot;', $title)));
+    $title = stripslashes(fixQuotes(str_replace('"', '&quot;', $title)));
 
-    $hometext = stripslashes(FixQuotes($hometext));
-    $bodytext = stripslashes(FixQuotes($bodytext));
-    $notes = stripslashes(FixQuotes($notes));
+    $hometext = stripslashes(fixQuotes($hometext));
+    $bodytext = stripslashes(fixQuotes($bodytext));
+    $notes = stripslashes(fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';

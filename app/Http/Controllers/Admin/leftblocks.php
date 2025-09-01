@@ -38,8 +38,8 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
         $Lindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $content = stripslashes(FixQuotes($content));
+    $title = stripslashes(fixQuotes($title));
+    $content = stripslashes(fixQuotes($content));
 
     if ($SHTML != 'ON') {
         $content = strip_tags(str_replace('<br />', '\n', $content));
@@ -68,7 +68,7 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
         $Lindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
+    $title = stripslashes(fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -82,8 +82,8 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
         $css = 0;
     }
 
-    $content = stripslashes(FixQuotes($content));
-    $BLaide = stripslashes(FixQuotes($BLaide));
+    $content = stripslashes(fixQuotes($content));
+    $BLaide = stripslashes(fixQuotes($BLaide));
 
     sql_query("UPDATE " . sql_prefix('lblocks') . " 
                SET title='$title', content='$content', member='$members', Lindex='$Lindex', cache='$Scache', actif='$Sactif', aide='$BLaide', css='$css' 
@@ -109,7 +109,7 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
         $Lindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
+    $title = stripslashes(fixQuotes($title));
     if ($Sactif == 'ON') {
         $Sactif = 1;
     } else {
@@ -122,8 +122,8 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
         $css = 0;
     }
 
-    $content = stripslashes(FixQuotes($content));
-    $BLaide = stripslashes(FixQuotes($BLaide));
+    $content = stripslashes(fixQuotes($content));
+    $BLaide = stripslashes(fixQuotes($BLaide));
 
     sql_query("INSERT INTO " . sql_prefix('rblocks') . " 
                VALUES (NULL,'$title','$content', '$members', '$Lindex', '$Scache', '$Sactif', '$css', '$BLaide')");

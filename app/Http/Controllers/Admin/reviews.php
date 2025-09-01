@@ -27,8 +27,8 @@ $hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
 function mod_main($title, $description)
 {
-    $title = stripslashes(FixQuotes($title));
-    $description = stripslashes(FixQuotes($description));
+    $title = stripslashes(fixQuotes($title));
+    $description = stripslashes(fixQuotes($description));
 
     sql_query("UPDATE " . sql_prefix('reviews_main') . " 
                SET title='$title', description='$description'");
@@ -223,10 +223,10 @@ function reviews()
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title)
 {
-    $title = stripslashes(FixQuotes($title));
-    $text = stripslashes(FixQuotes($text));
-    $reviewer = stripslashes(FixQuotes($reviewer));
-    $email = stripslashes(FixQuotes($email));
+    $title = stripslashes(fixQuotes($title));
+    $text = stripslashes(fixQuotes($text));
+    $reviewer = stripslashes(fixQuotes($reviewer));
+    $email = stripslashes(fixQuotes($email));
 
     sql_query("INSERT INTO " . sql_prefix('reviews') . " 
                VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");

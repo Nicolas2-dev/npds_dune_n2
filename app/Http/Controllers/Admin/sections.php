@@ -821,8 +821,8 @@ function rubriquemake($rubname, $introc)
 {
     global $radminsuper, $aid;
 
-    $rubname = stripslashes(FixQuotes($rubname));
-    $introc = stripslashes(FixQuotes(dataImageToFileUrl($introc, 'modules/upload/storage/rub')));
+    $rubname = stripslashes(fixQuotes($rubname));
+    $introc = stripslashes(fixQuotes(dataImageToFileUrl($introc, 'modules/upload/storage/rub')));
 
     sql_query("INSERT INTO " . sql_prefix('rubriques') . " 
                VALUES (NULL, '$rubname', '$introc', '0', '0')");
@@ -857,9 +857,9 @@ function rubriquemake($rubname, $introc)
 
 function rubriquechange($rubid, $rubname, $introc, $enligne)
 {
-    $rubname = stripslashes(FixQuotes($rubname));
+    $rubname = stripslashes(fixQuotes($rubname));
     $introc = dataImageToFileUrl($introc, 'modules/upload/storage/rub');
-    $introc = stripslashes(FixQuotes($introc));
+    $introc = stripslashes(fixQuotes($introc));
 
     sql_query("UPDATE " . sql_prefix('rubriques') . " 
                SET rubname='$rubname', intro='$introc', enligne='$enligne' 
@@ -1016,11 +1016,11 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
         }
     }
 
-    $secname = stripslashes(FixQuotes($secname));
-    $rubref = stripslashes(FixQuotes($rubref));
-    $image = stripslashes(FixQuotes($image));
+    $secname = stripslashes(fixQuotes($secname));
+    $rubref = stripslashes(fixQuotes($rubref));
+    $image = stripslashes(fixQuotes($image));
 
-    $introd = stripslashes(FixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(fixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
 
     sql_query("INSERT INTO " . sql_prefix('sections') . " 
                VALUES (NULL,'$secname', '$image', '$members', '$rubref', '$introd', '99', '0')");
@@ -1051,10 +1051,10 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
         }
     }
 
-    $secname = stripslashes(FixQuotes($secname));
-    $image = stripslashes(FixQuotes($image));
+    $secname = stripslashes(fixQuotes($secname));
+    $image = stripslashes(fixQuotes($image));
 
-    $introd = stripslashes(FixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(fixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
 
     sql_query("UPDATE " . sql_prefix('sections') . " 
                SET secname='$secname', image='$image', userlevel='$members', rubid='$rubref', intro='$introd' 
@@ -1281,13 +1281,13 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(FixQuotes($title));
+    $title = stripslashes(fixQuotes($title));
 
     if ($secid != "0") {
         if ($radminsuper == 1) {
             $timestamp = time();
 
-            $content = stripslashes(FixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
+            $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members', '$timestamp')");
@@ -1295,7 +1295,7 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
             global $aid;
             ecrireLog('security', sprintf('CreateArticleSections(%s, %s) by AID : %s', $secid, $title, $aid), '');
         } else {
-            $content = stripslashes(FixQuotes(dataImageToFileUrl($content, 'cache/s')));
+            $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'cache/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont_tempo') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members')");
@@ -1314,8 +1314,8 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $content = stripslashes(FixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $title = stripslashes(fixQuotes($title));
+    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
 
     $timestamp = time();
 
@@ -1337,8 +1337,8 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $content = stripslashes(FixQuotes(dataImageToFileUrl($content, 'storage/cache/s')));
+    $title = stripslashes(fixQuotes($title));
+    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'storage/cache/s')));
 
     if ($secid != '0') {
         sql_query("UPDATE " . sql_prefix('seccont_tempo') . " 
@@ -1358,8 +1358,8 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
         $members = implode(',', $Mmembers);
     }
 
-    $content = stripslashes(FixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
-    $title = stripslashes(FixQuotes($title));
+    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $title = stripslashes(fixQuotes($title));
 
     if ($secid != '0') {
         sql_query("DELETE FROM " . sql_prefix('seccont_tempo') . " 

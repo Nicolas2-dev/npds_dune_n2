@@ -12,15 +12,13 @@ class Sanitize
      * @param string $txt Texte à convertir.
      * @return string Texte converti avec des <br />.
      */
-    public static function conv2br(string $txt): string
+    public static function convertToBr(string $txt): string
     {
-        $Xcontent = str_replace("\r\n", '<br />', $txt);
-        $Xcontent = str_replace("\r", '<br />', $Xcontent);
-        $Xcontent = str_replace("\n", '<br />', $Xcontent);
-        $Xcontent = str_replace('<BR />', '<br />', $Xcontent);
-        $Xcontent = str_replace('<BR>', '<br />', $Xcontent);
-
-        return $Xcontent;
+        return str_replace(
+            ["\r\n", "\r", "\n", '<BR />', '<BR>'],
+            '<br />',
+            $txt
+        );
     }
 
     /**
@@ -29,9 +27,10 @@ class Sanitize
      * @param string $txt Chaîne à convertir.
      * @return int Valeur hexadécimale mod 16.
      */
-    public static function hexfromchr(string $txt): int
+    public static function hexFromChr(string $txt): int
     {
         $surlignage = substr(md5($txt), 0, 8);
+
         $tmp = 0;
 
         for ($ix = 0; $ix <= 5; $ix++) {
@@ -47,20 +46,9 @@ class Sanitize
      * @param array $r Tableau contenant la chaîne à transformer.
      * @return string Chaîne avec & remplacé.
      */
-    public static function changetoamp(array $r): string
+    public static function changeToAmp(array $r): string
     {
         return str_replace('&', '&amp;', $r[0]);
-    } 
-
-    /**
-     * Idem changetoamp, mais pour l'administration.
-     *
-     * @param array $r Tableau contenant la chaîne à transformer.
-     * @return string Chaîne avec & remplacé.
-     */
-    public static function changetoampadm(array $r): string
-    {
-        return static::changetoamp($r);
     }
 
     /**
@@ -71,18 +59,18 @@ class Sanitize
      * @param string $ibid Chaîne UTF-8.
      * @return string Chaîne encodée pour JavaScript.
      */
-    public static function utf8_java(string $ibid): string
+    public static function utf8Java(string $ibid): string
     {
-        // UTF8 = &#x4EB4;&#x6B63;&#7578; / javascript = \u4EB4\u6B63\u.dechex(7578)
-        $tmp = explode('&#', $ibid);
+        // UTF8 = &#x4EB4;&#x6B63;&#7578; 
+        // javascript = \u4EB4\u6B63\u.dechex(7578)
 
-        foreach ($tmp as $bidon) {
+        foreach (explode('&#', $ibid) as $bidon) {
             if ($bidon) {
-                $bidon = substr($bidon, 0, strpos($bidon, ';'));
-                $hex = strpos($bidon, 'x');
+                $bidon  = substr($bidon, 0, strpos($bidon, ';'));
+                $hex    = strpos($bidon, 'x');
 
-                $ibid = ($hex === false) 
-                    ? str_replace('&#' . $bidon . ';', '\\u' . dechex((int)$bidon), $ibid) 
+                $ibid = ($hex === false)
+                    ? str_replace('&#' . $bidon . ';', '\\u' . dechex((int)$bidon), $ibid)
                     : str_replace('&#' . $bidon . ';', '\\u' . substr($bidon, 1), $ibid);
             }
         }
@@ -99,9 +87,8 @@ class Sanitize
     public static function wrh($ibid): string
     {
         $tmp = number_format($ibid, 0, ',', ' ');
-        $tmp = str_replace(' ', '&nbsp;', $tmp);
 
-        return $tmp;
+        return str_replace(' ', '&nbsp;', $tmp);
     }
 
     /**
@@ -111,10 +98,10 @@ class Sanitize
      * @param int $split Longueur maximale des morceaux.
      * @return string Chaîne modifiée.
      */
-    public static function split_string_without_space(string $msg, int $split): string
+    public static function splitStringWithoutSpace(string $msg, int $split): string
     {
         $Xmsg = explode(' ', $msg);
-        array_walk($Xmsg, [self::class, 'wrapper_f'], $split);
+        array_walk($Xmsg, [self::class, 'wrapperF'], $split);
         $Xmsg = implode(' ', $Xmsg);
 
         return $Xmsg;
@@ -124,13 +111,18 @@ class Sanitize
      * Fonction wrapper utilisée par split_string_without_space.
      *
      * @param string $string Chaîne passée par référence.
-     * @param int $key Clé de l'élément (non utilisée).
+     * @param int $key obligatoire pour array_walk.
      * @param int $cols Longueur maximale d'une portion.
      * @return void
      */
-    public static function wrapper_f(string &$string, int $key, int $cols): void
+    public static function wrapperF(string &$string, int $key, int $cols): void
     {
-        //   if (!(stristr($string,'IMG src=') or stristr($string,'A href=') or stristr($string,'HTTP:') or stristr($string,'HTTPS:') or stristr($string,'MAILTO:') or stristr($string,'[CODE]'))) {
+        // if (!(stristr($string, 'IMG src=') 
+        // || stristr($string, 'A href=') 
+        // || stristr($string, 'HTTP:') 
+        // || stristr($string, 'HTTPS:') 
+        // || stristr($string, 'MAILTO:') 
+        // || stristr($string, '[CODE]'))) {
         $outlines = '';
 
         if (strlen($string) > $cols) {
@@ -154,7 +146,65 @@ class Sanitize
 
             $string = $outlines . $string;
         }
-        //   }
+        // }
+    }
+
+    /**
+     * Divise les mots d'une chaîne trop longs en morceaux de taille maximale spécifiée,
+     * en ajoutant un indicateur visuel de coupure pour les mots dépassant la limite.
+     *
+     * Cette version est prévue pour des tests/development.
+     *
+     * @param string $msg   La chaîne à traiter, où chaque mot séparé par un espace sera examiné.
+     * @param int    $split La longueur maximale autorisée pour chaque mot avant insertion d'un marqueur.
+     *
+     * @return string La chaîne traitée avec les mots longs coupés et séparés par des espaces.
+     *
+     * @example
+     * $text = "BonjourSuperLongMotIninterrompu Test";
+     * echo splitStringWithoutSpace_devTest($text, 10);
+     * // Résultat possible : "BonjourSu<i class="fa fa-cut fa-lg"> </i>perLongMotIninterrompu Test"
+     */
+    public static function splitStringWithoutSpace_devTest(string $msg, int $split): string
+    {
+        return implode(' ', array_map(
+            fn($word) => static::wrapperF_devTest($word, $split),
+            explode(' ', $msg)
+        ));
+    }
+
+    /**
+     * Fonction wrapper utilisée par split_string_without_space.
+     *
+     * @param string $string Chaîne passée par référence.
+     * @param int $cols Longueur maximale d'une portion.
+     * @return void
+     */
+    public static function wrapperF_devTest(string $string, int $cols): void
+    {
+        $outlines = '';
+
+        if (strlen($string) > $cols) {
+            while (strlen($string) > $cols) {
+                $cur_pos = 0;
+
+                for ($num = 0; $num < $cols - 1; $num++) {
+                    $outlines .= $string[$num];
+                    $cur_pos++;
+
+                    if ($string[$num] == "\n") {
+                        $string = substr($string, $cur_pos);
+                        $cur_pos = 0;
+                        $num = -1;
+                    }
+                }
+
+                $outlines .= '<i class="fa fa-cut fa-lg"> </i>';
+                $string = substr($string, $cur_pos);
+            }
+
+            $string = $outlines . $string;
+        }
     }
 
     /**
@@ -163,10 +213,13 @@ class Sanitize
      * @param string $what Chaîne à traiter.
      * @return string Chaîne échappée.
      */
-    public static function FixQuotes(string $what = ''): string
+    public static function fixQuotes(string $what = ''): string
     {
-        $what = str_replace("&#39;", "'", $what);
-        $what = str_replace("'", "''", $what);
+        $what = str_replace(
+            ["&#39;", "'"], 
+            ["'", "''"], 
+            $what
+        );
 
         while (preg_match("#\\\\'#", $what)) {
             $what = preg_replace("#\\\\'#", "'", $what);
@@ -181,9 +234,8 @@ class Sanitize
      * @param mixed $arr Variable à échapper.
      * @return void
      */
-    public static function addslashes_GPC(&$arr)
+    public static function addslashesGpc(&$arr)
     {
         $arr = addslashes($arr);
     }
-
 }

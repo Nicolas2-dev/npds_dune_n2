@@ -70,8 +70,8 @@ function changeablock($title, $content)
 {
     global $aid;
 
-    $title   = stripslashes(FixQuotes($title));
-    $content = stripslashes(FixQuotes($content));
+    $title   = stripslashes(fixQuotes($title));
+    $content = stripslashes(fixQuotes($content));
 
     sql_query("UPDATE " . sql_prefix('block') . " 
                 SET title='$title', content='$content' 

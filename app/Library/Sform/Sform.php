@@ -141,7 +141,7 @@ class Sform
      * @param string $ibid Nom du champ à rechercher
      * @return int|string Retourne l'index du champ dans $form_fields ou 'no' si non trouvé
      */
-    public function interro_fields(string $ibid): int|string
+    private function interroFields(string $ibid): int|string
     {
         $number = 'no';
 
@@ -164,7 +164,7 @@ class Sform
      * @param string $ibid1 Valeur à rechercher dans la clé 'en'
      * @return int|string Retourne l'index de l'élément ou 'no' si non trouvé
      */
-    public function interro_array(array $ibid0, string $ibid1): int|string
+    private function interroArray(array $ibid0, string $ibid1): int|string
     {
         $number = 'no';
 
@@ -184,7 +184,7 @@ class Sform
      * @param int|string $en
      * @return void
      */
-    public function add_form_field_size(int|string $en): void
+    public function addFormFieldSize(int|string $en): void
     {
         $this->field_size = $en;
     }
@@ -195,7 +195,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_form_title(string $en): void
+    public function addFormTitle(string $en): void
     {
         $this->form_title = $en;
     }
@@ -206,7 +206,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_form_id(string $en): void
+    public function addFormId(string $en): void
     {
         $this->form_id = $en;
     }
@@ -217,7 +217,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_form_method(string $en): void
+    public function addFormMethod(string $en): void
     {
         $this->form_method = $en;
     }
@@ -228,7 +228,7 @@ class Sform
      * @param bool $en
      * @return void
      */
-    public function add_form_check(bool $en): void
+    public function addFormCheck(bool $en): void
     {
         $this->form_check = $en;
     }
@@ -239,7 +239,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_url(string $en): void
+    public function addUrl(string $en): void
     {
         $this->url = $en;
     }
@@ -250,7 +250,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_key(string $en): void
+    public function addKey(string $en): void
     {
         $this->form_key = $en;
     }
@@ -261,7 +261,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_submit_value(string $en): void
+    public function addSubmitValue(string $en): void
     {
         $this->submit_value = $en;
     }
@@ -272,7 +272,7 @@ class Sform
      * @param string $en 'open' pour déverrouiller, autre pour verrouiller
      * @return void
      */
-    public function key_lock(string $en): void
+    public function keyLock(string $en): void
     {
         if ($en == 'open') {
             $this->form_key_status = 'open';
@@ -287,7 +287,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_mess(string $en): void
+    public function addMess(string $en): void
     {
         $this->mess = $en;
     }
@@ -305,7 +305,7 @@ class Sform
      * @param string $ctrl
      * @return void
      */
-    public function add_field(
+    public function addField(
         string      $name,
         string      $en,
         string      $value = '',
@@ -341,7 +341,7 @@ class Sform
      * @param bool $checked
      * @return void
      */
-    public function add_checkbox(string $name, string $en, string $value = '', bool $obligation = false, bool $checked = false): void
+    public function addCheckbox(string $name, string $en, string $value = '', bool $obligation = false, bool $checked = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -364,7 +364,7 @@ class Sform
      * @param bool $multiple
      * @return void
      */
-    public function add_select(string $name, string $en, array $values, bool $obligation = false, int $size = 1, bool $multiple = false): void
+    public function addSelect(string $name, string $en, array $values, bool $obligation = false, int $size = 1, bool $multiple = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -386,7 +386,7 @@ class Sform
      * @param bool $obligation
      * @return void
      */
-    public function add_radio(string $name, string $en, array $values, bool $obligation = false): void
+    public function addRadio(string $name, string $en, array $values, bool $obligation = false): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'          => $name,
@@ -409,7 +409,7 @@ class Sform
      * @param int|string $size
      * @return void
      */
-    public function add_date(
+    public function addDate(
         string      $name,
         string      $en,
         string|int  $value,
@@ -436,7 +436,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_title(string $en): void
+    public function addTitle(string $en): void
     {
         $this->title = $en;
     }
@@ -447,7 +447,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_comment(string $en): void
+    public function addComment(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -461,7 +461,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_extra(string $en): void
+    public function addExtra(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -475,7 +475,7 @@ class Sform
      * @param string $en
      * @return void
      */
-    public function add_extra_hidden(string $en): void
+    public function addExtraHidden(string $en): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => $en,
@@ -488,7 +488,7 @@ class Sform
      *
      * @return void
      */
-    public function add_Qspam(): void
+    public function addQspam(): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'en'        => '',
@@ -504,7 +504,7 @@ class Sform
      * @param string $html
      * @return void
      */
-    public function add_extender(string $name, string $javas, string $html): void
+    public function addExtender(string $name, string $javas, string $html): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'      => $name . 'extender',
@@ -522,7 +522,7 @@ class Sform
      * @param int $file_size
      * @return void
      */
-    public function add_upload(string $name, string $en, int|string $size = 50, int $file_size = 0): void
+    public function addUpload(string $name, string $en, int|string $size = 50, int $file_size = 0): void
     {
         $this->form_fields[count($this->form_fields)] = array(
             'name'      => $name,
@@ -543,7 +543,7 @@ class Sform
      * @param string $bg Paramètre utilisé pour le style de fond (non utilisé dans le code actuel).
      * @return string Le HTML généré du formulaire.
      */
-    public function print_form(string $bg): string
+    public function printForm(string $bg): string
     {
         if (isset($this->form_id)) {
             $id_form = 'id="' . $this->form_id . '"';
@@ -577,7 +577,7 @@ class Sform
             }
 
             if (array_key_exists('name', $this->form_fields[$i])) {
-                $num_extender = $this->interro_fields($this->form_fields[$i]['name'] . 'extender');
+                $num_extender = $this->interroFields($this->form_fields[$i]['name'] . 'extender');
             } else {
                 $num_extender = 'no';
             }
@@ -953,7 +953,7 @@ class Sform
      *
      * @return string
      */
-    public function print_form_hidden(): string
+    public function printFormHidden(): string
     {
         $str = '';
 
@@ -980,7 +980,7 @@ class Sform
      *
      * @return void
      */
-    private function make_response(): void
+    private function makeResponse(): void
     {
         for ($i = 0; $i < count($this->form_fields); $i++) {
             $this->answer[$i] = '';
@@ -1096,7 +1096,7 @@ class Sform
      * @param array $response
      * @return string
      */
-    function write_sform_data(array $response): string
+    function writeSformData(array $response): string
     {
         $content = "<CONTENTS>\n";
 
@@ -1118,7 +1118,7 @@ class Sform
      * @param string $op
      * @return string
      */
-    function read_load_sform_data(string $line, string $op): string
+    function readLoadSformData(string $line, string $op): string
     {
         if ((!stristr($line, "<CONTENTS>")) and (!stristr($line, "</CONTENTS>"))) {
 
@@ -1139,7 +1139,7 @@ class Sform
                     break;
 
                 case 'TEXT_S':
-                    $num = $this->interro_fields($nom);
+                    $num = $this->interroFields($nom);
 
                     if ($num != 'no' or $num == '0') {
                         $valeur = str_replace('&lt;BR /&gt;', chr(13) . chr(10), $valeur);
@@ -1157,10 +1157,10 @@ class Sform
                     break;
 
                 case 'SELECT_S':
-                    $num = $this->interro_fields($nom);
+                    $num = $this->interroFields($nom);
 
                     if ($num != 'no' or $num == '0') {
-                        $tmp = $this->interro_array($this->form_fields[$num]['value'], $valeur);
+                        $tmp = $this->interroArray($this->form_fields[$num]['value'], $valeur);
 
                         $this->form_fields[$num]['value'][$tmp]['selected'] = true;
                     }
@@ -1174,10 +1174,10 @@ class Sform
                     break;
 
                 case 'RADIO_S':
-                    $num = $this->interro_fields($nom);
+                    $num = $this->interroFields($nom);
 
                     if ($num != 'no' or $num == '0') {
-                        $tmp = $this->interro_array($this->form_fields[$num]['value'], $valeur);
+                        $tmp = $this->interroArray($this->form_fields[$num]['value'], $valeur);
 
                         $this->form_fields[$num]['value'][$tmp]['checked'] = true;
                     }
@@ -1191,7 +1191,7 @@ class Sform
                     break;
 
                 case 'CHECK_S':
-                    $num = $this->interro_fields($nom);
+                    $num = $this->interroFields($nom);
 
                     if ($num != 'no' or $num == '0') {
                         if ($valeur) {
@@ -1213,7 +1213,7 @@ class Sform
                     break;
 
                 case 'DATUM_S':
-                    $num = $this->interro_fields($nom);
+                    $num = $this->interroFields($nom);
 
                     if ($num != 'no' or $num == '0') {
                         $this->form_fields[$num]['value'] = $valeur;
@@ -1239,7 +1239,7 @@ class Sform
      * @param string $action URL to go
      * @return string|null
      */
-    function aff_response(string $bg, string $retour = '', string $action = '') // : ?string
+    function affResponse(string $bg, string $retour = '', string $action = '') // : ?string
     {
         // modif Field en lieu et place des $GLOBALS ....
         settype($str, 'string');
@@ -1247,7 +1247,7 @@ class Sform
         for ($i = 0; $i < count($this->form_fields); $i++) {
             if (array_key_exists('name', $this->form_fields[$i])) {
 
-                $num_extender = $this->interro_fields($this->form_fields[$i]['name'] . 'extender');
+                $num_extender = $this->interroFields($this->form_fields[$i]['name'] . 'extender');
 
                 if (array_key_exists($this->form_fields[$i]['name'], $GLOBALS)) {
                     $field = $GLOBALS[$this->form_fields[$i]['name']];
@@ -1378,9 +1378,9 @@ class Sform
      * @param string $controle
      * @return void
      */
-    function control(string $name, string $nom, string $valeur, string $controle): void
+    function control(string $name, string $nom, string $valeur, string $controle) //: void
     {
-        $i = $this->interro_fields($name);
+        $i = $this->interroFields($name);
 
         if (($this->form_fields[$i]['obligation'] != true) and ($valeur == '')) {
             $controle = '';
@@ -1486,7 +1486,7 @@ class Sform
 
         echo "<form action=\"" . $this->url . "\" method=\"" . $this->form_method . "\" name=\"" . $this->form_title . "\" enctype=\"multipart/form-data\">";
 
-        echo $this->print_form_hidden();
+        echo $this->printFormHidden();
 
         echo '<input class="btn btn-secondary" type="submit" name="sformret" value="Retour" />
         </form>';
@@ -1503,7 +1503,7 @@ class Sform
      * @param string $presentation Mode d'affichage ('liste' ou autre)
      * @return void
      */
-    function sform_browse_mysql(int $pas, string $mess_passwd, string $mess_ok, string $presentation = ''): void
+    function sformBrowseMysql(int $pas, string $mess_passwd, string $mess_ok, string $presentation = ''): void
     {
         $result = sql_query("SELECT key_value, passwd 
                              FROM " . sql_prefix('sform') . " 
@@ -1569,7 +1569,7 @@ class Sform
      * @param string $clef Clé à rechercher
      * @return bool|null   Retourne true si trouvé, false si non trouvé, null si $clef vide
      */
-    function sform_read_mysql(string $clef) // : ?bool
+    function sformReadMysql(string $clef) // : ?bool
     {
         global $op;
 
@@ -1592,7 +1592,7 @@ class Sform
                 $ibid = explode("\n", $tmp['content']);
 
                 foreach ($ibid as $num => $line) {
-                    $op = $this->read_load_sform_data(stripslashes($line), $op);
+                    $op = $this->readLoadSformData(stripslashes($line), $op);
                 }
 
                 return true;
@@ -1608,9 +1608,9 @@ class Sform
      * @param array $response Données du formulaire
      * @return string|null    Message d'erreur en cas d'échec, sinon null
      */
-    function sform_insert_mysql(array $response) // : ?string
+    function sformInsertMysql(array $response) // : ?string
     {
-        $content = $this->write_sform_data($response);
+        $content = $this->writeSformData($response);
 
         $sql = "INSERT INTO " . sql_prefix('sform') . " (id_form, id_key, key_value, passwd, content) 
                 VALUES ('" . $this->form_title . "', '" . $this->form_key . "', '" . $this->form_key_value . "', '" . $this->form_password_access . "', '$content')";
@@ -1625,7 +1625,7 @@ class Sform
      *
      * @return string|null Message d'erreur en cas d'échec, sinon null
      */
-    function sform_delete_mysql() // : ?string
+    function sformDeleteMysql() // : ?string
     {
         $sql = "DELETE FROM " . sql_prefix('sform') . " 
                 WHERE id_form='" . $this->form_title . "' 
@@ -1643,9 +1643,9 @@ class Sform
      * @param array $response Données à mettre à jour
      * @return string|null    Message d'erreur en cas d'échec, sinon null
      */
-    function sform_modify_mysql(array $response) // : ?string
+    function sformModifyMysql(array $response) // : ?string
     {
-        $content = $this->write_sform_data($response);
+        $content = $this->writeSformData($response);
 
         $sql = "UPDATE " . sql_prefix('sform') . " 
                 SET passwd='" . $this->form_password_access . "', content='$content' 
@@ -1662,7 +1662,7 @@ class Sform
      * @param string $clef Clé à rechercher
      * @return bool        Retourne true si trouvé et analysé, false sinon
      */
-    function sform_read_mysql_XML(string $clef): bool
+    function sformReadMysqlXml(string $clef): bool
     {
         if ($clef != '') {
             $clef = urldecode($clef);
@@ -1681,7 +1681,7 @@ class Sform
             xml_parser_set_option($analyseur_xml, XML_OPTION_CASE_FOLDING, 0);
             xml_parse_into_struct($analyseur_xml, $tmp['content'], $value, $tag);
 
-            $this->sform_XML_tag($value);
+            $this->sformXmlTag($value);
 
             xml_parser_free($analyseur_xml);
 
@@ -1697,7 +1697,7 @@ class Sform
      * @param array $value Structure renvoyée par xml_parse_into_struct
      * @return void
      */
-    function sform_XML_tag(array $value): void
+    function sformXmlTag(array $value): void
     {
         foreach ($value as $num => $val) {
 
@@ -1710,7 +1710,7 @@ class Sform
                 // La valeur du champs
                 $valeur = $val['value'];
 
-                $idchamp = $this->interro_fields($nom);
+                $idchamp = $this->interroFields($nom);
 
                 switch ($value[$num - 1]['tag']) {
 
@@ -1722,13 +1722,13 @@ class Sform
                         break;
 
                     case 'SELECT':
-                        $tmp = $this->interro_array($this->form_fields[$idchamp]['value'], $valeur);
+                        $tmp = $this->interroArray($this->form_fields[$idchamp]['value'], $valeur);
 
                         $this->form_fields[$idchamp]['value'][$tmp]['selected'] = true;
                         break;
 
                     case 'RADIO':
-                        $tmp = $this->interro_array($this->form_fields[$idchamp]['value'], $valeur);
+                        $tmp = $this->interroArray($this->form_fields[$idchamp]['value'], $valeur);
 
                         $this->form_fields[$idchamp]['value'][$tmp]['checked'] = true;
                         break;

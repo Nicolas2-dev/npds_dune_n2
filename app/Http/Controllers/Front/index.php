@@ -104,10 +104,10 @@ function automatednews()
 
                 while (list($catid, $aid, $title, $hometext, $bodytext, $topic, $author, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result2)) {
 
-                    $subject    = stripslashes(FixQuotes($title));
-                    $hometext   = stripslashes(FixQuotes($hometext));
-                    $bodytext   = stripslashes(FixQuotes($bodytext));
-                    $notes      = stripslashes(FixQuotes($notes));
+                    $subject    = stripslashes(fixQuotes($title));
+                    $hometext   = stripslashes(fixQuotes($hometext));
+                    $bodytext   = stripslashes(fixQuotes($bodytext));
+                    $notes      = stripslashes(fixQuotes($notes));
 
                     sql_query("INSERT INTO " . sql_prefix('stories') . " 
                                VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$author', '$notes', '$ihome', '0', '$date_finval', '$epur')");

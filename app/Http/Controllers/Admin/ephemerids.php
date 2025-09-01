@@ -130,7 +130,7 @@ function Ephemerids()
 
 function Ephemeridsadd($did, $mid, $yid, $content)
 {
-    $content = stripslashes(FixQuotes($content) . "");
+    $content = stripslashes(fixQuotes($content) . "");
 
     sql_query("INSERT INTO " . sql_prefix('ephem') . " 
                VALUES (NULL, '$did', '$mid', '$yid', '$content')");
@@ -229,7 +229,7 @@ function Ephemeridsedit($eid, $did, $mid)
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)
 {
-    $content = stripslashes(FixQuotes($content) . '');
+    $content = stripslashes(fixQuotes($content) . '');
 
     sql_query("UPDATE " . sql_prefix('ephem') . " 
                SET yid='$yid', content='$content' 

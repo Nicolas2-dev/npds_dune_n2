@@ -308,7 +308,7 @@ function FaqCatGoEdit($id)
 
 function FaqCatSave($old_id_cat, $id_cat, $categories)
 {
-    $categories = stripslashes(FixQuotes($categories));
+    $categories = stripslashes(fixQuotes($categories));
 
     if ($old_id_cat != $id_cat) {
         sql_query("UPDATE " . sql_prefix('faqanswer') . " 
@@ -325,8 +325,8 @@ function FaqCatSave($old_id_cat, $id_cat, $categories)
 
 function FaqCatGoSave($id, $question, $answer)
 {
-    $question   = stripslashes(FixQuotes($question));
-    $answer     = stripslashes(FixQuotes($answer));
+    $question   = stripslashes(fixQuotes($question));
+    $answer     = stripslashes(fixQuotes($answer));
 
     sql_query("UPDATE " . sql_prefix('faqanswer') . " 
                SET question='$question', answer='$answer' 
@@ -337,7 +337,7 @@ function FaqCatGoSave($id, $question, $answer)
 
 function FaqCatAdd($categories)
 {
-    $categories = stripslashes(FixQuotes($categories));
+    $categories = stripslashes(fixQuotes($categories));
 
     sql_query("INSERT INTO " . sql_prefix('faqcategories') . " 
                VALUES (NULL, '$categories')");
@@ -347,8 +347,8 @@ function FaqCatAdd($categories)
 
 function FaqCatGoAdd($id_cat, $question, $answer)
 {
-    $question   = stripslashes(FixQuotes($question));
-    $answer     = stripslashes(FixQuotes($answer));
+    $question   = stripslashes(fixQuotes($question));
+    $answer     = stripslashes(fixQuotes($answer));
 
     sql_query("INSERT INTO " . sql_prefix('faqanswer') . " 
                VALUES (NULL, '$id_cat', '$question', '$answer')");

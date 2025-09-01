@@ -20,23 +20,23 @@ include_once 'library/sform/sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title('contact');
+$m->addFormTitle('contact');
 
-$m->add_form_id('formcontact');
+$m->addFormId('formcontact');
 
-$m->add_form_method('post');
+$m->addFormMethod('post');
 
-$m->add_form_check('false');
+$m->addFormCheck('false');
 
-$m->add_url('modules.php');
+$m->addUrl('modules.php');
 
-$m->add_field('ModStart', '', $ModStart, 'hidden', false);
+$m->addField('ModStart', '', $ModStart, 'hidden', false);
 
-$m->add_field('ModPath', '', $ModPath, 'hidden', false);
+$m->addField('ModPath', '', $ModPath, 'hidden', false);
 
-$m->add_submit_value('subok');
+$m->addSubmitValue('subok');
 
-$m->add_field('subok', '', 'Submit', 'hidden', false);
+$m->addField('subok', '', 'Submit', 'hidden', false);
 
 include 'modules/' . $ModPath . '/support/sform/formulaire.php';
 
@@ -51,7 +51,7 @@ switch ($subok) {
         settype($sformret, 'string');
 
         if (!$sformret) {
-            $m->make_response();
+            $m->makeResponse();
 
             //anti_spambot
             if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
@@ -59,7 +59,7 @@ switch ($subok) {
 
                 $subok = '';
             } else {
-                $message = $m->aff_response('', 'not_echo', '');
+                $message = $m->affResponse('', 'not_echo', '');
 
                 global $notify_email;
                 sendEmail($notify_email, 'Contact site', affLangue($message), '', '', 'html', '');
@@ -74,6 +74,6 @@ switch ($subok) {
         }
 
     default:
-        echo affLangue($m->print_form(''));
+        echo affLangue($m->printForm(''));
         break;
 }

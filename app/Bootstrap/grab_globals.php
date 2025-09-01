@@ -91,7 +91,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
 
     // Get values, slash, filter and extract
     if (!empty($_GET)) {
-        array_walk_recursive($_GET, 'addslashes_GPC');
+        array_walk_recursive($_GET, 'addslashesGpc');
         reset($_GET); // no need
 
         array_walk_recursive($_GET, 'urlProtect');
@@ -99,7 +99,7 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
     }
 
     if (!empty($_POST)) {
-        array_walk_recursive($_POST, 'addslashes_GPC');
+        array_walk_recursive($_POST, 'addslashesGpc');
         /*
         array_walk_recursive($_POST, 'post_protect');
 

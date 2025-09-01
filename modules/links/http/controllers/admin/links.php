@@ -564,11 +564,11 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
         $cat[1] = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $url = stripslashes(FixQuotes($url));
-    $description = stripslashes(FixQuotes($description));
-    $name = stripslashes(FixQuotes($name));
-    $email = stripslashes(FixQuotes($email));
+    $title = stripslashes(fixQuotes($title));
+    $url = stripslashes(fixQuotes($url));
+    $description = stripslashes(fixQuotes($description));
+    $name = stripslashes(fixQuotes($name));
+    $email = stripslashes(fixQuotes($email));
 
     sql_query("INSERT INTO " . $links_DB . "links_links 
                VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', now(), '$name', '$email', '0','$submitter',0,0,0,'$topicL')");
@@ -824,11 +824,11 @@ function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $
         $cat[1] = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $url = stripslashes(FixQuotes($url));
-    $description = stripslashes(FixQuotes($description));
-    $name = stripslashes(FixQuotes($name));
-    $email = stripslashes(FixQuotes($email));
+    $title = stripslashes(fixQuotes($title));
+    $url = stripslashes(fixQuotes($url));
+    $description = stripslashes(fixQuotes($description));
+    $name = stripslashes(fixQuotes($name));
+    $email = stripslashes(fixQuotes($email));
 
     sql_query("UPDATE " . $links_DB . "links_links 
                SET cid='$cat[0]', sid='$cat[1]', title='$title', url='$url', description='$description', name='$name', email='$email', hits='$hits', submitter='$name', topicid_card='$topicL' 
@@ -872,7 +872,7 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 {
     global $ModPath, $ModStart, $links_DB;
 
-    $editorialtext = stripslashes(FixQuotes($editorialtext));
+    $editorialtext = stripslashes(fixQuotes($editorialtext));
 
     sql_query("UPDATE " . $links_DB . "links_editorials 
                SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' 
@@ -895,7 +895,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 {
     global $ModPath, $ModStart, $links_DB;
 
-    $editorialtext = stripslashes(FixQuotes($editorialtext));
+    $editorialtext = stripslashes(fixQuotes($editorialtext));
 
     global $aid;
 

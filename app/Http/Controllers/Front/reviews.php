@@ -152,7 +152,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     global $admin, $short_review;
 
     $title      = stripslashes(strip_tags($title));
-    $text       = stripslashes(removeHack(conv2br($text)));
+    $text       = stripslashes(removeHack(convertToBr($text)));
     $reviewer   = stripslashes(strip_tags($reviewer));
     $url_title  = stripslashes(strip_tags($url_title));
 
@@ -310,8 +310,8 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 
     include 'header.php';
 
-    $title = stripslashes(FixQuotes(strip_tags($title)));
-    $text = stripslashes(Fixquotes(urldecode(removeHack($text))));
+    $title = stripslashes(fixQuotes(strip_tags($title)));
+    $text = stripslashes(fixQuotes(urldecode(removeHack($text))));
 
     if (!$user and !$admin) {
         //anti_spambot

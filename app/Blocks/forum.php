@@ -66,8 +66,8 @@ if (! function_exists('RecentForumPosts_fab')) {
                 }
 
                 if ($parse == 0) {
-                    $forumname = FixQuotes($forumname);
-                    $forum_desc = FixQuotes($forum_desc);
+                    $forumname = fixQuotes($forumname);
+                    $forum_desc = fixQuotes($forum_desc);
                 } else {
                     $forumname = stripslashes($forumname);
                     $forum_desc = stripslashes($forum_desc);
@@ -118,8 +118,8 @@ if (! function_exists('RecentForumPosts_fab')) {
                     }
 
                     if ($parse == 0) {
-                        $tt =  strip_tags(FixQuotes($tt));
-                        $topictitle = FixQuotes($topictitle);
+                        $tt =  strip_tags(fixQuotes($tt));
+                        $topictitle = fixQuotes($topictitle);
                     } else {
                         $tt =  strip_tags(stripslashes($tt));
                         $topictitle = stripslashes($topictitle);

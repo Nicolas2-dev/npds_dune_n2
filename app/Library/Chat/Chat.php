@@ -48,8 +48,8 @@ class Chat
         }
 
         // Nettoyage des données
-        $username   = removeHack(stripslashes(FixQuotes(strip_tags(trim($username)))));
-        $message    = removeHack(stripslashes(FixQuotes(strip_tags(trim($message)))));
+        $username   = removeHack(stripslashes(fixQuotes(strip_tags(trim($username)))));
+        $message    = removeHack(stripslashes(fixQuotes(strip_tags(trim($message)))));
         $ip         = getip();
 
         // Insertion en base

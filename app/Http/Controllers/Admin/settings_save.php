@@ -17,26 +17,26 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     include 'config/config.php';
 
     if ($xparse == 0) {
-        $xsitename =  FixQuotes($xsitename);
-        $xTitlesitename = FixQuotes($xTitlesitename);
+        $xsitename =  fixQuotes($xsitename);
+        $xTitlesitename = fixQuotes($xTitlesitename);
     } else {
         $xsitename =  stripslashes($xsitename);
         $xTitlesitename = stripslashes($xTitlesitename);
     }
 
-    $xnuke_url = FixQuotes($xnuke_url);
-    $xsite_logo = FixQuotes($xsite_logo);
+    $xnuke_url = fixQuotes($xnuke_url);
+    $xsite_logo = fixQuotes($xsite_logo);
 
     if ($xparse == 0) {
-        $xslogan = FixQuotes($xslogan);
-        $xstartdate = FixQuotes($xstartdate);
+        $xslogan = fixQuotes($xslogan);
+        $xstartdate = fixQuotes($xstartdate);
     } else {
         $xslogan = stripslashes($xslogan);
         $xstartdate = stripslashes($xstartdate);
     }
 
     // Theme
-    $xDefault_Theme = FixQuotes($xDefault_Theme);
+    $xDefault_Theme = fixQuotes($xDefault_Theme);
 
     if ($xDefault_Theme != $Default_Theme) {
 
@@ -58,7 +58,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
         }
     }
 
-    $xmyIP = FixQuotes($xmyIP);
+    $xmyIP = fixQuotes($xmyIP);
 
     $xfoot1 = str_replace(chr(13) . chr(10), "\n", $xfoot1);
     $xfoot2 = str_replace(chr(13) . chr(10), "\n", $xfoot2);
@@ -66,22 +66,22 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     $xfoot4 = str_replace(chr(13) . chr(10), "\n", $xfoot4);
 
     if ($xparse == 0) {
-        $xbackend_title = FixQuotes($xbackend_title);
+        $xbackend_title = fixQuotes($xbackend_title);
     } else {
         $xbackend_title = stripslashes($xbackend_title);
     }
 
-    $xbackend_language = FixQuotes($xbackend_language);
-    $xbackend_image = FixQuotes($xbackend_image);
-    $xbackend_width = FixQuotes($xbackend_width);
-    $xbackend_height = FixQuotes($xbackend_height);
-    $xlanguage = FixQuotes($xlanguage);
-    $xlocale = FixQuotes($xlocale);
-    $xnotify_email = FixQuotes($xnotify_email);
+    $xbackend_language = fixQuotes($xbackend_language);
+    $xbackend_image = fixQuotes($xbackend_image);
+    $xbackend_width = fixQuotes($xbackend_width);
+    $xbackend_height = fixQuotes($xbackend_height);
+    $xlanguage = fixQuotes($xlanguage);
+    $xlocale = fixQuotes($xlocale);
+    $xnotify_email = fixQuotes($xnotify_email);
 
     if ($xparse == 0) {
-        $xnotify_subject = FixQuotes($xnotify_subject);
-        $xdownload_cat = FixQuotes($xdownload_cat);
+        $xnotify_subject = fixQuotes($xnotify_subject);
+        $xdownload_cat = fixQuotes($xdownload_cat);
     } else {
         $xnotify_subject = stripslashes($xnotify_subject);
         $xdownload_cat = stripslashes($xdownload_cat);
@@ -89,11 +89,11 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
 
     $xnotify_message = str_replace(chr(13) . chr(10), "\n", $xnotify_message);
 
-    $xnotify_from = FixQuotes($xnotify_from);
-    $xanonymous = FixQuotes($xanonymous);
-    $xtipath = FixQuotes($xtipath);
-    $xuserimg = FixQuotes($xuserimg);
-    $xadminimg = FixQuotes($xadminimg);
+    $xnotify_from = fixQuotes($xnotify_from);
+    $xanonymous = fixQuotes($xanonymous);
+    $xtipath = fixQuotes($xtipath);
+    $xuserimg = fixQuotes($xuserimg);
+    $xadminimg = fixQuotes($xadminimg);
 
     $file = fopen('config/config.php', 'w');
 

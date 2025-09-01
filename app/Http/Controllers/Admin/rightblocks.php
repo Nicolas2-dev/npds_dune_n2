@@ -39,8 +39,8 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
         $Rindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
-    $content = stripslashes(FixQuotes($content));
+    $title = stripslashes(fixQuotes($title));
+    $content = stripslashes(fixQuotes($content));
 
     if ($SHTML != 'ON') {
         $content = strip_tags(str_replace('<br />', "\n", $content));
@@ -69,7 +69,7 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
         $Rindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
+    $title = stripslashes(fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -77,7 +77,7 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
         $Sactif = 0;
     }
 
-    $content = stripslashes(FixQuotes($content));
+    $content = stripslashes(fixQuotes($content));
 
     sql_query("UPDATE " . sql_prefix('rblocks') . " 
                SET title='$title', content='$content', member='$members', Rindex='$Rindex', cache='$Scache', actif='$Sactif', css='$css', aide='$BRaide' 
@@ -103,7 +103,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
         $Rindex = 0;
     }
 
-    $title = stripslashes(FixQuotes($title));
+    $title = stripslashes(fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -111,7 +111,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
         $Sactif = 0;
     }
 
-    $content = stripslashes(FixQuotes($content));
+    $content = stripslashes(fixQuotes($content));
 
     sql_query("INSERT INTO " . sql_prefix('lblocks') . " 
                VALUES (NULL,'$title','$content','$members', '$Rindex', '$Scache', '$Sactif', '$css', '$BRaide')");

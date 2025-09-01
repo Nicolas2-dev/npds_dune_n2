@@ -28,15 +28,15 @@ include_once 'library/sform/sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title($ModPathX);
+$m->addFormTitle($ModPathX);
 
-$m->add_field($ModPathX . '_id', $ModPathX . '_id', '', 'text', true, 11, '', 'a-9');
+$m->addField($ModPathX . '_id', $ModPathX . '_id', '', 'text', true, 11, '', 'a-9');
 
-$m->add_key($ModPathX . '_id');
+$m->addKey($ModPathX . '_id');
 
-$m->add_submit_value('link_fiche_detail');
+$m->addSubmitValue('link_fiche_detail');
 
-$m->add_url('modules.php?ModStart=' . $ModStart . '&ModPath=' . $ModPath);
+$m->addUrl('modules.php?ModStart=' . $ModStart . '&ModPath=' . $ModPath);
 
 include_once 'modules' . $ModPathX . '/support/sform/formulaire.php';
 
@@ -44,20 +44,20 @@ include_once 'modules' . $ModPathX . '/support/sform/formulaire.php';
 switch ($link_fiche_detail) {
 
     case 'fiche_detail':
-        if ($m->sform_read_mysql($browse_key)) {
-            $m->add_extra("<tr><td colspan=\"2\" align=\"center\">");
-            $m->add_extra('<a href="javascript: history.go(-1)" class="btn btn-primary">' . translate("Retour en arrière") . '</a>');
-            $m->add_extra("</td></tr>");
-            $m->key_lock("close");
+        if ($m->sformReadMysql($browse_key)) {
+            $m->addExtra("<tr><td colspan=\"2\" align=\"center\">");
+            $m->addExtra('<a href="javascript: history.go(-1)" class="btn btn-primary">' . translate("Retour en arrière") . '</a>');
+            $m->addExtra("</td></tr>");
+            $m->keyLock("close");
 
-            echo affLangue($m->print_form("class=\"ligna\""));
+            echo affLangue($m->printForm("class=\"ligna\""));
         } else {
             redirectUrl($m->url);
         }
         break;
 
     default:
-        if ($m->sform_read_mysql($browse_key)) {
+        if ($m->sformReadMysql($browse_key)) {
             echo '<a class="me-3" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=fiche_detail&amp;lid=' . $browse_key . '" ><i class="fa fa-info fa-lg" title="' . translate("Détails supplémentaires") . '" data-bs-toggle="tooltip"></i></a>';
         }
         break;

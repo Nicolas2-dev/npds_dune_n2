@@ -19,16 +19,16 @@ include_once $sform_path . 'sform.php';
 global $m;
 $m = new Sform();
 
-$m->add_form_title('Register');
+$m->addFormTitle('Register');
 
-$m->add_form_id('register');
+$m->addFormId('register');
 
-$m->add_form_method('post');
+$m->addFormMethod('post');
 
-$m->add_form_check('false');
+$m->addFormCheck('false');
 
-$m->add_url('user.php');
+$m->addUrl('user.php');
 
 include $sform_path . 'extend-user/formulaire.php';
 
-echo $m->print_form('');
+echo $m->printForm('');

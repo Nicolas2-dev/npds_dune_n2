@@ -911,15 +911,15 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         }
     }
 
-    $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
+    $subject = stripslashes(fixQuotes(str_replace('"', '&quot;', $subject)));
 
     $hometext = dataImageToFileUrl($hometext, 'modules/upload/storage/ai');
     $bodytext = dataImageToFileUrl($bodytext, 'modules/upload/storage/ac');
     $notes = dataImageToFileUrl($notes, 'modules/upload/storage/an');
 
-    $hometext = stripslashes(FixQuotes($hometext));
-    $bodytext = stripslashes(FixQuotes($bodytext));
-    $notes = stripslashes(FixQuotes($notes));
+    $hometext = stripslashes(fixQuotes($hometext));
+    $bodytext = stripslashes(fixQuotes($bodytext));
+    $notes = stripslashes(fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';
@@ -1337,11 +1337,11 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 {
     global $aid, $ultramode;
 
-    $subject = stripslashes(FixQuotes(str_replace('"', '&quot;', $subject)));
+    $subject = stripslashes(fixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = stripslashes(FixQuotes($hometext));
-    $bodytext = stripslashes(FixQuotes($bodytext));
-    $notes = stripslashes(FixQuotes($notes));
+    $hometext = stripslashes(fixQuotes($hometext));
+    $bodytext = stripslashes(fixQuotes($bodytext));
+    $notes = stripslashes(fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';
