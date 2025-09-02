@@ -47,7 +47,7 @@ switch ($type) {
     case 'doc':
         include 'modules/wspad/library/html2doc.php';
 
-        $htmltodoc = new HTML_TO_DOC();
+        $htmltodoc = new HtmlToDoc();
 
         $row = sql_fetch_assoc(sql_query("SELECT content 
                                           FROM " . sql_prefix('wspad') . " 

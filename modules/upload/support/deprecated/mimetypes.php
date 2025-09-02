@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+/*
+
 // display mode if displayed inline
 define('ATT_DSP_LINK', '1');        // displays as link (icon)
 define('ATT_DSP_IMG', '2');         // display inline as a picture, using <img> tag.
@@ -69,24 +71,50 @@ $mimetypes = array(
     'zip'   => 'application/zip'
 );
 
+define('ATT_DSP_LINK', '1');        // displays as link (icon)
+define('ATT_DSP_IMG', '2');         // display inline as a picture, using <img> tag.
+define('ATT_DSP_HTML', '3');        // display inline as HTML, e.g. banned tags are stripped.
+define('ATT_DSP_PLAINTEXT', '4');   // display inline as text, using <pre> tag.
+define('ATT_DSP_SWF', '5');         // Embedded Macromedia Shockwave Flash
+define('ATT_DSP_VIDEO', '6');       // video display inline in a video html5 tag 
+define('ATT_DSP_AUDIO', '7');       // audio display inline in a audio html5 tag
+
+
 // mime type to be used if no other type known
 $mimetype_default = 'application/octet-stream';
+
 $mime_dspinl[$mimetype_default] = 'O';
+
+
 $mime_dspfmt[$mimetype_default] = ATT_DSP_LINK;
 
+
 // display mode if displayed inline
-$mime_dspfmt['image/gif'] = ATT_DSP_IMG;
-$mime_dspfmt['image/bmp'] = ATT_DSP_LINK;
-$mime_dspfmt['image/png'] = ATT_DSP_IMG;
-$mime_dspfmt['image/x-png'] = ATT_DSP_IMG;
-$mime_dspfmt['image/jpeg'] = ATT_DSP_IMG;
-$mime_dspfmt['image/pjpeg'] = ATT_DSP_IMG;
-$mime_dspfmt['image/svg+xml'] = ATT_DSP_IMG;
-$mime_dspfmt['text/html'] = ATT_DSP_HTML;
-$mime_dspfmt['text/plain'] = ATT_DSP_PLAINTEXT;
-$mime_dspfmt['application/x-shockwave-flash'] = ATT_DSP_SWF;
-$mime_dspfmt['video/mpeg'] = ATT_DSP_VIDEO;
-$mime_dspfmt['audio/mpeg'] = ATT_DSP_AUDIO;
+$mime_dspfmt['image/gif'] = IMG;
+$mime_dspfmt['image/png'] = IMG;
+$mime_dspfmt['image/x-png'] = IMG;
+$mime_dspfmt['image/jpeg'] = IMG;
+$mime_dspfmt['image/pjpeg'] = IMG;
+$mime_dspfmt['image/svg+xml'] = IMG;
+
+
+$mime_dspfmt['image/bmp'] = LINK;
+
+
+$mime_dspfmt['text/html'] = HTML;
+
+
+$mime_dspfmt['text/plain'] = PLAINTEXT;
+
+
+$mime_dspfmt['application/x-shockwave-flash'] = SWF;
+
+
+$mime_dspfmt['video/mpeg'] = VIDEO;
+
+
+$mime_dspfmt['audio/mpeg'] = AUDIO;
+
 
 // rendu des attachements
 $mime_renderers[ATT_DSP_PLAINTEXT] = "
@@ -96,6 +124,7 @@ $mime_renderers[ATT_DSP_PLAINTEXT] = "
                     <pre>\$att_contents</pre>
                 </div>
                 </div>";
+
 
 $mime_renderers[ATT_DSP_HTML]      = "
                 <table border=\"0\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">
@@ -113,8 +142,10 @@ $mime_renderers[ATT_DSP_HTML]      = "
                 </tr>
                 </table>";
 
+
 $mime_renderers[ATT_DSP_LINK]      = "
                 <a class=\"list-group-item list-group-item-action d-flex justify-content-start align-items-center\" href=\"\$att_url\" target=\"_blank\" >\$att_icon<span title=\"" . upload_translate("Télécharg.") . " \$att_name (\$att_type - \$att_size)\" data-bs-toggle=\"tooltip\" style=\"font-size: .85rem;\" class=\"ms-2 n-ellipses\"><strong>&nbsp;\$att_name</strong></span><span class=\"badge bg-secondary ms-auto\" style=\"font-size: .75rem;\">\$compteur &nbsp;<i class=\"fa fa-lg fa-download\"></i></span><br /><span align=\"center\">\$visible_wrn</span></a>";
+
 
 $mime_renderers[ATT_DSP_IMG]       = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\">
@@ -122,10 +153,20 @@ $mime_renderers[ATT_DSP_IMG]       = "
                 <a href=\"javascript:void(0);\" onclick=\"window.open('\$att_url','fullsizeimg','menubar=no,location=no,directories=no,status=no,copyhistory=no,height=600,width=800,toolbar=no,scrollbars=yes,resizable=yes');\"><img src=\"\$att_url\" alt=\"\$att_name\" \$img_size />\$visible_wrn </a>
                 </div>";
 
+
 $mime_renderers[ATT_DSP_SWF]       = "
                 <p align=\"center\">
                 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4\,0\,2\,0\" \$img_size><param name=\"quality\" value=\"high\"><param name=\"SRC\" value=\"\$att_url\"><embed src=\"\$att_url\" quality=\"high\" pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" \$img_size></embed></object>\$visible_wrn
                 </p>";
+
+
+function renderShockwaveFlash() {
+    $mime_renderers[ATT_DSP_SWF]       = "
+                <p align=\"center\">
+                <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4\,0\,2\,0\" \$img_size><param name=\"quality\" value=\"high\"><param name=\"SRC\" value=\"\$att_url\"><embed src=\"\$att_url\" quality=\"high\" pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" \$img_size></embed></object>\$visible_wrn
+                </p>";
+}
+
 
 $mime_renderers[ATT_DSP_VIDEO]     = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\"><code>\$att_name</code>
@@ -136,6 +177,8 @@ $mime_renderers[ATT_DSP_VIDEO]     = "
                 </div>
                 </div>";
 
+
+
 $mime_renderers[ATT_DSP_AUDIO]    = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\"><code>\$att_name</code>
                 <div>
@@ -143,6 +186,12 @@ $mime_renderers[ATT_DSP_AUDIO]    = "
                 </div>
                 </div>";
 
+*/
+        
+                
+// class ForumIcon
+
+/*
 // iconographie des extension de fichiers
 $extensions = [
     'asf',
@@ -254,3 +303,5 @@ $att_icon_multiple = '
         </span>';
 
 $att_icon_dir = '<i class="bi bi-folder fs-3"></i>';
+
+*/

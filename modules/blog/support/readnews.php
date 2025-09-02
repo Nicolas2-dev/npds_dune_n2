@@ -11,7 +11,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
+function readNews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
 {
     global $tiny_mce;
 

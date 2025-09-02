@@ -13,7 +13,7 @@
 /* Dont modify this file is you dont know what you make                 */
 /************************************************************************/
 
-include_once 'library/sform/sform.php';
+use App\Library\Sform\Sform;
 
 global $m;
 $m = new Sform();

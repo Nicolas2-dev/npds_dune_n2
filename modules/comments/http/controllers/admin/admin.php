@@ -117,7 +117,7 @@ if ($Mmod) {
                             <span class="text-body-secondary">' . translate('Adresse DNS de l\'utilisateur : ') . '</span> ' . $m['poster_dns'] . '<br />
                         </div>';
 
-            echo localiser_ip($iptoshow = $m['poster_ip']);
+            echo localiserIp($iptoshow = $m['poster_ip']);
 
             echo '</div>
             </div>';

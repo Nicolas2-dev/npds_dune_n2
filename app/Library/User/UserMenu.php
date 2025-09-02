@@ -58,7 +58,7 @@ class UserMenu
         if (($minisite) && ($autorise_upload_p)) {
             include_once 'modules/blog/support/upload_minisite.php';
 
-            $PopUp = win_upload('popup');
+            $PopUp = winUpload('popup');
 
             echo '<li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle tooltipbyclass" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="' . translate('Gérer votre miniSite') . '"><i class="fas fa-desktop fa-2x d-xl-none me-2"></i><span class="d-none d-xl-inline">' . translate('MiniSite') . '</span></a>

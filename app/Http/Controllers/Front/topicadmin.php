@@ -302,7 +302,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                         <span class="text-body-secondary">GeoTool : </span><span class=""><a href="http://www.ip-tracker.org/?ip=' . $m['poster_ip'] . '" target="_blank" >IP tracker</a><br />
                         </div>';
 
-                echo localiser_ip($iptoshow = $m['poster_ip']);
+                echo localiserIp($iptoshow = $m['poster_ip']);
 
                 echo '</div>
                 </div>

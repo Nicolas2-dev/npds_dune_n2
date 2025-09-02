@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Upload\Support\UploadAppli;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -47,7 +49,7 @@ if (isset($actiontype)) {
     switch ($actiontype) {
 
         case 'upload':
-            $ret = editeur_upload();
+            $ret = UploadAppli::editeur_upload();
 
             $js = '';
 
@@ -96,64 +98,3 @@ echo '<div class="mb-3 row">
         </div>
     </body>
     </html>';
-
-/*****************************************************/
-/* Upload du fichier                                 */
-/*****************************************************/
-function load_mimetypes()
-{
-    global $mimetypes, $mimetype_default, $mime_dspinl, $mime_dspfmt, $mime_renderers, $att_icons, $att_icon_default, $att_icon_multiple;
-
-    if (defined('ATT_DSP_LINK')) {
-        return;
-    }
-    
-    if (file_exists('modules/upload/support/mimetypes.php')) {
-        include 'modules/upload/support/mimetypes.php';
-    }
-}
-
-function editeur_upload()
-{
-    global $apli, $pcfile, $pcfile_size, $pcfile_name, $pcfile_type;
-    global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $mimetypes, $mimetype_default, $rep_upload_editeur, $path_upload_editeur;
-
-    include 'modules/upload/library/fileupload.php';
-
-    // Récupération des valeurs de PCFILE
-    global $HTTP_POST_FILES, $_FILES;
-
-    if (!empty($HTTP_POST_FILES)) {
-        $fic = $HTTP_POST_FILES;
-    } else {
-        $fic = $_FILES;
-    }
-
-    $pcfile_name = $fic['pcfile']['name'];
-    $pcfile_type = $fic['pcfile']['type'];
-    $pcfile_size = $fic['pcfile']['size'];
-
-    $pcfile = $fic['pcfile']['tmp_name'];
-
-    $fu = new FileUpload;
-    $fu->init($rep_upload_editeur, '', $apli);
-
-    $attachments = $fu->getUploadedFiles('', '');
-
-    if (is_array($attachments)) {
-        //$att_count = $attachments['att_count'];
-        //$att_size = $attachments['att_size'];
-
-        if (is_array($pcfile_name)) {
-            reset($pcfile_name);
-
-            $names = implode(', ', $pcfile_name);
-
-            $pcfile_name = $names;
-        }
-
-        return ($path_upload_editeur . $pcfile_name);
-    } else {
-        return '';
-    }
-}

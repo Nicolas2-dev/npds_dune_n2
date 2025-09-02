@@ -252,7 +252,7 @@ if ($submitS) {
         if (isset($upload)) {
             include 'modules/upload/http/controllers/upload_forum.php';
 
-            win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
+            prepare_upload_window('forum_npds', $IdPost, $forum, $topic, 'win');
 
             redirectUrl('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
 

@@ -11,16 +11,16 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-function win_upload(string $typeL): string|null
+function winUpload(string $typeL): string|null
 {
     $url = 'modules.php?ModPath=f-manager&ModStart=f-manager&FmaRep=minisite-ges';
-    
+
     $toolbarOptions = [
         'menubar'    => 'no',
         'location'   => 'no',
-        'directories'=> 'no',
+        'directories' => 'no',
         'status'     => 'no',
-        'copyhistory'=> 'no',
+        'copyhistory' => 'no',
         'toolbar'    => 'no',
         'scrollbars' => 'yes',
         'resizable'  => 'yes',

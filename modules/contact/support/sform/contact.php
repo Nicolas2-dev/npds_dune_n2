@@ -13,9 +13,9 @@
 /* Dont modify this file if you dont know what you make                 */
 /************************************************************************/
 
-global $ModPath, $ModStart;
+use App\Library\Sform\Sform;
 
-include_once 'library/sform/sform.php';
+global $ModPath, $ModStart;
 
 global $m;
 $m = new Sform();

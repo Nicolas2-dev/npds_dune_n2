@@ -395,7 +395,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                 echo '<a class="me-3" href="editpost.php?post_id=' . $myrow["post_id"] . '&amp;topic=' . $topic . '&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Editer') . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
 
                 if ($allow_upload_forum) {
-                    $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
+                    $PopUp = winUpload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
 
                     echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
                 }

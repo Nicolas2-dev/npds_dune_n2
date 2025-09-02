@@ -425,7 +425,7 @@ if ($affich) {
             settype($perpage, 'integer');
             settype($action, 'string');
 
-            $content = readnews($dir, $op, $perpage, $startpage, $action, $adminblog);
+            $content = readNews($dir, $op, $perpage, $startpage, $action, $adminblog);
 
             if (strstr($content, '!l_new_pages!')) {
                 $new_pages = substr($content, strpos($content, '!l_new_pages!') + 13);

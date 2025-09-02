@@ -4,17 +4,18 @@
  * Convert HTML to MS Word file for PHP 4.2.x or earlier
  * @author Dale Attree
  * @version 1.0.1
- * @name HTML_TO_DOC
+ * @name HtmlToDoc
  */
 
 /**
  * Convert HTML to MS Word file
  * @author Harish Chauhan
  * @version 1.0.0
- * @name HTML_TO_DOC
+ * @name HtmlToDoc
  */
-class HTML_TO_DOC
+class HtmlToDoc
 {
+
     /**
      * 
      *
@@ -62,9 +63,8 @@ class HTML_TO_DOC
      * @param String $docfile 
      */
 
-    function setDocFileName($docfile)
+    public function setDocFileName($docfile)
     {
-        //echo 'setDocFileName Entered.<br>';
         $this->docFile = $docfile;
 
         if (!preg_match('/\.doc$/i', $this->docFile)) {
@@ -74,9 +74,8 @@ class HTML_TO_DOC
         return;
     }
 
-    function setTitle($title)
+    public function setTitle($title)
     {
-        //echo 'setTitle Entered.<br>';
         $this->title = $title;
     }
 
@@ -85,9 +84,8 @@ class HTML_TO_DOC
      *
      * @return String
      */
-    function getHeader()
+    public function getHeader()
     {
-        //echo 'getHeader Entered.<br>';
         $return  = <<<EOH
             <html xmlns:v="urn:schemas-microsoft-com:vml"
             xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -176,9 +174,8 @@ class HTML_TO_DOC
      *
      * @return String
      */
-    function getFotter()
+    public function getFotter()
     {
-        //echo 'getFotter Entered.<br>';
         return '</body></html>';
     }
 
@@ -190,11 +187,8 @@ class HTML_TO_DOC
      * @param Boolean $download :: Wheather to download the file or save the file
      * @return boolean 
      */
-
-    function createDocFromURL($url, $file, $download = false)
+    public function createDocFromURL($url, $file, $download = false)
     {
-        //echo 'createDocFromURL Entered.<br>';
-
         if (!preg_match('/^http:/', $url)) {
             $url = 'http://' . $url;
         }
@@ -216,11 +210,8 @@ class HTML_TO_DOC
      * @param Boolean $download :: Wheather to download the file or save the file
      * @return boolean 
      */
-
-    function createDoc($html, $file, $download = false)
+    public function createDoc($html, $file, $download = false)
     {
-        //echo 'createDoc Entered.<br>';
-
         // ?? can not be too long $html est il juste ??? et pourquoi ???
         if (is_file($html)) {
             $html = @file_get_contents($html);
@@ -234,7 +225,7 @@ class HTML_TO_DOC
         $doc .= $this->getFotter();
 
         if ($download) {
-            //$this->write_file($this->docFile,$doc);
+            // $this->write_file($this->docFile, $doc);
             header('Cache-Control: '); // leave blank to avoid IE errors
             header('Pragma: '); // leave blank to avoid IE errors
             header('Content-type: application/octet-stream');
@@ -255,10 +246,8 @@ class HTML_TO_DOC
      * @return void
      * @access Private
      */
-
-    function _parseHtml($html)
+    private function _parseHtml($html)
     {
-        //echo '_parseHtml Entered.<br>';
         $html = preg_replace('/<!DOCTYPE((.|\n)*?)>/ims', '', $html);
         $html = preg_replace('/<script((.|\n)*?)>((.|\n)*?)<\/script>/ims', '', $html);
 
@@ -290,10 +279,8 @@ class HTML_TO_DOC
      * @return void
      * @access boolean True on success else false
      */
-
-    function write_file($file, $content, $mode = 'w')
+    public function write_file($file, $content, $mode = 'w')
     {
-        //echo 'write_file entered!<br>';
         $fp = @fopen($file, $mode);
 
         if (!is_resource($fp)) {

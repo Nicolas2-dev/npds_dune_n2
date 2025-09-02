@@ -221,7 +221,7 @@ if ($subop == 'info') {
                     <br />
                 </div>';
 
-    echo localiser_ip($iptoshow = $theip);
+    echo localiserIp($iptoshow = $theip);
 
     echo '</div>
         </div>';

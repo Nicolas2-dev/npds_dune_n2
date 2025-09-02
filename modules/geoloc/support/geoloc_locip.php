@@ -17,8 +17,8 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
-#autodoc localiser_ip() : construit la carte pour l'ip géoréférencée ($iptoshow) à localiser
-function localiser_ip($iptoshow)
+#autodoc localiserIp() : construit la carte pour l'ip géoréférencée ($iptoshow) à localiser
+function localiserIp($iptoshow)
 {
     include 'modules/geoloc/config/config.php';
 

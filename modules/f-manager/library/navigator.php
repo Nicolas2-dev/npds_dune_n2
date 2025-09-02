@@ -62,7 +62,7 @@ class Navigator
 
 
     // Constructor
-    function File_Navigator($parm, $sort_filed = 'N', $dir = 'ASC', $DirSize = false)
+    function __construct($parm, $sort_filed = 'N', $dir = 'ASC', $DirSize = false)
     {
         if (!isset($parm)) {
             $parm = '.';

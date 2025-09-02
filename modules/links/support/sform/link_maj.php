@@ -13,6 +13,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Sform\Sform;
+
 global $ModPath, $ModStart;
 
 $pos = strpos($ModPath, '/admin');
@@ -22,8 +24,6 @@ if ($pos > 0) {
 } else {
    $ModPathX = $ModPath;
 }
-
-include_once 'library/sform/sform.php';
 
 global $m;
 $m = new Sform();
