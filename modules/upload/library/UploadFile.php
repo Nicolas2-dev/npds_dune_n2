@@ -7,7 +7,7 @@ use App\Library\Http\Request;
 use Modules\Upload\Support\UploadAttachment;
 
 
-class FileUpload
+class UploadFile
 {
 
     /**

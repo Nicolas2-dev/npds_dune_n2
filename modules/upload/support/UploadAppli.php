@@ -2,7 +2,8 @@
 
 namespace Modules\Upload\Support;
 
-use Modules\Upload\Library\FileUpload;
+
+use Modules\Upload\Library\UploadFile;
 use Modules\Upload\Support\UploadRequest;
 
 
@@ -43,7 +44,7 @@ class UploadAppli
 
         $pcfile = $fic['pcfile']['tmp_name'];
 
-        $fu = new FileUpload($rep_upload_forum, $IdForum, $apli);
+        $fu = new UploadFile($rep_upload_forum, $IdForum, $apli);
 
         $att_count = 0;
         $att_size = 0;
@@ -111,7 +112,7 @@ class UploadAppli
 
         $pcfile = $fic['pcfile']['tmp_name'];
 
-        $fu = new FileUpload($rep_upload_editeur, '', $apli);
+        $fu = new UploadFile($rep_upload_editeur, '', $apli);
 
         $attachments = $fu->getUploadedFiles('', '');
 
