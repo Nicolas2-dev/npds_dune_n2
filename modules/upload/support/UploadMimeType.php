@@ -3,163 +3,146 @@
 namespace Modules\Upload\Support;
 
 
-class UploadMineType
+class UploadMimeType
 {
 
-    public const LINK       = 1; // displays as link (icon)
-    public const IMG        = 2; // display inline as a picture, using <img> tag
-    public const HTML       = 3; // display inline as HTML, e.g. banned tags are stripped
-    public const PLAINTEXT  = 4; // display inline as text, using <pre> tag
-    public const SWF        = 5; // Embedded Macromedia Shockwave Flash
-    public const VIDEO      = 6; // video display inline in a video html5 tag
-    public const AUDIO      = 7; // audio display inline in a audio html5 tag
+    /**
+     * Valeur MIME par défaut si l'extension n'est pas reconnue.
+     */
+    protected const DEFAULT_MIME = 'application/octet-stream';
 
-
-    // Tableaux par catégorie
-    private static array $images = [
-        'bmp'  => 'image/bmp',
-        'gif'  => 'image/gif',
-        'jpe'  => 'image/jpeg',
-        'jpg'  => 'image/jpeg',
-        'jpeg' => 'image/jpeg',
-        'png'  => 'image/png',
-        'svg'  => 'image/svg+xml',
-        'tif'  => 'image/tiff',
-        'tiff' => 'image/tiff',
+    /**
+     * Catégories de fichiers avec leurs extensions et MIME types.
+     *
+     * @var array<string, array<string, string>>
+     */
+    private static array $categories = [
+        'images' => [
+            'bmp'  => 'image/bmp',
+            'gif'  => 'image/gif',
+            'jpe'  => 'image/jpeg',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'svg'  => 'image/svg+xml',
+            'tif'  => 'image/tiff',
+            'tiff' => 'image/tiff',
+        ],
+        'videos' => [
+            'avi'  => 'video/x-msvideo',
+            'mov'  => 'video/quicktime',
+            'qt'   => 'video/quicktime',
+            'mpe'  => 'video/mpeg',
+            'mpeg' => 'video/mpeg',
+            'mpg'  => 'video/mpeg',
+            'mp4'  => 'video/mpeg',
+        ],
+        'audio' => [
+            'mp3'  => 'audio/mpeg',
+            'mp2'  => 'audio/mpeg',
+            'mpga' => 'audio/mpeg',
+        ],
+        'documents' => [
+            'txt'  => 'text/plain',
+            'bat'  => 'text/plain',
+            'bak'  => 'text/plain',
+            'htm'  => 'text/html',
+            'html' => 'text/html',
+            'php'  => 'text/source',
+            'conf' => 'text/source',
+            'js'   => 'text/source',
+            'rtf'  => 'text/rtf',
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'ppt'  => 'application/vnd.ms-powerpoint',
+            'xls'  => 'application/vnd.ms-excel',
+        ],
+        'archives' => [
+            'zip' => 'application/zip',
+            'tar' => 'application/x-tar',
+            'tgz' => 'application/x-gzip',
+            'gz'  => 'application/x-gzip',
+        ],
+        'openoffice' => [
+            'sxw' => 'application/vnd.sun.xml.writer',
+            'sxc' => 'application/vnd.sun.xml.calc',
+            'sxi' => 'application/vnd.sun.xml.impress',
+            'sxd' => 'application/vnd.sun.xml.draw',
+            'sxm' => 'application/vnd.sun.xml.math',
+        ],
     ];
 
-    private static array $videos = [
-        'avi'  => 'video/x-msvideo',
-        'mov'  => 'video/quicktime',
-        'qt'   => 'video/quicktime',
-        'mpe'  => 'video/mpeg',
-        'mpeg' => 'video/mpeg',
-        'mpg'  => 'video/mpeg',
-        'mp4'  => 'video/mpeg',
-    ];
+    /**
+     * Tableau fusionné de toutes les extensions vers leurs MIME types.
+     *
+     * @var array<string, string>|null
+     */
+    private static ?array $allMimes = null;
 
-    private static array $audio = [
-        'mp3'  => 'audio/mpeg',
-        'mp2'  => 'audio/mpeg',
-        'mpga' => 'audio/mpeg',
-    ];
-
-    private static array $documents = [
-        'txt'  => 'text/plain',
-        'bat'  => 'text/plain',
-        'bak'  => 'text/plain',
-        'htm'  => 'text/html',
-        'html' => 'text/html',
-        'php'  => 'text/source',
-        'conf' => 'text/source',
-        'js'   => 'text/source',
-        'rtf'  => 'text/rtf',
-        'pdf'  => 'application/pdf',
-        'doc'  => 'application/msword',
-        'ppt'  => 'application/vnd.ms-powerpoint',
-        'xls'  => 'application/vnd.ms-excel',
-    ];
-
-    private static array $archives = [
-        'zip'  => 'application/zip',
-        'tar'  => 'application/x-tar',
-        'tgz'  => 'application/x-gzip',
-        'gz'   => 'application/x-gzip',
-    ];
-
-    private static array $openOffice = [
-        'sxw' => 'application/vnd.sun.xml.writer',
-        'sxc' => 'application/vnd.sun.xml.calc',
-        'sxi' => 'application/vnd.sun.xml.impress',
-        'sxd' => 'application/vnd.sun.xml.draw',
-        'sxm' => 'application/vnd.sun.xml.math',
-    ];
-
-    protected static string $default = 'application/octet-stream';
-
-
-    // Getter générique
-    public static function getMimeTypeArray(string $type): array
+    /**
+     * Retourne toutes les extensions et leurs MIME types.
+     *
+     * @return array<string, string> Tableau extension => MIME
+     */
+    public static function getAllMimes(): array
     {
-        return match(strtolower($type)) {
-            'images'     => self::$images,
-            'videos'     => self::$videos,
-            'audio'      => self::$audio,
-            'documents'  => self::$documents,
-            'archives'   => self::$archives,
-            'openoffice' => self::$openOffice,
-            default      => [],
-        };
-    }
-
-    // Retourne le MIME type pour une extension
-    public static function getMimeDefault(): string
-    {
-        return self::$default;
-    }
-
-    // Retourne le mode d'affichage pour un type donné
-    public static function displayMimeType(?int $type = 0): array
-    {
-        $mimetype_default = self::getMimeDefault();
-        $mime = [];
-
-        if ($type === self::LINK) {
-            $mime[$mimetype_default] = self::LINK;
-        } else {
-            $mime[$mimetype_default] = 'O';
+        if (self::$allMimes === null) {
+            self::$allMimes = array_merge(...array_values(self::$categories));
         }
-
-        return $mime;
+        return self::$allMimes;
     }
 
-    public function displayMine(int $type): array
+    /**
+     * Retourne le type MIME correspondant à une extension donnée.
+     *
+     * @param string $ext Extension du fichier
+     * @return string MIME type correspondant ou DEFAULT_MIME si inconnu
+     */
+    public static function getMimeByExtension(string $ext): string
     {
-        $mime = [];
-
-        if ($type === self::IMG) {
-            $mime['image/gif']      = self::IMG;
-            $mime['image/png']      = self::IMG;
-            $mime['image/x-png']    = self::IMG;
-            $mime['image/jpeg']     = self::IMG;
-            $mime['image/pjpeg']    = self::IMG;
-            $mime['image/svg+xml']  = self::IMG;
-
-        } elseif ($type === self::LINK) {
-            $mime['image/bmp'] = self::LINK;
-
-        } elseif ($type === self::HTML) {
-            $mime['text/html'] = self::HTML;
-
-        } elseif ($type === self::PLAINTEXT) {
-            $mime['text/plain'] = self::PLAINTEXT;
-
-        } elseif ($type === self::SWF) {
-            $mime['application/x-shockwave-flash'] = self::SWF;
-
-        } elseif ($type === self::VIDEO) {
-            $mime['video/mpeg'] = self::VIDEO;
-
-        } elseif ($type === self::AUDIO) {
-            $mime['audio/mpeg'] = self::AUDIO;
-        }
-
-        return $mime;
+        return self::getAllMimes()[strtolower($ext)] ?? self::DEFAULT_MIME;
     }
 
-    // Retourne le MIME type pour une extension
-    public static function getMimeType(string $extension): string
+    /**
+     * Retourne un tableau de MIME types selon le mode d'upload.
+     *
+     * @param UploadMode $mode Mode d'upload
+     * @return array<string, string> Tableau MIME => MIME
+     */
+    public static function displayMimeByMode(UploadMode $mode): array
     {
-        $allMimes = array_merge(
-            self::$images,
-            self::$videos,
-            self::$audio,
-            self::$documents,
-            self::$archives,
-            self::$openOffice
-        );
+        $map = [
+            UploadMode::IMG       => self::$categories['images'],
+            UploadMode::LINK      => ['image/bmp' => 'image/bmp'],
+            UploadMode::HTML      => ['text/html' => 'text/html'],
+            UploadMode::PLAINTEXT => ['text/plain' => 'text/plain'],
+            UploadMode::SWF       => ['application/x-shockwave-flash' => 'application/x-shockwave-flash'],
+            UploadMode::VIDEO     => array_combine(array_values(self::$categories['videos']), array_values(self::$categories['videos'])),
+            UploadMode::AUDIO     => array_combine(array_values(self::$categories['audio']), array_values(self::$categories['audio'])),
+        ];
 
-        return $allMimes[strtolower($extension)] ?? 'application/octet-stream';
+        return $map[$mode] ?? [self::DEFAULT_MIME => self::DEFAULT_MIME];
+    }
+
+    /**
+     * Retourne le MIME par défaut utilisé pour les fichiers inconnus
+     *
+     * @return string
+     */
+    public static function getDefaultMime(): string
+    {
+        return self::DEFAULT_MIME;
+    }
+
+    /**
+     * Retourne toutes les catégories de fichiers avec leurs extensions et MIME types.
+     *
+     * @return array<string, array<string, string>> Tableau catégorie => (extension => MIME)
+     */
+    public static function getCategories(): array
+    {
+        return self::$categories;
     }
 
 }
+

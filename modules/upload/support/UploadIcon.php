@@ -3,27 +3,6 @@
 namespace Modules\Upload\Support;
 
 
-// echo UploadFormIcon::getExtensions()         
-// Récupère la liste complète des extensions de fichiers supportées
-// Utile si tu veux générer dynamiquement des menus ou vérifier des extensions
-
-// echo UploadFormIcon::iconsForExtensions()    
-// Renvoie un tableau associatif [extension => HTML icône]
-// Génère automatiquement les icônes HTML pour toutes les extensions listées
-
-// echo UploadFormIcon::default();              
-// Affiche le HTML pour un fichier inconnu
-// Exemple d’utilisation : quand tu ne connais pas l’extension du fichier
-
-// echo UploadFormIcon::multiple();             
-// Affiche le HTML pour représenter plusieurs fichiers
-// Utile pour les sélections multiples ou les dossiers contenant plusieurs fichiers
-
-// echo UploadFormIcon::dir();                  
-// Affiche l’icône d’un dossier
-// Utilisé pour représenter un répertoire plutôt qu’un fichier
-
-
 class UploadIcon
 {
 
@@ -56,21 +35,6 @@ class UploadIcon
     }
 
     /**
-     * Génère l’icône par défaut pour une extension donnée
-     *
-     * @param string $extension
-     * @return string
-     */
-    private static function iconForExtension(string $extension): string
-    {
-        return '
-        <span class="fa-stack">
-            <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
-            <span class="fa-stack-1x filetype-text small ">' . $extension . '</span>
-        </span>';
-    }
-
-    /**
      * Génère le tableau complet d’icônes pour un tableau d’extensions
      *
      * @return array<string,string>
@@ -84,40 +48,6 @@ class UploadIcon
         }
 
         return $icons;
-    }
-
-    /**
-     * Icône par défaut pour un fichier unique inconnu
-     */
-    public static function default(): string
-    {
-        return <<<HTML
-        <span class="fa-stack">
-            <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
-            <span class="fa-stack-1x filetype-text ">?</span>
-        </span>
-        HTML;
-    }
-
-    /**
-     * Icône pour plusieurs fichiers
-     */
-    public static function multiple(): string
-    {
-        return <<<HTML
-        <span class="fa-stack">
-            <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
-            <span class="fa-stack-1x filetype-text ">...</span>
-        </span>
-        HTML;
-    }
-
-    /**
-     * Icône pour un dossier
-     */
-    public static function dir(): string
-    {
-        return '<i class="bi bi-folder fs-3"></i>';
     }
 
     /**
@@ -135,6 +65,52 @@ class UploadIcon
         }
 
         return self::default();
+    }
+
+    /**
+     * Génère l’icône par défaut pour une extension donnée
+     *
+     * @param string $extension
+     * @return string
+     */
+    private static function iconForExtension(string $extension): string
+    {
+        return '
+        <span class="fa-stack">
+            <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
+            <span class="fa-stack-1x filetype-text small ">' . $extension . '</span>
+        </span>';
+    }
+
+    /**
+     * Icône par défaut pour un fichier unique inconnu
+     */
+    public static function default(): string
+    {
+        return '<span class="fa-stack">
+                <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
+                <span class="fa-stack-1x filetype-text ">?</span>
+            </span>';
+    }
+
+    /**
+     * Icône pour plusieurs fichiers
+     */
+    public static function multiple(): string
+    {
+        return '<span class="fa-stack">
+            <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
+            <span class="fa-stack-1x filetype-text ">...</span>
+        </span>';
+
+    }
+
+    /**
+     * Icône pour un dossier
+     */
+    public static function dir(): string
+    {
+        return '<i class="bi bi-folder fs-3"></i>';
     }
 
 }

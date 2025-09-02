@@ -54,23 +54,3 @@ if (! function_exists('prepare_upload_window_dev_test')) {
         return "'{$url}','wtmpForum','{$windowOptions}'";
     }
 }
-
-/************************************************************************/
-/* Fonction pour charger en mémoire les mimetypes                       */
-/************************************************************************/
-// deprecated function !!!
-if (! function_exists('load_mime_types')) {
-    // Note a revoir completement !!!
-    function load_mime_types()
-    {
-        global $mimetypes, $mimetype_default, $mime_dspinl, $mime_dspfmt, $mime_renderers, $att_icons, $att_icon_default, $att_icon_multiple;
-
-        if (defined('ATT_DSP_LINK')) {
-            return;
-        }
-
-        if (file_exists('modules/upload/support/mimetypes.php')) {
-            include 'modules/upload/support/mimetypes.php';
-        }
-    }
-}

@@ -9,10 +9,16 @@ use Modules\Upload\Support\UploadRequest;
 class UploadAppli
 {
 
-    public static function forum_upload()
+    /**
+     * Gère l'upload de fichiers pour un forum.
+     *
+     * @return string Message de succès ou d'erreur
+     */
+    public static function forum_upload(): string
     {
+        // Note : global a virer !!!
         global $apli, $IdPost, $IdForum, $IdTopic, $pcfile, $pcfile_size, $pcfile_name, $pcfile_type, $att_count, $att_size, $total_att_count, $total_att_size;
-        global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $mimetypes, $mimetype_default, $upload_table, $rep_upload_forum; 
+        global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $upload_table, $rep_upload_forum; 
         
         list($sum) = sql_fetch_row(sql_query("SELECT SUM(att_size ) 
                                             FROM $upload_table 
@@ -88,24 +94,13 @@ class UploadAppli
      *   - $rep_upload_editeur : répertoire de destination pour l'upload
      *   - $path_upload_editeur : chemin public vers le fichier uploadé
      *
-     * @global string $apli
-     * @global mixed $pcfile
-     * @global int $pcfile_size
-     * @global string $pcfile_name
-     * @global string $pcfile_type
-     * @global int $MAX_FILE_SIZE
-     * @global int $MAX_FILE_SIZE_TOTAL
-     * @global array $mimetypes
-     * @global string $mimetype_default
-     * @global string $rep_upload_editeur
-     * @global string $path_upload_editeur
-     *
      * @return string Le chemin complet du fichier uploadé, ou une chaîne vide si l'upload échoue.
      */
     public static function editeur_upload()
     {
+        // Note : global a virer !!!
         global $apli, $pcfile, $pcfile_size, $pcfile_name, $pcfile_type;
-        global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $mimetypes, $mimetype_default, $rep_upload_editeur, $path_upload_editeur;
+        global $MAX_FILE_SIZE, $MAX_FILE_SIZE_TOTAL, $rep_upload_editeur, $path_upload_editeur;
 
         // Récupération des valeurs de PCFILE
         $fic = UploadRequest::all();

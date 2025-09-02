@@ -17,6 +17,7 @@ use App\Library\Error\Error;
 use App\Library\Forum\Forum;
 use App\Support\FileManagement;
 use Modules\Upload\Support\UploadForm;
+use Modules\Upload\Support\UploadMode;
 use Modules\Upload\Support\UploadAppli;
 use Modules\Upload\Support\UploadAttachment;
 
@@ -320,7 +321,7 @@ if (is_array($att)) {
 
         $sz = $Fichier->fileSizeFormat($att[$i]['att_size'], 2);
 
-        if (UploadAttachment::getAttDisplayMode($att[$i]['att_type'], 'A') == ATT_DSP_LINK) {
+        if (UploadAttachment::displayMode((bool)$att[$i]['inline'], $att[$i]['att_type']) === UploadMode::LINK) {
             // This mime-type can't be displayed inline
             echo '<input type="hidden" name="inline_att[' . $id . ']" value="0" />';
 

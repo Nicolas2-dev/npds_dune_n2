@@ -211,16 +211,22 @@ class FileUpload
 
         $name = preg_replace('#[/\\\:\*\?"<>|]#i', '_', rawurldecode($name));
 
-        // Check type and extension
-        load_mime_types();
+                // Note : a revoir suite a new class !!!
 
-        $suffix = strtoLower(substr(strrchr($name, '.'), 1));
+                // Check type and extension
+                //load_mime_types();
 
-        if (isset($mimetypes[$suffix])) {
-            $type = $mimetypes[$suffix];
-        } elseif (empty($type) || ($type == 'application/octet-stream')) {
-            $type = $mimetype_default;
-        }
+                $suffix = strtoLower(substr(strrchr($name, '.'), 1));
+
+                // ne fonctionne plus !!!
+                if (isset($mimetypes[$suffix])) {
+                    $type = $mimetypes[$suffix];
+                } elseif (empty($type) || ($type == 'application/octet-stream')) {
+                    $type = $mimetype_default;
+                }
+
+                // Note : a revoir suite a new class !!!
+
 
         if (! $this->isAllowedFile($name, $type)) {
             $this->errno = self::INVALID_FILE_TYPE;
@@ -237,7 +243,8 @@ class FileUpload
         if ($insert_base == true) {
 
             // insert attachment reference in database
-            $id = UploadAttachment::insertAttachment($this->apli, $idPost, $idTopic, $this->idForum, $name, $this->uploadDir, $inline, $size, $type);
+            //$id = UploadAttachment::insertAttachment($this->apli, $idPost, $idTopic, $this->idForum, $name, $this->uploadDir, $inline, $size, $type); // inline ne sert a rien !
+            $id = UploadAttachment::insertAttachment($this->apli, $idPost, $idTopic, $this->idForum, $name, $this->uploadDir, $size, $type);
 
             if ($id <= 0) {
                 $this->errno = self::DB_ERROR;
@@ -250,7 +257,8 @@ class FileUpload
             $copyfunc = (function_exists('move_uploaded_file')) ? 'move_uploaded_file' : 'copy';
 
             if (! $copyfunc($srcFile, $dest_file)) {
-                UploadAttachment::deleteAttachment($this->apli, $idPost, $rep . $this->uploadDir, $id, $name);
+                //UploadAttachment::deleteAttachment($this->apli, $idPost, $rep . $this->uploadDir, $id, $name);
+                UploadAttachment::deleteAttachment($this->apli, $rep . $this->uploadDir, $id, $name); // $idPost ne sert a rien !!!
 
                 $this->errno = self::COPY_ERROR;
 
