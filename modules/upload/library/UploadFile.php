@@ -4,6 +4,7 @@ namespace Modules\Upload\Library;
 
 use App\Library\Log\Log;
 use App\Library\Http\Request;
+use Modules\Upload\Support\UploadRequest;
 use Modules\Upload\Support\UploadAttachment;
 
 
@@ -80,10 +81,10 @@ class UploadFile
      */
     public string $apli;
 
-    /** 
-     * @var string Halt behavior on error ('no', 'report', ...) 
+    /**
+     * @var string Halt behavior on error ('no', 'report')
      */
-    public string $haltOnError = 'report';
+    public string $haltOnError;
 
 
     /**
@@ -93,67 +94,12 @@ class UploadFile
      * @param string $idForum
      * @param string $apli
      */
-    public function __construct(string $uploadDir, string $idForum, string $apli, string $haltOnError = 'no')
+    public function __construct(string $uploadDir, string $apli, ?string $idForum = null, ?string $haltOnError = null)
     {
         $this->uploadDir    = $uploadDir;
         $this->idForum      = $idForum;
         $this->apli         = $apli;
-        $this->haltOnError  = $haltOnError;
-    }
-
-    /**
-     * Définit le comportement de la classe en cas d'erreur.
-     *
-     * Les valeurs possibles peuvent être :
-     * - 'no'      : ne rien faire
-     * - 'report'  : signaler l'erreur
-     *
-     * @param string $mode Le mode de gestion des erreurs.
-     * @return void
-     */
-    public function setHaltOnError(string $mode): void
-    {
-        $this->haltOnError = $mode;
-    }
-
-    /**
-     * Handle errors based on $errno and $haltOnError
-     *
-     * @param string $msg Optional custom message
-     * @return void
-     */
-    public function halt(string $msg = ''): void
-    {
-        if ($this->haltOnError == 'no') {
-            return;
-        }
-
-        switch ($this->errno) {
-
-            case self::FILE_TOO_BIG:
-                $reason = upload_translate('La taille de ce fichier excède la taille maximum autorisée') . ' !</div>';
-                break;
-
-            case self::INVALID_FILE_TYPE:
-                $reason = upload_translate('Ce type de fichier n\'est pas autorisé') . ' !</div>';
-                break;
-
-            default;
-                $reason = sprintf(upload_translate('Le code erreur est : %s'), $this->errno);
-                break;
-        }
-
-        /*Note : je ne trouve pas quand et ou cette variable défini ci dessus peut etre changé donc ne comprend pas les conditions ci dessous ?*/
-
-        if ($this->haltOnError == 'report') {
-            printf('<div class="alert alert-danger m-3 alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><h4 class="alert-heading">' . upload_translate('Attention') . '</h4> %s<br /><p class="mt-2 text-center"> %s </p>', $msg, '<strong>' . $reason . '</strong>');
-        } else {
-            printf('<div class="alert alert-danger m-3" role="alert"> %s %s<br /><p class="mt-2 text-center"> %s </p></span>', '<h4 class="alert-heading">File management</h4>', $msg, '<strong>' . $reason . '</strong>');
-        }
-
-        if ($this->haltOnError != 'report') {
-            die('<div class="alert alert-danger m-3" role="alert">' . upload_translate('Session terminée.') . '</div>');
-        }
+        $this->haltOnError  = $haltOnError ?? 'report';
     }
 
     /**
@@ -174,38 +120,7 @@ class UploadFile
 
         $this->errno = 0;
 
-        // Check temporary file
-        if (empty($srcFile) || (strcasecmp($srcFile, 'none') == 0)) {
-            $this->errno = self::NO_FILE;
-
-            return false;
-        }
-
-        // Check size
-        if ($size == 0) {
-            $this->errno = self::FILE_EMPTY;
-
-            return false;
-        } else {
-            $fsize = filesize($srcFile);
-        }
-
-        if ($size != $fsize) {
-            $this->errno = self::ERR_FILE;
-
-            return false;
-        }
-
-        if ($size > $MAX_FILE_SIZE) {
-            $this->errno = self::FILE_TOO_BIG;
-
-            return false;
-        }
-
-        // Check name
-        if (empty($name)) {
-            $this->errno = self::NO_FILE;
-
+        if (!$this->checkFile($srcFile, $name, $size)) {
             return false;
         }
 
@@ -312,6 +227,33 @@ class UploadFile
         return true;
     }
 
+    private function checkFile(string $srcFile, string $name, int $size): bool
+    {
+        global $MAX_FILE_SIZE;
+        if (empty($srcFile) || strcasecmp($srcFile, 'none') === 0) {
+            $this->errno = self::NO_FILE;
+            return false;
+        }
+
+        if ($size <= 0 || $size != filesize($srcFile)) {
+            $this->errno = $size <= 0 ? self::FILE_EMPTY : self::ERR_FILE;
+            return false;
+        }
+
+        if ($size > $MAX_FILE_SIZE) {
+            $this->errno = self::FILE_TOO_BIG;
+            return false;
+        }
+
+        if (empty($name)) {
+            $this->errno = self::NO_FILE;
+            return false;
+        }
+
+        return true;
+    }
+
+
     /**
      * Get uploaded files for a post/topic
      *
@@ -319,61 +261,43 @@ class UploadFile
      * @param int $idTopic
      * @return array|false Array with 'att_size' and 'att_count' or false
      */
-    public function getUploadedFiles(int $idPost, int $idTopic): array|false
+    public function getUploadedFiles(?int $idPost = null, ?int $idTopic = null): array|false
     {
-        global $pcfile, $pcfile_size, $pcfile_name, $pcfile_type;
-
         $this->errno = 0;
 
         $att_size = 0;
         $att_count = 0;
 
-        if (is_string($pcfile) && !empty($pcfile) && !empty($pcfile_name)) {
-            if ($pcfile == 'none') {
-                $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name, $pcfile_type);
+        $files = UploadRequest::all('pcfile');
 
-                $this->errno = self::NO_FILE;
-
-                $this->halt($errmsg);
-            } elseif ($this->uploadFile($idPost, $idTopic, $pcfile_name, $pcfile_size, $pcfile_type, $pcfile, self::DEFAULT_INLINE)) {
-                $att_size = $pcfile_size;
-                $att_count = 1;
-            } else {
-                $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name, $pcfile_type);
-
-                $this->halt($errmsg);
-            }
-        } elseif (is_array($pcfile)) {
-            $nfiles = count($pcfile);
-
-            for ($i = 0; $i < $nfiles; $i++) {
-                if (!empty($pcfile[$i]) && (strtolower($pcfile[$i]) != 'none')) {
-
-                    if ($this->uploadFile($idPost, $idTopic, $pcfile_name[$i], $pcfile_size[$i], $pcfile_type[$i], $pcfile[$i], self::DEFAULT_INLINE)) {
-                        $att_size += $pcfile_size[$i];
-
-                        $att_count++;
-                    } else {
-                        $errmsg = sprintf(upload_translate('Erreur de téléchargement du fichier %s (%s) - Le fichier n\'a pas été sauvé'), $pcfile_name[$i], $pcfile_type[$i]);
-
-                        $this->halt($errmsg);
-                    }
-                }
-            }
-        } else {
+        if (empty($files)) {
             $this->errno = self::NO_FILE;
-
             return false;
         }
 
-        if ($att_size > 0) {
-            $att['att_size'] = $att_size;
-            $att['att_count'] = $att_count;
+        foreach ($files as $file) {
+            if (empty($file['tmp_name']) || strtolower($file['tmp_name']) === 'none') {
+                $this->haltUploadError($file);
+                continue;
+            }
 
-            return $att;
-        } else {
-            return false;
+            if ($this->uploadFile(
+                $idPost,
+                $idTopic,
+                $file['name'],
+                $file['size'],
+                $file['type'],
+                $file['tmp_name'],
+                self::DEFAULT_INLINE
+            )) {
+                $att_size += $file['size'];
+                $att_count++;
+            } else {
+                $this->haltUploadError($file);
+            }
         }
+
+        return $att_count > 0 ? ['att_size' => $att_size, 'att_count' => $att_count] : false;
     }
 
     /**
@@ -468,4 +392,77 @@ class UploadFile
 
         return true;
     }
+
+    /**
+     * Affiche un message d'erreur pour un fichier uploadé et arrête l'exécution.
+     *
+     * @param array<string, mixed> $file
+     * @return void
+     */
+    private function haltUploadError(array $file): void
+    {
+        $errmsg = sprintf(
+            upload_translate("Erreur de téléchargement du fichier %s (%s) - Le fichier n'a pas été sauvé"),
+            $file['name'] ?? 'unknown',
+            $file['type'] ?? 'unknown'
+        );
+
+        $this->halt($errmsg);
+    }
+
+    /**
+     * Handle errors based on $errno and $haltOnError
+     *
+     * @param string $msg Optional custom message
+     * @return void
+     */
+    public function halt(string $msg = ''): void
+    {
+        if ($this->haltOnError === 'no') {
+            return;
+        }
+
+        switch ($this->errno) {
+
+            case self::FILE_TOO_BIG:
+                $reason = upload_translate('La taille de ce fichier excède la taille maximum autorisée') . ' !</div>';
+                break;
+
+            case self::INVALID_FILE_TYPE:
+                $reason = upload_translate('Ce type de fichier n\'est pas autorisé') . ' !</div>';
+                break;
+
+            default;
+                $reason = sprintf(upload_translate('Le code erreur est : %s'), $this->errno);
+                break;
+        }
+
+        /*Note : je ne trouve pas quand et ou cette variable défini ci dessus peut etre changé donc ne comprend pas les conditions ci dessous ?*/
+
+        if ($this->haltOnError == 'report') {
+            printf('<div class="alert alert-danger m-3 alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><h4 class="alert-heading">' . upload_translate('Attention') . '</h4> %s<br /><p class="mt-2 text-center"> %s </p>', $msg, '<strong>' . $reason . '</strong>');
+        } else {
+            printf('<div class="alert alert-danger m-3" role="alert"> %s %s<br /><p class="mt-2 text-center"> %s </p></span>', '<h4 class="alert-heading">File management</h4>', $msg, '<strong>' . $reason . '</strong>');
+        }
+
+        if ($this->haltOnError != 'report') {
+            die('<div class="alert alert-danger m-3" role="alert">' . upload_translate('Session terminée.') . '</div>');
+        }
+    }
+
+    /**
+     * Définit le comportement de la classe en cas d'erreur.
+     *
+     * Les valeurs possibles peuvent être :
+     * - 'no'      : ne rien faire
+     * - 'report'  : signaler l'erreur
+     *
+     * @param string $mode Le mode de gestion des erreurs.
+     * @return void
+     */
+    public function setHaltOnError(string $mode): void
+    {
+        $this->haltOnError = $mode;
+    }
+
 }

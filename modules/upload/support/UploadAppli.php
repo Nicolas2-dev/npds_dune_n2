@@ -34,9 +34,7 @@ class UploadAppli
         settype($thanks_msg, 'string');
 
         // Récupération des valeurs de PCFILE
-        global $HTTP_POST_FILES, $_FILES;
-
-        $fic = (!empty($HTTP_POST_FILES)) ? $HTTP_POST_FILES : $_FILES;
+        $fic = UploadRequest::all();
 
         $pcfile_name = $fic['pcfile']['name'];
         $pcfile_type = $fic['pcfile']['type'];
@@ -44,7 +42,7 @@ class UploadAppli
 
         $pcfile = $fic['pcfile']['tmp_name'];
 
-        $fu = new UploadFile($rep_upload_forum, $IdForum, $apli);
+        $fu = new UploadFile($rep_upload_forum, $apli, $IdForum);
 
         $att_count = 0;
         $att_size = 0;
@@ -112,9 +110,9 @@ class UploadAppli
 
         $pcfile = $fic['pcfile']['tmp_name'];
 
-        $fu = new UploadFile($rep_upload_editeur, '', $apli);
+        $fu = new UploadFile($rep_upload_editeur, $apli);
 
-        $attachments = $fu->getUploadedFiles('', '');
+        $attachments = $fu->getUploadedFiles();
 
         if (is_array($attachments)) {
 

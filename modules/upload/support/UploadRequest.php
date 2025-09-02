@@ -7,13 +7,51 @@ class UploadRequest
 {
 
     /**
-     * Retourne tous les fichiers uploadés.
+     * Récupère les fichiers uploadés.
      *
-     * @return array<string, array<string, mixed>>
+     * Si $key est fourni, renvoie uniquement les fichiers pour ce champ sous forme de tableau uniforme.
+     * Sinon, renvoie tous les fichiers $_FILES.
+     *
+     * @param string|null $key Nom du champ input (ex: 'pcfile')
+     * @return array
      */
-    public static function all(): array
+    public static function all(?string $key = null): array
     {
-        return $_FILES ?? [];
+        if ($key === null) {
+            return $_FILES ?? [];
+        }
+
+        if (!isset($_FILES[$key])) {
+            return [];
+        }
+
+        $file = $_FILES[$key];
+
+        // Upload multiple
+        if (is_array($file['name'])) {
+            $result = [];
+            foreach ($file['name'] as $i => $name) {
+                $result[] = [
+                    'name'     => $name,
+                    'type'     => $file['type'][$i],
+                    'size'     => $file['size'][$i],
+                    'tmp_name' => $file['tmp_name'][$i],
+                    'error'    => $file['error'][$i],
+                ];
+            }
+            return $result;
+        }
+
+        // Upload simple
+        return [
+            [
+                'name'     => $file['name'],
+                'type'     => $file['type'],
+                'size'     => $file['size'],
+                'tmp_name' => $file['tmp_name'],
+                'error'    => $file['error'],
+            ],
+        ];
     }
 
     /**
