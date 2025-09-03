@@ -35,7 +35,7 @@ if ($FmaRep) {
 
         // Si je ne trouve pas de fichier - est-ce que l'utilisateur fait partie d'un groupe ?
         if (!file_exists('modules/' . $ModPath . '/storage/users/' . strtolower($FmaRep) . '.php')) {
-            $tab_groupe = validGroup($user);
+            $tab_groupe = Groupe::validGroup($user);
 
             if ($tab_groupe) {
 
@@ -87,7 +87,7 @@ if ($FmaRep) {
 }
 
 if (isset($browse)) {
-    $ibid = rawurldecode(decrypt($browse));
+    $ibid = rawurldecode(Encrypter::decrypt($browse));
 
     if (substr(@php_uname(), 0, 7) == 'Windows') {
         $ibid = preg_replace('#[\*\?"<>|]#i', '', $ibid);
@@ -151,7 +151,7 @@ switch ($op) {
                         if (!$upload->saveAs($auto[2], $base . '/', 'userfile', true)) {
                             $Err = $upload->errors;
                         } else {
-                            ecrireLog('security', 'Upload File', $log_dir . '/' . $filename . ' IP=>' . getip());
+                            Log::ecrireLog('security', 'Upload File', $log_dir . '/' . $filename . ' IP=>' . Request::getip());
                         }
                     } else {
                         $Err = $auto[1];
@@ -170,7 +170,7 @@ switch ($op) {
                 if (!$obj->Create('d', $base . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Create Directory', $log_dir . '/' . $userdir . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Create Directory', $log_dir . '/' . $userdir . ' IP=>' . Request::getip());
 
                     $fp = fopen($base . '/' . $auto[2] . '/.htaccess', 'w');
                     fputs($fp, 'Deny from All');
@@ -187,7 +187,7 @@ switch ($op) {
             $auto = fma_filter('d', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -226,12 +226,12 @@ switch ($op) {
                 $autoD = fma_filter('d', $renamefile, $obj->Extension);
 
                 if ($autoD[0]) {
-                    $auto[3] = decrypt($browse);
+                    $auto[3] = Encrypter::decrypt($browse);
 
                     if (!$obj->Rename($auto[3] . '/' . $auto[2], $auto[3] . '/' . $autoD[2])) {
                         $Err = $obj->Errors;
                     } else {
-                        ecrireLog('security', 'Rename Directory', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
+                        Log::ecrireLog('security', 'Rename Directory', $log_dir . '/' . $autoD[2] . ' IP=>' . Request::getip());
                     }
                 } else {
                     $Err = $autoD[1];
@@ -247,7 +247,7 @@ switch ($op) {
             $auto = fma_filter('d', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -280,7 +280,7 @@ switch ($op) {
             $auto = fma_filter('d', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 @unlink($auto[3] . '/' . $auto[2] . '/.htaccess');
                 @unlink($auto[3] . '/' . $auto[2] . '/pic-manager.txt');
@@ -288,7 +288,7 @@ switch ($op) {
                 if (!$obj->RemoveDir($auto[3] . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Delete Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Delete Directory', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -301,7 +301,7 @@ switch ($op) {
             $auto = fma_filter('d', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -337,7 +337,7 @@ switch ($op) {
             $auto = fma_filter('d', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     settype($chmoddir, 'integer');
@@ -345,7 +345,7 @@ switch ($op) {
                     if (!$obj->ChgPerms($auto[3] . '/' . $auto[2], $chmoddir)) {
                         $Err = $obj->Errors;
                     } else {
-                        ecrireLog('security', 'Chmod Directory', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        Log::ecrireLog('security', 'Chmod Directory', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                     }
                 }
             } else {
@@ -363,7 +363,7 @@ switch ($op) {
                 if (!$obj->Create('f', $base . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Create File', $log_dir . '/' . $userfile . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Create File', $log_dir . '/' . $userfile . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -376,7 +376,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -415,12 +415,12 @@ switch ($op) {
                 $autoD = fma_filter('f', $renamefile, $obj->Extension);
 
                 if ($autoD[0]) {
-                    $auto[3] = decrypt($browse);
+                    $auto[3] = Encrypter::decrypt($browse);
 
                     if (!$obj->Rename($auto[3] . '/' . $auto[2], $auto[3] . '/' . $autoD[2])) {
                         $Err = $obj->Errors;
                     } else {
-                        ecrireLog('security', 'Rename File', $log_dir . '/' . $autoD[2] . ' IP=>' . getip());
+                        Log::ecrireLog('security', 'Rename File', $log_dir . '/' . $autoD[2] . ' IP=>' . Request::getip());
                     }
                 } else {
                     $Err = $autoD[1];
@@ -436,7 +436,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -493,12 +493,12 @@ switch ($op) {
 
             if ($auto[0]) {
                 // destination
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (!$obj->Move($auto[3] . '/' . $auto[2], $basedir_fma . $movefile . "/" . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Move File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Move File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -513,12 +513,12 @@ switch ($op) {
 
             if ($auto[0]) {
                 // destination
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (!$obj->Copy($auto[3] . '/' . $auto[2], $basedir_fma . $movefile . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Copy File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Copy File', $log_dir . '/' . $auto[2] . ' TO ' . $movefile . '/' . $auto[2] . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -531,7 +531,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists("$auto[3]/$auto[2]")) {
                     $theme_fma = $themeC_fma;
@@ -564,12 +564,12 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (!$obj->Remove($auto[3] . '/' . $auto[2])) {
                     $Err = $obj->Errors;
                 } else {
-                    ecrireLog('security', 'Delete File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Delete File', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -582,7 +582,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -618,7 +618,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     settype($chmodfile, "integer");
@@ -626,7 +626,7 @@ switch ($op) {
                     if (!$obj->ChgPerms($auto[3] . '/' . $auto[2], $chmodfile)) {
                         $Err = $obj->Errors;
                     } else {
-                        ecrireLog('security', 'Chmod File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        Log::ecrireLog('security', 'Chmod File', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                     }
                 }
             } else {
@@ -642,7 +642,7 @@ switch ($op) {
             $auto = fma_filter('f', $att_name, $obj->Extension);
 
             if ($auto[0]) {
-                $auto[3] = decrypt($browse);
+                $auto[3] = Encrypter::decrypt($browse);
 
                 if (file_exists($auto[3] . '/' . $auto[2])) {
                     $theme_fma = $themeC_fma;
@@ -678,7 +678,7 @@ switch ($op) {
                     $suffix = strtoLower(substr(strrchr($att_name, '.'), 1));
 
                     if (in_array($suffix, $tabW)) {
-                        $edit_file .= affEditeur('editfile', 'true');
+                        $edit_file .= Editeur::affEditeur('editfile', 'true');
                     }
 
                     $edit_file .= '<button class="btn btn-primary" type="submit" name="ok">' . fma_translate('Ok') . '</button>
@@ -699,7 +699,7 @@ switch ($op) {
                 $suffix = strtoLower(substr(strrchr($att_name, '.'), 1));
 
                 if (in_array($suffix, $tabW)) {
-                    $auto[3] = decrypt($browse);
+                    $auto[3] = Encrypter::decrypt($browse);
 
                     if (file_exists($auto[3] . '/' . $auto[2])) {
                         $fp = fopen($auto[3] . '/' . $auto[2], 'w');
@@ -707,10 +707,10 @@ switch ($op) {
                         fputs($fp, stripslashes($editfile));
                         fclose($fp);
 
-                        ecrireLog('security', 'Edit File', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                        Log::ecrireLog('security', 'Edit File', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                     }
                 } else {
-                    ecrireLog('security', 'Edit File forbidden', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+                    Log::ecrireLog('security', 'Edit File forbidden', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
                 }
             } else {
                 $Err = $auto[1];
@@ -724,7 +724,7 @@ switch ($op) {
         $auto = fma_filter('d', $att_name, $obj->Extension);
 
         if ($auto[0]) {
-            $auto[3] = decrypt($browse);
+            $auto[3] = Encrypter::decrypt($browse);
 
             if (file_exists($auto[3] . '/' . $auto[2])) {
                 $theme_fma = $themeC_fma;
@@ -780,7 +780,7 @@ switch ($op) {
         $auto = fma_filter('d', $att_name, $obj->Extension);
 
         if ($auto[0]) {
-            $auto[3] = decrypt($browse);
+            $auto[3] = Encrypter::decrypt($browse);
             $fp = fopen($auto[3] . '/' . $auto[2] . '/pic-manager.txt', 'w');
 
             settype($maxthumb, 'integer');
@@ -790,7 +790,7 @@ switch ($op) {
             fputs($fp, $refresh . "\n");
             fclose($fp);
 
-            ecrireLog('security', 'Pic-Manager', $log_dir . '/' . $auto[2] . ' IP=>' . getip());
+            Log::ecrireLog('security', 'Pic-Manager', $log_dir . '/' . $auto[2] . ' IP=>' . Request::getip());
         } else {
             $Err = $auto[1];
         }
@@ -849,16 +849,16 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     $cur_nav = $base . substr($cur_nav, strlen($base));
 
     $home = '/' . basename($basedir_fma);
-    $cur_nav_href_back = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt($cur_nav_back)) . "$urlext_fma\">" . str_replace(dirname($basedir_fma), "", $cur_nav_back) . "</a>/" . basename($cur_nav);
+    $cur_nav_href_back = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt($cur_nav_back)) . "$urlext_fma\">" . str_replace(dirname($basedir_fma), "", $cur_nav_back) . "</a>/" . basename($cur_nav);
 
     if ($home_fma != '') {
         $cur_nav_href_back = str_replace($home, $home_fma, $cur_nav_href_back);
     }
 
-    $cur_nav_encrypt = rawurlencode(encrypt($cur_nav));
+    $cur_nav_encrypt = rawurlencode(Encrypter::encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirectUrl("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt(dirname($base))));
+    redirectUrl("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt(dirname($base))));
 }
 
 foreach ($extensions as $extens) {
@@ -903,7 +903,7 @@ while ($obj->NextDir()) {
 
         $subdirs .= '<tr>';
 
-        $clik_url = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt("$base/$obj->FieldName")) . "$urlext_fma\">";
+        $clik_url = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt("$base/$obj->FieldName")) . "$urlext_fma\">";
 
         if ($dirpres_fma[0]) {
             $subdirs .= '<td width="3%" align="center">' . $clik_url . $att_icon_dir . '</a></td>';
@@ -960,7 +960,7 @@ while ($obj->NextDir()) {
 
             foreach ($tab_search as $l => $fic_resp) {
                 if ($fic_resp[0] == $obj->FieldName) {
-                    $ibid = rawurlencode(encrypt(rawurldecode(encrypt($cur_nav . '/' . $fic_resp[0])) . '#fma#' . encrypt($fic_resp[1])));
+                    $ibid = rawurlencode(Encrypter::encrypt(rawurldecode(Encrypter::encrypt($cur_nav . '/' . $fic_resp[0])) . '#fma#' . Encrypter::encrypt($fic_resp[1])));
 
                     $subdirs .= '<tr>
                         <td width="3%"></td>
@@ -1000,7 +1000,7 @@ $sizeofFic = 0;
 while ($obj->NextFile()) {
     if (fma_autorise('f', $obj->FieldName)) {
 
-        $ibid = rawurlencode(encrypt($cur_nav_encrypt . "#fma#" . encrypt($obj->FieldName)));
+        $ibid = rawurlencode(Encrypter::encrypt($cur_nav_encrypt . "#fma#" . Encrypter::encrypt($obj->FieldName)));
 
         $files .= '<tr>';
 
@@ -1131,11 +1131,11 @@ while ($obj->NextFile()) {
 }
 
 if (file_exists($infos_fma)) {
-    $infos = affLangue(join('', file($infos_fma)));
+    $infos = Language::affLangue(join('', file($infos_fma)));
 }
 
 // Form
-$upload_file = '<form id="uploadfichier" enctype="multipart/form-data" method="post" action="modules.php" lang="' . languageIso(1, '', '') . '">
+$upload_file = '<form id="uploadfichier" enctype="multipart/form-data" method="post" action="modules.php" lang="' . Language::languageIso(1, '', '') . '">
         <input type="hidden" name="ModPath" value="' . $ModPath . '" />
         <input type="hidden" name="ModStart" value="' . $ModStart . '" />
         <input type="hidden" name="FmaRep" value="' . $FmaRep . '" />
@@ -1309,7 +1309,7 @@ if ($inclusion) {
         require_once 'modules/f-manager/routes/pages/pages.php';
         //}
 
-        $Titlesitename = affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
+        $Titlesitename = Language::affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -1354,7 +1354,7 @@ if ($inclusion) {
             if ($tiny_mce_init) {
                 $tiny_mce_theme = $PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['TinyMce-theme'];
 
-                echo affEditeur('tiny_mce', 'begin');
+                echo Editeur::affEditeur('tiny_mce', 'begin');
             }
         }
 
@@ -1397,7 +1397,7 @@ if ($inclusion) {
 
     // l'insertion de la FORM d'édition doit intervenir à la fin du calcul de l'interface ... sinon on modifie le contenu
     // Meta_lang n'est pas chargé car trop lent pour une utilisation sur de gros répertoires
-    $Xcontent = affLangue($Xcontent);
+    $Xcontent = Language::affLangue($Xcontent);
     $Xcontent = str_replace('_edt_file', $edit_file, $Xcontent);
 
     echo $Xcontent;
@@ -1419,7 +1419,7 @@ if ($inclusion) {
 
         if ($tiny_mce) {
             if ($tiny_mce_init) {
-                echo affEditeur('tiny_mce', 'end');
+                echo Editeur::affEditeur('tiny_mce', 'end');
             }
         }
     } else {

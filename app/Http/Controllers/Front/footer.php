@@ -36,7 +36,7 @@ function footmsg()
 
     $foot .= '</p>';
 
-    echo affLangue($foot);
+    echo Language::affLangue($foot);
 }
 
 function foot()
@@ -88,7 +88,7 @@ function footer_before()
 
 global $tiny_mce;
 if ($tiny_mce) {
-    echo affEditeur('tiny_mce', 'end');
+    echo Editeur::affEditeur('tiny_mce', 'end');
 }
 
 // include externe file from modules/include for functions, codes ...

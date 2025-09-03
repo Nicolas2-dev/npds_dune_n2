@@ -162,7 +162,7 @@ function group_liste()
             echo '<div id="bloc_gr_' . $gp . '" class="row border rounded ms-1 p-2 px-0 mb-2 w-100">
                 <div class="col-lg-4 ">
                 <span>' . $gp . '</span>
-                <i class="fa fa-users fa-2x text-body-secondary"></i><h4 class="my-2">' . affLangue($result['groupe_name']) . '</h4><p>' . affLangue($result['groupe_description']);
+                <i class="fa fa-users fa-2x text-body-secondary"></i><h4 class="my-2">' . Language::affLangue($result['groupe_name']) . '</h4><p>' . Language::affLangue($result['groupe_description']);
 
             if (file_exists('storage/users_private/groupe/' . $gp . '/groupe.png')) {
                 echo '<img class="d-block my-2" src="storage/users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" alt="logo_groupe" />';
@@ -334,8 +334,8 @@ function group_liste()
                 <div id="bloc_gr_' . $gp . '" class="col-lg-5">
                 <span class="text-danger">' . $gp . '</span>
                 <i class="fa fa-users fa-2x text-body-secondary"></i>
-                <h4 class="my-2 text-body-secondary">' . affLangue($gp_name) . '</h4>
-                <p class="text-body-secondary">' . affLangue($gp_description);
+                <h4 class="my-2 text-body-secondary">' . Language::affLangue($gp_name) . '</h4>
+                <p class="text-body-secondary">' . Language::affLangue($gp_description);
 
             if (file_exists('storage/users_private/groupe/' . $gp . '/groupe.png')) {
                 echo '<img class="d-block my-2" src="storage/users_private/groupe/' . $gp . '/groupe.png" width="80" height="80" />';
@@ -396,8 +396,8 @@ function membre_add($gp)
     inpandfieldlen("luname",255);';
 
     echo (mysqli_get_client_info() <= '8.0')
-        ? autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'[[:<:]]' . $gp . '[[:>:]]\'')
-        : autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'\\b' . $gp . '\\b\'');
+        ? Js::autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'[[:<:]]' . $gp . '[[:>:]]\'')
+        : Js::autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'\\b' . $gp . '\\b\'');
 
     adminFoot('fv', '', $arg1, '');
 }
@@ -468,12 +468,12 @@ function membre_add_finish($groupe_id, $luname)
                                        WHERE uid='" . $ibid['uid'] . "'");
             }
 
-            dbWritePrivateMessage($to_userid, $image, $subject, $from_userid, $message, $copie);
+            Messenger::dbWritePrivateMessage($to_userid, $image, $subject, $from_userid, $message, $copie);
         }
     }
 
     global $aid;
-    ecrireLog('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_id, $luname, $aid), '');
+    Log::ecrireLog('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_id, $luname, $aid), '');
 
     Header('Location: admin.php?op=groupes');
 }
@@ -559,10 +559,10 @@ function retiredugroupe($groupe_id, $uid, $uname)
                                SET groupe='$groupesmodif' 
                                WHERE uid='$uid'");
 
-        dbWritePrivateMessage($to_userid, $image, $subject, $from_userid, $message, $copie);
+        Messenger::dbWritePrivateMessage($to_userid, $image, $subject, $from_userid, $message, $copie);
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteMemberToGroup(%s, %s) by AID : %s', $groupe_id, $uname, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteMemberToGroup(%s, %s) by AID : %s', $groupe_id, $uname, $aid), '');
     }
 
     Header('Location: admin.php?op=groupes' . $q);
@@ -602,7 +602,7 @@ function retiredugroupe_all($groupe_id, $tab_groupe)
                                    WHERE uid='$uidZ'");
 
             global $aid;
-            ecrireLog('security', sprintf('DeleteAllMemberToGroup(%s, %s) by AID : %s', $groupe_id, $uidZ,  $aid), '');
+            Log::ecrireLog('security', sprintf('DeleteAllMemberToGroup(%s, %s) by AID : %s', $groupe_id, $uidZ,  $aid), '');
         }
     }
 
@@ -691,7 +691,7 @@ function groupe_maj($sub_op)
                    WHERE groupe_id='$groupe_id'");
 
         global $aid;
-        ecrireLog('security', sprintf('UpdateGroup(%s) by AID : %s', $groupe_id, $aid), '');
+        Log::ecrireLog('security', sprintf('UpdateGroup(%s) by AID : %s', $groupe_id, $aid), '');
     }
 
     if ($sub_op == adm_translate('Supprimer')) {
@@ -744,7 +744,7 @@ function groupe_delete($groupe_id)
     groupe_mns_delete($groupe_id);
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteGroup(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteGroup(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // --------------
@@ -834,7 +834,7 @@ function workspace_create($groupe_id)
     @unlink('storage/users_private/groupe/' . $groupe_id . '/delete');
 
     global $aid;
-    ecrireLog('security', sprintf('CreateWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // PAD
@@ -845,7 +845,7 @@ function pad_create($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('CreatePadWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('CreatePadWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function pad_remove($groupe_id)
@@ -855,7 +855,7 @@ function pad_remove($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('DeletePadWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeletePadWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // BLOC-NOTE
@@ -873,7 +873,7 @@ function note_create($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('CreateBlocnoteWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateBlocnoteWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function note_remove($groupe_id)
@@ -886,7 +886,7 @@ function note_remove($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteBlocnoteWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteBlocnoteWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function workspace_archive($groupe_id)
@@ -899,7 +899,7 @@ function workspace_archive($groupe_id)
     @unlink('modules/f-manager/storage/users/groupe_' . $groupe_id . '.php');
 
     global $aid;
-    ecrireLog('security', sprintf('ArchiveWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('ArchiveWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // FORUMS
@@ -928,7 +928,7 @@ function forum_groupe_create($groupe_id, $groupe_name, $description, $moder)
                SET groupeForum = '1' WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('CreateForumWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateForumWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function moderateur_update($forum_id, $forum_moderator)
@@ -965,7 +965,7 @@ function forum_groupe_delete($groupe_id)
                WHERE groupe_id='$groupe_id'");
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteForumWS(%s) by AID : %s', $forum_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteForumWS(%s) by AID : %s', $forum_id, $aid), '');
 }
 
 // MNS
@@ -1041,7 +1041,7 @@ function groupe_mns_create($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('CreateMnsWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateMnsWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function groupe_mns_delete($groupe_id)
@@ -1079,7 +1079,7 @@ function groupe_mns_delete($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteMnsWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteMnsWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 // CHAT
@@ -1090,7 +1090,7 @@ function groupe_chat_create($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('ActivateChatWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('ActivateChatWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function groupe_chat_delete($groupe_id)
@@ -1100,7 +1100,7 @@ function groupe_chat_delete($groupe_id)
                WHERE groupe_id = '$groupe_id';");
 
     global $aid;
-    ecrireLog('security', sprintf('DesactivateChatWS(%s) by AID : %s', $groupe_id, $aid), '');
+    Log::ecrireLog('security', sprintf('DesactivateChatWS(%s) by AID : %s', $groupe_id, $aid), '');
 }
 
 function bloc_groupe_create($groupe_id)
@@ -1190,10 +1190,10 @@ function groupe_member_ask()
                                        WHERE uid='" . $user_asked . "'");
             }
 
-            dbWritePrivateMessage($uname, $image, $subject, 1, $message, '');
+            Messenger::dbWritePrivateMessage($uname, $image, $subject, 1, $message, '');
 
             global $aid;
-            ecrireLog('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_asked, $uname, $aid), '');
+            Log::ecrireLog('security', sprintf('AddMemberToGroup(%s, %s) by AID : %s', $groupe_asked, $uname, $aid), '');
 
             Header('Location: admin.php?op=groupes');
         }
@@ -1203,7 +1203,7 @@ function groupe_member_ask()
 
             unlink($directory . '/ask4group_' . $user_asked . '_' . $groupe_asked . '_.txt');
 
-            dbWritePrivateMessage($uname, $image, $subject, 1, $message, '');
+            Messenger::dbWritePrivateMessage($uname, $image, $subject, 1, $message, '');
 
             Header('Location: admin.php?op=groupes');
         }
@@ -1222,7 +1222,7 @@ function groupe_member_ask()
         if ($fileinfo->isFile() and strpos($fileinfo->getFilename(), 'ask4group') !== false) {
             $us_gr = explode('_', $fileinfo->getFilename());
 
-            $myrow = getUserDataFromId($us_gr[1]);
+            $myrow = Forum::getUserDataFromId($us_gr[1]);
 
             $r = sql_query("SELECT groupe_name 
                             FROM " . sql_prefix('groupes') . " 
@@ -1397,7 +1397,7 @@ switch ($op) {
             @unlink('storage/users_private/groupe/' . $groupe_id . '/delete');
 
             global $aid;
-            ecrireLog('security', sprintf('CreateGroupe(%s, %s) by AID : %s', $groupe_id, $groupe_name, $aid), '');
+            Log::ecrireLog('security', sprintf('CreateGroupe(%s, %s) by AID : %s', $groupe_id, $groupe_name, $aid), '');
         }
         break;
 

@@ -17,7 +17,7 @@ class Base64Image
      *
      * @throws RuntimeException    Si une image est invalide ou non supportée.
      */
-    public static function dataImageToFileUrl(string $base64String, string $outputPath): string
+    public static function Base64Image::dataImageToFileUrl(string $base64String, string $outputPath): string
     {
         $rechdataimage = '#src=\\\"(data:image/[^"]+)\\\"#m';
 

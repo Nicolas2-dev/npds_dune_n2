@@ -84,7 +84,7 @@ if (($op != '') && ($op)) {
                 ob_end_clean();
 
                 if ($metalang) {
-                    $remp = metaLang(affCode(affLangue($remp)));
+                    $remp = Metalang::metaLang(Code::affCode(Language::affLangue($remp)));
                 }
 
                 if ($nl) {
@@ -98,7 +98,7 @@ if (($op != '') && ($op)) {
 
             // Si vous voulez tracer les appels au pages statiques : 
             // supprimer les // devant la ligne ci-dessous.
-            // ecrireLog('security', 'static/'. $op, '');
+            // Log::ecrireLog('security', 'static/'. $op, '');
         } else {
             echo '<div class="alert alert-danger">' . translate('Merci d\'entrer l\'information en fonction des spécifications') . '</div>';
         }

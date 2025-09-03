@@ -105,7 +105,7 @@ function fma_autorise($type, $dir)
             && ($user)
         ) {
 
-            $tab_groupe = validGroup($user);
+            $tab_groupe = Groupe::validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {

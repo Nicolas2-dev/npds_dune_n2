@@ -49,13 +49,13 @@ function viewbanner()
             $okprint = true;
         } else {
             if ($userlevel == 1) {
-                if (securStatic('member')) {
+                if (Auth::securStatic('member')) {
                     $okprint = true;
                 }
             }
 
             if ($userlevel == 3) {
-                if (securStatic('admin')) {
+                if (Auth::securStatic('admin')) {
                     $okprint = true;
                 }
             }
@@ -82,7 +82,7 @@ function viewbanner()
     if ($okprint) {
 
         global $myIP;
-        $myhost = getip();
+        $myhost = Request::getip();
 
         if ($myIP != $myhost) {
             sql_query("UPDATE " . sql_prefix('banner') . " 
@@ -107,7 +107,7 @@ function viewbanner()
 
             if ($imageurl != '') {
                 echo '<a href="banners.php?op=click&amp;bid=' . $bid . '" target="_blank">
-                    <img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" loading="lazy" />
+                    <img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="banner" loading="lazy" />
                 </a>';
             } else {
                 if (stristr($clickurl, '.txt')) {
@@ -141,7 +141,7 @@ function clickbanner($bid)
         $clickurl = $nuke_url;
     }
 
-    Header('Location: ' . affLangue($clickurl));
+    Header('Location: ' . Language::affLangue($clickurl));
 }
 
 function clientlogin()
@@ -313,7 +313,7 @@ function bannerstats($login, $pass)
                 echo '<div class="card card-body mb-3">';
 
                 if ($imageurl != '') {
-                    echo '<p><img src="' . affLangue($imageurl) . '" class="img-fluid" />'; //pourquoi affLangue ??
+                    echo '<p><img src="' . Language::affLangue($imageurl) . '" class="img-fluid" />'; //pourquoi affLangue ??
                 } else {
                     echo '<p>';
                     echo $clickurl;
@@ -322,7 +322,7 @@ function bannerstats($login, $pass)
                 echo '<h4 class="mb-2">Banner ID : ' . $bid . '</h4>';
 
                 if ($imageurl != '') {
-                    echo '<p>' . translate('Cette bannière est affichée sur l\'url') . ' : <a href="' . affLangue($clickurl) . '" target="_Blank" >[ URL ]</a></p>';
+                    echo '<p>' . translate('Cette bannière est affichée sur l\'url') . ' : <a href="' . Language::affLangue($clickurl) . '" target="_Blank" >[ URL ]</a></p>';
                 }
 
                 echo '<form action="banners.php" method="get">';
@@ -380,11 +380,11 @@ function bannerstats($login, $pass)
 
                 echo '<tr>
                     <td>' . $bid . '</td>
-                    <td>' . wrh($impressions) . '</td>
+                    <td>' . Sanitize::wrh($impressions) . '</td>
                     <td>' . $clicks . '</td>
                     <td>' . $percent . ' %</td>
-                    <td><small>' . formatTimes($datestart, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
-                    <td><small>' . formatTimes($dateend, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
+                    <td><small>' . Date::formatTimes($datestart, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
+                    <td><small>' . Date::formatTimes($dateend, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
                 </tr>';
             }
 
@@ -450,7 +450,7 @@ function EmailStats($login, $cid, $bid)
 
             global $sitename;
 
-            $fecha = formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+            $fecha = Date::formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
             $subject = html_entity_decode(translate('Bannières - Publicité'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : ' . $sitename;
 
@@ -469,7 +469,7 @@ function EmailStats($login, $cid, $bid)
 
             include 'config/signat.php';
 
-            sendEmail($email, $subject, $message, '', true, 'html', '');
+            Mailer::sendEmail($email, $subject, $message, '', true, 'html', '');
 
             header_page();
 

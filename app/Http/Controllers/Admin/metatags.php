@@ -209,7 +209,7 @@ function MetaTagSave($filename, $tags)
         $content .= "\$meta_op = isset(\$meta_op) ? \$meta_op : '' ;\n";
         $content .= "\$m_description = isset(\$m_description) ? \$m_description : '' ;\n";
         $content .= "\$m_keywords = isset(\$m_keywords) ? \$m_keywords : '' ;\n";
-        $content .= "\$lang = languageIso(1, '', 0);\n";
+        $content .= "\$lang = Language::languageIso(1, '', 0);\n";
         $content .= "if (\$meta_doctype==\"\")\n";
 
         if (!empty($tags['doctype'])) {
@@ -340,7 +340,7 @@ function MetaTagSave($filename, $tags)
         fclose($fh);
 
         global $aid;
-        ecrireLog('security', sprintf('MetaTagsave() by AID : %s', $aid), '');
+        Log::ecrireLog('security', sprintf('MetaTagsave() by AID : %s', $aid), '');
 
         return true;
     }

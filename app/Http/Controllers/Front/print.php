@@ -89,7 +89,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 ob_end_clean();
 
                 if ($DB) {
-                    $remp = metaLang(affCode(affLangue($remp)));
+                    $remp = Metalang::metaLang(Code::affCode(Language::affLangue($remp)));
                 }
 
                 if ($nl) {
@@ -144,16 +144,16 @@ function PrintPage($oper, $DB, $nl, $sid)
             echo '<img class="img-fluid d-block mx-auto" src="assets/images/npds/' . $site_logo . '" alt="website logo" />';
         }
 
-        echo '<h1 class="d-block text-center my-4">' . affLangue($title) . '</h1>';
+        echo '<h1 class="d-block text-center my-4">' . Language::affLangue($title) . '</h1>';
 
         if (($oper == 'news') or ($oper == 'archive')) {
 
-            $hometext = metaLang(affCode(affLangue($hometext)));
-            $bodytext = metaLang(affCode(affLangue($bodytext)));
+            $hometext = Metalang::metaLang(Code::affCode(Language::affLangue($hometext)));
+            $bodytext = Metalang::metaLang(Code::affCode(Language::affLangue($bodytext)));
 
-            echo '<span class="float-end" style="font-size: .8rem;"> ' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br />
+            echo '<span class="float-end" style="font-size: .8rem;"> ' . Date::formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br />
                 <hr />
-                <h2 class="mb-3">' . translate('Sujet : ') . ' ' . affLangue($topictext) . '</h2>
+                <h2 class="mb-3">' . translate('Sujet : ') . ' ' . Language::affLangue($topictext) . '</h2>
             </div>
             <div>' . $hometext . '<br /><br />';
 
@@ -161,7 +161,7 @@ function PrintPage($oper, $DB, $nl, $sid)
                 echo $bodytext . '<br /><br />';
             }
 
-            echo metaLang(affCode(affLangue($notes)));
+            echo Metalang::metaLang(Code::affCode(Language::affLangue($notes)));
 
             echo '</div>';
 
@@ -181,13 +181,13 @@ function PrintPage($oper, $DB, $nl, $sid)
         }
 
         if ($oper == 'links') {
-            echo '<span class="float-end" style="font-size: .8rem;">' . formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br /><hr />';
+            echo '<span class="float-end" style="font-size: .8rem;">' . Date::formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span><br /><hr />';
 
             if ($url != '') {
                 echo '<h2 class="mb-3">' . translate('Liens') . ' : ' . $url . '</h2>';
             }
 
-            echo '<div>' . affLangue($description) . '</div>
+            echo '<div>' . Language::affLangue($description) . '</div>
             <hr />
             <p class="text-center">' . translate('Cet article provient de') . ' ' . $sitename . '<br />
             <a href="' . $nuke_url . '">' . $nuke_url . '</a></p>';

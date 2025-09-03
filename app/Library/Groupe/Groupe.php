@@ -2,6 +2,18 @@
 
 namespace App\Library\Groupe;
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Library\Assets\Js;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Spam\Spam;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Online\Online;
+use App\Library\Language\Language;
+use App\Library\Encryption\Encrypter;
+
 
 class Groupe
 {
@@ -45,7 +57,7 @@ class Groupe
         $tmp_groupe[0] = '-> ' . adm_translate('Supprimer') . '/' . adm_translate('Choisir un groupe') . ' <-';
 
         while ($mX = sql_fetch_assoc($r)) {
-            $tmp_groupe[$mX['groupe_id']] = affLangue($mX['groupe_name']);
+            $tmp_groupe[$mX['groupe_id']] = Language::affLangue($mX['groupe_name']);
         }
 
         sql_free_result($r);
@@ -129,10 +141,10 @@ class Groupe
         $content .= '<div id="bloc_ws_' . $gr . '">';
 
         if ($t_gr == 1) {
-            $content .= '<span style="font-size: 120%; font-weight:bolder;">' . affLangue($rsql['groupe_name']) . '</span>' . "\n";
+            $content .= '<span style="font-size: 120%; font-weight:bolder;">' . Language::affLangue($rsql['groupe_name']) . '</span>' . "\n";
         }
 
-        $content .= '<p>' . affLangue($rsql['groupe_description']) . '</p>';
+        $content .= '<p>' . Language::affLangue($rsql['groupe_description']) . '</p>';
 
         if (file_exists('storage/users_private/groupe/' . $gr . '/groupe.png') and ($i_gr == 1)) {
             $content .= '<img src="storage/users_private/groupe/' . $gr . '/groupe.png" class="img-fluid mx-auto d-block rounded" alt="' . translate('Groupe') . '" loading="lazy" />';
@@ -163,7 +175,7 @@ class Groupe
         $li_mb .= '<div class="my-4">
             <a data-bs-toggle="collapse" data-bs-target="#lst_mb_ws_' . $gr . '" class="text-primary" id="show_lst_mb_ws_' . $gr . '" title="' . translate('Déplier la liste') . '"><i id="i_lst_mb_ws_' . $gr . '" class="toggle-icon fa fa-caret-down fa-2x" >&nbsp;</i></a><i class="fa fa-users fa-2x text-body-secondary ms-3 align-middle" title="' . translate('Liste des membres du groupe.') . '" data-bs-toggle="tooltip"></i>&nbsp;<a href="memberslist.php?gr_from_ws=' . $gr . '" class="text-uppercase">' . translate('Membres') . '</a><span class="badge bg-secondary float-end">' . $nb_mb . '</span>';
 
-        $tab = onlineMembers();
+        $tab = Online::onlineMembers();
 
         $li_mb .= '<ul id="lst_mb_ws_' . $gr . '" class="list-group ul_bloc_ws collapse">';
 
@@ -178,7 +190,7 @@ class Groupe
 
                 include_once 'functions.php';
 
-                $posterdata_extend = getUserDataExtendFromId($uid);
+                $posterdata_extend = Forum::getUserDataExtendFromId($uid);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
@@ -238,7 +250,7 @@ class Groupe
             }
 
             if ($femail != '') {
-                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . antiSpam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . Spam::antiSpam($femail, 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fas fa-at fa-2x align-middle fa-fw"></i><span class="ms-2 d-none d-sm-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($url != '') {
@@ -262,7 +274,7 @@ class Groupe
             } else if (stristr($user_avatar, 'users_private')) {
                 $imgtmp = $user_avatar;
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $user_avatar)) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $user_avatar)) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
@@ -369,8 +381,8 @@ class Groupe
                 $nb_doc_gr = '  <span class="badge bg-secondary float-end">' . $nb_doc . '</span>';
 
                 while (list($p, $e, $m, $r) = sql_fetch_row($docs_gr)) {
-                    $surlignage = $couleur[hexFromChr($e)];
-                    $lst_doc .= '<li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
+                    $surlignage = $couleur[Sanitize::hexFromChr($e)];
+                    $lst_doc .= '<li class="list-group-item list-group-item-action px-1 py-3" style="line-height:14px;"><div id="last_editor_' . $p . '" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernier éditeur') . ' : ' . $e . ' ' . Date::formatTimes($m, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '" style="float:left; width:1rem; height:1rem; background-color:' . $surlignage . '"></div><i class="fa fa-edit text-body-secondary mx-1" data-bs-toggle="tooltip" title="' . translate('Document co-rédigé') . '." ></i><a href="modules.php?ModPath=wspad&amp;ModStart=wspad&amp;op=relo&amp;page=' . $p . '&amp;member=' . $gr . '&amp;ranq=' . $r . '">' . $p . '</a></li>';
                 }
 
                 $lst_doc .= '</ul>';
@@ -419,7 +431,7 @@ class Groupe
         settype($chat_img, 'string');
 
         if ($rsql['groupe_chat'] == 1) {
-            $PopUp = javaPopup('chat.php?id=' . $gr . '&amp;auto=' . encrypt(serialize($gr)), 'chat' . $gr, 380, 480);
+            $PopUp = Js::javaPopup('chat.php?id=' . $gr . '&amp;auto=' . Encrypter::encrypt(serialize($gr)), 'chat' . $gr, 380, 480);
 
             if (array_key_exists('chat_info_' . $gr, $_COOKIE)) {
                 if ($_COOKIE['chat_info_' . $gr]) {
@@ -431,7 +443,7 @@ class Groupe
         }
 
         // admin
-        if (autorisation(-127)) {
+        if (Auth::autorisation(-127)) {
             $content .= '<a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" class="fa fa-cogs fa-2x"></i></a>';
         }
 

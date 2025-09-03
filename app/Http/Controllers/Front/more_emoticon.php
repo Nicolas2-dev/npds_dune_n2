@@ -41,12 +41,12 @@ include 'storage/meta/meta.php';
 
 echo '<link rel="stylesheet" href="assets/skins/default/bootstrap.min.css">';
 
-echo importCss($tmp_theme, $language, '', '', '');
+echo Css::importCss($tmp_theme, $language, '', '', '');
 
 include 'library/formhelp.java.php';
 
 echo '</head>
     <body class="p-2">
-    ' . putitemsMore() . '
+    ' . Smilies::putitemsMore() . '
     </body>
 </html>';

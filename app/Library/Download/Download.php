@@ -3,6 +3,10 @@
 namespace App\Library\Download;
 
 use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Language\Language;
 
 
 class Download
@@ -40,14 +44,14 @@ class Download
 
         while (list($did, $dcounter, $dfilename, $dcategory, $ddate, $dperm) = sql_fetch_row($result)) {
             if ($dcounter > 0) {
-                $okfile = autorisation($dperm);
+                $okfile = Auth::autorisation($dperm);
 
                 if ($ordre == 'dcounter') {
-                    $dd = wrh($dcounter);
+                    $dd = Sanitize::wrh($dcounter);
                 }
 
                 if ($ordre == 'ddate') {
-                    $dd = formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
+                    $dd = Date::formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
                 }
 
                 $ori_dfilename = $dfilename;
@@ -71,8 +75,8 @@ class Download
                         $ibid .= '<li class="ms-4 my-1">
                             <a href="download.php?op=mydown&amp;did=' . $did . '" >
                                 ' . $dfilename . '
-                            </a> (' . translate('Catégorie') . ' : ' . affLangue(stripslashes($dcategory)) . ')&nbsp;
-                            <span class="badge bg-secondary float-end align-self-center">' . wrh($dcounter) . '</span>
+                            </a> (' . translate('Catégorie') . ' : ' . Language::affLangue(stripslashes($dcategory)) . ')&nbsp;
+                            <span class="badge bg-secondary float-end align-self-center">' . Sanitize::wrh($dcounter) . '</span>
                         </li>';
                     }
                 }

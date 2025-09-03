@@ -14,7 +14,7 @@ Cette version est la première compatible avec php8 et mysql8.
    typage argument dans mktime()
    optymysql.php : correction de l'envoi d'une valeur (vide) pour un type decimal non null dans la table
    remplacement de nombreux settype() incorrects ...
-   remplacement de la fonction formatTimestamp() dans le mainfile.php par la fonction formatTimes() et donc des ses appels dans de nombreux fichiers et métamot. Cette fonction est soutenue par une deuxième fonction de traitement des dates getPartOfTime() (dans le mainfile.php) qui va permettre de manipuler encore plus finement les dates. Ces modifications ont été nécessaires à cause de l'évolution des fonctions de date de PHP. Elles permettent aussi la suppression de plusieurs fonctions : formatTimestampShort() dans modules/links/links.php ,.
+   remplacement de la fonction formatTimestamp() dans le mainfile.php par la fonction Date::formatTimes() et donc des ses appels dans de nombreux fichiers et métamot. Cette fonction est soutenue par une deuxième fonction de traitement des dates Date::getPartOfTime() (dans le mainfile.php) qui va permettre de manipuler encore plus finement les dates. Ces modifications ont été nécessaires à cause de l'évolution des fonctions de date de PHP. Elles permettent aussi la suppression de plusieurs fonctions : formatTimestampShort() dans modules/links/links.php ,.
 - update dépendances :
    version (licence du core) GNU 2 ==> 3
    bootstrap 5.3.3
@@ -44,7 +44,7 @@ Cette version est la première compatible avec php8 et mysql8.
 - bug track :
    nombreuses corrections : var $NPDS-PREFIX manquante, non globalisée ou globalisée inutilement. Ces erreurs impactaient surtout les sites à tables préfixée (requêtes sql défaillantes) 
    missing globalisation var $NPDS-PREFIX dans réseaux sociaux.
-   implémentation dataImageToFileUrl() dans les minisite
+   implémentation Base64Image::dataImageToFileUrl() dans les minisite
    création du répertoire utilisateur (si n'existe pas) à partir de l'édition du journal utilisateur ...
    tarteaucitron NO gtag @ start (minisite et core)
    deux each oubliés dans filemanager.php et class.navigator.php

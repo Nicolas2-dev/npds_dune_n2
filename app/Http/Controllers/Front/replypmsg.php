@@ -48,24 +48,24 @@ if (isset($user)) {
     $userX      = base64_decode($user);
     $userdataX  = explode(':', $userX);
 
-    $userdata = getUserData($userdataX[1]);
-    $usermore = getUserDataFromId($cookie[0]);
+    $userdata = Forum::getUserData($userdataX[1]);
+    $usermore = Forum::getUserDataFromId($cookie[0]);
 
     if ($submitS) {
         if ($subject == '') {
-            forumError('0017');
+            Error::forumError('0017');
         }
 
         $subject = removeHack($subject);
 
         if ($smilies) {
             if ($image_subject == '') {
-                forumError('0018');
+                Error::forumError('0018');
             }
         }
 
         if ($message == '') {
-            forumError('0019');
+            Error::forumError('0019');
         }
 
         if ($allow_html == 0 || isset($html)) {
@@ -76,16 +76,16 @@ if (isset($user)) {
             $message .= '<br /><br />' . $userdata['user_sig'];
         }
 
-        $message = affCode($message);
+        $message = Code::affCode($message);
         $message = str_replace("\n", '<br />', $message);
 
         if ($allow_bbcode) {
-            $message = smile($message);
+            $message = Smilies::smile($message);
         }
 
-        $message = makeClickable($message);
+        $message = Forum::makeClickable($message);
         $message = removeHack(addslashes($message));
-        $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
+        $time = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
         include_once 'language/lang-multi.php';
 
@@ -104,7 +104,7 @@ if (isset($user)) {
                             VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                     if (!$result = sql_query($sql)) {
-                        forumError('0020');
+                        Error::forumError('0020');
                     }
 
                     if ($copie) {
@@ -112,7 +112,7 @@ if (isset($user)) {
                                 VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                         if (!$result = sql_query($sql)) {
-                            forumError('0020');
+                            Error::forumError('0020');
                         }
                     }
 
@@ -125,7 +125,7 @@ if (isset($user)) {
 
                         include 'config/signat.php';
 
-                        copyToEmail($to_userid, $sujet, stripslashes($message));
+                        Mailer::copyToEmail($to_userid, $sujet, stripslashes($message));
 
                         $message = $old_message; // what this
                     }
@@ -139,13 +139,13 @@ if (isset($user)) {
             list($to_userid, $user_langue) = sql_fetch_row($res);
 
             if (($to_userid == '') or ($to_userid == 1)) {
-                forumError('0016');
+                Error::forumError('0016');
             } else {
                 $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
                         VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message')";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0020');
+                    Error::forumError('0020');
                 }
 
                 if ($copie) {
@@ -153,7 +153,7 @@ if (isset($user)) {
                             VALUES ('$image_subject', '$subject', '" . $userdata['uid'] . "', '$to_userid', '$time', '$message', '1', '1')";
 
                     if (!$result = sql_query($sql)) {
-                        forumError('0020');
+                        Error::forumError('0020');
                     }
                 }
 
@@ -165,7 +165,7 @@ if (isset($user)) {
 
                     include 'config/signat.php';
 
-                    copyToEmail($to_userid, $sujet, stripslashes($message));
+                    Mailer::copyToEmail($to_userid, $sujet, stripslashes($message));
                 }
             }
         }
@@ -198,7 +198,7 @@ if (isset($user)) {
             }
 
             if (!sql_query($sql)) {
-                forumError('0021');
+                Error::forumError('0021');
             } else {
                 $status = 1;
             }
@@ -224,7 +224,7 @@ if (isset($user)) {
                     AND to_userid='" . $userdata['uid'] . "'";
         }
         if (!sql_query($sql)) {
-            forumError('0021');
+            Error::forumError('0021');
         } else {
             header('Location: viewpmsg.php');
         }
@@ -247,7 +247,7 @@ if (isset($user)) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumError('0005');
+            Error::forumError('0005');
         }
 
         header('Location: viewpmsg.php');
@@ -288,7 +288,7 @@ if (isset($user)) {
         include 'themes/base/bootstrap/header_before.php';
         include 'themes/base/bootstrap/header_head.php';
 
-        echo importCss($tmp_theme, $language, $skin, '', '');
+        echo Css::importCss($tmp_theme, $language, $skin, '', '');
 
         echo '</head>
         <body class="my-4 mx-4">';
@@ -311,27 +311,27 @@ if (isset($user)) {
             $result = sql_query($sql);
 
             if (!$result) {
-                forumError('0022');
+                Error::forumError('0022');
             }
 
             $row = sql_fetch_assoc($result);
 
             if (!$row) {
-                forumError('0023');
+                Error::forumError('0023');
             }
 
-            $fromuserdata = getUserDataFromId($row['from_userid']);
+            $fromuserdata = Forum::getUserDataFromId($row['from_userid']);
 
             if (array_key_exists(0, $fromuserdata)) {
                 if ($fromuserdata[0] == 1) {
-                    forumError('0101');
+                    Error::forumError('0101');
                 }
             }
 
-            $touserdata = getUserDataFromId($row['to_userid']);
+            $touserdata = Forum::getUserDataFromId($row['to_userid']);
 
             if (($user) and ($userdata['uid'] != $touserdata['uid'])) {
-                forumError('0024');
+                Error::forumError('0024');
             }
         }
 
@@ -357,15 +357,15 @@ if (isset($user)) {
                 $Xmessage .= '<div class="n-signature">' . nl2br($userdata['user_sig']) . '</div>';
             }
 
-            $Xmessage = affCode($Xmessage);
+            $Xmessage = Code::affCode($Xmessage);
             $Xmessage = str_replace("\n", '<br />', $Xmessage);
 
             if ($allow_bbcode) {
-                $Xmessage = smilie($Xmessage);
-                $Xmessage = affVideoYt($Xmessage);
+                $Xmessage = Smilies::smilie($Xmessage);
+                $Xmessage = MediaPlayer::affVideoYt($Xmessage);
             }
 
-            $Xmessage = makeClickable($Xmessage);
+            $Xmessage = Forum::makeClickable($Xmessage);
 
             echo $Xmessage;
             echo '<hr />';
@@ -447,7 +447,7 @@ if (isset($user)) {
                 <label class="col-form-label col-sm-12">' . translate('Icone du message') . '</label>
                 <div class="col-sm-12">
                 <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
-                ' . emotionAdd($image_subject) . '
+                ' . Forum::emotionAdd($image_subject) . '
                 </div>
                 </div>
             </div>';
@@ -460,7 +460,7 @@ if (isset($user)) {
                 <div class="card-header">';
 
         if ($allow_html == 1) {
-            echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
+            echo '<span class="text-success float-end" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . Forum::htmlAdd();
         } else {
             echo '<span class="text-danger float-end" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         }
@@ -480,7 +480,7 @@ if (isset($user)) {
             if ($result = sql_query($sql)) {
                 $row = sql_fetch_assoc($result);
 
-                $text = smile($row['msg_text']);
+                $text = Smilies::smile($row['msg_text']);
 
                 $text = str_replace('<br />', "\n", $text);
                 $text = str_replace('<BR />', "\n", $text);
@@ -523,7 +523,7 @@ if (isset($user)) {
                 <div class="card-footer text-body-secondary">';
 
         if ($allow_bbcode) {
-            putitems('ta_replypm');
+            Smilies::putitems('ta_replypm');
         }
 
         echo '</div>
@@ -597,7 +597,7 @@ if (isset($user)) {
         } else {
             echo '<input class="btn btn-danger ms-2" type="submit" name="cancel" value="' . translate('Annuler l\'envoi') . '" />';
 
-            echo autoComplete('membre', 'uname', 'users', 'to_user', '86400');
+            echo Js::autoComplete('membre', 'uname', 'users', 'to_user', '86400');
         }
 
         echo '</div>

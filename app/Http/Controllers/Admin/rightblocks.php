@@ -39,8 +39,8 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
         $Rindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes($content));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     if ($SHTML != 'ON') {
         $content = strip_tags(str_replace('<br />', "\n", $content));
@@ -50,7 +50,7 @@ function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRa
                VALUES (NULL,'$title','$content', '$members', '$Rindex', '$Scache', '1', '$css', '$BRaide')");
 
     global $aid;
-    ecrireLog('security', sprintf('MakeRightBlock(%s) by AID : %s', affLangue($title), $aid), '');
+    Log::ecrireLog('security', sprintf('MakeRightBlock(%s) by AID : %s', Language::affLangue($title), $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -69,7 +69,7 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
         $Rindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -77,14 +77,14 @@ function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scach
         $Sactif = 0;
     }
 
-    $content = stripslashes(fixQuotes($content));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     sql_query("UPDATE " . sql_prefix('rblocks') . " 
                SET title='$title', content='$content', member='$members', Rindex='$Rindex', cache='$Scache', actif='$Sactif', css='$css', aide='$BRaide' 
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', sprintf('ChangeRightBlock(%s - %s) by AID : %s', affLangue($title), $id, $aid), '');
+    Log::ecrireLog('security', sprintf('ChangeRightBlock(%s - %s) by AID : %s', Language::affLangue($title), $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -103,7 +103,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
         $Rindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -111,7 +111,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
         $Sactif = 0;
     }
 
-    $content = stripslashes(fixQuotes($content));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     sql_query("INSERT INTO " . sql_prefix('lblocks') . " 
                VALUES (NULL,'$title','$content','$members', '$Rindex', '$Scache', '$Sactif', '$css', '$BRaide')");
@@ -120,7 +120,7 @@ function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, 
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', sprintf('MoveRightBlockToLeft(%s - %s) by AID : %s', affLangue($title), $id, $aid), '');
+    Log::ecrireLog('security', sprintf('MoveRightBlockToLeft(%s - %s) by AID : %s', Language::affLangue($title), $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -131,7 +131,7 @@ function deleterblock($id)
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteRightBlock(%s) by AID : %s', $id, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteRightBlock(%s) by AID : %s', $id, $aid), '');
 
     Header('Location: admin.php?op=blocks');
 }

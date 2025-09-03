@@ -55,7 +55,7 @@ $Titlesitename = 'META-LANG';
 
 include 'storage/meta/meta.php';
 
-echo importCss($tmp_theme, $language, $skin, '', '');
+echo Css::importCss($tmp_theme, $language, $skin, '', '');
 
 $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description 
                 FROM " . sql_prefix('metalang') . " 
@@ -110,7 +110,7 @@ while (list($def, $content, $type_meta, $type_uri, $uri, $description) = sql_fet
         echo '<td valign="top" align="left">' . $content . '</td>
             </tr>';
     } else {
-        echo '<td valign="top" align="left">' . affLangue($description) . '</td>
+        echo '<td valign="top" align="left">' . Language::affLangue($description) . '</td>
             </tr>';
     }
 

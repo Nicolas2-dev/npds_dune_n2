@@ -36,7 +36,7 @@ function ancre($forum_id, $topic_id, $post_id, $posts_per_page)
                         ORDER BY post_id ASC", 600);
 
     if (!$rowQ1) {
-        forumError('0015');
+        Error::forumError('0015');
     }
 
     $i = 0;
@@ -107,7 +107,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_id
                     FROM " . sql_prefix('forums'), 3600);
 
 if (!$rowQ1) {
-    forumError('0015');
+    Error::forumError('0015');
 }
 
 foreach ($rowQ1 as $row) {
@@ -217,7 +217,7 @@ if (isset($username) && $username != '') {
     if (!$result = sql_query("SELECT uid 
                               FROM " . sql_prefix('users') . " 
                               WHERE uname='$username'")) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
     list($userid) = sql_fetch_row($result);
@@ -297,8 +297,8 @@ if ($affiche) {
         if (($row['forum_type'] == 5) or ($row['forum_type'] == 7)) {
             $ok_affich = false;
 
-            $tab_groupe = validGroup($user);
-            $ok_affich = groupeForum($row['forum_pass'], $tab_groupe);
+            $tab_groupe = Groupe::validGroup($user);
+            $ok_affich = Groupe::groupeForum($row['forum_pass'], $tab_groupe);
         } else {
             $ok_affich = true;
         }
@@ -326,7 +326,7 @@ if ($affiche) {
 
             echo '<td><a href="viewtopic' . $Hplus . '.php?topic=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . $ancre . '" >' . stripslashes($row['topic_title']) . '</a></td>
                 <td>' . userpopover($row['uname'], 36, 1) . '<a href="user.php?op=userinfo&amp;uname=' . $row['uname'] . '" >' . $row['uname'] . '</a></td>
-                <td><small>' . formatTimes($row['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
+                <td><small>' . Date::formatTimes($row['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
                 </tr>';
 
             $count++;
@@ -339,6 +339,6 @@ if ($affiche) {
 
 sql_free_result($result);
 
-echo autoComplete('membre', 'uname', 'users', 'username', '86400');
+echo Js::autoComplete('membre', 'uname', 'users', 'username', '86400');
 
 include 'footer.php';

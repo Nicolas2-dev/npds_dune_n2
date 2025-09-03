@@ -2,6 +2,8 @@
 
 namespace App\Library\Subscribe;
 
+use App\Library\Mailer\Mailer;
+
 
 class Subscribe
 {
@@ -99,7 +101,7 @@ class Subscribe
 
                 include 'config/signat.php';
 
-                sendEmail($email, $subject, $message, '', true, 'html');
+                Mailer::sendEmail($email, $subject, $message, '', true, 'html');
             }
         }
     }

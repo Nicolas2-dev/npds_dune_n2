@@ -47,7 +47,7 @@ function AddLink()
 
     mainheader();
 
-    if (autorisation($links_anonaddlinklock)) {
+    if (Auth::autorisation($links_anonaddlinklock)) {
         echo '<div class="card card-body mb-3">
             <h3 class="mb-3">Proposer un lien</h3>
             <div class="card card-outline-secondary mb-3">
@@ -87,12 +87,12 @@ function AddLink()
             <select class="form-select" id="cat" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . Language::affLangue($title) . '</option>';
 
             $result2 = sql_query("select sid, title from " . $links_DB . "links_subcategories WHERE cid='$cid' ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . '/' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . Language::affLangue($title . '/' . $stitle) . '</option>';
             }
         }
 
@@ -129,7 +129,7 @@ function AddLink()
                 </div>
             </div>';
 
-        echo affEditeur('xtext', '');
+        echo Editeur::affEditeur('xtext', '');
 
         global $cookie;
         $nom = isset($cookie) ? $cookie[1] : '';
@@ -188,7 +188,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
     if (!$user and !$admin) {
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, '')) {
-            ecrireLog('security', 'Links Anti-Spam : url=' . $url, '');
+            Log::ecrireLog('security', 'Links Anti-Spam : url=' . $url, '');
 
             redirectUrl('index.php');
             die();
@@ -260,12 +260,12 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
         $cat[1] = 0;
     }
 
-    $title = removeHack(stripslashes(fixQuotes($title)));
-    $url = removeHack(stripslashes(fixQuotes($url)));
-    $description = dataImageToFileUrl($description, 'modules/upload/storage/lindes');
-    $description = removeHack(stripslashes(fixQuotes($description)));
-    $name = removeHack(stripslashes(fixQuotes($name)));
-    $email = removeHack(stripslashes(fixQuotes($email)));
+    $title = removeHack(stripslashes(Sanitize::fixQuotes($title)));
+    $url = removeHack(stripslashes(Sanitize::fixQuotes($url)));
+    $description = Base64Image::dataImageToFileUrl($description, 'modules/upload/storage/lindes');
+    $description = removeHack(stripslashes(Sanitize::fixQuotes($description)));
+    $name = removeHack(stripslashes(Sanitize::fixQuotes($name)));
+    $email = removeHack(stripslashes(Sanitize::fixQuotes($email)));
 
     sql_query("INSERT INTO " . $links_DB . "links_newlink 
                VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', '$name', '$email', '$submitter', '$topicL')");

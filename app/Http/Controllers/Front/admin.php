@@ -653,7 +653,7 @@ function GraphicAdmin($hlpfile)
     <div id="adm_men_dial" class="border rounded px-2 py-2" >
         <div id="adm_men_alert" >
             <div id="alertes">
-                ' . affLangue($bloc_foncts_A) . '
+                ' . Language::affLangue($bloc_foncts_A) . '
             </div>
         </div>
     </div>
@@ -814,7 +814,7 @@ function adminMain($deja_affiches)
                 <td>' . $sid . '</td>
                 <td>';
 
-            $title = affLangue($title);
+            $title = Language::affLangue($title);
 
             if ($archive) {
                 echo $title . ' <i>(archive)</i>';
@@ -823,10 +823,10 @@ function adminMain($deja_affiches)
                     echo '<a data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover" href="article.php?sid=' . $sid . '" data-bs-content=\'   <div class="thumbnail"><img class="img-rounded" src="assets/images/topics/' . $topicimage . '" height="80" width="80" alt="topic_logo" /><div class="caption">' . htmlentities($hometext, ENT_QUOTES) . '</div></div>\' title="' . $sid . '" data-bs-html="true">' . ucfirst($title) . '</a>';
 
                     if ($ihome == 1) {
-                        echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . affLangue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
+                        echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip">' . Language::affLangue($cat_title) . '</span> <span class="text-danger">non publié en index</span></small>';
                     } else {
                         if ($catid > 0) {
-                            echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip"> ' . affLangue($cat_title) . '</span> <span class="text-success"> publié en index</span></small>';
+                            echo '<br /><small><span class="badge bg-secondary" title="' . adm_translate('Catégorie') . '" data-bs-toggle="tooltip"> ' . Language::affLangue($cat_title) . '</span> <span class="text-success"> publié en index</span></small>';
                         }
                     }
                 } else {
@@ -839,7 +839,7 @@ function adminMain($deja_affiches)
                 <td>';
             } else {
                 echo '</td>
-                <td>' . $topictext . '<a href="index.php?op=newtopic&amp;topic=' . $topic . '" class="tooltip">' . affLangue($topictext) . '</a>';
+                <td>' . $topictext . '<a href="index.php?op=newtopic&amp;topic=' . $topic . '" class="tooltip">' . Language::affLangue($topictext) . '</a>';
             }
 
             if ($affiche) {

@@ -206,7 +206,7 @@ class Navigator
 
     function LastUpdate($file)
     {
-        return formatTimes(filemtime($file), IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
+        return Date::formatTimes(filemtime($file), IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
     }
 
     function NextFile()

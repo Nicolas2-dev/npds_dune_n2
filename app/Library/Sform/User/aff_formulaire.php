@@ -12,6 +12,8 @@
 /* Dont modify this file if you dont know what you make                 */
 /************************************************************************/
 
+use App\Library\Theme\Theme;
+
 $m->addFormFieldSize(50);
 
 settype($op, 'string');
@@ -22,7 +24,7 @@ if ($op != 'userinfo') {
     $direktori = 'assets/images/forum/avatar';
 
     if (function_exists('theme_image')) {
-        if (themeImage('forum/avatar/blank.gif')) {
+        if (Theme::themeImage('forum/avatar/blank.gif')) {
             $direktori = 'themes/' . $theme . '/assets/images/forum/avatar';
         }
     }

@@ -1,5 +1,9 @@
 <?php
 
+use App\Support\Sanitize;
+use App\Library\Language\Language;
+
+
 if (! function_exists('mainblock')) {
     #autodoc mainblock() : Bloc principal <br />=> syntaxe : function#mainblock
     function mainblock()
@@ -16,6 +20,6 @@ if (! function_exists('mainblock')) {
         }
 
         //must work from php 4 to 7 !..?..
-        themesidebox(affLangue($title), affLangue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', 'changetoamp', $content)));
+        themesidebox(Language::affLangue($title), Language::affLangue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', [Sanitize::class, 'changetoamp'], $content)));
     }
 }

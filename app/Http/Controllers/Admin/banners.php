@@ -67,7 +67,7 @@ function BannersAdmin()
         $percent = $impmade == 0 ? '0' : substr(100 * $clicks / $impmade, 0, 5);
         $left = $imptotal == 0 ? adm_translate('Illimité') : $imptotal - $impmade;
 
-        //  | <span class="small"><a href="#" class="tooltip">'.basename(affLangue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
+        //  | <span class="small"><a href="#" class="tooltip">'.basename(Language::affLangue($imageurl)).'<em><img src="'.$imageurl.'" /></em></a></span>
 
         echo '<tr>
                 <td>' . $bid . '</td>
@@ -121,7 +121,7 @@ function BannersAdmin()
             <td>' . $left . '</td>
             <td>' . $clicks . '</td>
             <td>' . $percent . '%</td>
-            <td>' . $name . ' | <span class="small">' . basename(affLangue($imageurl)) . '</span></td>
+            <td>' . $name . ' | <span class="small">' . basename(Language::affLangue($imageurl)) . '</span></td>
             <td><a href="admin.php?op=BannerEdit&amp;bid=' . $bid . '" ><i class="fa fa-edit fa-lg me-3" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=BannerDelete&amp;bid=' . $bid . '&amp;ok=0" class="text-danger"><i class="fas fa-trash fa-lg" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip"></i></a></td>
             </tr>';
     }
@@ -376,7 +376,7 @@ function BannerDelete($bid, $ok = 0)
         <h3 class="text-danger">' . adm_translate('Effacer Bannière') . '</h3>';
 
         echo $imageurl != ''
-            ? '<a href="' . affLangue($clickurl) . '"><img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" /></a><br />'
+            ? '<a href="' . Language::affLangue($clickurl) . '"><img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="banner" /></a><br />'
             : $clickurl;
 
         echo '<table data-toggle="table" data-mobile-responsive="true">
@@ -439,7 +439,7 @@ function BannerEdit($bid)
     <h3 class="mb-2">' . adm_translate('Edition Bannière') . '</h3>';
 
     if ($imageurl != '') {
-        echo '<img class="img-fluid" src="' . affLangue($imageurl) . '" alt="banner" /><br />';
+        echo '<img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="banner" /><br />';
     } else {
         echo $clickurl;
     }
@@ -559,7 +559,7 @@ function BannerClientDelete($cid, $ok = 0)
         }
         while (list($imageurl, $clickurl) = sql_fetch_row($result2)) {
             echo $imageurl != ''
-                ? '<img class="img-fluid" src="' . affLangue($imageurl) . '" alt="" /><br />'
+                ? '<img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="" /><br />'
                 : $clickurl . '<br />';
         }
     }

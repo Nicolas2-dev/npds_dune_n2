@@ -17,10 +17,10 @@ function code_aff($subject, $story, $bodytext, $notes)
 {
     global $local_user_language;
 
-    $subjectX   = affCode(previewLocalLangue($local_user_language, $subject));
-    $storyX     = affCode(previewLocalLangue($local_user_language, $story));
-    $bodytextX  = affCode(previewLocalLangue($local_user_language, $bodytext));
-    $notesX     = affCode(previewLocalLangue($local_user_language, $notes));
+    $subjectX   = Code::affCode(Language::previewLocalLangue($local_user_language, $subject));
+    $storyX     = Code::affCode(Language::previewLocalLangue($local_user_language, $story));
+    $bodytextX  = Code::affCode(Language::previewLocalLangue($local_user_language, $bodytext));
+    $notesX     = Code::affCode(Language::previewLocalLangue($local_user_language, $notes));
 
     themePreview($subjectX, $storyX, $bodytextX, $notesX);
 }
@@ -98,7 +98,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
 
     echo '<hr />
         <p class="small text-end">
-        ' . formatTimes(time(), IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '
+        ' . Date::formatTimes(time(), IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '
         </p>';
 
     if ($dd_pub != -1 and $dh_pub != -1) {
@@ -131,7 +131,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
             </div>
         </div>
         <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . Language::languageIso(1, '', '') . '.js"></script>
         <script type="text/javascript" src="assets/shared/clockpicker/bootstrap-clockpicker.min.js"></script>
         <script type="text/javascript">
         //<![CDATA[
@@ -149,7 +149,7 @@ function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
                 altInput: true,
                 altFormat: "l j F Y",
                 dateFormat:"Y-m-d",
-                "locale": "' . languageIso(1, '', '') . '",
+                "locale": "' . Language::languageIso(1, '', '') . '",
             });
         //]]>
         </script>

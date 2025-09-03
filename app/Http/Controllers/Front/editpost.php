@@ -29,7 +29,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -37,7 +37,7 @@ $myrow = $rowQ1[0];
 $forum_type = $myrow['forum_type'];
 $forum_access = $myrow['forum_access'];
 
-$moderator = getModerator($myrow['forum_moderator']);
+$moderator = Forum::getModerator($myrow['forum_moderator']);
 
 if (isset($user)) {
     $userX = base64_decode($user);
@@ -67,7 +67,7 @@ if ($submitS) {
     $result = sql_query($sql);
 
     if (!$result) {
-        forumError('0022');
+        Error::forumError('0022');
     }
 
     $row = sql_fetch_assoc($result);
@@ -76,31 +76,31 @@ if ($submitS) {
         $ok_maj = true;
     } else {
         if (!$Mmod) {
-            forumError('0035');
+            Error::forumError('0035');
         }
 
-        if ((userIsModerator($userdata[0], $userdata[2], $forum_access) < 2)) {
-            forumError('0036');
+        if ((Forum::userIsModerator($userdata[0], $userdata[2], $forum_access) < 2)) {
+            Error::forumError('0036');
         }
     }
 
-    $userdata = getUserData($userdata[1]);
+    $userdata = Forum::getUserData($userdata[1]);
 
     if ($allow_html == 0 || isset($html)) {
         $message = htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
     }
 
     if (($allow_bbcode == 1) and ($forum_type != '6') and ($forum_type != '5')) {
-        $message = smile($message);
+        $message = Smilies::smile($message);
     }
 
     if (($forum_type != 6) and ($forum_type != 5)) {
-        $message = makeClickable($message);
-        $message = afCode($message);
+        $message = Forum::makeClickable($message);
+        $message = Code::afCode($message);
         $message = str_replace("\n", "<br />", removeHack($message));
-        $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate('Message édité par') . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
+        $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate('Message édité par') . " : " . $userdata['uname'] . " / " . Date::formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
     } else {
-        $message .= "\n\n" . translate('Message édité par') . " : " . $userdata['uname'] . " / " . formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+        $message .= "\n\n" . translate('Message édité par') . " : " . $userdata['uname'] . " / " . Date::formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
     }
 
     $message = addslashes($message);
@@ -118,7 +118,7 @@ if ($submitS) {
                 WHERE (post_id = '$post_id')";
 
         if (!$result = sql_query($sql)) {
-            forumError('0001');
+            Error::forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -126,7 +126,7 @@ if ($submitS) {
                 WHERE topicid = '" . $row['topic_id'] . "'";
 
         if (!$r = sql_query($sql)) {
-            forumError('0001');
+            Error::forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('forumtopics') . " 
@@ -134,7 +134,7 @@ if ($submitS) {
                 WHERE topic_id = '" . $row['topic_id'] . "'";
 
         if (!$result = sql_query($sql)) {
-            forumError('0020');
+            Error::forumError('0020');
         }
 
         redirectUrl("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
@@ -148,17 +148,17 @@ if ($submitS) {
                     WHERE post_id='$post_id'";
 
             if (!$r = sql_query($sql)) {
-                forumError('0001');
+                Error::forumError('0001');
             }
 
-            controlEffacePost("forum_npds", $post_id, '', '');
+            Forum::controlEffacePost("forum_npds", $post_id, '', '');
 
-            if (getTotalPosts($forum, $row['topic_id'], "topic", $Mmod) == 0) {
+            if (Forum::getTotalPosts($forum, $row['topic_id'], "topic", $Mmod) == 0) {
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id = '" . $row['topic_id'] . "'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0001');
+                    Error::forumError('0001');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
@@ -182,7 +182,7 @@ if ($submitS) {
                         WHERE topic_id = '" . $row['topic_id'] . "'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0001');
+                    Error::forumError('0001');
                 }
             }
 
@@ -205,24 +205,24 @@ if ($submitS) {
             XOR (p.poster_id=0))";
 
     if (!$result = sql_query($sql)) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
     $myrow = sql_fetch_assoc($result);
 
     if ((!$Mmod) and ($userdata[0] != $myrow['uid'])) {
-        forumError('0035');
+        Error::forumError('0035');
     }
 
     if (!$result = sql_query("SELECT topic_title, topic_status 
                               FROM " . sql_prefix('forumtopics') . " 
                               WHERE topic_id='" . $myrow['topic_id'] . "'")) {
-        forumError('0001');
+        Error::forumError('0001');
     } else {
         list($title, $topic_status) = sql_fetch_row($result);
 
         if (($topic_status != 0) and !$Mmod) {
-            forumError('0025');
+            Error::forumError('0025');
         }
     }
 
@@ -231,7 +231,7 @@ if ($submitS) {
     if ($submitP) {
         $acc = 'editpost';
         $title = stripslashes($subject);
-        $message = stripslashes(makeClickable($message));
+        $message = stripslashes(Forum::makeClickable($message));
 
         include 'preview.php';
     } else {
@@ -241,9 +241,9 @@ if ($submitS) {
 
         if (($forum_type != 6) and ($forum_type != 5)) {
             $message = str_replace("<br />", "\n", $message);
-            $message = smile($message);
-            $message = desafCode($message);
-            $message = undoHtmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+            $message = Smilies::smile($message);
+            $message = Code::desafCode($message);
+            $message = Forum::undoHtmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         } else {
             $message = htmlspecialchars($message, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         }
@@ -271,7 +271,7 @@ if ($submitS) {
             echo "<input type=\"hidden\" name=\"subject\" value=\"" . htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\" />";
         }
     } else {
-        forumError('0036');
+        Error::forumError('0036');
     }
 
     if ($smilies) {
@@ -279,7 +279,7 @@ if ($submitS) {
             <span class="col-form-label">' . translate('Icone du message') . '</span>
             <div class="col-sm-12">
                 <div class="border rounded pt-2 px-2 n-fond_subject">
-                ' . emotionAdd($image_subject) . '
+                ' . Forum::emotionAdd($image_subject) . '
                 </div>
             </div>
         </div>';
@@ -296,12 +296,12 @@ if ($submitS) {
         <div class="card-header">
             <div class="float-start">';
 
-    putitems('ta_edipost');
+    Smilies::putitems('ta_edipost');
 
     echo '</div>';
 
     if ($allow_html == 1) {
-        echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
+        echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . Forum::htmlAdd();
     } else {
         echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
     }

@@ -53,7 +53,7 @@ if ($FmaRep) {
 }
 
 if (isset($browse) and $browse != '') {
-    $ibid = rawurldecode(decrypt($browse));
+    $ibid = rawurldecode(Encrypter::decrypt($browse));
 
     if (substr(@php_uname(), 0, 7) == 'Windows') {
         $ibid = preg_replace('#[\*\?"<>|]#i', '', $ibid);
@@ -87,16 +87,16 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     }
 
     $home = '/' . basename($basedir_fma);
-    $cur_nav_href_back = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt($cur_nav_back)) . "\">" . str_replace(dirname($basedir_fma), "", $cur_nav_back) . "</a>/" . basename($cur_nav);
+    $cur_nav_href_back = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt($cur_nav_back)) . "\">" . str_replace(dirname($basedir_fma), "", $cur_nav_back) . "</a>/" . basename($cur_nav);
 
     if ($home_fma != '') {
         $cur_nav_href_back = str_replace($home, $home_fma, $cur_nav_href_back);
     }
 
-    $cur_nav_encrypt = rawurlencode(encrypt($cur_nav));
+    $cur_nav_encrypt = rawurlencode(Encrypter::encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirectUrl('modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode(encrypt(dirname($base))));
+    redirectUrl('modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart . '&amp;FmaRep=' . $FmaRep . '&amp;browse=' . rawurlencode(Encrypter::encrypt(dirname($base))));
 }
 
 // gestion des types d'extension de fichiers
@@ -123,7 +123,7 @@ while ($obj->NextDir()) {
 
         $subdirs .= '<tr>';
 
-        $clik_url = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(encrypt("$base/$obj->FieldName")) . "\">";
+        $clik_url = "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt("$base/$obj->FieldName")) . "\">";
 
         if ($dirpres_fma[0]) {
             $subdirs .= '<td width="3%">' . $clik_url . $att_icon_dir . '</a></td>';
@@ -168,7 +168,7 @@ if ($refresh == 0) {
 
 $rep_cache = $racine_fma . '/storage/cache/';
 
-$rep_cache_encrypt = rawurlencode(encrypt($rep_cache));
+$rep_cache_encrypt = rawurlencode(Encrypter::encrypt($rep_cache));
 
 $cook = isset($cookie[1]) ? $cookie[1] : '';
 
@@ -194,7 +194,7 @@ if ($Max_thumb > 0) {
             ) {
                 if ($ficpres_fma[1]) {
 
-                    $ibid = rawurlencode(encrypt(rawurldecode($cur_nav_encrypt) . '#fma#' . encrypt($obj->FieldName)));
+                    $ibid = rawurlencode(Encrypter::encrypt(rawurldecode($cur_nav_encrypt) . '#fma#' . Encrypter::encrypt($obj->FieldName)));
                     $imagette = '';
 
                     if (($suf == 'gif')
@@ -210,7 +210,7 @@ if ($Max_thumb > 0) {
                                         $cache = true;
 
                                         $image = imagesize($obj->FieldName, $Max_thumb);
-                                        $imagette = rawurlencode(encrypt(rawurldecode($rep_cache_encrypt) . '#fma#' . encrypt($cache_prefix . '.' . $obj->FieldName)));
+                                        $imagette = rawurlencode(Encrypter::encrypt(rawurldecode($rep_cache_encrypt) . '#fma#' . Encrypter::encrypt($cache_prefix . '.' . $obj->FieldName)));
                                     } else {
                                         $cache = false;
                                     }
@@ -226,7 +226,7 @@ if ($Max_thumb > 0) {
 
                                 if (array_key_exists('gene-img', $image)) {
                                     if ($image['gene-img'][0] == true) {
-                                        $imagette = rawurlencode(encrypt(rawurldecode($rep_cache_encrypt) . '#fma#' . encrypt($cache_prefix . '.' . $obj->FieldName)));
+                                        $imagette = rawurlencode(Encrypter::encrypt(rawurldecode($rep_cache_encrypt) . '#fma#' . Encrypter::encrypt($cache_prefix . '.' . $obj->FieldName)));
                                     }
                                 }
                             }
@@ -290,7 +290,7 @@ if ($Max_thumb > 0) {
                             break;
 
                         case "svg":
-                            $ibid = decrypt(rawurldecode($cur_nav_encrypt)) . '/' . $obj->FieldName;
+                            $ibid = Encrypter::decrypt(rawurldecode($cur_nav_encrypt)) . '/' . $obj->FieldName;
 
                             $PopUp = 'getfile.php?att_id=' . $ibid . '&amp;apli=f-manager';
 
@@ -370,7 +370,7 @@ if ($inclusion) {
             require_once 'modules/f-manager/routes/pages/pages.php';
         }
 
-        $Titlesitename = affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
+        $Titlesitename = Language::affLangue($PAGES['modules.php?ModPath=' . $ModPath . '&ModStart=' . $ModStart . '*']['title']);
 
         global $Default_Theme, $Default_Skin, $user;
         if (isset($user) and $user != '') {
@@ -425,7 +425,7 @@ if ($inclusion) {
         echo "\n";
     }
 
-    echo metaLang(affLangue($Xcontent));
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
 
     // Foot banner de présentation F-Manager
     if (file_exists('themes/' . $Default_Theme . '/overrides/modules/f-manager/views/foot.php')) {

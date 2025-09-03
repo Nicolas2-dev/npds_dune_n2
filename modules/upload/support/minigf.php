@@ -130,7 +130,7 @@ global $ModPath, $ModStart, $IdPost, $IdForum, $apli, $Mmod;
 settype($att_table, 'string');
 settype($thanks_msg, 'string');
 
-echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data" name="form0" onsubmit="return checkForm(this);" lang="' . languageIso(1, '', '') . '">
+echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data" name="form0" onsubmit="return checkForm(this);" lang="' . Language::languageIso(1, '', '') . '">
     <input type="hidden" name="actiontype" value="" />
     <input type="hidden" name="ModPath" value="' . $ModPath . '" />
     <input type="hidden" name="ModStart" value="' . $ModStart . '" />

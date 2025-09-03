@@ -12,6 +12,34 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+/*
+CREATE TABLE `forum_attachments` (
+  `att_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL DEFAULT 0,
+  `topic_id` int(11) NOT NULL DEFAULT 0,
+  `forum_id` int(11) NOT NULL DEFAULT 0,
+  `unixdate` int(11) NOT NULL DEFAULT 0,
+  `att_name` varchar(255) NOT NULL DEFAULT '',
+  `att_type` varchar(64) NOT NULL DEFAULT '',
+  `att_size` int(11) NOT NULL DEFAULT 0,
+  `att_path` varchar(255) NOT NULL DEFAULT '',
+  `inline` char(1) NOT NULL DEFAULT '',
+  `apli` varchar(10) NOT NULL DEFAULT '',
+  `compteur` int(11) NOT NULL DEFAULT 0,
+  `visible` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `forum_attachments`
+--
+
+INSERT INTO `forum_attachments` (`att_id`, `post_id`, `topic_id`, `forum_id`, `unixdate`, `att_name`, `att_type`, `att_size`, `att_path`, `inline`, `apli`, `compteur`, `visible`) VALUES
+(8, 8, 1, 1, 1756836830, 'XTDK0173.JPG', 'image/jpeg', 3178729, '/modules/upload/upload_forum/', '1', 'forum_npds', 0, 1),
+(9, 8, 1, 1, 1756836865, 'YAEV4735.JPG', 'image/jpeg', 5244279, '/modules/upload/upload_forum/', '1', 'forum_npds', 0, 1);
+
+*/
+
+
 // display mode if displayed inline
 define('ATT_DSP_LINK', '1');        // displays as link (icon)
 define('ATT_DSP_IMG', '2');         // display inline as a picture, using <img> tag.
@@ -21,6 +49,12 @@ define('ATT_DSP_SWF', '5');         // Embedded Macromedia Shockwave Flash
 define('ATT_DSP_VIDEO', '6');       // video display inline in a video html5 tag 
 define('ATT_DSP_AUDIO', '7');       // audio display inline in a audio html5 tag
 
+// ==> getfile.php
+// ==> upConfigure($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
+// ==> function load_mimetypes()
+// ==> function editeur_upload()
+// ==> function forum_upload()
+// ==> FileUpload => function uploadFile($IdPost, $IdTopic, $name, $size, $type, $src_file, $inline = DEFAULT_INLINE)
 $mimetypes = array(
     'avi'   => 'video/x-msvideo',
     'bat'   => 'text/plain',
@@ -70,8 +104,23 @@ $mimetypes = array(
 );
 
 // mime type to be used if no other type known
+
+// ==> getfile.php
+// ==> load_mimetypes()
+// ==> function editeur_upload()
+// ==> function forum_upload()
+// ==> FileUpload => function uploadFile($IdPost, $IdTopic, $name, $size, $type, $src_file, $inline = DEFAULT_INLINE)
+// ==> function getAttDisplayMode($att_type, $att_inline = 'A')
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mimetype_default = 'application/octet-stream';
+
+// ==> function load_mimetypes() global ne sert a rien 
+// ==> ne sert a rien sauf dans une global qui ne sert a rien !!!
 $mime_dspinl[$mimetype_default] = 'O';
+
+// ==> function load_mimetypes()
+// ==> function getAttDisplayMode($att_type, $att_inline = 'A')
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_dspfmt[$mimetype_default] = ATT_DSP_LINK;
 
 // display mode if displayed inline
@@ -88,7 +137,11 @@ $mime_dspfmt['application/x-shockwave-flash'] = ATT_DSP_SWF;
 $mime_dspfmt['video/mpeg'] = ATT_DSP_VIDEO;
 $mime_dspfmt['audio/mpeg'] = ATT_DSP_AUDIO;
 
+
+
 // rendu des attachements
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod) 
 $mime_renderers[ATT_DSP_PLAINTEXT] = "
                 <div class=\"list-group-item flex-column align-items-start\">
                 <div class=\"py-2 mb-2\"><code>\$att_name\$visible_wrn</code></div>
@@ -97,6 +150,8 @@ $mime_renderers[ATT_DSP_PLAINTEXT] = "
                 </div>
                 </div>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_renderers[ATT_DSP_HTML]      = "
                 <table border=\"0\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">
                 <tr>
@@ -113,20 +168,28 @@ $mime_renderers[ATT_DSP_HTML]      = "
                 </tr>
                 </table>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod) 
 $mime_renderers[ATT_DSP_LINK]      = "
                 <a class=\"list-group-item list-group-item-action d-flex justify-content-start align-items-center\" href=\"\$att_url\" target=\"_blank\" >\$att_icon<span title=\"" . upload_translate("Télécharg.") . " \$att_name (\$att_type - \$att_size)\" data-bs-toggle=\"tooltip\" style=\"font-size: .85rem;\" class=\"ms-2 n-ellipses\"><strong>&nbsp;\$att_name</strong></span><span class=\"badge bg-secondary ms-auto\" style=\"font-size: .75rem;\">\$compteur &nbsp;<i class=\"fa fa-lg fa-download\"></i></span><br /><span align=\"center\">\$visible_wrn</span></a>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_renderers[ATT_DSP_IMG]       = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\">
                 <code>\$att_name</code>
                 <a href=\"javascript:void(0);\" onclick=\"window.open('\$att_url','fullsizeimg','menubar=no,location=no,directories=no,status=no,copyhistory=no,height=600,width=800,toolbar=no,scrollbars=yes,resizable=yes');\"><img src=\"\$att_url\" alt=\"\$att_name\" \$img_size />\$visible_wrn </a>
                 </div>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_renderers[ATT_DSP_SWF]       = "
                 <p align=\"center\">
                 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4\,0\,2\,0\" \$img_size><param name=\"quality\" value=\"high\"><param name=\"SRC\" value=\"\$att_url\"><embed src=\"\$att_url\" quality=\"high\" pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" \$img_size></embed></object>\$visible_wrn
                 </p>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_renderers[ATT_DSP_VIDEO]     = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\"><code>\$att_name</code>
                 <div>
@@ -136,12 +199,16 @@ $mime_renderers[ATT_DSP_VIDEO]     = "
                 </div>
                 </div>";
 
+
+// ==> function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_size, $att_inline = 0, $compteur, $visible = 0, $Mmod)
 $mime_renderers[ATT_DSP_AUDIO]    = "
                 <div class=\"list-group-item list-group-item-action flex-column align-items-start\"><code>\$att_name</code>
                 <div>
                     <audio controls src=\"\$att_url\"></audio><br />
                 </div>
                 </div>";
+
+
 
 // iconographie des extension de fichiers
 $extensions = [
@@ -233,6 +300,7 @@ $extensions = [
     'zip'
 ];
 
+// ==> function att_icon($filename) 
 foreach ($extensions as $extens) {
     $att_icons[$extens] = '
         <span class="fa-stack">
@@ -241,16 +309,20 @@ foreach ($extensions as $extens) {
         </span>';
 }
 
+// ==> function att_icon($filename)
 $att_icon_default = '
         <span class="fa-stack">
             <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
             <span class="fa-stack-1x filetype-text ">?</span>
         </span>';
 
+
+//  non utiliser dans l'upload         
 $att_icon_multiple = '
         <span class="fa-stack">
             <i class="bi bi-file-earmark-fill fa-stack-2x text-body-secondary"></i>
             <span class="fa-stack-1x filetype-text ">...</span>
-        </span>';
+        </span>'; 
 
-$att_icon_dir = '<i class="bi bi-folder fs-3"></i>';
+ // non utiliser dans l'upload        
+$att_icon_dir = '<i class="bi bi-folder fs-3"></i>'; 

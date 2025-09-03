@@ -2,6 +2,8 @@
 
 namespace App\Library\Session;
 
+use App\Library\Http\Request;
+
 
 class Session
 {
@@ -24,7 +26,7 @@ class Session
 
         $guest = 0;
 
-        $ip = getip();
+        $ip = Request::getip();
 
         $username = isset($cookie[1]) ? $cookie[1] : $ip;
 

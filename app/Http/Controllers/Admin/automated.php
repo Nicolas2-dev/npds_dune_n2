@@ -84,7 +84,7 @@ function puthome($ihome)
     </div>';
 
     // ---- Groupes
-    $mX = listeGroup();
+    $mX = Groupe::listeGroup();
 
     $tmp_groupe = '';
 
@@ -133,7 +133,7 @@ function SelectCategory($cat)
             $sel = '';
         }
 
-        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . affLangue($title) . '</option>';
+        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . Language::affLangue($title) . '</option>';
     }
 
     echo '</select>
@@ -191,17 +191,17 @@ function autoStory()
             }
 
             $title = ($title == '') ? adm_translate('Aucun Sujet') : $title;
-            $date_au_format = formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM);
+            $date_au_format = Date::formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM);
 
             if ($affiche) {
                 echo '<tr>
-                    <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . affLangue($title) . '</a></td>
+                    <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '">' . Language::affLangue($title) . '</a></td>
                     <td>' . $date_au_format . '</td>
                     <td><a href="admin.php?op=autoEdit&amp;anid=' . $anid . '"><i class="fa fa-edit fa-lg me-2" title="' . adm_translate('Afficher l\'article') . '" data-bs-toggle="tooltip"></i></a><a href="admin.php?op=autoDelete&amp;anid=' . $anid . '">&nbsp;<i class="fas fa-trash fa-lg text-danger" title="' . adm_translate('Effacer l\'Article') . '" data-bs-toggle="tooltip" ></i></a></td>
                 </tr>';
             } else {
                 echo '<tr>
-                    <td><i>' . affLangue($title) . '</i></td>
+                    <td><i>' . Language::affLangue($title) . '</i></td>
                     <td>' . $date_au_format . '</td>
                     <td>&nbsp;</td>
                 </tr>';
@@ -273,7 +273,7 @@ function autoEdit($anid)
         header('location: admin.php?op=autoStory');
     }
 
-    $topiclogo = '<span class="badge bg-secondary" title="' . $topictext . '" data-bs-toggle="tooltip" data-bs-placement="left"><strong>' . affLangue($topicname) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary" title="' . $topictext . '" data-bs-toggle="tooltip" data-bs-placement="left"><strong>' . Language::affLangue($topicname) . '</strong></span>';
 
     include 'header.php';
 
@@ -282,7 +282,7 @@ function autoEdit($anid)
 
     echo '<hr />
     <h3>' . adm_translate('Editer l\'Article Automatique') . '</h3>
-    ' . affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
+    ' . Language::affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
     <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
@@ -340,7 +340,7 @@ function autoEdit($anid)
         if ($affiche) {
             $sel = $topicid == $topic ? 'selected="selected" ' : '';
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
         }
     }
 
@@ -357,14 +357,14 @@ function autoEdit($anid)
                 <textarea class="tin form-control" rows="25" id="hometext" name="hometext" >' . $hometext . '</textarea>
             </div>
         </div>
-        ' . affEditeur('hometext', '') . '
+        ' . Editeur::affEditeur('hometext', '') . '
         <div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
             <div class="col-sm-12">
                 <textarea class="tin form-control" rows="25" id="bodytext" name="bodytext" >' . $bodytext . '</textarea>
             </div>
         </div>
-        ' . affEditeur('bodytext', '');
+        ' . Editeur::affEditeur('bodytext', '');
 
     if ($aid != $informant) {
         echo '<div class="mb-3 row">
@@ -373,7 +373,7 @@ function autoEdit($anid)
                 <textarea class="tin form-control" rows="7" id="notes" name="notes">' . $notes . '</textarea>
             </div>
         </div>
-        ' . affEditeur('notes', '');
+        ' . Editeur::affEditeur('notes', '');
     }
 
     $dd_pub = substr($date_debval, 0, 10);
@@ -419,11 +419,11 @@ function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $cati
 {
     global $ultramode;
 
-    $title = stripslashes(fixQuotes(str_replace('"', '&quot;', $title)));
+    $title = stripslashes(Sanitize::fixQuotes(str_replace('"', '&quot;', $title)));
 
-    $hometext = stripslashes(fixQuotes($hometext));
-    $bodytext = stripslashes(fixQuotes($bodytext));
-    $notes = stripslashes(fixQuotes($notes));
+    $hometext = stripslashes(Sanitize::fixQuotes($hometext));
+    $bodytext = stripslashes(Sanitize::fixQuotes($bodytext));
+    $notes = stripslashes(Sanitize::fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';

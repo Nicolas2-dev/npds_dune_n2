@@ -218,8 +218,8 @@ function displayadmins()
         ' . $scri_check;
 
     $arg1 = 'var formulid = ["nou_adm"];
-        ' . autoComplete('admin', 'aid', 'authors', '', '0') . '
-        ' . autoComplete('adminname', 'name', 'authors', '', '0') . '
+        ' . Js::autoComplete('admin', 'aid', 'authors', '', '0') . '
+        ' . Js::autoComplete('adminname', 'name', 'authors', '', '0') . '
         inpandfieldlen("add_aid",30);
         inpandfieldlen("add_name",50);
         inpandfieldlen("add_email",254);
@@ -451,7 +451,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
     include_once 'functions.php';
 
-    if (checkDnsMail($chng_email) === false) {
+    if (Forum::checkDnsMail($chng_email) === false) {
         global $hlpfile;
 
         include 'header.php';
@@ -567,7 +567,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
     }
 
     global $aid;
-    ecrireLog('security', sprintf('ModifyAuthor(%s) by AID : %s', $chng_nam, $aid), '');
+    Log::ecrireLog('security', sprintf('ModifyAuthor(%s) by AID : %s', $chng_nam, $aid), '');
 
     Header('Location: admin.php?op=mod_authors');
 }
@@ -615,7 +615,7 @@ switch ($op) {
 
         include_once 'functions.php';
 
-        if (checkDnsMail($add_email) === false) {
+        if (Forum::checkDnsMail($add_email) === false) {
             global $hlpfile;
 
             include 'header.php';
@@ -648,7 +648,7 @@ switch ($op) {
         }
 
         global $aid;
-        ecrireLog('security', printf('AddAuthor(%s) by AID : %s', $add_aid, $aid), '');
+        Log::ecrireLog('security', printf('AddAuthor(%s) by AID : %s', $add_aid, $aid), '');
 
         Header('Location: admin.php?op=mod_authors');
         break;
@@ -684,7 +684,7 @@ switch ($op) {
         @unlink('modules/f-manager/storage/users/' . strtolower($del_aid) . '.php');
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteAuthor(%s) by AID : %s', $del_aid, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteAuthor(%s) by AID : %s', $del_aid, $aid), '');
 
         Header('Location: admin.php?op=mod_authors');
         break;

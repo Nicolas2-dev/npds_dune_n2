@@ -1,5 +1,9 @@
 <?php
 
+use App\Library\Language\Language;
+use App\Library\Pollbooth\Pollbooth;
+
+
 if (! function_exists('pollMain')) {
     #autodoc pollMain($pollID,$pollClose) : Construit le bloc sondage
     function pollMain($pollID, $pollClose)
@@ -27,7 +31,7 @@ if (! function_exists('pollMain')) {
         global $block_title;
         $boxTitle = $block_title == '' ? translate('Sondage') :  $block_title;
 
-        $boxContent .= '<legend>' . affLangue($pollTitle) . '</legend>';
+        $boxContent .= '<legend>' . Language::affLangue($pollTitle) . '</legend>';
 
         $result = sql_query("SELECT pollID, optionText, optionCount, voteID 
                             FROM " . sql_prefix('poll_data') . " 
@@ -44,7 +48,7 @@ if (! function_exists('pollMain')) {
             while ($object = sql_fetch_assoc($result)) {
                 $boxContent .= '<div class="form-check">
                     <input class="form-check-input" type="radio" id="voteID' . $j . '" name="voteID" value="' . $object['voteID'] . '" />
-                    <label class="form-check-label d-block" for="voteID' . $j . '" >' . affLangue($object['optionText']) . '</label>
+                    <label class="form-check-label d-block" for="voteID' . $j . '" >' . Language::affLangue($object['optionText']) . '</label>
                 </div>';
 
                 $sum = $sum + $object['optionCount'];
@@ -54,7 +58,7 @@ if (! function_exists('pollMain')) {
             $boxContent .= '</div>';
         } else {
             while ($object = sql_fetch_assoc($result)) {
-                $boxContent .= '&nbsp;' . affLangue($object['optionText']) . '<br />';
+                $boxContent .= '&nbsp;' . Language::affLangue($object['optionText']) . '<br />';
                 $sum = $sum + $object['optionCount'];
             }
         }
@@ -104,7 +108,7 @@ if (! function_exists('PollNewest')) {
         if ($id != 0) {
             settype($id, 'integer');
 
-            list($ibid, $pollClose) = pollSecur($id);
+            list($ibid, $pollClose) = Pollbooth::pollSecur($id);
 
             if ($ibid) {
                 pollMain($ibid, $pollClose);
@@ -116,7 +120,7 @@ if (! function_exists('PollNewest')) {
 
             list($pollID) = sql_fetch_row($result);
 
-            list($ibid, $pollClose) = pollSecur($pollID);
+            list($ibid, $pollClose) = Pollbooth::pollSecur($pollID);
 
             if ($ibid) {
                 pollMain($ibid, $pollClose);

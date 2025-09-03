@@ -2,6 +2,8 @@
 
 namespace App\Library\Log;
 
+use App\Library\Http\Request;
+
 
 class Log
 {
@@ -30,7 +32,7 @@ class Log
         fseek($fp, filesize($logfile));
 
         if ($mot_log == '') {
-            $mot_log = 'IP=>' . getip();
+            $mot_log = 'IP=>' . Request::getip();
         }
 
         $ibid = sprintf("%-10s %-60s %-10s\r\n", date('d/m/Y H:i:s', time()), basename($_SERVER['PHP_SELF']) . '=>' . strip_tags(urldecode($req_log)), strip_tags(urldecode($mot_log))); //pourquoi urldecode ici ?

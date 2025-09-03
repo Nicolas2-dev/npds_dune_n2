@@ -54,7 +54,7 @@ function defaultDisplay()
     include 'header.php';
 
     if ($user) {
-        $userinfo = getUserInfo($user);
+        $userinfo = Auth::getUserInfo($user);
     }
 
     echo '<h2>' . translate('Proposer un article') . '</h2>
@@ -99,7 +99,7 @@ function defaultDisplay()
         echo '<option ' . $sel . ' value="' . $topicid . '">';
 
         if ($topics != '') {
-            echo affLangue($topics);
+            echo Language::affLangue($topics);
         } else {
             echo $topiname;
         }
@@ -119,7 +119,7 @@ function defaultDisplay()
         </div>
     </div>';
 
-    echo affEditeur('story', '');
+    echo Editeur::affEditeur('story', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="bodytext">' . translate('Texte complet') . '</label>
@@ -128,7 +128,7 @@ function defaultDisplay()
             </div>
         </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     publication('', '', '', '', 0);
 
@@ -149,8 +149,8 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
 
     include 'header.php';
 
-    $story      = stripslashes(dataImageToFileUrl($story, 'cache/ai'));
-    $bodytext   = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
+    $story      = stripslashes(Base64Image::dataImageToFileUrl($story, 'cache/ai'));
+    $bodytext   = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
     $subject    = stripslashes(str_replace('"', '&quot;', (strip_tags($subject))));
 
     echo '<h2>' . translate('Proposer un article') . '</h2>
@@ -172,7 +172,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
         list($topictext, $topicimage, $topicname) = sql_fetch_row($result);
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end" title="' . affLangue($topictext) . '" data-bs-toggle="tooltip">' . affLangue($topicname) . '</span>';
+    $topiclogo = '<span class="badge bg-secondary float-end" title="' . Language::affLangue($topictext) . '" data-bs-toggle="tooltip">' . Language::affLangue($topicname) . '</span>';
 
     if ($topicimage !== '') {
         if (!$imgtmp = themeImage('topics/' . $topicimage)) {
@@ -186,8 +186,8 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
         }
     }
 
-    $storyX = affCode($story);
-    $bodytextX = affCode($bodytext);
+    $storyX = Code::affCode($story);
+    $bodytextX = Code::affCode($bodytext);
 
     themePreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
 
@@ -214,7 +214,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             $sel = 'selected="selected" ';
         }
 
-        echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+        echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
         $sel = '';
     }
@@ -229,7 +229,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             <span class="help-block">' . translate('Les spécialistes peuvent utiliser du HTML, mais attention aux erreurs') . '</span>
             <textarea class="tin form-control" rows="25" name="story">' . $story . '</textarea>';
 
-    echo affEditeur('story', '');
+    echo Editeur::affEditeur('story', '');
 
     echo '</div>
     </div>
@@ -240,7 +240,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
             </div>
         </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -270,19 +270,19 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
 
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, '')) {
-            ecrireLog('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
+            Log::ecrireLog('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
 
             redirectUrl('index.php');
             die();
         }
     }
 
-    $story      = dataImageToFileUrl($story, 'cache/ai');
-    $bodytext   = dataImageToFileUrl($bodytext, 'cache/ac');
+    $story      = Base64Image::dataImageToFileUrl($story, 'cache/ai');
+    $bodytext   = Base64Image::dataImageToFileUrl($bodytext, 'cache/ac');
 
-    $subject    = removeHack(stripslashes(fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
-    $story      = removeHack(stripslashes(fixQuotes($story)));
-    $bodytext   = removeHack(stripslashes(fixQuotes($bodytext)));
+    $subject    = removeHack(stripslashes(Sanitize::fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
+    $story      = removeHack(stripslashes(Sanitize::fixQuotes($story)));
+    $bodytext   = removeHack(stripslashes(Sanitize::fixQuotes($bodytext)));
 
     sql_query("INSERT INTO " . sql_prefix('queue') . " 
                VALUES (NULL, '$uid', '$name', '$subject', '$story', '$bodytext', now(), '$topic', '$date_debval', '$date_finval', '$epur')");
@@ -292,7 +292,7 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         if ($notify) {
             global $notify_email, $notify_subject, $notify_message, $notify_from;
 
-            sendEmail($notify_email, $notify_subject, $notify_message, $notify_from, false, "html", '');
+            Mailer::sendEmail($notify_email, $notify_subject, $notify_message, $notify_from, false, "html", '');
         }
 
         include 'header.php';
@@ -319,7 +319,7 @@ switch ($op) {
     case 'Prévisualiser':
     case translate('Prévisualiser'):
         if ($user) {
-            $userinfo = getUserInfo($user);
+            $userinfo = Auth::getUserInfo($user);
             $name = $userinfo['uname'];
         } else {
             $name = $anonymous;

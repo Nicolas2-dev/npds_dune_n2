@@ -199,7 +199,7 @@ function ConfigFiles_save($Xtxt, $Xfiles)
     }
 
     global $aid;
-    ecrireLog('security', sprintf('SaveConfigFile(%s) by AID : %s', $Xfiles, $aid), '');
+    Log::ecrireLog('security', sprintf('SaveConfigFile(%s) by AID : %s', $Xfiles, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }
@@ -241,7 +241,7 @@ function ConfigFiles_delete($modele)
     }
 
     global $aid;
-    ecrireLog('security', sprintf('DeleteConfigFile(%s) by AID : %s', $modele, $aid), '');
+    Log::ecrireLog('security', sprintf('DeleteConfigFile(%s) by AID : %s', $modele, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }
@@ -296,7 +296,7 @@ function ConfigFiles_create($modele)
     }
 
     global $aid;
-    ecrireLog('security', sprintf('CreateConfigFile(%s) by AID : %s', $modele, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateConfigFile(%s) by AID : %s', $modele, $aid), '');
 
     header('location: admin.php?op=ConfigFiles');
 }

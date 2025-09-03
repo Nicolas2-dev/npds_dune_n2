@@ -28,7 +28,7 @@ switch ($op) {
 
     // Instant Members Message
     case 'instant_message':
-        FormInstantMessage($to_userid);
+        Messenger::FormInstantMessage($to_userid);
         break;
 
     case 'write_instant_message':
@@ -45,10 +45,10 @@ switch ($op) {
             $from_userid = $uid['uid'];
 
             if (($subject != '') or ($message != '')) {
-                $subject = fixQuotes($subject) . '';
-                $messages = fixQuotes($messages) . '';
+                $subject = Sanitize::fixQuotes($subject) . '';
+                $messages = Sanitize::fixQuotes($messages) . '';
 
-                dbWritePrivateMessage($to_userid, '', $subject, $from_userid, $message, $copie);
+                Messenger::dbWritePrivateMessage($to_userid, '', $subject, $from_userid, $message, $copie);
             }
         }
 

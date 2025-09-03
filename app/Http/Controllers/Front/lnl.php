@@ -33,7 +33,7 @@ function SuserCheck($email)
         $stop = translate('Erreur : une adresse Email ne peut pas contenir d\'espaces');
     }
 
-    if (checkDnsMail($email) === false) {
+    if (Forum::checkDnsMail($email) === false) {
         $stop = translate('Erreur : DNS ou serveur de mail incorrect');
     }
 
@@ -103,7 +103,7 @@ function subscribe_ok($xemail)
         SuserCheck($xemail);
 
         if ($stop == '') {
-            $host_name = getip();
+            $host_name = Request::getip();
             $timeX = date('Y-m-d H:m:s', time());
 
             // Troll Control
@@ -127,7 +127,7 @@ function subscribe_ok($xemail)
 
                 include 'config/signat.php';
 
-                sendEmail($xemail, $subject, $message, '', true, 'html', '');
+                Mailer::sendEmail($xemail, $subject, $message, '', true, 'html', '');
 
                 echo '<div class="alert alert-success">' . translate('Merci d\'avoir consacré du temps pour vous enregistrer.') . '</div>
                 <a href="index.php">' . translate('Retour en arrière') . '</a>';
@@ -160,7 +160,7 @@ function unsubscribe($xemail)
                                     FROM " . sql_prefix('lnl_outside_users') . " 
                                     WHERE email='$xemail'")) > 0) {
 
-            $host_name = getip();
+            $host_name = Request::getip();
 
             // Troll Control
             list($troll) = sql_fetch_row(sql_query("SELECT COUNT(*) 
@@ -206,7 +206,7 @@ switch ($op) {
     case 'subscribeOK':
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, '')) {
-            ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
+            Log::ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
 
             redirectUrl('index.php');
             die();

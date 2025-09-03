@@ -80,12 +80,12 @@ include 'storage/meta/meta.php';
 
 echo '<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon" />';
 
-echo importCss($tmp_theme, $language, $skin, '', '');
+echo Css::importCss($tmp_theme, $language, $skin, '', '');
 
 echo '</head>
     <body style="padding: 10px; background:#ffffff;">';
 
-$wspad = rawurldecode(decrypt($pad));
+$wspad = rawurldecode(Encrypter::decrypt($pad));
 $wspad = explode('#wspad#', $wspad);
 
 $row = sql_fetch_assoc(sql_query("SELECT content, modtime, editedby, ranq  
@@ -94,13 +94,13 @@ $row = sql_fetch_assoc(sql_query("SELECT content, modtime, editedby, ranq
                                   AND member='" . $wspad[1] . "' 
                                   AND ranq='" . $wspad[2] . "'"));
 
-$time = formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+$time = Date::formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
 echo '<h2>' . $wspad[0] . '</h2>
     <span>
         [ ' . wspad_trans("révision") . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . " / " . $time . ' ]
     </span>
     <hr />
-    ' . affLangue($row['content']) . '
+    ' . Language::affLangue($row['content']) . '
 </body>
 </html>';

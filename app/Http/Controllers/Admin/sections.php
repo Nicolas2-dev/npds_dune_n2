@@ -27,7 +27,7 @@ $hlpfile = 'admin/manuels/' . $language . '/sections.html';
 function groupe($groupe)
 {
     $les_groupes = explode(',', $groupe);
-    $mX = listeGroup();
+    $mX = Groupe::listeGroup();
 
     $nbg = 0;
     $str = '';
@@ -138,8 +138,8 @@ function sousrub_select($secid)
 
     while (list($rubid, $rubname) = sql_fetch_row($result)) {
 
-        $rubname = affLangue($rubname);
-        $tmp .= '<optgroup label="' . affLangue($rubname) . '">';
+        $rubname = Language::affLangue($rubname);
+        $tmp .= '<optgroup label="' . Language::affLangue($rubname) . '">';
 
         if ($radminsuper == 1) {
             $result2 = sql_query("SELECT secid, secname, ordre 
@@ -157,7 +157,7 @@ function sousrub_select($secid)
         }
 
         while (list($secid2, $secname) = sql_fetch_row($result2)) {
-            $secname = affLangue($secname);
+            $secname = Language::affLangue($secname);
             $secname = substr($secname, 0, 50);
 
             $tmp .= '<option value="' . $secid2 . '"';
@@ -273,7 +273,7 @@ function sections()
                 $href3 = '';
             }
 
-            $rubname = affLangue($rubname);
+            $rubname = Language::affLangue($rubname);
 
             if ($rubname == '') {
                 $rubname = adm_translate('Sans nom');
@@ -314,7 +314,7 @@ function sections()
 
                 while (list($secid, $secname) = sql_fetch_row($result2)) {
                     $droit_pub = droits_publication($secid);
-                    $secname = affLangue($secname);
+                    $secname = Language::affLangue($secname);
 
                     $result3 = sql_query("SELECT artid, title 
                                           FROM " . sql_prefix('seccont') . " 
@@ -360,7 +360,7 @@ function sections()
                                 $title = adm_translate('Sans titre');
                             }
 
-                            echo '<li class="list-group-item list-group-item-action d-flex"><span class="ms-4">' . affLangue($title) . '</span>
+                            echo '<li class="list-group-item list-group-item-action d-flex"><span class="ms-4">' . Language::affLangue($title) . '</span>
                             <span class="ms-auto">
                             <a href="sections.php?op=viewarticle&amp;artid=' . $artid . '&amp;prev=1"><i class="fa fa-eye fa-lg"></i></a>&nbsp;';
 
@@ -422,7 +422,7 @@ function sections()
                     <textarea class="tin form-control" name="content" rows="30"></textarea>
                 </div>
                 </div>
-                ' . affEditeur('content', '') . '
+                ' . Editeur::affEditeur('content', '') . '
                 <input type="hidden" name="op" value="secarticleadd" />
                 <input type="hidden" name="autho" value="' . $aid . '" />';
 
@@ -450,7 +450,7 @@ function sections()
         $nb_enattente = sql_num_rows($result);
 
         while (list($artid, $secid, $title, $content, $author) = sql_fetch_row($result)) {
-            $enattente .= '<li class="list-group-item list-group-item-action" ><div class="d-flex flex-row align-items-center"><span class="flex-grow-1 pe-4">' . affLangue($title) . '<br /><span class="text-body-secondary"><i class="fa fa-user fa-lg me-1"></i>[' . $author . ']</span></span><span class="text-center"><a href="admin.php?op=secartupdate&amp;artid=' . $artid . '">' . adm_translate('Editer') . '<br /><i class="fa fa-edit fa-lg"></i></a></span></div>';
+            $enattente .= '<li class="list-group-item list-group-item-action" ><div class="d-flex flex-row align-items-center"><span class="flex-grow-1 pe-4">' . Language::affLangue($title) . '<br /><span class="text-body-secondary"><i class="fa fa-user fa-lg me-1"></i>[' . $author . ']</span></span><span class="text-center"><a href="admin.php?op=secartupdate&amp;artid=' . $artid . '">' . adm_translate('Editer') . '<br /><i class="fa fa-edit fa-lg"></i></a></span></div>';
         }
     } else {
         $result = sql_query("SELECT distinct seccont_tempo.artid, seccont_tempo.title, seccont_tempo.author 
@@ -462,7 +462,7 @@ function sections()
         $nb_enattente = sql_num_rows($result);
 
         while (list($artid, $title, $author) = sql_fetch_row($result)) {
-            $enattente .= '<li class="list-group-item list-group-item-action" ><div class="d-flex flex-row align-items-center"><span class="flex-grow-1 pe-4">' . affLangue($title) . '<br /><span class="text-body-secondary"><i class="fa fa-user fa-lg me-1"></i>[' . $author . ']</span></span><span class="text-center"><a href="admin.php?op=secartupdate&amp;artid=' . $artid . '">' . adm_translate('Editer') . '<br /><i class="fa fa-edit fa-lg"></i></a></span></div>';
+            $enattente .= '<li class="list-group-item list-group-item-action" ><div class="d-flex flex-row align-items-center"><span class="flex-grow-1 pe-4">' . Language::affLangue($title) . '<br /><span class="text-body-secondary"><i class="fa fa-user fa-lg me-1"></i>[' . $author . ']</span></span><span class="text-center"><a href="admin.php?op=secartupdate&amp;artid=' . $artid . '">' . adm_translate('Editer') . '<br /><i class="fa fa-edit fa-lg"></i></a></span></div>';
         }
     }
 
@@ -532,7 +532,7 @@ function new_rub_section($type)
         }
 
         while (list($rubid, $rubname) = sql_fetch_row($result)) {
-            echo '<option value="' . $rubid . '">' . affLangue($rubname) . '</option>';
+            echo '<option value="' . $rubid . '">' . Language::affLangue($rubname) . '</option>';
         }
 
         echo '</select>
@@ -553,7 +553,7 @@ function new_rub_section($type)
                 <label class="col-form-label" for="introd">' . adm_translate('Texte d\'introduction') . '</label>
                 <textarea class="tin form-control" name="introd" rows="30"></textarea>';
 
-        echo affEditeur("introd", '');
+        echo Editeur::affEditeur("introd", '');
 
         echo '</div>';
 
@@ -582,7 +582,7 @@ function new_rub_section($type)
                 <textarea class="tin form-control" id="introc" name="introc" rows="30" ></textarea>
                 </div>';
 
-        echo affEditeur('introc', '');
+        echo Editeur::affEditeur('introc', '');
 
         echo '<div class="mb-3">
                 <input type="hidden" name="op" value="rubriquemake" />
@@ -619,7 +619,7 @@ function publishcompat($article)
                          ORDER BY ordre");
 
     echo '<hr />
-    <h3 class="mb-3">' . adm_translate('Publications connexes') . ' : <span class="text-body-secondary">' . affLangue($titre) . '</span></h3>
+    <h3 class="mb-3">' . adm_translate('Publications connexes') . ' : <span class="text-body-secondary">' . Language::affLangue($titre) . '</span></h3>
     <form action="admin.php" method="post">';
 
     $i = 0;
@@ -634,7 +634,7 @@ function publishcompat($article)
         }
 
         echo '<div class="list-group-item bg-light">
-            <a class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#lst_' . $rubid . '" ><i class="toggle-icon fa fa-caret-down fa-lg"></i></a>&nbsp;' . affLangue($rubname) . '<span class="badge bg-' . $cla . ' float-end">' . $online . '</span>
+            <a class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#lst_' . $rubid . '" ><i class="toggle-icon fa fa-caret-down fa-lg"></i></a>&nbsp;' . Language::affLangue($rubname) . '<span class="badge bg-' . $cla . ' float-end">' . $online . '</span>
         </div>';
 
         if ($radminsuper == 1) {
@@ -656,7 +656,7 @@ function publishcompat($article)
             echo '<ul id="lst_' . $rubid . '" class="list-group mb-1 collapse">';
 
             while (list($secid, $secname) = sql_fetch_row($result2)) {
-                echo '<li class="list-group-item"><strong class="ms-3" title="' . adm_translate('sous-rubrique') . '" data-bs-toggle="tooltip">' . affLangue($secname) . '</strong></li>';
+                echo '<li class="list-group-item"><strong class="ms-3" title="' . adm_translate('sous-rubrique') . '" data-bs-toggle="tooltip">' . Language::affLangue($secname) . '</strong></li>';
 
                 $result3 = sql_query("SELECT artid, title 
                                       FROM " . sql_prefix('seccont') . " 
@@ -681,7 +681,7 @@ function publishcompat($article)
                             echo '<input class="form-check-input" type="checkbox" id="admin_rub' . $i . '" name="admin_rub[' . $i . ']" value="' . $artid . '" />';
                         }
 
-                        echo '<label class="form-check-label" for="admin_rub' . $i . '">' . affLangue($title) . '</label></div></li>';
+                        echo '<label class="form-check-label" for="admin_rub' . $i . '">' . Language::affLangue($title) . '</label></div></li>';
                     }
                 }
             }
@@ -715,7 +715,7 @@ function updatecompat($article, $admin_rub, $idx)
     }
 
     global $aid;
-    ecrireLog('security', sprintf('UpdateCompatSujets(%s) by AID : %s', $article, $aid), '');
+    Log::ecrireLog('security', sprintf('UpdateCompatSujets(%s) by AID : %s', $article, $aid), '');
 
     Header('Location: admin.php?op=secartedit&artid=' . $article);
 }
@@ -756,7 +756,7 @@ function rubriquedit($rubid)
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     echo '<hr />
-    <h3 class="mb-3">' . adm_translate('Editer une Rubrique : ') . ' <span class="text-body-secondary">' . affLangue($rubname) . ' #' . $rubid . '</span></h3>';
+    <h3 class="mb-3">' . adm_translate('Editer une Rubrique : ') . ' <span class="text-body-secondary">' . Language::affLangue($rubname) . ' #' . $rubid . '</span></h3>';
 
     if ($number) {
         echo '<span class="badge bg-secondary">' . $number . '</span>&nbsp;' . adm_translate('sous-rubrique(s) attachée(s)');
@@ -776,7 +776,7 @@ function rubriquedit($rubid)
                 <textarea class="tin form-control" id="introc" name="introc" rows="30" >' . $intro . '</textarea>
                 </div>
             </div>
-            ' . affEditeur('introc', '') . '
+            ' . Editeur::affEditeur('introc', '') . '
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-3 pt-0" for="enligne">' . adm_translate('En Ligne') . '</label>';
 
@@ -821,8 +821,8 @@ function rubriquemake($rubname, $introc)
 {
     global $radminsuper, $aid;
 
-    $rubname = stripslashes(fixQuotes($rubname));
-    $introc = stripslashes(fixQuotes(dataImageToFileUrl($introc, 'modules/upload/storage/rub')));
+    $rubname = stripslashes(Sanitize::fixQuotes($rubname));
+    $introc = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introc, 'modules/upload/storage/rub')));
 
     sql_query("INSERT INTO " . sql_prefix('rubriques') . " 
                VALUES (NULL, '$rubname', '$introc', '0', '0')");
@@ -847,26 +847,26 @@ function rubriquemake($rubname, $introc)
 
         droitsalacreation($aid, $seclast);
 
-        ecrireLog('security', sprintf('CreateSections(Vide) by AID : %s (via system)', $aid), '');
+        Log::ecrireLog('security', sprintf('CreateSections(Vide) by AID : %s (via system)', $aid), '');
     }
 
-    ecrireLog('security', sprintf('CreateRubriques(%s) by AID : %s', $rubname, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateRubriques(%s) by AID : %s', $rubname, $aid), '');
 
     Header('Location: admin.php?op=ordremodule');
 }
 
 function rubriquechange($rubid, $rubname, $introc, $enligne)
 {
-    $rubname = stripslashes(fixQuotes($rubname));
-    $introc = dataImageToFileUrl($introc, 'modules/upload/storage/rub');
-    $introc = stripslashes(fixQuotes($introc));
+    $rubname = stripslashes(Sanitize::fixQuotes($rubname));
+    $introc = Base64Image::dataImageToFileUrl($introc, 'modules/upload/storage/rub');
+    $introc = stripslashes(Sanitize::fixQuotes($introc));
 
     sql_query("UPDATE " . sql_prefix('rubriques') . " 
                SET rubname='$rubname', intro='$introc', enligne='$enligne' 
                WHERE rubid='$rubid'");
 
     global $aid;
-    ecrireLog('security', sprintf('UpdateRubriques(%s, %s) by AID : %s', $rubid, $rubname, $aid), '');
+    Log::ecrireLog('security', sprintf('UpdateRubriques(%s, %s) by AID : %s', $rubid, $rubname, $aid), '');
 
     Header('Location: admin.php?op=sections');
 }
@@ -893,7 +893,7 @@ function sectionedit($secid)
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     echo '<hr />
-    <h3 class="mb-3">' . adm_translate('Sous-rubrique') . ' : <span class="text-body-secondary">' . affLangue($secname) . '</span></h3>';
+    <h3 class="mb-3">' . adm_translate('Sous-rubrique') . ' : <span class="text-body-secondary">' . Language::affLangue($secname) . '</span></h3>';
 
     $result2 = sql_query("SELECT artid 
                           FROM " . sql_prefix('seccont') . " 
@@ -927,7 +927,7 @@ function sectionedit($secid)
     while (list($rubid, $rubname) = sql_fetch_row($result)) {
         $sel = $rubref == $rubid ? 'selected="selected"' : '';
 
-        echo '<option value="' . $rubid . '" ' . $sel . '>' . affLangue($rubname) . '</option>';
+        echo '<option value="' . $rubid . '" ' . $sel . '>' . Language::affLangue($rubname) . '</option>';
     }
 
     echo '</select>
@@ -947,7 +947,7 @@ function sectionedit($secid)
         while(list($rubid, $rubname) = sql_fetch_row($result)) {
             $sel = $rubref == $rubid ? 'selected="selected"' : '';
             
-            echo '<option value="'. $rubid .'" '. $sel .'>'. affLangue($rubname) .'</option>';
+            echo '<option value="'. $rubid .'" '. $sel .'>'. Language::affLangue($rubname) .'</option>';
         }
 
         echo '</select>
@@ -962,7 +962,7 @@ function sectionedit($secid)
 
         list($rubname) = sql_fetch_row($result);
 
-        echo '<pan class="ms-2">'. affLangue($rubname) .'</span>';
+        echo '<pan class="ms-2">'. Language::affLangue($rubname) .'</span>';
     }
     */
 
@@ -982,7 +982,7 @@ function sectionedit($secid)
         <textarea class="tin form-control" id="introd" name="introd" rows="20">' . $intro . '</textarea>
     </div>';
 
-    echo affEditeur('introd', '');
+    echo Editeur::affEditeur('introd', '');
 
     droits($userlevel);
 
@@ -1016,11 +1016,11 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
         }
     }
 
-    $secname = stripslashes(fixQuotes($secname));
-    $rubref = stripslashes(fixQuotes($rubref));
-    $image = stripslashes(fixQuotes($image));
+    $secname = stripslashes(Sanitize::fixQuotes($secname));
+    $rubref = stripslashes(Sanitize::fixQuotes($rubref));
+    $image = stripslashes(Sanitize::fixQuotes($image));
 
-    $introd = stripslashes(fixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
 
     sql_query("INSERT INTO " . sql_prefix('sections') . " 
                VALUES (NULL,'$secname', '$image', '$members', '$rubref', '$introd', '99', '0')");
@@ -1036,7 +1036,7 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
         droitsalacreation($aid, $secid);
     }
 
-    ecrireLog('security', sprintf('CreateSections(%s) by AID : %s', $secname, $aid), '');
+    Log::ecrireLog('security', sprintf('CreateSections(%s) by AID : %s', $secname, $aid), '');
 
     Header('Location: admin.php?op=sections');
 }
@@ -1051,17 +1051,17 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
         }
     }
 
-    $secname = stripslashes(fixQuotes($secname));
-    $image = stripslashes(fixQuotes($image));
+    $secname = stripslashes(Sanitize::fixQuotes($secname));
+    $image = stripslashes(Sanitize::fixQuotes($image));
 
-    $introd = stripslashes(fixQuotes(dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
 
     sql_query("UPDATE " . sql_prefix('sections') . " 
                SET secname='$secname', image='$image', userlevel='$members', rubid='$rubref', intro='$introd' 
                WHERE secid='$secid'");
 
     global $aid;
-    ecrireLog('security', sprintf('UpdateSections(%s, %s) by AID : %s', $secid, $secname, $aid), '');
+    Log::ecrireLog('security', sprintf('UpdateSections(%s, %s) by AID : %s', $secid, $secname, $aid), '');
 
     Header('Location: admin.php?op=sections');
 }
@@ -1088,7 +1088,7 @@ function secartedit($artid)
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     $arttitle = stripslashes($arttitle);
-    $content = stripslashes(dataImageToFileUrl($content, 'cache/s'));
+    $content = stripslashes(Base64Image::dataImageToFileUrl($content, 'cache/s'));
 
     echo '<hr />
     <h3 class="mb-3">' . adm_translate('Editer une publication') . '</h3>
@@ -1111,7 +1111,7 @@ function secartedit($artid)
 
         list($secname) = sql_fetch_row($result);
 
-        echo "<b>" . affLangue($secname) . "</b>";
+        echo "<b>" . Language::affLangue($secname) . "</b>";
         echo '<input type="hidden" name="secid" value="' . $secid . '" />';
     }
 
@@ -1135,7 +1135,7 @@ function secartedit($artid)
                 </div>
             </div>';
 
-    echo affEditeur('content', '');
+    echo Editeur::affEditeur('content', '');
 
     echo '<div class="mb-3 row">
         <div class="col-sm-12">';
@@ -1224,7 +1224,7 @@ function secartupdate($artid)
     echo $debut;
 
     $title = stripslashes($title);
-    $content = stripslashes(dataImageToFileUrl($content, 'cache/s'));
+    $content = stripslashes(Base64Image::dataImageToFileUrl($content, 'cache/s'));
 
     echo '<form id="secartupdate" action="admin.php" method="post" name="adminForm">
         <input type="hidden" name="artid" value="' . $artid . '" />
@@ -1243,7 +1243,7 @@ function secartupdate($artid)
 
         list($secname) = sql_fetch_row($result);
 
-        echo '<strong>' . affLangue($secname) . '</strong>
+        echo '<strong>' . Language::affLangue($secname) . '</strong>
             <input type="hidden" name="secid" value="' . $secid . '" />';
     }
 
@@ -1261,7 +1261,7 @@ function secartupdate($artid)
                 <textarea class="tin form-control" id="content" name="content" rows="30">' . $content . '</textarea>
             </div>
         </div>
-        ' . affEditeur('content', '');
+        ' . Editeur::affEditeur('content', '');
 
     droits($userlevel);
 
@@ -1281,27 +1281,27 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(fixQuotes($title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($secid != "0") {
         if ($radminsuper == 1) {
             $timestamp = time();
 
-            $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
+            $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members', '$timestamp')");
 
             global $aid;
-            ecrireLog('security', sprintf('CreateArticleSections(%s, %s) by AID : %s', $secid, $title, $aid), '');
+            Log::ecrireLog('security', sprintf('CreateArticleSections(%s, %s) by AID : %s', $secid, $title, $aid), '');
         } else {
-            $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'cache/s')));
+            $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'cache/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont_tempo') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members')");
 
             global $aid;
-            ecrireLog('security', sprintf('CreateArticleSectionsTempo(%s, %s) by AID : %s', $secid, $title, $aid), '');
+            Log::ecrireLog('security', sprintf('CreateArticleSectionsTempo(%s, %s) by AID : %s', $secid, $title, $aid), '');
         }
     }
 
@@ -1314,8 +1314,8 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
 
     $timestamp = time();
 
@@ -1325,7 +1325,7 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
                    WHERE artid='$artid'");
 
         global $aid;
-        ecrireLog('security', sprintf('UpdateArticleSections(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
+        Log::ecrireLog('security', sprintf('UpdateArticleSections(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
     }
 
     Header('Location: admin.php?op=secartedit&artid=' . $artid);
@@ -1337,8 +1337,8 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
         $members = implode(',', $Mmembers);
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'storage/cache/s')));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'storage/cache/s')));
 
     if ($secid != '0') {
         sql_query("UPDATE " . sql_prefix('seccont_tempo') . " 
@@ -1346,7 +1346,7 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
                    WHERE artid='$artid'");
 
         global $aid;
-        ecrireLog('security', sprintf('UpdateArticleSectionsTempo(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
+        Log::ecrireLog('security', sprintf('UpdateArticleSectionsTempo(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
     }
 
     Header('Location: admin.php?op=secartupdate&artid=' . $artid);
@@ -1358,8 +1358,8 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
         $members = implode(',', $Mmembers);
     }
 
-    $content = stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/s')));
-    $title = stripslashes(fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($secid != '0') {
         sql_query("DELETE FROM " . sql_prefix('seccont_tempo') . " 
@@ -1371,7 +1371,7 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
                    VALUES (NULL, '$secid', '$title', '$content', '0', '$author', '99', '$members', '$timestamp')");
 
         global $aid;
-        ecrireLog('security', sprintf('PublicateArticleSections(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
+        Log::ecrireLog('security', sprintf('PublicateArticleSections(%s, %s, %s) by AID : %s', $artid, $secid, $title, $aid), '');
 
         $result = sql_query("SELECT email 
                              FROM " . sql_prefix('authors') . " 
@@ -1383,7 +1383,7 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
         $message = adm_translate('La publication que vous aviez en attente vient d\'être validée');
 
         global $notify_from;
-        sendEmail($lemail, $sujet, $message, $notify_from, true, 'html', '');
+        Mailer::sendEmail($lemail, $sujet, $message, $notify_from, true, 'html', '');
     }
 
     Header('Location: admin.php?op=sections');
@@ -1431,7 +1431,7 @@ function rubriquedelete($rubid, $ok = 0)
                    WHERE rubid='$rubid'");
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteRubriques(%s) by AID : %s', $rubid, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteRubriques(%s) by AID : %s', $rubid, $aid), '');
 
         Header('Location: admin.php?op=sections');
     } else {
@@ -1449,7 +1449,7 @@ function rubriquedelete($rubid, $ok = 0)
         list($rubname) = sql_fetch_row($result);
 
         echo '<hr />
-        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la Rubrique : ') . '<span class="text-body-secondary">' . affLangue($rubname) . '</span></h3>
+        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la Rubrique : ') . '<span class="text-body-secondary">' . Language::affLangue($rubname) . '</span></h3>
         <div class="alert alert-danger">
             <strong>' . adm_translate('Etes-vous sûr de vouloir effacer cette Rubrique ?') . '</strong><br /><br />
             <a class="btn btn-danger btn-sm" href="admin.php?op=rubriquedelete&amp;rubid=' . $rubid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=sections" role="button">' . adm_translate('Non') . '</a>
@@ -1487,7 +1487,7 @@ function sectiondelete($secid, $ok = 0)
                    WHERE secid='$secid'");
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteSections(%s) by AID : %s', $secid, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteSections(%s) by AID : %s', $secid, $aid), '');
 
         Header('Location: admin.php?op=sections');
     } else {
@@ -1505,7 +1505,7 @@ function sectiondelete($secid, $ok = 0)
         list($secname) = sql_fetch_row($result);
 
         echo '<hr />
-        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la sous-rubrique : ') . '<span class="text-body-secondary">' . affLangue($secname) . '</span></h3>
+        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la sous-rubrique : ') . '<span class="text-body-secondary">' . Language::affLangue($secname) . '</span></h3>
         <div class="alert alert-danger">
             <strong>' . adm_translate('Etes-vous sûr de vouloir effacer cette sous-rubrique ?') . '</strong><br /><br />
             <a class="btn btn-danger btn-sm" href="admin.php?op=sectiondelete&amp;secid=' . $secid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
@@ -1551,7 +1551,7 @@ function secartdelete($artid, $ok = 0)
                    WHERE id1='$artid'");
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteArticlesSections(%s) by AID : %s', $artid, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteArticlesSections(%s) by AID : %s', $artid, $aid), '');
 
         Header('Location: admin.php?op=sections');
     } else {
@@ -1569,7 +1569,7 @@ function secartdelete($artid, $ok = 0)
         list($title) = sql_fetch_row($result);
 
         echo '<hr />
-        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la publication :') . ' <span class="text-body-secondary">' . affLangue($title) . '</span></h3>
+        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la publication :') . ' <span class="text-body-secondary">' . Language::affLangue($title) . '</span></h3>
         <p class="alert alert-danger">
             <strong>' . adm_translate('Etes-vous certain de vouloir effacer cette publication ?') . '</strong><br /><br />
             <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
@@ -1586,7 +1586,7 @@ function secartdelete2($artid, $ok = 0)
                    WHERE artid='$artid'");
 
         global $aid;
-        ecrireLog('security', sprintf('DeleteArticlesSectionsTempo(%s) by AID : %s', $artid, $aid), '');
+        Log::ecrireLog('security', sprintf('DeleteArticlesSectionsTempo(%s) by AID : %s', $artid, $aid), '');
 
         Header('Location: admin.php?op=sections');
     } else {
@@ -1604,7 +1604,7 @@ function secartdelete2($artid, $ok = 0)
         list($title) = sql_fetch_row($result);
 
         echo '<hr />
-        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la publication :') . ' <span class="text-body-secondary">' . affLangue($title) . '</span></h3>
+        <h3 class="mb-3 text-danger">' . adm_translate('Effacer la publication :') . ' <span class="text-body-secondary">' . Language::affLangue($title) . '</span></h3>
         <p class="alert alert-danger">
             <strong>' . adm_translate('Etes-vous certain de vouloir effacer cette publication ?') . '</strong><br /><br />
             <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete2&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
@@ -1662,7 +1662,7 @@ function ordremodule()
                         <input type="text" class="form-control" id="ordre' . $i . '" name="ordre[' . $i . ']" value="' . $ordre . '" maxlength="4" required="required" />
                     </div>
                 </td>
-                <td><label class="col-form-label" for="ordre' . $i . '">' . affLangue($rubname) . '</label></td>
+                <td><label class="col-form-label" for="ordre' . $i . '">' . Language::affLangue($rubname) . '</label></td>
             </tr>';
 
         $fv_parametres .= '
@@ -1736,7 +1736,7 @@ function ordrechapitre()
                     <input type="text" class="form-control" name="ordre[' . $i . ']" id="ordre' . $i . '" value="' . $ordre . '" maxlength="3" required="required" />
                 </div>
             </td>
-            <td><label class="col-form-label" for="ordre' . $i . '">' . affLangue($secname) . '</label></td>
+            <td><label class="col-form-label" for="ordre' . $i . '">' . Language::affLangue($secname) . '</label></td>
         </tr>';
 
         $fv_parametres .= '
@@ -1789,7 +1789,7 @@ function ordrecours()
     list($secname) = sql_fetch_row($result);
 
     echo '<hr />
-    <h3 class="mb-3">' . adm_translate('Changer l\'ordre') . ' ' . adm_translate('des') . ' ' . adm_translate('publications') . ' / ' . affLangue($secname) . '</h3>
+    <h3 class="mb-3">' . adm_translate('Changer l\'ordre') . ' ' . adm_translate('des') . ' ' . adm_translate('publications') . ' / ' . Language::affLangue($secname) . '</h3>
     <form id="ordrecours" action="admin.php" method="post" name="adminForm">
         <table class="table table-borderless table-sm table-hover table-striped">
             <thead>
@@ -1820,7 +1820,7 @@ function ordrecours()
                     <input type="text" class="form-control" id="ordre' . $i . '" name="ordre[' . $i . ']" value="' . $ordre . '"  maxlength="4" required="required" />
                 </div>
             </td>
-            <td><label class="col-form-label" for="ordre' . $i . '">' . affLangue($title) . '</label></td>
+            <td><label class="col-form-label" for="ordre' . $i . '">' . Language::affLangue($title) . '</label></td>
             </tr>';
 
         $fv_parametres .= '
@@ -1935,7 +1935,7 @@ function publishrights($author)
     while (list($rubid, $rubname) = sql_fetch_row($result1)) {
         echo '<table class="table table-bordered table-sm" data-toggle="" data-classes=""  data-striped="true" data-icons-prefix="fa" data-icons="icons">
                 <thead class="thead-light">
-                <tr class="table-secondary"><th colspan="5"><span class="form-check"><input class="form-check-input" id="ckbrall_' . $rubid . '" type="checkbox" /><label class="form-check-label lead" for="ckbrall_' . $rubid . '">' . affLangue($rubname) . '</label></span></th></tr>
+                <tr class="table-secondary"><th colspan="5"><span class="form-check"><input class="form-check-input" id="ckbrall_' . $rubid . '" type="checkbox" /><label class="form-check-label lead" for="ckbrall_' . $rubid . '">' . Language::affLangue($rubname) . '</label></span></th></tr>
                 <tr class="">
                     <th class="colspan="2" n-t-col-xs-3" data-sortable="true">' . adm_translate('Sous-rubriques') . '</th>
                     <th class="n-t-col-xs-2 text-center" data-halign="center" data-align="center">' . adm_translate('Créer') . '</th>
@@ -1983,7 +1983,7 @@ function publishrights($author)
             }
 
             echo '<tr>
-                    <td><div class="form-check"><input class="form-check-input" id="ckbsrall_' . $secid . '" type="checkbox" /><label class="form-check-label" for="ckbsrall_' . $secid . '">' . affLangue($secname) . '</label></div></td>
+                    <td><div class="form-check"><input class="form-check-input" id="ckbsrall_' . $secid . '" type="checkbox" /><label class="form-check-label" for="ckbsrall_' . $secid . '">' . Language::affLangue($secname) . '</label></div></td>
                     <td class="text-center"><div class="form-check"><input class="form-check-input ckbsr_' . $secid . ' ckbr_' . $rubid . '" type="checkbox" id="creation' . $i . '" name="creation[' . $i . ']" value="' . $secid . '" ' . $crea . ' /><label class="form-check-label" for="creation' . $i . '"></label></div></td>
                     <td class="text-center"><div class="form-check"><input class="form-check-input ckbsr_' . $secid . ' ckbr_' . $rubid . '" type="checkbox" id="publication' . $i . '" name="publication[' . $i . ']" value="' . $secid . '" ' . $publi . ' /><label class="form-check-label" for="publication' . $i . '"></label></div></td>
                     <td class="text-center"><div class="form-check"><input class="form-check-input ckbsr_' . $secid . ' ckbr_' . $rubid . '" type="checkbox" id="modification' . $i . '" name="modification[' . $i . ']" value="' . $secid . '" ' . $modif . ' /><label class="form-check-label" for="modification' . $i . '"></label></div></td>
@@ -2071,7 +2071,7 @@ function updaterights($chng_aid, $maxindex, $creation, $publication, $modificati
     }
 
     global $aid;
-    ecrireLog('security', sprintf('UpdateRightsPubliSujet(%s) by AID : %s', $chng_aid, $aid), '');
+    Log::ecrireLog('security', sprintf('UpdateRightsPubliSujet(%s) by AID : %s', $chng_aid, $aid), '');
 
     Header('Location: admin.php?op=sections');
 }

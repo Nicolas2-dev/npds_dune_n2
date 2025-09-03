@@ -57,7 +57,7 @@ if ($SuperCache) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
     if ($arch_titre) {
-        echo affLangue($arch_titre);
+        echo Language::affLangue($arch_titre);
     }
 
     echo '<hr />
@@ -117,15 +117,15 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
             list($title1) = sql_fetch_row($resultm);
 
-            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . affLangue(ucfirst($title)) . '</a> [ <a href="index.php?op=newindex&amp;catid=' . $catid . '">' . affLangue($title1) . '</a> ]';
+            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . Language::affLangue(ucfirst($title)) . '</a> [ <a href="index.php?op=newindex&amp;catid=' . $catid . '">' . Language::affLangue($title1) . '</a> ]';
         } else {
-            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . affLangue(ucfirst($title)) . '</a>';
+            $title = '<a href="article.php?sid=' . $sid . '&amp;archive=' . $arch . '" >' . Language::affLangue(ucfirst($title)) . '</a>';
         }
 
         echo '<tr>
             <td>' . $title . '</td>
             <td>' . $counter . '</td>
-            <td><small>' . formatTimes($time, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . '</small></td>
+            <td><small>' . Date::formatTimes($time, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . '</small></td>
             <td>' . userpopover($informant, 40, 2) . ' ' . $informant . '</td>
             <td>' . $printP . $sendF . '</td>
             </tr>';

@@ -36,7 +36,7 @@ function IMysql_Connexion()
 $langue = isset($langue) ? $langue : 'french';
 
 if ($langue) {
-    if (file_exists($fichier_lang = 'install/language/' . $langue . '/' . languageIso(1, 0, 0) . '.php')) {
+    if (file_exists($fichier_lang = 'install/language/' . $langue . '/' . Language::languageIso(1, 0, 0) . '.php')) {
         include_once $fichier_lang;
     } else {
         include_once 'install/language/' . $langue . '/' . $langue . '.php';
@@ -359,7 +359,7 @@ function formval($fv, $fv_parametres, $arg1, $foo)
         echo '
         <script type="text/javascript" src="assets/js/es6-shim.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . languageIso(1, '_', 1) . '.min.js"></script>
+        <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . Language::languageIso(1, '_', 1) . '.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
         <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
         <script type="text/javascript" src="assets/js/checkfieldinp.js"></script>
@@ -430,8 +430,8 @@ function formval($fv, $fv_parametres, $arg1, $foo)
             formulid.forEach(function(item, index, array) {
                 const fvitem = FormValidation.formValidation(
                     document.getElementById(item),{
-                    locale: "' . languageIso(1, "_", 1) . '",
-                    localization: FormValidation.locales.' . languageIso(1, "_", 1) . ',
+                    locale: "' . Language::languageIso(1, "_", 1) . '",
+                    localization: FormValidation.locales.' . Language::languageIso(1, "_", 1) . ',
                     fields: {';
 
         if ($fv_parametres != '') {

@@ -18,7 +18,7 @@ if (!function_exists('Mysql_Connexion')) {
 include 'functions.php';
 
 // Make Member_list Private or not
-if (!autoReg()) {
+if (!Auth::autoReg()) {
     unset($user);
 }
 
@@ -366,7 +366,7 @@ if ($letter != 'front') {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = getUserDataExtendFromId($temp_user['uid']);
+                $posterdata_extend = Forum::getUserDataExtendFromId($temp_user['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
                 include 'modules/geoloc/config/config.php';
@@ -461,11 +461,11 @@ if ($letter != 'front') {
                 if ($ibid_avatar = avatar($temp_user['user_avatar'])) {
                     echo '<a tabindex="0" data-bs-toggle="popover" data-bs-placement="right" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $temp_user['uname'] . '" data-bs-content=\'<div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'></i><img data-bs-html="true" class=" btn-outline-' . $clconnect . ' img-thumbnail img-fluid n-ava-40" src="' . $ibid_avatar . '" alt="' . $temp_user['uname'] . '" loading="lazy" /></a>
                     </td>
-                    <td><a href="user.php?op=userinfo&amp;uname=' . $temp_user['uname'] . '" title="' . translate('Inscription') . ' : ' . formatTimes($temp_user['user_regdate'], IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
+                    <td><a href="user.php?op=userinfo&amp;uname=' . $temp_user['uname'] . '" title="' . translate('Inscription') . ' : ' . Date::formatTimes($temp_user['user_regdate'], IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
                 }
 
                 if ($admin and $temp_user['user_lastvisit'] != '') {
-                    echo '<br />' . translate('Connexion') . ' : ' . formatTimes($temp_user['user_lastvisit'], IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
+                    echo '<br />' . translate('Connexion') . ' : ' . Date::formatTimes($temp_user['user_lastvisit'], IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
                 }
 
                 echo '"  data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right">' . $temp_user['uname'] . '</a>
@@ -474,7 +474,7 @@ if ($letter != 'front') {
 
                 if ($sortby != 'user_from ASC') {
                     if ($admin) {
-                        if (isBadMailUser($temp_user['uid']) === true) {
+                        if (Forum::isBadMailUser($temp_user['uid']) === true) {
                             echo '<td class="table-danger"><small>' . $temp_user['email'] . '</small></td>';
                         } else {
                             echo '<td><small>' . pregAntiSpam($temp_user['email']) . '</small></td>';

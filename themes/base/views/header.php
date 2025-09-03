@@ -54,5 +54,5 @@ if ($rep) {
     $Xcontent = ob_get_contents();
     ob_end_clean();
 
-    echo metaLang(affLangue($Xcontent));
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
 }

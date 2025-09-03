@@ -46,7 +46,7 @@ if (!$user) {
 }
 
 global $cookie, $language;
-$userdata = getUserDataFromId($cookie[0]);
+$userdata = Forum::getUserDataFromId($cookie[0]);
 
 $ModStart = 'reseaux-sociaux';
 
@@ -103,7 +103,7 @@ function EditReseaux($ModPath, $ModStart)
     include 'header.php';
 
     global $cookie;
-    $posterdata_extend = getUserDataExtendFromId($cookie[0]);
+    $posterdata_extend = Forum::getUserDataExtendFromId($cookie[0]);
 
     if ($posterdata_extend['M2'] != '') {
         $i = 0;
@@ -199,7 +199,7 @@ function SaveSetReseaux($ModPath, $ModStart)
     }
 
     $li_rs = rtrim($li_rs, ';');
-    $li_rs = removeHack(stripslashes(fixQuotes($li_rs)));
+    $li_rs = removeHack(stripslashes(Sanitize::fixQuotes($li_rs)));
 
     sql_query("UPDATE " . sql_prefix('users_extend') . " 
                SET M2='$li_rs' 

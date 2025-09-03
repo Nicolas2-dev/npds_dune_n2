@@ -78,7 +78,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
                 $sel = 'selected';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . Language::affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -92,7 +92,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . Language::affLangue($ctitle . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -135,7 +135,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
             </div>
         </div>';
 
-        affEditeur('xtext', '');
+        Editeur::affEditeur('xtext', '');
 
         echo '<div class="mb-3 row">
                 <input type="hidden" name="lid" value="' . $lid . '" />
@@ -170,9 +170,9 @@ function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmi
             $cat[1] = 0;
         }
 
-        $title          = stripslashes(fixQuotes($title));
-        $url            = stripslashes(fixQuotes($url));
-        $description    = stripslashes(fixQuotes($description));
+        $title          = stripslashes(Sanitize::fixQuotes($title));
+        $url            = stripslashes(Sanitize::fixQuotes($url));
+        $description    = stripslashes(Sanitize::fixQuotes($description));
 
         if ($modifysubmitter == -9) {
             $modifysubmitter = '';

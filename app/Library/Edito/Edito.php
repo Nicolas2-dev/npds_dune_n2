@@ -2,6 +2,10 @@
 
 namespace App\Library\Edito;
 
+use App\Library\Date\Date;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 
 class Edito
 {
@@ -46,11 +50,11 @@ class Edito
                 $affichJ = false;
                 $affichN = false;
 
-                if ((nightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked')) {
+                if ((Date::nightDay() == 'Jour') and ($Xibidout['aff_jour'] == 'checked')) {
                     $affichJ = true;
                 }
 
-                if ((nightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked')) {
+                if ((Date::nightDay() == 'Nuit') and ($Xibidout['aff_nuit'] == 'checked')) {
                     $affichN = true;
                 }
             }
@@ -76,7 +80,7 @@ class Edito
             $affich = true;
         }
 
-        $Xcontents = metaLang(affLangue($Xcontents));
+        $Xcontents = Metalang::metaLang(Language::affLangue($Xcontents));
 
         return [$affich, $Xcontents];
     }

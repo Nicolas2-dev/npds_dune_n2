@@ -74,7 +74,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
 
     // Tiny_mce
     if ($tiny_mce_init) {
-        echo affEditeur('tiny_mce', 'begin');
+        echo Editeur::affEditeur('tiny_mce', 'begin');
     }
 
     // include externe JAVASCRIPT file from modules/include or themes/.../include for functions, codes in the <body onload="..." event...
@@ -120,7 +120,7 @@ function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_d
         include 'themes/' . $tmp_theme . '/bootstrap/header_head.php';
     }
 
-    echo importCss($tmp_theme, $language, '', $css_pages_ref, $css);
+    echo Css::importCss($tmp_theme, $language, '', $css_pages_ref, $css);
 
     // Mod by Jireck - Chargeur de JS via PAGES.PHP
     if ($js) {
@@ -310,7 +310,7 @@ if (array_key_exists($pages_ref, $PAGES)) {
     }
 
     $fin_title = substr($PAGES[$pages_ref]['title'], -1);
-    $TitlesitenameX = affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title']) - 1));
+    $TitlesitenameX = Language::affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title']) - 1));
 
     if ($fin_title == '+') {
         $Titlesitename = $TitlesitenameX . ' - ' . $Titlesitename;
@@ -330,7 +330,7 @@ if (array_key_exists($pages_ref, $PAGES)) {
     if (!$title) {
         $title = ($fin_title == '+' or $fin_title == '-')
             ? $TitlesitenameX
-            : affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title'])));
+            : Language::affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title'])));
     } else {
         $title = removeHack($title);
     }
@@ -339,14 +339,14 @@ if (array_key_exists($pages_ref, $PAGES)) {
     settype($m_description, 'string');
 
     if (array_key_exists('meta-description', $PAGES[$pages_ref]) and ($m_description == '')) {
-        $m_description = affLangue($PAGES[$pages_ref]['meta-description']);
+        $m_description = Language::affLangue($PAGES[$pages_ref]['meta-description']);
     }
 
     // meta keywords
     settype($m_keywords, 'string');
 
     if (array_key_exists('meta-keywords', $PAGES[$pages_ref]) and ($m_keywords == '')) {
-        $m_keywords = affLangue($PAGES[$pages_ref]['meta-keywords']);
+        $m_keywords = Language::affLangue($PAGES[$pages_ref]['meta-keywords']);
     }
 }
 
@@ -378,7 +378,7 @@ if ($tiny_mce) {
 
 // Chargeur de CSS via PAGES.PHP 
 
-// !!! Note : ici bug sur css qui et envoyer sur head qui lui renvoie sur importCss() qui renvoie sur importCssJavascript() 
+// !!! Note : ici bug sur css qui et envoyer sur head qui lui renvoie sur Css::importCss() qui renvoie sur Css::importCssJavascript() 
 // et $css fini par etre ecraser par  $oups = $PAGES[$css_pages_ref]['css'];  ==> $css = substr($oups, 0, -1);
 
 if (array_key_exists($pages_ref, $PAGES)) {

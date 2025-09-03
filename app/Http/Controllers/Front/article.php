@@ -55,18 +55,18 @@ if ($SuperCache) {
 
 if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
 
-    $title      = affLangue(stripslashes($title));
-    $hometext   = affCode(affLangue(stripslashes($hometext)));
-    $bodytext   = affCode(affLangue(stripslashes($bodytext)));
-    $notes      = affCode(affLangue(stripslashes($notes)));
+    $title      = Language::affLangue(stripslashes($title));
+    $hometext   = Code::affCode(Language::affLangue(stripslashes($hometext)));
+    $bodytext   = Code::affCode(Language::affLangue(stripslashes($bodytext)));
+    $notes      = Code::affCode(Language::affLangue(stripslashes($notes)));
 
     if ($notes != '') {
         $notes = '<div class="note blockquote">' . translate('Note') . ' : ' . $notes . '</div>';
     }
 
     $bodytext = $bodytext == ''
-        ? metaLang($hometext . '<br />' . $notes)
-        : metaLang($hometext . '<br />' . $bodytext . '<br />' . $notes);
+        ? Metalang::metaLang($hometext . '<br />' . $notes)
+        : Metalang::metaLang($hometext . '<br />' . $bodytext . '<br />' . $notes);
 
     if ($informant == '') {
         $informant = $anonymous;
@@ -81,7 +81,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
 
         list($title1) = sql_fetch_row($resultx);
 
-        $title = '<a href="index.php?op=newindex&amp;catid=' . $catid . '"><span>' . affLangue($title1) . '</span></a> : ' . $title;
+        $title = '<a href="index.php?op=newindex&amp;catid=' . $catid . '"><span>' . Language::affLangue($title1) . '</span></a> : ' . $title;
     }
 
     $boxtitle = translate('Liens relatifs');
@@ -103,8 +103,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
                 ' . translate('En savoir plus à propos de') . ' : 
             </a>
             <span class="h5">
-                <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                    ' . affLangue($topicname) . '
+                <span class="badge bg-secondary" title="' . $topicname . '<hr />' . Language::affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                    ' . Language::affLangue($topicname) . '
                 </span>
             </span>
         </li>
@@ -119,8 +119,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
             ' . translate('L\'article le plus lu à propos de') . ' : 
         </span>
         <span class="h5">
-            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                ' . affLangue($topicname) . '
+            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . Language::affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                ' . Language::affLangue($topicname) . '
             </span>
         </span>
     </div>';
@@ -132,7 +132,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     $boxstuff .= '<ul>
         <li>
             <a href="article.php?sid=' . $topstory . '" >
-                ' . affLangue($ttitle) . '
+                ' . Language::affLangue($ttitle) . '
             </a>
         </li>
     </ul>
@@ -141,8 +141,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
             ' . translate('Les dernières nouvelles à propos de') . ' : 
         </span>
         <span class="h5">
-            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
-                ' . affLangue($topicname) . '
+            <span class="badge bg-secondary" title="' . $topicname . '<hr />' . Language::affLangue($topictext) . '" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right">
+                ' . Language::affLangue($topicname) . '
             </span>
         </span>
     </div>';
@@ -160,11 +160,11 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
         list($sid1, $catid1, $aid1, $title1) = $xtab[$story_limit];
         $story_limit++;
 
-        $title1 = affLangue(addslashes($title1));
+        $title1 = Language::affLangue(addslashes($title1));
 
         $boxstuff .= '<li>
             <a href="article.php?sid=' . $sid1 . '&amp;archive=' . $archive . '" >
-                ' . affLangue(stripslashes($title1)) . '
+                ' . Language::affLangue(stripslashes($title1)) . '
             </a>
         </li>';
     }

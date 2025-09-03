@@ -12,6 +12,12 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
+use App\Library\Log\Log;
+use App\Library\Url\Url;
+use App\Library\Editeur\Editeur;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -49,7 +55,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
             </fieldset>
         </form>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     } else {
         if ($edito_type == 'G') {
             $edito_typeL = ' ' . adm_translate('Anonyme');
@@ -80,12 +86,12 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
                 </div>
             </div>';
 
-        echo affEditeur('XeditoJ', '');
+        echo Editeur::affEditeur('XeditoJ', '');
 
         echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-12" for="XeditoN">' . adm_translate('La nuit') . '</label>';
 
-        echo affEditeur('XeditoN', '');
+        echo Editeur::affEditeur('XeditoN', '');
 
         echo '<div class="col-sm-12">
             <textarea class="tin form-control" name="XeditoN" rows="20">';
@@ -143,7 +149,7 @@ function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
             }
         },';
 
-        adminFoot('fv', $fv_parametres, $arg1, '');
+        Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     }
 }
 
@@ -172,9 +178,9 @@ function edito_mod_save($edito_type, $XeditoJ, $XeditoN, $aff_jours, $aff_jour, 
     }
 
     global $aid;
-    ecrireLog('security', 'editoSave () by AID : ' . $aid, '');
+    Log::ecrireLog('security', 'editoSave () by AID : ' . $aid, '');
 
-    redirectUrl('admin.php?op=Edito');
+    Url::redirectUrl('admin.php?op=Edito');
 }
 
 switch ($op) {

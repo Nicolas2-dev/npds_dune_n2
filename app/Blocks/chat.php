@@ -1,5 +1,11 @@
 <?php
 
+use App\Library\Assets\Js;
+use App\Library\Block\Block;
+use App\Library\Media\Smilies;
+use App\Library\Encryption\Encrypter;
+
+
 if (! function_exists('makeChatBox')) {
     #autodoc makeChatBox($pour) : Bloc ChatBox <br />=> syntaxe : function#makeChatBox <br />params#chat_membres <br /> le parametre doit être en accord avec l'autorisation donc (chat_membres, chat_tous, chat_admin, chat_anonyme)
     function makeChatBox($pour)
@@ -8,7 +14,7 @@ if (! function_exists('makeChatBox')) {
 
         include_once 'functions.php';
 
-        $auto = autorisationBlock('params#' . $pour);
+        $auto = Block::autorisationBlock('params#' . $pour);
         $dimauto = count($auto);
 
         if (!$long_chain) {
@@ -48,12 +54,12 @@ if (! function_exists('makeChatBox')) {
                     $une_ligne = true;
 
                     $thing .= (strlen($message) > $long_chain)
-                        ? "&gt;&nbsp;<span>" . smilie(stripslashes(substr($message, 0, $long_chain))) . " </span><br />\n"
-                        : "&gt;&nbsp;<span>" . smilie(stripslashes($message)) . " </span><br />\n";
+                        ? "&gt;&nbsp;<span>" . Smilies::smilie(stripslashes(substr($message, 0, $long_chain))) . " </span><br />\n"
+                        : "&gt;&nbsp;<span>" . Smilies::smilie(stripslashes($message)) . " </span><br />\n";
                 }
             }
 
-            $PopUp = javaPopup("chat.php?id=" . $auto[0] . "&amp;auto=" . encrypt(serialize($auto[0])), "chat" . $auto[0], 380, 480);
+            $PopUp = Js::javaPopup("chat.php?id=" . $auto[0] . "&amp;auto=" . Encrypter::encrypt(serialize($auto[0])), "chat" . $auto[0], 380, 480);
 
             if ($une_ligne) {
                 $thing .= '<hr />';
@@ -82,7 +88,7 @@ if (! function_exists('makeChatBox')) {
 
                     $autovalueX = $result[0];
 
-                    $PopUp = javaPopup('chat.php?id=' . $autovalueX['groupe_id'] . '&auto=' . encrypt(serialize($autovalueX['groupe_id'])), 'chat' . $autovalueX['groupe_id'], 380, 480);
+                    $PopUp = Js::javaPopup('chat.php?id=' . $autovalueX['groupe_id'] . '&auto=' . Encrypter::encrypt(serialize($autovalueX['groupe_id'])), 'chat' . $autovalueX['groupe_id'], 380, 480);
 
                     $thing .= "<li><a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">" . $autovalueX['groupe_name'] . "</a>";
 

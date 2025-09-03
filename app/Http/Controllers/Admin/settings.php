@@ -323,7 +323,7 @@ function Configure()
         <div class="form-floating mb-3">
         <select class="form-select" id="xlanguage" name="xlanguage">';
 
-    $languageslist = explode(' ', languageList());
+    $languageslist = explode(' ', Language::languageList());
 
     $nb_language = sizeof($languageslist);
 
@@ -1581,13 +1581,13 @@ function Configure()
         <label class="col-form-label col-sm-8" for="xdownload_cat">' . adm_translate('Rubrique de téléchargement') . '</label>
         <div class="col-sm-4">
         <select class="form-select" id="xdownload_cat" name="xdownload_cat">
-            <option value="' . $download_cat . '">' . affLangue($download_cat) . '</option>';
+            <option value="' . $download_cat . '">' . Language::affLangue($download_cat) . '</option>';
 
     $result = sql_query("SELECT distinct dcategory FROM " . sql_prefix('downloads'));
 
     while (list($category) = sql_fetch_row($result)) {
         $category = stripslashes($category);
-        echo '<option value="' . $category . '">' . affLangue($category) . '</option>';
+        echo '<option value="' . $category . '">' . Language::affLangue($category) . '</option>';
     }
 
     echo '<option value="' . adm_translate('Tous') . '">- ' . adm_translate('Tous') . '</option>

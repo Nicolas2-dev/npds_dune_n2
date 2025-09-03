@@ -33,7 +33,7 @@ function groupe($groupe)
 {
     $les_groupes = explode(',', $groupe);
 
-    $mX = listeGroup();
+    $mX = Groupe::listeGroup();
 
     $nbg = 0;
     $str = '';
@@ -149,7 +149,7 @@ function DownloadAdmin()
         $pseudocatid++;
 
         echo '<h4 class="mb-2"><a class="tog" id="show_cat_' . $pseudocatid . '" title="Déplier la liste"><i id="i_cat_' . $pseudocatid . '" class="fa fa-caret-down fa-lg text-primary"></i></a>
-        ' . affLangue(stripslashes($dcategory)) . '</h4>';
+        ' . Language::affLangue(stripslashes($dcategory)) . '</h4>';
 
         echo '<div class="mb-3" id="cat_' . $pseudocatid . '" style="display:none;">
             <table data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-show-columns="true" data-mobile-responsive="true" data-buttons-class="outline-secondary" data-icons-prefix="fa" data-icons="icons">
@@ -293,7 +293,7 @@ function DownloadAdmin()
     while (list($dcategory) = sql_fetch_row($result)) {
         $dcategory = stripslashes($dcategory);
 
-        echo '<option value="' . $dcategory . '">' . affLangue($dcategory) . '</option>';
+        echo '<option value="' . $dcategory . '">' . Language::affLangue($dcategory) . '</option>';
     }
 
     echo '</select>
@@ -305,7 +305,7 @@ function DownloadAdmin()
                 <textarea class="tin form-control" id="xtext" name="xtext" rows="20" ></textarea>
             </div>
         </div>
-        ' . affEditeur('xtext', '') . '
+        ' . Editeur::affEditeur('xtext', '') . '
         <fieldset>
             <legend>' . adm_translate('Droits') . '</legend>';
 
@@ -412,7 +412,7 @@ function DownloadEdit($did)
 
         $Xdcategory = stripslashes($Xdcategory);
 
-        echo '<option ' . $sel . ' value="' . $Xdcategory . '">' . affLangue($Xdcategory) . '</option>';
+        echo '<option ' . $sel . ' value="' . $Xdcategory . '">' . Language::affLangue($Xdcategory) . '</option>';
     }
 
     echo '</select>
@@ -424,7 +424,7 @@ function DownloadEdit($did)
                 <textarea class="tin form-control" id="xtext" name="xtext" rows="20" >' . $ddescription . '</textarea>
             </div>
         </div>
-        ' . affEditeur('xtext', '');
+        ' . Editeur::affEditeur('xtext', '');
 
     echo '<fieldset>
             <legend>' . adm_translate('Droits') . '</legend>';

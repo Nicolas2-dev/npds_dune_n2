@@ -12,6 +12,11 @@
 /* Dont modify this file if you dont know what you do                   */
 /************************************************************************/
 
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 $m->addTitle(translate('Utilisateur'));
 
 $m->addMess(translate('* Désigne un champ obligatoire'));
@@ -47,7 +52,7 @@ include_once 'functions.php';
 
 if ($subscribe) {
     //proto
-    if (isBadMailUser($userinfo['uid']) === false) {
+    if (Forum::isBadMailUser($userinfo['uid']) === false) {
         if ($userinfo['send_email'] == 1) {
             $checked = true;
         } else {
@@ -70,7 +75,7 @@ if ($member_invisible) {
 
 // LNL
 //proto
-if (isBadMailUser($userinfo['uid']) === false) {
+if (Forum::isBadMailUser($userinfo['uid']) === false) {
     if ($userinfo['user_lnl']) {
         $checked = true;
     } else {
@@ -92,7 +97,7 @@ if ($smilies) {
         $direktori = 'assets/images/forum/avatar';
 
         if (function_exists('theme_image')) {
-            if (themeImage('forum/avatar/blank.gif')) {
+            if (Theme::themeImage('forum/avatar/blank.gif')) {
                 $direktori = 'themes/' . $theme . '/assets/images/forum/avatar';
             }
         }
@@ -208,7 +213,7 @@ $m->addField('uid', '', $userinfo['uid'], 'hidden', false);
 include_once 'modules/geoloc/config/config.php';
 
 // --- CONSENTEMENT
-$m->addCheckbox('consent', affLangue('[french]En soumettant ce formulaire j\'accepte que les informations saisies soient exploit&#xE9;es dans le cadre de l\'utilisation et du fonctionnement de ce site.[/french][english]By submitting this form, I accept that the information entered will be used in the context of the use and operation of this website.[/english][spanish]Al enviar este formulario, acepto que la informaci&oacute;n ingresada se utilizar&aacute; en el contexto del uso y funcionamiento de este sitio web.[/spanish][german]Mit dem Absenden dieses Formulars erkl&auml;re ich mich damit einverstanden, dass die eingegebenen Informationen im Rahmen der Nutzung und des Betriebs dieser Website verwendet werden.[/german][chinese]&#x63D0;&#x4EA4;&#x6B64;&#x8868;&#x683C;&#x5373;&#x8868;&#x793A;&#x6211;&#x63A5;&#x53D7;&#x6240;&#x8F93;&#x5165;&#x7684;&#x4FE1;&#x606F;&#x5C06;&#x5728;&#x672C;&#x7F51;&#x7AD9;&#x7684;&#x4F7F;&#x7528;&#x548C;&#x64CD;&#x4F5C;&#x8303;&#x56F4;&#x5185;&#x4F7F;&#x7528;&#x3002;[/chinese]'), '1', true, false);
+$m->addCheckbox('consent', Language::affLangue('[french]En soumettant ce formulaire j\'accepte que les informations saisies soient exploit&#xE9;es dans le cadre de l\'utilisation et du fonctionnement de ce site.[/french][english]By submitting this form, I accept that the information entered will be used in the context of the use and operation of this website.[/english][spanish]Al enviar este formulario, acepto que la informaci&oacute;n ingresada se utilizar&aacute; en el contexto del uso y funcionamiento de este sitio web.[/spanish][german]Mit dem Absenden dieses Formulars erkl&auml;re ich mich damit einverstanden, dass die eingegebenen Informationen im Rahmen der Nutzung und des Betriebs dieser Website verwendet werden.[/german][chinese]&#x63D0;&#x4EA4;&#x6B64;&#x8868;&#x683C;&#x5373;&#x8868;&#x793A;&#x6211;&#x63A5;&#x53D7;&#x6240;&#x8F93;&#x5165;&#x7684;&#x4FE1;&#x606F;&#x5C06;&#x5728;&#x672C;&#x7F51;&#x7AD9;&#x7684;&#x4F7F;&#x7528;&#x548C;&#x64CD;&#x4F5C;&#x8303;&#x56F4;&#x5185;&#x4F7F;&#x7528;&#x3002;[/chinese]'), '1', true, false);
 
 $m->addExtra('
 <div class="mb-3 row">
@@ -266,7 +271,7 @@ $m->addExtra('
 //]]>
 </script>');
 
-$m->addExtra(affLangue('
+$m->addExtra(Language::affLangue('
 <div class="mb-3 row">
     <div class="col-sm-8 ms-sm-auto small" >
         [french]Pour conna&icirc;tre et exercer vos droits notamment de retrait de votre consentement &agrave; l\'utilisation des donn&eacute;es collect&eacute;es veuillez consulter notre <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">politique de confidentialit&eacute;</a>.[/french][english]To know and exercise your rights, in particular to withdraw your consent to the use of the data collected, please consult our <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">privacy policy</a>.[/english][spanish]Para conocer y ejercer sus derechos, en particular para retirar su consentimiento para el uso de los datos recopilados, consulte nuestra <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">pol&iacute;tica de privacidad</a>.[/spanish][german]Um Ihre Rechte zu kennen und auszu&uuml;ben, insbesondere um Ihre Einwilligung zur Nutzung der erhobenen Daten zu widerrufen, konsultieren Sie bitte unsere <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">Datenschutzerkl&auml;rung</a>.[/german][chinese]&#x8981;&#x4E86;&#x89E3;&#x5E76;&#x884C;&#x4F7F;&#x60A8;&#x7684;&#x6743;&#x5229;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x8981;&#x64A4;&#x56DE;&#x60A8;&#x5BF9;&#x6240;&#x6536;&#x96C6;&#x6570;&#x636E;&#x7684;&#x4F7F;&#x7528;&#x7684;&#x540C;&#x610F;&#xFF0C;&#x8BF7;&#x67E5;&#x9605;&#x6211;&#x4EEC;<a href="static.php?op=politiqueconf.html&#x26;npds=1&#x26;metalang=1">&#x7684;&#x9690;&#x79C1;&#x653F;&#x7B56;</a>&#x3002;[/chinese]
@@ -383,7 +388,7 @@ flatpickr("#T1", {
     maxDate:"today",
     minDate:"' . date("Y-m-d", (time() - 3784320000)) . '",
     dateFormat:"d/m/Y",
-    "locale": "' . languageIso(1, '', '') . '",
+    "locale": "' . Language::languageIso(1, '', '') . '",
 });';
 
-$m->addExtra(adminFoot('fv', $fv_parametres, $arg1, '1'));
+$m->addExtra(Validation::adminFoot('fv', $fv_parametres, $arg1, '1'));

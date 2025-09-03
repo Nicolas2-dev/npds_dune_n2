@@ -17,6 +17,13 @@
 /* variables from them                                                  */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Support\Sanitize;
+use App\Library\Spam\Spam;
+use App\Library\Http\Request;
+use App\Library\Access\Access;
+use App\Library\Security\UrlProtector;
+
 if (stristr($_SERVER['PHP_SELF'], 'grab_globals.php') and strlen($_SERVER['QUERY_STRING']) != '') {
     include 'admin/die.php';
 }
@@ -53,11 +60,11 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
         $tab_spam = str_replace("\r\n", '', file($path_log));
 
         if (is_array($tab_spam)) {
-            $ipadr = getip();
+            $ipadr = Request::getip();
             $ipv = strstr($ipadr, ':') ? '6' : '4';
 
             if (in_array($ipadr . '|5', $tab_spam)) {
-                accessDenied();
+                Access::accessDenied();
             }
 
             // nous pouvons bannir une plage d'adresse ip en V4 (dans l'admin IPban sous forme x.x.%|5 ou x.x.x.%|5)
@@ -65,11 +72,11 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
                 $ip4detail = explode('.', $ipadr);
 
                 if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.%|5', $tab_spam)) {
-                    accessDenied();
+                    Access::accessDenied();
                 }
 
                 if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.' . $ip4detail[2] . '.%|5', $tab_spam)) {
-                    accessDenied();
+                    Access::accessDenied();
                 }
             }
 
@@ -78,11 +85,11 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
                 $ip6detail = explode(':', $ipadr);
 
                 if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':%|5', $tab_spam)) {
-                    accessDenied();
+                    Access::accessDenied();
                 }
 
                 if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':' . $ip6detail[2] . ':%|5', $tab_spam)) {
-                    accessDenied();
+                    Access::accessDenied();
                 }
             }
         }
@@ -91,27 +98,27 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
 
     // Get values, slash, filter and extract
     if (!empty($_GET)) {
-        array_walk_recursive($_GET, 'addslashesGpc');
+        array_walk_recursive($_GET, [Sanitize::class, 'addslashesGpc']);
         reset($_GET); // no need
 
-        array_walk_recursive($_GET, 'urlProtect');
+        array_walk_recursive($_GET, [UrlProtector::class, 'urlProtect']);
         extract($_GET, EXTR_OVERWRITE);
     }
 
     if (!empty($_POST)) {
-        array_walk_recursive($_POST, 'addslashesGpc');
+        array_walk_recursive($_POST, [Sanitize::class, 'addslashesGpc']);
         /*
-        array_walk_recursive($_POST, 'post_protect');
+        array_walk_recursive($_POST, [UrlProtector::class, 'post_protect']);
 
         if(!isset($_SERVER['HTTP_REFERER'])) {
-            ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
-            logSpambot('', 'false');
-            accessDenied();
+            Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
+            Spam::logSpambot('', 'false');
+            Access::accessDenied();
             
         } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
-            ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
-            logSpambot('', "false");
-            accessDenied();
+            Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
+            Spam::logSpambot('', "false");
+            Access::accessDenied();
         }
         */
 
@@ -125,19 +132,19 @@ if (!defined('NPDS_GRAB_GLOBALS_INCLUDED')) {
 
     if (isset($user)) {
         $ibid = explode(':', base64_decode($user));
-        array_walk($ibid, 'urlProtect');
+        array_walk($ibid, [UrlProtector::class, 'urlProtect']);
         $user = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($user))));
     }
 
     if (isset($user_language)) {
         $ibid = explode(':', $user_language);
-        array_walk($ibid, 'urlProtect');
+        array_walk($ibid, [UrlProtector::class, 'urlProtect']);
         $user_language = str_replace('%3A', ':', urlencode($user_language));
     }
 
     if (isset($admin)) {
         $ibid = explode(':', base64_decode($admin));
-        array_walk($ibid, 'urlProtect');
+        array_walk($ibid, [UrlProtector::class, 'urlProtect']);
         $admin = base64_encode(str_replace('%3A', ':', urlencode(base64_decode($admin))));
     }
 

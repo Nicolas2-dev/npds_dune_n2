@@ -2,6 +2,8 @@
 
 namespace App\Library\Editeur;
 
+use App\Library\Language\Language;
+
 
 class Editeur
 {
@@ -42,7 +44,7 @@ class Editeur
                                 tinymce.init({
                                 selector: 'textarea.tin',
                                 mobile: {menubar: true},
-                                language : '" . languageIso(1, '', '') . "',";
+                                language : '" . Language::languageIso(1, '', '') . "',";
 
                     include 'shared/tinymce/themes/advanced/npds.conf.php';
 

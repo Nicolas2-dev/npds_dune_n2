@@ -12,7 +12,7 @@
                     lang: "fr",
                     t: dict
                 });
-                translator.lang("<?php echo languageIso(1, '', 0); ?>");
+                translator.lang("<?php echo Language::languageIso(1, '', 0); ?>");
                 $('.plusdecontenu').click(function() {
                     var $this = $(this);
                     $this.toggleClass('plusdecontenu');

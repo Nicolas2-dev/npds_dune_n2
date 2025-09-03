@@ -80,7 +80,7 @@ function puthome($ihome)
     </div>';
 
     // ---- Groupes
-    $mX = listeGroup();
+    $mX = Groupe::listeGroup();
 
     $tmp_groupe = '';
 
@@ -133,7 +133,7 @@ function SelectCategory($cat)
             $sel = '';
         }
 
-        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . affLangue($title) . '</option>';
+        echo '<option name="catid" value="' . $catidX . '" ' . $sel . '>' . Language::affLangue($title) . '</option>';
     }
 
     echo '</select>
@@ -256,7 +256,7 @@ function EditCategory($catid)
         echo '<option name="catid" value="0">' . adm_translate('Articles') . '</option>';
 
         while (list($catid, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="catid" value="' . $catid . '">' . affLangue($title) . '</option>';
+            echo '<option name="catid" value="' . $catid . '">' . Language::affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -316,7 +316,7 @@ function SaveEditCategory($catid, $title)
                              SET title='$title' WHERE catid='$catid'");
 
         global $aid;
-        ecrireLog('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
+        Log::ecrireLog('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
     }
 
     include 'header.php';
@@ -366,7 +366,7 @@ function DelCategory($cat)
                     <select class="form-select" id="cat" name="cat">';
 
         while (list($catid, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="cat" value="' . $catid . '">' . affLangue($title) . '</option>';
+            echo '<option name="cat" value="' . $catid . '">' . Language::affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -391,7 +391,7 @@ function DelCategory($cat)
                        WHERE catid='$cat'");
 
             global $aid;
-            ecrireLog('security', sprintf('DelCategory(%s) by AID : %s', $cat, $aid), '');
+            Log::ecrireLog('security', sprintf('DelCategory(%s) by AID : %s', $cat, $aid), '');
 
             echo '<div class="alert alert-success" role="alert">' . adm_translate('Suppression effectuée') . '</div>';
         } else {
@@ -433,7 +433,7 @@ function YesDelCategory($catid)
     }
 
     global $aid;
-    ecrireLog('security', sprintf('YesDelCategory(%s) by AID : %s', $catid, $aid), '');
+    Log::ecrireLog('security', sprintf('YesDelCategory(%s) by AID : %s', $catid, $aid), '');
 
     Header('Location: admin.php');
 }
@@ -463,7 +463,7 @@ function NoMoveCategory($catid, $newcat)
     <h3 class="mb-3">' . adm_translate('Affectation d\'Articles vers une nouvelle Catégorie') . '</h3>';
 
     if (!$newcat) {
-        echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . affLangue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
+        echo '<label>' . adm_translate('Tous les Articles dans') . ' <strong>' . Language::affLangue($title) . '</strong> ' . adm_translate('seront affectés à') . '</label>';
 
         $selcat = sql_query("SELECT catid, title 
                              FROM " . sql_prefix('stories_cat'));
@@ -476,7 +476,7 @@ function NoMoveCategory($catid, $newcat)
                     <option name="newcat" value="0">' . adm_translate('Articles') . '</option>';
 
         while (list($newcat, $title) = sql_fetch_row($selcat)) {
-            echo '<option name="newcat" value="' . $newcat . '">' . affLangue($title) . '</option>';
+            echo '<option name="newcat" value="' . $newcat . '">' . Language::affLangue($title) . '</option>';
         }
 
         echo '</select>
@@ -505,7 +505,7 @@ function NoMoveCategory($catid, $newcat)
                    WHERE catid='$catid'");
 
         global $aid;
-        ecrireLog('security', sprintf('NoMoveCategory(%s, %s) by AID : %s', $catid, $newcat, $aid), '');
+        Log::ecrireLog('security', sprintf('NoMoveCategory(%s, %s) by AID : %s', $catid, $newcat, $aid), '');
 
         echo '<div class="alert alert-success"><strong>' . adm_translate('La ré-affectation est terminée !') . '</strong></div>';
     }
@@ -562,7 +562,7 @@ function displayStory($qid)
         header('location: admin.php?op=submissions');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -573,7 +573,7 @@ function displayStory($qid)
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form action="admin.php" method="post" name="adminForm" id="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-        ' . affLocalzoneLangue('local_user_language') . '
+        ' . Language::affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
@@ -588,7 +588,7 @@ function displayStory($qid)
         }
     }
 
-    code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . metaLang($story) . '</div>', metaLang($bodytext), "");
+    code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . Metalang::metaLang($story) . '</div>', Metalang::metaLang($bodytext), "");
 
     echo '</div>
         <div class="mb-3 row">
@@ -637,7 +637,7 @@ function displayStory($qid)
                 $sel = 'selected="selected" ';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -662,7 +662,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo affEditeur('hometext', '');
+    echo Editeur::affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -671,7 +671,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -680,7 +680,7 @@ function displayStory($qid)
         </div>
     </div>';
 
-    echo affEditeur('notes', '');
+    echo Editeur::affEditeur('notes', '');
 
     $dd_pub = substr($date_debval, 0, 10);
     $fd_pub = substr($date_finval, 0, 10);
@@ -716,9 +716,9 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     $hlpfile = 'manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(dataImageToFileUrl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
-    $notes = stripslashes(dataImageToFileUrl($notes, 'cache/an'));
+    $hometext = stripslashes(Base64Image::dataImageToFileUrl($hometext, 'cache/ai'));
+    $bodytext = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
+    $notes = stripslashes(Base64Image::dataImageToFileUrl($notes, 'cache/an'));
 
     if ($topic < 1) {
         $topic = 1;
@@ -748,7 +748,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         header('location: admin.php?op=submissions');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -759,7 +759,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form action="admin.php" method="post" name="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>
-        ' . affLocalzoneLangue('local_user_language') . '
+        ' . Language::affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
@@ -774,7 +774,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         }
     }
 
-    code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . metaLang($hometext) . '</div>', metaLang($bodytext), metaLang($notes));
+    code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . Metalang::metaLang($hometext) . '</div>', Metalang::metaLang($bodytext), Metalang::metaLang($notes));
 
     echo '</div>
         <div class="mb-3 row">
@@ -822,7 +822,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
                 $sel = 'selected="selected" ';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -851,7 +851,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo affEditeur('hometext', '');
+    echo Editeur::affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -860,7 +860,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     echo '<div class="mb-3 row">
         <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -869,7 +869,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         </div>
     </div>';
 
-    echo affEditeur('notes', '');
+    echo Editeur::affEditeur('notes', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -911,15 +911,15 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         }
     }
 
-    $subject = stripslashes(fixQuotes(str_replace('"', '&quot;', $subject)));
+    $subject = stripslashes(Sanitize::fixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = dataImageToFileUrl($hometext, 'modules/upload/storage/ai');
-    $bodytext = dataImageToFileUrl($bodytext, 'modules/upload/storage/ac');
-    $notes = dataImageToFileUrl($notes, 'modules/upload/storage/an');
+    $hometext = Base64Image::dataImageToFileUrl($hometext, 'modules/upload/storage/ai');
+    $bodytext = Base64Image::dataImageToFileUrl($bodytext, 'modules/upload/storage/ac');
+    $notes = Base64Image::dataImageToFileUrl($notes, 'modules/upload/storage/an');
 
-    $hometext = stripslashes(fixQuotes($hometext));
-    $bodytext = stripslashes(fixQuotes($bodytext));
-    $notes = stripslashes(fixQuotes($notes));
+    $hometext = stripslashes(Sanitize::fixQuotes($hometext));
+    $bodytext = stripslashes(Sanitize::fixQuotes($bodytext));
+    $notes = stripslashes(Sanitize::fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';
@@ -933,12 +933,12 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         $result = sql_query("INSERT INTO " . sql_prefix('stories') . " 
                              VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic','$author', '$notes', '$ihome', '0', '$date_finval','$epur')");
 
-        ecrireLog('security', sprintf('postStory(pub_immediate, %s) by AID : %s', $subject, $aid), '');
+        Log::ecrireLog('security', sprintf('postStory(pub_immediate, %s) by AID : %s', $subject, $aid), '');
     } else {
         $result = sql_query("INSERT INTO " . sql_prefix('autonews') . " 
                              VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome','$date_debval','$date_finval','$epur')");
 
-        ecrireLog('security', sprintf('postStory(autonews, %s) by AID : %s', $subject, $aid), '');
+        Log::ecrireLog('security', sprintf('postStory(autonews, %s) by AID : %s', $subject, $aid), '');
     }
 
     if (($uid != 1) and ($uid != '')) {
@@ -1041,7 +1041,7 @@ function editStory($sid)
         header('location: admin.php');
     }
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topicname) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topicname) . '</strong></span>';
 
     include 'header.php';
 
@@ -1054,7 +1054,7 @@ function editStory($sid)
 
     list($topictext, $topicimage) = sql_fetch_row($result);
 
-    echo '<hr />' . affLocalLangue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
+    echo '<hr />' . Language::affLocalLangue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
 
     if ($topicimage !== '') {
         if (!$imgtmp = themeImage('topics/' . $topicimage)) {
@@ -1115,7 +1115,7 @@ function editStory($sid)
         if ($affiche) {
             $sel = $topicid == $topic ? 'selected="selected"' : '';
 
-            echo '<option value="' . $topicid . '" ' . $sel . '>' . affLangue($topics) . '</option>';
+            echo '<option value="' . $topicid . '" ' . $sel . '>' . Language::affLangue($topics) . '</option>';
         }
     }
 
@@ -1134,7 +1134,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo affEditeur("hometext", "true");
+    echo Editeur::affEditeur("hometext", "true");
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte complet') . '</label>
@@ -1143,7 +1143,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo affEditeur("bodytext", "true");
+    echo Editeur::affEditeur("bodytext", "true");
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="notes">' . adm_translate('Notes') . '</label>
@@ -1152,7 +1152,7 @@ function editStory($sid)
             </div>
         </div>';
 
-    echo affEditeur('notes', '');
+    echo Editeur::affEditeur('notes', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-sm-6" for="Cdate">' . adm_translate('Changer la date') . '?</label>
@@ -1161,7 +1161,7 @@ function editStory($sid)
                 <input class="form-check-input" type="checkbox" id="Cdate" name="Cdate" value="true" />
                 <label class="form-check-label" for="Cdate">' . adm_translate('Oui') . '</label>
                 </div>
-                <span class="small help-block">' . formatTimes(time(), IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span>
+                <span class="small help-block">' . Date::formatTimes(time(), IntlDateFormatter::FULL, IntlDateFormatter::SHORT) . '</span>
             </div>
         </div>
         <div class="mb-3 row">
@@ -1239,7 +1239,7 @@ function deleteStory($qid)
                          WHERE qid='$qid'");
 
     global $aid;
-    ecrireLog('security', sprintf('deleteStoryfromQueue(%s) by AID : %s', $qid, $aid), '');
+    Log::ecrireLog('security', sprintf('deleteStoryfromQueue(%s) by AID : %s', $qid, $aid), '');
 }
 
 function removeStory($sid, $ok = 0)
@@ -1310,7 +1310,7 @@ function removeStory($sid, $ok = 0)
         }
 
         global $aid;
-        ecrireLog('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
+        Log::ecrireLog('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
 
         if ($ultramode) {
             ultramode();
@@ -1337,11 +1337,11 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 {
     global $aid, $ultramode;
 
-    $subject = stripslashes(fixQuotes(str_replace('"', '&quot;', $subject)));
+    $subject = stripslashes(Sanitize::fixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = stripslashes(fixQuotes($hometext));
-    $bodytext = stripslashes(fixQuotes($bodytext));
-    $notes = stripslashes(fixQuotes($notes));
+    $hometext = stripslashes(Sanitize::fixQuotes($hometext));
+    $bodytext = stripslashes(Sanitize::fixQuotes($bodytext));
+    $notes = stripslashes(Sanitize::fixQuotes($notes));
 
     if (($members == 1) and ($Mmembers == '')) {
         $ihome = '-127';
@@ -1389,7 +1389,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     }
 
     global $aid;
-    ecrireLog('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
+    Log::ecrireLog('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
 
     if ($ultramode) {
         ultramode();
@@ -1488,7 +1488,7 @@ function adminStory()
                 $sel = 'selected="selected"';
             }
 
-            echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+            echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -1511,7 +1511,7 @@ function adminStory()
             </div>
         </div>';
 
-    echo affEditeur('hometext', '');
+    echo Editeur::affEditeur('hometext', '');
 
     echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -1520,7 +1520,7 @@ function adminStory()
             </div>
         </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
@@ -1562,8 +1562,8 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(dataImageToFileUrl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(dataImageToFileUrl($bodytext, 'cache/ac'));
+    $hometext = stripslashes(Base64Image::dataImageToFileUrl($hometext, 'cache/ai'));
+    $bodytext = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
 
     settype($sel, 'string');
 
@@ -1601,7 +1601,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     // controle droit
     // admindroits($aid,$f_meta_nom); // à voir l'intégration avec les droits sur les topics ...
 
-    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . affLangue($topictext) . '</strong></span>';
+    $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
     include 'header.php';
 
@@ -1615,7 +1615,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
     <form id="storiespreviswart" action="admin.php" method="post" name="adminForm">
         <label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label> 
-        ' . affLocalzoneLangue('local_user_language') . '
+        ' . Language::affLocalzoneLangue('local_user_language') . '
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
@@ -1673,7 +1673,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 $sel = 'selected="selected"';
             }
 
-            echo ' <option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+            echo ' <option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
             $sel = '';
         }
@@ -1704,7 +1704,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 </div>
             </div>';
 
-    echo affEditeur("hometext", "true");
+    echo Editeur::affEditeur("hometext", "true");
 
     echo '<div class="mb-3 row">
                 <label class="col-form-label col-12" for="bodytext">' . adm_translate('Texte étendu') . '</label>
@@ -1713,7 +1713,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
                 </div>
             </div>';
 
-    echo affEditeur('bodytext', '');
+    echo Editeur::affEditeur('bodytext', '');
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 

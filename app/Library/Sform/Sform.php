@@ -17,6 +17,9 @@
 
 namespace App\Library\Sform;
 
+use App\Library\Spam\Spam;
+use App\Library\Language\Language;
+
 
 class Sform
 {
@@ -825,7 +828,7 @@ class Sform
                         break;
 
                     case 'Qspam':
-                        $str .= questionSpambot();
+                        $str .= Spam::questionSpambot();
                         $str .= "\n";
                         break;
 
@@ -900,7 +903,7 @@ class Sform
                         break;
 
                     case 'upload':
-                        $str .= '<div id="avava" class="mb-3 row" lang="' . languageIso(1, '', '') . '">
+                        $str .= '<div id="avava" class="mb-3 row" lang="' . Language::languageIso(1, '', '') . '">
                         <label class="col-form-label col-sm-4" for="' . $this->form_fields[$i]['name'] . '">' . $this->form_fields[$i]['en'] . '</label>
                         <div class="col-sm-8">
                             <div class="input-group mb-2 me-sm-2">
@@ -1478,7 +1481,7 @@ class Sform
      */
     function error(string $ibid, string $car): void
     {
-        echo '<div class="alert alert-danger">' . affLangue($ibid) . ' =&#62; <span>' . stripslashes($car) . '</span></div>';
+        echo '<div class="alert alert-danger">' . Language::affLangue($ibid) . ' =&#62; <span>' . stripslashes($car) . '</span></div>';
 
         if ($this->form_method == '') {
             $this->form_method = 'post';

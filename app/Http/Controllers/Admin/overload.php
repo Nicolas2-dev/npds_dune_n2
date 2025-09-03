@@ -275,7 +275,7 @@ switch ($op) {
         save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules);
 
         global $aid;
-        ecrireLog('security', "ChangeSuperCache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules) by AID : $aid", '');
+        Log::ecrireLog('security', "ChangeSuperCache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules) by AID : $aid", '');
 
         Header('Location: admin.php?op=supercache');
         break;
@@ -283,7 +283,7 @@ switch ($op) {
     case 'supercache_empty':
         SC_clean();
         global $aid;
-        ecrireLog('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
+        Log::ecrireLog('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
 
         Header('Location: admin.php?op=supercache');
         break;

@@ -1,5 +1,11 @@
 <?php
 
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\News\News;
+use App\Library\Language\Language;
+
+
 if (! function_exists('oldNews')) {
     #autodoc oldNews($storynum) : Bloc Anciennes News <br />=> syntaxe <br />function#oldNews<br />params#$storynum,lecture (affiche le NB de lecture) - facultatif
     function oldNews($storynum, $typ_aff = '')
@@ -18,7 +24,7 @@ if (! function_exists('oldNews')) {
 
         $vari = 0;
 
-        $xtab = newsAff('old_news', $sel, $storynum, $oldnum);
+        $xtab = News::newsAff('old_news', $sel, $storynum, $oldnum);
 
         $story_limit = 0;
         $time2 = 0;
@@ -29,25 +35,25 @@ if (! function_exists('oldNews')) {
 
             $story_limit++;
 
-            $date_au_format = formatTimes($time, IntlDateFormatter::FULL);
+            $date_au_format = Date::formatTimes($time, IntlDateFormatter::FULL);
 
             $comments = $typ_aff == 'lecture'
                 ? '<span class="badge rounded-pill bg-secondary ms-1" title="' . translate('Lu') . '" data-bs-toggle="tooltip">' . $counter . '</span>'
                 : '';
 
             if ($time2 == $date_au_format) {
-                $boxstuff .= '<li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a class="n-ellipses" href="article.php?sid=' . $sid . '">' . affLangue($title) . '</a>' . $comments . '</li>';
+                $boxstuff .= '<li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a class="n-ellipses" href="article.php?sid=' . $sid . '">' . Language::affLangue($title) . '</a>' . $comments . '</li>';
             } else {
                 if ($a == 0) {
                     $boxstuff .= '<li class="list-group-item fs-6">' . $date_au_format . '</li>
-                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . affLangue($title) . '</a>' . $comments . '</li>';
+                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . Language::affLangue($title) . '</a>' . $comments . '</li>';
 
                     $time2 = $date_au_format;
 
                     $a = 1;
                 } else {
                     $boxstuff .= '<li class="list-group-item fs-6">' . $date_au_format . '</li>
-                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . affLangue($title) . '</a>' . $comments . '</li>';
+                    <li class="list-group-item list-group-item-action d-inline-flex justify-content-between align-items-center"><a href="article.php?sid=' . $sid . '">' . Language::affLangue($title) . '</a>' . $comments . '</li>';
 
                     $time2 = $date_au_format;
                 }
@@ -84,9 +90,9 @@ if (! function_exists('bigstory')) {
 
         $content = '';
 
-        $tdate = getPartOfTime(time(), 'yyyy-MM-dd');
+        $tdate = Date::getPartOfTime(time(), 'yyyy-MM-dd');
 
-        $xtab = newsAff('big_story', "WHERE (time LIKE '%$tdate%')", 1, 1);
+        $xtab = News::newsAff('big_story', "WHERE (time LIKE '%$tdate%')", 1, 1);
 
         if (sizeof($xtab)) {
             list($fsid, $ftitle) = $xtab[0];
@@ -97,7 +103,7 @@ if (! function_exists('bigstory')) {
 
         $content .= ($fsid == '' and $ftitle == '')
             ? '<span class="fw-semibold">' . translate('Il n\'y a pas encore d\'article du jour.') . '</span>'
-            : '<span class="fw-semibold">' . translate('L\'article le plus consulté aujourd\'hui est :') . '</span><br /><br /><a href="article.php?sid=' . $fsid . '">' . affLangue($ftitle) . '</a>';
+            : '<span class="fw-semibold">' . translate('L\'article le plus consulté aujourd\'hui est :') . '</span><br /><br /><a href="article.php?sid=' . $fsid . '">' . Language::affLangue($ftitle) . '</a>';
 
         global $block_title;
         $boxtitle = $block_title == '' ? translate('Article du Jour') : $block_title;
@@ -141,8 +147,8 @@ if (! function_exists('category')) {
                     list($time) = sql_fetch_row($res);
 
                     $boxstuff .= $cat == $catid
-                        ? '<li class="my-2"><strong>' . affLangue($title) . '</strong></li>'
-                        : '<li class="list-group-item list-group-item-action hyphenate my-2"><a href="index.php?op=newcategory&amp;catid=' . $catid . '" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernière contribution') . ' <br />' . formatTimes($time) . ' ">' . affLangue($title) . '</a></li>';
+                        ? '<li class="my-2"><strong>' . Language::affLangue($title) . '</strong></li>'
+                        : '<li class="list-group-item list-group-item-action hyphenate my-2"><a href="index.php?op=newcategory&amp;catid=' . $catid . '" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right" title="' . translate('Dernière contribution') . ' <br />' . Date::formatTimes($time) . ' ">' . Language::affLangue($title) . '</a></li>';
                 }
             }
 
@@ -172,7 +178,7 @@ if (! function_exists('bloc_rubrique')) {
 
         while (list($rubid, $rubname) = sql_fetch_row($result)) {
 
-            $title = affLangue($rubname);
+            $title = Language::affLangue($rubname);
 
             $result2 = sql_query("SELECT secid, secname, userlevel, ordre 
                                 FROM " . sql_prefix('sections') . " 
@@ -197,7 +203,7 @@ if (! function_exists('bloc_rubrique')) {
                     $tmp_auto = explode(',', $userlevel);
 
                     foreach ($tmp_auto as $userlevel) {
-                        $okprintLV1 = autorisation($userlevel);
+                        $okprintLV1 = Auth::autorisation($userlevel);
 
                         if ($okprintLV1) {
                             break;
@@ -205,7 +211,7 @@ if (! function_exists('bloc_rubrique')) {
                     }
 
                     if ($okprintLV1) {
-                        $sec = affLangue($secname);
+                        $sec = Language::affLangue($secname);
 
                         $boxstuff .= '<li><a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . $sec . '</a></li>';
                     }

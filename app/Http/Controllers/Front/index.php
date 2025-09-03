@@ -48,7 +48,7 @@ function select_start_page($op)
 {
     global $Start_Page, $index;
 
-    if (!autoReg()) {
+    if (!Auth::autoReg()) {
         global $user;
         unset($user);
     }
@@ -104,10 +104,10 @@ function automatednews()
 
                 while (list($catid, $aid, $title, $hometext, $bodytext, $topic, $author, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result2)) {
 
-                    $subject    = stripslashes(fixQuotes($title));
-                    $hometext   = stripslashes(fixQuotes($hometext));
-                    $bodytext   = stripslashes(fixQuotes($bodytext));
-                    $notes      = stripslashes(fixQuotes($notes));
+                    $subject    = stripslashes(Sanitize::fixQuotes($title));
+                    $hometext   = stripslashes(Sanitize::fixQuotes($hometext));
+                    $bodytext   = stripslashes(Sanitize::fixQuotes($bodytext));
+                    $notes      = stripslashes(Sanitize::fixQuotes($notes));
 
                     sql_query("INSERT INTO " . sql_prefix('stories') . " 
                                VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$author', '$notes', '$ihome', '0', '$date_finval', '$epur')");
@@ -157,7 +157,7 @@ function automatednews()
                                    AND topic_id='$topic'");
                     }
 
-                    ecrireLog('security', sprintf('removeStory(%s, epur) by automated epur : system', $sid), '');
+                    Log::ecrireLog('security', sprintf('removeStory(%s, epur) by automated epur : system', $sid), '');
                 } else
                     sql_query("UPDATE " . sql_prefix('stories') . " 
                                SET archive='1' 
@@ -169,7 +169,7 @@ function automatednews()
 
 function aff_edito()
 {
-    list($affich, $Xcontents) = fabEdito();
+    list($affich, $Xcontents) = Edito::fabEdito();
 
     if (($affich) and ($Xcontents != '')) {
         $notitle = false;

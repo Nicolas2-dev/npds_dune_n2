@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Language\Language;
+
+
 if (! function_exists('adminblock')) {
     #autodoc adminblock() : Bloc Admin <br />=> syntaxe : function#adminblock
     function adminblock()
@@ -97,9 +100,9 @@ if (! function_exists('adminblock')) {
             list($title, $content) = sql_fetch_row($result);
 
             global $block_title;
-            $title = $title == '' ? $block_title : affLangue($title);
+            $title = $title == '' ? $block_title : Language::affLangue($title);
 
-            $content = affLangue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', 'changetoampadm', $content));
+            $content = Language::affLangue(preg_replace_callback('#<a href=[^>]*(&)[^>]*>#', 'changetoampadm', $content));
 
             //==> recuperation
             $messagerie_npds = file_get_contents('https://raw.githubusercontent.com/npds/npds_dune/master/versus.txt');

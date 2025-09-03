@@ -21,7 +21,7 @@ include 'header.php';
 
 function generatePourcentageAndTotal($count, $total)
 {
-   $tab[] = wrh($count);
+   $tab[] = Sanitize::wrh($count);
    $tab[] = substr(sprintf('%f', 100 * $count / $total), 0, 5);
 
    return $tab;
@@ -55,7 +55,7 @@ echo '
       <h2>' . translate('Statistiques') . '</h2>
       <div class="card card-body lead">
          <div>
-         ' . translate('Nos visiteurs ont visualisé') . ' <span class="badge bg-secondary">' . wrh($total) . '</span> ' . translate('pages depuis le') . ' ' . $startdate . '
+         ' . translate('Nos visiteurs ont visualisé') . ' <span class="badge bg-secondary">' . Sanitize::wrh($total) . '</span> ' . translate('pages depuis le') . ' ' . $startdate . '
          </div>
       </div>
       <h3 class="my-4">' . translate('Navigateurs web') . '</h3>
@@ -341,7 +341,7 @@ while (list($themelist) = sql_fetch_row($resultX)) {
 
          echo '<tr>
             <td>' . $themelist . ' <b>(' . translate('par défaut') . ')</b></td>
-            <td><b>' . wrh(($themeD1 + $themeD2)) . '</b></td>
+            <td><b>' . Sanitize::wrh(($themeD1 + $themeD2)) . '</b></td>
             <td>' . $T_exist . '</td>
          </tr>';
       } else {
@@ -357,7 +357,7 @@ while (list($themelist) = sql_fetch_row($resultX)) {
             ? '<td>' . $themelist . '</td>'
             : '<td>' . $ibix[0] . '</td>';
 
-         echo '<td><b>' . wrh($themeU) . '</b></td>
+         echo '<td><b>' . Sanitize::wrh($themeU) . '</b></td>
             <td>' . $T_exist . '</td>
          </tr>';
       }
@@ -434,47 +434,47 @@ echo '<h3 class="my-4">' . translate('Statistiques diverses') . '</h3>
 <ul class="list-group">
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-user fa-2x text-body-secondary me-1"></i>
-      ' . translate('Utilisateurs enregistrés') . ' <span class="badge bg-secondary ms-auto">' . wrh($unum) . ' </span>
+      ' . translate('Utilisateurs enregistrés') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($unum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-users fa-2x text-body-secondary me-1"></i>
-      ' . translate('Groupe') . ' <span class="badge bg-secondary ms-auto">' . wrh($gnum) . ' </span>
+      ' . translate('Groupe') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($gnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-user-edit fa-2x text-body-secondary me-1"></i>
-      ' . translate('Auteurs actifs') . ' <span class="badge bg-secondary ms-auto">' . wrh($anum) . ' </span>
+      ' . translate('Auteurs actifs') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($anum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <img class="me-1" src="' . (themeImage('stats/postnew.png') ?: 'assets/images/admin/postnew.png') . '" alt="" loading="lazy"/>
-      ' . translate('Articles publiés') . ' <span class="badge bg-secondary ms-auto">' . wrh($snum) . ' </span>
+      ' . translate('Articles publiés') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($snum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <img class="me-1" src="' . (themeImage('stats/topicsman.png') ?: 'assets/images/admin/topicsman.png') . '" alt="" loading="lazy"/>
-      ' . translate('Sujets actifs') . ' <span class="badge bg-secondary ms-auto">' . wrh($tnum) . ' </span>
+      ' . translate('Sujets actifs') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($tnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-comments fa-2x text-body-secondary me-1"></i>
-      ' . translate('Commentaires') . ' <span class="badge bg-secondary ms-auto">' . wrh($cnum) . ' </span>
+      ' . translate('Commentaires') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($cnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <img class="me-1" src="' . (themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
-      ' . translate('Rubriques spéciales') . ' <span class="badge bg-secondary ms-auto">' . wrh($secnum) . ' </span>
+      ' . translate('Rubriques spéciales') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($secnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <img class="me-1" src="' . (themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
-      ' . translate('Articles présents dans les rubriques') . ' <span class="badge bg-secondary ms-auto">' . wrh($secanum) . ' </span>
+      ' . translate('Articles présents dans les rubriques') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($secanum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-link fa-2x text-body-secondary me-1"></i>
-      ' . translate('Liens présents dans la rubrique des liens web') . ' <span class="badge bg-secondary ms-auto">' . wrh($links) . ' </span>
+      ' . translate('Liens présents dans la rubrique des liens web') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($links) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-link fa-2x text-body-secondary me-1"></i>
-      ' . translate('Catégories dans la rubrique des liens web') . ' <span class="badge bg-secondary ms-auto">' . wrh($cat) . ' </span>
+      ' . translate('Catégories dans la rubrique des liens web') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($cat) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <img class="me-1" src="' . (themeImage('stats/submissions.png') ?: 'assets/images/admin/submissions.png') . '"  alt="" />
-      ' . translate('Article en attente d\'édition') . ' <span class="badge bg-secondary ms-auto">' . wrh($subnum) . ' </span>
+      ' . translate('Article en attente d\'édition') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($subnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
       <i class="fa fa-cogs fa-2x text-body-secondary me-1"></i>

@@ -37,5 +37,5 @@ if ($rep) {
         $Xcontent .= $ContainerGlobal;
     }
 
-    echo metaLang(affLangue($Xcontent));
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
 }

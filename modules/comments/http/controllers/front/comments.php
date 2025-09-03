@@ -149,7 +149,7 @@ $sql = "SELECT *
         LIMIT $C_start, $comments_per_page";
 
 if (!$result = sql_query($sql)) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $mycount = sql_num_rows($result);
@@ -165,7 +165,7 @@ if ($mycount) {
     }
 
     do {
-        $posterdata = getUserDataFromId($myrow['poster_id']);
+        $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
 
         if ($myrow['poster_id'] !== '0') {
 
@@ -178,11 +178,11 @@ if ($mycount) {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = getUserDataExtendFromId($myrow['poster_id']);
+                $posterdata_extend = Forum::getUserDataExtendFromId($myrow['poster_id']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
-                if ($user or autorisation(-127)) {
+                if ($user or Auth::autorisation(-127)) {
                     if (array_key_exists('M2', $posterdata_extend)) {
                         if ($posterdata_extend['M2'] != '') {
 
@@ -216,7 +216,7 @@ if ($mycount) {
 
             $useroutils = '';
 
-            if ($user or autorisation(-127)) {
+            if ($user or Auth::autorisation(-127)) {
                 if ($posterdata['uid'] != 1 and $posterdata['uid'] != '') {
                     $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
                 }
@@ -269,7 +269,7 @@ if ($mycount) {
                     }
                 }
 
-                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" loading="lazy" /></a>
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" loading="lazy" /></a>
                 <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
             } else {
                 echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" loading="lazy" /></a>
@@ -292,8 +292,8 @@ if ($mycount) {
             <div class="card-text pt-3">';
 
         if ($allow_bbcode) {
-            $message = smilie($message);
-            $message = affVideoYt($message);
+            $message = Smilies::smilie($message);
+            $message = MediaPlayer::affVideoYt($message);
         }
 
         if (array_key_exists('user_sig', $posterdata)) {
@@ -307,7 +307,7 @@ if ($mycount) {
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <div class=" col-sm-6 text-body-secondary small">' . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</div>
+                    <div class=" col-sm-6 text-body-secondary small">' . Date::formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</div>
                     <div class=" col-sm-6 text-end">';
 
         if ($allow_to_post) {

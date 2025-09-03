@@ -19,7 +19,7 @@ if (!function_exists('Mysql_Connexion')) {
 // chatbox avec salon privatif - on utilise id pour filtrer les messages -> id = l'id du groupe au sens autorisation de NPDS (-127,-1,0,1,2...126))
 settype($id, 'integer');
 
-if ($id === '' || unserialize(decrypt($auto)) != $id) {
+if ($id === '' || unserialize(Encrypter::decrypt($auto)) != $id) {
     die();
 }
 
@@ -34,7 +34,7 @@ settype($aff_entetes, 'integer');
 settype($connectes, 'integer');
 
 // Savoir si le 'connecté' a le droit à ce chat ?
-if (!autorisation($id)) {
+if (!Auth::autorisation($id)) {
     die();
 }
 
@@ -85,7 +85,7 @@ if ($result) {
     include 'themes/base/views/theme.php';
 
     while (list($username, $message, $dbname, $date_message) = sql_fetch_row($result)) {
-        $thing .= "<div class='chatmessage'><div class='chatheure'>" . getPartOfTime($date_message, 'H:mm d MMM') . "</div>";
+        $thing .= "<div class='chatmessage'><div class='chatheure'>" . Date::getPartOfTime($date_message, 'H:mm d MMM') . "</div>";
 
         if ($dbname == 1) {
             if ((!$user) and ($member_list == 1) and (!$admin)) {
@@ -97,7 +97,7 @@ if ($result) {
             $thing .= "<div class='chatnom'>$username</div>";
         }
 
-        $message = smilie($message);
+        $message = Smilies::smilie($message);
 
         $chat_forbidden_words = array(
             "'\"'i" => '&quot;',
@@ -109,7 +109,7 @@ if ($result) {
         );
 
         $message = preg_replace(array_keys($chat_forbidden_words), array_values($chat_forbidden_words), $message);
-        $message = str_replace('"', '\"', makeClickable($message));
+        $message = str_replace('"', '\"', Forum::makeClickable($message));
         $thing .= "<div class='chattexte'>" . removeHack($message) . "</div></div>";
 
         $repere = $date_message;
@@ -126,7 +126,7 @@ if ($aff_entetes == '1') {
     include 'storage/meta/meta.php';
 
     $Xthing .= $l_meta;
-    $Xthing .= str_replace("\n", '', importCssJavascript($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), ''));
+    $Xthing .= str_replace("\n", '', Css::importCssJavascript($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), ''));
     $Xthing .= "</head><body id='chat'>";
     $Xthing = "\"" . str_replace("'", "\'", $Xthing) . "\"";
 }

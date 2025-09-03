@@ -33,7 +33,7 @@ $m->addUrl('modules.php');
 include 'modules/comments/support/sform/' . $formulaire;
 
 if (!isset($GLOBALS['submitS'])) {
-    echo affLangue($m->printForm(''));
+    echo Language::affLangue($m->printForm(''));
 } else {
-    $message = affLangue($m->affResponse('', 'not_echo', ''));
+    $message = Language::affLangue($m->affResponse('', 'not_echo', ''));
 }

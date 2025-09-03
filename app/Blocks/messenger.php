@@ -1,5 +1,11 @@
 <?php
 
+use App\Library\Assets\Js;
+use App\Library\Theme\Theme;
+use App\Library\Online\Online;
+use App\Library\Language\Language;
+
+
 if (! function_exists('instant_members_message')) {
     #autodoc:<Powerpack_f.php>
     #autodoc <span class="text-success">BLOCS NPDS</span>:
@@ -24,7 +30,7 @@ if (! function_exists('instant_members_message')) {
 
             $boxstuff = '<ul>';
 
-            $ibid = onlineMembers();
+            $ibid = Online::onlineMembers();
 
             $rank1 = '';
 
@@ -79,7 +85,7 @@ if (! function_exists('instant_members_message')) {
                             }
                         }
 
-                        if ($ibidR = themeImage('forum/rank/' . $rank . '.gif')) {
+                        if ($ibidR = Theme::themeImage('forum/rank/' . $rank . '.gif')) {
                             $imgtmpA = $ibidR;
                         } else {
                             $imgtmpA = 'assets/images/forum/rank/' . $rank . '.gif';
@@ -87,7 +93,7 @@ if (! function_exists('instant_members_message')) {
 
                         $messR = 'rank' . $rank;
 
-                        $tmpR = "<img src=\"" . $imgtmpA . "\" border=\"0\" alt=\"" . affLangue($$messR) . "\" title=\"" . affLangue($$messR) . "\" loading=\"lazy\" />";
+                        $tmpR = "<img src=\"" . $imgtmpA . "\" border=\"0\" alt=\"" . Language::affLangue($$messR) . "\" title=\"" . Language::affLangue($$messR) . "\" loading=\"lazy\" />";
                     } else {
                         $tmpR = '&nbsp;';
                     }
@@ -99,7 +105,7 @@ if (! function_exists('instant_members_message')) {
                                                             AND type_msg='0'"));
 
                     if ($new_messages > 0) {
-                        $PopUp = javaPopup('readpmsg_imm.php?op=new_msg', 'IMM', 600, 500);
+                        $PopUp = Js::javaPopup('readpmsg_imm.php?op=new_msg', 'IMM', 600, 500);
                         $PopUp = "<a href=\"javascript:void(0);\" onclick=\"window.open($PopUp);\">";
 
                         $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
@@ -116,7 +122,7 @@ if (! function_exists('instant_members_message')) {
                                                             AND dossier='...'"));
 
                         if ($messages > 0) {
-                            $PopUp = javaPopup('readpmsg_imm.php?op=msg', 'IMM', 600, 500);
+                            $PopUp = Js::javaPopup('readpmsg_imm.php?op=msg', 'IMM', 600, 500);
                             $PopUp = '<a href="javascript:void(0);" onclick="window.open(' . $PopUp . ');">';
 
                             $icon = ($ibid[$i]['username'] == $cookie[1]) ? $PopUp : '';
@@ -138,7 +144,7 @@ if (! function_exists('instant_members_message')) {
             themesidebox($block_title, $boxstuff);
         } else {
             if ($admin) {
-                $ibid = onlineMembers();
+                $ibid = Online::onlineMembers();
 
                 if ($ibid[0]) {
                     for ($i = 1; $i <= $ibid[0]; $i++) {

@@ -1,5 +1,6 @@
 <?php
 
+
 if (! function_exists('searchbox')) {
     #autodoc searchbox() : Bloc Search-engine <br />=> syntaxe : function#searchbox
     function searchbox()

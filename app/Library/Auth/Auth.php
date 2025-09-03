@@ -2,6 +2,8 @@
 
 namespace App\Library\auth;
 
+use App\Library\Groupe\Groupe;
+
 
 class Auth
 {
@@ -109,7 +111,7 @@ class Auth
         }
 
         if ($auto > 1) {
-            $tab_groupe = validGroup($user);
+            $tab_groupe = Groupe::validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {

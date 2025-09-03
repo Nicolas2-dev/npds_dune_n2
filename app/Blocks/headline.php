@@ -1,5 +1,6 @@
 <?php
 
+
 if (! function_exists('headlines'))
 { 
     #autodoc headlines() : Bloc HeadLines <br />=> syntaxe :<br />function#headlines<br />params#ID_du_canal

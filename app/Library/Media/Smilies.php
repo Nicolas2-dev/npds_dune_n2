@@ -2,6 +2,8 @@
 
 namespace App\Library\Media;
 
+use App\Library\Theme\Theme;
+
 
 class Smilies
 {
@@ -17,7 +19,7 @@ class Smilies
         // Tranforme un :-) en IMG
         global $theme;
 
-        if ($ibid = themeImage('forum/smilies/smilies.php')) {
+        if ($ibid = Theme::themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/';
@@ -38,7 +40,7 @@ class Smilies
             }
         }
 
-        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
+        if ($ibid = Theme::themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';
@@ -66,7 +68,7 @@ class Smilies
         // Tranforme une IMG en :-)
         global $theme;
 
-        if ($ibid = themeImage('forum/smilies/smilies.php')) {
+        if ($ibid = Theme::themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/';
@@ -80,7 +82,7 @@ class Smilies
             }
         }
 
-        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
+        if ($ibid = Theme::themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';
@@ -112,7 +114,7 @@ class Smilies
 
         echo '<p align="center">' . translate('Cliquez pour insérer des émoticons dans votre message') . '</p>';
 
-        if ($ibid = themeImage('forum/smilies/more/smilies.php')) {
+        if ($ibid = Theme::themeImage('forum/smilies/more/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/more/';
         } else {
             $imgtmp = 'assets/images/forum/smilies/more/';

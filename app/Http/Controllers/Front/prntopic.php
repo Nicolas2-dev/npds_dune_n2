@@ -28,7 +28,7 @@ $rowQ1 = Q_Select("SELECT forum_id
                    WHERE topic_id='$topic'", 3600);
 
 if (!$rowQ1) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -39,7 +39,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -56,8 +56,8 @@ if (($forum_type == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
 if (($forum_type == 5) or ($forum_type == 7)) {
     $ok_affiche = false;
 
-    $tab_groupe = validGroup($user);
-    $ok_affiche = groupeForum($myrow['forum_pass'], $tab_groupe);
+    $tab_groupe = Groupe::validGroup($user);
+    $ok_affiche = Groupe::groupeForum($myrow['forum_pass'], $tab_groupe);
 
     if (!$ok_affiche) {
         header('location: forum.php');
@@ -74,7 +74,7 @@ if (isset($user)) {
     $userdata = explode(':', $userX);
 }
 
-$moderator = getModerator($mod);
+$moderator = Forum::getModerator($mod);
 $moderator = explode(' ', $moderator);
 
 $Mmod = false;
@@ -93,7 +93,7 @@ $sql = "SELECT topic_title, topic_status
         WHERE topic_id = '$topic'";
 
 if (!$result = sql_query($sql)) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
@@ -127,7 +127,7 @@ $sql = "SELECT *
         AND post_id='$post_id'" . $post_aff;
 
 if (!$result = sql_query($sql)) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
@@ -147,14 +147,14 @@ if ($allow_upload_forum) {
 }
 
 if ($myrow['poster_id'] != 0) {
-    $posterdata = getUserDataFromId($myrow['poster_id']);
+    $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
     $posts = $posterdata['posts'];
 }
 
 include 'storage/meta/meta.php';
 
 echo '<link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
-    ' . importCss($tmp_theme, $language, '', '', '') . '
+    ' . Css::importCss($tmp_theme, $language, '', '', '') . '
     </head>
     <body>
         <div max-width="640" class="container p-3 n-hyphenate">
@@ -200,7 +200,7 @@ echo '</div>
         <p class="">' . translate('Forum') . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;' . stripslashes($forum_name) . '&nbsp;&raquo;&nbsp;&raquo;&nbsp;<strong>' . $topic_subject . '</strong></p>
         <hr />
         <p class="text-end">
-        <small>' . translate('Posté : ') . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</small> ';
+        <small>' . translate('Posté : ') . Date::formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</small> ';
 
 if ($myrow['image'] != '') {
     if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
@@ -219,7 +219,7 @@ echo '</p>';
 $message = stripslashes($myrow['post_text']);
 
 if ($allow_bbcode) {
-    $message = smilie($message);
+    $message = Smilies::smilie($message);
     $message = str_replace('[video_yt]', 'https://www.youtube.com/watch?v=', $message);
     $message = str_replace('[/video_yt]', '', $message);
 }
@@ -228,7 +228,7 @@ if ($allow_bbcode) {
 //      $message = preg_replace('#_blank(")#i', '_blank\1 class=\1\1', $message);
 // }
 
-// $message = splitStringWithoutSpace($message, 80); // fonction génère erreur !! ?????
+// $message = Sanitize::splitStringWithoutSpace($message, 80); // fonction génère erreur !! ?????
 
 if (($forum_type == '6') or ($forum_type == '5')) {
     highlight_string(stripslashes($myrow['post_text'])) . '<br /><br />';

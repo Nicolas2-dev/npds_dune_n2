@@ -68,7 +68,7 @@ function displayUsers()
 
     include 'library/sform/extend-user/adm_extend-user.php';
 
-    echo autoComplete('membre', 'uname', 'users', 'chng_uid', '86400');
+    echo Js::autoComplete('membre', 'uname', 'users', 'chng_uid', '86400');
 
     echo '<hr />
         <h3 class="mb-3">' . adm_translate('Fonctions') . '</h3>
@@ -131,7 +131,7 @@ function extractUserCSV()
     send_file($line, 'annuaire', 'csv', $MSos);
 
     global $aid;
-    ecrireLog('security', sprintf('ExtractUserCSV() by AID : %s', $aid), '');
+    Log::ecrireLog('security', sprintf('ExtractUserCSV() by AID : %s', $aid), '');
 }
 
 function modifyUser($chng_user)
@@ -248,7 +248,7 @@ function Minisites($chng_mns, $chng_uname)
         unset($filelist);
 
         global $aid;
-        ecrireLog('security', sprintf('CreateMiniSite(%s) by AID : %s', $chng_uname, $aid), '');
+        Log::ecrireLog('security', sprintf('CreateMiniSite(%s) by AID : %s', $chng_uname, $aid), '');
     }
 }
 
@@ -294,7 +294,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
     include_once 'functions.php';
 
-    if (checkDnsMail($chng_email) === false) {
+    if (Forum::checkDnsMail($chng_email) === false) {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         include 'header.php';
@@ -405,7 +405,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
     fclose($file);
 
     global $aid;
-    ecrireLog('security', sprintf('UpdateUser(%s, %s) by AID : %s', $chng_uid, $chng_uname, $aid), '');
+    Log::ecrireLog('security', sprintf('UpdateUser(%s, %s) by AID : %s', $chng_uid, $chng_uname, $aid), '');
 
     global $referer;
     if ($referer != 'memberslist.php') {
@@ -515,7 +515,7 @@ function checkDnsMailusers()
     $image = '18.png';
 
     $subject = adm_translate('Votre adresse Email est incorrecte.');
-    $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
+    $time = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
     $message = adm_translate('Votre adresse Email est incorrecte.') . ' (' . adm_translate('DNS ou serveur de mail incorrect') . ').<br />' . adm_translate('Tous vos abonnements vers cette adresse Email ont été suspendus.') . '<br /><a href="user.php?op=edituser">' . adm_translate('Merci de fournir une nouvelle adresse Email valide.') . ' <i class="fa fa-user fa-2x align-middle fa-fw"></i></a><br />' . adm_translate('Sans réponse de votre part sous 60 jours vous ne pourrez plus vous connecter en tant que membre sur ce site.') . ' ' . adm_translate('Puis votre compte pourra être supprimé.') . '<br /><br />' . adm_translate('Contacter l\'administration du site.') . '<a href="mailto:' . $adminmail . '" target="_blank"><i class="fa fa-at fa-2x align-middle fa-fw"></i>';
 
     $output = '';
@@ -533,7 +533,7 @@ function checkDnsMailusers()
     $datelimit = '';
 
     while (list($uid, $uname, $email) = sql_fetch_row($result)) {
-        if (checkDnsMail($email) === true and isBadMailUser($uid) === true) {
+        if (Forum::checkDnsMail($email) === true and Forum::isBadMailUser($uid) === true) {
             $re = '/#' . $uid . '\|(\d+)/m';
             $maj = preg_replace($re, '', $contents);
 
@@ -543,8 +543,8 @@ function checkDnsMailusers()
             fclose($file);
         }
 
-        if (checkDnsMail($email) === false) {
-            if (isBadMailUser($uid) === false) {
+        if (Forum::checkDnsMail($email) === false) {
+            if (Forum::isBadMailUser($uid) === false) {
                 $arrayusers[] = '#' . $uid . '|' . time();
 
                 //suspension des souscriptions
@@ -552,7 +552,7 @@ function checkDnsMailusers()
                            WHERE uid='$uid'");
 
                 global $aid;
-                ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $uid, $aid), "");
+                Log::ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $uid, $aid), "");
 
                 //suspension de l'envoi des mails pour PM suspension lnl
                 sql_query("UPDATE " . sql_prefix('users') . " 
@@ -569,7 +569,7 @@ function checkDnsMailusers()
                 $datelimit = date('d/m/Y', time() + 5184000);
             }
 
-            if (isBadMailUser($uid) === true) {
+            if (Forum::isBadMailUser($uid) === true) {
                 $re = '/#' . $uid . '\|(\d+)/m';
                 preg_match($re, $contents, $res);
 
@@ -845,7 +845,7 @@ switch ($op) {
             fclose($file);
 
             global $aid;
-            ecrireLog('security', sprintf('DeleteUser(%s) by AID : %s', $del . '_uid', $aid), '');
+            Log::ecrireLog('security', sprintf('DeleteUser(%s) by AID : %s', $del . '_uid', $aid), '');
         }
 
         if ($referer != 'memberslist.php') {
@@ -895,7 +895,7 @@ switch ($op) {
 
         include_once 'functions.php';
 
-        if (checkDnsMail($add_email) === false) {
+        if (Forum::checkDnsMail($add_email) === false) {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             include 'header.php';
@@ -954,7 +954,7 @@ switch ($op) {
         Minisites($add_mns, $add_uname);
 
         global $aid;
-        ecrireLog('security', sprintf('AddUser(%s, %s) by AID : %s', $add_name, $add_uname, $aid), '');
+        Log::ecrireLog('security', sprintf('AddUser(%s, %s) by AID : %s', $add_name, $add_uname, $aid), '');
 
         Header('Location: admin.php?op=mod_users');
         break;
@@ -972,7 +972,7 @@ switch ($op) {
                        WHERE uid='$chng_uid'");
 
             global $aid;
-            ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $chng_uid, $aid), '');
+            Log::ecrireLog('security', sprintf('UnsubUser(%s) by AID : %s', $chng_uid, $aid), '');
         }
 
         Header('Location: admin.php?op=mod_users');

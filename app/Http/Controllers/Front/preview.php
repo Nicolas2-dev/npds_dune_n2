@@ -16,7 +16,7 @@
 $userdatat = $userdata;
 $messageP = $message;
 
-$time = formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+$time = Date::formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
 switch ($acc) {
 
@@ -40,20 +40,20 @@ switch ($acc) {
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = afCode($messageP);
+            $messageP = Code::afCode($messageP);
             $messageP = str_replace("\n", '<br />', $messageP);
         }
 
         if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = smile($messageP);
+            $messageP = Smilies::smile($messageP);
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = makeClickable($messageP);
+            $messageP = Forum::makeClickable($messageP);
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
-                $messageP = affVideoYt($messageP);
+                $messageP = MediaPlayer::affVideoYt($messageP);
             }
         }
 
@@ -66,7 +66,7 @@ switch ($acc) {
 
     case 'reply':
         if (array_key_exists(1, $userdata)) {
-            $userdata = getUserData($userdata[1]);
+            $userdata = Forum::getUserData($userdata[1]);
         }
 
         if ($allow_html == 0 || isset($html)) {
@@ -78,20 +78,20 @@ switch ($acc) {
         }
 
         if (($forum_type != '6') and ($forum_type != '5')) {
-            $messageP = afCode($messageP);
+            $messageP = Code::afCode($messageP);
             $messageP = str_replace("\n", '<br />', $messageP);
         }
 
         if (($allow_bbcode) and ($forum_type != '6') and ($forum_type != '5')) {
-            $messageP = smile($messageP);
+            $messageP = Smilies::smile($messageP);
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = makeClickable($messageP);
+            $messageP = Forum::makeClickable($messageP);
             $messageP = removeHack($messageP);
 
             if ($allow_bbcode) {
-                $messageP = affVideoYt($messageP);
+                $messageP = MediaPlayer::affVideoYt($messageP);
             }
         }
 
@@ -99,7 +99,7 @@ switch ($acc) {
         break;
 
     case 'editpost':
-        $userdata = getUserData($userdata[1]);
+        $userdata = Forum::getUserData($userdata[1]);
 
         settype($post_id, "integer");
 
@@ -110,7 +110,7 @@ switch ($acc) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumError('0022');
+            Error::forumError('0022');
         }
 
         $row2 = sql_fetch_assoc($result);
@@ -131,16 +131,16 @@ switch ($acc) {
         }
 
         if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = smile($messageP);
+            $messageP = Smilies::smile($messageP);
         }
 
         if (($forum_type != 6) and ($forum_type != 5)) {
-            $messageP = afCode($messageP);
+            $messageP = Code::afCode($messageP);
             $messageP = str_replace("\n", '<br />', removeHack($messageP));
             $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
 
             if ($allow_bbcode) {
-                $messageP = affVideoYt($messageP);
+                $messageP = MediaPlayer::affVideoYt($messageP);
             }
         } else {
             $messageP .= "\n\n" . translate('Message édité par') . ' : ' . $userdata['uname'];
@@ -150,7 +150,7 @@ switch ($acc) {
         break;
 }
 
-$theposterdata = getUserDataFromId($userdatat[0]);
+$theposterdata = Forum::getUserDataFromId($userdatat[0]);
 
 echo '<div class="mb-3">
 <h4 class="mb-3">' . translate('Prévisualiser') . '</h4>
@@ -172,7 +172,7 @@ if ($smilies) {
                 }
             }
 
-            echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
+            echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . Forum::memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
         }
     } else {
         echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $anonymous . '" data-bs-content=\'' . $anonymous . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="icone ' . $anonymous . '" /></a>';
@@ -214,7 +214,7 @@ if (($forum_type == '6') or ($forum_type == '5')) {
     highlight_string(stripslashes($messageP));
 } else {
     if ($allow_bbcode) {
-        $messageP = smilie($messageP);
+        $messageP = Smilies::smilie($messageP);
     }
 
     if (array_key_exists('user_sig', $theposterdata)) {

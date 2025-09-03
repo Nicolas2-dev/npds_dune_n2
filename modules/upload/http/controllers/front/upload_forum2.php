@@ -39,7 +39,7 @@ if (!$allow_upload_forum) {
     Access_Error();
 }
 
-if (!autorize()) {
+if (!Forum::autorize()) {
     Access_Error();
 }
 
@@ -86,7 +86,7 @@ echo '<link rel="stylesheet" href="assets/shared/font-awesome/css/all.min.css" /
 <link rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/shared/bootstrap-table/dist/bootstrap-table.min.css" />';
 
-echo importCss($tmp_theme, $language, $skin, '', '');
+echo Css::importCss($tmp_theme, $language, $skin, '', '');
 
 echo '</head>
     <body class="bg-body-tertiary">';
@@ -97,12 +97,12 @@ $sql = "SELECT forum_moderator
         WHERE forum_id = '$forum'";
 
 if (!$result = sql_query($sql)) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = sql_fetch_assoc($result);
 
-$moderator = getModerator($myrow['forum_moderator']);
+$moderator = Forum::getModerator($myrow['forum_moderator']);
 
 $moderator = explode(' ', $moderator);
 

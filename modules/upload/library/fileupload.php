@@ -242,7 +242,7 @@ if (!isset($FILEUPLOAD)) {
                 }
             }
 
-            ecrireLog('security', 'Upload File(s) : ' . getip(), $log_filename);
+            Log::ecrireLog('security', 'Upload File(s) : ' . Request::getip(), $log_filename);
 
             return true;
         }

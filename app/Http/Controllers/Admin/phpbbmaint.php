@@ -51,7 +51,7 @@ function ForumMaintMarkTopics()
         <tbody>';
 
     if (!$r = sql_query("DELETE FROM " . sql_prefix('forum_read'))) {
-        forumError('0001');
+        Error::forumError('0001');
     } else {
         $resultF = sql_query("SELECT forum_id 
                               FROM " . sql_prefix('forums') . " 
@@ -143,7 +143,7 @@ function ForumMaintTopics($before, $forum_name)
                               ORDER BY topic_id ASC");
 
         while (list($topic_id, $topic_title) = sql_fetch_row($resultT)) {
-            $tt = $parse == 0 ? fixQuotes($topic_title) : stripslashes($topic_title);
+            $tt = $parse == 0 ? Sanitize::fixQuotes($topic_title) : stripslashes($topic_title);
 
             urlencode($tt);
 
@@ -191,7 +191,7 @@ function ForumMaintTopicDetail($topic, $topic_title)
     <h3 class="mb-3 text-danger">' . adm_translate('Supprimer massivement les Topics') . '</h3>
     <div class="lead">Topic : ' . $topic . ' | ' . stripslashes($topic_title) . '</div>
     <div class="card p-4 my-3 border-danger">
-        <p class="text-end small text-body-secondary">[ ' . formatTimes($post_time, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . ' ]</p>' . stripslashes($post_text) . '
+        <p class="text-end small text-body-secondary">[ ' . Date::formatTimes($post_time, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . ' ]</p>' . stripslashes($post_text) . '
     </div>
     <form action="admin.php" method="post">
         <input type="hidden" name="op" value="ForumMaintTopicSup" />
@@ -213,24 +213,24 @@ function ForumMaintTopicMassiveSup($topics)
                         WHERE topic_id = '$topic_id'";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0009');
+                    Error::forumError('0009');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id = '$topic_id'";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0010');
+                    Error::forumError('0010');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
                         WHERE topicid = '$topic_id'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0001');
+                    Error::forumError('0001');
                 }
 
-                controlEffacePost('forum_npds', '', $topic_id, '');
+                Forum::controlEffacePost('forum_npds', '', $topic_id, '');
             }
         }
     }
@@ -246,24 +246,24 @@ function ForumMaintTopicSup($topic)
             WHERE topic_id = '$topic'";
 
     if (!$result = sql_query($sql)) {
-        forumError('0009');
+        Error::forumError('0009');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
             WHERE topic_id = '$topic'";
 
     if (!$result = sql_query($sql)) {
-        forumError('0010');
+        Error::forumError('0010');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
             WHERE topicid = '$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
-    controlEffacePost('forum_npds', '', $topic, '');
+    Forum::controlEffacePost('forum_npds', '', $topic, '');
 
     Q_Clean();
 
@@ -277,7 +277,7 @@ function SynchroForum()
                                FROM " . sql_prefix('forumtopics') . " 
                                ORDER BY topic_id ASC")) {
 
-        forumError('0009');
+        Error::forumError('0009');
     }
 
     while (list($topi_cid, $foru_mid) = sql_fetch_row($result1)) {
@@ -293,7 +293,7 @@ function SynchroForum()
     if (!$result1 = sql_query("SELECT topicid, uid, rid 
                                FROM " . sql_prefix('forum_read') . " 
                                ORDER BY topicid ASC")) {
-        forumError('0009');
+        Error::forumError('0009');
     }
 
     while (list($topicid, $uid, $rid) = sql_fetch_row($result1)) {
@@ -405,7 +405,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0010');
+        Error::forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('posts') . " 
@@ -413,7 +413,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0010');
+        Error::forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -421,7 +421,7 @@ function MergeForumAction($oriforum, $destforum)
             WHERE forum_id='$oriforum'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
     $sql = "UPDATE $upload_table 
@@ -495,7 +495,7 @@ function ForumMaintAdmin()
         </div>
     </form>
     <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-    <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
+    <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . Language::languageIso(1, '', '') . '.js"></script>
     <script type="text/javascript">
     //<![CDATA[
         $(document).ready(function() {
@@ -511,7 +511,7 @@ function ForumMaintAdmin()
             altInput: true,
             altFormat: "l j F Y",
             dateFormat:"Y-m-d",
-            "locale": "' . languageIso(1, '', '') . '",
+            "locale": "' . Language::languageIso(1, '', '') . '",
             onChange: function() {
                 fvitem.revalidateField(\'before\');
             }
@@ -519,7 +519,7 @@ function ForumMaintAdmin()
 
     $arg1 = 'var formulid = ["faddeletetop"];';
 
-    echo autoComplete('forname', 'forum_name', 'forums', 'titreforum', '86400');
+    echo Js::autoComplete('forname', 'forum_name', 'forums', 'titreforum', '86400');
 
     adminFoot('fv', $fv_parametres, $arg1, '');
 }

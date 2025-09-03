@@ -70,7 +70,7 @@ if ($type == 'users') {
 } elseif ($type == 'archive') {
     echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' <span class="text-lowercase">' . translate('Archives') . '</span></h2><hr />';
 } else {
-    echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' ' . affLangue($topictext) . '</h2><hr />';
+    echo '<h2 class="mb-3">' . translate('Rechercher dans') . ' ' . Language::affLangue($topictext) . '</h2><hr />';
 }
 
 echo '<form action="search.php" method="get">';
@@ -80,7 +80,7 @@ if (($type == 'users') OR ($type == 'sections') OR ($type == 'reviews')) {
     echo "<img src=\"" . $tipath . "all-topics.gif\" align=\"left\" border=\"0\" alt=\"\" />";
 } else {
     if ((($topicimage) or ($topicimage != '')) and (file_exists($tipath$topicimage))) {
-        echo "<img src=\"" . $tipath$topicimage . "\" align=\"right\" border=\"0\" alt=\"" . affLangue($topictext) . "\" />";
+        echo "<img src=\"" . $tipath$topicimage . "\" align=\"right\" border=\"0\" alt=\"" . Language::affLangue($topictext) . "\" />";
     }
 }
 */
@@ -104,7 +104,7 @@ while (list($topicid, $topics) = sql_fetch_row($toplist)) {
         $sel = 'selected="selected" ';
     }
 
-    echo '<option ' . $sel . ' value="' . $topicid . '">' . substr_replace(affLangue($topics), '...', 25, -1) . '</option>';
+    echo '<option ' . $sel . ' value="' . $topicid . '">' . substr_replace(Language::affLangue($topics), '...', 25, -1) . '</option>';
 
     $sel = '';
 }
@@ -127,7 +127,7 @@ while (list($catid, $title) = sql_fetch_row($catlist)) {
         $sel = 'selected="selected" ';
     }
 
-    echo '<option ' . $sel . ' value="' . $catid . '">' . affLangue($title) . '</option>';
+    echo '<option ' . $sel . ' value="' . $catid . '">' . Language::affLangue($title) . '</option>';
 
     $sel = '';
 }
@@ -350,10 +350,10 @@ if ($type == "stories" or $type == "archive" or !$type) {
         $furl = 'article.php?sid=' . $tab_sid[$i]['sid'];
         $furl .= ($type == 'archive') ? '&amp;archive=1' : '';
 
-        $date_au_format = formatTimes($tab_sid[$i]['time'], IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+        $date_au_format = Date::formatTimes($tab_sid[$i]['time'], IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
 
         echo '<tr>
-            <td><span>[' . ($i + 1) . ']</span>&nbsp;' . translate('Contribution de') . ' <a href="user.php?op=userinfo&amp;uname=' . $tab_sid[$i]['informant'] . '">' . $tab_sid[$i]['informant'] . '</a> :<br /><strong><a href="' . $furl . '">' . affLangue($tab_sid[$i]['title']) . '</a></strong><br /><span>' . translate('Posté par ') . ' <a href="' . $tab_sid[$i]['url'] . '" >' . $tab_sid[$i]['aid'] . '</a></span> ' . translate('le') . ' ' . $date_au_format . '</td>
+            <td><span>[' . ($i + 1) . ']</span>&nbsp;' . translate('Contribution de') . ' <a href="user.php?op=userinfo&amp;uname=' . $tab_sid[$i]['informant'] . '">' . $tab_sid[$i]['informant'] . '</a> :<br /><strong><a href="' . $furl . '">' . Language::affLangue($tab_sid[$i]['title']) . '</a></strong><br /><span>' . translate('Posté par ') . ' <a href="' . $tab_sid[$i]['url'] . '" >' . $tab_sid[$i]['aid'] . '</a></span> ' . translate('le') . ' ' . $date_au_format . '</td>
         </tr>';
     }
 
@@ -487,7 +487,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
                 $furl = 'sections.php?op=viewarticle&amp;artid=' . $artid;
 
                 echo '<tr>
-                <td><a href="' . $furl . '">' . affLangue($title) . '</a> ' . translate('dans la sous-rubrique') . ' <a href="' . $surl . '">' . affLangue($row2['secname']) . '</a></td>
+                <td><a href="' . $furl . '">' . Language::affLangue($title) . '</a> ' . translate('dans la sous-rubrique') . ' <a href="' . $surl . '">' . Language::affLangue($row2['secname']) . '</a></td>
                 </tr>';
 
                 $x++;

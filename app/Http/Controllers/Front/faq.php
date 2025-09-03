@@ -44,11 +44,11 @@ function ShowFaqAll($id_cat)
         echo '<div class="card mb-3" id="accordion_' . $id . '" role="tablist" aria-multiselectable="true">
             <div class="card-body">
                 <h4 class="card-title">
-                <a data-bs-toggle="collapse" data-parent="#accordion_' . $id . '" href="#faq_' . $id . '" aria-expanded="true" aria-controls="' . $id . '"><i class="fa fa-caret-down toggle-icon"></i></a>&nbsp;' . affLangue($question) . '
+                <a data-bs-toggle="collapse" data-parent="#accordion_' . $id . '" href="#faq_' . $id . '" aria-expanded="true" aria-controls="' . $id . '"><i class="fa fa-caret-down toggle-icon"></i></a>&nbsp;' . Language::affLangue($question) . '
                 </h4>
                 <div class="collapse" id="faq_' . $id . '" >
                 <div class="card-text">
-                ' . metaLang(affLangue($answer)) . '
+                ' . Metalang::metaLang(Language::affLangue($answer)) . '
                 </div>
                 </div>
             </div>
@@ -81,8 +81,8 @@ if (!$myfaq) {
         <div class="list-group">';
 
         while (list($id_cat, $categories) = sql_fetch_row($result)) {
-            $catname = urlencode(affLangue($categories));
-            echo '<a class="list-group-item list-group-item-action" href="faq.php?id_cat=' . $id_cat . '&amp;myfaq=yes&amp;categories=' . $catname . '"><h4 class="list-group-item-heading">' . affLangue($categories) . '</h4></a>';
+            $catname = urlencode(Language::affLangue($categories));
+            echo '<a class="list-group-item list-group-item-action" href="faq.php?id_cat=' . $id_cat . '&amp;myfaq=yes&amp;categories=' . $catname . '"><h4 class="list-group-item-heading">' . Language::affLangue($categories) . '</h4></a>';
         }
 
         echo '</div>';

@@ -2,6 +2,12 @@
 
 namespace App\Library\News;
 
+use App\Support\Sanitize;
+use App\Library\Code\Code;
+use App\Library\Groupe\Groupe;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 
 class News
 {
@@ -26,7 +32,7 @@ class News
         } elseif ($ihome == 1) {
             $affich = $catid > 0 ? false : true;
         } elseif (($ihome > 1) and ($ihome <= 127)) {
-            $tab_groupe = validGroup($user);
+            $tab_groupe = Groupe::validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {
@@ -199,7 +205,7 @@ class News
      */
     public static function themePreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
     {
-        echo "$title<br />" . metaLang($hometext) . "<br />" . metaLang($bodytext) . "<br />" . metaLang($notes);
+        echo "$title<br />" . Metalang::metaLang($hometext) . "<br />" . Metalang::metaLang($bodytext) . "<br />" . Metalang::metaLang($notes);
     }
 
     /**
@@ -273,16 +279,16 @@ class News
 
             static::getTopics($s_sid);
 
-            $title      = affLangue(stripslashes($title));
-            $hometext   = affLangue(stripslashes($hometext));
-            $notes      = affLangue(stripslashes($notes));
-            $bodycount  = strlen(strip_tags(affLangue($bodytext), '<img>'));
+            $title      = Language::affLangue(stripslashes($title));
+            $hometext   = Language::affLangue(stripslashes($hometext));
+            $notes      = Language::affLangue(stripslashes($notes));
+            $bodycount  = strlen(strip_tags(Language::affLangue($bodytext), '<img>'));
 
             if ($bodycount > 0) {
-                $bodycount = strlen(strip_tags(affLangue($bodytext)));
+                $bodycount = strlen(strip_tags(Language::affLangue($bodytext)));
 
                 if ($bodycount > 0) {
-                    $morelink[0] = wrh($bodycount) . ' ' . translate('caractères de plus');
+                    $morelink[0] = Sanitize::wrh($bodycount) . ' ' . translate('caractères de plus');
                 } else {
                     $morelink[0] = ' ';
                 }
@@ -317,7 +323,7 @@ class News
                 $title = $title;
 
                 // Attention à cela aussi
-                $morelink[6] = ' <a href="index.php?op=newcategory&amp;catid=' . $catid . '">&#x200b;' . affLangue($title1) . '</a>';
+                $morelink[6] = ' <a href="index.php?op=newcategory&amp;catid=' . $catid . '">&#x200b;' . Language::affLangue($title1) . '</a>';
             } else {
                 $morelink[6] = '';
             }
@@ -328,8 +334,8 @@ class News
             $news_tab[$story_limit]['title']        = serialize($title);
             $news_tab[$story_limit]['counter']      = serialize($counter);
             $news_tab[$story_limit]['topic']        = serialize($topic);
-            $news_tab[$story_limit]['hometext']     = serialize(metaLang(affCode($hometext)));
-            $news_tab[$story_limit]['notes']        = serialize(metaLang(affCode($notes)));
+            $news_tab[$story_limit]['hometext']     = serialize(Metalang::metaLang(Code::affCode($hometext)));
+            $news_tab[$story_limit]['notes']        = serialize(Metalang::metaLang(Code::affCode($notes)));
             $news_tab[$story_limit]['morelink']     = serialize($morelink);
             $news_tab[$story_limit]['topicname']    = serialize($topicname);
             $news_tab[$story_limit]['topicimage']   = serialize($topicimage);
@@ -399,7 +405,7 @@ class News
             list($topictext, $topicimage) = sql_fetch_row($rfile2);
 
 
-            $hometext = metaLang(strip_tags($hometext));
+            $hometext = Metalang::metaLang(strip_tags($hometext));
 
             fwrite($file, "%%\n$title\n$nuke_url/article.php?sid=$sid\n$time\n$aid\n$topictext\n$hometext\n$topicimage\n");
             fwrite($file2, "<NEWS>\n<NBX>$topictext</NBX>\n<TITLE>" . stripslashes($title) . "</TITLE>\n<SUMMARY>$hometext</SUMMARY>\n<URL>$nuke_url/article.php?sid=$sid</URL>\n<AUTHOR>" . $aid . "</AUTHOR>\n</NEWS>\n\n");

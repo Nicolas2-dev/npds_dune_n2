@@ -76,13 +76,13 @@ function changemblock($title, $content)
 {
     global $aid;
 
-    $title = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes($content));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     sql_query("UPDATE " . sql_prefix('block') . " 
               SET title='$title', content='$content' WHERE id='1'");
 
-    ecrireLog('security', sprintf('ChangeMainBlock(%s) by AID : %s', affLangue($title), $aid), '');
+    Log::ecrireLog('security', sprintf('ChangeMainBlock(%s) by AID : %s', Language::affLangue($title), $aid), '');
 
     Header('Location: admin.php?op=adminMain');
 }

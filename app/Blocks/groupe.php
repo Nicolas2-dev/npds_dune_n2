@@ -1,5 +1,9 @@
 <?php
 
+use App\Library\auth\Auth;
+use App\Library\Groupe\Groupe;
+
+
 if (! function_exists('bloc_espace_groupe')) {
     #autodoc espace_groupe() : Bloc du WorkSpace <br />=> syntaxe :<br />function#bloc_espace_groupe<br />params#ID_du_groupe, Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, Le nom du groupe sera utilisé
     function bloc_espace_groupe($gr, $i_gr)
@@ -16,7 +20,7 @@ if (! function_exists('bloc_espace_groupe')) {
             $title = $block_title;
         }
 
-        themesidebox($title, fabEspaceEroupe($gr, "0", $i_gr));
+        themesidebox($title, Groupe::fabEspaceEroupe($gr, "0", $i_gr));
     }
 }
 
@@ -88,8 +92,8 @@ if (! function_exists('fab_groupes_bloc')) {
 
             $content .= $im == 1 ? '<div class="text-center my-2"><img class="img-fluid" src="storage/users_private/groupe/' . $groupe_id . '/groupe.png" loading="lazy"></div>' : '';
 
-            if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !autorisation($groupe_id)) {
-                if (!autorisation(-1)) {
+            if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $groupe_id . '_.txt') and !Auth::autorisation($groupe_id)) {
+                if (!Auth::autorisation(-1)) {
                     $content .= '<div class="text-end small"><a href="user.php?op=askforgroupe&amp;askedgroup=' . $groupe_id . '" title="' . translate('Envoi une demande aux administrateurs pour rejoindre ce groupe. Un message privé vous informera du résultat de votre demande.') . '" data-bs-toggle="tooltip">' . translate('Rejoindre ce groupe') . '</a></div>';
                 }
             }
@@ -99,7 +103,7 @@ if (! function_exists('fab_groupes_bloc')) {
 
         $content .= '</ul>';
 
-        if (autorisation(-127)) {
+        if (Auth::autorisation(-127)) {
             $content .= '<div class="text-end"><a class="mx-2" href="admin.php?op=groupes" ><i title="' . translate('Gestion des groupes.') . '" data-bs-toggle="tooltip" data-bs-placement="left" class="fa fa-cogs fa-lg"></i></a></div>';
         }
 

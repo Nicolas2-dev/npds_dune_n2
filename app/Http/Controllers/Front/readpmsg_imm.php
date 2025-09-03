@@ -73,7 +73,7 @@ function show_imm($op)
 
         include 'themes/' . $theme . '/views/theme.php';
 
-        $userdata = getUserData($userdata[1]);
+        $userdata = Forum::getUserData($userdata[1]);
 
         $sql = ($op != 'new_msg')
             ? "SELECT * FROM " . sql_prefix('priv_msgs') . " 
@@ -103,14 +103,14 @@ function show_imm($op)
                 include 'storage/meta/meta.php';
                 include 'themes/base/bootstrap/header_head.php';
 
-                echo importCss($tmp_theme, $language, $skin, '', '');
+                echo Css::importCss($tmp_theme, $language, $skin, '', '');
 
                 echo '</head>
                 <body>
                     <div class="p-3">';
             }
 
-            $posterdata = getUserDataFromId($myrow['from_userid']);
+            $posterdata = Forum::getUserDataFromId($myrow['from_userid']);
 
             echo '<div class="card mb-3">
                <div class="card-body">
@@ -133,13 +133,13 @@ function show_imm($op)
             /*
             $posts = $posterdata['posts'];
             if ($posterdata['uid'] <> 1) {
-                echo memberQualif($posterdata['uname'], $posts, $posterdata['rang']);
+                echo Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']);
             }
             */
 
             echo '<hr />';
 
-            echo '<h4>' . affLangue($myrow['subject']);
+            echo '<h4>' . Language::affLangue($myrow['subject']);
 
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
@@ -158,11 +158,11 @@ function show_imm($op)
             $message = stripslashes($myrow['msg_text']);
 
             if ($allow_bbcode) {
-                $message = smilie($message);
-                $message = affVideoYt($message);
+                $message = Smilies::smilie($message);
+                $message = MediaPlayer::affVideoYt($message);
             }
 
-            $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', affLangue($message)); // ne sert à rien ici ????
+            $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', Language::affLangue($message)); // ne sert à rien ici ????
 
             echo $message . '<br />';
 
@@ -210,7 +210,7 @@ function sup_imm($msg_id)
                 AND to_userid='$cookie[0]'";
 
         if (!sql_query($sql)) {
-            forumError('0021');
+            Error::forumError('0021');
         }
     }
 }
@@ -228,7 +228,7 @@ function read_imm($msg_id, $sub_op)
                 AND to_userid='$cookie[0]'";
 
         if (!sql_query($sql)) {
-            forumError('0021');
+            Error::forumError('0021');
         }
 
         if ($sub_op == 'reply') {

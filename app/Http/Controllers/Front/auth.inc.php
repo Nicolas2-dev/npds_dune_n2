@@ -20,7 +20,7 @@ function Admin_alert($motif)
     setcookie('admin', '', 0);
     unset($admin);
 
-    ecrireLog('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
+    Log::ecrireLog('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
 
     include 'storage/meta/meta.php';
 

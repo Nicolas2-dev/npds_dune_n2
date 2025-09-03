@@ -138,11 +138,11 @@ function themeindex(
     $npds_METALANG_words = array(
         "'!N_publicateur!'i"    => $aid,
         "'!N_emetteur!'i"       => userpopover($informant, 40, 2) . '<a href="user.php?op=userinfo&amp;uname=' . $informant . '">' . $informant . '</a>',
-        "'!N_date!'i"           => formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT),
-        "'!N_date_y!'i"         => getPartOfTime($time, 'yyyy'),
-        "'!N_date_m!'i"         => getPartOfTime($time, 'MMMM'),
-        "'!N_date_d!'i"         => getPartOfTime($time, 'd'),
-        "'!N_date_h!'i"         => formatTimes($time, IntlDateFormatter::NONE, IntlDateFormatter::MEDIUM),
+        "'!N_date!'i"           => Date::formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT),
+        "'!N_date_y!'i"         => Date::getPartOfTime($time, 'yyyy'),
+        "'!N_date_m!'i"         => Date::getPartOfTime($time, 'MMMM'),
+        "'!N_date_d!'i"         => Date::getPartOfTime($time, 'd'),
+        "'!N_date_h!'i"         => Date::formatTimes($time, IntlDateFormatter::NONE, IntlDateFormatter::MEDIUM),
         "'!N_print!'i"          => $morelink[4],
         "'!N_friend!'i"         => $morelink[5],
         "'!N_nb_carac!'i"       => $morelink[0],
@@ -159,7 +159,7 @@ function themeindex(
         "'!N_suite!'i"          => $morel
     );
 
-    echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+    echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
 /**
@@ -245,11 +245,11 @@ function themearticle(
     $npds_METALANG_words = array(
         "'!N_publicateur!'i"        => $aid,
         "'!N_emetteur!'i"           => userpopover($informant, 40, 2) . '<a href="user.php?op=userinfo&amp;uname=' . $informant . '"><span class="">' . $informant . '</span></a>',
-        "'!N_date!'i"               => formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT),
-        "'!N_date_y!'i"             => getPartOfTime($time, 'yyyy'),
-        "'!N_date_m!'i"             => getPartOfTime($time, 'MMMM'),
-        "'!N_date_d!'i"             => getPartOfTime($time, 'd'),
-        "'!N_date_h!'i"             => formatTimes($time, IntlDateFormatter::NONE, IntlDateFormatter::MEDIUM),
+        "'!N_date!'i"               => Date::formatTimes($time, IntlDateFormatter::FULL, IntlDateFormatter::SHORT),
+        "'!N_date_y!'i"             => Date::getPartOfTime($time, 'yyyy'),
+        "'!N_date_m!'i"             => Date::getPartOfTime($time, 'MMMM'),
+        "'!N_date_d!'i"             => Date::getPartOfTime($time, 'd'),
+        "'!N_date_h!'i"             => Date::formatTimes($time, IntlDateFormatter::NONE, IntlDateFormatter::MEDIUM),
         "'!N_print!'i"              => $printP,
         "'!N_friend!'i"             => $sendF,
         "'!N_boxrel_title!'i"       => $boxtitle,
@@ -263,7 +263,7 @@ function themearticle(
         "'!N_nb_lecture!'i"         => $counter
     );
 
-    echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+    echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
 }
 
 /**
@@ -317,7 +317,7 @@ function themesidebox(string $title, string $content): void
 
     echo $htvar;
 
-    echo metaLang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
+    echo Metalang::metaLang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
 
     echo '</div>';
 }
@@ -326,7 +326,7 @@ function themesidebox(string $title, string $content): void
  * Affiche l'éditorial d'un thème.
  *
  * Cherche le fichier `editorial.php` dans le thème actif, puis dans le thème de base.  
- * Remplace le placeholder `!editorial_content!` par le contenu fourni et applique la fonction `metaLang()` et `affLangue()`.
+ * Remplace le placeholder `!editorial_content!` par le contenu fourni et applique la fonction `Metalang::metaLang()` et `Language::affLangue()`.
  *
  * @param string $content Le contenu à insérer dans l'éditorial.
  * @return string|false Le chemin du fichier inclus, ou false si non trouvé.
@@ -356,7 +356,7 @@ function themedito(string $content): string|false
             "'!editorial_content!'i"    => $content
         );
 
-        echo metaLang(affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        echo metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
     }
 
     return $inclusion;
@@ -386,7 +386,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
 
     if (sql_num_rows($result)) {
 
-        $temp_user = getUserData($who);
+        $temp_user = Forum::getUserData($who);
 
         $socialnetworks = array();
         $posterdata_extend = array();
@@ -397,12 +397,12 @@ function userpopover(string $who, int $dim, int $avpop): ?string
         if (!$short_user) {
             if ($temp_user['uid'] != 1) {
 
-                $posterdata_extend = getUserDataExtendFromId($temp_user['uid']);
+                $posterdata_extend = Forum::getUserDataExtendFromId($temp_user['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
                 include 'modules/geoloc/config/config.php';
 
-                if ($user or autorisation(-127)) {
+                if ($user or Auth::autorisation(-127)) {
                     if ($posterdata_extend['M2'] != '') {
                         $socialnetworks = explode(';', $posterdata_extend['M2']);
 
@@ -442,7 +442,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
 
         $useroutils = '';
 
-        if ($user or autorisation(-127)) {
+        if ($user or Auth::autorisation(-127)) {
             if ($temp_user['uid'] != 1 and $temp_user['uid'] != '') {
                 $useroutils .= '<li><a class="dropdown-item text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $temp_user['uname'] . '" target="_blank" title="' . translate("Profil") . '" ><i class="fa fa-lg fa-user align-middle fa-fw"></i><span class="ms-2 d-none d-md-inline">' . translate("Profil") . '</span></a></li>';
             }

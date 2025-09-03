@@ -32,7 +32,7 @@ admindroits($aid, $f_meta_nom);
 
 function row_span($total, $xtotal)
 {
-    $content = '<td>' . wrh($total) . ' (';
+    $content = '<td>' . Sanitize::wrh($total) . ' (';
 
     if ($total > $xtotal) {
         $content .= '<span class="text-success">+';
@@ -42,7 +42,7 @@ function row_span($total, $xtotal)
         $content .= '<span>';
     }
 
-    $content .= wrh($total - $xtotal) . '</span>)</td>';
+    $content .= Sanitize::wrh($total - $xtotal) . '</span>)</td>';
 
     return $content;
 }
@@ -203,7 +203,7 @@ if ($admin) {
                     ORDER BY forum_index, forum_id";
 
         if (!$sub_result = sql_query($sub_sql)) {
-            forumError('0022');
+            Error::forumError('0022');
         }
 
         if ($myrow = sql_fetch_assoc($sub_result)) {
@@ -215,11 +215,11 @@ if ($admin) {
             do {
                 $num_for++;
 
-                $last_post = getLastPost($myrow['forum_id'], 'forum', 'infos', true);
+                $last_post = Forum::getLastPost($myrow['forum_id'], 'forum', 'infos', true);
 
                 echo '<tr>';
 
-                $total_topics = getTotalTopics($myrow['forum_id']);
+                $total_topics = Forum::getTotalTopics($myrow['forum_id']);
 
                 $name = stripslashes($myrow['forum_name']);
                 $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
@@ -246,7 +246,7 @@ if ($admin) {
 
                 echo '</span> -/- ' . $total_topics . '</td>';
 
-                $total_posts = getTotalPosts($myrow['forum_id'], "", "forum", false);
+                $total_posts = Forum::getTotalPosts($myrow['forum_id'], "", "forum", false);
                 $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
 
                 echo '<td class="text-center"><span class="text-danger">';

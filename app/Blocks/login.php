@@ -1,5 +1,6 @@
 <?php
 
+
 if (! function_exists('loginbox'))
 { 
     #autodoc loginbox() : Bloc Login <br />=> syntaxe : function#loginbox

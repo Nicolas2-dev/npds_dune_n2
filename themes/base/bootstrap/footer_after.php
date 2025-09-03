@@ -20,7 +20,7 @@ echo '<script type="text/javascript" src="assets/shared/bootstrap/dist/js/bootst
 echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/bootstrap-table.min.js"></script>';
 
 //
-echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/locale/bootstrap-table-' . languageIso(1, "-", 1) . '.min.js" async="async"></script>';
+echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/locale/bootstrap-table-' . Language::languageIso(1, "-", 1) . '.min.js" async="async"></script>';
 
 //
 echo '<script type="text/javascript" src="assets/shared/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js" async="async"></script>';
@@ -56,7 +56,7 @@ $time = round(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], 5);
     
 echo '<span class="small" id="build_time">
     <i class="bi bi-clock-history me-1"></i>
-    '.affLangue('[french]Temps :[/french][english]Time:[/english][german]Zeit in Sekunden[/german][spanish]Tiempo en segundos :[/spanish][chinese]&#x5728;&#x51E0;&#x79D2;&#x949F;&#x7684;&#x65F6;&#x95F4; :[/chinese] '.$time.' [french]seconde(s)[/french][english]second(s)[/english]').'
+    '.Language::affLangue('[french]Temps :[/french][english]Time:[/english][german]Zeit in Sekunden[/german][spanish]Tiempo en segundos :[/spanish][chinese]&#x5728;&#x51E0;&#x79D2;&#x949F;&#x7684;&#x65F6;&#x95F4; :[/chinese] '.$time.' [french]seconde(s)[/french][english]second(s)[/english]').'
 </span>';
 */
 

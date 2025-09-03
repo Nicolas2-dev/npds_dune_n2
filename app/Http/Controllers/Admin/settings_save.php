@@ -17,26 +17,26 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     include 'config/config.php';
 
     if ($xparse == 0) {
-        $xsitename =  fixQuotes($xsitename);
-        $xTitlesitename = fixQuotes($xTitlesitename);
+        $xsitename =  Sanitize::fixQuotes($xsitename);
+        $xTitlesitename = Sanitize::fixQuotes($xTitlesitename);
     } else {
         $xsitename =  stripslashes($xsitename);
         $xTitlesitename = stripslashes($xTitlesitename);
     }
 
-    $xnuke_url = fixQuotes($xnuke_url);
-    $xsite_logo = fixQuotes($xsite_logo);
+    $xnuke_url = Sanitize::fixQuotes($xnuke_url);
+    $xsite_logo = Sanitize::fixQuotes($xsite_logo);
 
     if ($xparse == 0) {
-        $xslogan = fixQuotes($xslogan);
-        $xstartdate = fixQuotes($xstartdate);
+        $xslogan = Sanitize::fixQuotes($xslogan);
+        $xstartdate = Sanitize::fixQuotes($xstartdate);
     } else {
         $xslogan = stripslashes($xslogan);
         $xstartdate = stripslashes($xstartdate);
     }
 
     // Theme
-    $xDefault_Theme = fixQuotes($xDefault_Theme);
+    $xDefault_Theme = Sanitize::fixQuotes($xDefault_Theme);
 
     if ($xDefault_Theme != $Default_Theme) {
 
@@ -58,7 +58,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
         }
     }
 
-    $xmyIP = fixQuotes($xmyIP);
+    $xmyIP = Sanitize::fixQuotes($xmyIP);
 
     $xfoot1 = str_replace(chr(13) . chr(10), "\n", $xfoot1);
     $xfoot2 = str_replace(chr(13) . chr(10), "\n", $xfoot2);
@@ -66,22 +66,22 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     $xfoot4 = str_replace(chr(13) . chr(10), "\n", $xfoot4);
 
     if ($xparse == 0) {
-        $xbackend_title = fixQuotes($xbackend_title);
+        $xbackend_title = Sanitize::fixQuotes($xbackend_title);
     } else {
         $xbackend_title = stripslashes($xbackend_title);
     }
 
-    $xbackend_language = fixQuotes($xbackend_language);
-    $xbackend_image = fixQuotes($xbackend_image);
-    $xbackend_width = fixQuotes($xbackend_width);
-    $xbackend_height = fixQuotes($xbackend_height);
-    $xlanguage = fixQuotes($xlanguage);
-    $xlocale = fixQuotes($xlocale);
-    $xnotify_email = fixQuotes($xnotify_email);
+    $xbackend_language = Sanitize::fixQuotes($xbackend_language);
+    $xbackend_image = Sanitize::fixQuotes($xbackend_image);
+    $xbackend_width = Sanitize::fixQuotes($xbackend_width);
+    $xbackend_height = Sanitize::fixQuotes($xbackend_height);
+    $xlanguage = Sanitize::fixQuotes($xlanguage);
+    $xlocale = Sanitize::fixQuotes($xlocale);
+    $xnotify_email = Sanitize::fixQuotes($xnotify_email);
 
     if ($xparse == 0) {
-        $xnotify_subject = fixQuotes($xnotify_subject);
-        $xdownload_cat = fixQuotes($xdownload_cat);
+        $xnotify_subject = Sanitize::fixQuotes($xnotify_subject);
+        $xdownload_cat = Sanitize::fixQuotes($xdownload_cat);
     } else {
         $xnotify_subject = stripslashes($xnotify_subject);
         $xdownload_cat = stripslashes($xdownload_cat);
@@ -89,11 +89,11 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
 
     $xnotify_message = str_replace(chr(13) . chr(10), "\n", $xnotify_message);
 
-    $xnotify_from = fixQuotes($xnotify_from);
-    $xanonymous = fixQuotes($xanonymous);
-    $xtipath = fixQuotes($xtipath);
-    $xuserimg = fixQuotes($xuserimg);
-    $xadminimg = fixQuotes($xadminimg);
+    $xnotify_from = Sanitize::fixQuotes($xnotify_from);
+    $xanonymous = Sanitize::fixQuotes($xanonymous);
+    $xtipath = Sanitize::fixQuotes($xtipath);
+    $xuserimg = Sanitize::fixQuotes($xuserimg);
+    $xadminimg = Sanitize::fixQuotes($xadminimg);
 
     $file = fopen('config/config.php', 'w');
 
@@ -552,7 +552,7 @@ function ConfigSave($xdebugmysql, $xparse, $xsitename, $xnuke_url, $xsite_logo, 
     fclose($file);
 
     global $aid;
-    ecrireLog('security', 'ConfigSave() by AID : ' . $aid, '');
+    Log::ecrireLog('security', 'ConfigSave() by AID : ' . $aid, '');
 
     SC_Clean();
 

@@ -57,9 +57,9 @@ include_once('modules/' . $ModPath . '/language/' . $language . '/' . $language 
 settype($member, 'integer');
 
 if ($user or $admin) {
-    $tab_groupe = validGroup($user);
+    $tab_groupe = Groupe::validGroup($user);
 
-    if (groupeAutorisation($member, $tab_groupe)) {
+    if (Groupe::groupeAutorisation($member, $tab_groupe)) {
         $groupe = $member;
         $auteur = $cookie[1];
     } else {
@@ -77,7 +77,7 @@ if ($user or $admin) {
     header('location: index.php');
 }
 
-$surlignage = $couleur[hexFromChr($auteur)];
+$surlignage = $couleur[Sanitize::hexFromChr($auteur)];
 
 // Paramètres utilisé par le script
 $ThisFile = 'modules.php?ModPath=' . $ModPath . '&amp;ModStart=' . $ModStart;
@@ -142,7 +142,7 @@ function Liste_Page()
             </span>
             ' . wspad_trans('Document(s) et révision(s) disponible(s) pour le groupe') . ' 
             <span class="text-body-secondary">
-                ' . affLangue($gp['groupe_name']) . " [$groupe]
+                ' . Language::affLangue($gp['groupe_name']) . " [$groupe]
             </span>
         </h3>";
     } else {
@@ -278,14 +278,14 @@ function Liste_Page()
                 $aff .= '<tr>
                     <td>' . $ibid . $ranq . '</td>
                     <td>
-                        <div class="me-1" style="float: left; margin-top: 0.5rem; width: 1.5rem; height: 1.5rem; border-radius:50%; background-color: ' . $couleur[hexFromChr($editedby)] . ';"></div>
+                        <div class="me-1" style="float: left; margin-top: 0.5rem; width: 1.5rem; height: 1.5rem; border-radius:50%; background-color: ' . $couleur[Sanitize::hexFromChr($editedby)] . ';"></div>
                         ' . userpopover($editedby, '40', 2) . '&nbsp;' . $editedby . '
                     </td>
-                    <td class="small">' . formatTimes($modtime, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</td>';
+                    <td class="small">' . Date::formatTimes($modtime, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</td>';
 
                 // voir la révision du ranq x
                 $PopUp = javaPopup(
-                    'modules.php?ModPath=' . $ModPath . '&amp;ModStart=preview&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
+                    'modules.php?ModPath=' . $ModPath . '&amp;ModStart=preview&amp;pad=' . Encrypter::encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
                     'NPDS_wspad',
                     500,
                     400
@@ -309,7 +309,7 @@ function Liste_Page()
 
                     // exporter la révision du ranq x
                     $PopUp = javaPopup(
-                        'modules.php?ModPath=' . $ModPath . '&amp;ModStart=export&amp;type=doc&amp;pad=' . encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
+                        'modules.php?ModPath=' . $ModPath . '&amp;ModStart=export&amp;type=doc&amp;pad=' . Encrypter::encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
                         'NPDS_wspad',
                         5,
                         5
@@ -470,7 +470,7 @@ function Page($page, $ranq)
     echo '<hr /><h3>' . wspad_trans('Document : ') . '</h3>
     <h4>
         ' . $page . '
-        <span class="text-body-secondary">&nbsp;[ ' . wspad_trans('révision') . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . ' / ' . formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . ' ] </span>
+        <span class="text-body-secondary">&nbsp;[ ' . wspad_trans('révision') . ' : ' . $row['ranq'] . ' - ' . $row['editedby'] . ' / ' . Date::formatTimes($row['modtime'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . ' ] </span>
         <span class="float-end">
             <img src="modules/' . $ModPath . '/assets/images/ajax_waiting.gif" id="verrous" title="wspad locks" />
         </span>
@@ -485,7 +485,7 @@ function Page($page, $ranq)
             </textarea>
         </div>';
 
-    echo affEditeur('content', '');
+    echo Editeur::affEditeur('content', '');
 
     if ($edition) {
         echo '<div class="mb-3">
@@ -513,8 +513,8 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = removeHack(stripslashes(fixQuotes(dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
-        $auteur = removeHack(stripslashes(fixQuotes($auteur)));
+        $content = removeHack(stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
+        $auteur = removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 
                                           FROM " . sql_prefix('wspad') . " 
@@ -534,7 +534,7 @@ switch ($op) {
         break;
 
     case 'supp':
-        $auteur = removeHack(stripslashes(fixQuotes($auteur)));
+        $auteur = removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
 
         $result = sql_query("DELETE FROM " . sql_prefix('wspad') . " 
                              WHERE page='$page' 
@@ -584,7 +584,7 @@ switch ($op) {
         $date_finval = ($deb_year + 99) . '-01-01 00:00:00';
 
         $result = sql_query("INSERT INTO " . sql_prefix('queue') . " 
-                             VALUES (NULL, $cookie[0], '$auteur', '$page', '" . fixQuotes($row['content']) . "', '', now(), '', '$date_debval', '$date_finval', '0')");
+                             VALUES (NULL, $cookie[0], '$auteur', '$page', '" . Sanitize::fixQuotes($row['content']) . "', '', now(), '', '$date_debval', '$date_finval', '0')");
         break;
 }
 
@@ -597,7 +597,7 @@ include 'header.php';
 if (file_exists('modules/' . $ModPath . '/views/head.php')) {
     $Xcontent = join('', file('modules/' . $ModPath . '/views/head.php'));
 
-    echo metaLang(affLangue($Xcontent));
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
 }
 
 switch ($op) {
@@ -628,7 +628,7 @@ if (file_exists('modules/' . $ModPath . '/views/foot.php')) {
 
     $Xcontent .= '<p class="text-end">NPDS WsPad ' . $version . ' by Dev&nbsp;&&nbsp;Jpb&nbsp;</p>';
 
-    echo metaLang(affLangue($Xcontent));
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
 }
 
 include 'footer.php';

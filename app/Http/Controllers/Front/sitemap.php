@@ -202,7 +202,7 @@ function sitemap_create($PAGES, $filename)
     fwrite($file, $ibid);
     fclose($file);
 
-    ecrireLog('sitemap', 'sitemap generated : ' . date('H:i:s', time()), '');
+    Log::ecrireLog('sitemap', 'sitemap generated : ' . date('H:i:s', time()), '');
 }
 
 /* -----------------------------------------*/

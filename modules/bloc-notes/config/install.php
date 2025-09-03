@@ -54,7 +54,7 @@ bnid text COLLATE utf8mb4_unicode_ci NOT NULL,
 texte text COLLATE utf8mb4_unicode_ci,
 PRIMARY KEY  (bnid(32))) 
 ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    "INSERT INTO " . sql_prefix('metalang') . " VALUES ('!blocnote!', 'function MM_blocnote(\$arg) {\r\n      global \$REQUEST_URI;\r\n      if (!stristr(\$REQUEST_URI,\"admin.php\")) {\r\n         return(@oneBlock(\$arg,\"RB\"));\r\n      } else {\r\n         return(\"\");\r\n      }\r\n}',
+    "INSERT INTO " . sql_prefix('metalang') . " VALUES ('!blocnote!', 'function MM_blocnote(\$arg) {\r\n      global \$REQUEST_URI;\r\n      if (!stristr(\$REQUEST_URI,\"admin.php\")) {\r\n         return(@Block::oneBlock(\$arg,\"RB\"));\r\n      } else {\r\n         return(\"\");\r\n      }\r\n}',
 'meta',
 '-',
 NULL,

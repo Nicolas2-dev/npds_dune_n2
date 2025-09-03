@@ -74,16 +74,16 @@ if (isset($user)) {
                        WHERE forum_id = '$forum'", 3600);
 
     if (!$rowQ1) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
     $myrow = $rowQ1[0];
 
-    $moderator = explode(' ', getModerator($myrow['forum_moderator']));
+    $moderator = explode(' ', Forum::getModerator($myrow['forum_moderator']));
 
     for ($i = 0; $i < count($moderator); $i++) {
         if (($userdata[1] == $moderator[$i])) {
-            if (userIsModerator($userdata[0], $userdata[2], $myrow['forum_access'])) {
+            if (Forum::userIsModerator($userdata[0], $userdata[2], $myrow['forum_access'])) {
                 $Mmod = true;
             }
 
@@ -93,7 +93,7 @@ if (isset($user)) {
 }
 
 if ((!$Mmod) and ($adminforum == 0)) {
-    forumError('0007');
+    Error::forumError('0007');
 }
 
 if ((isset($submit)) and ($mode == 'move')) {
@@ -102,7 +102,7 @@ if ((isset($submit)) and ($mode == 'move')) {
             WHERE topic_id='$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0010');
+        Error::forumError('0010');
     }
 
     $sql = "UPDATE " . sql_prefix('posts') . " 
@@ -111,14 +111,14 @@ if ((isset($submit)) and ($mode == 'move')) {
             AND forum_id='$forum'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0010');
+        Error::forumError('0010');
     }
 
     $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
             WHERE topicid='$topic'";
 
     if (!$r = sql_query($sql)) {
-        forumError('0001');
+        Error::forumError('0001');
     }
 
     $sql = "UPDATE $upload_table 
@@ -206,24 +206,24 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND forum_id='$forum'";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0009');
+                    Error::forumError('0009');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forumtopics') . " 
                         WHERE topic_id='$topic'";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0010');
+                    Error::forumError('0010');
                 }
 
                 $sql = "DELETE FROM " . sql_prefix('forum_read') . " 
                         WHERE topicid='$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0001');
+                    Error::forumError('0001');
                 }
 
-                controlEffacePost("forum_npds", "", $topic, "");
+                Forum::controlEffacePost("forum_npds", "", $topic, "");
 
                 header('location: viewforum.php?forum=' . $forum);
                 break;
@@ -234,7 +234,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id='$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0011');
+                    Error::forumError('0011');
                 }
 
                 header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
@@ -256,7 +256,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id = '$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0012');
+                    Error::forumError('0012');
                 }
 
                 header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
@@ -268,7 +268,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                         WHERE topic_id = '$topic'";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0011');
+                    Error::forumError('0011');
                 }
 
                 header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
@@ -284,11 +284,11 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND u.uid = p.poster_id";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0013');
+                    Error::forumError('0013');
                 }
 
                 if (!$m = sql_fetch_assoc($r)) {
-                    forumError('0014');
+                    Error::forumError('0014');
                 }
 
                 echo '<h2 class="mb-3">' . translate('Forum') . '</h2>
@@ -318,11 +318,11 @@ if ((isset($submit)) and ($mode == 'move')) {
                         AND u.uid = p.poster_id";
 
                 if (!$r = sql_query($sql)) {
-                    forumError('0013');
+                    Error::forumError('0013');
                 }
 
                 if (!$m = sql_fetch_assoc($r)) {
-                    forumError('0014');
+                    Error::forumError('0014');
                 }
 
                 logSpambot($m['poster_ip'], 'ban');

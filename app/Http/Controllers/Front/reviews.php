@@ -152,7 +152,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     global $admin, $short_review;
 
     $title      = stripslashes(strip_tags($title));
-    $text       = stripslashes(removeHack(convertToBr($text)));
+    $text       = stripslashes(removeHack(Sanitize::convertToBr($text)));
     $reviewer   = stripslashes(strip_tags($reviewer));
     $url_title  = stripslashes(strip_tags($url_title));
 
@@ -197,7 +197,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
         include_once 'functions.php';
 
-        if (checkDnsMail($email) === false) {
+        if (Forum::checkDnsMail($email) === false) {
             $error = 1;
             echo '<div class="alert alert-danger">' . translate('Erreur : DNS ou serveur de mail incorrect') . '</div>';
         }
@@ -214,7 +214,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     if ($error == 1) {
         echo '<button class="btn btn-secondary" type="button" onclick="history.go(-1)"><i class="fa fa-lg fa-undo"></i></button>';
     } else {
-        $fdate = formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
+        $fdate = Date::formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
 
         echo translate('Critique') . '
         <br />' . translate('Ajouté :') . ' ' . $fdate . '
@@ -248,7 +248,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
         echo '<input type="hidden" name="id" value="' . $id . '" />
             <input type="hidden" name="hits" value="' . $hits . '" />
-            <input type="hidden" name="date" value="' . getPartOfTime(time(), 'yyyy-MM-dd') . '" />
+            <input type="hidden" name="date" value="' . Date::getPartOfTime(time(), 'yyyy-MM-dd') . '" />
             <input type="hidden" name="title" value="' . $title . '" />
             <input type="hidden" name="text" value="' . $text . '" />
             <input type="hidden" name="reviewer" value="' . $reviewer . '" />
@@ -273,7 +273,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="consent" name="consent" value="1" required="required"/>
                     <label class="form-check-label" for="consent">'
-            . affLangue($accept) . '
+            . Language::affLangue($accept) . '
                         <span class="text-danger"> *</span>
                     </label>
                 </div>
@@ -286,7 +286,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
             </div>
         </div>
         <div class="mb-3 row">
-            <div class="col small" >' . affLangue($consent) . '
+            <div class="col small" >' . Language::affLangue($consent) . '
             </div>
         </div>';
 
@@ -310,13 +310,13 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
 
     include 'header.php';
 
-    $title = stripslashes(fixQuotes(strip_tags($title)));
-    $text = stripslashes(fixQuotes(urldecode(removeHack($text))));
+    $title = stripslashes(Sanitize::fixQuotes(strip_tags($title)));
+    $text = stripslashes(Sanitize::fixQuotes(urldecode(removeHack($text))));
 
     if (!$user and !$admin) {
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, $text)) {
-            ecrireLog('security', 'Review Anti-Spam : title=' . $title, '');
+            Log::ecrireLog('security', 'Review Anti-Spam : title=' . $title, '');
 
             redirectUrl('index.php');
             die();
@@ -416,8 +416,8 @@ function reviews($field, $order)
 
     echo '<h2>' . translate('Critiques') . '<span class="badge bg-secondary float-end" title="' . $numresults . ' ' . translate('Critique(s) trouvée(s).') . '" data-bs-toggle="tooltip">' . $numresults . '</span></h2>
     <hr />
-    <h3>' . affLangue($r_title) . '</h3>
-    <p class="lead">' . affLangue($r_description) . '</p>
+    <h3>' . Language::affLangue($r_title) . '</h3>
+    <p class="lead">' . Language::affLangue($r_description) . '</p>
     <h4><a href="reviews.php?op=write_review"><i class="fa fa-edit me-2"></i></a>' . translate('Ecrire une critique') . '</h4><br />
     <div class="dropdown">
         <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -471,7 +471,7 @@ function reviews($field, $order)
             $date = $myrow['date'];
 
             echo '<tr>
-               <td>' . formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
+               <td>' . Date::formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
                <td><a href="reviews.php?op=showcontent&amp;id=' . $id . '">' . ucfirst($title) . '</a></td>
                <td>';
 
@@ -518,7 +518,7 @@ function showcontent($id)
 
     $id =  $myrow['id'];
 
-    $fdate = formatTimes($myrow['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+    $fdate = Date::formatTimes($myrow['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
 
     $title      = $myrow['title'];
     $text       = $myrow['text'];
@@ -700,7 +700,7 @@ function mod_review($id)
         <input class="btn btn-secondary my-3" type="button" onclick="history.go(-1)" value="' . translate('Annuler') . '" />
         </form>
         <script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . Language::languageIso(1, '', '') . '.js"></script>
         <script type="text/javascript">
             //<![CDATA[
                 $(document).ready(function() {
@@ -729,7 +729,7 @@ function mod_review($id)
                 altInput: true,
                 altFormat: "l j F Y",
                 dateFormat:"Y-m-d",
-                "locale": "' . languageIso(1, '', '') . '",
+                "locale": "' . Language::languageIso(1, '', '') . '",
                 onChange: function() {
                     fvitem.revalidateField(\'date\');
                 }

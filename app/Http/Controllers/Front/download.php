@@ -36,12 +36,12 @@ function geninfo($did, $out_template)
     $okfile = false;
 
     if (!stristr($dperm, ',')) {
-        $okfile = autorisation($dperm);
+        $okfile = Auth::autorisation($dperm);
     } else {
         $ibidperm = explode(',', $dperm);
 
         foreach ($ibidperm as $v) {
-            if (autorisation($v)) {
+            if (Auth::autorisation($v)) {
                 $okfile = true;
                 break;
             }
@@ -69,10 +69,10 @@ function geninfo($did, $out_template)
 
         echo '</p>
                <p><strong>' . translate('Version') . '&nbsp;:</strong>&nbsp;' . $dver . '</p>
-               <p><strong>' . translate('Date de chargement sur le serveur') . '&nbsp;:</strong>&nbsp;' . formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</p>
-               <p><strong>' . translate('Chargements') . '&nbsp;:</strong>&nbsp;' . wrh($dcounter) . '</p>
-               <p><strong>' . translate('Catégorie') . '&nbsp;:</strong>&nbsp;' . affLangue(stripslashes($dcategory)) . '</p>
-               <p><strong>' . translate('Description') . '&nbsp;:</strong>&nbsp;' . affLangue(stripslashes($ddescription)) . '</p>
+               <p><strong>' . translate('Date de chargement sur le serveur') . '&nbsp;:</strong>&nbsp;' . Date::formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</p>
+               <p><strong>' . translate('Chargements') . '&nbsp;:</strong>&nbsp;' . Sanitize::wrh($dcounter) . '</p>
+               <p><strong>' . translate('Catégorie') . '&nbsp;:</strong>&nbsp;' . Language::affLangue(stripslashes($dcategory)) . '</p>
+               <p><strong>' . translate('Description') . '&nbsp;:</strong>&nbsp;' . Language::affLangue(stripslashes($ddescription)) . '</p>
                <p><strong>' . translate('Auteur') . '&nbsp;:</strong>&nbsp;' . $duser . '</p>
                <p><strong>' . translate('Page d\'accueil') . '&nbsp;:</strong>&nbsp;<a href="http://' . $dweb . '" target="_blank">' . $dweb . '</a></p>';
 
@@ -128,10 +128,10 @@ function tlist()
         echo '<p class="p-2 mb-0">';
 
         if ($category == $cate) {
-            echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong class="align-middle">' . affLangue($category) . '<span class="badge bg-secondary ms-2 float-end my-2">' . $dcount . '</span></strong>';
+            echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong class="align-middle">' . Language::affLangue($category) . '<span class="badge bg-secondary ms-2 float-end my-2">' . $dcount . '</span></strong>';
         } else {
             $category2 = urlencode($category);
-            echo '<a href="download.php?dcategory=' . $category2 . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . affLangue($category) . '</span></a><span class="badge bg-secondary ms-2 my-2 float-end">' . $dcount . '</span>';
+            echo '<a href="download.php?dcategory=' . $category2 . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . Language::affLangue($category) . '</span></a><span class="badge bg-secondary ms-2 my-2 float-end">' . $dcount . '</span>';
         }
 
         echo '</p>';
@@ -255,7 +255,7 @@ function SortLinks($dcategory, $sortby)
 
     echo '</th>';
 
-    if ($user or autorisation(-127)) {
+    if ($user or Auth::autorisation(-127)) {
         echo '<th class="text-center n-t-col-xs-1"></th>';
     }
 
@@ -286,7 +286,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
     if ($dcategory == translate('Tous')) {
         echo '<b>' . translate('Tous') . '</b>';
     } else {
-        echo '<b>' . affLangue(stripslashes($dcategory)) . '</b>';
+        echo '<b>' . Language::affLangue(stripslashes($dcategory)) . '</b>';
     }
 
     echo '</i>&nbsp;' . translate('trié par ordre') . '&nbsp;';
@@ -399,12 +399,12 @@ function listdownloads($dcategory, $sortby, $sortorder)
         $okfile = '';
 
         if (!stristr($dperm, ',')) {
-            $okfile = autorisation($dperm);
+            $okfile = Auth::autorisation($dperm);
         } else {
             $ibidperm = explode(',', $dperm);
 
             foreach ($ibidperm as $v) {
-                if (autorisation($v) == true) {
+                if (Auth::autorisation($v) == true) {
                     $okfile = true;
                     break;
                 }
@@ -439,15 +439,15 @@ function listdownloads($dcategory, $sortby, $sortorder)
             : $FichX->file_size_auto($durl, 2);
 
         echo '</td>
-            <td>' . affLangue(stripslashes($dcat)) . '</td>
-            <td class="small text-center">' . formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
+            <td>' . Language::affLangue(stripslashes($dcat)) . '</td>
+            <td class="small text-center">' . Date::formatTimes($ddate, IntlDateFormatter::SHORT, IntlDateFormatter::NONE) . '</td>
             <td class="small text-center">' . $dver . '</td>
-            <td class="small text-center">' . wrh($dcounter) . '</td>';
+            <td class="small text-center">' . Sanitize::wrh($dcounter) . '</td>';
 
-        if ($user != '' or autorisation(-127)) {
+        if ($user != '' or Auth::autorisation(-127)) {
             echo '<td>';
 
-            if (($okfile == true and $user != '') or autorisation(-127)) {
+            if (($okfile == true and $user != '') or Auth::autorisation(-127)) {
                 echo '<a href="download.php?op=broken&amp;did=' . $did . '" title="' . translate('Rapporter un lien rompu') . '" data-bs-toggle="tooltip"><i class="fas fa-lg fa-unlink"></i></a>';
             }
 
@@ -518,7 +518,7 @@ function transferfile($did)
             foreach ($ibid as $v) {
                 $aut = true;
 
-                if (autorisation($v) == true) {
+                if (Auth::autorisation($v) == true) {
                     $dcounter++;
 
                     sql_query("UPDATE " . sql_prefix('downloads') . " 
@@ -536,7 +536,7 @@ function transferfile($did)
                 Header('Location: download.php');
             }
         } else {
-            if (autorisation($dperm)) {
+            if (Auth::autorisation($dperm)) {
                 $dcounter++;
 
                 sql_query("UPDATE " . sql_prefix('downloads') . " 
@@ -563,11 +563,11 @@ function broken($did)
 
             settype($did, 'integer');
 
-            $message = $nuke_url . "\n" . translate('Téléchargements') . " ID : $did\n" . translate('Auteur') . " $cookie[1] / IP : " . getip() . "\n\n";
+            $message = $nuke_url . "\n" . translate('Téléchargements') . " ID : $did\n" . translate('Auteur') . " $cookie[1] / IP : " . Request::getip() . "\n\n";
 
             include 'config/signat.php';
 
-            sendEmail($notify_email, html_entity_decode(translate('Rapporter un lien rompu'), ENT_COMPAT | ENT_HTML401, 'UTF-8'), nl2br($message), $notify_from, false, "html", '');
+            Mailer::sendEmail($notify_email, html_entity_decode(translate('Rapporter un lien rompu'), ENT_COMPAT | ENT_HTML401, 'UTF-8'), nl2br($message), $notify_from, false, "html", '');
 
             include 'header.php';
 

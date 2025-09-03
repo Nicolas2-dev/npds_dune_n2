@@ -86,7 +86,7 @@ switch ($cartyp_b) {
         $source_fond = 'new ol.source.OSM()';
 }
 
-$content .= '<div class="mb-2" id="map_bloc_ol" tabindex="200" style=" min-height:' . $h_b . 'px;" lang="' . languageIso(1, 0, 0) . '"></div>';
+$content .= '<div class="mb-2" id="map_bloc_ol" tabindex="200" style=" min-height:' . $h_b . 'px;" lang="' . Language::languageIso(1, 0, 0) . '"></div>';
 
 if (!defined('OL')) {
     define('OL', 'ol');
@@ -232,4 +232,4 @@ if ($admin) {
 
 $content .= '</div>';
 
-$content = affLangue($content);
+$content = Language::affLangue($content);

@@ -3,6 +3,7 @@
 namespace App\Library\Mailer;
 
 use Exception;
+use App\Library\Log\Log;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -158,7 +159,7 @@ class Mailer
 
                 $result = true;
             } catch (Exception $e) {
-                ecrireLog('smtpmail', "send Smtp mail by $email", "Message could not be sent. Mailer Error: $mail->ErrorInfo");
+                Log::ecrireLog('smtpmail', "send Smtp mail by $email", "Message could not be sent. Mailer Error: $mail->ErrorInfo");
 
                 $result = false;
             }

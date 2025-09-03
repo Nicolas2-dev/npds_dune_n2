@@ -2,6 +2,11 @@
 
 namespace App\Library\Chat;
 
+use App\Support\Sanitize;
+use App\Library\Block\Block;
+use App\Library\Http\Request;
+use App\Library\Security\Hack;
+
 
 class Chat
 {
@@ -14,7 +19,7 @@ class Chat
      */
     public static function ifChat(string $pour): int
     {
-        $auto = autorisationBlock('params#' . $pour);
+        $auto = Block::autorisationBlock('params#' . $pour);
 
         $activeChatUsers = 0;
 
@@ -48,9 +53,9 @@ class Chat
         }
 
         // Nettoyage des données
-        $username   = removeHack(stripslashes(fixQuotes(strip_tags(trim($username)))));
-        $message    = removeHack(stripslashes(fixQuotes(strip_tags(trim($message)))));
-        $ip         = getip();
+        $username   = Hack::removeHack(stripslashes(Sanitize::fixQuotes(strip_tags(trim($username)))));
+        $message    = Hack::removeHack(stripslashes(Sanitize::fixQuotes(strip_tags(trim($message)))));
+        $ip         = Request::getip();
 
         // Insertion en base
         sql_query("INSERT INTO " . sql_prefix('chatbox') . " 

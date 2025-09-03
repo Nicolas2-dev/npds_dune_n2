@@ -1,5 +1,9 @@
 <?php
 
+use App\Library\Groupe\Groupe;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 /************************************************************************/
 /* SFORM Extender for NPDS USER                                         */
 /* ===========================                                          */
@@ -165,27 +169,27 @@ if (($chng_rank == '') or ($chng_rank == '0')) {
 }
 
 if (!is_null($rank1)) {
-    $tmp_tempo[1]['en'] = affLangue($rank1);
+    $tmp_tempo[1]['en'] = Language::affLangue($rank1);
     $tmp_tempo[1]['selected'] = $chng_rank == 1 ? true : false;
 }
 
 if (!is_null($rank2)) {
-    $tmp_tempo[2]['en'] = affLangue($rank2);
+    $tmp_tempo[2]['en'] = Language::affLangue($rank2);
     $tmp_tempo[2]['selected'] = $chng_rank == 2 ? true : false;
 }
 
 if (!is_null($rank3)) {
-    $tmp_tempo[3]['en'] = affLangue($rank3);
+    $tmp_tempo[3]['en'] = Language::affLangue($rank3);
     $tmp_tempo[3]['selected'] = $chng_rank == 3 ? true : false;
 }
 
 if (!is_null($rank4)) {
-    $tmp_tempo[4]['en'] = affLangue($rank4);
+    $tmp_tempo[4]['en'] = Language::affLangue($rank4);
     $tmp_tempo[4]['selected'] = $chng_rank == 4 ? true : false;
 }
 
 if (!is_null($rank5)) {
-    $tmp_tempo[5]['en'] = affLangue($rank5);
+    $tmp_tempo[5]['en'] = Language::affLangue($rank5);
     $tmp_tempo[5]['selected'] = $chng_rank == 5 ? true : false;
 }
 
@@ -193,7 +197,7 @@ $m->addSelect('chng_rank', adm_translate('Rôle de l\'Utilisateur'), $tmp_tempo,
 
 // ---- Groupes
 $les_groupes = explode(',', $groupe);
-$mX = listeGroup();
+$mX = Groupe::listeGroup();
 
 $nbg = 0;
 
@@ -465,7 +469,7 @@ flatpickr("#T1", {
     maxDate:"today",
     minDate:"' . date("Y-m-d", (time() - 3784320000)) . '",
     dateFormat:"d/m/Y",
-    "locale": "' . languageIso(1, '', '') . '",
+    "locale": "' . Language::languageIso(1, '', '') . '",
 });';
 
-$m->addExtra(adminFoot('fv', $fv_parametres, $arg1, '1'));
+$m->addExtra(Validation::adminFoot('fv', $fv_parametres, $arg1, '1'));

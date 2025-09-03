@@ -173,4 +173,4 @@ echo '</tbody>
 adminFoot('', '', '', '');
 
 global $aid;
-ecrireLog('security', sprintf('OptiMySql() by AID : %s', $aid), '');
+Log::ecrireLog('security', sprintf('OptiMySql() by AID : %s', $aid), '');

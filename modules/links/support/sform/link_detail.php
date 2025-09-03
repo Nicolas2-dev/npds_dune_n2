@@ -50,7 +50,7 @@ switch ($link_fiche_detail) {
             $m->addExtra("</td></tr>");
             $m->keyLock("close");
 
-            echo affLangue($m->printForm("class=\"ligna\""));
+            echo Language::affLangue($m->printForm("class=\"ligna\""));
         } else {
             redirectUrl($m->url);
         }

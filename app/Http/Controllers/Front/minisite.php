@@ -30,7 +30,7 @@ function MNSremoveHack($Xstring)
     if ($tiny_mce) {
         if (!$blog_editor) {
             $tiny_mce_theme = 'full';
-            $blog_editor = affEditeur('tiny_mce', 'begin') . affEditeur('story', 'false') . affEditeur('tiny_mce', 'end');
+            $blog_editor = Editeur::affEditeur('tiny_mce', 'begin') . Editeur::affEditeur('story', 'false') . Editeur::affEditeur('tiny_mce', 'end');
         }
     }
 
@@ -269,7 +269,7 @@ function convert_ressources($Xcontent)
         }
     }
 
-    return affLangue($Xcontent);
+    return Language::affLangue($Xcontent);
 }
 
 // NPDS copyright ... don't remove !
@@ -300,7 +300,7 @@ if (($op != '') and ($op)) {
         if (dirname($op) != 'groupe') {
 
             // single user
-            $userdata = getUserData($op);
+            $userdata = Forum::getUserData($op);
 
             if (array_key_exists('mns', $userdata) and $userdata['mns'] == true) {
                 $affich = true;
@@ -338,7 +338,7 @@ if (($op != '') and ($op)) {
 
                 function adm_translate() {};
 
-                $gX = listeGroup();
+                $gX = Groupe::listeGroup();
 
                 foreach ($gX as $g_id => $g_name) {
                     if ($g_id == basename($op)) {
@@ -347,7 +347,7 @@ if (($op != '') and ($op)) {
                 }
             }
 
-            $tabgp = validGroup($user);
+            $tabgp = Groupe::validGroup($user);
 
             if (is_array($tabgp)) {
                 foreach ($tabgp as $auto) {
@@ -380,7 +380,7 @@ if ($affich) {
         echo '</style>';
 
         if (defined('CITRON')) {
-            echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . languageIso(1, '', '') . '"; </script>
+            echo '<script type="text/javascript"> var tarteaucitronForceLanguage = "' . Language::languageIso(1, '', '') . '"; </script>
             <script type="text/javascript" src="shared/tarteaucitron/tarteaucitron.min.js"></script>
             <script type="text/javascript" src="assets/shared/js/npds_tarteaucitron.js"></script>';
         }
@@ -480,17 +480,17 @@ if ($affich) {
             "'!copyright!'i"            => $copyright,
             "'!avatar!'i"               => $avatar_mns,
             "'!id_mns!'i"               => $op,
-            "'!gr_name!'i"              => affLangue($gr_name)
+            "'!gr_name!'i"              => Language::affLangue($gr_name)
         );
 
         $Xcontent = preg_replace(array_keys($MNS_METALANG_words), array_values($MNS_METALANG_words), $Xcontent);
-        $Xcontent = metaLang(MNSremoveHack($Xcontent));
+        $Xcontent = Metalang::metaLang(MNSremoveHack($Xcontent));
 
         //applique aff_video que sur la partie affichage
         $rupt = strpos($Xcontent, '#v_yt#');
 
         echo substr($Xcontent, 0, $rupt);
-        echo affVideoYt(substr($Xcontent, $rupt + 6));
+        echo MediaPlayer::affVideoYt(substr($Xcontent, $rupt + 6));
 
         if ($adminblog) {
             echo '<script type="text/javascript">

@@ -10,11 +10,11 @@ class MediaPlayer
      * Analyse un texte et remplace les shortcodes vidéo ([video_yt], [video_vm], [video_dm])
      * par des balises HTML d'intégration.
      *
-     * @param string $content Texte contenant des shortcodes vidéo
+     * @param string $ibid Texte contenant des shortcodes vidéo
      *
      * @return string Contenu avec les vidéos intégrées
      */
-    public static function affVideoYt(string $content): string
+    public static function affVideoYt(string $ibid): string
     {
         $videoprovider = array('yt', 'vm', 'dm');
 

@@ -246,9 +246,9 @@ echo userpopover("john_doe", 64, 2);
 
 1. **Sécurité :** Les fonctions utilisent `preg_replace()` pour le remplacement des variables de template
 2. **Fallback :** Si un template n'existe pas dans le thème, le système utilise le thème par défaut
-3. **Multilangue :** Support des fonctions `translate()` et `affLangue()`
+3. **Multilangue :** Support des fonctions `translate()` et `Language::affLangue()`
 4. **Cache :** Utilisation d'`ob_start()` et `ob_get_contents()` pour la gestion des templates
-5. **Permissions :** Certaines fonctionnalités dépendent des droits utilisateur (`autorisation()`)
+5. **Permissions :** Certaines fonctionnalités dépendent des droits utilisateur (`Auth::autorisation()`)
 
 ---
 

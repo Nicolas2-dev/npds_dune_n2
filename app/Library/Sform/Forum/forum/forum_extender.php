@@ -13,9 +13,9 @@
 /* Dont modify this file is you dont know what you make                 */
 /************************************************************************/
 
-$sform_path = 'library/sform/';
+use App\Library\Sform\Sform;
 
-include_once $sform_path . 'sform.php';
+$sform_path = 'library/sform/';
 
 global $m;
 $m = new Sform();

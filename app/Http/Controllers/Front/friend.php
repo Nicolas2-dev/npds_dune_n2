@@ -37,7 +37,7 @@ function FriendSend($sid, $archive)
     echo '<div class="card card-body">
     <h2><i class="fa fa-at fa-lg text-body-secondary"></i>&nbsp;' . translate('Envoi de l\'article à un ami') . '</h2>
     <hr />
-    <p class="lead">' . translate('Vous allez envoyer cet article') . ' : <strong>' . affLangue($title) . '</strong></p>
+    <p class="lead">' . translate('Vous allez envoyer cet article') . ' : <strong>' . Language::affLangue($title) . '</strong></p>
     <form id="friendsendstory" action="friend.php" method="post">
         <input type="hidden" name="sid" value="' . $sid . '" />';
 
@@ -99,7 +99,7 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
     if (!$user) {
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, '')) {
-            ecrireLog('security', sprintf('Send-Story Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
+            Log::ecrireLog('security', sprintf('Send-Story Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
             redirectUrl('index.php');
             die();
@@ -130,9 +130,9 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
         translate('Bonjour') . " $fname :\n\n"
             . translate('Votre ami') . " $yname "
             . translate('a trouvé cet article intéressant et a souhaité vous l\'envoyer.') . "\n\n"
-            . affLangue($title) . "\n"
+            . Language::affLangue($title) . "\n"
             . translate('Date :') . " $time\n"
-            . translate('Sujet : ') . affLangue($topictext) . "\n\n"
+            . translate('Sujet : ') . Language::affLangue($topictext) . "\n\n"
             . translate('L\'article') . " : <a href=\"$nuke_url/article.php?sid=$sid&amp;archive=$archive\">"
             . "$nuke_url/article.php?sid=$sid&amp;archive=$archive</a>\n\n"
     );
@@ -156,13 +156,13 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
     }
 
     if (!$stop) {
-        sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
+        Mailer::sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
     } else {
         $title = '';
         $fname = '';
     }
 
-    $title = urlencode(affLangue($title));
+    $title = urlencode(Language::affLangue($title));
     $fname = urlencode($fname);
 
     Header('Location: friend.php?op=StorySent&title=' . $title . '&fname=' . $fname);
@@ -252,7 +252,7 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
     if (!$user) {
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, '')) {
-            ecrireLog('security', sprintf('Friend Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
+            Log::ecrireLog('security', sprintf('Friend Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
             redirectUrl('index.php');
             die();
@@ -285,7 +285,7 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
     }
 
     if (!$stop) {
-        sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
+        Mailer::sendEmail($fmail, $subject, $message, $ymail, false, 'html', '');
     } else {
         $fname = '';
     }

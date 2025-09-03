@@ -55,7 +55,7 @@ function pollCollector($pollID, $voteID, $forwarder)
         }
 
         if ($setCookies == '1') {
-            $ip = getip();
+            $ip = Request::getip();
 
             $hostname = ($dns_verif) ? "OR al_hostname='" . gethostbyaddr($ip) . "' " : '';
 
@@ -71,7 +71,7 @@ function pollCollector($pollID, $voteID, $forwarder)
         }
 
         if ($voteValid == '1') {
-            $ip = getip();
+            $ip = Request::getip();
             $hostname = $dns_verif ? gethostbyaddr($ip) : '';
 
             sql_query("INSERT INTO " . sql_prefix('appli_log') . " (al_id, al_name, al_subid, al_date, al_uid, al_data, al_ip, al_hostname) 
@@ -113,7 +113,7 @@ function pollList()
 
         list($sum) = sql_fetch_row($result2);
 
-        echo '<div class="col-sm-8">' . affLangue($pollTitle) . '</div>
+        echo '<div class="col-sm-8">' . Language::affLangue($pollTitle) . '</div>
         <div class="col-sm-4 text-end">(<a href="pollBooth.php?op=results&amp;pollID=' . $id . '">' . translate('Résultats') . '</a> - ' . $sum . ' ' . translate('votes') . ')</div>';
     }
 
@@ -170,9 +170,9 @@ function pollResults(int $pollID)
             }
 
             echo '<div class="row">
-                <div class="col-sm-5 mt-3">' . affLangue($optionText) . '</div>
+                <div class="col-sm-5 mt-3">' . Language::affLangue($optionText) . '</div>
                 <div class="col-sm-7">
-                    <span class="badge bg-secondary mb-1">' . wrh($optionCount) . '</span>
+                    <span class="badge bg-secondary mb-1">' . Sanitize::wrh($optionCount) . '</span>
                         <div class="progress">
                         <span class="progress-bar" role="progressbar" aria-valuenow="' . $percentInt . '%" aria-valuemin="0" aria-valuemax="100" style="width:' . $percentInt . '%;" title="' . $percentInt . '%" data-bs-toggle="tooltip"></span>
                         </div>
@@ -215,7 +215,7 @@ function pollboxbooth($pollID, $pollClose)
     global $block_title;
     $boxTitle = $block_title == '' ? translate('Sondage') : $block_title;
 
-    $boxContent .= '<h4>' . affLangue($pollTitle) . '</h4>';
+    $boxContent .= '<h4>' . Language::affLangue($pollTitle) . '</h4>';
 
     $result = sql_query("SELECT pollID, optionText, optionCount, voteID 
                          FROM " . sql_prefix('poll_data') . " 
@@ -232,7 +232,7 @@ function pollboxbooth($pollID, $pollClose)
         while ($object = sql_fetch_assoc($result)) {
             $boxContent .= '<div class="form-check">
                 <input type="radio" class="form-check-input" id="voteID' . $j . '" name="voteID" value="' . $object['voteID'] . '" />
-                <label class="form-check-label" for="voteID' . $j . '">' . affLangue($object['optionText']) . '</label>
+                <label class="form-check-label" for="voteID' . $j . '">' . Language::affLangue($object['optionText']) . '</label>
             </div>';
 
             $sum = $sum + $object['optionCount'];
@@ -244,7 +244,7 @@ function pollboxbooth($pollID, $pollClose)
         <div class="clearfix"></div>';
     } else {
         while ($object = sql_fetch_assoc($result)) {
-            $boxContent .= "&nbsp;" . affLangue($object['optionText']) . "<br />\n";
+            $boxContent .= "&nbsp;" . Language::affLangue($object['optionText']) . "<br />\n";
             $sum = $sum + $object['optionCount'];
         }
     }

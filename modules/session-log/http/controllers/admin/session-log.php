@@ -269,7 +269,7 @@ if ($subop == 'mailog') {
 
     $message = SessionLog_translate('Fichier de Log de') . ' ' . $sitename . '<br /><br />';
 
-    sendEmail($adminmail, $subject, $message, $adminmail, true, 'mixed', $file);
+    Mailer::sendEmail($adminmail, $subject, $message, $adminmail, true, 'mixed', $file);
 }
 
 // Vider le répertoire temporaire

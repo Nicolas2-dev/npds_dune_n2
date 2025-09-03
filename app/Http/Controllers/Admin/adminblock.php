@@ -13,6 +13,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Support\Sanitize;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -63,21 +67,21 @@ function ablock()
         }
     }
 
-    adminFoot('fv', '', $arg1 ?? '', '');
+    Validation::adminFoot('fv', '', $arg1 ?? '', '');
 }
 
 function changeablock($title, $content)
 {
     global $aid;
 
-    $title   = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes($content));
+    $title   = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     sql_query("UPDATE " . sql_prefix('block') . " 
                 SET title='$title', content='$content' 
                 WHERE id='2'");
 
-    ecrireLog('security', 'ChangeAdminBlock() by AID : ' . $aid, '');
+    Log::ecrireLog('security', 'ChangeAdminBlock() by AID : ' . $aid, '');
 
     Header('Location: admin.php?op=adminMain');
 }

@@ -44,17 +44,17 @@ $mainfile = 1;
 require_once 'auth.inc.php';
 
 if (isset($user)) {
-    $cookie = cookieDecode($user);
+    $cookie = Cookie::cookieDecode($user);
 }
 
 sessionManage();
 
-$tab_langue = makeTabLangue();
+$tab_langue = Language::makeTabLangue();
 
 global $meta_glossaire;
-$meta_glossaire = chargMetalang();
+$meta_glossaire = Metalang::chargMetalang();
 
 date_default_timezone_set('Europe/Paris');
 
 // charegement des blocks.
-loadBlocks('blocks');
+Block::loadBlocks('blocks');

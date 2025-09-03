@@ -2,6 +2,12 @@
 
 namespace App\Library\Messenger;
 
+use App\Library\Date\Date;
+use App\Library\Error\Error;
+use App\Library\Theme\Theme;
+use App\Library\Mailer\Mailer;
+use App\Library\Security\Hack;
+
 
 class Messenger
 {
@@ -28,7 +34,7 @@ class Messenger
     {
         global $anonymous;
 
-        if ($ibid = themeImage('fle_b.gif')) {
+        if ($ibid = Theme::themeImage('fle_b.gif')) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = false;
@@ -46,9 +52,9 @@ class Messenger
             }
         } else {
             if ($imgtmp) {
-                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . messCheckMailSub($username, $class);
+                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . static::messCheckMailSub($username, $class);
             } else {
-                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . messCheckMailSub($username, $class) . "]";
+                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . static::messCheckMailSub($username, $class) . "]";
             }
         }
     }
@@ -120,7 +126,7 @@ class Messenger
     {
         include 'header.php';
 
-        static::writeShortPrivateMessage(removeHack($to_userid));
+        static::writeShortPrivateMessage(Hack::removeHack($to_userid));
 
         include 'footer.php';
     }
@@ -145,22 +151,22 @@ class Messenger
         list($to_useridx, $user_languex) = sql_fetch_row($res);
 
         if ($to_useridx == '') {
-            forumError('0016');
+            Error::forumError('0016');
         } else {
-            $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
+            $time = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
             include_once 'language/lang-multi.php';
 
-            $subject = removeHack($subject);
+            $subject = Hack::removeHack($subject);
 
             $message = str_replace("\n", "<br />", $message);
-            $message = addslashes(removeHack($message));
+            $message = addslashes(Hack::removeHack($message));
 
             $sql = "INSERT INTO " . sql_prefix('priv_msgs') . " (msg_image, subject, from_userid, to_userid, msg_time, msg_text) 
                     VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message')";
 
             if (!$result = sql_query($sql)) {
-                forumError('0020');
+                Error::forumError('0020');
             }
 
             if ($copie) {
@@ -168,7 +174,7 @@ class Messenger
                         VALUES ('$image', '$subject', '$from_userid', '$to_useridx', '$time', '$message', '1', '1')";
 
                 if (!$result = sql_query($sql)) {
-                    forumError('0020');
+                    Error::forumError('0020');
                 }
             }
 
@@ -180,7 +186,7 @@ class Messenger
 
                 include 'config/signat.php';
 
-                copyToEmail($to_useridx, $sujet, stripslashes($message));
+                Mailer::copyToEmail($to_useridx, $sujet, stripslashes($message));
             }
         }
     }

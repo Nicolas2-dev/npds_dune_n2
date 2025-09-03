@@ -101,7 +101,7 @@ class Sanitize
     public static function splitStringWithoutSpace(string $msg, int $split): string
     {
         $Xmsg = explode(' ', $msg);
-        array_walk($Xmsg, [self::class, 'wrapperF'], $split);
+        array_walk($Xmsg, [static::class, 'wrapperF'], $split);
         $Xmsg = implode(' ', $Xmsg);
 
         return $Xmsg;

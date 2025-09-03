@@ -18,7 +18,7 @@ if (!function_exists('Mysql_Connexion')) {
 // chatbox avec salon privatif - on utilise id pour filtrer les messages -> id = l'id du groupe au sens autorisation de NPDS (-127,-1,0,1,2...126))
 settype($id, 'integer');
 
-if ($id === '' || unserialize(decrypt($auto)) != $id) {
+if ($id === '' || unserialize(Encrypter::decrypt($auto)) != $id) {
     die();
 }
 
@@ -33,7 +33,7 @@ include 'functions.php';
 // soit on vient d'un bloc qui par définition autorise en fabricant l'interface
 // soit on viens de WS et là ....
 
-if (!autorisation($id)) {
+if (!Auth::autorisation($id)) {
     die();
 }
 
@@ -74,7 +74,7 @@ $skin = $skin == '' ? 'default' : $skin;
 
 include 'storage/meta/meta.php';
 
-echo importCss($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), '');
+echo Css::importCss($tmp_theme, $language, $skin, basename($_SERVER['PHP_SELF']), '');
 
 include 'library/formhelp.java.php';
 
@@ -92,7 +92,7 @@ echo '<script type="text/javascript" src="assets/shared/jquery/jquery.min.js"></
     <input type="hidden" name="auto" value="' . $auto . '" />';
 
 if (!isset($cookie[1])) {
-    $pseudo = isset($name) ? $name : getip();
+    $pseudo = isset($name) ? $name : Request::getip();
 } else {
     $pseudo = $cookie[1];
 }
@@ -105,7 +105,7 @@ echo '<input type="hidden" name="name" value="' . $pseudo . '" />
     <textarea id="chatarea" class="form-control my-3" type="text" rows="2" ' . $xJava . ' placeholder="🖋"></textarea>
     <div class="float-end">';
 
-putitems("chatarea");
+Smilies::putitems("chatarea");
 
 echo '</div>
         <input class="btn btn-primary btn-sm" type="submit" tabindex="1" value="' . translate('Valider') . '" />
@@ -132,6 +132,6 @@ switch ($op) {
             $dbname = 1;
         }
 
-        insertChat($uname, $message, $dbname, $id);
+        Chat::insertChat($uname, $message, $dbname, $id);
         break;
 }

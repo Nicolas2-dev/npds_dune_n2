@@ -64,9 +64,9 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
             <div class="card-body ibid_descr">';
 
         if ($url == '') {
-            echo '<h4 class="text-body-secondary"><i class="fas fa-external-link-alt"></i>&nbsp;' . affLangue($title);
+            echo '<h4 class="text-body-secondary"><i class="fas fa-external-link-alt"></i>&nbsp;' . Language::affLangue($title);
         } else {
-            echo '<h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" ><i class="fas fa-external-link-alt"></i>&nbsp;' . affLangue($title) . '</a>';
+            echo '<h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" ><i class="fas fa-external-link-alt"></i>&nbsp;' . Language::affLangue($title) . '</a>';
         }
 
         echo '&nbsp;' . newlinkgraphic($datetime, $time) . '</h4>';
@@ -90,7 +90,7 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
                 $slash = '/';
             }
 
-            echo translate('Catégorie : ') . "<strong>" . affLangue($ctitle) . "</strong> $slash <b>" . affLangue($stitle) . "</b>";
+            echo translate('Catégorie : ') . "<strong>" . Language::affLangue($ctitle) . "</strong> $slash <b>" . Language::affLangue($stitle) . "</b>";
         }
 
         global $links_topic;
@@ -102,7 +102,7 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
             echo '<br />' . translate('Sujets') . ' : <strong>' . $topicLX . '</strong>';
         }
 
-        echo '<div class="ibid_descr "><p>' . affLangue($description) . '</p></div>';
+        echo '<div class="ibid_descr "><p>' . Language::affLangue($description) . '</p></div>';
 
         if ($url != '') {
             echo '<div class="d-flex justify-content-between">';
@@ -118,7 +118,7 @@ while (list($lid, $url, $title, $description, $time, $hits, $topicid_card, $xcid
 
         echo '</div>
             <div class="card-footer d-flex justify-content-start">
-            <span class="small">' . translate('Ajouté le : ') . formatTimes($time) . '</span>
+            <span class="small">' . translate('Ajouté le : ') . Date::formatTimes($time) . '</span>
             <span class="ms-auto">';
 
         if ($url != '') {

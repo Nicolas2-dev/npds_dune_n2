@@ -99,7 +99,7 @@ function fma_autorise($type, $dir)
             && ($autorise_arbo != 'admin')
             && ($user)
         ) {
-            $tab_groupe = validGroup($user);
+            $tab_groupe = Groupe::validGroup($user);
 
             if ($tab_groupe) {
                 foreach ($tab_groupe as $groupevalue) {

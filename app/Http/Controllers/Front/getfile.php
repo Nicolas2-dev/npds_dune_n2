@@ -18,10 +18,10 @@ if (!function_exists('Mysql_Connexion')) {
 
 switch ($apli) {
     case 'f-manager':
-        $fma = rawurldecode(decrypt($att_id));
+        $fma = rawurldecode(Encrypter::decrypt($att_id));
         $fma = explode('#fma#', $fma);
-        $att_id = decrypt($fma[0]);
-        $att_name = decrypt($fma[1]);
+        $att_id = Encrypter::decrypt($fma[0]);
+        $att_name = Encrypter::decrypt($fma[1]);
 
     case 'forum_npds':
         if (isset($user)) {
@@ -125,7 +125,7 @@ switch ($apli) {
 
                         include 'storage/meta/meta.php';
 
-                        echo importCss($Default_Theme, $language, '', '', '');
+                        echo Css::importCss($Default_Theme, $language, '', '', '');
 
                         echo '</head>
                         <body>
@@ -161,10 +161,10 @@ switch ($apli) {
         break;
 
     case 'captcha':
-        $mot = decrypt($att_id);
+        $mot = Encrypter::decrypt($att_id);
         $mot = rawurldecode($mot);
 
-        // $mot = rawurldecode(decrypt($att_id));
+        // $mot = rawurldecode(Encrypter::decrypt($att_id));
 
         $mot    = mb_convert_encoding($mot, 'ISO-8859-1', 'UTF-8'); ////utf-8 >> iso
         // $mot = mb_convert_encoding($mot, 'UTF-8', 'ISO-8859-1'); ////iso >> utf-8

@@ -30,7 +30,7 @@ if (!$user) {
 
     $userX = base64_decode($user);
     $userdata = explode(':', $userX);
-    $userdata = getUserData($userdata[1]);
+    $userdata = Forum::getUserData($userdata[1]);
 
     settype($start, 'integer');
     settype($type, 'string');
@@ -65,7 +65,7 @@ if (!$user) {
     $resultID = sql_query($sql);
 
     if (!$resultID) {
-        forumError('0005');
+        Error::forumError('0005');
     } else {
         $myrow = sql_fetch_assoc($resultID);
 
@@ -77,7 +77,7 @@ if (!$user) {
             $result = sql_query($sql);
 
             if (!$result) {
-                forumError('0005');
+                Error::forumError('0005');
             }
         }
     }
@@ -93,12 +93,12 @@ if (!$user) {
         echo '<div class="alert alert-danger lead">' . translate('Vous n\'avez aucun message.') . '</div>';
     } else {
         echo '<p class="lead">
-            <a href="viewpmsg.php">' . translate('Messages personnels') . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $Xdossier . '&nbsp;&raquo;&raquo;&nbsp;' . affLangue($myrow['subject']) . '
+            <a href="viewpmsg.php">' . translate('Messages personnels') . '</a>&nbsp;&raquo;&raquo;&nbsp;' . $Xdossier . '&nbsp;&raquo;&raquo;&nbsp;' . Language::affLangue($myrow['subject']) . '
         </p>
         <div class="card mb-3">
             <div class="card-header">';
 
-        $posterdata = ($type == 'outbox') ? getUserDataFromId($myrow['to_userid']) : getUserDataFromId($myrow['from_userid']);
+        $posterdata = ($type == 'outbox') ? Forum::getUserDataFromId($myrow['to_userid']) : Forum::getUserDataFromId($myrow['from_userid']);
 
         $posts = $posterdata['posts'];
 
@@ -110,7 +110,7 @@ if (!$user) {
             $my_rs = '';
 
             if (!$short_user) {
-                $posterdata_extend = getUserDataExtendFromId($posterdata['uid']);
+                $posterdata_extend = Forum::getUserDataExtendFromId($posterdata['uid']);
 
                 include 'modules/reseaux-sociaux/config/config.php';
 
@@ -190,7 +190,7 @@ if (!$user) {
             if ($posterdata['uid'] <> 1) {
                 $aff_reso = isset($my_rsos[0]) ? $my_rsos[0] : '';
 
-                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
+                echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'' . Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '<br /><div class="list-group">' . $useroutils . '</div><hr />' . $aff_reso . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
             } else {
                 echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title=\'<i class="fa fa-cogs fa-lg"></i>\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>';
             }
@@ -229,17 +229,17 @@ if (!$user) {
         </div>
         <div class="card-body">
             <div class="card-text pt-2">
-                <div class="text-end small">' . translate('Envoyé') . ' : ' . formatTimes($myrow['msg_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</div>
-                <hr /><strong>' . affLangue($myrow['subject']) . '</strong><br />';
+                <div class="text-end small">' . translate('Envoyé') . ' : ' . Date::formatTimes($myrow['msg_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</div>
+                <hr /><strong>' . Language::affLangue($myrow['subject']) . '</strong><br />';
 
         $message = stripslashes($myrow['msg_text']);
 
         if ($allow_bbcode) {
-            $message = smilie($message);
-            $message = affVideoYt($message);
+            $message = Smilies::smilie($message);
+            $message = MediaPlayer::affVideoYt($message);
         }
 
-        $message = str_replace('[addsig]', '<br /><div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', affLangue($message));
+        $message = str_replace('[addsig]', '<br /><div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', Language::affLangue($message));
         echo $message;
 
         echo '</div>

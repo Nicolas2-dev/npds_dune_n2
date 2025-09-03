@@ -35,7 +35,7 @@ $rowQ1 = Q_Select("SELECT forum_name, forum_moderator, forum_type, forum_pass, f
                    WHERE forum_id = '$forum'", 3600);
 
 if (!$rowQ1) {
-    forumError('0001');
+    Error::forumError('0001');
 }
 
 $myrow = $rowQ1[0];
@@ -54,12 +54,12 @@ if ($forum_access == 9) {
     header('Location: forum.php');
 }
 
-if (isLocked($topic)) {
-    forumError('0025');
+if (Forum::isLocked($topic)) {
+    Error::forumError('0025');
 }
 
-if (!doesExists($forum, 'forum') || !doesExists($topic, 'topic')) {
-    forumError('0026');
+if (!Forum::doesExists($forum, 'forum') || !Forum::doesExists($topic, 'topic')) {
+    Error::forumError('0026');
 }
 
 settype($submitS, 'string');
@@ -78,7 +78,7 @@ if ($submitS) {
             include 'header.php';
         } else {
             if (($username == '') or ($password == '')) {
-                forumError('0027');
+                Error::forumError('0027');
             } else {
                 $result = sql_query("SELECT pass 
                                      FROM " . sql_prefix('users') . " 
@@ -87,22 +87,22 @@ if ($submitS) {
                 list($pass) = sql_fetch_row($result);
 
                 if ((password_verify($password, $pass)) and ($pass != '')) {
-                    $userdata = getUserData($username);
+                    $userdata = Forum::getUserData($username);
 
                     if ($userdata['uid'] == 1) {
-                        forumError('0027');
+                        Error::forumError('0027');
                     } else {
                         include 'header.php';
                     }
                 } else {
-                    forumError('0028');
+                    Error::forumError('0028');
                 }
 
-                $modo = userIsModerator($username, $pass, $forum_access);
+                $modo = Forum::userIsModerator($username, $pass, $forum_access);
 
                 if ($forum_access == 2) {
                     if (!$modo) {
-                        forumError('0027');
+                        Error::forumError('0027');
                     }
                 }
             }
@@ -111,30 +111,30 @@ if ($submitS) {
         $userX      = base64_decode($user);
         $userdata   = explode(':', $userX);
 
-        $modo = userIsModerator($userdata[0], $userdata[2], $forum_access);
+        $modo = Forum::userIsModerator($userdata[0], $userdata[2], $forum_access);
 
         if ($forum_access == 2) {
             if (!$modo) {
-                forumError('0027');
+                Error::forumError('0027');
             }
         }
 
-        $userdata = getUserData($userdata[1]);
+        $userdata = Forum::getUserData($userdata[1]);
 
         include 'header.php';
     }
 
     // Either valid user/pass, or valid session. continue with post.
     if ($stop != 1) {
-        $poster_ip =  getip();
+        $poster_ip =  Request::getip();
         $hostname = $dns_verif ? gethostbyaddr($poster_ip) : '';
 
         // anti flood
-        antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
+        Forum::antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
         if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
-            ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
+            Log::ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
             redirectUrl('index.php');
             die();
@@ -149,16 +149,16 @@ if ($submitS) {
         }
 
         //if (($forum_type != '6') and ($forum_type != '5')) {
-        //    //         $message = afCode($message);
+        //    //         $message = Code::afCode($message);
         //    //         $message =  str_replace(array("\r\n", "\r", "\n"), "<br />", $message);
         //}
 
         if (($allow_bbcode == 1) and ($forum_type != '6') and ($forum_type != '5')) {
-            $message = smile($message);
+            $message = Smilies::smile($message);
         }
 
         if (($forum_type != '6') and ($forum_type != '5')) {
-            $message = makeClickable($message);
+            $message = Forum::makeClickable($message);
             $message = removeHack($message);
         }
 
@@ -171,7 +171,7 @@ if ($submitS) {
                 VALUES ('0', '$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
 
         if (!$result = sql_query($sql)) {
-            forumError('0020');
+            Error::forumError('0020');
         } else {
             $IdPost = sql_last_id();
         }
@@ -181,7 +181,7 @@ if ($submitS) {
                 WHERE topic_id = '$topic'";
 
         if (!$result = sql_query($sql)) {
-            forumError('0020');
+            Error::forumError('0020');
         }
 
         $sql = "UPDATE " . sql_prefix('forum_read') . " 
@@ -190,7 +190,7 @@ if ($submitS) {
                 AND uid <> '" . $userdata['uid'] . "'";
 
         if (!$r = sql_query($sql)) {
-            forumError('0001');
+            Error::forumError('0001');
         }
 
         $sql = "UPDATE " . sql_prefix('users_status') . " 
@@ -200,7 +200,7 @@ if ($submitS) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumError('0029');
+            Error::forumError('0029');
         }
 
         $sql = "SELECT t.topic_notify, u.email, u.uname, u.uid, u.user_langue 
@@ -209,7 +209,7 @@ if ($submitS) {
                 AND t.topic_poster = u.uid";
 
         if (!$result = sql_query($sql)) {
-            forumError('0022');
+            Error::forumError('0022');
         }
 
         $m = sql_fetch_assoc($result);
@@ -235,7 +235,7 @@ if ($submitS) {
 
             include 'config/signat.php';
 
-            sendEmail($m['email'], $subject, $message, '', true, "html", '');
+            Mailer::sendEmail($m['email'], $subject, $message, '', true, "html", '');
 
             $sauf = $m['uid'];
         }
@@ -283,7 +283,7 @@ if ($submitS) {
         $userdata[0] = 0;
     }
 
-    $posterdata = getUserDataFromId($userdata[0]);
+    $posterdata = Forum::getUserDataFromId($userdata[0]);
 
     if ($smilies) {
         if (isset($user)) {
@@ -307,7 +307,7 @@ if ($submitS) {
         }
     }
 
-    $moderator = getModerator($mod);
+    $moderator = Forum::getModerator($mod);
     $moderator = explode(' ', $moderator);
 
     $Mmod = false;
@@ -321,7 +321,7 @@ if ($submitS) {
                 ' . translate('Modérateur(s)');
 
     for ($i = 0; $i < count($moderator); $i++) {
-        $modera = getUserData($moderator[$i]);
+        $modera = Forum::getUserData($moderator[$i]);
 
         if ($modera['user_avatar'] != '') {
             if (stristr($modera['user_avatar'], 'users_private')) {
@@ -370,7 +370,7 @@ if ($submitS) {
             $allow_to_reply = true;
         }
     } elseif ($forum_access == 2) {
-        if (userIsModerator($userdata[0], $userdata[2], $forum_access)) {
+        if (Forum::userIsModerator($userdata[0], $userdata[2], $forum_access)) {
             $allow_to_reply = true;
         }
     }
@@ -399,7 +399,7 @@ if ($submitS) {
                 <label class="form-label">' . translate('Icone du message') . '</label>
                 <div class="col-sm-12">
                     <div class="border rounded pt-3 px-2 n-fond_subject d-flex flex-row flex-wrap">
-                    ' . emotionAdd($image_subject) . '
+                    ' . Forum::emotionAdd($image_subject) . '
                     </div>
                 </div>
             </div>';
@@ -412,12 +412,12 @@ if ($submitS) {
                 <div class="card-header">
                     <div class="float-start">';
 
-        putitems('ta_replypost');
+        Smilies::putitems('ta_replypost');
 
         echo '</div>';
 
         if ($allow_html == 1) {
-            echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd();
+            echo '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . Forum::htmlAdd();
         } else {
             echo '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
         }
@@ -437,7 +437,7 @@ if ($submitS) {
                 $text = $m['post_text'];
 
                 if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
-                    $text = smile($text);
+                    $text = Smilies::smile($text);
                     $text = str_replace('<br />', "\n", $text);
                 } else {
                     $text = htmlspecialchars($text, ENT_COMPAT | ENT_HTML401, 'UTF-8');
@@ -576,7 +576,7 @@ if ($submitS) {
                     <div class="card mb-3">
                     <div class="card-header">';
 
-            $posterdata = getUserDataFromId($myrow['poster_id']);
+            $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
 
             if ($myrow['poster_id'] !== '0') {
 
@@ -589,11 +589,11 @@ if ($submitS) {
                 $my_rs = '';
 
                 if (!$short_user) {
-                    $posterdata_extend = getUserDataExtendFromId($myrow['poster_id']);
+                    $posterdata_extend = Forum::getUserDataExtendFromId($myrow['poster_id']);
 
                     include 'modules/reseaux-sociaux/rconfig/config.php';
 
-                    if ($user or autorisation(-127)) {
+                    if ($user or Auth::autorisation(-127)) {
                         if (array_key_exists('M2', $posterdata_extend)) {
                             if ($posterdata_extend['M2'] != '') {
 
@@ -641,7 +641,7 @@ if ($submitS) {
                     $useroutils .= '<hr />';
                 }
 
-                if ($user or autorisation(-127)) {
+                if ($user or Auth::autorisation(-127)) {
                     if ($posterdata['uid'] != 1 and $posterdata['uid'] != '') {
                         $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
                     }
@@ -684,7 +684,7 @@ if ($submitS) {
                         }
                     }
 
-                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
+                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
                     <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
                 } else {
                     echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
@@ -719,15 +719,15 @@ if ($submitS) {
             echo '</span>
                 </div>
                 <div class="card-body">
-                    <span class="text-body-secondary float-end small" style="margin-top:-1rem;">' . translate('Posté : ') . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</span>
+                    <span class="text-body-secondary float-end small" style="margin-top:-1rem;">' . translate('Posté : ') . Date::formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</span>
                     <div class="card-text pt-4">';
 
             $message = stripslashes($myrow['post_text']);
 
             if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
-                $message = smilie($message);
-                $message = affVideoYt($message);
-                $message = afCode($message);
+                $message = Smilies::smilie($message);
+                $message = MediaPlayer::affVideoYt($message);
+                $message = Code::afCode($message);
                 $message = str_replace("\n", '<br />', $message);
             }
 

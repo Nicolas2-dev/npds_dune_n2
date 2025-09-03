@@ -70,7 +70,7 @@ function nmig_Start($name_module, $txtdeb)
     <div class="">';
 
     if (isset($txtdeb) && $txtdeb != '') {
-        $display .= affLangue($txtdeb);
+        $display .= Language::affLangue($txtdeb);
     } else {
         $display .= '<p class="lead">' . adm_translate('Bonjour et bienvenue dans l\'installation automatique du module') . ' "' . $name_module . '"</p>
         <p>' . adm_translate('Ce programme d\'installation va configurer votre site internet pour utiliser ce module.') . '</p>
@@ -472,7 +472,7 @@ function nmig_txt($txtfin)
     global $ModInstall, $display;
 
     $display = '<hr />
-    <div class="lead mb-3">' . affLangue($txtfin) . '</div>
+    <div class="lead mb-3">' . Language::affLangue($txtfin) . '</div>
     <div class="text-center mb-3">
         <a class="btn btn-primary" href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e10" >' . adm_translate('Etape suivante') . '</a><br />
     </div>' . nmig_copyright();

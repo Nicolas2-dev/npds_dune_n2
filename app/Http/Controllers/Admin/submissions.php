@@ -93,17 +93,17 @@ function submissions()
                 $subject = adm_translate('Aucun Sujet');
             }
 
-            $subject = affLangue($subject);
+            $subject = Language::affLangue($subject);
 
             if ($affiche) {
-                echo '<img class=" " src="assets/images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . affLangue($topictext) . '</a></td>
+                echo '<img class=" " src="assets/images/topics/' . $topicimage . '" height="30" width="30" alt="avatar" />&nbsp;<a href="admin.php?op=topicedit&amp;topicid=' . $topic . '" class="adm_tooltip">' . Language::affLangue($topictext) . '</a></td>
                 <td align="left"><a href="admin.php?op=DisplayStory&amp;qid=' . $qid . '">' . ucfirst($subject) . '</a></td>';
             } else {
-                echo affLangue($topictext) . '</td>
+                echo Language::affLangue($topictext) . '</td>
                 <td><i>' . ucfirst($subject) . '</i></td>';
             }
 
-            echo '<td class="small">' . formatTimes($timestamp, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
+            echo '<td class="small">' . Date::formatTimes($timestamp, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
 
             if ($affiche) {
                 echo '<td><a class="" href="admin.php?op=DisplayStory&amp;qid=' . $qid . '"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer') . '" data-bs-toggle="tooltip" ></i></a><a class="text-danger" href="admin.php?op=DeleteStory&amp;qid=' . $qid . '"><i class="fas fa-trash fa-lg ms-3" title="' . adm_translate('Effacer') . '" data-bs-toggle="tooltip" ></i></a></td>

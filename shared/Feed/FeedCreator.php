@@ -185,7 +185,7 @@ class FeedCreator extends HtmlDescribable
         Header('Content-Type: ' . $this->contentType . '; filename=' . basename($filename));
         Header('Content-Disposition: inline; filename=' . basename($filename));
 
-        readfile($filename, 'r');
+        readfile($filename, 'r'); // a controller car pas correcte readfile() ne prend pas 'r' (c’est l’argument de fopen()
 
         die();
     }

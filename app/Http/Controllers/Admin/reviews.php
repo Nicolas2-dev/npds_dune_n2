@@ -27,8 +27,8 @@ $hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
 function mod_main($title, $description)
 {
-    $title = stripslashes(fixQuotes($title));
-    $description = stripslashes(fixQuotes($description));
+    $title = stripslashes(Sanitize::$title));
+    $description = stripslashes(Sanitize::fixQuotes($description));
 
     sql_query("UPDATE " . sql_prefix('reviews_main') . " 
                SET title='$title', description='$description'");
@@ -187,7 +187,7 @@ function reviews()
             inpandfieldlen("tit_cri",100);' . $jsfvc;
 
         echo '<script type="text/javascript" src="assets/shared/flatpickr/dist/flatpickr.min.js"></script>
-        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . languageIso(1, '', '') . '.js"></script>
+        <script type="text/javascript" src="assets/shared/flatpickr/dist/l10n/' . Language::languageIso(1, '', '') . '.js"></script>
         <script type="text/javascript">
             //<![CDATA[
                 $(document).ready(function() {
@@ -197,7 +197,7 @@ function reviews()
                     altInput: true,
                     altFormat: "l j F Y",
                     dateFormat:"Y-m-d",
-                    "locale": "' . languageIso(1, '', '') . '",
+                    "locale": "' . Language::languageIso(1, '', '') . '",
                 });
             //]]>
         </script>';
@@ -223,10 +223,10 @@ function reviews()
 
 function add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title)
 {
-    $title = stripslashes(fixQuotes($title));
-    $text = stripslashes(fixQuotes($text));
-    $reviewer = stripslashes(fixQuotes($reviewer));
-    $email = stripslashes(fixQuotes($email));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $text = stripslashes(Sanitize::fixQuotes($text));
+    $reviewer = stripslashes(Sanitize::fixQuotes($reviewer));
+    $email = stripslashes(Sanitize::fixQuotes($email));
 
     sql_query("INSERT INTO " . sql_prefix('reviews') . " 
                VALUES (NULL, '$date', '$title', '$text', '$reviewer', '$email', '$score', '$cover', '$url', '$url_title', '1')");

@@ -129,7 +129,7 @@ function Detail_Header_Footer($ibid, $type)
 
     if ($tmp[1] == 1) {
         echo '<code> HTML</code></h3>
-        <div class="card card-body">' . metaLang($tmp[0]) . '</div>';
+        <div class="card card-body">' . Metalang::metaLang($tmp[0]) . '</div>';
     } else {
         echo '<code>' . adm_translate('TEXTE') . '</code></h3>
         <div class="card card-body">' . nl2br($tmp[0]) . '</div>';
@@ -148,7 +148,7 @@ function Detail_Header_Footer($ibid, $type)
         global $tiny_mce_relurl;
         $tiny_mce_relurl = false;
 
-        echo affEditeur('xtext', '');
+        echo Editeur::affEditeur('xtext', '');
     }
 
     echo ($type == 'HED')
@@ -223,7 +223,7 @@ function Detail_Body($ibid)
 
     if ($tmp[1] == 1) {
         echo adm_translate('Prévisualiser') . ' <code>HTML</code></h3>
-        <div class="card card-body">' . metaLang($tmp[0]) . '</div>';
+        <div class="card card-body">' . Metalang::metaLang($tmp[0]) . '</div>';
     } else {
         echo adm_translate('Prévisualiser') . ' <code>' . adm_translate('TEXTE') . '</code></h3>
         <div class="card card-body">' . nl2br($tmp[0]) . '</div>';
@@ -241,7 +241,7 @@ function Detail_Body($ibid)
         global $tiny_mce_relurl;
         $tiny_mce_relurl = false;
 
-        echo affEditeur('xtext', 'false');
+        echo Editeur::affEditeur('xtext', 'false');
     }
 
     echo '<input type="hidden" name="op" value="lnl_Add_Body_Mod" />
@@ -288,7 +288,7 @@ function Add_Body()
     global $tiny_mce_relurl;
     $tiny_mce_relurl = false;
 
-    echo affEditeur('xtext', 'false');
+    echo Editeur::affEditeur('xtext', 'false');
 
     echo '<div class="mb-3 row">
                 <input type="hidden" name="op" value="lnl_Add_Body_Submit" />
@@ -395,7 +395,7 @@ function Add_Header_Footer($ibid)
     global $tiny_mce_relurl;
     $tiny_mce_relurl = false;
 
-    echo affEditeur('xtext', 'false');
+    echo Editeur::affEditeur('xtext', 'false');
 
     echo '<input type="hidden" name="op" value="' . $va . '" />
                 <button class="btn btn-primary col-sm-12 col-md-6" type="submit"><i class="fa fa-plus-square fa-lg"></i>&nbsp;' . adm_translate('Ajouter') . ' ' . adm_translate('$ti') . '</button>
@@ -557,7 +557,7 @@ function main()
                 </div>
             </div>';
 
-    $mX = listeGroup();
+    $mX = Groupe::listeGroup();
 
     $tmp_groupe = '';
 
@@ -671,7 +671,7 @@ function Test($Yheader, $Ybody, $Yfooter)
         <h3 class="mb-3">' . adm_translate('Prévisualiser') . ' HTML</h3>';
 
         $Xmime = 'html-nobr';
-        $message = metaLang($Xheader[0] . $Xbody[0] . $Xfooter[0]);
+        $message = Metalang::metaLang($Xheader[0] . $Xbody[0] . $Xfooter[0]);
     } else {
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Prévisualiser') . ' ' . adm_translate('TEXTE') . '</h3>';
@@ -686,7 +686,7 @@ function Test($Yheader, $Ybody, $Yfooter)
     <a class="btn btn-secondary my-3" href="javascript:history.go(-1)" >' . adm_translate('Retour en arrière') . '</a>';
 
     global $adminmail;
-    sendEmail($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
+    Mailer::sendEmail($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
 
     adminFoot('', '', '', '');
 }
@@ -751,7 +751,7 @@ function lnl_list()
                 <td>' . $footer . '</td>
                 <td>' . $number_send . '</td>
                 <td>' . $ico . $type_send . '</td>
-                <td class="small">' . formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
+                <td class="small">' . Date::formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
 
         if ($status == "NOK") {
             echo '<td class="text-danger">' . $status . '</td>';
@@ -799,7 +799,7 @@ function lnl_user_list()
     while (list($email, $date, $status) = sql_fetch_row($result)) {
         echo '<tr>
             <td>' . $email . '</td>
-            <td>' . formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
+            <td>' . Date::formatTimes($date, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</td>';
 
         if ($status == 'NOK') {
             echo '<td class="text-danger">' . $status . '</td>';
@@ -986,7 +986,7 @@ switch ($op) {
 
         global $sitename;
         $Xmime = $Yheader[1] == 1 ? 'html-nobr' : 'text';
-        $message = ($Xmime == 'html-nobr') ? metaLang($message) : $message;
+        $message = ($Xmime == 'html-nobr') ? Metalang::metaLang($message) : $message;
 
         if ($Xtype == 'All') {
             $Xtype = 'Out';
@@ -1018,7 +1018,7 @@ switch ($op) {
                                 $Xmessage .= adm_translate('Pour supprimer votre abonnement à notre Lettre, suivez ce lien') . " : $nuke_url/lnl.php?op=unsubscribe&email=$email";
                             }
 
-                            sendEmail($email, $subject, $Xmessage, '', true, $Xmime, '');
+                            Mailer::sendEmail($email, $subject, $Xmessage, '', true, $Xmime, '');
 
                             $number_send++;
                         }
@@ -1092,7 +1092,7 @@ switch ($op) {
                     if (($email != 'Anonyme') or ($email != 'Anonymous')) {
                         if ($email != '') {
                             if (($message != '') and ($subject != '')) {
-                                sendEmail($email, $subject, $message, '', true, $Xmime, '');
+                                Mailer::sendEmail($email, $subject, $message, '', true, $Xmime, '');
                                 $number_send++;
                             }
                         }

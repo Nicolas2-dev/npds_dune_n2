@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Language\Language;
+
+
 if (! function_exists('ephemblock')) {
     #autodoc ephemblock() : Bloc ephemerid <br />=> syntaxe : function#ephemblock
     function ephemblock()
@@ -25,7 +28,7 @@ if (! function_exists('ephemblock')) {
             }
 
             $boxstuff .= "<b>$yid</b>\n<br />\n";
-            $boxstuff .= affLangue($content);
+            $boxstuff .= Language::affLangue($content);
 
             $cnt = 1;
         }

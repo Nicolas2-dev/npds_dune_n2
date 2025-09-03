@@ -23,7 +23,7 @@ function autorisation_section($userlevel)
     $tmp_auto = explode(',', $userlevel);
 
     foreach ($tmp_auto as $userlevel) {
-        $okprint = autorisation($userlevel);
+        $okprint = Auth::autorisation($userlevel);
 
         if ($okprint) {
             break;
@@ -107,11 +107,11 @@ function listsections($rubric)
                     $aff .= '<i class="fa fa-caret-down text-body-secondary invisible "></i>';
                 }
 
-                $aff .= '<a class="ms-2" href="sections.php?rubric=' . $rubid . '">' . affLangue($rubname) . '</a><span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Sous-rubrique') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_section . '</span></span>
+                $aff .= '<a class="ms-2" href="sections.php?rubric=' . $rubid . '">' . Language::affLangue($rubname) . '</a><span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Sous-rubrique') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_section . '</span></span>
                 </h3>';
 
                 if ($intro != '') {
-                    $aff .= '<p class="text-body-secondary">' . affLangue($intro) . '</p>';
+                    $aff .= '<p class="text-body-secondary">' . Language::affLangue($intro) . '</p>';
                 }
 
                 $aff .= '<div id="rub-' . $rubid . '" class="collapse" >';
@@ -137,7 +137,7 @@ function listsections($rubric)
                             $aff .= '<a href="#" class="arrow-toggle text-primary" data-bs-toggle="collapse" data-bs-target="#sec' . $secid . '" aria-expanded="true" aria-controls="sec' . $secid . '"><i class="toggle-icon fa fa-caret-up"></i></a>&nbsp;';
                         }
 
-                        $aff1 = affLangue($secname) . '<span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Articles') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_art . '</span></span>';
+                        $aff1 = Language::affLangue($secname) . '<span class=" float-end">#NEW#<span class="badge bg-secondary" title="' . translate('Articles') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $nb_art . '</span></span>';
 
                         if ($image != '') {
                             if (file_exists('assets/images/sections/' . $image)) {
@@ -148,13 +148,13 @@ function listsections($rubric)
 
                             //$suffix = strtoLower(substr(strrchr(basename($image), '.'), 1));
 
-                            $aff1 .= '<img class="img-fluid" src="' . $imgtmp . '" alt="' . affLangue($secname) . '" /><br />';
+                            $aff1 .= '<img class="img-fluid" src="' . $imgtmp . '" alt="' . Language::affLangue($secname) . '" /><br />';
                         }
 
                         $aff1 .= '</h4>';
 
                         if ($intro != '') {
-                            $aff1 .= '<p class="">' . affLangue($intro) . '</p>';
+                            $aff1 .= '<p class="">' . Language::affLangue($intro) . '</p>';
                         }
 
                         $aff2 = '<div id="sec' . $secid . '" class="collapse show">
@@ -176,7 +176,7 @@ function listsections($rubric)
                                     $nouveau = '';
                                 }
 
-                                $aff2 .= '<a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . affLangue($title) . '</a><span class="float-end"><small>' . translate('lu : ') . ' ' . $counter . ' ' . translate('Fois') . '</small>';
+                                $aff2 .= '<a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . Language::affLangue($title) . '</a><span class="float-end"><small>' . translate('lu : ') . ' ' . $counter . ' ' . translate('Fois') . '</small>';
 
                                 if ($nouveau == '') {
                                     $aff2 .= '<i class="far fa-star ms-3 text-success"></i>';
@@ -240,10 +240,10 @@ function listarticles($secid)
                                               WHERE rubid='$rubid'"));
 
     if ($sections_chemin == 1) {
-        $chemin = '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . affLangue($rubname) . '</a></span>';
+        $chemin = '<span class="lead"><a href="sections.php" title="' . translate('Retour à l\'index des rubriques') . '" data-bs-toggle="tooltip">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . Language::affLangue($rubname) . '</a></span>';
     }
 
-    $title =  affLangue($secname);
+    $title =  Language::affLangue($secname);
 
     include 'header.php';
 
@@ -279,7 +279,7 @@ function listarticles($secid)
             }
 
             if ($intro != '') {
-                echo affLangue($intro);
+                echo Language::affLangue($intro);
             }
 
             if ($image != '') {
@@ -308,7 +308,7 @@ function listarticles($secid)
                     }
 
                     echo '<div class="mb-1">
-                    <a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . affLangue($title) . '</a><small>
+                    <a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . Language::affLangue($title) . '</a><small>
                     ' . translate('lu : ') . ' ' . $counter . ' ' . translate('Fois') . '</small><span class="float-end"><a href="sections.php?op=printpage&amp;artid=' . $artid . '" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fa fa-print fa-lg"></i></a></span>';
 
                     if ($nouveau == '') {
@@ -386,10 +386,10 @@ function viewarticle($artid, $page)
         }
 
         if ($sections_chemin == 1) {
-            $chemin = '<span class="lead"><a href="sections.php">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . affLangue($rubname) . '</a>&nbsp;/&nbsp;<a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . affLangue($secname) . '</a></span>';
+            $chemin = '<span class="lead"><a href="sections.php">Index</a>&nbsp;/&nbsp;<a href="sections.php?rubric=' . $rubid . '">' . Language::affLangue($rubname) . '</a>&nbsp;/&nbsp;<a href="sections.php?op=listarticles&amp;secid=' . $secid . '">' . Language::affLangue($secname) . '</a></span>';
         }
 
-        $title = affLangue($title);
+        $title = Language::affLangue($title);
 
         include 'header.php';
 
@@ -457,9 +457,9 @@ function viewarticle($artid, $page)
                 </nav>';
             }
 
-            $Xcontent = affCode(affLangue($Xcontent));
+            $Xcontent = Code::affCode(Language::affLangue($Xcontent));
 
-            echo '<div id="art_sect">' . metaLang($Xcontent) . '</div>';
+            echo '<div id="art_sect">' . Metalang::metaLang($Xcontent) . '</div>';
 
             $artidtempo = $artid;
 
@@ -467,7 +467,7 @@ function viewarticle($artid, $page)
                 /*
                 echo '<hr /><p><a class="btn btn-secondary" href="sections.php">'. translate('Return to Sections Index') .'</a></p>'; 
                 echo '<h4>***<strong>'. translate('Back to chapter:') .'</strong></h4>';
-                echo '<ul class="list-group"><li class="list-group-item"><a href="sections.php?op=listarticles&amp;secid='. $secid .'">'. affLangue($secname) .'</a></li></ul>';
+                echo '<ul class="list-group"><li class="list-group-item"><a href="sections.php?op=listarticles&amp;secid='. $secid .'">'. Language::affLangue($secname) .'</a></li></ul>';
                 */
 
                 $result3 = sql_query("SELECT artid, secid, title, userlevel 
@@ -486,7 +486,7 @@ function viewarticle($artid, $page)
                         $okprint2 = autorisation_section($userlevel);
 
                         if ($okprint2) {
-                            echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . affLangue($title) . '</a></li>';
+                            echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . Language::affLangue($title) . '</a></li>';
                         }
                     }
 
@@ -514,7 +514,7 @@ function viewarticle($artid, $page)
                     $okprint2 = autorisation_section($userlevel);
 
                     if ($okprint2) {
-                        echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid2 . '">' . affLangue($title) . '</a></li>';
+                        echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid2 . '">' . Language::affLangue($title) . '</a></li>';
                     }
                 }
 
@@ -557,16 +557,16 @@ function PrintSecPage($artid)
 
     list($title, $content) = sql_fetch_row($result);
 
-    echo '<strong class="my-3 d-block">' . affLangue($title) . '</strong></p>';
+    echo '<strong class="my-3 d-block">' . Language::affLangue($title) . '</strong></p>';
 
-    $content = affCode(affLangue($content));
+    $content = Code::affCode(Language::affLangue($content));
     $pos_page = strpos($content, "[page");
 
     if ($pos_page) {
         $content = str_replace("[page", str_repeat("-", 50) . "&nbsp;[page", $content);
     }
 
-    echo metaLang($content);
+    echo Metalang::metaLang($content);
 
     echo '<hr />
                 <p class="text-center">

@@ -1,5 +1,7 @@
 <?php
 
+use App\Library\Log\Log;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /*                                                                      */
@@ -15,6 +17,7 @@
 /************************************************************************/
 
 global $debugmysql;
+
 define('NPDS_DEBUG', $debugmysql);
 
 $sql_nbREQ = 0;
@@ -76,7 +79,7 @@ function sql_connect(): mysqli|false
       error_log($message = sprintf('Erreur de connexion SQL : %s', $mysql_error));
 
       if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
-         ecrireLog('mysql', $message, '');
+         Log::ecrireLog('mysql', $message, '');
       }
 
       return false;
@@ -175,7 +178,7 @@ function sql_query(string $sql): mysqli_result|false
    if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
       error_log($message = sprintf('Requête finale : %s', $sql));
 
-      ecrireLog('mysql', $message, '');
+      Log::ecrireLog('mysql', $message, '');
    }
 
    $query_id = mysqli_query($dblink, $sql);
@@ -185,7 +188,7 @@ function sql_query(string $sql): mysqli_result|false
       error_log($message = sprintf('Échec de la requête : %s - Erreur : %s', $sql, sql_error()));
 
       if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
-         ecrireLog('mysql', $message, '');
+         Log::ecrireLog('mysql', $message, '');
       }
 
       return false;

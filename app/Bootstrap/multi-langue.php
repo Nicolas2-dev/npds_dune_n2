@@ -11,6 +11,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Language\Language;
+
 // Multi-language
 $local_path = '';
 
@@ -24,7 +26,7 @@ if (file_exists($local_path . 'storage/locale/language.php')) {
    include($local_path . 'storage/locale/language.php');
 } else {
    //include($local_path . 'manuels/list.php');
-   $languageslist = languageList();
+   $languageslist = Language::languageList();
 }
 
 if (isset($choice_user_language)) {

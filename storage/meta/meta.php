@@ -7,7 +7,7 @@ $nuke_url = isset($nuke_url) ? $nuke_url : '';
 $meta_op = isset($meta_op) ? $meta_op : '';
 $m_description = isset($m_description) ? $m_description : '';
 $m_keywords = isset($m_keywords) ? $m_keywords : '';
-$lang = languageIso(1, '', 0);
+$lang = Language::languageIso(1, '', 0);
 if ($meta_doctype == "")
    $l_meta = "<!DOCTYPE html>\n<html lang=\"$lang\">\n   <head>\n";
 else

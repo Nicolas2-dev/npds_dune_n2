@@ -1,5 +1,9 @@
 <?php
 
+use App\Support\Sanitize;
+use App\Library\Groupe\Groupe;
+
+
 if (! function_exists('RecentForumPosts')) {
     #autodoc RecentForumPosts($title, $maxforums, $maxtopics, $dposter, $topicmaxchars,$hr,$decoration) : Bloc Forums <br />=> syntaxe :<br />function#RecentForumPosts<br />params#titre, nb_max_forum (O=tous), nb_max_topic, affiche_l'emetteur(true / false), topic_nb_max_char, affiche_HR(true / false),
     function RecentForumPosts($title, $maxforums, $maxtopics, $displayposter = false, $topicmaxchars = 15, $hr = false, $decoration = '')
@@ -50,8 +54,8 @@ if (! function_exists('RecentForumPosts_fab')) {
             if (($row[6] == '5') or ($row[6] == '7')) {
                 $ok_affich = false;
 
-                $tab_groupe = validGroup($user);
-                $ok_affich = groupeForum($row[7], $tab_groupe);
+                $tab_groupe = Groupe::validGroup($user);
+                $ok_affich = Groupe::groupeForum($row[7], $tab_groupe);
             } else {
                 $ok_affich = true;
             }
@@ -66,8 +70,8 @@ if (! function_exists('RecentForumPosts_fab')) {
                 }
 
                 if ($parse == 0) {
-                    $forumname = fixQuotes($forumname);
-                    $forum_desc = fixQuotes($forum_desc);
+                    $forumname = Sanitize::fixQuotes($forumname);
+                    $forum_desc = Sanitize::fixQuotes($forum_desc);
                 } else {
                     $forumname = stripslashes($forumname);
                     $forum_desc = stripslashes($forum_desc);
@@ -118,8 +122,8 @@ if (! function_exists('RecentForumPosts_fab')) {
                     }
 
                     if ($parse == 0) {
-                        $tt =  strip_tags(fixQuotes($tt));
-                        $topictitle = fixQuotes($topictitle);
+                        $tt =  strip_tags(Sanitize::fixQuotes($tt));
+                        $topictitle = Sanitize::fixQuotes($topictitle);
                     } else {
                         $tt =  strip_tags(stripslashes($tt));
                         $topictitle = stripslashes($topictitle);

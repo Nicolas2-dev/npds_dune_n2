@@ -10,7 +10,7 @@ $menuser = '';
 if ($user) {
     include_once 'functions.php';
 
-    $userdata = getUserDataFromId($cookie[0]);
+    $userdata = Forum::getUserDataFromId($cookie[0]);
 
     $username = $cookie[1];
 
@@ -28,11 +28,11 @@ if (!isset($powerpack)) {
     include_once 'powerpack.php';
 }
 
-if (autorisation(-1)) {
+if (Auth::autorisation(-1)) {
     $btn_con = '<a class="dropdown-item" href="user.php"><i class="fas fa-sign-in-alt fa-lg me-2 align-middle"></i>' . translate("Connexion") . '</a>';
 
     $ava = '<a class="dropdown-item" href="user.php"><i class="fa fa-user fa-3x text-body-secondary"></i></a>';
-} elseif (autorisation(1)) {
+} elseif (Auth::autorisation(1)) {
     list($nbmes) = sql_fetch_row(sql_query("SELECT COUNT(*) 
                                             FROM " . sql_prefix('priv_msgs') . " 
                                             WHERE to_userid='" . $cookie[0] . "' 
@@ -110,7 +110,7 @@ if (autorisation(-1)) {
             </ul>
 
             <?php
-            if (autorisation(-127)) {
+            if (Auth::autorisation(-127)) {
                 echo '<div class="d-flex float-end"><a href="admin.php" title="[french]Administration[/french][english]Administration[/english][chinese]&#31649;&#29702;[/chinese][spanish]Administraci&oacute;n[/spanish][german]Verwaltung[/german]" data-bs-toggle="tooltip" data-bs-placement="left"><i id="cogs" class="fa fa-cogs fa-lg"></i></a></div>';
             }
             ?>

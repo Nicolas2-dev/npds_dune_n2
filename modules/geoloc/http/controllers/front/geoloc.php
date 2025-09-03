@@ -64,7 +64,7 @@ settype($ipnb, 'integer');
 $date_jour = date('Y-m-d');
 
 // for admin
-if (autorisation(-127)) {
+if (Auth::autorisation(-127)) {
     $mess_adm = '<p class="text-danger">' . geoloc_translate('Rappel : vous êtes en mode administrateur !') . '</p>';
     $lkadm = '<a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=geoloc&amp;ModStart=admin/geoloc_set" title="' . geoloc_translate('Admin') . '" data-bs-toggle="tooltip"><i id="cogs" class="fa fa-cogs fa-lg"></i></a>';
 
@@ -952,7 +952,7 @@ $ecr_scr .= '
         src_user.addFeature(iconFeature);
     }';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
     var src_ip = new ol.source.Vector({});
     var src_ip_length = ip_features.length;
@@ -1058,7 +1058,7 @@ $ecr_scr .= '
     }
     },';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
             styleIp = new ol.style.Style({
                 text: new ol.style.Text({
@@ -1120,7 +1120,7 @@ $ecr_scr .= '
             var extgroup = ol.extent.createEmpty();
             grouputilisateurs.getLayers().forEach(l=>{ol.extent.extend(extgroup,l.getSource().getExtent())});';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
         // ==> cluster IPs
         const extip = src_ip.getExtent();
@@ -1231,7 +1231,7 @@ $ecr_scr .= '
                     countries,
                     grouputilisateurs,';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= ' ip_cluster,';
 }
 
@@ -1411,7 +1411,7 @@ $ecr_scr .= '
                 $("#carrets_mb i,#carrets_ac i").removeClass("fa-caret-up").addClass("fa-caret-down visually-hidden");
                 grouputilisateurs.getLayers().forEach(l=>{l.setVisible(false)});';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
                 $("#ipbox").prop("disabled", true);
                 $("#carrets_ip i").removeClass("fa-caret-up").addClass("fa-caret-down visually-hidden");
@@ -1438,7 +1438,7 @@ $ecr_scr .= '
                 $("#carrets_mb i,#carrets_ac i").removeClass("fa-caret-up visually-hidden").addClass("fa-caret-down");
                 grouputilisateurs.getLayers().forEach(l=>{l.setVisible(true)});';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
                 $("#ipbox").prop("disabled", false);
                 $("#ipbox").prop("checked", false);
@@ -1488,7 +1488,7 @@ $ecr_scr .= '
             }
         });';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
         $("#ipbox").change("click", function () {
             $("#ol_popup").hide();
@@ -1710,7 +1710,7 @@ if ($op) {
     }
 }
 
-if ($op == 'allip' and $geo_ip == 1 and autorisation(-127)) {
+if ($op == 'allip' and $geo_ip == 1 and Auth::autorisation(-127)) {
     $ecr_scr .= '
     ip_cluster.setVisible(true);
     grouputilisateurs.getLayers().forEach(l=>{l.setVisible(false)});
@@ -1784,7 +1784,7 @@ $ecr_scr .= '
         }
     }';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $ecr_scr .= '
     const ipLigne = [].slice.call(document.getElementsByClassName("filtrip_js"));
     const ipInput = document.getElementById("n_filtreip");
@@ -1912,7 +1912,7 @@ $affi = '
     <h3 class="mt-4 mb-3">' . geoloc_translate('Géolocalisation des membres du site') . '<span class="float-end"><span class="badge bg-secondary me-2" title ="' . geoloc_translate('Membres du site') . '" data-bs-toggle="tooltip" data-bs-placement="left">' . $total_membre . '</span></span></h3>
     <div class=" mb-4">
         <div id="map-wrapper" class="ol-fullscreen my-3">
-            <div id="map" lang="' . languageIso(1, 0, 0) . '" class="map" tabindex="20">
+            <div id="map" lang="' . Language::languageIso(1, 0, 0) . '" class="map" tabindex="20">
                 <div id="ol_tooltip"></div>
                 <div id="ol_popup" class="ol-popup"></div>
                 <div style="display: none;">
@@ -1956,7 +1956,7 @@ $affi = '
                 ' . $sidebaronline
     . $sidebarmembres;
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $affi .= $sidebarip;
 }
 
@@ -1966,7 +1966,7 @@ $affi .= '</div>
             <li class="nav-item"><a id="messinfo-tab" class="nav-link active" href="#infocart" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-info fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Infos carte') . '</span></a></li>
             <li class="nav-item"><a id="aide-tab" class="nav-link" href="modules/geoloc/views/manuels/' . $language . '/aide_geo-' . $language . '.html" data-bs-target="#aide" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-question fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Aide') . '</span></a></li>';
 
-if (autorisation(-127) and $geo_ip == 1) {
+if (Auth::autorisation(-127) and $geo_ip == 1) {
     $affi .= '<li class="nav-item"><a id="iplist-tab" class="nav-link " href="#ipgeolocalisation" data-bs-toggle="tab_ajax"><span class="d-sm-none"><i class=" fa fa-globe fa-lg me-2"></i><i class=" fa fa-tv fa-lg"></i></span><span class="d-none d-sm-inline">' . geoloc_translate('Ip liste') . '</span></a></li>';
 }
 

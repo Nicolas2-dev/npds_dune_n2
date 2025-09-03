@@ -1,5 +1,6 @@
 <?php
 
+
 if (! function_exists('lnlbox'))
 { 
     #autodoc lnlbox() : Bloc Little News-Letter <br />=> syntaxe : function#lnlbox

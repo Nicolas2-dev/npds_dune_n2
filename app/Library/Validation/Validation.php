@@ -2,6 +2,8 @@
 
 namespace App\Library\Validation;
 
+use App\Library\Language\Language;
+
 
 class Validation
 {
@@ -35,7 +37,7 @@ class Validation
 
             echo '<script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . languageIso(1, "_", 1) . '.min.js"></script>
+            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . Language::languageIso(1, "_", 1) . '.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
             <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
             <script type="text/javascript" src="assets/js/npds_checkfieldinp.js"></script>
@@ -107,8 +109,8 @@ class Validation
                 formulid.forEach(function(item, index, array) {
                     const fvitem = FormValidation.formValidation(
                         document.getElementById(item),{
-                        locale: "' . languageIso(1, "_", 1) . '",
-                        localization: FormValidation.locales.' . languageIso(1, "_", 1) . ',
+                        locale: "' . Language::languageIso(1, "_", 1) . '",
+                        localization: FormValidation.locales.' . Language::languageIso(1, "_", 1) . ',
                         fields: {';
 
             if ($fv_parametres != '') {

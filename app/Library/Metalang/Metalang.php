@@ -2,6 +2,9 @@
 
 namespace App\Library\Metalang;
 
+use App\Library\Code\Code;
+use App\Library\Theme\Theme;
+use App\Library\Security\Hack;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
@@ -18,7 +21,7 @@ class Metalang
      */
     public static function argFilter(string $arg): string
     {
-        return removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
+        return Hack::removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
 
     /**
@@ -31,7 +34,7 @@ class Metalang
     public static function MM_img(string $ibid): string|false
     {
         $ibid = static::argFilter($ibid);
-        $ibidX = themeImage($ibid);
+        $ibidX = Theme::themeImage($ibid);
 
         if ($ibidX) {
             $ret = '<img src="' . $ibidX . '" alt="smiley" loading="lazy" />';
@@ -400,7 +403,7 @@ class Metalang
 
         // traitement [code] ... [/code]
         if (strstr($Xcontent, '[code]')) {
-            $Xcontent = affCode($Xcontent);
+            $Xcontent = Code::affCode($Xcontent);
         }
 
         $NPDS_debug_cycle++;

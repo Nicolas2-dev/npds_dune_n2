@@ -707,7 +707,7 @@ function Configuregeoloc($subop, $ModPath, $ModStart, $ch_lat, $ch_lon, $cartyp,
     </form>
     </div>
     <div class="col-sm-4">
-    <div id="map_conf" lang="' . languageIso(1, 0, 0) . '"></div>
+    <div id="map_conf" lang="' . Language::languageIso(1, 0, 0) . '"></div>
         Icônes en service
     </div>
     </div>';

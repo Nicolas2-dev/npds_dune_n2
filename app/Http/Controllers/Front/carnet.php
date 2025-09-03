@@ -20,7 +20,7 @@ function L_encrypt($txt)
 
     $key = substr($userdata[2], 8, 8);
 
-    return encryptK($txt, $key);
+    return Encrypter::encryptK($txt, $key);
 }
 
 global $user, $Default_Theme;
@@ -48,7 +48,7 @@ if (!$user) {
 
     echo '<link id="bsth" rel="stylesheet" href="assets/skins/default/bootstrap.min.css" />';
 
-    echo importCss($tmp_theme, $language, '', '', '');
+    echo Css::importCss($tmp_theme, $language, '', '', '');
 
     include 'library/formhelp.java.php';
 
@@ -67,10 +67,10 @@ if (!$user) {
 
         if (substr($contents, 0, 5) != 'CRYPT') {
             $fp = fopen($fic, 'w');
-            fwrite($fp, 'CRYPT' . L_encrypt($contents));
+            fwrite($fp, 'CRYPT' . Encrypter::L_encrypt($contents));
             fclose($fp);
         } else {
-            $contents = decryptK(substr($contents, 5), substr($userdata[2], 8, 8));
+            $contents = Encrypter::decryptK(substr($contents, 5), substr($userdata[2], 8, 8));
         }
 
         echo '<div class="row">';

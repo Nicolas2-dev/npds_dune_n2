@@ -70,13 +70,13 @@ function fab_feed($type, $filename, $timeout)
         $story_limit++;
 
         $item = new FeedItem();
-        $item->title = previewLocalLangue($backend_language, str_replace('&quot;', '\"', $title));
+        $item->title = Language::previewLocalLangue($backend_language, str_replace('&quot;', '\"', $title));
         $item->link = $nuke_url . '/article.php?sid=' . $sid;
 
-        $item->description = metaLang(previewLocalLangue($backend_language, $hometext));
+        $item->description = Metalang::metaLang(Language::previewLocalLangue($backend_language, $hometext));
         $item->descriptionHtmlSyndicated = true;
 
-        $item->date = strtotime(getPartOfTime($time, 'yyyy-MM-dd H:m:s'));
+        $item->date = strtotime(Date::getPartOfTime($time, 'yyyy-MM-dd H:m:s'));
 
         $item->source = $nuke_url;
         $item->author = $aid;

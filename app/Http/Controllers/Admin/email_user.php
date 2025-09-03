@@ -70,7 +70,7 @@ function email_user()
                            ORDER BY groupe_id ASC");
 
     while (list($groupe_id, $groupe_name) = sql_fetch_row($resultID)) {
-        echo '<option value="' . $groupe_id . '">' . $groupe_id . ' - ' . affLangue($groupe_name);
+        echo '<option value="' . $groupe_id . '">' . $groupe_id . ' - ' . Language::affLangue($groupe_name);
     }
 
     echo '</select>
@@ -99,7 +99,7 @@ function email_user()
         </div>
     </div>';
 
-    echo affEditeur('AdmMI', '');
+    echo Editeur::affEditeur('AdmMI', '');
 
     echo '<div class="mb-3 row">
                 <div class="col-sm-12">
@@ -146,7 +146,7 @@ function email_user()
     $arg1 = 'var formulid = ["emailuseradm"];
         inpandfieldlen("subject",100);';
 
-    echo autoComplete('membre', 'uname', 'users', 'username', '86400');
+    echo Js::autoComplete('membre', 'uname', 'users', 'username', '86400');
 
     adminFoot('fv', '', $arg1, '');
 }
@@ -215,7 +215,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
         }
 
         $message = str_replace('\n', '<br />', $message);
-        $time = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
+        $time = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
         $pasfin = false;
         $count = 0;
@@ -247,7 +247,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
 
                     include 'config/signat.php';
 
-                    copyToEmail($to_userid, $sujet, $message);
+                    Mailer::copyToEmail($to_userid, $sujet, $message);
                     $message = $old_message;
                 }
             }
@@ -256,7 +256,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
     }
 
     global $aid;
-    ecrireLog('security', sprintf('SendEmailToUser(%s) by AID : %s', $subject, $aid), '');
+    Log::ecrireLog('security', sprintf('SendEmailToUser(%s) by AID : %s', $subject, $aid), '');
 
     global $hlpfile;
 

@@ -56,7 +56,7 @@ function poll_createPoll()
     while ($object = sql_fetch_assoc($result)) {
         echo '<tr>
             <td>' . $object["pollID"] . '</td>
-            <td>' . affLangue($object["pollTitle"]) . '</td>
+            <td>' . Language::affLangue($object["pollTitle"]) . '</td>
             <td>' . $object["voters"] . '</td>
             <td>
                 <a href="admin.php?op=editpollPosted&amp;id=' . $object["pollID"] . '"><i class="fa fa-edit fa-lg" title="' . adm_translate('Editer ce sondage') . '" data-bs-toggle="tooltip"></i></a>
@@ -120,7 +120,7 @@ function poll_createPosted()
     global $maxOptions, $pollTitle, $optionText, $poll_type;
 
     $timeStamp = time();
-    $pollTitle = fixQuotes($pollTitle);
+    $pollTitle = Sanitize::fixQuotes($pollTitle);
 
     $result = sql_query("INSERT INTO " . sql_prefix('poll_desc') . " 
                          VALUES (0, '$pollTitle', '$timeStamp', 0)");
@@ -129,7 +129,7 @@ function poll_createPosted()
 
     for ($i = 1; $i <= sizeof($optionText); $i++) {
         if ($optionText[$i] != '') {
-            $optionText[$i] = fixQuotes($optionText[$i]);
+            $optionText[$i] = Sanitize::fixQuotes($optionText[$i]);
         }
 
         $result = sql_query("INSERT INTO " . sql_prefix('poll_data') . " (pollID, optionText, optionCount, voteID, pollType) 
@@ -375,7 +375,7 @@ function poll_SendEditPoll()
 
     for ($i = 1; $i <= sizeof($optionText); $i++) {
         if ($optionText[$i] != '') {
-            $optionText[$i] = fixQuotes($optionText[$i]);
+            $optionText[$i] = Sanitize::fixQuotes($optionText[$i]);
         }
 
         $result = sql_query("UPDATE " . sql_prefix('poll_data') . " 

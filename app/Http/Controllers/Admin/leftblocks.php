@@ -38,8 +38,8 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
         $Lindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $content = stripslashes(fixQuotes($content));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $content = stripslashes(Sanitize::fixQuotes($content));
 
     if ($SHTML != 'ON') {
         $content = strip_tags(str_replace('<br />', '\n', $content));
@@ -49,7 +49,7 @@ function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLa
                VALUES (NULL,'$title','$content','$members', '$Lindex', '$Scache', '1','$css', '$BLaide')");
 
     global $aid;
-    ecrireLog('security', "MakeLeftBlock(" . affLangue($title) . ") by AID : $aid", "");
+    Log::ecrireLog('security', "MakeLeftBlock(" . Language::affLangue($title) . ") by AID : $aid", "");
 
     Header('Location: admin.php?op=blocks');
 }
@@ -68,7 +68,7 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
         $Lindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($Sactif == 'ON') {
         $Sactif = 1;
@@ -82,15 +82,15 @@ function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scach
         $css = 0;
     }
 
-    $content = stripslashes(fixQuotes($content));
-    $BLaide = stripslashes(fixQuotes($BLaide));
+    $content = stripslashes(Sanitize::fixQuotes($content));
+    $BLaide = stripslashes(Sanitize::fixQuotes($BLaide));
 
     sql_query("UPDATE " . sql_prefix('lblocks') . " 
                SET title='$title', content='$content', member='$members', Lindex='$Lindex', cache='$Scache', actif='$Sactif', aide='$BLaide', css='$css' 
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', "ChangeLeftBlock(" . affLangue($title) . " - $id) by AID : $aid", '');
+    Log::ecrireLog('security', "ChangeLeftBlock(" . Language::affLangue($title) . " - $id) by AID : $aid", '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -109,7 +109,7 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
         $Lindex = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
     if ($Sactif == 'ON') {
         $Sactif = 1;
     } else {
@@ -122,8 +122,8 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
         $css = 0;
     }
 
-    $content = stripslashes(fixQuotes($content));
-    $BLaide = stripslashes(fixQuotes($BLaide));
+    $content = stripslashes(Sanitize::fixQuotes($content));
+    $BLaide = stripslashes(Sanitize::fixQuotes($BLaide));
 
     sql_query("INSERT INTO " . sql_prefix('rblocks') . " 
                VALUES (NULL,'$title','$content', '$members', '$Lindex', '$Scache', '$Sactif', '$css', '$BLaide')");
@@ -132,7 +132,7 @@ function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, 
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', "MoveLeftBlockToRight(" . affLangue($title) . " - $id) by AID : $aid", '');
+    Log::ecrireLog('security', "MoveLeftBlockToRight(" . Language::affLangue($title) . " - $id) by AID : $aid", '');
 
     Header('Location: admin.php?op=blocks');
 }
@@ -143,7 +143,7 @@ function deletelblock($id)
                WHERE id='$id'");
 
     global $aid;
-    ecrireLog('security', "DeleteLeftBlock($id) by AID : $aid", '');
+    Log::ecrireLog('security', "DeleteLeftBlock($id) by AID : $aid", '');
 
     Header('Location: admin.php?op=blocks');
 }

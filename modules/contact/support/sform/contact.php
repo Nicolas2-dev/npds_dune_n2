@@ -55,17 +55,17 @@ switch ($subok) {
 
             //anti_spambot
             if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
-                ecrireLog('security', 'Contact', '');
+                Log::ecrireLog('security', 'Contact', '');
 
                 $subok = '';
             } else {
                 $message = $m->affResponse('', 'not_echo', '');
 
                 global $notify_email;
-                sendEmail($notify_email, 'Contact site', affLangue($message), '', '', 'html', '');
+                Mailer::sendEmail($notify_email, 'Contact site', Language::affLangue($message), '', '', 'html', '');
 
                 echo '<div class="alert alert-success">
-                ' . affLangue("[french]Votre demande est prise en compte. Nous y r&eacute;pondrons au plus vite[/french][english]Your request is taken into account. We will answer it as fast as possible.[/english][chinese]&#24744;&#30340;&#35831;&#27714;&#24050;&#34987;&#32771;&#34385;&#22312;&#20869;&#12290; &#25105;&#20204;&#20250;&#23613;&#24555;&#22238;&#22797;[/chinese][spanish]Su solicitud es tenida en cuenta. Le responderemos lo m&aacute;s r&aacute;pido posible.[/spanish][german]Ihre Anfrage wird ber&uuml;cksichtigt. Wir werden so schnell wie m&ouml;glich antworten[/german]") . '
+                ' . Language::affLangue("[french]Votre demande est prise en compte. Nous y r&eacute;pondrons au plus vite[/french][english]Your request is taken into account. We will answer it as fast as possible.[/english][chinese]&#24744;&#30340;&#35831;&#27714;&#24050;&#34987;&#32771;&#34385;&#22312;&#20869;&#12290; &#25105;&#20204;&#20250;&#23613;&#24555;&#22238;&#22797;[/chinese][spanish]Su solicitud es tenida en cuenta. Le responderemos lo m&aacute;s r&aacute;pido posible.[/spanish][german]Ihre Anfrage wird ber&uuml;cksichtigt. Wir werden so schnell wie m&ouml;glich antworten[/german]") . '
                 </div>';
                 break;
             }
@@ -74,6 +74,6 @@ switch ($subok) {
         }
 
     default:
-        echo affLangue($m->printForm(''));
+        echo Language::affLangue($m->printForm(''));
         break;
 }

@@ -39,7 +39,7 @@ if ($op != 'maj_subscribe') {
 
         $Xcontent = ob_get_contents();
         ob_end_clean();
-        echo metaLang(affLangue($Xcontent));
+        echo Metalang::metaLang(Language::affLangue($Xcontent));
     }
 
     include 'footer.php';

@@ -174,7 +174,7 @@ function List_metaLang()
         } else if ($type_meta == 'mot') {
             $tablmeta_c .= '<td>' . $content . '</td>';
         } else {
-            $tablmeta_c .= '<td>' . affLangue($description) . '</td>';
+            $tablmeta_c .= '<td>' . Language::affLangue($description) . '</td>';
         }
 
         $tablmeta_c .= '</tr>';
@@ -243,7 +243,7 @@ function Edit_metaLang()
         echo '<h3>' . adm_translate('Modifier un ') . ' META-MOT</h3>';
     }
 
-    echo affLocalLangue('', 'local_user_language') . '<br />', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>';
+    echo Language::affLocalLangue('', 'local_user_language') . '<br />', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>';
 
     echo '<div class="row">
         <div class="text-body-secondary col-sm-3">META</div>
@@ -262,7 +262,7 @@ function Edit_metaLang()
 
         echo $cmd;
     } else {
-        echo previewLocalLangue($local_user_language, affLangue($Q['description']));
+        echo Language::previewLocalLangue($local_user_language, Language::affLangue($Q['description']));
     }
 
     echo '</div>
@@ -421,7 +421,7 @@ function Creat_metaLang()
             }
 
             if ($type_meta == "meta") {
-                echo "function MM_XYZ (\$arg) {\n   global \sql_prefix('');\n   \$arg = argFilter(\$arg);\n\n   return(\$content);\n}";
+                echo "function MM_XYZ (\$arg) {\n   global \sql_prefix('');\n   \$arg = Metalang::argFilter(\$arg);\n\n   return(\$content);\n}";
             }
 
             echo '</textarea>
@@ -528,7 +528,7 @@ function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $d
             meta_exist($Q['def']);
         } else {
             if ($type_meta == 'smil') {
-                $content = "\$cmd=MM_img(\"$content\");";
+                $content = "\$cmd=Metalang::Metalang::MM_img(\"$content\");";
             }
 
             if ($def != '') {

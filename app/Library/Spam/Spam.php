@@ -2,6 +2,9 @@
 
 namespace App\Library\Spam;
 
+use App\Library\Http\Request;
+use App\Library\Encryption\Encrypter;
+
 
 class Spam
 {
@@ -78,7 +81,7 @@ class Spam
 
         //Captcha - si GD
         if (function_exists('imagepng')) {
-            $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
+            $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(Encrypter::encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
         } else {
             $aff = static::antiSpam($aff . ' = ', 0);
         }
@@ -92,7 +95,7 @@ class Spam
                 </div>
                 <div class="col-sm-3 text-end">
                     <input class="form-control" type="text" id="asb_reponse" name="asb_reponse" maxlength="2" onclick="this.value" />
-                    <input type="hidden" name="asb_question" value="' . encrypt($ibid[$asb_index] . ',' . time()) . '" />
+                    <input type="hidden" name="asb_question" value="' . Encrypter::encrypt($ibid[$asb_index] . ',' . time()) . '" />
                 </div>
             </div>';
         } else {
@@ -116,7 +119,7 @@ class Spam
         $maj_fic = false;
 
         if ($ip == '') {
-            $ip = getip();
+            $ip = Request::getip();
         }
 
         if (file_exists('storage/logs/spam.log')) {
@@ -192,7 +195,7 @@ class Spam
             if ($user == '') {
                 if (($asb_reponse != '') and (is_numeric($asb_reponse)) and (strlen($asb_reponse) <= 2)) {
 
-                    $ibid = decrypt($asb_question);
+                    $ibid = Encrypter::decrypt($asb_question);
                     $ibid = explode(',', $ibid);
 
                     $result = "\$arg=($ibid[0]);";

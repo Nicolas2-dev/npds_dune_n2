@@ -3,8 +3,11 @@
 namespace App\Library\Block;
 
 use FilesystemIterator;
+use App\Library\auth\Auth;
+use App\Library\Groupe\Groupe;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use App\Library\Language\Language;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
@@ -147,7 +150,7 @@ class Block
         global $SuperCache, $CACHE_TIMINGS;
 
         // Multi-Langue
-        $title = affLangue($title);
+        $title = Language::affLangue($title);
 
         // Bloc caché
         $hidden = false;
@@ -180,7 +183,7 @@ class Block
             }
         }
 
-        $content = affLangue($content);
+        $content = Language::affLangue($content);
 
         if (($SuperCache) and ($Xcache != 0)) {
             $cache_clef = md5($content);
@@ -320,9 +323,9 @@ class Block
                         }
                     }
                 } elseif (($member > 1) and (isset($user))) {
-                    $tab_groupe = validGroup($user);
+                    $tab_groupe = Groupe::validGroup($user);
 
-                    if (groupeAutorisation($member, $tab_groupe)) {
+                    if (Groupe::groupeAutorisation($member, $tab_groupe)) {
                         if (!static::blockFonction($title, $content)) {
                             if (!$hidden) {
                                 themesidebox($title, $content);
@@ -497,7 +500,7 @@ class Block
         array_pop($auto);
 
         foreach ($auto as $autovalue) {
-            if (autorisation($autovalue)) {
+            if (Auth::autorisation($autovalue)) {
                 $autoX[] = $autovalue;
             }
         }

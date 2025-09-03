@@ -53,7 +53,7 @@ function menu()
     echo '<ul class="nav nav-tabs mb-3">
         <li class="nav-item"><a class="nav-link ' . $in_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '" >' . translate('Index') . '</a></li>';
 
-    if (autorisation($links_anonaddlinklock)) {
+    if (Auth::autorisation($links_anonaddlinklock)) {
         echo '
         <li class="nav-item" ><a class="nav-link ' . $ad_l . '" href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=AddLink" >' . translate('Ajouter') . '</a></li>';
     }
@@ -204,12 +204,12 @@ function index()
 
                 echo '<tr>
                     <td>
-                    <h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlink&amp;cid=' . $cid . '">' . affLangue($title) . '</a> <span class="badge bg-secondary float-end">' . $cnumrows . '</span></h4>';
+                    <h4><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlink&amp;cid=' . $cid . '">' . Language::affLangue($title) . '</a> <span class="badge bg-secondary float-end">' . $cnumrows . '</span></h4>';
 
                 categorynewlinkgraphic($cid);
 
                 if ($cdescription) {
-                    echo '<p>' . affLangue($cdescription) . '</p>';
+                    echo '<p>' . Language::affLangue($cdescription) . '</p>';
                 }
 
                 $result2 = sql_query("SELECT sid, title 
@@ -225,7 +225,7 @@ function index()
 
                     $cnumrows = sql_num_rows($cresult3);
 
-                    echo '<h5 class="ms-4"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '">' . affLangue($stitle) . '</a> <span class="badge bg-secondary float-end">' . $cnumrows . '</span></h5>';
+                    echo '<h5 class="ms-4"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '">' . Language::affLangue($stitle) . '</a> <span class="badge bg-secondary float-end">' . $cnumrows . '</span></h5>';
                 }
 
                 echo '</td>
@@ -365,7 +365,7 @@ function viewlink($cid, $min, $orderby, $show)
 
         list($title) = sql_fetch_row($result);
 
-        echo '<h3 class="mb-3">' . affLangue($title) . '</h3>';
+        echo '<h3 class="mb-3">' . Language::affLangue($title) . '</h3>';
 
         $subresult = sql_query("SELECT sid, title 
                                 FROM " . $links_DB . "links_subcategories 
@@ -386,7 +386,7 @@ function viewlink($cid, $min, $orderby, $show)
 
             $numrows_lst = sql_num_rows($result2);
 
-            $affsouscat .= '<li class="list-group-item list-group-item-action justify-content-between align-self-start"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '">' . affLangue($title) . '</a></li>';
+            $affsouscat .= '<li class="list-group-item list-group-item-action justify-content-between align-self-start"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '">' . Language::affLangue($title) . '</a></li>';
         }
 
         $affsouscat .= '</ul>';
@@ -510,7 +510,7 @@ function viewslink($sid, $min, $orderby, $show)
 
 
         echo "<table class=\"table table-bordered\"><tr><td class=\"header\">\n";
-        echo "<a href=\"modules.php?ModStart=$ModStart&amp;ModPath=$ModPath\" class=\"box\">" . translate('Index') . "</a> / <a href=\"modules.php?ModStart=$ModStart&amp;ModPath=$ModPath&amp;op=viewlink&amp;cid=$cid\" class=\"box\">" . affLangue($title) . "</a> / " . affLangue($stitle);
+        echo "<a href=\"modules.php?ModStart=$ModStart&amp;ModPath=$ModPath\" class=\"box\">" . translate('Index') . "</a> / <a href=\"modules.php?ModStart=$ModStart&amp;ModPath=$ModPath&amp;op=viewlink&amp;cid=$cid\" class=\"box\">" . Language::affLangue($title) . "</a> / " . Language::affLangue($stitle);
         echo "</td></tr></table>";
 
         $orderbyTrans = convertorderbytrans($orderby);
@@ -610,7 +610,7 @@ function categorynewlinkgraphic($cat)
         list($time) = sql_fetch_row($newresult);
 
         if (isset($time)) {
-            setlocale(LC_TIME, affLangue($locale));
+            setlocale(LC_TIME, Language::affLangue($locale));
 
             preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $time, $datetime);
 
@@ -640,7 +640,7 @@ function newlinkgraphic($datetime, $time)
 {
     global $locale;
 
-    setlocale(LC_TIME, affLangue($locale));
+    setlocale(LC_TIME, Language::affLangue($locale));
 
     preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $time, $datetime);
 
@@ -774,7 +774,7 @@ function viewlinkeditorial($lid, $ttitle)
 
     echo '<div class="card card-body">
         <h3>' . translate('EDITO') . ' : 
-        <span class="text-body-secondary">' . affLangue($displaytitle) . '</span>';
+        <span class="text-body-secondary">' . Language::affLangue($displaytitle) . '</span>';
 
     if ($url != '') {
         echo '<span class="float-end"><a href="modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=visit&amp;lid=' . $lid . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip" data-bs-placement="left"><i class="fas fa-external-link-alt"></i></a></span>';
@@ -788,11 +788,11 @@ function viewlinkeditorial($lid, $ttitle)
             $editorialtitle = stripslashes($editorialtitle);
             $editorialtext = stripslashes($editorialtext);
 
-            $formatted_date = formatTimes($editorialtimestamp, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+            $formatted_date = Date::formatTimes($editorialtimestamp, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
-            echo '<h4>' . affLangue($editorialtitle) . '</h4>
+            echo '<h4>' . Language::affLangue($editorialtitle) . '</h4>
                 <p><span class="text-body-secondary small">' . translate('Editorial par') . ' ' . $adminid . ' - ' . $formatted_date . '</span></p>
-                <hr/>' . affLangue($editorialtext);
+                <hr/>' . Language::affLangue($editorialtext);
         }
     } else {
         echo '<p class="text-center">' . translate('Aucun édito n\'est disponible pour ce site') . '</p><br />';

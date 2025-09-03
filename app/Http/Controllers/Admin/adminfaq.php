@@ -13,6 +13,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Code\Code;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -53,7 +60,7 @@ function FaqAdmin()
     while (list($id_cat, $categories) = sql_fetch_row($result)) {
         echo '<tr>
                 <td>
-                <span title="ID : ' . $id_cat . '">' . affLangue($categories) . '</span>
+                <span title="ID : ' . $id_cat . '">' . Language::affLangue($categories) . '</span>
                 <br />
                 <a href="admin.php?op=FaqCatGo&amp;id_cat=' . $id_cat . '" class="noir">
                     <i class="fa fa-level-up-alt fa-lg fa-rotate-90 " title="' . adm_translate('Voir') . '" data-bs-toggle="tooltip"></i>
@@ -96,7 +103,7 @@ function FaqAdmin()
     $arg1 = 'var formulid = ["adminfaqcatad"];
         inpandfieldlen("categories",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatGo($id_cat)
@@ -115,17 +122,17 @@ function FaqCatGo($id_cat)
                             WHERE fa.id_cat='$id_cat' ORDER BY id");
 
     while (list($id, $question, $answer, $categories) = sql_fetch_row($result)) {
-        $faq_cat = affLangue($categories);
-        $answer = affCode(affLangue($answer));
+        $faq_cat = Language::affLangue($categories);
+        $answer = Code::affCode(Language::affLangue($answer));
 
         $lst_qr .= '<li id="qr_' . $id . '" class="list-group-item">
             <div class="topi">
                 <h5 id="q_' . $id . '" class="list-group-item-heading">
                 <a class="" href="admin.php?op=FaqCatGoEdit&amp;id=' . $id . '" title="' . adm_translate('Editer la question réponse') . '" data-bs-toggle="tooltip">
-                    ' . affLangue($question) . '
+                    ' . Language::affLangue($question) . '
                 </a>
                 </h5>
-                <p class="list-group-item-text">' . metaLang($answer) . '</p>
+                <p class="list-group-item-text">' . Metalang::metaLang($answer) . '</p>
                 <div id="shortcut-tools_' . $id . '" class="n-shortcut-tools" style="display:none;">
                 <a class="text-danger btn" href="admin.php?op=FaqCatGoDel&amp;id=' . $id . '&amp;ok=0">
                     <i class="fas fa-trash fa-2x" title="' . adm_translate('Supprimer la question réponse') . '" data-bs-toggle="tooltip" data-bs-placement="left"></i>
@@ -156,7 +163,7 @@ function FaqCatGo($id_cat)
                 </div>
             </div>';
 
-    echo affEditeur('answer', false);
+    echo Editeur::affEditeur('answer', false);
 
     echo '<div class="mb-3 row">
                 <div class="col-sm-12 d-flex flex-row justify-content-start flex-wrap">
@@ -191,7 +198,7 @@ function FaqCatGo($id_cat)
     $arg1 = 'var formulid = ["adminfaqquest"];
         inpandfieldlen("question",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatEdit($id_cat)
@@ -237,7 +244,7 @@ function FaqCatEdit($id_cat)
     $arg1 = 'var formulid = ["adminfaqcated"];
         inpandfieldlen("categories",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatGoEdit($id)
@@ -262,14 +269,14 @@ function FaqCatGoEdit($id)
     <h4>' . adm_translate('Prévisualiser') . '</h4>';
 
     echo '<label class="col-form-label" for="">'
-        . affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
+        . Language::affLocalLangue('', 'local_user_language', adm_translate('Langue de Prévisualisation')) . '
     </label>
     <div class="card card-body mb-3">
-    <p>' . previewLocalLangue($local_user_language, $question) . '</p>';
+    <p>' . Language::previewLocalLangue($local_user_language, $question) . '</p>';
 
-    $answer = affCode($answer);
+    $answer = Code::affCode($answer);
 
-    echo '<p>' . metaLang(previewLocalLangue($local_user_language, $answer)) . '</p>
+    echo '<p>' . Metalang::metaLang(Language::previewLocalLangue($local_user_language, $answer)) . '</p>
     </div>';
 
     echo '<h4>' . adm_translate('Editer Question & Réponse') . '</h4>
@@ -288,7 +295,7 @@ function FaqCatGoEdit($id)
                 <textarea class="tin form-control" name="answer" rows="15">' . $answer . '</textarea>
                 </div>
             </div>
-            ' . affEditeur('answer', '') . '
+            ' . Editeur::affEditeur('answer', '') . '
             <div class="mb-3 row">
                 <div class="col-sm-12 d-flex flex-row justify-content-center flex-wrap">
                 <input type="hidden" name="id" value="' . $id . '">
@@ -303,12 +310,12 @@ function FaqCatGoEdit($id)
     $arg1 = 'var formulid = ["adminfaqquested"];
         inpandfieldlen("question",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function FaqCatSave($old_id_cat, $id_cat, $categories)
 {
-    $categories = stripslashes(fixQuotes($categories));
+    $categories = stripslashes(Sanitize::fixQuotes($categories));
 
     if ($old_id_cat != $id_cat) {
         sql_query("UPDATE " . sql_prefix('faqanswer') . " 
@@ -325,8 +332,8 @@ function FaqCatSave($old_id_cat, $id_cat, $categories)
 
 function FaqCatGoSave($id, $question, $answer)
 {
-    $question   = stripslashes(fixQuotes($question));
-    $answer     = stripslashes(fixQuotes($answer));
+    $question   = stripslashes(Sanitize::fixQuotes($question));
+    $answer     = stripslashes(Sanitize::fixQuotes($answer));
 
     sql_query("UPDATE " . sql_prefix('faqanswer') . " 
                SET question='$question', answer='$answer' 
@@ -337,7 +344,7 @@ function FaqCatGoSave($id, $question, $answer)
 
 function FaqCatAdd($categories)
 {
-    $categories = stripslashes(fixQuotes($categories));
+    $categories = stripslashes(Sanitize::fixQuotes($categories));
 
     sql_query("INSERT INTO " . sql_prefix('faqcategories') . " 
                VALUES (NULL, '$categories')");
@@ -347,8 +354,8 @@ function FaqCatAdd($categories)
 
 function FaqCatGoAdd($id_cat, $question, $answer)
 {
-    $question   = stripslashes(fixQuotes($question));
-    $answer     = stripslashes(fixQuotes($answer));
+    $question   = stripslashes(Sanitize::fixQuotes($question));
+    $answer     = stripslashes(Sanitize::fixQuotes($answer));
 
     sql_query("INSERT INTO " . sql_prefix('faqanswer') . " 
                VALUES (NULL, '$id_cat', '$question', '$answer')");

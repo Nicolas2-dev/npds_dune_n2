@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Http\Request;
+
+
 if (! function_exists('online'))
 { 
     #autodoc online() : Bloc Online (Who_Online) <br />=> syntaxe : function#online
@@ -7,7 +10,7 @@ if (! function_exists('online'))
     {
         global $user, $cookie;
 
-        $ip = getip();
+        $ip = Request::getip();
 
         $username = isset($cookie[1]) ? $cookie[1] : '';
 

@@ -82,7 +82,7 @@ if (isset($submitS)) {
             include 'header.php';
         } else {
             if (($username == '') or ($password == '')) {
-                forumError('0027');
+                Error::forumError('0027');
             } else {
                 $result = sql_query("SELECT pass 
                                      FROM " . sql_prefix('users') . " 
@@ -93,18 +93,18 @@ if (isset($submitS)) {
                 $passwd = (!$system) ? crypt($password, $pass) : $password;
 
                 if ((strcmp($passwd, $pass) == 0) and ($pass != '')) {
-                    $userdata = getUserData($username);
+                    $userdata = Forum::getUserData($username);
 
                     include 'header.php';
                 } else {
-                    forumError('0028');
+                    Error::forumError('0028');
                 }
             }
         }
     } else {
         $userX = base64_decode($user);
         $userdata = explode(':', $userX);
-        $userdata = getUserData($userdata[1]);
+        $userdata = Forum::getUserData($userdata[1]);
 
         include 'header.php';
     }
@@ -112,16 +112,16 @@ if (isset($submitS)) {
     // Either valid user/pass, or valid session. continue with post.
     if ($stop != 1) {
 
-        $poster_ip =  getip();
+        $poster_ip =  Request::getip();
         $hostname = $dns_verif ? gethostbyaddr($poster_ip) : $poster_ip;
 
         // anti flood
-        antiFlood($Mmod, $antiFlood, $poster_ip, $userdata, $gmt);
+        Forum::antiFlood($Mmod, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
         if (isset($asb_question) and isset($asb_reponse)) {
             if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
-                ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
+                Log::ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
                 redirectUrl($url_ret);
                 die();
@@ -140,15 +140,15 @@ if (isset($submitS)) {
             $message .= ' [addsig]';
         }
 
-        $message = afCode($message);
-        $message = smile($message);
+        $message = Code::afCode($message);
+        $message = Smilies::smile($message);
 
-        $message = makeClickable($message);
+        $message = Forum::makeClickable($message);
         $message = removeHack($message);
 
         $image_subject = '';
 
-        $message = addslashes(dataImageToFileUrl($message, 'modules/upload/storage/co'));
+        $message = addslashes(Base64Image::dataImageToFileUrl($message, 'modules/upload/storage/co'));
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
 
@@ -156,7 +156,7 @@ if (isset($submitS)) {
                 VALUES ('0', '$topic', '$image_subject', '$forum', '" . $userdata['uid'] . "', '$message', '$time', '$poster_ip', '$hostname')";
 
         if (!$result = sql_query($sql)) {
-            forumError('0020');
+            Error::forumError('0020');
         } else {
             $IdPost = sql_last_id();
         }
@@ -168,7 +168,7 @@ if (isset($submitS)) {
         $result = sql_query($sql);
 
         if (!$result) {
-            forumError('0029');
+            Error::forumError('0029');
         }
 
         // ordre de mise à jour d'un champ externe ?
@@ -184,7 +184,7 @@ if (isset($submitS)) {
 
             $cmessage = '🔔 ' . translate('Nouveau commentaire') . ' ==> <a href="' . $nuke_url . '/' . $url_ret . '">' . $nuke_url . '/' . $url_ret . '</a>';
 
-            sendEmail($notify_email, $csubject, $cmessage, $notify_from, false, 'html', '');
+            Mailer::sendEmail($notify_email, $csubject, $cmessage, $notify_from, false, 'html', '');
         }
 
         redirectUrl($url_ret);
@@ -223,21 +223,21 @@ if (isset($submitS)) {
     if ($allow_to_reply) {
         if (isset($submitP)) {
 
-            $time = formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+            $time = Date::formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
             if (isset($user)) {
                 $userY = base64_decode($user);
                 $userdata = explode(':', $userY);
-                $userdata = getUserData($userdata[1]);
+                $userdata = Forum::getUserData($userdata[1]);
             } else {
                 $userdata = array('uid' => 1);
-                $userdata = getUserData($userdata['uid']);
+                $userdata = Forum::getUserData($userdata['uid']);
             }
 
-            $theposterdata = getUserDataFromId($userdata['uid']);
+            $theposterdata = Forum::getUserDataFromId($userdata['uid']);
 
             $messageP = $message;
-            $messageP = afCode($messageP);
+            $messageP = Code::afCode($messageP);
 
             echo '<h4>' . translate('Prévisualiser') . '</h4>
             <div class="row">
@@ -257,7 +257,7 @@ if (isset($submitS)) {
                         }
                     }
 
-                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
+                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-html="true" data-bs-title="' . $theposterdata['uname'] . '" data-bs-content=\'' . Forum::memberQualif($theposterdata['uname'], $theposterdata['posts'], $theposterdata['rang']) . '\'><img class=" btn-secondary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $theposterdata['uname'] . '" /></a>';
                 }
             }
 
@@ -273,7 +273,7 @@ if (isset($submitS)) {
                 highlight_string(stripslashes($messageP));
             } else {
                 if ($allow_bbcode) {
-                    $messageP = smilie($messageP);
+                    $messageP = Smilies::smilie($messageP);
                 }
 
                 if ($allow_sig == 1 and isset($sig)) {
@@ -314,12 +314,12 @@ if (isset($submitS)) {
 
                     $text = $m['post_text'];
 
-                    $text = smile($text);
+                    $text = Smilies::smile($text);
 
                     $text = str_replace('<br />', "\n", $text);
                     $text = stripslashes($text);
 
-                    $text = desafCode($text);
+                    $text = Code::desafCode($text);
 
                     $reply = ($m['post_time'] != '' && $m['uname'] != '')
                         ? '<div class="blockquote">' . translate('Citation') . ' : <strong>' . $m['uname'] . '</strong>' . "\n" . $text . '</div>'
@@ -341,12 +341,12 @@ if (isset($submitS)) {
                     <div class="card-header">
                         <div class="float-start">';
 
-            putitems('ta_comment');
+            Smilies::putitems('ta_comment');
 
             echo '</div>';
 
             echo ($allow_html == 1)
-                ? '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . htmlAdd()
+                ? '<span class="text-success float-end mt-2" title="HTML ' . translate('Activé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>' . Forum::htmlAdd()
                 : '<span class="text-danger float-end mt-2" title="HTML ' . translate('Désactivé') . '" data-bs-toggle="tooltip"><i class="fa fa-code fa-lg"></i></span>';
 
             echo '</div>
@@ -449,7 +449,7 @@ if (isset($submitS)) {
 
             while ($myrow = sql_fetch_assoc($result)) {
 
-                $posterdata = getUserDataFromId($myrow['poster_id']);
+                $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
 
                 echo '<div class="card my-3">
                 <div class="card-header">';
@@ -460,14 +460,14 @@ if (isset($submitS)) {
 
                 echo $posterdata['uid'] != 1 ? $posterdata['uname'] : $anonymous;
 
-                echo '<span class="float-end text-body-secondary small">' . translate('Posté : ') . formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</span>
+                echo '<span class="float-end text-body-secondary small">' . translate('Posté : ') . Date::formatTimes($myrow['post_time'], IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</span>
                 </div>
                 <div class="card-body">';
 
                 $message = stripslashes($myrow['post_text']);
 
                 if ($allow_bbcode) {
-                    $message = smilie($message);
+                    $message = Smilies::smilie($message);
                 }
 
                 // <a href in the message

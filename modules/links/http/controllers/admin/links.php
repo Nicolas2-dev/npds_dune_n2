@@ -37,7 +37,7 @@ if ($links_DB == '') {
 //$hlpfile = 'modules/' . substr($ModPath, 0, $pos) . '/manuels/' . $language . '/mod-weblinks.php';
 $hlpfile = 'modules/' . $ModPath . '/views/manuels/' . $language . '/mod-weblinks.php';
 
-if (autorisation(-127)) {
+if (Auth::autorisation(-127)) {
     $result = sql_query("SELECT radminsuper 
                          FROM " . sql_prefix('authors') . " 
                          WHERE aid='$aid'");
@@ -188,7 +188,7 @@ function links()
                 $sel = 'selected="selected"';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . Language::affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -202,7 +202,7 @@ function links()
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle) . ' / ' . affLangue($stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . Language::affLangue($ctitle) . ' / ' . Language::affLangue($stitle) . '</option>';
             }
         }
 
@@ -230,7 +230,7 @@ function links()
                     $sel = 'selected="selected" ';
                 }
 
-                echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+                echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
                 $sel = '';
             }
@@ -247,7 +247,7 @@ function links()
                 </div>
             </div>';
 
-        echo affEditeur('xtext', '');
+        echo Editeur::affEditeur('xtext', '');
 
         echo '<div class="mb-3 row">
                     <label class="col-form-label col-sm-3" for="name">' . translate('Nom') . '</label>
@@ -323,7 +323,7 @@ function links()
             <select class="form-select" id="catlinkadd" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . Language::affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -331,7 +331,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . Language::affLangue($title . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -353,7 +353,7 @@ function links()
             echo '<option value="">' . translate('Tous les sujets') . '</option>';
 
             while (list($topicid, $topics) = sql_fetch_row($toplist)) {
-                echo '<option value="' . $topicid . '">' . affLangue($topics) . '</option>';
+                echo '<option value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
             }
 
             echo '</select>
@@ -369,7 +369,7 @@ function links()
         </div>';
 
         if ($adminform == '') {
-            echo affEditeur("xtext", "false");
+            echo Editeur::affEditeur("xtext", "false");
         }
 
         echo '<div class="mb-3 row">
@@ -446,7 +446,7 @@ function links()
                 <select class="form-select" id="modcat" name="cat">';
 
         while (list($cid, $title) = sql_fetch_row($result)) {
-            echo '<option value="' . $cid . '">' . affLangue($title) . '</option>';
+            echo '<option value="' . $cid . '">' . Language::affLangue($title) . '</option>';
 
             $result2 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -454,7 +454,7 @@ function links()
                                   ORDER BY title");
 
             while (list($sid, $stitle) = sql_fetch_row($result2)) {
-                echo '<option value="' . $cid . '-' . $sid . '">' . affLangue($title . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $cid . '-' . $sid . '">' . Language::affLangue($title . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -500,7 +500,7 @@ function links()
                 <select class="form-select" id="cidsubcatadd" name="cid">';
 
         while (list($ccid, $ctitle) = sql_fetch_row($result)) {
-            echo '<option value="' . $ccid . '">' . affLangue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '">' . Language::affLangue($ctitle) . '</option>';
         }
 
         echo '</select>
@@ -564,11 +564,11 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
         $cat[1] = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $url = stripslashes(fixQuotes($url));
-    $description = stripslashes(fixQuotes($description));
-    $name = stripslashes(fixQuotes($name));
-    $email = stripslashes(fixQuotes($email));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $url = stripslashes(Sanitize::fixQuotes($url));
+    $description = stripslashes(Sanitize::fixQuotes($description));
+    $name = stripslashes(Sanitize::fixQuotes($name));
+    $email = stripslashes(Sanitize::fixQuotes($email));
 
     sql_query("INSERT INTO " . $links_DB . "links_links 
                VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', now(), '$name', '$email', '0','$submitter',0,0,0,'$topicL')");
@@ -591,7 +591,7 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 
             include 'config/signat.php';
 
-            sendEmail($email, $subject, $message, '', false, 'html', '');
+            Mailer::sendEmail($email, $subject, $message, '', false, 'html', '');
         }
     }
 
@@ -658,7 +658,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 $sel = 'selected="selected"';
             }
 
-            echo '<option value="' . $ccid . '" ' . $sel . '>' . affLangue($ctitle) . '</option>';
+            echo '<option value="' . $ccid . '" ' . $sel . '>' . Language::affLangue($ctitle) . '</option>';
 
             $result3 = sql_query("SELECT sid, title 
                                   FROM " . $links_DB . "links_subcategories 
@@ -672,7 +672,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                     $sel = 'selected="selected"';
                 }
 
-                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . affLangue($ctitle . ' / ' . $stitle) . '</option>';
+                echo '<option value="' . $ccid . '-' . $ssid . '" ' . $sel . '>' . Language::affLangue($ctitle . ' / ' . $stitle) . '</option>';
             }
         }
 
@@ -697,7 +697,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 if ($topicid == $topicid_card)
                     $sel = 'selected="selected"';
 
-                echo '<option ' . $sel . ' value="' . $topicid . '">' . affLangue($topics) . '</option>';
+                echo '<option ' . $sel . ' value="' . $topicid . '">' . Language::affLangue($topics) . '</option>';
 
                 $sel = '';
             }
@@ -720,7 +720,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
                 </div>
             </div>';
 
-        echo affEditeur('xtext', '');
+        echo Editeur::affEditeur('xtext', '');
 
         echo '
             <div class="mb-3 row">
@@ -776,7 +776,7 @@ function LinksModLink($lid, $modifylinkrequest_adv_infos)
         } else {
             list($adminid, $editorialtimestamp, $editorialtext, $editorialtitle) = sql_fetch_row($resulted2);
 
-            $formatted_date = formatTimes($editorialtimestamp, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+            $formatted_date = Date::formatTimes($editorialtimestamp, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
             echo translate('Modifier l\'édito') . " : " . translate('Auteur') . " : $adminid / $formatted_date<br /><br />";
 
@@ -824,11 +824,11 @@ function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $
         $cat[1] = 0;
     }
 
-    $title = stripslashes(fixQuotes($title));
-    $url = stripslashes(fixQuotes($url));
-    $description = stripslashes(fixQuotes($description));
-    $name = stripslashes(fixQuotes($name));
-    $email = stripslashes(fixQuotes($email));
+    $title = stripslashes(Sanitize::fixQuotes($title));
+    $url = stripslashes(Sanitize::fixQuotes($url));
+    $description = stripslashes(Sanitize::fixQuotes($description));
+    $name = stripslashes(Sanitize::fixQuotes($name));
+    $email = stripslashes(Sanitize::fixQuotes($email));
 
     sql_query("UPDATE " . $links_DB . "links_links 
                SET cid='$cat[0]', sid='$cat[1]', title='$title', url='$url', description='$description', name='$name', email='$email', hits='$hits', submitter='$name', topicid_card='$topicL' 
@@ -872,7 +872,7 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
 {
     global $ModPath, $ModStart, $links_DB;
 
-    $editorialtext = stripslashes(fixQuotes($editorialtext));
+    $editorialtext = stripslashes(Sanitize::fixQuotes($editorialtext));
 
     sql_query("UPDATE " . $links_DB . "links_editorials 
                SET editorialtext='$editorialtext', editorialtitle='$editorialtitle' 
@@ -895,7 +895,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext)
 {
     global $ModPath, $ModStart, $links_DB;
 
-    $editorialtext = stripslashes(fixQuotes($editorialtext));
+    $editorialtext = stripslashes(Sanitize::fixQuotes($editorialtext));
 
     global $aid;
 
@@ -1006,7 +1006,7 @@ function LinksModCat($cat)
         echo '<form method="post" action="modules.php">
             <input type="hidden" name="ModPath" value="' . $ModPath . '" />
             <input type="hidden" name="ModStart" value="' . $ModStart . '" />
-            ' . translate('Nom de la catégorie : ') . affLangue($ctitle) . '<br /><br />
+            ' . translate('Nom de la catégorie : ') . Language::affLangue($ctitle) . '<br /><br />
             ' . translate('Nom de la sous-catégorie : ') . '
             <input class="form-control" type="text" name="title" value="' . $stitle . '" maxlength="250" /></span>
             <input type="hidden" name="sub" value="1" />
