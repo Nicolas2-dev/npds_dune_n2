@@ -1,6 +1,6 @@
 <?php
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Stat\Stat;
 use App\Library\Theme\Theme;
 

@@ -14,7 +14,7 @@
 /************************************************************************/
 
 use App\Library\Log\Log;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\auth\Auth;
 use App\Library\News\News;
 use App\Library\Edito\Edito;

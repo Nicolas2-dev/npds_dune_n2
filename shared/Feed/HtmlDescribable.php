@@ -4,6 +4,12 @@
  * An HtmlDescribable is an item within a feed that can have a description that may
  * include HTML markup.
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedHtmlField;
+
+
 class HtmlDescribable
 {
 

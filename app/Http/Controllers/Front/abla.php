@@ -14,7 +14,7 @@
 /************************************************************************/
 
 use App\Library\Url\Url;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Error\Error;
 use App\Library\Forum\Forum;
 use App\Library\Validation\Validation;

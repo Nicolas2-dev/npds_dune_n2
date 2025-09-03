@@ -16,6 +16,14 @@
  * @since 1.6
  * @author Kai Blankenhorn <kaib@bitfolge.de>, Scott Reynen <scott@randomchaos.com>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedDate;
+use Shared\Feed\FeedCreator;
+use Shared\Feed\FeedCreatorConfig;
+
+
 class AtomCreator03 extends FeedCreator
 {
 
@@ -96,4 +104,5 @@ class AtomCreator03 extends FeedCreator
 
         return $feed;
     }
+    
 }

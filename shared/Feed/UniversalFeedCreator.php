@@ -9,6 +9,18 @@
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedCreator;
+use Shared\Feed\MBOXCreator;
+use Shared\Feed\OPMLCreator;
+use Shared\Feed\RSSCreator10;
+use Shared\Feed\RSSCreator20;
+use Shared\Feed\AtomCreator03;
+use Shared\Feed\RSSCreator091;
+
+
 class UniversalFeedCreator extends FeedCreator
 {
 

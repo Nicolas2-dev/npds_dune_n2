@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Support;
+namespace Shared\FileSend;
 
-use App\Support\Compress\GzFile;
-use App\Support\Compress\ZipFile;
+use Shared\FileSend\Compress\GzFile;
+use Shared\FileSend\Compress\ZipFile;
 
 
 class FileSender

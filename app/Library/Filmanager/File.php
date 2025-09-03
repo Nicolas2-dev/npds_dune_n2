@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace App\Library\FileManagement;
 
 use App\Library\Theme\Theme;
 

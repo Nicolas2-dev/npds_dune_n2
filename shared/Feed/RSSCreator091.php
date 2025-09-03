@@ -7,6 +7,14 @@
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedDate;
+use Shared\Feed\FeedCreator;
+use Shared\Feed\FeedCreatorConfig;
+
+
 class RSSCreator091 extends FeedCreator
 {
 
@@ -43,10 +51,12 @@ class RSSCreator091 extends FeedCreator
 
         $feed .= $this->_createGeneratorComment();
 
+        $FeedCreator = new FeedCreator();
+
         // $feed.= $this->_createStylesheetReferences();
         $feed .= "<rss version=\"" . $this->RSSVersion . "\">\n";
         $feed .= "    <channel>\n";
-        $feed .= "        <title>" . FeedCreator::iTrunc(htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
+        $feed .= "        <title>" . $FeedCreator->iTrunc(htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
 
         $this->descriptionTruncSize = 500;
 
@@ -61,7 +71,7 @@ class RSSCreator091 extends FeedCreator
         if ($this->image != null) {
             $feed .= "        <image>\n";
             $feed .= "            <url>" . $this->image->url . "</url>\n";
-            $feed .= "            <title>" . FeedCreator::iTrunc(htmlspecialchars($this->image->title, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
+            $feed .= "            <title>" . $FeedCreator->iTrunc(htmlspecialchars($this->image->title, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
             $feed .= "            <link>" . $this->image->link . "</link>\n";
 
             if ($this->image->width != '') {
@@ -84,15 +94,15 @@ class RSSCreator091 extends FeedCreator
         }
 
         if ($this->copyright != '') {
-            $feed .= "        <copyright>" . FeedCreator::iTrunc(htmlspecialchars($this->copyright, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</copyright>\n";
+            $feed .= "        <copyright>" . $FeedCreator->iTrunc(htmlspecialchars($this->copyright, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</copyright>\n";
         }
 
         if ($this->editor != "") {
-            $feed .= "        <managingEditor>" . FeedCreator::iTrunc(htmlspecialchars($this->editor, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</managingEditor>\n";
+            $feed .= "        <managingEditor>" . $FeedCreator->iTrunc(htmlspecialchars($this->editor, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</managingEditor>\n";
         }
 
         if ($this->webmaster != '') {
-            $feed .= "        <webMaster>" . FeedCreator::iTrunc(htmlspecialchars($this->webmaster, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</webMaster>\n";
+            $feed .= "        <webMaster>" . $FeedCreator->iTrunc(htmlspecialchars($this->webmaster, ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</webMaster>\n";
         }
 
         if ($this->pubDate != '') {
@@ -105,7 +115,7 @@ class RSSCreator091 extends FeedCreator
         }
 
         if ($this->docs != '') {
-            $feed .= "        <docs>" . FeedCreator::iTrunc(htmlspecialchars($this->docs, ENT_COMPAT | ENT_HTML401, $this->encoding), 500) . "</docs>\n";
+            $feed .= "        <docs>" . $FeedCreator->iTrunc(htmlspecialchars($this->docs, ENT_COMPAT | ENT_HTML401, $this->encoding), 500) . "</docs>\n";
         }
 
         if ($this->ttl != '') {
@@ -113,7 +123,7 @@ class RSSCreator091 extends FeedCreator
         }
 
         if ($this->rating != '') {
-            $feed .= "        <rating>" . FeedCreator::iTrunc(htmlspecialchars($this->rating, ENT_COMPAT | ENT_HTML401, $this->encoding), 500) . "</rating>\n";
+            $feed .= "        <rating>" . $FeedCreator->iTrunc(htmlspecialchars($this->rating, ENT_COMPAT | ENT_HTML401, $this->encoding), 500) . "</rating>\n";
         }
 
         if ($this->skipHours != '') {
@@ -128,7 +138,7 @@ class RSSCreator091 extends FeedCreator
 
         for ($i = 0; $i < count($this->items); $i++) {
             $feed .= "        <item>\n";
-            $feed .= "            <title>" . FeedCreator::iTrunc(htmlspecialchars(strip_tags($this->items[$i]->title), ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
+            $feed .= "            <title>" . $FeedCreator->iTrunc(htmlspecialchars(strip_tags($this->items[$i]->title), ENT_COMPAT | ENT_HTML401, $this->encoding), 100) . "</title>\n";
             $feed .= "            <link>" . htmlspecialchars($this->items[$i]->link, ENT_COMPAT | ENT_HTML401, $this->encoding) . "</link>\n";
             $feed .= "            <description>" . $this->items[$i]->getDescription() . "</description>\n";
 

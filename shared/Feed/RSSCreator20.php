@@ -7,6 +7,12 @@
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\RSSCreator091;
+
+
 class RSSCreator20 extends RSSCreator091
 {
 
@@ -14,4 +20,5 @@ class RSSCreator20 extends RSSCreator091
     {
         parent::_setRSSVersion('2.0');
     }
+    
 }

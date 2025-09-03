@@ -7,6 +7,13 @@
  * @author Dirk Clemens, Kai Blankenhorn
  * @since 1.5
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedDate;
+use Shared\Feed\FeedCreator;
+
+
 class OPMLCreator extends FeedCreator
 {
 

@@ -7,6 +7,12 @@
  * @author Pascal Van Hecke <feedcreator.class.php@vanhecke.info>
  * @version 1.6
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedCreator;
+
+
 class FeedHtmlField
 {
 
@@ -34,11 +40,6 @@ class FeedHtmlField
         }
     }
 
-    public function FeedHtmlField($parFieldContent)
-    {
-        self::__construct($parFieldContent);
-    }
-
     /**
      * Creates the right output, depending on $truncSize, $syndicateHtml properties.
      * @return string the formatted field
@@ -54,7 +55,10 @@ class FeedHtmlField
             $result = '<![CDATA[' . $this->rawFieldContent . ']]>';
         } else {
             if ($this->truncSize and is_int($this->truncSize)) {
-                $result = FeedCreator::iTrunc(htmlspecialchars($this->rawFieldContent, ENT_COMPAT | ENT_HTML401, 'UTF-8'), $this->truncSize);
+
+                $FeedCreator = new FeedCreator();
+                
+                $result = $FeedCreator->iTrunc(htmlspecialchars($this->rawFieldContent, ENT_COMPAT | ENT_HTML401, 'UTF-8'), $this->truncSize);
             } else {
                 $result = htmlspecialchars($this->rawFieldContent, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             }

@@ -13,15 +13,16 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-use App\Support\File;
-use App\Support\Sanitize;
 use App\Library\auth\Auth;
 use App\Library\Date\Date;
+use App\Library\Http\Request;
 use App\Library\Mailer\Mailer;
 use App\Library\Security\Hack;
-use App\Support\FileManagement;
+use App\Library\String\Sanitize;
 use App\Library\Language\Language;
+use App\Library\FileManagement\File;
 use App\Library\Paginator\Paginator;
+use App\Library\FileManagement\FileManagement;
 
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';

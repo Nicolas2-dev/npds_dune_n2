@@ -16,7 +16,7 @@
 /* version 1.0 17/02/2016                                               */
 /************************************************************************/
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Forum\Forum;
 use App\Library\Security\Hack;
 use App\Library\User\UserMenu;

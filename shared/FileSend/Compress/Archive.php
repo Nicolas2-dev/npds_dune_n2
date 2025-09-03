@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Compress;
+namespace Shared\FileSend\Compress;
 
 
 /**

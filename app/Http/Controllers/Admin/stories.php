@@ -15,7 +15,7 @@
 
 use App\Library\Log\Log;
 use App\Library\Url\Url;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Date\Date;
 use App\Library\News\News;
 use App\Library\Theme\Theme;

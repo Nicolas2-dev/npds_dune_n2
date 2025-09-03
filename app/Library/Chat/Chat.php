@@ -2,7 +2,7 @@
 
 namespace App\Library\Chat;
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Block\Block;
 use App\Library\Http\Request;
 use App\Library\Security\Hack;

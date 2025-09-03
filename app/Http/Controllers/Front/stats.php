@@ -13,7 +13,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Theme\Theme;
 
 if (!function_exists('Mysql_Connexion')) {

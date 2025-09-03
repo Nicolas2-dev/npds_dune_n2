@@ -3,7 +3,7 @@
 namespace App\Library\Groupe;
 
 use IntlDateFormatter;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Assets\Js;
 use App\Library\auth\Auth;
 use App\Library\Date\Date;

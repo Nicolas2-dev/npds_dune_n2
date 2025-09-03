@@ -15,7 +15,7 @@
 /* 2003 by snipe / vote unique, implémentation de la table appli_log    */
 /************************************************************************/
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Http\Request;
 use App\Library\Language\Language;
 use App\Library\Pollbooth\Pollbooth;

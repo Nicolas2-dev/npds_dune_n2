@@ -8,6 +8,13 @@
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  * @since 1.4
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\HtmlDescribable;
+use Shared\Feed\FeedCreatorConfig;
+
+
 class FeedCreator extends HtmlDescribable
 {
 
@@ -57,6 +64,7 @@ class FeedCreator extends HtmlDescribable
      */
     var $additionalElements = array();
 
+    
     /**
      * Adds an FeedItem to the feed.
      *

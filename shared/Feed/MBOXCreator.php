@@ -7,6 +7,13 @@
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedDate;
+use Shared\Feed\FeedCreator;
+
+
 class MBOXCreator extends FeedCreator
 {
 
@@ -72,17 +79,19 @@ class MBOXCreator extends FeedCreator
 
             $itemDate = new FeedDate($this->items[$i]->date);
 
-            $feed = "From " . strtr(MBOXCreator::qp_enc($from), " ", "_") . " " . date("D M d H:i:s Y", $itemDate->unix()) . "\n";
+            $FeedCreator = new FeedCreator();
+
+            $feed = "From " . strtr($this->qp_enc($from), " ", "_") . " " . date("D M d H:i:s Y", $itemDate->unix()) . "\n";
             $feed .= "Content-Type: text/plain;\n";
             $feed .= "   charset=\"" . $this->encoding . "\"\n";
             $feed .= "Content-Transfer-Encoding: quoted-printable\n";
             $feed .= "Content-Type: text/plain\n";
-            $feed .= "From: \"" . MBOXCreator::qp_enc($from) . "\"\n";
+            $feed .= "From: \"" . $this->qp_enc($from) . "\"\n";
             $feed .= "Date: " . $itemDate->rfc822() . "\n";
-            $feed .= "Subject: " . MBOXCreator::qp_enc(FeedCreator::iTrunc($this->items[$i]->title, 100)) . "\n";
+            $feed .= "Subject: " . $this->qp_enc($FeedCreator->iTrunc($this->items[$i]->title, 100)) . "\n";
             $feed .= "\n";
 
-            $body = chunk_split(MBOXCreator::qp_enc($this->items[$i]->description));
+            $body = chunk_split($this->qp_enc($this->items[$i]->description));
 
             $feed .= preg_replace("~\nFrom ([^\n]*)(\n?)~", "\n>From $1$2\n", $body);
 

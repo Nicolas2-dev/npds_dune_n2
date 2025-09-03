@@ -1,6 +1,6 @@
 <?php
 
-use App\Support\FileSender;
+use Shared\FileSend\FileSender;
 
 
 if (! function_exists('get_os')) {

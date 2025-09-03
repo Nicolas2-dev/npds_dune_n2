@@ -3,9 +3,11 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Npds\\": "npds/"
+            "Npds\\": "npds/",
+            "Shared\\": "shared/"
         },
         "files": [
+            "shared/Support/helpers.php",
             "npds/Support/helpers.php"
         ]
     },

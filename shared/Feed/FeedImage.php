@@ -5,6 +5,12 @@
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  * @since 1.3
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\HtmlDescribable;
+
+
 class FeedImage extends HtmlDescribable
 {
 

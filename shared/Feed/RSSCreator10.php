@@ -7,6 +7,13 @@
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedDate;
+use Shared\Feed\FeedCreator;
+
+
 class RSSCreator10 extends FeedCreator
 {
 

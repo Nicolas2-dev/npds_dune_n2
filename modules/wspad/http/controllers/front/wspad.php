@@ -18,7 +18,7 @@
 /* member='-1'      => PAD des admins (si un admin est connecté)          */
 /**************************************************************************/
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Assets\Js;
 use App\Library\Date\Date;
 use App\Library\Groupe\Groupe;

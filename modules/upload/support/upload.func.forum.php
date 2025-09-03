@@ -12,7 +12,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-use App\Support\FileManagement;
+use App\Library\FileManagement\FileManagement;
 
 if (preg_match('#upload\.func\.forum\.php#', $_SERVER['PHP_SELF'])) {
     die();
@@ -329,7 +329,7 @@ function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_s
 
     if ($att_inline) { // $att_inline ==> exemple sur un insert en base de donner :  1 
         if (isset($mime_dspfmt[$att_type])) { // $att_type ==> exemple sur un insert en base de donner : 'image/jpeg'
-            $display_mode = $mime_dspfmt[$att_type];// $att_type ==> exemple sur un insert en base de donner : 'image/jpeg'
+            $display_mode = $mime_dspfmt[$att_type]; // $att_type ==> exemple sur un insert en base de donner : 'image/jpeg'
             // donc ici : $display_mode = 'image/jpeg'
         } else {
             $display_mode = $mime_dspfmt[$mimetype_default]; // ==> config : $mimetype_default = 'application/octet-stream';

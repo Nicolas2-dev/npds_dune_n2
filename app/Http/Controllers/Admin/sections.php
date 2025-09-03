@@ -13,7 +13,7 @@
 /************************************************************************/
 
 use App\Library\Log\Log;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Groupe\Groupe;
 use App\Library\Mailer\Mailer;
 use App\Library\Editeur\Editeur;

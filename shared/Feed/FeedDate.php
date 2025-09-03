@@ -4,6 +4,12 @@
  * FeedDate is an internal class that stores a date for a feed or feed item.
  * Usually, you won't need to use this.
  */
+
+namespace Shared\Feed;
+
+use Shared\Feed\FeedCreatorConfig;
+
+
 class FeedDate
 {
 
@@ -15,7 +21,6 @@ class FeedDate
      * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps.
      * @param mixed $dateString optional the date this FeedDate will represent. If not specified, the current date and time is used.
      */
-
     public function __construct($dateString = '')
     {
         if ($dateString == '') {
@@ -98,9 +103,9 @@ class FeedDate
     /**
      * Gets the date stored in this FeedDate as an RFC 822 date.
      *
-     * @return a date in RFC 822 format
+     * @return string date in RFC 822 format
      */
-    function rfc822()
+    function rfc822(): string 
     {
         global $gmt;
 
@@ -117,9 +122,9 @@ class FeedDate
     /**
      * Gets the date stored in this FeedDate as an ISO 8601 date.
      *
-     * @return a date in ISO 8601 format
+     * @return string La date au format ISO 8601
      */
-    function iso8601()
+    function iso8601(): string
     {
         global $gmt;
 
@@ -136,12 +141,13 @@ class FeedDate
     /**
      * Gets the date stored in this FeedDate as unix time stamp.
      *
-     * @return a date as a unix time stamp
+     * @return string date as a unix time stamp
      */
-    function unix()
+    function unix(): string
     {
         global $gmt;
 
         return $this->unix + (3600 * (int)$gmt);
     }
+
 }

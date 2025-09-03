@@ -2,7 +2,7 @@
 
 namespace App\Library\News;
 
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Code\Code;
 use App\Library\Groupe\Groupe;
 use App\Library\Language\Language;

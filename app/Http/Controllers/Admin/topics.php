@@ -14,7 +14,7 @@
 /************************************************************************/
 
 use App\Library\Log\Log;
-use App\Support\Sanitize;
+use App\Library\String\Sanitize;
 use App\Library\Assets\Js;
 use App\Library\Language\Language;
 use App\Library\Validation\Validation;
