@@ -22,6 +22,8 @@
 /* Version 1.3 - 2015                                                   */
 /************************************************************************/
 
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

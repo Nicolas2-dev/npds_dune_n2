@@ -1,6 +1,5 @@
 <?php
 
-
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -14,22 +13,29 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Date\Date;
+use App\Library\News\News;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 include 'mainfile.php';
 
-include 'library/feed/HtmlDescribable.php';
-include 'library/feed/FeedCreator.php';
-include 'library/feed/AtomCreator03.php';
-include 'library/feed/FeedCreatorConfig.php';
-include 'library/feed/FeedDate.php';
-include 'library/feed/FeedHtmlField.php';
-include 'library/feed/FeedImage.php';
-include 'library/feed/FeedItem.php';
-include 'library/feed/MBOXCreator.php';
-include 'library/feed/OPMLCreator.php';
-include 'library/feed/RSSCreator091.php';
-include 'library/feed/RSSCreator10.php';
-include 'library/feed/RSSCreator20.php';
-include 'library/feed/UniversalFeedCreator.php';
+// note a revoir pour les namespace !
+
+include 'Library\Feed\HtmlDescribable.php';
+include 'Library\Feed\FeedCreator.php';
+include 'Library\Feed\AtomCreator03.php';
+include 'Library\Feed\FeedCreatorConfig.php';
+include 'Library\Feed\FeedDate.php';
+include 'Library\Feed\FeedHtmlField.php';
+include 'Library\Feed\FeedImage.php';
+include 'Library\Feed\FeedItem.php';
+include 'Library\Feed\MBOXCreator.php';
+include 'Library\Feed\OPMLCreator.php';
+include 'Library\Feed\RSSCreator091.php';
+include 'Library\Feed\RSSCreator10.php';
+include 'Library\Feed\RSSCreator20.php';
+include 'Library\Feed\UniversalFeedCreator.php';
 
 function fab_feed($type, $filename, $timeout)
 {

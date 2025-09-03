@@ -13,6 +13,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

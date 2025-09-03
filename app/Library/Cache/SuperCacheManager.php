@@ -20,6 +20,8 @@
 
 namespace App\Library\Cache;
 
+use App\Library\Cache\CacheLock;
+
 
 /**
  * Classe de gestion du cache des pages.

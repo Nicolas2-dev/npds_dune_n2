@@ -13,6 +13,14 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Http\Request;
+use App\Library\Mailer\Mailer;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 include_once 'mainfile.php';
 
 function viewbanner()

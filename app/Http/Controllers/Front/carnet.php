@@ -10,17 +10,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Assets\Css;
+use App\Library\Encryption\Encrypter;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
-}
-
-function L_encrypt($txt)
-{
-    global $userdata;
-
-    $key = substr($userdata[2], 8, 8);
-
-    return Encrypter::encryptK($txt, $key);
 }
 
 global $user, $Default_Theme;
@@ -67,7 +61,7 @@ if (!$user) {
 
         if (substr($contents, 0, 5) != 'CRYPT') {
             $fp = fopen($fic, 'w');
-            fwrite($fp, 'CRYPT' . Encrypter::L_encrypt($contents));
+            fwrite($fp, 'CRYPT' . Encrypter::lEncrypt($contents));
             fclose($fp);
         } else {
             $contents = Encrypter::decryptK(substr($contents, 5), substr($userdata[2], 8, 8));

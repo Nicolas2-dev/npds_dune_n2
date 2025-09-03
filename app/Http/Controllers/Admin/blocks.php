@@ -13,6 +13,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Groupe\Groupe;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

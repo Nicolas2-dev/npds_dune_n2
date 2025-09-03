@@ -1,5 +1,7 @@
 <?php
 
+use App\Library\Language\Language;
+
 /************************************************************************/
 /* NPDS DUNE : Net Portal Dynamic System .                              */
 /* ===========================                                          */

@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Encryption\Encrypter;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

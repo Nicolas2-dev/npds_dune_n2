@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */

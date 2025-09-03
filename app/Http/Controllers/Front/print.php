@@ -13,6 +13,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Code\Code;
+use App\Library\Date\Date;
+use App\Library\News\News;
+use App\Library\Security\Hack;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

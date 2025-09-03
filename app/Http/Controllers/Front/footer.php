@@ -13,6 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

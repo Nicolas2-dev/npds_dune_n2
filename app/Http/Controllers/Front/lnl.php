@@ -13,6 +13,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Library\Url\Url;
+use App\Library\Spam\Spam;
+use App\Library\Forum\Forum;
+use App\Library\Http\Request;
+use App\Library\Mailer\Mailer;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

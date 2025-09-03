@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Log\Log;
+use App\Library\Validation\Validation;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -281,7 +284,7 @@ switch ($op) {
         break;
 
     case 'supercache_empty':
-        SC_clean();
+        sc_clean();
         global $aid;
         Log::ecrireLog('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
 

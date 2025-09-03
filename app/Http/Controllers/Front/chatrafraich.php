@@ -1,7 +1,5 @@
 <?php
 
-use App\Support\Sanitize;
-
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -12,6 +10,16 @@ use App\Support\Sanitize;
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Assets\Css;
+use App\Library\Forum\Forum;
+use App\Library\Media\Smilies;
+use App\Library\Security\Hack;
+use App\Library\Encryption\Encrypter;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

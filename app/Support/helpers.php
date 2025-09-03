@@ -173,13 +173,13 @@ if (! function_exists('q_clean')) {
     }
 }
 
-if (! function_exists('sc_lean')) {
+if (! function_exists('sc_clean')) {
     /**
      * Nettoie tout le cache général, sauf fichiers de configuration spécifiques, puis nettoie le cache SQL.
      *
      * @return void
      */
-    function sc_lean(): void
+    function sc_clean(): void
     {
         global $CACHE_CONFIG;
 

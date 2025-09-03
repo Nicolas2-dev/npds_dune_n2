@@ -13,6 +13,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\auth\Auth;
+use App\Library\Language\Language;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

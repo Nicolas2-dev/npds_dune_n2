@@ -12,6 +12,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -27,7 +31,7 @@ $hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
 function mod_main($title, $description)
 {
-    $title = stripslashes(Sanitize::$title));
+    $title = stripslashes(Sanitize::fixQuotes($title));
     $description = stripslashes(Sanitize::fixQuotes($description));
 
     sql_query("UPDATE " . sql_prefix('reviews_main') . " 

@@ -1,5 +1,12 @@
 <?php
 
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -356,7 +363,7 @@ function themedito(string $content): string|false
             "'!editorial_content!'i"    => $content
         );
 
-        echo metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
     }
 
     return $inclusion;

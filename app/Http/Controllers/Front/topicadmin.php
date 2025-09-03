@@ -14,6 +14,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Spam\Spam;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

@@ -10,6 +10,15 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Groupe\Groupe;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Media\MediaPlayer;
+use App\Library\Metalang\Metalang;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

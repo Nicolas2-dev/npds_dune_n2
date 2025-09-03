@@ -25,6 +25,10 @@
 /* Version 2.0 - 30/08/2015 by jpb                                      */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

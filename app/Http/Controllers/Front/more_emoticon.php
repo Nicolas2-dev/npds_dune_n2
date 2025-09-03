@@ -13,6 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Assets\Css;
+use App\Library\Media\Smilies;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

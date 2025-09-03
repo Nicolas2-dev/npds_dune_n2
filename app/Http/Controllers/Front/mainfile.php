@@ -13,6 +13,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Block\Block;
+use App\Library\Cookie\Cookie;
+use App\Library\Session\Session;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 require __DIR__ . '/vendor/autoload.php';
 
 include 'bootstrap/grab_globals.php';
@@ -20,22 +26,11 @@ include 'config/config.php';
 include 'bootstrap/multi-langue.php';
 include 'language/' . $language . '/lang-' . $language . '.php';
 
-include 'library/supercache/SuperCacheManager.php';
-include 'library/supercache/SuperCacheEmpty.php';
-include 'library/supercache/cache.php';
+
 include_once 'config/cache.config.php';
 include_once 'config/cache.timings.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-
-require 'shared/PHPMailer/src/Exception.php';
-require 'shared/PHPMailer/src/PHPMailer.php';
-require 'shared/PHPMailer/src/SMTP.php';
-
 include 'library/database/mysqli.php';
-include 'library/meta-lang/adv-meta_lang.php';
 
 $dblink = Mysql_Connexion();
 

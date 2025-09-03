@@ -17,6 +17,8 @@
 /* Adapted by : M. PASCAL aKa EBH (plan.net@free.fr)                                         */
 /*********************************************************************************************/
 
+use App\Library\Url\Url;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

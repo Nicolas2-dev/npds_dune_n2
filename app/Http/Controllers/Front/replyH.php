@@ -14,6 +14,21 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Library\Url\Url;
+use App\Library\Code\Code;
+use App\Library\Spam\Spam;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Http\Request;
+use App\Library\Mailer\Mailer;
+use App\Library\Media\Smilies;
+use App\Library\Security\Hack;
+use App\Library\Subscribe\Subscribe;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

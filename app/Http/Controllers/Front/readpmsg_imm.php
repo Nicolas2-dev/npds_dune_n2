@@ -13,6 +13,16 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Assets\Css;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Media\Smilies;
+use App\Library\Language\Language;
+use App\Library\Media\MediaPlayer;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

@@ -13,6 +13,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Code\Code;
+use App\Library\Date\Date;
+use App\Library\News\News;
+use App\Library\Language\Language;
+
 function code_aff($subject, $story, $bodytext, $notes)
 {
     global $local_user_language;

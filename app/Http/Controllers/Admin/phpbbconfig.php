@@ -14,6 +14,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -306,7 +308,7 @@ function ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_pa
     sql_query("UPDATE " . sql_prefix('config') . " 
                SET allow_html='$allow_html', allow_bbcode='$allow_bbcode', allow_sig='$allow_sig', posts_per_page='$posts_per_page', hot_threshold='$hot_threshold', topics_per_page='$topics_per_page', allow_upload_forum='$allow_upload_forum', allow_forum_hide='$allow_forum_hide', rank1='$rank1', rank2='$rank2', rank3='$rank3', rank4='$rank4', rank5='$rank5', antiFlood='$antiFlood', solved='$solved'");
 
-    Q_Clean();
+    q_clean();
 
     Header('Location: admin.php?op=ForumConfigAdmin');
 }

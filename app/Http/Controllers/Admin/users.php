@@ -1,5 +1,6 @@
 
 <?php
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -12,6 +13,13 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
+use App\Library\Log\Log;
+use App\Library\Assets\Js;
+use App\Library\Date\Date;
+use App\Library\Forum\Forum;
+use App\Library\Password\Password;
+use App\Library\Validation\Validation;
 
 if (!function_exists('admindroits')) {
     include 'die.php';

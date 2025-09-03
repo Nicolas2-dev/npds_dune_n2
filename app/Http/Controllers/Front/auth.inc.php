@@ -13,6 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Library\Password\Password;
+
 function Admin_alert($motif)
 {
     global $admin;

@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+
 if (stristr($_SERVER['PHP_SELF'], 'sitemap.php')) {
     die();
 }

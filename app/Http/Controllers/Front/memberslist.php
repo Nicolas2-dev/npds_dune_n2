@@ -11,6 +11,14 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Spam\Spam;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Security\Hack;
+use App\Library\Paginator\Paginator;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

@@ -13,6 +13,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Support\Sanitize;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Validation\Validation;
+
 if (!stristr($_SERVER['PHP_SELF'], 'admin.php')) {
     include 'admin/die.php';
 }

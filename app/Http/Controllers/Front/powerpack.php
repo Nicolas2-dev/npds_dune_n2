@@ -13,6 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Messenger\Messenger;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

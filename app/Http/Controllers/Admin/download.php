@@ -13,6 +13,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Groupe\Groupe;
+use App\Support\FileManagement;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -199,9 +205,9 @@ function DownloadAdmin()
             $Fichier = new FileManagement;
 
             if ($dfilesize != 0) {
-                echo $Fichier->file_size_format($dfilesize, 1);
+                echo $Fichier->fileSizeFormat($dfilesize, 1);
             } else {
-                echo $Fichier->file_size_auto($durl, 2);
+                echo $Fichier->fileSizeAuto($durl, 2);
             }
 
             echo '</span></td>

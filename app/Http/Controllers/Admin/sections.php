@@ -11,6 +11,16 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
+
+use App\Library\Log\Log;
+use App\Support\Sanitize;
+use App\Library\Groupe\Groupe;
+use App\Library\Mailer\Mailer;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Media\Base64Image;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

@@ -13,6 +13,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Support\Sanitize;
+use App\Library\Language\Language;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }

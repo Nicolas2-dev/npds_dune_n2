@@ -122,5 +122,23 @@ class Encrypter
         return $tmp;
     }
     
+    /**
+     * Chiffre une chaîne en utilisant une clé dérivée de l'utilisateur courant.
+     *
+     * La clé est extraite depuis $userdata[2] (8 caractères à partir de l'offset 8),
+     * puis transmise à {@see static::encryptK()} pour effectuer le chiffrement.
+     *
+     * @param string $txt Texte en clair à chiffrer.
+     * @return string     Texte chiffré tel que retourné par encryptK().
+     */
+    public static function lEncrypt(string $txt): string
+    {
+        global $userdata;
+
+        $key = substr($userdata[2], 8, 8);
+
+        return static::encryptK($txt, $key);
+    }
+
 }
 

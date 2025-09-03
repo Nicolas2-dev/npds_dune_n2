@@ -18,6 +18,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Language\Language;
+use App\Library\Password\Password;
+
 // définition des versions requises pour la MAJ
 define('NEW_VERSION', 'v.16.8');
 
@@ -41,19 +45,6 @@ if ($langue) {
     } else {
         include_once 'install/language/' . $langue . '/' . $langue . '.php';
     }
-}
-
-#autodoc fixQuotes($what) : Quote une chaîne contenant des '
-function fixQuotes($what = '')
-{
-    $what = str_replace("&#39;", "'", $what);
-    $what = str_replace("'", "''", $what);
-
-    while (preg_match("#\\\\'#", $what)) {
-        $what = str_replace("\\\\'", "'", $what);
-    }
-
-    return $what;
 }
 
 // ==> renvoi la version Php et une variable de blocage si elle est inférieure à celle désirée : 5.6
@@ -173,7 +164,7 @@ function write_others($new_nuke_url, $new_sitename, $new_Titlesitename, $new_slo
     $new_Titlesitename = htmlentities(stripslashes($new_Titlesitename));
     $new_slogan = htmlentities(stripslashes($new_slogan));
     $new_startdate = stripslashes($new_startdate);
-    $new_nuke_url = fixQuotes($new_nuke_url);
+    $new_nuke_url = Sanitize::fixQuotes($new_nuke_url);
 
     $file = file('config/config.php');
 
@@ -284,68 +275,6 @@ function write_upload($new_max_size, $new_DOCUMENTROOT, $new_autorise_upload_p, 
     return $stage8_ok;
 }
 
-#autodoc languageIso($l,$s,$c) : renvoi le code language iso 639-1 et code pays ISO 3166-2  $l=> 0 ou 1(requis), $s, $c=> 0 ou 1 (requis)
-function languageIso($l, $s, $c)
-{
-    global $langue;
-
-    $iso_lang = '';
-    $iso_country = '';
-    $ietf = '';
-
-    switch ($langue) {
-
-        case 'french':
-            $iso_lang = 'fr';
-            $iso_country = 'FR';
-            break;
-
-        case 'english':
-            $iso_lang = 'en';
-            $iso_country = 'US';
-            break;
-
-        case 'spanish':
-            $iso_lang = 'es';
-            $iso_country = 'ES';
-            break;
-
-        case 'german':
-            $iso_lang = 'de';
-            $iso_country = 'DE';
-            break;
-
-        case 'chinese':
-            $iso_lang = 'zh';
-            $iso_country = 'CN';
-            break;
-
-        default:
-            break;
-    }
-
-    if ($c !== 1) {
-        $ietf = $iso_lang;
-    }
-
-    if (($l == 1) and ($c == 1)) {
-        $ietf = $iso_lang . $s . $iso_country;
-    }
-
-    if (($l !== 1) and ($c == 1)) {
-        $ietf = $iso_country;
-    }
-
-    if (($l !== 1) and ($c !== 1)) {
-        $ietf = '';
-    }
-
-    if (($l == 1) and ($c !== 1)) {
-        $ietf = $iso_lang;
-    }
-
-    return $ietf;
-}
 
 function formval($fv, $fv_parametres, $arg1, $foo)
 {
@@ -505,39 +434,3 @@ function formval($fv, $fv_parametres, $arg1, $foo)
     }
 }
 
-#autodoc getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms=100) : permet de calculer le cout algorythmique optimum pour la procédure de hashage
-function getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms = 100)
-{
-    for ($i = 4; $i < 13; $i++) {
-        $calculCost = ['cost' => $i];
-        $time_start = microtime(true);
-
-        password_hash($pass, $AlgoCrypt, $calculCost);
-
-        $time_end = microtime(true);
-
-        if (($time_end - $time_start) * 1000 > $min_ms) {
-            return $i;
-        }
-    }
-}
-
-function themeList()
-{
-    $handle = opendir('themes');
-
-    while (false !== ($file = readdir($handle))) {
-        if (($file[0] !== '_')
-            and (!strstr($file, '.'))
-            and (!strstr($file, '__vierge'))
-            and (!strstr($file, 'base'))
-        ) {
-            $themelist[] = $file;
-        }
-    }
-
-    natcasesort($themelist);
-    closedir($handle);
-
-    return implode(' ', $themelist);
-}

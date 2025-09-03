@@ -41,6 +41,10 @@
 /*    avant d'afficher le fichier                                       */
 /************************************************************************/
 
+use App\Library\Code\Code;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

@@ -13,6 +13,16 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\File;
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Mailer\Mailer;
+use App\Library\Security\Hack;
+use App\Support\FileManagement;
+use App\Library\Language\Language;
+use App\Library\Paginator\Paginator;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
@@ -65,7 +75,7 @@ function geninfo($did, $out_template)
         //$Fichier = new File($durl);
         $objZF = new FileManagement;
 
-        echo ($dfilesize != 0) ? $objZF->file_size_format($dfilesize, 1) : $objZF->file_size_auto($durl, 2);
+        echo ($dfilesize != 0) ? $objZF->fileSizeFormat($dfilesize, 1) : $objZF->fileSizeAuto($durl, 2);
 
         echo '</p>
                <p><strong>' . translate('Version') . '&nbsp;:</strong>&nbsp;' . $dver . '</p>
@@ -422,7 +432,7 @@ function listdownloads($dcategory, $sortby, $sortorder)
         }
 
         echo '</td>
-        <td class="text-center">' . $Fichier->Affiche_Extention('webfont') . '</td>
+        <td class="text-center">' . $Fichier->afficheExtention('webfont') . '</td>
         <td>';
 
         if ($okfile == true) {
@@ -435,8 +445,8 @@ function listdownloads($dcategory, $sortby, $sortorder)
         <td class="small text-center">';
 
         echo ($dfilesize != 0)
-            ? $FichX->file_size_format($dfilesize, 1)
-            : $FichX->file_size_auto($durl, 2);
+            ? $FichX->fileSizeFormat($dfilesize, 1)
+            : $FichX->fileSizeAuto($durl, 2);
 
         echo '</td>
             <td>' . Language::affLangue(stripslashes($dcat)) . '</td>

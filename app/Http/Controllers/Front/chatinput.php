@@ -11,6 +11,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\auth\Auth;
+use App\Library\Chat\Chat;
+use App\Library\Assets\Css;
+use App\Library\Http\Request;
+use App\Library\Media\Smilies;
+use App\Library\Encryption\Encrypter;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }

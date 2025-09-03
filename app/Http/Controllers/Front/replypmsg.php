@@ -13,6 +13,20 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Assets\Js;
+use App\Library\Code\Code;
+use App\Library\Date\Date;
+use App\Library\Assets\Css;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Mailer\Mailer;
+use App\Library\Media\Smilies;
+use App\Library\Security\Hack;
+use App\Library\Media\MediaPlayer;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Validation\Validation;
+use App\Library\Cache\SuperCacheManager;
+
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
@@ -394,7 +408,7 @@ if (isset($user)) {
         }
 
         if (!$reply) {
-            $carnet = javaPopup("carnet.php", "CARNET", 300, 350);
+            $carnet = Js::javaPopup("carnet.php", "CARNET", 300, 350);
             $carnet = '<a href="javascript:void(0);" onclick="window.open(' . $carnet . '); ">';
 
             echo $carnet . '<span class="small">' . translate('Carnet d\'adresses') . '</span></a>';

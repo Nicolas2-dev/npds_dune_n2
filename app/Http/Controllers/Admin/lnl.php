@@ -13,6 +13,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Date\Date;
+use App\Library\Groupe\Groupe;
+use App\Library\Mailer\Mailer;
+use App\Library\Editeur\Editeur;
+use App\Library\Metalang\Metalang;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include 'die.php';
 }
@@ -1110,7 +1117,7 @@ switch ($op) {
         if ($deb >= $nrows) {
             if ((($OXtype == 'All') and ($Xtype == 'Mbr')) or ($OXtype == '')) {
                 if (($message != '') and ($subject != '')) {
-                    $timeX = getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
+                    $timeX = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
                     if ($OXtype == 'All') {
                         $Xtype = 'All';

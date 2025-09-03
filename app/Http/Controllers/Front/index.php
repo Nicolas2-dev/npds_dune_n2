@@ -13,6 +13,15 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\News\News;
+use App\Library\Edito\Edito;
+use App\Library\Subscribe\Subscribe;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
+
 // Modification pour IZ-Xinstall - EBH - JPB & PHR
 if (file_exists('IZ-Xinstall.ok')) {
     if (file_exists('install.php') || is_dir('install')) {
