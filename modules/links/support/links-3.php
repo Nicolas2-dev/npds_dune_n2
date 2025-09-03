@@ -15,6 +15,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }

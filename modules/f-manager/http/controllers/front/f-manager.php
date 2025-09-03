@@ -11,6 +11,15 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Library\Url\Url;
+use App\Library\Theme\Theme;
+use App\Library\Http\Request;
+use App\Library\Groupe\Groupe;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Encryption\Encrypter;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }
@@ -1394,6 +1403,7 @@ if ($inclusion) {
         //]]>
     </script>
 <?php
+
 
     // l'insertion de la FORM d'édition doit intervenir à la fin du calcul de l'interface ... sinon on modifie le contenu
     // Meta_lang n'est pas chargé car trop lent pour une utilisation sur de gros répertoires

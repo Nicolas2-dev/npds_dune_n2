@@ -15,6 +15,8 @@
 /* dev team :                                                           */
 /************************************************************************/
 
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');
 }

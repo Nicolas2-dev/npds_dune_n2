@@ -1,5 +1,8 @@
 <?php
 
+use App\Library\Groupe\Groupe;
+use App\Library\Security\Hack;
+
 // Gestion Ascii étendue
 function extend_ascii($ibid)
 {

@@ -14,6 +14,16 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Spam\Spam;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+use App\Library\Media\Smilies;
+use App\Library\Media\MediaPlayer;
+use App\Library\Paginator\Paginator;
+
 if (!function_exists("Mysql_Connexion")) {
     die();
 }

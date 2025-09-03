@@ -11,6 +11,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Library\Language\Language;
+use App\Library\Media\Base64Image;
+
 function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
 {
     global $tiny_mce;

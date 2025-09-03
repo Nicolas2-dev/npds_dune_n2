@@ -15,6 +15,17 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Log\Log;
+use App\Library\Url\Url;
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Spam\Spam;
+use App\Library\Security\Hack;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Media\Base64Image;
+use App\Library\Validation\Validation;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }

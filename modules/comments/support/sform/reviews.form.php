@@ -11,6 +11,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Spam\Spam;
+
 // Champ Combo : hauteur = 5 
 $tmp = array(
     'a1' => array('en' => '1', 'selected' => false),

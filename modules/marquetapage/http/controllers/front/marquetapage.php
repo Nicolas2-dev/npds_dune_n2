@@ -13,6 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Library\Security\Hack;
+
 function marquetapage_add($uri, $topic, $action)
 {
     global $cookie, $nuke_url;

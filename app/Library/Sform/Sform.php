@@ -983,7 +983,7 @@ class Sform
      *
      * @return void
      */
-    private function makeResponse(): void
+    public function makeResponse(): void
     {
         for ($i = 0; $i < count($this->form_fields); $i++) {
             $this->answer[$i] = '';

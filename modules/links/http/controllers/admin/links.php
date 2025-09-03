@@ -15,6 +15,13 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\auth\Auth;
+use App\Library\Date\Date;
+use App\Library\Mailer\Mailer;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+
 if (!function_exists('Access_Error')) {
     die();
 }

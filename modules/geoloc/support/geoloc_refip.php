@@ -17,6 +17,9 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
+use App\Library\Http\Response;
+use App\Library\Security\Hack;
+
 #autodoc geoloc_refip : contrôle si l'ip est déjà dans la base et incrémentation du compteur de visite de l'ip <br /> ou choisi un fournisseur en fonction du protocol du site et des clefs disponibles et complète la table ip_loc. 
 
 $file_path = array(

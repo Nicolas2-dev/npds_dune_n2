@@ -11,6 +11,12 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Library\Theme\Theme;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
+use App\Library\Encryption\Encrypter;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }

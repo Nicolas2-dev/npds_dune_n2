@@ -17,6 +17,8 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
+use App\Library\Language\Language;
+
 #autodoc localiser_ip() : construit la carte pour l'ip géoréférencée ($iptoshow) à localiser
 function localiser_ip($iptoshow)
 {

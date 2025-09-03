@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Http\Request;
+
 if (!isset($FILEUPLOAD)) {
 
     define('_FILEUPLOAD', 1);

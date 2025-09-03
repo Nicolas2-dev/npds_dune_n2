@@ -14,6 +14,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Url\Url;
+use App\Library\Error\Error;
+
 if (!function_exists('Mysql_Connexion')) {
     die();
 }

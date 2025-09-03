@@ -13,6 +13,11 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Date\Date;
+use App\Library\Assets\Css;
+use App\Library\Language\Language;
+use App\Library\Encryption\Encrypter;
+
 // For More security
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();

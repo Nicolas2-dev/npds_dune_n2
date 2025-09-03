@@ -16,6 +16,8 @@
 /* version 1.0 17/02/2016                                               */
 /************************************************************************/
 
+use App\Library\Validation\Validation;
+
 // For More security
 if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');

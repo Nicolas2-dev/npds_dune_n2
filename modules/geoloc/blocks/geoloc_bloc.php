@@ -17,6 +17,8 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
+use App\Library\Language\Language;
+
 $ModPath = 'geoloc';
 
 global $nuke_url;

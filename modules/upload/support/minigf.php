@@ -114,6 +114,10 @@
 </script>
 
 <?php
+
+use App\Support\FileManagement;
+use App\Library\Language\Language;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -175,7 +179,7 @@ if (is_array($att)) {
         $id = $att[$i]['att_id'];
         $tsz += $att[$i]['att_size'];
 
-        $sz = $Fichier->file_size_format($att[$i]['att_size'], 2);
+        $sz = $Fichier->fileSizeFormat($att[$i]['att_size'], 2);
 
         if (getAttDisplayMode($att[$i]['att_type'], 'A') == ATT_DSP_LINK) {
             // This mime-type can't be displayed inline
@@ -202,7 +206,7 @@ if (is_array($att)) {
                     </tr>';
     }
 
-    $total_sz = $Fichier->file_size_format($tsz, 1);
+    $total_sz = $Fichier->fileSizeFormat($tsz, 1);
 
     $visu_button = '';
 
@@ -242,7 +246,7 @@ if (is_array($att)) {
 
 $tf = new FileManagement;
 
-$oo = $tf->file_size_format($MAX_FILE_SIZE, 1);
+$oo = $tf->fileSizeFormat($MAX_FILE_SIZE, 1);
 
 $att_upload_table = '<div class="card card-body my-2">
     <div class="mb-2 row">

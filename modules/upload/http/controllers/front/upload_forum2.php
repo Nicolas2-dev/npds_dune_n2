@@ -12,6 +12,10 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Assets\Css;
+use App\Library\Error\Error;
+use App\Library\Forum\Forum;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }
@@ -25,11 +29,10 @@ global $Titlesitename;
 $forum = $IdForum;
 
 include_once 'auth.php';
-include_once 'functions.php';
 include_once 'modules/upload/language/' . $language . '/upload.lang-' . $language . '.php';
 include_once 'modules/upload/config/upload.conf.forum.php';
 include_once 'modules/upload/support/upload.func.forum.php';
-include_once 'library/file/File.php';
+
 
 $inline_list['1'] = upload_translate('Oui');
 $inline_list['0'] = upload_translate('Non');

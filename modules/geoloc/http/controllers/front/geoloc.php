@@ -17,6 +17,10 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
+use App\Library\auth\Auth;
+use App\Library\Security\Hack;
+use App\Library\Language\Language;
+
 /*
 le géoréférencement des anonymes est basé sur un décodage des adresse ip
 le géoréférencement des membres sur une géolocalisation exacte réalisé par l'utilisateur

@@ -15,6 +15,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Date\Date;
+use App\Library\Language\Language;
+
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
 }

@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Support\FileManagement;
+
 if (preg_match('#upload\.func\.forum\.php#', $_SERVER['PHP_SELF'])) {
     die();
 }
@@ -469,7 +471,7 @@ function getAttachmentUrl($apli, $post_id, $att_id, $att_path, $att_type, $att_s
         default: // display as link
             $Fichier = new FileManagement;
 
-            $att_size = $Fichier->file_size_format($att_size, 1);
+            $att_size = $Fichier->fileSizeFormat($att_size, 1);
 
             $att_icon = att_icon($att_name);
 

@@ -13,6 +13,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Security\Hack;
+
 global $NPDS_Prefix;
 
 if ($uriBlocNote) {

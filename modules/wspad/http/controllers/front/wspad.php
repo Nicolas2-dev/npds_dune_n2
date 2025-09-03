@@ -18,6 +18,17 @@
 /* member='-1'      => PAD des admins (si un admin est connecté)          */
 /**************************************************************************/
 
+use App\Support\Sanitize;
+use App\Library\Assets\Js;
+use App\Library\Date\Date;
+use App\Library\Groupe\Groupe;
+use App\Library\Security\Hack;
+use App\Library\Editeur\Editeur;
+use App\Library\Language\Language;
+use App\Library\Media\Base64Image;
+use App\Library\Metalang\Metalang;
+use App\Library\Encryption\Encrypter;
+
 // For More security
 if (!stristr($_SERVER['PHP_SELF'], 'modules.php')) {
     die();
@@ -284,7 +295,7 @@ function Liste_Page()
                     <td class="small">' . Date::formatTimes($modtime, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</td>';
 
                 // voir la révision du ranq x
-                $PopUp = javaPopup(
+                $PopUp = Js::javaPopup(
                     'modules.php?ModPath=' . $ModPath . '&amp;ModStart=preview&amp;pad=' . Encrypter::encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
                     'NPDS_wspad',
                     500,
@@ -308,7 +319,7 @@ function Liste_Page()
                     </a>';
 
                     // exporter la révision du ranq x
-                    $PopUp = javaPopup(
+                    $PopUp = Js::javaPopup(
                         'modules.php?ModPath=' . $ModPath . '&amp;ModStart=export&amp;type=doc&amp;pad=' . Encrypter::encrypt($page . '#wspad#' . $groupe . '#wspad#' . $ranq),
                         'NPDS_wspad',
                         5,

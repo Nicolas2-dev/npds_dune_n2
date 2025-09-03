@@ -13,6 +13,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Validation\Validation;
+
 // For More security
 if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');

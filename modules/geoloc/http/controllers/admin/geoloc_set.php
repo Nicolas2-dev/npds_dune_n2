@@ -17,6 +17,9 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
+use App\Library\Language\Language;
+use App\Library\Validation\Validation;
+
 if (!function_exists('admindroits')) {
     include($_SERVER['DOCUMENT_ROOT'] . '/admin/die.php');
 }

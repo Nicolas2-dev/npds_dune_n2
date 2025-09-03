@@ -11,6 +11,8 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use App\Library\Date\Date;
+
 class Navigator
 {
 
