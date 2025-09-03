@@ -25,7 +25,7 @@ function fma_filter($type, $filename, $Extension)
     $error = '';
 
     if ($type == 'f') {
-        $filename = removeHack($filename);
+        $filename = Hack::removeHack($filename);
     }
 
     $filename = preg_replace('#[/\\\:\*\?"<>|]#i', '', rawurldecode($filename));

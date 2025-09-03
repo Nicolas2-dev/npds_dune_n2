@@ -52,7 +52,7 @@ $forum_type     = $myrow['forum_type'];
 $forum_access   = $myrow['forum_access'];
 
 if (($forum_type == 1) and ($Forum_passwd != $myrow['forum_pass'])) {
-    redirectUrl('forum.php');
+    Url::redirectUrl('forum.php');
 }
 
 if (($forum_type == 5) or ($forum_type == 7)) {
@@ -62,12 +62,12 @@ if (($forum_type == 5) or ($forum_type == 7)) {
     $ok_affiche = Groupe::groupeForum($myrow['forum_pass'], $tab_groupe);
 
     if (!$ok_affiche) {
-        redirectUrl('forum.php');
+        Url::redirectUrl('forum.php');
     }
 }
 
 if (($forum_type == 9) and (!$user)) {
-    redirectUrl('forum.php');
+    Url::redirectUrl('forum.php');
 }
 
 // Moderator
@@ -248,7 +248,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                 }
 
                 if ($posterdata['femail'] != '') {
-                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                 }
 
                 if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -300,7 +300,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
                     if (stristr($posterdata['user_avatar'], 'users_private')) {
                         $imgtmp = $posterdata['user_avatar'];
                     } else {
-                        if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                        if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
                             $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -323,7 +323,7 @@ function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $id
         echo '<span class="float-end">';
 
         if ($myrow['image'] != '') {
-            if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
+            if ($ibid = Theme::themeImage('forum/subject/' . $myrow['image'])) {
                 $imgtmp = $ibid;
             } else {
                 $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
@@ -541,7 +541,7 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
             if (stristr($contri['user_avatar'], 'users_private')) {
                 $imgtmp = $contri['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $contri['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $contri['user_avatar'];
@@ -578,7 +578,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
         if (stristr($modera['user_avatar'], 'users_private')) {
             $imgtmp = $modera['user_avatar'];
         } else {
-            if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
+            if ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
                 $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -628,13 +628,13 @@ if (isset($user)) {
     }
 }
 
-if ($ibid = themeImage('forum/icons/posticon.gif')) {
+if ($ibid = Theme::themeImage('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
     $imgtmpPI = 'asstes/assets/images/forum/icons/posticon.gif';
 }
 
-if ($ibid = themeImage('forum/icons/new.gif')) {
+if ($ibid = Theme::themeImage('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
     $imgtmpNE = 'assets/assets/images/forum/icons/new.gif';

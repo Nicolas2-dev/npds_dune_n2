@@ -449,7 +449,7 @@ function viewlink($cid, $min, $orderby, $show)
 
         $start = ($current * $perpage);
 
-        echo paginate('modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlink&amp;cid=' . $cid . '&amp;min=', '&amp;orderby=' . $orderby . '&amp;show=' . $perpage, $nbPages, $current, $adj = 3, $perpage, $start);
+        echo Paginator::paginate('modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewlink&amp;cid=' . $cid . '&amp;min=', '&amp;orderby=' . $orderby . '&amp;show=' . $perpage, $nbPages, $current, $adj = 3, $perpage, $start);
 
         if (isset($sid)) {
             FooterOrderBy($cid, $sid, $orderbyTrans, 'viewlink');
@@ -551,7 +551,7 @@ function viewslink($sid, $min, $orderby, $show)
 
         $start = ($current * $perpage);
 
-        echo paginate('modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '&amp;min=', '&amp;orderby=' . $orderby . '&amp;show=' . $show, $nbPages, $current, $adj = 3, $perpage, $start);
+        echo Paginator::paginate('modules.php?ModStart=' . $ModStart . '&amp;ModPath=' . $ModPath . '&amp;op=viewslink&amp;sid=' . $sid . '&amp;min=', '&amp;orderby=' . $orderby . '&amp;show=' . $show, $nbPages, $current, $adj = 3, $perpage, $start);
 
         FooterOrderBy($cid, $sid, $orderbyTrans, 'viewslink');
     }

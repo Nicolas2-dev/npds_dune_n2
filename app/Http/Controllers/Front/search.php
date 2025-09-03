@@ -39,8 +39,8 @@ if (!isset($query)) {
 
     $limit = " LIMIT 0, $limit_full_search";
 } else {
-    $query_title = removeHack(stripslashes(urldecode($query))); // electrobug
-    $query_body = removeHack(stripslashes(htmlentities(urldecode($query), ENT_NOQUOTES, 'UTF-8'))); // electrobug
+    $query_title = Hack::removeHack(stripslashes(urldecode($query))); // electrobug
+    $query_body = Hack::removeHack(stripslashes(htmlentities(urldecode($query), ENT_NOQUOTES, 'UTF-8'))); // electrobug
 
     $query = $query_body;
     $limit = '';
@@ -307,7 +307,7 @@ if ($type == "stories" or $type == "archive" or !$type) {
 
         if ($result) {
             while (list($sid, $aid, $title, $time, $url, $topic, $informant, $ihome) = sql_fetch_row($result)) {
-                if (ctrlAff($ihome, 0)) {
+                if (News::ctrlAff($ihome, 0)) {
                     $tab_sid[$x]['sid']         = $sid;
                     $tab_sid[$x]['aid']         = $aid;
                     $tab_sid[$x]['title']       = $title;

@@ -76,7 +76,7 @@ function FriendSend($sid, $archive)
             <span class="help-block text-end"><span class="muted" id="countcar_ymail"></span></span>
         </div>';
 
-    echo '' . questionSpambot();
+    echo '' . Spam::questionSpambot();
 
     echo '<input type="hidden" name="archive" value="' . $archive . '" />
         <input type="hidden" name="op" value="SendStory" />
@@ -89,7 +89,7 @@ function FriendSend($sid, $archive)
         inpandfieldlen("fname",100);
         inpandfieldlen("fmail",254);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse)
@@ -98,10 +98,10 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
 
     if (!$user) {
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
             Log::ecrireLog('security', sprintf('Send-Story Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
     }
@@ -124,7 +124,7 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
     list($topictext) = sql_fetch_row($result3);
 
     $subject = html_entity_decode(translate('Article intéressant sur'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
-    $fname = removeHack($fname);
+    $fname = Hack::removeHack($fname);
 
     $message = nl2br(
         translate('Bonjour') . " $fname :\n\n"
@@ -139,11 +139,11 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question
 
     include 'config/signat.php';
 
-    $fmail = removeHack($fmail);
-    $subject = removeHack($subject);
-    $message = removeHack($message);
-    $yname = removeHack($yname);
-    $ymail = removeHack($ymail);
+    $fmail = Hack::removeHack($fmail);
+    $subject = Hack::removeHack($subject);
+    $message = Hack::removeHack($message);
+    $yname = Hack::removeHack($yname);
+    $ymail = Hack::removeHack($ymail);
 
     $stop = false;
 
@@ -228,7 +228,7 @@ function RecommendSite()
             <label for="fmail">' . translate('Email du destinataire') . '</label>
             <span class="help-block text-end"><span class="muted" id="countcar_fmail"></span></span>
         </div>
-        ' . questionSpambot() . '
+        ' . Spam::questionSpambot() . '
         <div class="mb-3 row">
             <div class="col-sm-8 ms-sm-auto">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-at"></i>&nbsp;' . translate('Envoyer') . '</button>
@@ -242,7 +242,7 @@ function RecommendSite()
         inpandfieldlen("fname",100);
         inpandfieldlen("fmail",100);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
@@ -251,10 +251,10 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
 
     if (!$user) {
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
             Log::ecrireLog('security', sprintf('Friend Anti-Spam : name=%s / mail=%s', $yname, $ymail), '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
     }
@@ -263,16 +263,16 @@ function SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse)
 
     $subject = html_entity_decode(translate('Site à découvrir : '), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " $sitename";
 
-    $fname = removeHack($fname);
+    $fname = Hack::removeHack($fname);
     $message = translate('Bonjour') . " $fname :\n\n" . translate('Votre ami') . " $yname " . translate('a trouvé notre site') . " $sitename " . translate('intéressant et a voulu vous le faire connaître.') . "\n\n$sitename : <a href=\"$nuke_url\">$nuke_url</a>\n\n";
 
     include 'config/signat.php';
 
-    $fmail = removeHack($fmail);
-    $subject = removeHack($subject);
-    $message = removeHack($message);
-    $yname = removeHack($yname);
-    $ymail = removeHack($ymail);
+    $fmail = Hack::removeHack($fmail);
+    $subject = Hack::removeHack($subject);
+    $message = Hack::removeHack($message);
+    $yname = Hack::removeHack($yname);
+    $ymail = Hack::removeHack($ymail);
 
     $stop = false;
 

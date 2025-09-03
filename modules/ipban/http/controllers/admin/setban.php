@@ -71,7 +71,7 @@ function ConfigureBan($ModPath, $ModStart)
             </div>
         </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function SaveSetBan($Xip_ban)

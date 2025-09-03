@@ -170,7 +170,7 @@ function clientlogin()
 
     $arg1 = 'var formulid=["loginbanner"];';
 
-    adminFoot('fv', '', $arg1, 'no');
+    Validation::adminFoot('fv', '', $arg1, 'no');
 
     footer_page();
 }
@@ -391,7 +391,7 @@ function bannerstats($login, $pass)
             echo '</tbody>
             </table>';
 
-            adminFoot('fv', '', '', 'no');
+            Validation::adminFoot('fv', '', '', 'no');
 
             footer_page();
         } else {
@@ -562,7 +562,7 @@ switch ($op) {
         if ($banners) {
             viewbanner();
         } else {
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
         }
         break;
 }

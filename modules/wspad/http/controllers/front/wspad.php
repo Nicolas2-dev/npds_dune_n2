@@ -505,7 +505,7 @@ settype($op, 'string');
 settype($page, 'string');
 
 // Filtre les caractères interdits dans les noms de pages
-$page = preg_replace('#[^a-zA-Z0-9\\s\\_\\.\\-]#i', '_', removeHack(stripslashes(urldecode($page))));
+$page = preg_replace('#[^a-zA-Z0-9\\s\\_\\.\\-]#i', '_', Hack::removeHack(stripslashes(urldecode($page))));
 
 settype($ranq, 'integer');
 settype($groupe, 'integer');
@@ -513,8 +513,8 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = removeHack(stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
-        $auteur = removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
+        $content = Hack::removeHack(stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
+        $auteur = Hack::removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 
                                           FROM " . sql_prefix('wspad') . " 
@@ -534,7 +534,7 @@ switch ($op) {
         break;
 
     case 'supp':
-        $auteur = removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
+        $auteur = Hack::removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
 
         $result = sql_query("DELETE FROM " . sql_prefix('wspad') . " 
                              WHERE page='$page' 
@@ -558,7 +558,7 @@ switch ($op) {
 
     case 'renomer':
         // Filtre les caractères interdits dans les noms de pages
-        $newpage = preg_replace('#[^a-zA-Z0-9\\s\\_\\.\\-]#i', '_', removeHack(stripslashes(urldecode($newpage))));
+        $newpage = preg_replace('#[^a-zA-Z0-9\\s\\_\\.\\-]#i', '_', Hack::removeHack(stripslashes(urldecode($newpage))));
 
         settype($member, 'integer');
 

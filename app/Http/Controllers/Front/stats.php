@@ -69,7 +69,7 @@ echo '
          </thead>
          <tbody>
             <tr>
-               <td><img src="' . (themeImage('stats/explorer.gif') ?: 'assets/images/stats/explorer.gif') . '" alt="MSIE_ico" loading="lazy"/> MSIE </td>
+               <td><img src="' . (Theme::themeImage('stats/explorer.gif') ?: 'assets/images/stats/explorer.gif') . '" alt="MSIE_ico" loading="lazy"/> MSIE </td>
                <td>
                   <div class="text-center small">' . $msie[1] . ' %</div>
                   <div class="progress bg-light">
@@ -79,7 +79,7 @@ echo '
                <td>' . $msie[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/firefox.gif') ?: 'assets/images/stats/firefox.gif') . '" alt="Mozilla_ico" loading="lazy"/> Mozilla </td>
+               <td><img src="' . (Theme::themeImage('stats/firefox.gif') ?: 'assets/images/stats/firefox.gif') . '" alt="Mozilla_ico" loading="lazy"/> Mozilla </td>
                <td>
                   <div class="text-center small">' . $netscape[1] . ' %</div>
                      <div class="progress bg-light">
@@ -89,7 +89,7 @@ echo '
                <td> ' . $netscape[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/opera.gif') ?: 'assets/images/stats/opera.gif') . '" alt="Opera_ico" loading="lazy"/> Opera </td>
+               <td><img src="' . (Theme::themeImage('stats/opera.gif') ?: 'assets/images/stats/opera.gif') . '" alt="Opera_ico" loading="lazy"/> Opera </td>
                <td>
                   <div class="text-center small">' . $opera[1] . ' %</div>
                   <div class="progress bg-light">
@@ -99,7 +99,7 @@ echo '
                <td>' . $opera[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/chrome.gif') ?: 'assets/images/stats/chrome.gif') . '" alt="Chrome_ico" loading="lazy"/> Chrome </td>
+               <td><img src="' . (Theme::themeImage('stats/chrome.gif') ?: 'assets/images/stats/chrome.gif') . '" alt="Chrome_ico" loading="lazy"/> Chrome </td>
                <td>
                   <div class="text-center small">' . $chrome[1] . ' %</div>
                   <div class="progress bg-light">
@@ -109,7 +109,7 @@ echo '
                <td>' . $chrome[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/safari.gif') ?: 'assets/images/stats/safari.gif') . '" alt="Safari_ico" loading="lazy"/> Safari </td>
+               <td><img src="' . (Theme::themeImage('stats/safari.gif') ?: 'assets/images/stats/safari.gif') . '" alt="Safari_ico" loading="lazy"/> Safari </td>
                <td>
                   <div class="text-center small">' . $safari[1] . ' %</div>
                   <div class="progress bg-light">
@@ -119,7 +119,7 @@ echo '
                <td>' . $safari[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/webtv.gif') ?: 'assets/images/stats/webtv.gif') . '"  alt="WebTV_ico" loading="lazy"/> WebTV </td>
+               <td><img src="' . (Theme::themeImage('stats/webtv.gif') ?: 'assets/images/stats/webtv.gif') . '"  alt="WebTV_ico" loading="lazy"/> WebTV </td>
                <td>
                   <div class="text-center small">' . $webtv[1] . ' %</div>
                   <div class="progress bg-light">
@@ -129,7 +129,7 @@ echo '
                <td>' . $webtv[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/konqueror.gif') ?: 'assets/images/stats/konqueror.gif') . '" alt="Konqueror_ico" loading="lazy"/> Konqueror </td>
+               <td><img src="' . (Theme::themeImage('stats/konqueror.gif') ?: 'assets/images/stats/konqueror.gif') . '" alt="Konqueror_ico" loading="lazy"/> Konqueror </td>
                <td>
                   <div class="text-center small">' . $konqueror[1] . ' %</div>
                   <div class="progress bg-light">
@@ -139,7 +139,7 @@ echo '
                <td>' . $konqueror[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/lynx.gif') ?: 'assets/images/stats/lynx.gif') . '" alt="Lynx_ico" loading="lazy"/> Lynx </td>
+               <td><img src="' . (Theme::themeImage('stats/lynx.gif') ?: 'assets/images/stats/lynx.gif') . '" alt="Lynx_ico" loading="lazy"/> Lynx </td>
                <td>
                   <div class="text-center small">' . $lynx[1] . ' %</div>
                   <div class="progress bg-light">
@@ -149,7 +149,7 @@ echo '
                <td>' . $lynx[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/altavista.gif') ?: 'assets/images/stats/altavista.gif') . '" alt="' . translate('Moteurs de recherche') . '_ico" /> ' . translate('Moteurs de recherche') . ' </td>
+               <td><img src="' . (Theme::themeImage('stats/altavista.gif') ?: 'assets/images/stats/altavista.gif') . '" alt="' . translate('Moteurs de recherche') . '_ico" /> ' . translate('Moteurs de recherche') . ' </td>
                <td>
                   <div class="text-center small">' . $bot[1] . ' %</div>
                   <div class="progress bg-light">
@@ -182,7 +182,7 @@ echo '
          </thead>
          <tbody>
             <tr>
-               <td ><img src="' . (themeImage('stats/windows.gif') ?: 'assets/images/stats/windows.gif') . '"  alt="Windows" loading="lazy"/>&nbsp;Windows</td>
+               <td ><img src="' . (Theme::themeImage('stats/windows.gif') ?: 'assets/images/stats/windows.gif') . '"  alt="Windows" loading="lazy"/>&nbsp;Windows</td>
                <td>
                   <div class="text-center small">' . $windows[1] . ' %</div>
                   <div class="progress bg-light">
@@ -192,7 +192,7 @@ echo '
                <td>' . $windows[0] . '</td>
             </tr>
             <tr>
-               <td ><img src="' . (themeImage('stats/linux.gif') ?: 'assets/images/stats/linux.gif') . '"  alt="Linux" loading="lazy"/>&nbsp;Linux</td>
+               <td ><img src="' . (Theme::themeImage('stats/linux.gif') ?: 'assets/images/stats/linux.gif') . '"  alt="Linux" loading="lazy"/>&nbsp;Linux</td>
                <td>
                   <div class="text-center small">' . $linux[1] . ' %</div>
                   <div class="progress bg-light">
@@ -202,7 +202,7 @@ echo '
                <td>' . $linux[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/mac.gif') ?: 'assets/images/stats/mac.gif') . '"  alt="Mac/PPC" loading="lazy"/>&nbsp;Mac/PPC</td>
+               <td><img src="' . (Theme::themeImage('stats/mac.gif') ?: 'assets/images/stats/mac.gif') . '"  alt="Mac/PPC" loading="lazy"/>&nbsp;Mac/PPC</td>
                <td>
                   <div class="text-center small">' . $mac[1] . ' %</div>
                   <div class="progress bg-light">
@@ -212,7 +212,7 @@ echo '
                <td>' . $mac[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/bsd.gif') ?: 'assets/images/stats/bsd.gif') . '"  alt="FreeBSD" loading="lazy"/>&nbsp;FreeBSD</td>
+               <td><img src="' . (Theme::themeImage('stats/bsd.gif') ?: 'assets/images/stats/bsd.gif') . '"  alt="FreeBSD" loading="lazy"/>&nbsp;FreeBSD</td>
                <td>
                   <div class="text-center small">' . $freebsd[1] . ' %</div>
                   <div class="progress bg-light">
@@ -222,7 +222,7 @@ echo '
                <td>' . $freebsd[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/sun.gif') ?: 'assets/images/stats/sun.gif') . '"  alt="SunOS" loading="lazy"/>&nbsp;SunOS</td>
+               <td><img src="' . (Theme::themeImage('stats/sun.gif') ?: 'assets/images/stats/sun.gif') . '"  alt="SunOS" loading="lazy"/>&nbsp;SunOS</td>
                <td>
                   <div class="text-center small">' . $sunos[1] . ' %</div>
                   <div class="progress bg-light">
@@ -232,7 +232,7 @@ echo '
                <td>' . $sunos[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/irix.gif') ?: 'assets/images/stats/irix.gif') . '"  alt="IRIX" loading="lazy"/>&nbsp;IRIX</td>
+               <td><img src="' . (Theme::themeImage('stats/irix.gif') ?: 'assets/images/stats/irix.gif') . '"  alt="IRIX" loading="lazy"/>&nbsp;IRIX</td>
                <td>
                   <div class="text-center small">' . $irix[1] . ' %</div>
                   <div class="progress bg-light">
@@ -242,7 +242,7 @@ echo '
                <td>' . $irix[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/be.gif') ?: 'assets/images/stats/be.gif') . '" alt="BeOS" loading="lazy"/>&nbsp;BeOS</td>
+               <td><img src="' . (Theme::themeImage('stats/be.gif') ?: 'assets/images/stats/be.gif') . '" alt="BeOS" loading="lazy"/>&nbsp;BeOS</td>
                <td>
                   <div class="text-center small">' . $beos[1] . ' %</div>
                   <div class="progress bg-light">
@@ -252,7 +252,7 @@ echo '
                <td>' . $beos[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/os2.gif') ?: 'assets/images/stats/os2.gif') . '" alt="OS/2" loading="lazy"/>&nbsp;OS/2</td>
+               <td><img src="' . (Theme::themeImage('stats/os2.gif') ?: 'assets/images/stats/os2.gif') . '" alt="OS/2" loading="lazy"/>&nbsp;OS/2</td>
                <td>
                   <div class="text-center small">' . $os2[1] . ' %</div>
                   <div class="progress bg-light">
@@ -262,7 +262,7 @@ echo '
                <td>' . $os2[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/aix.gif') ?: 'assets/images/stats/aix.gif') . '" alt="AIX" loading="lazy"/>&nbsp;AIX</td>
+               <td><img src="' . (Theme::themeImage('stats/aix.gif') ?: 'assets/images/stats/aix.gif') . '" alt="AIX" loading="lazy"/>&nbsp;AIX</td>
                <td>
                   <div class="text-center small">' . $aix[1] . ' %</div>
                   <div class="progress bg-light">
@@ -272,7 +272,7 @@ echo '
                <td>' . $aix[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/android.gif') ?: 'assets/images/stats/android.gif') . '" alt="Android" loading="lazy"/>&nbsp;Android</td>
+               <td><img src="' . (Theme::themeImage('stats/android.gif') ?: 'assets/images/stats/android.gif') . '" alt="Android" loading="lazy"/>&nbsp;Android</td>
                <td>
                   <div class="text-center small">' . $android[1] . ' %</div>
                   <div class="progress bg-light">
@@ -282,7 +282,7 @@ echo '
                <td>' . $android[0] . '</td>
             </tr>
             <tr>
-               <td><img src="' . (themeImage('stats/ios.gif') ?: 'assets/images/stats/ios.gif') . '" alt="Ios" loading="lazy"/> Ios</td>
+               <td><img src="' . (Theme::themeImage('stats/ios.gif') ?: 'assets/images/stats/ios.gif') . '" alt="Ios" loading="lazy"/> Ios</td>
                <td>
                   <div class="text-center small">' . $ios[1] . ' %</div>
                   <div class="progress bg-light">
@@ -445,11 +445,11 @@ echo '<h3 class="my-4">' . translate('Statistiques diverses') . '</h3>
       ' . translate('Auteurs actifs') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($anum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
-      <img class="me-1" src="' . (themeImage('stats/postnew.png') ?: 'assets/images/admin/postnew.png') . '" alt="" loading="lazy"/>
+      <img class="me-1" src="' . (Theme::themeImage('stats/postnew.png') ?: 'assets/images/admin/postnew.png') . '" alt="" loading="lazy"/>
       ' . translate('Articles publiés') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($snum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
-      <img class="me-1" src="' . (themeImage('stats/topicsman.png') ?: 'assets/images/admin/topicsman.png') . '" alt="" loading="lazy"/>
+      <img class="me-1" src="' . (Theme::themeImage('stats/topicsman.png') ?: 'assets/images/admin/topicsman.png') . '" alt="" loading="lazy"/>
       ' . translate('Sujets actifs') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($tnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
@@ -457,11 +457,11 @@ echo '<h3 class="my-4">' . translate('Statistiques diverses') . '</h3>
       ' . translate('Commentaires') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($cnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
-      <img class="me-1" src="' . (themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
+      <img class="me-1" src="' . (Theme::themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
       ' . translate('Rubriques spéciales') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($secnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
-      <img class="me-1" src="' . (themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
+      <img class="me-1" src="' . (Theme::themeImage('stats/sections.png') ?: 'assets/images/admin/sections.png') . '" alt="" loading="lazy"/>
       ' . translate('Articles présents dans les rubriques') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($secanum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
@@ -473,7 +473,7 @@ echo '<h3 class="my-4">' . translate('Statistiques diverses') . '</h3>
       ' . translate('Catégories dans la rubrique des liens web') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($cat) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">
-      <img class="me-1" src="' . (themeImage('stats/submissions.png') ?: 'assets/images/admin/submissions.png') . '"  alt="" />
+      <img class="me-1" src="' . (Theme::themeImage('stats/submissions.png') ?: 'assets/images/admin/submissions.png') . '"  alt="" />
       ' . translate('Article en attente d\'édition') . ' <span class="badge bg-secondary ms-auto">' . Sanitize::wrh($subnum) . ' </span>
    </li>
    <li class="list-group-item d-flex justify-content-start align-items-center">

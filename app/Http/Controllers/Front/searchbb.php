@@ -59,7 +59,7 @@ include 'header.php';
 
 settype($term, 'string');
 
-$term = removeHack(stripslashes(htmlspecialchars(urldecode($term), ENT_QUOTES, 'UTF-8'))); // electrobug
+$term = Hack::removeHack(stripslashes(htmlspecialchars(urldecode($term), ENT_QUOTES, 'UTF-8'))); // electrobug
 
 $ck_solved = (isset($only_solved) and $only_solved == 'ON') ? 'checked="checked"' : '';
 $ck_addterm_all = (isset($addterm) and $addterm == 'all') ? 'checked="checked"' : '';
@@ -186,7 +186,7 @@ $query = "SELECT u.uid, f.forum_id, p.topic_id, p.post_id, u.uname, p.post_time,
 if (isset($term) && $term != '') {
 
     $andor = '';
-    $terms = explode(' ', stripslashes(removeHack(trim($term))));
+    $terms = explode(' ', stripslashes(Hack::removeHack(trim($term))));
 
     $addquery = "( (p.post_text LIKE '%$terms[0]%' OR strcmp(soundex(p.post_text), soundex('$terms[0]'))=0)";
 
@@ -212,7 +212,7 @@ if (isset($forum) && $forum != 'all' && $forum != 0) {
 }
 
 if (isset($username) && $username != '') {
-    $username = removeHack(stripslashes(htmlspecialchars(urldecode($username), ENT_QUOTES, 'UTF-8'))); // electrobug
+    $username = Hack::removeHack(stripslashes(htmlspecialchars(urldecode($username), ENT_QUOTES, 'UTF-8'))); // electrobug
 
     if (!$result = sql_query("SELECT uid 
                               FROM " . sql_prefix('users') . " 

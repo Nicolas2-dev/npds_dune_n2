@@ -210,7 +210,7 @@ function Configuretwi($ModPath, $ModStart, $class_sty_2, $npds_twi_arti, $npds_t
 
     $arg1 = 'var formulid = ["twitterset"];';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function SaveSettwi($npds_twi_arti, $npds_twi_urshort, $npds_twi_post, $consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret, $tbox_width, $tbox_height, $class_sty_1, $class_sty_2, $ModPath, $ModStart)

@@ -198,7 +198,7 @@ function group_liste()
                     } elseif (stristr($user_avatar, 'users_private')) {
                         $imgtmp = $user_avatar;
                     } else {
-                        if ($ibid = themeImage('forum/avatar/' . $user_avatar)) {
+                        if ($ibid = Theme::themeImage('forum/avatar/' . $user_avatar)) {
                             $imgtmp = $ibid;
                         } else {
                             $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
@@ -359,7 +359,7 @@ function group_liste()
         </div>
     </div>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 // MEMBRE
@@ -399,7 +399,7 @@ function membre_add($gp)
         ? Js::autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'[[:<:]]' . $gp . '[[:>:]]\'')
         : Js::autoCompleteMulti('membre', 'uname', 'users', 'luname', 'inner join users_status on users.uid=users_status.uid WHERE users.uid<>1 AND groupe NOT REGEXP \'\\b' . $gp . '\\b\'');
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function membre_add_finish($groupe_id, $luname)
@@ -678,7 +678,7 @@ function groupe_edit($groupe_id)
     $arg1 = 'var formulid = ["groupesaddmod"];
     inpandfieldlen("grname",1000);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function groupe_maj($sub_op)
@@ -1245,7 +1245,7 @@ function groupe_member_ask()
         }
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 switch ($op) {

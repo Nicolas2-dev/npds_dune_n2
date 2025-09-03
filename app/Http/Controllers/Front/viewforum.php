@@ -118,7 +118,7 @@ if (($op == 'solved') and ($topic_id) and ($forum) and ($sec_clef)) {
 
         if ($local_sec_clef == $sec_clef) {
             $sqlS = "UPDATE " . sql_prefix('forumtopics') . " 
-                     SET topic_status='2', topic_title='[" . translate('Résolu') . "] - " . removehack($topic_title) . "' 
+                     SET topic_status='2', topic_title='[" . translate('Résolu') . "] - " . Hack::removeHack($topic_title) . "' 
                      WHERE topic_id='$topic_id'";
 
             if (!$r = sql_query($sqlS)) {
@@ -171,7 +171,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                $imgtmp = ($ibid = themeImage('forum/avatar/' . $modera['user_avatar']))
+                $imgtmp = ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar']))
                     ? $ibid
                     : 'assets/images/forum/avatar/' . $modera['user_avatar'];
             }
@@ -204,7 +204,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
     $arg1 = 'var formulid=["privforumentry"];
         inpandfieldlen("forum_pass",60);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 } elseif (($Forum_passwd == $myrow['forum_pass']) or ($adminforum == 1)) {
 
     if (($myrow['forum_type'] == 9) and (!$user)) {
@@ -273,7 +273,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -308,13 +308,13 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         Error::forumError('0004');
     }
 
-    if ($ibid = themeImage('forum/icons/red_folder.gif')) {
+    if ($ibid = Theme::themeImage('forum/icons/red_folder.gif')) {
         $imgtmpR = $ibid;
     } else {
         $imgtmpR = 'assets/images/forum/icons/red_folder.gif';
     }
 
-    if ($ibid = themeImage('forum/icons/posticon.gif')) {
+    if ($ibid = Theme::themeImage('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
         $imgtmpP = 'assets/images/forum/icons/posticon.gif';
@@ -396,7 +396,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
                 echo '<td>' . $image . '</td>';
 
                 if ($image_subject != '') {
-                    if ($ibid = themeImage('forum/subject/' . $image_subject)) {
+                    if ($ibid = Theme::themeImage('forum/subject/' . $image_subject)) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $image_subject;
@@ -507,7 +507,7 @@ if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($
         $current = $nbPages;
     }
 
-    echo '<div class="mb-2"></div>' . paginate('viewforum.php?forum=' . $forum . '&amp;start=', $closol, $nbPages, $current, 1, $topics_per_page, $start);
+    echo '<div class="mb-2"></div>' . Paginator::paginate('viewforum.php?forum=' . $forum . '&amp;start=', $closol, $nbPages, $current, 1, $topics_per_page, $start);
 
     echo Forum::searchBlock();
 

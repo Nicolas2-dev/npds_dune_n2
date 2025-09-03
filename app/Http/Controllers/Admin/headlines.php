@@ -116,7 +116,7 @@ function HeadlinesAdmin()
         inpandfieldlen("url",320);
         inpandfieldlen("headlinesurl",320);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function HeadlinesEdit($hid)
@@ -191,7 +191,7 @@ function HeadlinesEdit($hid)
         inpandfieldlen("url",320);
         inpandfieldlen("headlinesurl",320);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status)

@@ -54,7 +54,7 @@ if ($uriBlocNote) {
             if (sql_num_rows($result) > 0) {
                 if ($texteBlocNote != '') {
                     sql_query("UPDATE " . sql_prefix('blocnotes') . " 
-                               SET texte='" . removeHack($texteBlocNote) . "' 
+                               SET texte='" . Hack::removeHack($texteBlocNote) . "' 
                                WHERE bnid='$bnid'");
                 } else {
                     sql_query("DELETE FROM " . sql_prefix('blocnotes') . " 
@@ -63,7 +63,7 @@ if ($uriBlocNote) {
             } else {
                 if ($texteBlocNote != '') {
                     sql_query("INSERT INTO " . sql_prefix('blocnotes') . " (bnid, texte) 
-                               VALUES ('$bnid', '" . removeHack($texteBlocNote) . "')");
+                               VALUES ('$bnid', '" . Hack::removeHack($texteBlocNote) . "')");
                 }
             }
 

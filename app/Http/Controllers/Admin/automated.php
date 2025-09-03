@@ -212,7 +212,7 @@ function autoStory()
     echo '</tbody>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function autoDelete($anid)
@@ -286,7 +286,7 @@ function autoEdit($anid)
     <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -412,7 +412,7 @@ function autoEdit($anid)
         const mem_n = document.querySelector("#members1");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur)
@@ -438,7 +438,7 @@ function autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $cati
                WHERE anid='$anid'");
 
     if ($ultramode) {
-        ultramode();
+        News::ultramode();
     }
 
     Header('Location: admin.php?op=autoEdit&anid=' . $anid);

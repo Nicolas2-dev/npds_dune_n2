@@ -148,7 +148,7 @@ function email_user()
 
     echo Js::autoComplete('membre', 'uname', 'users', 'username', '86400');
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur)
@@ -273,7 +273,7 @@ function send_email_to_user($username, $subject, $message, $all, $groupe, $exped
         echo '<div class="alert alert-danger"><strong>"' . stripslashes($subject) . '"</strong>' . adm_translate('n\'a pas été envoyée') . '.</div>';
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 switch ($op) {

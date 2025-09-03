@@ -69,7 +69,7 @@ function mblock()
         }
     }
 
-    adminFoot('fv', '', '', '');
+    Validation::adminFoot('fv', '', '', '');
 }
 
 function changemblock($title, $content)

@@ -560,7 +560,7 @@ function blocks()
     $arg1 = 'var formulid = ["blocknewblock"];
         inpandfieldlen("nblock_title",1000);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 switch ($op) {

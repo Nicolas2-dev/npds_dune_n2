@@ -40,7 +40,7 @@ $m->addField('subok', '', 'Submit', 'hidden', false);
 
 include 'modules/' . $ModPath . '/support/sform/formulaire.php';
 
-adminFoot('fv', '', 'var formulid = ["' . $m->form_id . '"];', '1');
+Validation::adminFoot('fv', '', 'var formulid = ["' . $m->form_id . '"];', '1');
 
 // Manage the <form>
 switch ($subok) {
@@ -54,7 +54,7 @@ switch ($subok) {
             $m->makeResponse();
 
             //anti_spambot
-            if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+            if (!Spam::reponseSpambot($asb_question, $asb_reponse, $message)) {
                 Log::ecrireLog('security', 'Contact', '');
 
                 $subok = '';

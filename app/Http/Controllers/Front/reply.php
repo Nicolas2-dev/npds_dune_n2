@@ -133,10 +133,10 @@ if ($submitS) {
         Forum::antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, $message)) {
             Log::ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
 
@@ -159,10 +159,10 @@ if ($submitS) {
 
         if (($forum_type != '6') and ($forum_type != '5')) {
             $message = Forum::makeClickable($message);
-            $message = removeHack($message);
+            $message = Hack::removeHack($message);
         }
 
-        $image_subject = removeHack($image_subject);
+        $image_subject = Hack::removeHack($image_subject);
         $message = addslashes($message);
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
@@ -242,11 +242,11 @@ if ($submitS) {
 
         global $subscribe;
         if ($subscribe) {
-            if (subscribeQuery($userdata['uid'], 'forum', $forum)) {
+            if (Subscribe::subscribeQuery($userdata['uid'], 'forum', $forum)) {
                 $sauf = $userdata['uid'];
             }
 
-            subscribeMail('forum', $topic, $forum, '', $sauf);
+            Subscribe::subscribeMail('forum', $topic, $forum, '', $sauf);
         }
 
         if (isset($upload)) {
@@ -254,12 +254,12 @@ if ($submitS) {
 
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
 
-            redirectUrl('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
+            Url::redirectUrl('viewtopic.php?forum=' . $forum . '&topic=' . $topic . '&start=9999#lastpost');
 
             die();
         }
 
-        redirectUrl('viewforum.php?forum=' . $forum);
+        Url::redirectUrl('viewforum.php?forum=' . $forum);
     } else {
         echo '<h4 class="my-3">' . translate('Poster une réponse dans le sujet') . '</h4>
         <p class="alert alert-danger">' . translate('Vous devez taper un message à poster.') . '</p>
@@ -291,7 +291,7 @@ if ($submitS) {
                 if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgava = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                    if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgava = $ibid;
                     } else {
                         $imgava = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -299,7 +299,7 @@ if ($submitS) {
                 }
             }
         } else {
-            if ($ibid = themeImage('forum/avatar/blank.gif')) {
+            if ($ibid = Theme::themeImage('forum/avatar/blank.gif')) {
                 $imgava = $ibid;
             } else {
                 $imgava = 'assets/images/forum/avatar/blank.gif';
@@ -327,7 +327,7 @@ if ($submitS) {
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -536,7 +536,7 @@ if ($submitS) {
 
         echo '</div>
         </div>
-        ' . questionSpambot() . '
+        ' . Spam::questionSpambot() . '
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <input type="hidden" name="forum" value="' . $forum . '" />
@@ -651,7 +651,7 @@ if ($submitS) {
                     }
 
                     if ($posterdata['femail'] != '') {
-                        $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                        $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                     }
 
                     if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -676,7 +676,7 @@ if ($submitS) {
                         if (stristr($posterdata['user_avatar'], 'users_private')) {
                             $imgtmp = $posterdata['user_avatar'];
                         } else {
-                            if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                            if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                                 $imgtmp = $ibid;
                             } else {
                                 $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -699,7 +699,7 @@ if ($submitS) {
             echo '<span class="float-end">';
 
             if ($myrow['image'] != '') {
-                if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
+                if ($ibid = Theme::themeImage('forum/subject/' . $myrow['image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
@@ -707,7 +707,7 @@ if ($submitS) {
 
                 echo '<img class="n-smil" src="' . $imgtmp . '"  alt="" />';
             } else {
-                if ($ibid = themeImage('forum/subject/icons/posticon.gif')) {
+                if ($ibid = Theme::themeImage('forum/subject/icons/posticon.gif')) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/icons/posticon.gif';

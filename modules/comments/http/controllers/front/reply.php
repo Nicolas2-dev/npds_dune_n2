@@ -120,10 +120,10 @@ if (isset($submitS)) {
 
         //anti_spambot
         if (isset($asb_question) and isset($asb_reponse)) {
-            if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+            if (!Spam::reponseSpambot($asb_question, $asb_reponse, $message)) {
                 Log::ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
-                redirectUrl($url_ret);
+                Url::redirectUrl($url_ret);
                 die();
             }
         }
@@ -144,7 +144,7 @@ if (isset($submitS)) {
         $message = Smilies::smile($message);
 
         $message = Forum::makeClickable($message);
-        $message = removeHack($message);
+        $message = Hack::removeHack($message);
 
         $image_subject = '';
 
@@ -187,7 +187,7 @@ if (isset($submitS)) {
             Mailer::sendEmail($notify_email, $csubject, $cmessage, $notify_from, false, 'html', '');
         }
 
-        redirectUrl($url_ret);
+        Url::redirectUrl($url_ret);
     } else {
         echo '<h2><i class="far fa-comment text-body-secondary fa-lg me-2"></i>' . translate('Commentaire') . '</h2>
         <hr />
@@ -250,7 +250,7 @@ if (isset($submitS)) {
                     if (stristr($theposterdata['user_avatar'], 'users_private')) {
                         $imgtmp = $theposterdata['user_avatar'];
                     } else {
-                        if ($ibid = themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
+                        if ($ibid = Theme::themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
                             $imgtmp = $ibid;
                         } else {
                             $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
@@ -409,7 +409,7 @@ if (isset($submitS)) {
             echo '</div>
             </div>';
 
-            echo questionSpambot();
+            echo Spam::questionSpambot();
 
             echo '<div class="mb-3 row">
                 <div class="col-sm-12">

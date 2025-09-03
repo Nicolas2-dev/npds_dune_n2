@@ -74,7 +74,7 @@ function displayUsers()
         <h3 class="mb-3">' . adm_translate('Fonctions') . '</h3>
         <a href="admin.php?op=checkDnsMail_users">' . adm_translate('Contrôler les serveurs de mail de tous les utilisateurs') . '</a><br />';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function extractUserCSV()
@@ -173,7 +173,7 @@ function modifyUser($chng_user)
         error_handler('Utilisateur inexistant !' . '<br />');
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function error_handler($ibid)
@@ -268,7 +268,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
         echo error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
         return;
     }
 
@@ -285,7 +285,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
             echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
-            adminFoot('', '', '', '');
+            Validation::adminFoot('', '', '', '');
             return;
         }
 
@@ -304,7 +304,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
 
         echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
         return;
     }
 
@@ -337,7 +337,7 @@ function updateUser($chng_uid, $chng_uname, $chng_name, $chng_url, $chng_email, 
     if ($tmp == 1) {
         $AlgoCrypt  = PASSWORD_BCRYPT;
         $min_ms     = 100;
-        $options    = ['cost' => getOptimalBcryptCostParameter($chng_pass, $AlgoCrypt, $min_ms)];
+        $options    = ['cost' => Password::getOptimalBcryptCostParameter($chng_pass, $AlgoCrypt, $min_ms)];
         $hashpass   = password_hash($chng_pass, $AlgoCrypt, $options);
         $cpass      = crypt($chng_pass, $hashpass);
 
@@ -460,7 +460,7 @@ function nonallowedUsers()
     echo '</body>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function checkDnsMailusers()
@@ -689,7 +689,7 @@ function checkDnsMailusers()
         echo '</div>';
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 switch ($op) {
@@ -875,7 +875,7 @@ switch ($op) {
 
             echo error_handler('<i class="fa fa-exclamation me-2"></i>' . adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
-            adminFoot('', '', '', '');
+            Validation::adminFoot('', '', '', '');
             return;
         }
 
@@ -889,7 +889,7 @@ switch ($op) {
 
             echo error_handler(adm_translate('Vous devez remplir tous les Champs') . '<br />'); // ce message n'est pas très précis ..
 
-            adminFoot('', '', '', '');
+            Validation::adminFoot('', '', '', '');
             return;
         }
 
@@ -905,13 +905,13 @@ switch ($op) {
 
             echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
-            adminFoot('', '', '', '');
+            Validation::adminFoot('', '', '', '');
             return;
         }
 
         $AlgoCrypt  = PASSWORD_BCRYPT;
         $min_ms     = 100;
-        $options    = ['cost' => getOptimalBcryptCostParameter($add_pass, $AlgoCrypt, $min_ms)];
+        $options    = ['cost' => Password::getOptimalBcryptCostParameter($add_pass, $AlgoCrypt, $min_ms)];
         $hashpass   = password_hash($add_pass, $AlgoCrypt, $options);
         $add_pass   = crypt($add_pass, $hashpass);
 

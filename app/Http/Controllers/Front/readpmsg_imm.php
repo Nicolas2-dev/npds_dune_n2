@@ -143,7 +143,7 @@ function show_imm($op)
 
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
-                    if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
+                    if ($ibid = Theme::themeImage('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];

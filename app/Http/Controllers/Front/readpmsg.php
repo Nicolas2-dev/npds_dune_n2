@@ -163,7 +163,7 @@ if (!$user) {
             }
 
             if ($posterdata['femail'] != '') {
-                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item text-primary" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($posterdata['url'] != '') {
@@ -180,7 +180,7 @@ if (!$user) {
             if (stristr($posterdata['user_avatar'], 'users_private')) {
                 $imgtmp = $posterdata['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -207,7 +207,7 @@ if (!$user) {
 
         if ($smilies) {
             if ($myrow['msg_image'] != '') {
-                if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
+                if ($ibid = Theme::themeImage('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -215,7 +215,7 @@ if (!$user) {
 
                 echo '<img class="n-smil" src="' . $imgtmp . '" alt="icon_post" />';
             } else {
-                if ($ibid = themeImage('forum/subject/00.png')) {
+                if ($ibid = Theme::themeImage('forum/subject/00.png')) {
                     $imgtmpPI = $ibid;
                 } else {
                     $imgtmpPI = 'assets/images/forum/subject/00.png';

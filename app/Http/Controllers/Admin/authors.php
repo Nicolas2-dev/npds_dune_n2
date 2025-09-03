@@ -259,7 +259,7 @@ function displayadmins()
             }
         },';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function modifyadmin($chng_aid)
@@ -424,7 +424,7 @@ function modifyadmin($chng_aid)
             fvitem.revalidateField("chng_pwd2");
         });';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function deletedroits($del_dr_aid)
@@ -512,7 +512,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 
         $AlgoCrypt  = PASSWORD_BCRYPT;
         $min_ms     = 100;
-        $options    = ['cost' => getOptimalBcryptCostParameter($chng_pwd, $AlgoCrypt, $min_ms)];
+        $options    = ['cost' => Password::getOptimalBcryptCostParameter($chng_pwd, $AlgoCrypt, $min_ms)];
         $hashpass   = password_hash($chng_pwd, $AlgoCrypt, $options);
         $chng_pwd   = crypt($chng_pwd, $hashpass);
 
@@ -630,7 +630,7 @@ switch ($op) {
 
         $AlgoCrypt  = PASSWORD_BCRYPT;
         $min_ms     = 100;
-        $options    = ['cost' => getOptimalBcryptCostParameter($add_pwd, $AlgoCrypt, $min_ms)];
+        $options    = ['cost' => Password::getOptimalBcryptCostParameter($add_pwd, $AlgoCrypt, $min_ms)];
         $hashpass   = password_hash($add_pwd, $AlgoCrypt, $options);
         $add_pwdX   = crypt($add_pwd, $hashpass);
 
@@ -668,7 +668,7 @@ switch ($op) {
             <a href="admin.php?op=deladminconf&amp;del_aid=' . $del_aid . '" class="btn btn-danger btn-sm">' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php?op=mod_authors" class="btn btn-secondary btn-sm">' . adm_translate('Non') . '</a>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
         break;
 
     case 'deladminconf':

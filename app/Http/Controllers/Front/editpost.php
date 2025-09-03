@@ -97,7 +97,7 @@ if ($submitS) {
     if (($forum_type != 6) and ($forum_type != 5)) {
         $message = Forum::makeClickable($message);
         $message = Code::afCode($message);
-        $message = str_replace("\n", "<br />", removeHack($message));
+        $message = str_replace("\n", "<br />", Hack::removeHack($message));
         $message .= '<div class="text-body-secondary text-end small"><i class="fa fa-edit"></i>&nbsp;' . translate('Message édité par') . " : " . $userdata['uname'] . " / " . Date::formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>';
     } else {
         $message .= "\n\n" . translate('Message édité par') . " : " . $userdata['uname'] . " / " . Date::formatTimes(time(), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
@@ -137,7 +137,7 @@ if ($submitS) {
             Error::forumError('0020');
         }
 
-        redirectUrl("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
+        Url::redirectUrl("$hrefX?topic=" . $row['topic_id'] . "&forum=$forum");
     } else {
         $indice = sql_num_rows(sql_query("SELECT post_id 
                                           FROM " . sql_prefix('posts') . " 
@@ -166,7 +166,7 @@ if ($submitS) {
 
                 @sql_query($sql);
 
-                redirectUrl('viewforum.php?forum=' . $forum);
+                Url::redirectUrl('viewforum.php?forum=' . $forum);
                 die();
             } else {
                 $result = sql_query("SELECT post_time, poster_id 
@@ -186,7 +186,7 @@ if ($submitS) {
                 }
             }
 
-            redirectUrl($hrefX . '?topic=' . $row['topic_id'] . '&forum=' . $forum);
+            Url::redirectUrl($hrefX . '?topic=' . $row['topic_id'] . '&forum=' . $forum);
         } else {
             echo '<div class="alert alert-danger">' . translate('Votre contribution n\'a pas été supprimée car au moins un post est encore rattaché (forum arbre).') . '</div>';
         }

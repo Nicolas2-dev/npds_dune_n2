@@ -147,7 +147,7 @@ function ConfigFiles($contents, $files)
         ';
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ConfigFiles_save($Xtxt, $Xfiles)
@@ -217,7 +217,7 @@ function delete_configfile($fileX)
         <p><strong>' . adm_translate('Supprimer le fichier') . ' ' . $fileX . ' ? </strong><br /><br /><a class="btn btn-danger btn-sm" href="admin.php?op=ConfigFiles_delete&amp;file=' . $fileX . '">' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ConfigFiles_delete($modele)
@@ -262,7 +262,7 @@ function copy_sample($fileX)
         <p>' . adm_translate('Créer le fichier en utilisant le modèle') . ' ? <br /><br /><a class="btn btn-primary" href="admin.php?op=ConfigFiles_create&amp;modele=' . $fileX . '" >' . adm_translate('Oui') . '</a>&nbsp;&nbsp;<a class="btn btn-secondary" href="admin.php?op=ConfigFiles" >' . adm_translate('Non') . '</a></p>
     </div>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ConfigFiles_create($modele)

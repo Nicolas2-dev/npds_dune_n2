@@ -179,7 +179,7 @@ function AddCategory()
     $arg1 = 'var formulid = ["storiesaddcat"];
     inpandfieldlen("title",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function SaveCategory($title)
@@ -216,7 +216,7 @@ function SaveCategory($title)
     <h3 class="mb-3">' . adm_translate('Ajouter une nouvelle Catégorie') . '</h3>
     ' . $what1;
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function EditCategory($catid)
@@ -270,7 +270,7 @@ function EditCategory($catid)
             </div>
         </form>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     } else {
         echo '<form id="storieseditcat" action="admin.php" method="post">
             <div class="mb-3 row">
@@ -292,7 +292,7 @@ function EditCategory($catid)
         $arg1 = 'var formulid = ["storieseditcat"];
         inpandfieldlen("title",255);';
 
-        adminFoot('fv', '', $arg1, '');
+        Validation::adminFoot('fv', '', $arg1, '');
     }
 }
 
@@ -328,7 +328,7 @@ function SaveEditCategory($catid, $title)
     <h3 class="mb-3">' . adm_translate('Edition des Catégories') . '</h3>
     ' . $what1;
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function DelCategory($cat)
@@ -408,7 +408,7 @@ function DelCategory($cat)
         }
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 function YesDelCategory($catid)
 {
@@ -510,7 +510,7 @@ function NoMoveCategory($catid, $newcat)
         echo '<div class="alert alert-success"><strong>' . adm_translate('La ré-affectation est terminée !') . '</strong></div>';
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 // NEWS
@@ -577,7 +577,7 @@ function displayStory($qid)
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -703,7 +703,7 @@ function displayStory($qid)
 
     $arg1 = 'var formulid = ["adminForm"];';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
@@ -763,7 +763,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -883,7 +883,7 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
         <input class="btn btn-primary my-2" type="submit" value="' . adm_translate('Ok') . '" />
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur)
@@ -952,7 +952,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
                WHERE aid='$aid'");
 
     if ($ultramode) {
-        ultramode();
+        News::ultramode();
     }
 
     deleteStory($qid);
@@ -961,7 +961,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
         global $subscribe;
         if ($subscribe) {
-            subscribeMail('topic', $topic, '', $subject, '');
+            Subscribe::subscribeMail('topic', $topic, '', $subject, '');
         }
 
         // Cluster Paradise
@@ -985,7 +985,7 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
         // Réseaux sociaux
     }
 
-    redirectUrl('admin.php?');
+    Url::redirectUrl('admin.php?');
 }
 
 function editStory($sid)
@@ -1057,7 +1057,7 @@ function editStory($sid)
     echo '<hr />' . Language::affLocalLangue('', 'local_user_language', '<label class="col-form-label">' . adm_translate('Langue de Prévisualisation') . '</label>');
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -1215,7 +1215,7 @@ function editStory($sid)
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function deleteStory($qid)
@@ -1313,7 +1313,7 @@ function removeStory($sid, $ok = 0)
         Log::ecrireLog('security', sprintf('removeStory(%s, %s) by AID : %s', $sid, $ok, $aid), '');
 
         if ($ultramode) {
-            ultramode();
+            News::ultramode();
         }
 
         Header('Location: admin.php');
@@ -1392,7 +1392,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     Log::ecrireLog('security', "changeStory($sid, $subject, hometext..., bodytext..., $topic, notes..., $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme) by AID : $aid", '');
 
     if ($ultramode) {
-        ultramode();
+        News::ultramode();
     }
 
     // Cluster Paradise
@@ -1414,7 +1414,7 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
     //    include('modules/npds_twi/http/controllers/npds_to_fbk.php');
     //}
     // Réseaux sociaux
-    redirectUrl('admin.php?op=EditStory&sid=' . $sid);
+    Url::redirectUrl('admin.php?op=EditStory&sid=' . $sid);
 }
 
 function adminStory()
@@ -1552,7 +1552,7 @@ function adminStory()
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
@@ -1619,7 +1619,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
         <div class="card card-body mb-3">';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -1750,7 +1750,7 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
         const mem_n = document.querySelector("#mem_n");
         mem_y.checked ? "" : choixgroupe.style.display="none" ;';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 settype($catid, 'integer');

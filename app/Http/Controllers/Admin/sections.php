@@ -497,7 +497,7 @@ function sections()
         echo '</div>';
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function new_rub_section($type)
@@ -595,7 +595,7 @@ function new_rub_section($type)
             inpandfieldlen("rubname",255);';
     }
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 // Fonction publications connexes
@@ -699,7 +699,7 @@ function publishcompat($article)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function updatecompat($article, $admin_rub, $idx)
@@ -814,7 +814,7 @@ function rubriquedit($rubid)
     $arg1 = 'var formulid = ["rubriquedit"];
         inpandfieldlen("rubname",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function rubriquemake($rubname, $introc)
@@ -1001,7 +1001,7 @@ function sectionedit($secid)
         inpandfieldlen("secname",255);
         inpandfieldlen("image",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
@@ -1153,7 +1153,7 @@ function secartedit($artid)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function secartupdate($artid)
@@ -1269,7 +1269,7 @@ function secartupdate($artid)
 
     echo '</form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
@@ -1455,7 +1455,7 @@ function rubriquedelete($rubid, $ok = 0)
             <a class="btn btn-danger btn-sm" href="admin.php?op=rubriquedelete&amp;rubid=' . $rubid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=sections" role="button">' . adm_translate('Non') . '</a>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }
 
@@ -1511,7 +1511,7 @@ function sectiondelete($secid, $ok = 0)
             <a class="btn btn-danger btn-sm" href="admin.php?op=sectiondelete&amp;secid=' . $secid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }
 
@@ -1688,7 +1688,7 @@ function ordremodule()
 
     $arg1 = 'var formulid = ["ordremodule"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ordrechapitre()
@@ -1766,7 +1766,7 @@ function ordrechapitre()
 
     $arg1 = 'var formulid = ["ordrechapitre"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ordrecours()
@@ -1850,7 +1850,7 @@ function ordrecours()
 
     $arg1 = 'var formulid = ["ordrecours"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function updateordre($rubid, $artid, $secid, $op, $ordre)
@@ -2015,7 +2015,7 @@ function publishrights($author)
         //]]>
     </script>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function droitsalacreation($chng_aid, $secid)

@@ -77,7 +77,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
 
             fclose($fp);
 
-            redirectUrl('minisite.php?op=' . $op);
+            Url::redirectUrl('minisite.php?op=' . $op);
         }
 
         // Ajouter - Ecriture
@@ -104,7 +104,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             fwrite($fp, StripSlashes($newsto) . "\n");
             fclose($fp);
 
-            redirectUrl('minisite.php?op=' . $op);
+            Url::redirectUrl('minisite.php?op=' . $op);
         }
 
         // Ajouter
@@ -161,7 +161,7 @@ function readnews($blog_dir, $op, $perpage, $startpage, $action, $adminblog)
             }
             fclose($fp);
 
-            redirectUrl('minisite.php?op=' . $op);
+            Url::redirectUrl('minisite.php?op=' . $op);
         }
 
         // Modifier

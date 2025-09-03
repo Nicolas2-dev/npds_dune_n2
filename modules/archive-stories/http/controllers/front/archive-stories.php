@@ -94,8 +94,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     }
 
     $xtab = $arch == 0
-        ? newsAff("libre", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount)
-        : newsAff("archive", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount);
+        ? News::newsAff("libre", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount)
+        : News::newsAff("archive", "WHERE archive='$arch' ORDER BY sid DESC LIMIT $start,$maxcount", $start, $maxcount);
 
     $ibid = 0;
     $story_limit = 0;
@@ -139,7 +139,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
             <li class="page-item disabled"><a class="page-link" href="#" >' . $nbPages . ' ' . translate('pages') . '</a></li>
         </ul>';
 
-    echo paginate('modules.php?ModPath=archive-stories&amp;ModStart=archive-stories&amp;start=', '&amp;count=' . $count, $nbPages, $current, 1, $maxcount, $start);
+    echo Paginator::paginate('modules.php?ModPath=archive-stories&amp;ModStart=archive-stories&amp;start=', '&amp;count=' . $count, $nbPages, $current, 1, $maxcount, $start);
 
     echo '</div>';
 }

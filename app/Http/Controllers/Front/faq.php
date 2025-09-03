@@ -94,7 +94,7 @@ if (!$myfaq) {
 
     include 'footer.php';
 } else {
-    $title = 'FAQ : ' . removeHack(StripSlashes($categories));
+    $title = 'FAQ : ' . Hack::removeHack(StripSlashes($categories));
 
     include 'header.php';
 
@@ -107,7 +107,7 @@ if (!$myfaq) {
     }
 
     if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
-        ShowFaq($id_cat, removeHack($categories));
+        ShowFaq($id_cat, Hack::removeHack($categories));
         ShowFaqAll($id_cat);
     }
 

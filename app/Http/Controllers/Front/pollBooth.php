@@ -303,7 +303,7 @@ if (isset($forwarder)) {
         Header('Location: ' . $forwarder);
     }
 } elseif ($op == 'results') {
-    list($ibid, $pollClose) = pollSecur($pollID);
+    list($ibid, $pollClose) = Pollbooth::pollSecur($pollID);
 
     if ($pollID == $ibid) {
         if ($header != 1) {

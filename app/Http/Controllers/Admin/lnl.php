@@ -164,7 +164,7 @@ function Detail_Header_Footer($ibid, $type)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ShowBody()
@@ -254,7 +254,7 @@ function Detail_Body($ibid)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Add_Body()
@@ -310,7 +310,7 @@ function Add_Body()
 
     $arg1 = 'var formulid = ["lnlbody"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Add_Body_Submit($Ytext, $Yhtml)
@@ -415,7 +415,7 @@ function Add_Header_Footer($ibid)
 
     $arg1 = 'var formulid = ["lnlheadfooter"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Add_Header_Footer_Submit($ibid, $xtext, $xhtml)
@@ -608,7 +608,7 @@ function main()
     $arg1 = 'var formulid = ["ltesto","lsendo"];
         inpandfieldlen("Xsubject",255);';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function Del_Question($retour, $param)
@@ -626,7 +626,7 @@ function Del_Question($retour, $param)
     <a href="admin.php?op=' . $retour . '&amp;' . $param . '" class="btn btn-danger btn-sm">' . adm_translate('Oui') . '</a>
     <a href="javascript:history.go(-1)" class="btn btn-secondary btn-sm">' . adm_translate('Non') . '</a>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Test($Yheader, $Ybody, $Yfooter)
@@ -688,7 +688,7 @@ function Test($Yheader, $Ybody, $Yfooter)
     global $adminmail;
     Mailer::sendEmail($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function lnl_list()
@@ -765,7 +765,7 @@ function lnl_list()
     echo '</tbody>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function lnl_user_list()
@@ -817,7 +817,7 @@ function lnl_user_list()
     </table>
     <br /><a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 switch ($op) {

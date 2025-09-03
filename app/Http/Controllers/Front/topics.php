@@ -65,7 +65,7 @@ if ($op != 'maj_subscribe') {
                 }
             }
 
-            redirectUrl('topics.php');
+            Url::redirectUrl('topics.php');
         }
     }
 }

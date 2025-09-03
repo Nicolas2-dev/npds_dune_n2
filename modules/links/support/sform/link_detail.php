@@ -52,7 +52,7 @@ switch ($link_fiche_detail) {
 
             echo Language::affLangue($m->printForm("class=\"ligna\""));
         } else {
-            redirectUrl($m->url);
+            Url::redirectUrl($m->url);
         }
         break;
 

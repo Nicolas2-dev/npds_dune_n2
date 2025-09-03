@@ -137,10 +137,10 @@ if ($submitS) {
         Forum::antiFlood($modo, $antiFlood, $poster_ip, $userdata, $gmt);
 
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, $message)) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, $message)) {
             Log::ecrireLog('security', 'Forum Anti-Spam : forum=' . $forum . ' / topic=' . $topic, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
 
@@ -163,10 +163,10 @@ if ($submitS) {
 
         if (($forum_type != '6') and ($forum_type != '5')) {
             $message = Forum::makeClickable($message);
-            $message = removeHack($message);
+            $message = Hack::removeHack($message);
         }
 
-        $image_subject = removeHack($image_subject);
+        $image_subject = Hack::removeHack($image_subject);
         $message = addslashes($message);
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
@@ -246,11 +246,11 @@ if ($submitS) {
 
         global $subscribe;
         if ($subscribe) {
-            if (subscribeQuery($userdata['uid'], 'forum', $forum)) {
+            if (Subscribe::subscribeQuery($userdata['uid'], 'forum', $forum)) {
                 $sauf = $userdata['uid'];
             }
 
-            subscribeMail('forum', $topic, $forum, '', $sauf);
+            Subscribe::subscribeMail('forum', $topic, $forum, '', $sauf);
         }
 
         if (isset($upload)) {
@@ -259,7 +259,7 @@ if ($submitS) {
             win_upload('forum_npds', $IdPost, $forum, $topic, 'win');
         }
 
-        redirectUrl('viewtopicH.php?forum=' . $forum . '&topic=' . $topic);
+        Url::redirectUrl('viewtopicH.php?forum=' . $forum . '&topic=' . $topic);
     } else {
         echo "<p align=\"center\">" . translate('Vous devez taper un message à poster.') . "<br /><br />";
         echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate('Retour en arrière') . "</a> ]</p>";
@@ -303,7 +303,7 @@ if ($submitS) {
             if (stristr($modera['user_avatar'], 'users_private')) {
                 $imgtmp = $modera['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -505,7 +505,7 @@ if ($submitS) {
 
         echo '</div>
         </div>'
-            . questionSpambot() . '
+            . Spam::questionSpambot() . '
         <div class="mb-3 row">
             <div class="col-sm-12">
                 <input type="hidden" name="forum" value="' . $forum . '" />

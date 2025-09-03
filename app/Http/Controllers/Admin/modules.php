@@ -129,4 +129,4 @@ while ($row = sql_fetch_assoc($result)) {
 echo '</tbody>
 </table>';
 
-adminFoot('', '', '', '');
+Validation::adminFoot('', '', '', '');

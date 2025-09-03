@@ -126,7 +126,7 @@ function themeindex(
     $Xsujet = '';
 
     if ($topicimage != '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -236,7 +236,7 @@ function themearticle(
     $printP = '<a href="print.php?sid=' . $id . '" title="' . translate("Page spéciale pour impression") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-print"></i></a>';
     $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $id . '" title="' . translate("Envoyer cet article à un ami") . '" data-bs-toggle="tooltip"><i class="fa fa-2x fa-at"></i></a>';
 
-    if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+    if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
         $imgtmp = $tipath . $topicimage;
     }
 
@@ -452,7 +452,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
             }
 
             if ($temp_user['femail'] != '') {
-                $useroutils .= '<li><a class="dropdown-item  text-center text-md-start" href="mailto:' . antiSpam($temp_user['femail'], 1) . '" target="_blank" title="' . translate("Email") . '" ><i class="fa fa-at fa-lg align-middle fa-fw"></i><span class="ms-2 d-none d-md-inline">' . translate("Email") . '</span></a></li>';
+                $useroutils .= '<li><a class="dropdown-item  text-center text-md-start" href="mailto:' . Spam::antiSpam($temp_user['femail'], 1) . '" target="_blank" title="' . translate("Email") . '" ><i class="fa fa-at fa-lg align-middle fa-fw"></i><span class="ms-2 d-none d-md-inline">' . translate("Email") . '</span></a></li>';
             }
 
             if ($temp_user['uid'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -473,7 +473,7 @@ function userpopover(string $who, int $dim, int $avpop): ?string
         if (stristr($temp_user['user_avatar'], 'users_private')) {
             $imgtmp = $temp_user['user_avatar'];
         } else {
-            $imgtmp = themeImage('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/images/forum/avatar/' . $temp_user['user_avatar'];
+            $imgtmp = Theme::themeImage('forum/avatar/' . $temp_user['user_avatar']) ?: 'assets/images/forum/avatar/' . $temp_user['user_avatar'];
         }
 
         $userpop = $avpop == 1

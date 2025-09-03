@@ -175,7 +175,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
     $topiclogo = '<span class="badge bg-secondary float-end" title="' . Language::affLangue($topictext) . '" data-bs-toggle="tooltip">' . Language::affLangue($topicname) . '</span>';
 
     if ($topicimage !== '') {
-        if (!$imgtmp = themeImage('topics/' . $topicimage)) {
+        if (!$imgtmp = Theme::themeImage('topics/' . $topicimage)) {
             $imgtmp = $tipath . $topicimage;
         }
 
@@ -189,7 +189,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
     $storyX = Code::affCode($story);
     $bodytextX = Code::affCode($bodytext);
 
-    themePreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
+    News::themePreview('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $storyX . '</div>', $bodytextX);
 
     echo '</div>
     <div class="mb-3 row">
@@ -244,7 +244,7 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
 
     publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
-    echo questionSpambot();
+    echo Spam::questionSpambot();
 
     echo '<div class="mb-3 row">
             <div class="col-sm-12">
@@ -269,10 +269,10 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         $name = $anonymous;
 
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
             Log::ecrireLog('security', 'Submit Anti-Spam : uid=' . $uid . ' / name=' . $name, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
     }
@@ -280,9 +280,9 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
     $story      = Base64Image::dataImageToFileUrl($story, 'cache/ai');
     $bodytext   = Base64Image::dataImageToFileUrl($bodytext, 'cache/ac');
 
-    $subject    = removeHack(stripslashes(Sanitize::fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
-    $story      = removeHack(stripslashes(Sanitize::fixQuotes($story)));
-    $bodytext   = removeHack(stripslashes(Sanitize::fixQuotes($bodytext)));
+    $subject    = Hack::removeHack(stripslashes(Sanitize::fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
+    $story      = Hack::removeHack(stripslashes(Sanitize::fixQuotes($story)));
+    $bodytext   = Hack::removeHack(stripslashes(Sanitize::fixQuotes($bodytext)));
 
     sql_query("INSERT INTO " . sql_prefix('queue') . " 
                VALUES (NULL, '$uid', '$name', '$subject', '$story', '$bodytext', now(), '$topic', '$date_debval', '$date_finval', '$epur')");

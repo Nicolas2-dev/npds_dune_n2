@@ -148,7 +148,7 @@ function AddLink()
                 </div>
             </div>';
 
-        echo questionSpambot();
+        echo Spam::questionSpambot();
 
         echo '<div class="mb-3 row">
                     <input type="hidden" name="op" value="Add" />
@@ -168,7 +168,7 @@ function AddLink()
 
         SearchForm();
 
-        adminFoot('fv', '', $arg1, '1');
+        Validation::adminFoot('fv', '', $arg1, '1');
 
         include 'footer.php';
     } else {
@@ -187,10 +187,10 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     if (!$user and !$admin) {
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
             Log::ecrireLog('security', 'Links Anti-Spam : url=' . $url, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
     }
@@ -260,12 +260,12 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
         $cat[1] = 0;
     }
 
-    $title = removeHack(stripslashes(Sanitize::fixQuotes($title)));
-    $url = removeHack(stripslashes(Sanitize::fixQuotes($url)));
+    $title = Hack::removeHack(stripslashes(Sanitize::fixQuotes($title)));
+    $url = Hack::removeHack(stripslashes(Sanitize::fixQuotes($url)));
     $description = Base64Image::dataImageToFileUrl($description, 'modules/upload/storage/lindes');
-    $description = removeHack(stripslashes(Sanitize::fixQuotes($description)));
-    $name = removeHack(stripslashes(Sanitize::fixQuotes($name)));
-    $email = removeHack(stripslashes(Sanitize::fixQuotes($email)));
+    $description = Hack::removeHack(stripslashes(Sanitize::fixQuotes($description)));
+    $name = Hack::removeHack(stripslashes(Sanitize::fixQuotes($name)));
+    $email = Hack::removeHack(stripslashes(Sanitize::fixQuotes($email)));
 
     sql_query("INSERT INTO " . $links_DB . "links_newlink 
                VALUES (NULL, '$cat[0]', '$cat[1]', '$title', '$url', '$description', '$name', '$email', '$submitter', '$topicL')");
@@ -292,7 +292,7 @@ function links_search($query, $topicL, $min, $max, $offset)
         include($filen);
     }
 
-    $query = removeHack(stripslashes(htmlspecialchars($query, ENT_QUOTES, 'UTF-8'))); // Romano et NoSP
+    $query = Hack::removeHack(stripslashes(htmlspecialchars($query, ENT_QUOTES, 'UTF-8'))); // Romano et NoSP
 
     if ($topicL != '') {
         $result = sql_query("SELECT lid, url, title, description, date, hits, topicid_card, cid, sid 

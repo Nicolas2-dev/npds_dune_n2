@@ -50,7 +50,7 @@ switch ($acc) {
 
         if (($forum_type != 6) and ($forum_type != 5)) {
             $messageP = Forum::makeClickable($messageP);
-            $messageP = removeHack($messageP);
+            $messageP = Hack::removeHack($messageP);
 
             if ($allow_bbcode) {
                 $messageP = MediaPlayer::affVideoYt($messageP);
@@ -58,7 +58,7 @@ switch ($acc) {
         }
 
         if (!isset($Mmod)) {
-            $subject = removeHack(strip_tags($subject));
+            $subject = Hack::removeHack(strip_tags($subject));
         }
 
         $subject = htmlspecialchars($subject, ENT_COMPAT | ENT_HTML401, 'UTF-8');
@@ -88,7 +88,7 @@ switch ($acc) {
 
         if (($forum_type != 6) and ($forum_type != 5)) {
             $messageP = Forum::makeClickable($messageP);
-            $messageP = removeHack($messageP);
+            $messageP = Hack::removeHack($messageP);
 
             if ($allow_bbcode) {
                 $messageP = MediaPlayer::affVideoYt($messageP);
@@ -136,7 +136,7 @@ switch ($acc) {
 
         if (($forum_type != 6) and ($forum_type != 5)) {
             $messageP = Code::afCode($messageP);
-            $messageP = str_replace("\n", '<br />', removeHack($messageP));
+            $messageP = str_replace("\n", '<br />', Hack::removeHack($messageP));
             $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
 
             if ($allow_bbcode) {
@@ -165,7 +165,7 @@ if ($smilies) {
             if (stristr($theposterdata['user_avatar'], "users_private")) {
                 $imgtmp = $theposterdata['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $theposterdata['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $theposterdata['user_avatar'];
@@ -185,7 +185,7 @@ echo '&nbsp;<span style="position:absolute; left:6rem;" class="text-body-seconda
     <span class="float-end">';
 
 if (isset($image_subject)) {
-    if ($ibid = themeImage('forum/subject/' . $image_subject)) {
+    if ($ibid = Theme::themeImage('forum/subject/' . $image_subject)) {
         $imgtmp = $ibid;
     } else {
         $imgtmp = 'assets/images/forum/subject/' . $image_subject;
@@ -193,7 +193,7 @@ if (isset($image_subject)) {
 
     echo '<img class="n-smil" src="' . $imgtmp . '" alt="icone du post" />';
 } else {
-    if ($ibid = themeImage('forum/icons/posticon.gif')) {
+    if ($ibid = Theme::themeImage('forum/icons/posticon.gif')) {
         $imgtmpP = $ibid;
     } else {
         $imgtmpP = 'assets/images/forum/icons/posticon.gif';

@@ -128,7 +128,7 @@ if ($total >= 1) {
         </nav>';
 
     if ($total > $comments_per_page) {
-        echo paginate(rawurldecode($url_ret) . '&amp;C_start=', '', $nbPages, $current, 2, $comments_per_page, $C_start);
+        echo Paginator::paginate(rawurldecode($url_ret) . '&amp;C_start=', '', $nbPages, $current, 2, $comments_per_page, $C_start);
     }
 
     echo '
@@ -158,7 +158,7 @@ $myrow = sql_fetch_assoc($result);
 $count = 0;
 
 if ($mycount) {
-    if ($ibid = themeImage("forum/icons/posticon.gif")) {
+    if ($ibid = Theme::themeImage("forum/icons/posticon.gif")) {
         $imgtmpPI = $ibid;
     } else {
         $imgtmpPI = "assets/images/forum/icons/posticon.gif";
@@ -226,7 +226,7 @@ if ($mycount) {
                 }
 
                 if ($posterdata['femail'] != '') {
-                    $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                    $useroutils .= '<a class="list-group-item text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
                 }
 
                 if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -263,7 +263,7 @@ if ($mycount) {
                     if (stristr($posterdata['user_avatar'], "users_private")) {
                         $imgtmp = $posterdata['user_avatar'];
                     } else {
-                        $imgtmp = $ibid = themeImage("forum/avatar/" . $posterdata['user_avatar'])
+                        $imgtmp = $ibid = Theme::themeImage("forum/avatar/" . $posterdata['user_avatar'])
                             ? $ibid
                             : "assets/images/forum/avatar/" . $posterdata['user_avatar'];
                     }
@@ -281,7 +281,7 @@ if ($mycount) {
                 : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
         }
 
-        $imgtmp = $ibid = themeImage('forum/subject/00.png') ? $ibid : 'assets/images/forum/subject/00.png';
+        $imgtmp = $ibid = Theme::themeImage('forum/subject/00.png') ? $ibid : 'assets/images/forum/subject/00.png';
 
         echo '<span class="float-end"><img class="n-smil" src="' . $imgtmp . '" alt="" /></span>
             </div>';
@@ -358,7 +358,7 @@ if ($mycount) {
         </nav>';
 
     if ($total > $comments_per_page) {
-        echo paginate(rawurldecode($url_ret) . '&amp;C_start=', '', $nbPages, $current, 2, $comments_per_page, $C_start);
+        echo Paginator::paginate(rawurldecode($url_ret) . '&amp;C_start=', '', $nbPages, $current, 2, $comments_per_page, $C_start);
     }
 
     echo '</div>';

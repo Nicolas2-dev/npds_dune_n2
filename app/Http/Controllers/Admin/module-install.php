@@ -523,7 +523,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
     if (file_exists('modules/' . $ModInstall . '/config/install.php')) {
         include('modules/' . $ModInstall . '/config/install.php');
     } else {
-        redirectUrl('admin.php?op=modules');
+        Url::redirectUrl('admin.php?op=modules');
         die();
     }
 
@@ -714,7 +714,7 @@ if ($ModInstall != '' && $ModDesinstall == '') {
                    SET minstall='0' 
                    WHERE mnom= '" . $ModDesinstall . "'");
 
-        redirectUrl('admin.php?op=modules');
+        Url::redirectUrl('admin.php?op=modules');
     }
 
     include 'header.php';
@@ -777,4 +777,4 @@ if ($ModInstall == '' && $ModDesinstall != '') {
 
 echo $display;
 
-adminFoot('', '', '', '');
+Validation::adminFoot('', '', '', '');

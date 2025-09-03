@@ -151,7 +151,7 @@ function modifylinkrequest($lid, $modifylinkrequest_adv_infos, $author)
 
         include 'modules/' . $ModPath . '/support/sform/link_maj.php';
 
-        adminFoot('fv', '', '', 'nodiv');
+        Validation::adminFoot('fv', '', '', 'nodiv');
 
         include 'footer.php';
     } else {

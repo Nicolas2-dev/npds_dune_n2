@@ -112,7 +112,7 @@ function poll_createPoll()
         $arg1 .= 'inpandfieldlen("optionText' . $i . '",255)';
     }
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function poll_createPosted()
@@ -357,7 +357,7 @@ function poll_editPollPosted()
             $arg1 .= 'inpandfieldlen("optionText' . $i . '",255)';
         }
 
-        adminFoot('fv', '', $arg1, '');
+        Validation::adminFoot('fv', '', $arg1, '');
     } else {
         header('location: admin.php?op=editpoll');
     }

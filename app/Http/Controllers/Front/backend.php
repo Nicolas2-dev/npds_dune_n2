@@ -60,7 +60,7 @@ function fab_feed($type, $filename, $timeout)
     $image->height = $backend_height;
     $rss->image = $image;
 
-    $xtab = newsAff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+    $xtab = News::newsAff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
 
     $story_limit = 0;
 

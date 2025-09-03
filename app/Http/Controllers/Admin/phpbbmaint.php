@@ -100,7 +100,7 @@ function ForumMaintMarkTopics()
     echo '</tbody>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ForumMaintTopics($before, $forum_name)
@@ -166,7 +166,7 @@ function ForumMaintTopics($before, $forum_name)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ForumMaintTopicDetail($topic, $topic_title)
@@ -201,7 +201,7 @@ function ForumMaintTopicDetail($topic, $topic_title)
 
     sql_free_result($resultTT);
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function ForumMaintTopicMassiveSup($topics)
@@ -393,7 +393,7 @@ function MergeForum()
 
     sql_free_result($result);
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function MergeForumAction($oriforum, $destforum)
@@ -521,5 +521,5 @@ function ForumMaintAdmin()
 
     echo Js::autoComplete('forname', 'forum_name', 'forums', 'titreforum', '86400');
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }

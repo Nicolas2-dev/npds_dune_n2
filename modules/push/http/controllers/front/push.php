@@ -110,7 +110,7 @@ function push_news()
         for ($m = 0; $m < $ibid; $m++) {
             list($sid, $title, $ihome, $catid) = sql_fetch_row($result);
 
-            if (ctrlAff($ihome, $catid)) {
+            if (News::ctrlAff($ihome, $catid)) {
                 $title = str_replace("'", "\'", $title);
 
                 echo "document.write('&nbsp;-&nbsp;<a href=javascript:onclick=register(\"npds-push\",\"op=new_show&sid=$sid&offset=$m\"); style=\"font-size: 11px;\">" . htmlspecialchars(Language::affLangue($title), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "</a><br />');\n";
@@ -486,7 +486,7 @@ function viewlink_show($cid, $min)
     if (($totalselectedlinks - $min) > $perpage) {
         $min = $min + $perpage;
 
-        if ($ibid = themeImage("box/right.gif")) {
+        if ($ibid = Theme::themeImage("box/right.gif")) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = "assets/shared/download/right.gif";
@@ -560,7 +560,7 @@ function viewslink_show($sid, $min)
     if (($totalselectedlinks - $min) > $perpage) {
         $min = $min + $perpage;
 
-        if ($ibid = themeImage("box/right.gif")) {
+        if ($ibid = Theme::themeImage("box/right.gif")) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = "assets/shared/download/right.gif";

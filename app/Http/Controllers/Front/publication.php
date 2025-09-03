@@ -22,7 +22,7 @@ function code_aff($subject, $story, $bodytext, $notes)
     $bodytextX  = Code::affCode(Language::previewLocalLangue($local_user_language, $bodytext));
     $notesX     = Code::affCode(Language::previewLocalLangue($local_user_language, $notes));
 
-    themePreview($subjectX, $storyX, $bodytextX, $notesX);
+    News::themePreview($subjectX, $storyX, $bodytextX, $notesX);
 }
 
 function publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)

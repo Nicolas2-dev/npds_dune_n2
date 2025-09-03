@@ -62,7 +62,7 @@ Cette version est la première compatible avec php8 et mysql8.
    correction typo sur la variable $time dans modules/links/links.php
    correction lors de la recherche dans utilisateurs la variable $t présente dans les url de pagination non défini et non nécessaire  : rectification des deux urls (search.php)...
    correction (searchbb.php) fonctionnement chaotique entrainant des constructions de requêtes sql non conformes
-   correction (mainfile.php) fonction reqStat() surincrémentation du compteur + libération mysqli après les requêtes
+   correction (mainfile.php) fonction Stat::reqStat() surincrémentation du compteur + libération mysqli après les requêtes
    correction (reply.php, replyH.php, viewtopicH.php) erreur quand $userdata non défini (user non connecté...)
    correction lnl bug sur le "each déguisé" (php8) et remplisage d'un tableau non défini.. qui affectait l'envoi vers groupe
 - thèmes
@@ -122,7 +122,7 @@ améliorations :
 -- ajout de l'attribut lang dans balise html
 
 sécurité :
-suite audit thanks @Nosp, renforcement de urlProtect, des accès aux fichiers, et xss sur chat ... 
+suite audit thanks @Nosp, renforcement de UrlProtector::urlProtect, des accès aux fichiers, et xss sur chat ... 
 
 
 ################################################################################
@@ -156,7 +156,7 @@ pour des informations complètes et détaillées visitez la page de comparaison 
    Finalisation de l'implémentation des fonctions d'envoi de message et alerte (version, sécurité, note) provenant de npds dans les portails et de la gestion de leur lecture par les superadministrateurs.
 
    - traitement des images data:image en base64
-   les media portables ainsi que tinymce (qui les transforme en blob js) utilise cette technique ce qui posait de nombreux problèmes (fonctionnement (données non acceptées et donc justement modifié par removehack()), stockage, manipulation ...etc)... Nous avons donc créé une fonction (dans mainfile.php) qui retransforme tout "data:image en base64" en une url et donc un fichier (contrôlant au passage la sécurité et la taille de l'image - réduction si nécessaire). Celle-ci a été implémentée dans les 2 systèmes de publications principaux (articles et sections) et dans d'autres pages ou ce type de données peut être entrée (en clair dans tout les formulaires utilisant tinymce (ou pas)) (nous en avons profiter pour implémenter un système de nettoyage des images inutilisées => encore en cours d'amélioration) ...
+   les media portables ainsi que tinymce (qui les transforme en blob js) utilise cette technique ce qui posait de nombreux problèmes (fonctionnement (données non acceptées et donc justement modifié par Hack::removeHack()), stockage, manipulation ...etc)... Nous avons donc créé une fonction (dans mainfile.php) qui retransforme tout "data:image en base64" en une url et donc un fichier (contrôlant au passage la sécurité et la taille de l'image - réduction si nécessaire). Celle-ci a été implémentée dans les 2 systèmes de publications principaux (articles et sections) et dans d'autres pages ou ce type de données peut être entrée (en clair dans tout les formulaires utilisant tinymce (ou pas)) (nous en avons profiter pour implémenter un système de nettoyage des images inutilisées => encore en cours d'amélioration) ...
    Pour résumer cette amélioration résoud les problèmes de publication d'image depuis un media portable, et améliore le nettoyage de ressources non utilisées...
    
    - be lazy ... utilisation de l'attribut loading pour les images et iframe qui permet simplement (pas de js car maintenant interprété/executé par tous les navigateurs modernes...) un gain de rapidité considérable ... les images ne sont chargées que quand elles sont visible dans le viewport ...

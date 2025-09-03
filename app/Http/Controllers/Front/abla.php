@@ -58,7 +58,7 @@ if ($admin) {
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     global $startdate;
-    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = reqStat();
+    list($membres, $totala, $totalb, $totalc, $totald, $totalz) = Stat::reqStat();
 
     //LNL Email in outside table
     $result = sql_query("SELECT email 
@@ -271,7 +271,7 @@ if ($admin) {
     fwrite($file, $xfile);
     fclose($file);
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 } else {
-    redirectUrl('index.php');
+    Url::redirectUrl('index.php');
 }

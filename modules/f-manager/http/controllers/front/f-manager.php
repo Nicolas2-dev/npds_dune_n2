@@ -59,7 +59,7 @@ if ($FmaRep) {
             // Est ce que je doit récupérer le theme si un utilisateur est connecté ?
             if (isset($user)) {
 
-                $themelist = explode(' ', themeList());
+                $themelist = explode(' ', Theme::themeList());
                 $pos = array_search($cookie[9], $themelist);
 
                 if ($pos !== false) {
@@ -858,7 +858,7 @@ if ($obj->File_Navigator($base, $tri_fma['tri'], $tri_fma['sens'], $dirsize_fma)
     $cur_nav_encrypt = rawurlencode(Encrypter::encrypt($cur_nav));
 } else {
     // le répertoire ou sous répertoire est protégé (ex : chmod)
-    redirectUrl("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt(dirname($base))));
+    Url::redirectUrl("modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;FmaRep=$FmaRep&amp;browse=" . rawurlencode(Encrypter::encrypt(dirname($base))));
 }
 
 foreach ($extensions as $extens) {

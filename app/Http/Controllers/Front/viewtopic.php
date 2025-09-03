@@ -272,7 +272,7 @@ for ($i = 0; $i < $total_contributeurs; $i++) {
             if (stristr($contri['user_avatar'], 'users_private')) {
                 $imgtmp = $contri['user_avatar'];
             } else {
-                if ($ibid = themeImage('forum/avatar/' . $contri['user_avatar'])) {
+                if ($ibid = Theme::themeImage('forum/avatar/' . $contri['user_avatar'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/avatar/' . $contri['user_avatar'];
@@ -302,7 +302,7 @@ for ($i = 0; $i < $ibidcountmod; $i++) {
         if (stristr($modera['user_avatar'], 'users_private')) {
             $imgtmp = $modera['user_avatar'];
         } else {
-            if ($ibid = themeImage('forum/avatar/' . $modera['user_avatar'])) {
+            if ($ibid = Theme::themeImage('forum/avatar/' . $modera['user_avatar'])) {
                 $imgtmp = $ibid;
             } else {
                 $imgtmp = 'assets/images/forum/avatar/' . $modera['user_avatar'];
@@ -336,7 +336,7 @@ if ($total > $posts_per_page) {
                 </ul>
             </div>';
 
-    echo paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start);
+    echo Paginator::paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start);
 
     echo '</div>';
 }
@@ -429,19 +429,19 @@ if (isset($user)) {
     }
 }
 
-if ($ibid = themeImage('forum/rank/post.gif')) {
+if ($ibid = Theme::themeImage('forum/rank/post.gif')) {
     $imgtmpP = $ibid;
 } else {
     $imgtmpP = 'assets/images/forum/rank/post.gif';
 }
 
-if ($ibid = themeImage('forum/icons/posticon.gif')) {
+if ($ibid = Theme::themeImage('forum/icons/posticon.gif')) {
     $imgtmpPI = $ibid;
 } else {
     $imgtmpPI = 'assets/images/forum/icons/posticon.gif';
 }
 
-if ($ibid = themeImage('forum/icons/new.gif')) {
+if ($ibid = Theme::themeImage('forum/icons/new.gif')) {
     $imgtmpNE = $ibid;
 } else {
     $imgtmpNE = 'assets/images/forum/icons/new.gif';
@@ -515,7 +515,7 @@ do {
             }
 
             if ($posterdata['femail'] != '') {
-                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
             }
 
             if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
@@ -549,7 +549,7 @@ do {
                 if (stristr($posterdata['user_avatar'], 'users_private')) {
                     $imgtmp = $posterdata['user_avatar'];
                 } else {
-                    if ($ibid = themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                    if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
@@ -574,7 +574,7 @@ do {
     echo '<span class="float-end">';
 
     if ($myrow['image'] != '') {
-        if ($ibid = themeImage('forum/subject/' . $myrow['image'])) {
+        if ($ibid = Theme::themeImage('forum/subject/' . $myrow['image'])) {
             $imgtmp = $ibid;
         } else {
             $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
@@ -729,7 +729,7 @@ if ($total > $posts_per_page) {
                 </li>
                 </ul>
             </nav>'
-        . paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start) . '
+        . Paginator::paginate('viewtopic.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;start=', '', $nbPages, $current, $adj = 3, $posts_per_page, $start) . '
         </div>';
 }
 

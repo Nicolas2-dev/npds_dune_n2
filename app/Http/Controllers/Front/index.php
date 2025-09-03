@@ -117,7 +117,7 @@ function automatednews()
 
                     global $subscribe;
                     if ($subscribe) {
-                        subscribeMail('topic', $topic, '', $subject, '');
+                        Subscribe::subscribeMail('topic', $topic, '', $subject, '');
                     }
 
                     // Réseaux sociaux
@@ -227,7 +227,7 @@ function aff_news($op, $catid, $marqeur)
         $op = 'categories';
     }
 
-    $news_tab = prepaAffNews($op, $catid, $marqeur);
+    $news_tab = News::prepaAffNews($op, $catid, $marqeur);
     $story_limit = 0;
 
     // si le tableau $news_tab est vide alors return 

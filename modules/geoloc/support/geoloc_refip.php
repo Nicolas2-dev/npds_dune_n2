@@ -58,9 +58,9 @@ if ($controle != 0) {
                 if ($error === false) {
                     $ibid = true;
 
-                    $pay        = !empty($loc_obj->country_name) ? removeHack($loc_obj->country_name) : '';
-                    $codepay    = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
-                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $pay        = !empty($loc_obj->country_name) ? Hack::removeHack($loc_obj->country_name) : '';
+                    $codepay    = !empty($loc_obj->country_code) ? Hack::removeHack($loc_obj->country_code) : '';
+                    $vi         = !empty($loc_obj->city) ? Hack::removeHack($loc_obj->city) : '';
                     $lat        = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
                     $long       = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
                 }
@@ -79,9 +79,9 @@ if ($controle != 0) {
                     if ($error === false) {
                         $ibid = true;
 
-                        $pay = !empty($loc_obj->country_name) ? removeHack($loc_obj->country_name) : '';
-                        $codepay    = !empty($loc_obj->country_code) ? removeHack($loc_obj->country_code) : '';
-                        $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                        $pay = !empty($loc_obj->country_name) ? Hack::removeHack($loc_obj->country_name) : '';
+                        $codepay    = !empty($loc_obj->country_code) ? Hack::removeHack($loc_obj->country_code) : '';
+                        $vi         = !empty($loc_obj->city) ? Hack::removeHack($loc_obj->city) : '';
                         $lat        = !empty($loc_obj->latitude) ? (float)$loc_obj->latitude : '';
                         $long       = !empty($loc_obj->longitude) ? (float)$loc_obj->longitude : '';
                     }
@@ -98,9 +98,9 @@ if ($controle != 0) {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $pay        = !empty($loc_obj->country) ? Hack::removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? Hack::removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? Hack::removeHack($loc_obj->city) : '';
                     $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
                     $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }
@@ -116,9 +116,9 @@ if ($controle != 0) {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $pay        = !empty($loc_obj->country) ? Hack::removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? Hack::removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? Hack::removeHack($loc_obj->city) : '';
                     $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
                     $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }
@@ -134,9 +134,9 @@ if ($controle != 0) {
                 if ($loc_obj->status == 'success') {
                     $ibid = true;
 
-                    $pay        = !empty($loc_obj->country) ? removeHack($loc_obj->country) : '';
-                    $codepay    = !empty($loc_obj->countryCode) ? removeHack($loc_obj->countryCode) : '';
-                    $vi         = !empty($loc_obj->city) ? removeHack($loc_obj->city) : '';
+                    $pay        = !empty($loc_obj->country) ? Hack::removeHack($loc_obj->country) : '';
+                    $codepay    = !empty($loc_obj->countryCode) ? Hack::removeHack($loc_obj->countryCode) : '';
+                    $vi         = !empty($loc_obj->city) ? Hack::removeHack($loc_obj->city) : '';
                     $lat        = !empty($loc_obj->lat) ? (float)$loc_obj->lat : '';
                     $long       = !empty($loc_obj->lon) ? (float)$loc_obj->lon : '';
                 }

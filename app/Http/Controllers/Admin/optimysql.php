@@ -170,7 +170,7 @@ echo $li_tab_opti;
 echo '</tbody>
     </table>';
 
-adminFoot('', '', '', '');
+Validation::adminFoot('', '', '', '');
 
 global $aid;
 Log::ecrireLog('security', sprintf('OptiMySql() by AID : %s', $aid), '');

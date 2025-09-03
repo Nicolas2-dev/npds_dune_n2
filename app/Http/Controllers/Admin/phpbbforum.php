@@ -91,7 +91,7 @@ function ForumAdmin()
 
     $arg1 = 'var formulid = ["forumaddcat"];';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function ForumGo($cat_id)
@@ -365,7 +365,7 @@ function ForumGo($cat_id)
     });
     impu.addEventListener("input", function(e) {fvitem.revalidateField("forum_pass");});';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumGoEdit($forum_id, $ctg)
@@ -699,7 +699,7 @@ function ForumGoEdit($forum_id, $ctg)
     });
     impu.addEventListener("input", function(e) {fvitem.revalidateField("forum_pass");});';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumCatEdit($cat_id)
@@ -758,7 +758,7 @@ function ForumCatEdit($cat_id)
 
     $arg1 = 'var formulid=["phpbbforumedcat"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function ForumCatSave($old_catid, $cat_id, $cat_title)
@@ -964,7 +964,7 @@ function ForumCatDel($cat_id, $ok = 0)
             <a href="admin.php?op=ForumAdmin" class="btn btn-secondary">' . adm_translate('Non') . '</a>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }
 
@@ -1006,6 +1006,6 @@ function ForumGoDel($forum_id, $ok = 0)
             <a class="btn btn-secondary" href="admin.php?op=ForumAdmin" >' . adm_translate('Non') . '</a>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }

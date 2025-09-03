@@ -29,8 +29,8 @@ if (!isset($archive)) {
 }
 
 $xtab = (!$archive)
-    ? newsAff('libre', "WHERE sid='$sid'", 1, 1)
-    : newsAff('archive', "WHERE sid='$sid'", 1, 1);
+    ? News::newsAff('libre', "WHERE sid='$sid'", 1, 1)
+    : News::newsAff('archive', "WHERE sid='$sid'", 1, 1);
 
 list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -72,7 +72,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
         $informant = $anonymous;
     }
 
-    getTopics($sid);
+    News::getTopics($sid);
 
     if ($catid != 0) {
         $resultx = sql_query("SELECT title 
@@ -125,7 +125,7 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
         </span>
     </div>';
 
-    $xtab = newsAff("big_story", "WHERE topic=$topic", 1, 1);
+    $xtab = News::newsAff("big_story", "WHERE topic=$topic", 1, 1);
 
     list($topstory, $ttitle) = $xtab[0];
 
@@ -148,8 +148,8 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     </div>';
 
     $xtab = (!$archive)
-        ? newsAff('libre', "WHERE topic=$topic AND archive='0' ORDER BY sid DESC LIMIT 0,5", 0, 5)
-        : newsAff('archive', "WHERE topic=$topic AND archive='1' ORDER BY sid DESC LIMIT 0,5", 0, 5);
+        ? News::newsAff('libre', "WHERE topic=$topic AND archive='0' ORDER BY sid DESC LIMIT 0,5", 0, 5)
+        : News::newsAff('archive', "WHERE topic=$topic AND archive='1' ORDER BY sid DESC LIMIT 0,5", 0, 5);
 
     $story_limit = 0;
 
@@ -180,11 +180,11 @@ if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1
     </p>';
 
     if (!$archive) {
-        $previous_tab = newsAff('libre', "WHERE sid<'$sid' ORDER BY sid DESC ", 0, 1);
-        $next_tab = newsAff('libre', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
+        $previous_tab = News::newsAff('libre', "WHERE sid<'$sid' ORDER BY sid DESC ", 0, 1);
+        $next_tab = News::newsAff('libre', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
     } else {
-        $previous_tab = newsAff('archive', "WHERE sid<'$sid' ORDER BY sid DESC", 0, 1);
-        $next_tab = newsAff('archive', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
+        $previous_tab = News::newsAff('archive', "WHERE sid<'$sid' ORDER BY sid DESC", 0, 1);
+        $next_tab = News::newsAff('archive', "WHERE sid>'$sid' ORDER BY sid ASC ", 0, 1);
     }
 
     if (array_key_exists(0, $previous_tab)) {

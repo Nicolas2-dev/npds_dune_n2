@@ -325,7 +325,7 @@ if ((isset($submit)) and ($mode == 'move')) {
                     Error::forumError('0014');
                 }
 
-                logSpambot($m['poster_ip'], 'ban');
+                Spam::logSpambot($m['poster_ip'], 'ban');
 
                 header('location: ' . $url_ret . '?topic=' . $topic . '&forum=' . $forum);
                 break;

@@ -413,13 +413,13 @@ if ($subop == 'banthisip') {
     sql_query("DELETE FROM " . sql_prefix('session') . " 
                WHERE host_addr='$iptoban'");
 
-    logSpambot($iptoban, 'ban');
+    Spam::logSpambot($iptoban, 'ban');
 
     echo '<div class="alert alert-danger my-3">
         <strong>' . $iptoban . '</strong> ' . SessionLog_translate('cette adresse IP a été déconnectée et bannie !') . '
     </div>';
 
-    redirectUrl('admin.php?op=Extend-Admin-SubModule&ModPath=' . $ModPath . '&ModStart=' . $ModStart . '&subop=session');
+    Url::redirectUrl('admin.php?op=Extend-Admin-SubModule&ModPath=' . $ModPath . '&ModStart=' . $ModStart . '&subop=session');
 }
 
 // vider la table des sessions
@@ -431,7 +431,7 @@ if ($subop == 'videsession') {
         ' . SessionLog_translate('Table session vidée. Connexions interrompues !') . '
     </div>';
 
-    redirectUrl('admin.php?op=Extend-Admin-SubModule&ModPath=' . $ModPath . '&ModStart=' . $ModStart . '&subop=session');
+    Url::redirectUrl('admin.php?op=Extend-Admin-SubModule&ModPath=' . $ModPath . '&ModStart=' . $ModStart . '&subop=session');
 }
 
-adminFoot('', '', '', '');
+Validation::adminFoot('', '', '', '');

@@ -227,7 +227,7 @@ function write_users($adminlogin, $adminpass1, $adminpass2)
 
                 $AlgoCrypt  = PASSWORD_BCRYPT;
                 $min_ms     = 100;
-                $options    = ['cost' => getOptimalBcryptCostParameter($adminpass1, $AlgoCrypt, $min_ms)];
+                $options    = ['cost' => Password::getOptimalBcryptCostParameter($adminpass1, $AlgoCrypt, $min_ms)];
                 $hashpass   = password_hash($adminpass1, $AlgoCrypt, $options);
                 $adminpwd   = crypt($adminpass1, $hashpass);
 

@@ -218,7 +218,7 @@ function List_metaLang()
 
     echo $tablmeta;
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Edit_metaLang()
@@ -360,11 +360,11 @@ function Edit_metaLang()
         $arg1 = 'var formulid = ["metalangedit"];
             inpandfieldlen("uri",255);';
 
-        adminFoot('fv', '', $arg1, '');
+        Validation::adminFoot('fv', '', $arg1, '');
     } else {
         go_back('');
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }
 
@@ -466,7 +466,7 @@ function Creat_metaLang()
         inpandfieldlen("def",50);
         inpandfieldlen("uri",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function kill_metaLang($nbr, $action)
@@ -503,7 +503,7 @@ function meta_exist($def)
 
     echo '</div>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc)

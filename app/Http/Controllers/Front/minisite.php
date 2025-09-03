@@ -312,7 +312,7 @@ if (($op != '') and ($op)) {
                     $direktori = 'assets/images/forum/avatar/';
 
                     if (function_exists('theme_image')) {
-                        if (themeImage('forum/avatar/blank.gif')) {
+                        if (Theme::themeImage('forum/avatar/blank.gif')) {
                             $direktori = 'themes/' . $theme . '/assets/images/forum/avatar/';
                         }
                     }

@@ -237,11 +237,11 @@ if (array_key_exists('lng', $_GET)) {
 }
 
 if (array_key_exists('mod', $_GET)) {
-    $f_geomod = removeHack($_GET['mod']);
+    $f_geomod = Hack::removeHack($_GET['mod']);
 }
 
 if (array_key_exists('uid', $_GET)) {
-    $f_uid = removeHack($_GET['uid']);
+    $f_uid = Hack::removeHack($_GET['uid']);
 }
 
 //chemin pour l'avatar

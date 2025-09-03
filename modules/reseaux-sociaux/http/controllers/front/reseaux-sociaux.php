@@ -63,7 +63,7 @@ function ListReseaux($ModPath, $ModStart)
     include 'header.php';
 
     echo '<h2>' . translate('Utilisateur') . '</h2>
-    ' . memberMenu($userdata['mns'], $userdata['uname']) . '
+    ' . UserMenu::memberMenu($userdata['mns'], $userdata['uname']) . '
     <h3 class="mt-3">' . rs_translate('Réseaux sociaux') . '</h3>
     <div class="help-block">' . rs_translate('Liste des réseaux sociaux mis à disposition par l\'administrateur.') . '</div>
         <hr />
@@ -120,7 +120,7 @@ function EditReseaux($ModPath, $ModStart)
 
     echo '<h2>' . translate('Utilisateur') . '</h2>';
 
-    memberMenu($userdata['mns'], $userdata['uname']);
+    UserMenu::memberMenu($userdata['mns'], $userdata['uname']);
 
     echo '<h3 class="mt-1">' . rs_translate('Réseaux sociaux') . '</h3>
     <div>
@@ -183,7 +183,7 @@ function EditReseaux($ModPath, $ModStart)
         </div>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function SaveSetReseaux($ModPath, $ModStart)
@@ -199,7 +199,7 @@ function SaveSetReseaux($ModPath, $ModStart)
     }
 
     $li_rs = rtrim($li_rs, ';');
-    $li_rs = removeHack(stripslashes(Sanitize::fixQuotes($li_rs)));
+    $li_rs = Hack::removeHack(stripslashes(Sanitize::fixQuotes($li_rs)));
 
     sql_query("UPDATE " . sql_prefix('users_extend') . " 
                SET M2='$li_rs' 

@@ -114,7 +114,7 @@ function ListReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg)
     echo '</tbody>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_id, $rs_url, $rs_ico, $subop, $old_id)
@@ -174,7 +174,7 @@ function EditReseaux($ModPath, $ModStart, $f_meta_nom, $f_titre, $adminimg, $rs_
         inpandfieldlen("rs_url",100);
         inpandfieldlen("rs_ico",40);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function SaveSetReseaux($ModPath, $rs_id, $rs_url, $rs_ico, $subop, $old_id)

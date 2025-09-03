@@ -47,7 +47,7 @@ if (isset($user)) {
     $cookie = Cookie::cookieDecode($user);
 }
 
-sessionManage();
+Session::sessionManage();
 
 $tab_langue = Language::makeTabLangue();
 

@@ -178,7 +178,7 @@ function topicsmanager()
     echo Js::autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
     sql_free_result($result);
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function topicedit($topicid)
@@ -347,7 +347,7 @@ function topicedit($topicid)
 
     echo Js::autoCompleteMulti('admin', 'aid', 'authors', 'topicadmin', '');
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function relatededit($tid, $rid)
@@ -416,7 +416,7 @@ function relatededit($tid, $rid)
         inpandfieldlen("name",30);
         inpandfieldlen("url",320);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function relatedsave($tid, $rid, $name, $url)
@@ -616,7 +616,7 @@ function topicdelete($topicid, $ok = 0)
         <p><a class="btn btn-danger" href="admin.php?op=topicdelete&amp;topicid=' . $topicid . '&amp;ok=1">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-primary"href="admin.php?op=topicsmanager">' . adm_translate('Non') . '</a></p>
         </div>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }
 

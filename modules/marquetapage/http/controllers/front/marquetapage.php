@@ -35,7 +35,7 @@ function marquetapage_add($uri, $topic, $action)
         sql_query("INSERT INTO " . sql_prefix('marquetapage') . " (uid, uri, topic) 
                    VALUES ('$cookie[0]', '$uri', '$topic')");
 
-        redirectUrl($uri);
+        Url::redirectUrl($uri);
     }
 
     if (($action == 'sp_tapage') and ($cookie[0])) {
@@ -49,7 +49,7 @@ function marquetapage_add($uri, $topic, $action)
                        WHERE uid='$cookie[0]' 
                        AND uri='$uri'");
 
-            redirectUrl($uri);
+            Url::redirectUrl($uri);
         }
     }
 
@@ -62,7 +62,7 @@ function marquetapage_add($uri, $topic, $action)
             sql_query("DELETE FROM " . sql_prefix('marquetapage') . " 
                        WHERE uid='$cookie[0]'");
 
-            redirectUrl($uri);
+            Url::redirectUrl($uri);
         }
     }
 }
@@ -76,13 +76,13 @@ function marquetapage()
         global $REQUEST_URI, $title, $post;
 
         // Ne sert a rien vue que les variable ne sont pas utilisé !!!
-        //if ($ibid = themeImage('modules/assets/images/add.gif')) {
+        //if ($ibid = Theme::themeImage('modules/assets/images/add.gif')) {
         //    $add = $ibid;
         //} else {
         //    $add = 'modules/marquetapage/assets/images/add.gif';
         //}
 
-        //if ($ibid = themeImage('modules/assets/images/addj.gif')) {
+        //if ($ibid = Theme::themeImage('modules/assets/images/addj.gif')) {
         //    $addj = $ibid;
         //} else {
         //    $addj = 'modules/marquetapage/assets/images/addj.gif';
@@ -131,13 +131,13 @@ function marquetapage()
 settype($op, 'string');
 
 if ($op == 'add') {
-    marquetapage_add(removeHack($uri), removeHack($topic), 'ad_tapage');
+    marquetapage_add(Hack::removeHack($uri), Hack::removeHack($topic), 'ad_tapage');
 }
 
 if ($op == 'supp') {
-    marquetapage_add(removeHack($uri), '', 'sp_tapage');
+    marquetapage_add(Hack::removeHack($uri), '', 'sp_tapage');
 }
 
 if ($op == 'supp_all') {
-    marquetapage_add(removeHack($uri), '', 'sp_tespages');
+    marquetapage_add(Hack::removeHack($uri), '', 'sp_tespages');
 }

@@ -267,7 +267,7 @@ function main()
         inpandfieldlen("xt_memberlist",6);
         inpandfieldlen("xt_modules",6);';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 switch ($op) {

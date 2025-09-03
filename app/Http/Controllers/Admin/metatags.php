@@ -135,7 +135,7 @@ function MetaTagAdmin(bool $meta_saved = false)
         inpandfieldlen("newtagcopyright",100);
         inpandfieldlen("newtagrevisitafter",30);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function GetMetaTags($filename)

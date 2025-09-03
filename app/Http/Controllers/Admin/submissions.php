@@ -124,7 +124,7 @@ function submissions()
         }
     }
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 switch ($op) {

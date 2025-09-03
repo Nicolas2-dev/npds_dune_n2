@@ -463,17 +463,17 @@ function listdownloads($dcategory, $sortby, $sortorder)
     $dcategory = StripSlashes($dcategory);
 
     echo '<div class="mt-3"></div>
-    ' . paginateSingle('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, '', $page);
+    ' . Paginator::paginateSingle('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, '', $page);
 }
 
 function main()
 {
     global $dcategory, $sortby, $sortorder, $sitename;
 
-    $dcategory  = removeHack(stripslashes(htmlspecialchars(urldecode($dcategory), ENT_QUOTES, 'UTF-8'))); // electrobug
+    $dcategory  = Hack::removeHack(stripslashes(htmlspecialchars(urldecode($dcategory), ENT_QUOTES, 'UTF-8'))); // electrobug
     $dcategory = str_replace("&#039;", "\'", $dcategory);
 
-    $sortby  = removeHack(stripslashes(htmlspecialchars(urldecode($sortby), ENT_QUOTES, 'UTF-8'))); // electrobug
+    $sortby  = Hack::removeHack(stripslashes(htmlspecialchars(urldecode($sortby), ENT_QUOTES, 'UTF-8'))); // electrobug
 
     include 'header.php';
 

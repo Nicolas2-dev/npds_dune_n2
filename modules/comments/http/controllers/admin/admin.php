@@ -86,7 +86,7 @@ if ($Mmod) {
                 sql_query("UPDATE " . $comments_req_raz);
             }
 
-            redirectUrl($url_ret);
+            Url::redirectUrl($url_ret);
             break;
 
         case 'viewip':
@@ -160,7 +160,7 @@ if ($Mmod) {
                 }
             }
 
-            redirectUrl($url_ret);
+            Url::redirectUrl($url_ret);
             break;
     }
 } else {

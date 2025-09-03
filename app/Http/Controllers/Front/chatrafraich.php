@@ -110,7 +110,7 @@ if ($result) {
 
         $message = preg_replace(array_keys($chat_forbidden_words), array_values($chat_forbidden_words), $message);
         $message = str_replace('"', '\"', Forum::makeClickable($message));
-        $thing .= "<div class='chattexte'>" . removeHack($message) . "</div></div>";
+        $thing .= "<div class='chattexte'>" . Hack::removeHack($message) . "</div></div>";
 
         $repere = $date_message;
     }

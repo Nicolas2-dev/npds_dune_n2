@@ -80,7 +80,7 @@ function subscribe($var)
         <hr />
         <p class="lead mb-2">' . translate('Gestion de vos abonnements') . ' : <strong>' . $var . '</strong></p>
         <form action="lnl.php" method="POST">
-            ' . questionSpambot() . '
+            ' . Spam::questionSpambot() . '
             <input type="hidden" name="email" value="' . $var . '" />
             <input type="hidden" name="op" value="subscribeOK" />
             <input type="submit" class="btn btn-outline-primary me-2" value="' . translate('Valider') . '" />
@@ -188,10 +188,10 @@ function unsubscribe($xemail)
                 include 'footer.php';
             }
         } else {
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
         }
     } else {
-        redirectUrl('index.php');
+        Url::redirectUrl('index.php');
     }
 }
 
@@ -205,10 +205,10 @@ switch ($op) {
 
     case 'subscribeOK':
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, '')) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
             Log::ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
 

@@ -144,7 +144,7 @@ function write_review()
         inpandfieldlen("url_title_rev",50);
         inpandfieldlen("cover_rev",100);';
 
-    adminFoot('fv', '', $arg1, 'foo');
+    Validation::adminFoot('fv', '', $arg1, 'foo');
 }
 
 function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id)
@@ -152,7 +152,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
     global $admin, $short_review;
 
     $title      = stripslashes(strip_tags($title));
-    $text       = stripslashes(removeHack(Sanitize::convertToBr($text)));
+    $text       = stripslashes(Hack::removeHack(Sanitize::convertToBr($text)));
     $reviewer   = stripslashes(strip_tags($reviewer));
     $url_title  = stripslashes(strip_tags($url_title));
 
@@ -261,7 +261,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
             <p class="my-3">' . translate('Cela semble-t-il correct ?') . '</p>';
 
         if (!$admin) {
-            echo questionSpambot();
+            echo Spam::questionSpambot();
         }
 
         $consent = '[french]Pour conna&icirc;tre et exercer vos droits notamment de retrait de votre consentement &agrave; l\'utilisation des donn&eacute;es collect&eacute;es veuillez consulter notre <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">politique de confidentialit&eacute;</a>.[/french][english]To know and exercise your rights, in particular to withdraw your consent to the use of the data collected, please consult our <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">privacy policy</a>.[/english][spanish]Para conocer y ejercer sus derechos, en particular para retirar su consentimiento para el uso de los datos recopilados, consulte nuestra <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">pol&iacute;tica de privacidad</a>.[/spanish][german]Um Ihre Rechte zu kennen und auszu&uuml;ben, insbesondere um Ihre Einwilligung zur Nutzung der erhobenen Daten zu widerrufen, konsultieren Sie bitte unsere <a href="static.php?op=politiqueconf.html&amp;npds=1&amp;metalang=1">Datenschutzerkl&auml;rung</a>.[/german][chinese]&#x8981;&#x4E86;&#x89E3;&#x5E76;&#x884C;&#x4F7F;&#x60A8;&#x7684;&#x6743;&#x5229;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x8981;&#x64A4;&#x56DE;&#x60A8;&#x5BF9;&#x6240;&#x6536;&#x96C6;&#x6570;&#x636E;&#x7684;&#x4F7F;&#x7528;&#x7684;&#x540C;&#x610F;&#xFF0C;&#x8BF7;&#x67E5;&#x9605;&#x6211;&#x4EEC;<a href="static.php?op=politiqueconf.html&#x26;npds=1&#x26;metalang=1">&#x7684;&#x9690;&#x79C1;&#x653F;&#x7B56;</a>&#x3002;[/chinese]';
@@ -301,7 +301,7 @@ function preview_review($title, $text, $reviewer, $email, $score, $cover, $url, 
 
     $arg1 = 'var formulid = ["prevreview"];';
 
-    adminFoot('fv', '', $arg1, 'foo');
+    Validation::adminFoot('fv', '', $arg1, 'foo');
 }
 
 function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $asb_question, $asb_reponse)
@@ -311,14 +311,14 @@ function send_review($date, $title, $text, $reviewer, $email, $score, $cover, $u
     include 'header.php';
 
     $title = stripslashes(Sanitize::fixQuotes(strip_tags($title)));
-    $text = stripslashes(Sanitize::fixQuotes(urldecode(removeHack($text))));
+    $text = stripslashes(Sanitize::fixQuotes(urldecode(Hack::removeHack($text))));
 
     if (!$user and !$admin) {
         //anti_spambot
-        if (!reponseSpambot($asb_question, $asb_reponse, $text)) {
+        if (!Spam::reponseSpambot($asb_question, $asb_reponse, $text)) {
             Log::ecrireLog('security', 'Review Anti-Spam : title=' . $title, '');
 
-            redirectUrl('index.php');
+            Url::redirectUrl('index.php');
             die();
         }
     }
@@ -550,7 +550,7 @@ function showcontent($id)
     <div class="card card-body mb-3">';
 
     if ($reviewer != '') {
-        echo '<div class="mb-2"><strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . antiSpam($email, 1) . '" >' . $reviewer . '</a></div>';
+        echo '<div class="mb-2"><strong>' . translate('Le critique') . ' :</strong> <a href="mailto:' . Spam::antiSpam($email, 1) . '" >' . $reviewer . '</a></div>';
     }
 
     if ($score != '') {
@@ -746,7 +746,7 @@ function mod_review($id)
         sql_free_result($result);
     }
 
-    adminFoot('fv', $fv_parametres, $arg1, 'foo');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, 'foo');
 }
 
 function del_review($id_del)
@@ -769,7 +769,7 @@ function del_review($id_del)
         }
     }
 
-    redirectUrl('reviews.php');
+    Url::redirectUrl('reviews.php');
 }
 
 settype($op, 'string');

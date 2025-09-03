@@ -132,7 +132,7 @@ function showimage()
 
                 document.images.avatar.src=\n";
 
-    if ($ibid = themeImage('forum/avatar/blank.gif')) {
+    if ($ibid = Theme::themeImage('forum/avatar/blank.gif')) {
         $imgtmp = substr($ibid, 0, strrpos($ibid, '/') + 1);
     } else {
         $imgtmp = 'assets/images/forum/avatar/';
@@ -185,7 +185,7 @@ function Only_NewUser()
 
         echo '</div>';
 
-        adminFoot('fv', $fv_parametres, $arg1, '');
+        Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     } else {
         header('location: user.php');
     }
@@ -201,29 +201,29 @@ function hidden_form()
 
     echo '<form action="user.php" method="post">
         <input type="hidden" name="uname" value="' . $uname . '" />
-        <input type="hidden" name="name" value="' . removeHack($name) . '" />
+        <input type="hidden" name="name" value="' . Hack::removeHack($name) . '" />
         <input type="hidden" name="email" value="' . $email . '" />
         <input type="hidden" name="user_avatar" value="' . $user_avatar . '" />
-        <input type="hidden" name="user_from" value="' . StripSlashes(removeHack($user_from)) . '" />
-        <input type="hidden" name="user_occ" value="' . StripSlashes(removeHack($user_occ)) . '" />
-        <input type="hidden" name="user_intrest" value="' . StripSlashes(removeHack($user_intrest)) . '" />
-        <input type="hidden" name="user_sig" value="' . StripSlashes(removeHack($user_sig)) . '" />
+        <input type="hidden" name="user_from" value="' . StripSlashes(Hack::removeHack($user_from)) . '" />
+        <input type="hidden" name="user_occ" value="' . StripSlashes(Hack::removeHack($user_occ)) . '" />
+        <input type="hidden" name="user_intrest" value="' . StripSlashes(Hack::removeHack($user_intrest)) . '" />
+        <input type="hidden" name="user_sig" value="' . StripSlashes(Hack::removeHack($user_sig)) . '" />
         <input type="hidden" name="user_viewemail" value="' . $user_viewemail . '" />
-        <input type="hidden" name="pass" value="' . removeHack($pass) . '" />
-        <input type="hidden" name="user_lnl" value="' . removeHack($user_lnl) . '" />
-        <input type="hidden" name="C1" value="' . StripSlashes(removeHack($C1)) . '" />
-        <input type="hidden" name="C2" value="' . StripSlashes(removeHack($C2)) . '" />
-        <input type="hidden" name="C3" value="' . StripSlashes(removeHack($C3)) . '" />
-        <input type="hidden" name="C4" value="' . StripSlashes(removeHack($C4)) . '" />
-        <input type="hidden" name="C5" value="' . StripSlashes(removeHack($C5)) . '" />
-        <input type="hidden" name="C6" value="' . StripSlashes(removeHack($C6)) . '" />
-        <input type="hidden" name="C7" value="' . StripSlashes(removeHack($C7)) . '" />
-        <input type="hidden" name="C8" value="' . StripSlashes(removeHack($C8)) . '" />
-        <input type="hidden" name="M1" value="' . StripSlashes(removeHack($M1)) . '" />
-        <input type="hidden" name="M2" value="' . StripSlashes(removeHack($M2)) . '" />
-        <input type="hidden" name="T1" value="' . StripSlashes(removeHack($T1)) . '" />
-        <input type="hidden" name="T2" value="' . StripSlashes(removeHack($T2)) . '" />
-        <input type="hidden" name="B1" value="' . StripSlashes(removeHack($B1)) . '" />';
+        <input type="hidden" name="pass" value="' . Hack::removeHack($pass) . '" />
+        <input type="hidden" name="user_lnl" value="' . Hack::removeHack($user_lnl) . '" />
+        <input type="hidden" name="C1" value="' . StripSlashes(Hack::removeHack($C1)) . '" />
+        <input type="hidden" name="C2" value="' . StripSlashes(Hack::removeHack($C2)) . '" />
+        <input type="hidden" name="C3" value="' . StripSlashes(Hack::removeHack($C3)) . '" />
+        <input type="hidden" name="C4" value="' . StripSlashes(Hack::removeHack($C4)) . '" />
+        <input type="hidden" name="C5" value="' . StripSlashes(Hack::removeHack($C5)) . '" />
+        <input type="hidden" name="C6" value="' . StripSlashes(Hack::removeHack($C6)) . '" />
+        <input type="hidden" name="C7" value="' . StripSlashes(Hack::removeHack($C7)) . '" />
+        <input type="hidden" name="C8" value="' . StripSlashes(Hack::removeHack($C8)) . '" />
+        <input type="hidden" name="M1" value="' . StripSlashes(Hack::removeHack($M1)) . '" />
+        <input type="hidden" name="M2" value="' . StripSlashes(Hack::removeHack($M2)) . '" />
+        <input type="hidden" name="T1" value="' . StripSlashes(Hack::removeHack($T1)) . '" />
+        <input type="hidden" name="T2" value="' . StripSlashes(Hack::removeHack($T2)) . '" />
+        <input type="hidden" name="B1" value="' . StripSlashes(Hack::removeHack($B1)) . '" />';
 }
 
 function confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $vpass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1)
@@ -289,14 +289,14 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
     if (!isset($_SERVER['HTTP_REFERER'])) {
         Log::ecrireLog('security', 'Ghost form in user.php registration. => NO REFERER', '');
 
-        logSpambot('', false);
+        Spam::logSpambot('', false);
 
         include 'admin/die.php';
         die();
     } else if ($_SERVER['HTTP_REFERER'] . $NPDS_Key !== $nuke_url . '/user.php' . $NPDS_Key) {
         Log::ecrireLog('security', 'Ghost form in user.php registration. => ' . $_SERVER['HTTP_REFERER'], '');
 
-        logSpambot('', false);
+        Spam::logSpambot('', false);
 
         include 'admin/die.php';
         die();
@@ -316,7 +316,7 @@ function finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_fro
 
         $AlgoCrypt  = PASSWORD_BCRYPT;
         $min_ms     = 100;
-        $options    = ['cost' => getOptimalBcryptCostParameter($makepass, $AlgoCrypt, $min_ms)];
+        $options    = ['cost' => Password::getOptimalBcryptCostParameter($makepass, $AlgoCrypt, $min_ms)];
         $hashpass   = password_hash($makepass, $AlgoCrypt, $options);
         $cryptpass  = crypt($makepass, $hashpass);
 
@@ -451,7 +451,7 @@ function userinfo($uname)
     global $user, $admin, $sitename, $smilies, $short_user;
     global $name, $email, $url, $bio, $user_avatar, $user_from, $user_occ, $user_intrest, $user_sig, $user_journal, $C7, $C8;
 
-    $uname = removeHack($uname);
+    $uname = Hack::removeHack($uname);
 
     $result = sql_query("SELECT uid, name, femail, url, bio, user_avatar, user_from, user_occ, user_intrest, user_sig, user_journal, mns 
                          FROM " . sql_prefix('users') . " 
@@ -468,15 +468,15 @@ function userinfo($uname)
     include 'header.php';
     include_once 'functions.php';
 
-    $email          = removeHack($femail);
-    $name           = stripslashes(removeHack($name));
-    $url            = removeHack($url);
-    $bio            = stripslashes(removeHack($bio));
-    $user_from      = stripslashes(removeHack($user_from));
-    $user_occ       = stripslashes(removeHack($user_occ));
-    $user_intrest   = stripslashes(removeHack($user_intrest));
-    $user_sig       = nl2br(removeHack($user_sig));
-    $user_journal   = stripslashes(removeHack($user_journal));
+    $email          = Hack::removeHack($femail);
+    $name           = stripslashes(Hack::removeHack($name));
+    $url            = Hack::removeHack($url);
+    $bio            = stripslashes(Hack::removeHack($bio));
+    $user_from      = stripslashes(Hack::removeHack($user_from));
+    $user_occ       = stripslashes(Hack::removeHack($user_occ));
+    $user_intrest   = stripslashes(Hack::removeHack($user_intrest));
+    $user_sig       = nl2br(Hack::removeHack($user_sig));
+    $user_journal   = stripslashes(Hack::removeHack($user_journal));
 
     $op = 'userinfo';
 
@@ -487,7 +487,7 @@ function userinfo($uname)
         $direktori = 'assets/images/forum/avatar/';
 
         if (function_exists('theme_image')) {
-            if (themeImage('forum/avatar/blank.gif')) {
+            if (Theme::themeImage('forum/avatar/blank.gif')) {
                 $direktori = 'themes/' . $theme . '/assets/images/forum/avatar/';
             }
         }
@@ -546,7 +546,7 @@ function userinfo($uname)
 
     if (array_key_exists('femail', $posterdata)) {
         if ($posterdata['femail'] != '') {
-            $useroutils .= '<a class=" text-primary me-3" href="mailto:' . antiSpam($posterdata['femail'], 1) . '" target="_blank" ><i class="fa fa-at fa-2x" title="' . translate('Email') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
+            $useroutils .= '<a class=" text-primary me-3" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" ><i class="fa fa-at fa-2x" title="' . translate('Email') . '" data-bs-toggle="tooltip"></i></a>&nbsp;';
         }
     }
 
@@ -587,7 +587,7 @@ function userinfo($uname)
 
     if (isset($cookie[1])) {
         if ($uname == $cookie[1]) {
-            memberMenu($mns, $uname);
+            UserMenu::memberMenu($mns, $uname);
         }
     }
 
@@ -793,7 +793,7 @@ function userinfo($uname)
     <h4 class="my-3">' . translate('Les derniers articles de') . ' ' . $uname . '.</h4>
     <div id="last_article_by" class="card card-body mb-3">';
 
-    $xtab = newsAff('libre', "WHERE informant='$uname' ORDER BY sid DESC LIMIT 10", '', 10);
+    $xtab = News::newsAff('libre', "WHERE informant='$uname' ORDER BY sid DESC LIMIT 10", '', 10);
 
     $story_limit = 0;
 
@@ -1012,14 +1012,14 @@ function ForgetPassword()
 
     $arg1 = 'var formulid = ["forgetpassword"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, 'foo');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, 'foo');
 }
 
 function mail_password($uname, $code)
 {
     global $sitename, $nuke_url;
 
-    $uname = removeHack(stripslashes(htmlspecialchars(urldecode($uname), ENT_QUOTES, 'UTF-8')));
+    $uname = Hack::removeHack(stripslashes(htmlspecialchars(urldecode($uname), ENT_QUOTES, 'UTF-8')));
 
     $result = sql_query("SELECT uname, email, pass 
                          FROM " . sql_prefix('users') . " 
@@ -1132,7 +1132,7 @@ function update_password($code, $passwd)
 
                     $AlgoCrypt  = PASSWORD_BCRYPT;
                     $min_ms     = 250;
-                    $options    = ['cost' => getOptimalBcryptCostParameter($ibid[1], $AlgoCrypt, $min_ms),];
+                    $options    = ['cost' => Password::getOptimalBcryptCostParameter($ibid[1], $AlgoCrypt, $min_ms),];
                     $hashpass   = password_hash($ibid[1], $AlgoCrypt, $options);
                     $cryptpass  = crypt($ibid[1], $hashpass);
 
@@ -1217,7 +1217,7 @@ function login($uname, $pass)
 
                 $AlgoCrypt  = PASSWORD_BCRYPT;
                 $min_ms     = 100;
-                $options    = ['cost' => getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms)];
+                $options    = ['cost' => Password::getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms)];
                 $hashpass   = password_hash($pass, $AlgoCrypt, $options);
                 $pass       = crypt($pass, $hashpass);
 
@@ -1280,7 +1280,7 @@ function edituser()
 
     $userinfo = Auth::getUserInfo($user);
 
-    memberMenu($userinfo['mns'], $userinfo['uname']);
+    UserMenu::memberMenu($userinfo['mns'], $userinfo['uname']);
 
     global $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1;
 
@@ -1370,7 +1370,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 
                     if (($suffix == 'gif') or ($suffix == 'jpg') or ($suffix == 'png') or ($suffix == 'jpeg')) {
 
-                        $field1_filename = removeHack(preg_replace('#[/\\\:\*\?"<>|]#i', '', rawurldecode($field1_filename)));
+                        $field1_filename = Hack::removeHack(preg_replace('#[/\\\:\*\?"<>|]#i', '', rawurldecode($field1_filename)));
                         $field1_filename = preg_replace('#\.{2}|config.php|/etc#i', '', $field1_filename);
 
                         if ($field1_filename) {
@@ -1422,12 +1422,12 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 
                     $AlgoCrypt  = PASSWORD_BCRYPT;
                     $min_ms     = 100;
-                    $options    = ['cost' => getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms),];
+                    $options    = ['cost' => Password::getOptimalBcryptCostParameter($pass, $AlgoCrypt, $min_ms),];
                     $hashpass   = password_hash($pass, PASSWORD_BCRYPT, $options);
                     $pass       = crypt($pass, $hashpass);
 
                     sql_query("UPDATE " . sql_prefix('users') . " 
-                               SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', pass='$pass', hashkey='1', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' 
+                               SET name='$name', email='$email', femail='" . Hack::removeHack($femail) . "', url='" . Hack::removeHack($url) . "', pass='$pass', hashkey='1', bio='" . Hack::removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . Hack::removeHack($user_occ) . "', user_from='" . Hack::removeHack($user_from) . "', user_intrest='" . Hack::removeHack($user_intrest) . "', user_sig='" . Hack::removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' 
                                WHERE uid='$uid'");
 
                     $result = sql_query("SELECT uid, uname, pass, storynum, umode, uorder, thold, noscore, ublockon, theme 
@@ -1456,7 +1456,7 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
                     }
                 } else {
                     sql_query("UPDATE " . sql_prefix('users') . " 
-                               SET name='$name', email='$email', femail='" . removeHack($femail) . "', url='" . removeHack($url) . "', bio='" . removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . removeHack($user_occ) . "', user_from='" . removeHack($user_from) . "', user_intrest='" . removeHack($user_intrest) . "', user_sig='" . removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' 
+                               SET name='$name', email='$email', femail='" . Hack::removeHack($femail) . "', url='" . Hack::removeHack($url) . "', bio='" . Hack::removeHack($bio) . "', user_avatar='$user_avatar', user_occ='" . Hack::removeHack($user_occ) . "', user_from='" . Hack::removeHack($user_from) . "', user_intrest='" . Hack::removeHack($user_intrest) . "', user_sig='" . Hack::removeHack($user_sig) . "', user_viewemail='$a', send_email='$u', is_visible='$v', user_lnl='$w' 
                                WHERE uid='$uid'");
                 }
                 sql_query("UPDATE " . sql_prefix('users_status') . " 
@@ -1469,11 +1469,11 @@ function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bi
 
                 if (sql_num_rows($result) == 1) {
                     sql_query("UPDATE " . sql_prefix('users_extend') . " 
-                               SET C1='" . removeHack($C1) . "', C2='" . removeHack($C2) . "', C3='" . removeHack($C3) . "', C4='" . removeHack($C4) . "', C5='" . removeHack($C5) . "', C6='" . removeHack($C6) . "', C7='" . removeHack($C7) . "', C8='" . removeHack($C8) . "', M1='" . removeHack($M1) . "', M2='" . removeHack($M2) . "', T1='" . removeHack($T1) . "', T2='" . removeHack($T2) . "', B1='$B1'
+                               SET C1='" . Hack::removeHack($C1) . "', C2='" . Hack::removeHack($C2) . "', C3='" . Hack::removeHack($C3) . "', C4='" . Hack::removeHack($C4) . "', C5='" . Hack::removeHack($C5) . "', C6='" . Hack::removeHack($C6) . "', C7='" . Hack::removeHack($C7) . "', C8='" . Hack::removeHack($C8) . "', M1='" . Hack::removeHack($M1) . "', M2='" . Hack::removeHack($M2) . "', T1='" . Hack::removeHack($T1) . "', T2='" . Hack::removeHack($T2) . "', B1='$B1'
                                WHERE uid='$uid'");
                 } else {
                     $result = sql_query("INSERT INTO " . sql_prefix('users_extend') . " 
-                                         VALUES ('$uid','" . removeHack($C1) . "', '" . removeHack($C2) . "', '" . removeHack($C3) . "', '" . removeHack($C4) . "', '" . removeHack($C5) . "', '" . removeHack($C6) . "', '" . removeHack($C7) . "', '" . removeHack($C8) . "', '" . removeHack($M1) . "', '" . removeHack($M2) . "', '" . removeHack($T1) . "', '" . removeHack($T2) . "', '$B1')");
+                                         VALUES ('$uid','" . Hack::removeHack($C1) . "', '" . Hack::removeHack($C2) . "', '" . Hack::removeHack($C3) . "', '" . Hack::removeHack($C4) . "', '" . Hack::removeHack($C5) . "', '" . Hack::removeHack($C6) . "', '" . Hack::removeHack($C7) . "', '" . Hack::removeHack($C8) . "', '" . Hack::removeHack($M1) . "', '" . Hack::removeHack($M2) . "', '" . Hack::removeHack($T1) . "', '" . Hack::removeHack($T2) . "', '$B1')");
                 }
                 if ($pass != '') {
                     logout();
@@ -1498,7 +1498,7 @@ function edithome()
 
     $userinfo = Auth::getUserInfo($user);
 
-    memberMenu($userinfo['mns'], $userinfo['uname']);
+    UserMenu::memberMenu($userinfo['mns'], $userinfo['uname']);
 
     if ($userinfo['theme'] == '') {
         $userinfo['theme'] = "$Default_Theme+$Default_Skin";
@@ -1560,7 +1560,7 @@ function edithome()
 
     $arg1 = 'var formulid=["changehome"];';
 
-    adminFoot('fv', $fv_parametres, $arg1, 'foo');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, 'foo');
 }
 
 function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
@@ -1579,7 +1579,7 @@ function savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock)
     if (($check == $uname) and ($uid == $vuid)) {
         $ublockon = $ublockon ? 1 : 0;
 
-        $ublock = removeHack(Sanitize::fixQuotes($ublock));
+        $ublock = Hack::removeHack(Sanitize::fixQuotes($ublock));
 
         sql_query("UPDATE " . sql_prefix('users') . " 
                    SET storynum='$storynum', ublockon='$ublockon', ublock='$ublock' 
@@ -1617,7 +1617,7 @@ function chgtheme()
         $skin = '';
     }
 
-    memberMenu($userinfo['mns'], $userinfo['uname']);
+    UserMenu::memberMenu($userinfo['mns'], $userinfo['uname']);
 
     echo '<h2 class="mb-3">' . translate('Changer le thème') . '</h2>
     <form action="user.php" method="post">
@@ -1626,7 +1626,7 @@ function chgtheme()
                 <div class="mb-3 form-floating">
                 <select class="form-select" id="theme_local" name="theme_local">';
 
-    $themelist = explode(' ', themeList());
+    $themelist = explode(' ', Theme::themeList());
 
     $thl = sizeof($themelist);
 
@@ -1782,7 +1782,7 @@ function editjournal()
 
     $userinfo = Auth::getUserInfo($user);
 
-    memberMenu($userinfo['mns'], $userinfo['uname']);
+    UserMenu::memberMenu($userinfo['mns'], $userinfo['uname']);
 
     echo '<h2 class="mb-3">' . translate('Editer votre journal') . '</h2>
     <form action="user.php" method="post" name="adminForm">
@@ -1843,7 +1843,7 @@ function savejournal($uid, $journal, $datetime)
         }
 
         $journal = Base64Image::dataImageToFileUrl($journal, 'storage/users_private/' . $cookie[1] . '/jou'); //
-        $journal = removeHack(stripslashes(Sanitize::fixQuotes($journal)));
+        $journal = Hack::removeHack(stripslashes(Sanitize::fixQuotes($journal)));
 
         if ($datetime) {
             $journalentry = $journal;

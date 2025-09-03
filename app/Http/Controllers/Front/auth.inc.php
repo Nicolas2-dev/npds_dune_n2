@@ -67,7 +67,7 @@ if ((isset($aid)) and (isset($pwd)) and ($op == 'login')) {
                     $min_ms     = 100;
 
                     $options    = [
-                        'cost' => getOptimalBcryptCostParameter($pwd, $AlgoCrypt, $min_ms)
+                        'cost' => Password::getOptimalBcryptCostParameter($pwd, $AlgoCrypt, $min_ms)
                     ];
 
                     $hashpass   = password_hash($pwd, $AlgoCrypt, $options);

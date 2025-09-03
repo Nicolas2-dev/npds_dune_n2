@@ -461,7 +461,7 @@ function links()
         inpandfieldlen("cattitle",100);
         inpandfieldlen("subcattitle",100);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function LinksModLink($lid)
@@ -680,7 +680,7 @@ function LinksModLink($lid)
 
     echo '</form>';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function LinksListBrokenLinks()
@@ -775,7 +775,7 @@ function LinksListBrokenLinks()
         </tbody>
     </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function LinksDelBrokenLinks($lid)
@@ -1115,7 +1115,7 @@ function LinksModCat($cat)
     $arg1 = 'var formulid = ["linksmodcat"];
         inpandfieldlen("title",255);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function LinksModCatS($cid, $sid, $sub, $title, $cdescription)
@@ -1277,7 +1277,7 @@ function message_error($ibid)
     echo $ibid;
     echo '<a href="admin.php?op=links" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter)

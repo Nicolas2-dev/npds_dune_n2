@@ -56,7 +56,7 @@ if (isset($user)) {
             Error::forumError('0017');
         }
 
-        $subject = removeHack($subject);
+        $subject = Hack::removeHack($subject);
 
         if ($smilies) {
             if ($image_subject == '') {
@@ -84,7 +84,7 @@ if (isset($user)) {
         }
 
         $message = Forum::makeClickable($message);
-        $message = removeHack(addslashes($message));
+        $message = Hack::removeHack(addslashes($message));
         $time = Date::getPartOfTime(time(), 'yyyy-MM-dd H:mm:ss');
 
         include_once 'language/lang-multi.php';
@@ -607,7 +607,7 @@ if (isset($user)) {
         $arg1 = 'var formulid=["pmessage"]
             inpandfieldlen("subject",100);';
 
-        adminFoot('', '', $arg1, 'foo');
+        Validation::adminFoot('', '', $arg1, 'foo');
     }
 } else {
     Header('Location: user.php');

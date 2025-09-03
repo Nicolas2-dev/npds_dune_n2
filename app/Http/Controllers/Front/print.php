@@ -24,7 +24,7 @@ function PrintPage($oper, $DB, $nl, $sid)
     $aff = true;
 
     if ($oper == 'news') {
-        $xtab = newsAff('libre', "WHERE sid='$sid'", 1, 1);
+        $xtab = News::newsAff('libre', "WHERE sid='$sid'", 1, 1);
 
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -40,7 +40,7 @@ function PrintPage($oper, $DB, $nl, $sid)
     }
 
     if ($oper == 'archive') {
-        $xtab = newsAff('archive', "WHERE sid='$sid'", 1, 1);
+        $xtab = News::newsAff('archive', "WHERE sid='$sid'", 1, 1);
 
         list($sid, $catid, $aid, $title, $time, $hometext, $bodytext, $comments, $counter, $topic, $informant, $notes) = $xtab[0];
 
@@ -56,7 +56,7 @@ function PrintPage($oper, $DB, $nl, $sid)
     }
 
     if ($oper == 'links') {
-        $DB = removeHack(stripslashes(htmlentities(urldecode($DB), ENT_NOQUOTES, 'UTF-8')));
+        $DB = Hack::removeHack(stripslashes(htmlentities(urldecode($DB), ENT_NOQUOTES, 'UTF-8')));
 
         $result = sql_query("SELECT url, title, description, date 
                              FROM " . $DB . "links_links 

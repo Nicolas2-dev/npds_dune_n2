@@ -41,7 +41,7 @@ if (!$user) {
 
     $resultT = sql_query($sqlT);
 
-    memberMenu($userdata['mns'], $userdata['uname']);
+    UserMenu::memberMenu($userdata['mns'], $userdata['uname']);
 
     echo '<div class="card card-body mt-3">
         <h2><a href="replypmsg.php?send=1" title="' . translate('Ecrire un nouveau message privé') . '" data-bs-toggle="tooltip" ><i class="fa fa-edit me-2"></i></a><span class="d-none d-xl-inline">&nbsp;' . translate('Message personnel') . " - </span>" . translate('Boîte de réception') . '</h2>
@@ -158,7 +158,7 @@ if (!$user) {
 
             if ($smilies) {
                 if ($myrow['msg_image'] != '') {
-                    if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
+                    if ($ibid = Theme::themeImage('forum/subject/' . $myrow['msg_image'])) {
                         $imgtmp = $ibid;
                     } else {
                         $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];
@@ -261,7 +261,7 @@ if (!$user) {
 
         if ($smilies) {
             if ($myrow['msg_image'] != '') {
-                if ($ibid = themeImage('forum/subject/' . $myrow['msg_image'])) {
+                if ($ibid = Theme::themeImage('forum/subject/' . $myrow['msg_image'])) {
                     $imgtmp = $ibid;
                 } else {
                     $imgtmp = 'assets/images/forum/subject/' . $myrow['msg_image'];

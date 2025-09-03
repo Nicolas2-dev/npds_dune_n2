@@ -334,7 +334,7 @@ switch ($op) {
                         alert('" . html_entity_decode(adm_translate('Sauvegarde terminée. Les fichiers sont disponibles dans le répertoire /slogs'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . "');
                     //]]>
                     </script>";
-            redirectUrl('admin.php');
+            Url::redirectUrl('admin.php');
         } else if ($savemysql_mode == 3) {
             dbSave_tofile("slogs", 1, $savemysql_size);
 
@@ -344,10 +344,10 @@ switch ($op) {
                     //]]>
                     </script>";
 
-            redirectUrl('admin.php');
+            Url::redirectUrl('admin.php');
         } else {
             dbSave();
-            redirectUrl('admin.php');
+            Url::redirectUrl('admin.php');
         }
         break;
 

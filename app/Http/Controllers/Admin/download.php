@@ -329,7 +329,7 @@ function DownloadAdmin()
             inpandfieldlen("duser",30);
             inpandfieldlen("dcategory",250);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function DownloadEdit($did)
@@ -458,7 +458,7 @@ function DownloadEdit($did)
         inpandfieldlen("duser",30);
         inpandfieldlen("dcategory",250);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $ddate, $dver, $dcategory, $sdcategory, $description, $privs, $Mprivs)
@@ -530,6 +530,6 @@ function DownloadDel($did, $ok = 0)
         </div>
         <a class="btn btn-danger" href="admin.php?op=DownloadDel&amp;did=' . $did . '&amp;ok=1" >' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary" href="admin.php?op=DownloadAdmin" >' . adm_translate('Non') . '</a>';
 
-        adminFoot('', '', '', '');
+        Validation::adminFoot('', '', '', '');
     }
 }

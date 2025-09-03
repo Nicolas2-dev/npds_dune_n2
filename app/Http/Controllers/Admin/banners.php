@@ -322,7 +322,7 @@ function BannersAdmin()
             }
         },';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function BannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
@@ -417,7 +417,7 @@ function BannerDelete($bid, $ok = 0)
         <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer cette Bannière ?') . '<br />
         <a class="btn btn-danger btn-sm mt-3" href="admin.php?op=BannerDelete&amp;bid=' . $bid . '&amp;ok=1">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm mt-3" href="admin.php?op=BannersAdmin" >' . adm_translate('Non') . '</a></div>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function BannerEdit($bid)
@@ -503,7 +503,7 @@ function BannerEdit($bid)
         inpandfieldlen("imageurl",320);
         inpandfieldlen("clickurl",320);';
 
-    adminFoot('fv', '', $arg1, '');
+    Validation::adminFoot('fv', '', $arg1, '');
 }
 
 function BannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
@@ -567,7 +567,7 @@ function BannerClientDelete($cid, $ok = 0)
     echo '<div class="alert alert-danger mt-3">' . adm_translate('Etes-vous sûr de vouloir effacer cet annonceur et TOUTES ses bannières ?') . '</div>
     <a href="admin.php?op=BannerClientDelete&amp;cid=' . $cid . '&amp;ok=1" class="btn btn-danger">' . adm_translate('Oui') . '</a> <a href="admin.php?op=BannersAdmin" class="btn btn-secondary">' . adm_translate('Non') . '</a>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function BannerClientEdit($cid)
@@ -639,7 +639,7 @@ function BannerClientEdit($cid)
             }
         },';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 function BannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)

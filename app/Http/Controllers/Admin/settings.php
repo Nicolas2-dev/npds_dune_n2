@@ -243,7 +243,7 @@ function Configure()
         <div class="form-floating mb-3">
             <select class="form-select" id="xDefault_Theme" name="xDefault_Theme">';
 
-    $themelist = explode(" ", themeList());
+    $themelist = explode(" ", Theme::themeList());
 
     for ($i = 0; $i < sizeof($themelist); $i++) {
         if ($themelist[$i] != '') {
@@ -2043,7 +2043,7 @@ function Configure()
         inpandfieldlen("xadminimg",100);
         inpandfieldlen("xadmf_ext",3);';
 
-    adminFoot('fv', $fv_parametres, $arg1, '');
+    Validation::adminFoot('fv', $fv_parametres, $arg1, '');
 }
 
 switch ($op) {

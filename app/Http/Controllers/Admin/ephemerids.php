@@ -125,7 +125,7 @@ function Ephemerids()
         <button class="btn btn-primary" type="submit">' . adm_translate('Editer') . '</button>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Ephemeridsadd($did, $mid, $yid, $content)
@@ -180,7 +180,7 @@ function Ephemeridsmaintenance($did, $mid)
     echo '</tbody>
         </table>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Ephemeridsdel($eid, $did, $mid)
@@ -224,7 +224,7 @@ function Ephemeridsedit($eid, $did, $mid)
         <button class="btn btn-primary" type="submit">' . adm_translate('Envoyer') . '</button>
     </form>';
 
-    adminFoot('', '', '', '');
+    Validation::adminFoot('', '', '', '');
 }
 
 function Ephemeridschange($eid, $did, $mid, $yid, $content)

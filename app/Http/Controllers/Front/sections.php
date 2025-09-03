@@ -325,7 +325,7 @@ function listarticles($secid)
             echo '<a class="btn btn-secondary" href="sections.php">' . translate('Return to Sections Index') . '</a>';
             */
         } else {
-            redirectUrl('sections.php');
+            Url::redirectUrl('sections.php');
         }
 
         sql_free_result($result);

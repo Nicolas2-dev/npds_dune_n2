@@ -332,7 +332,7 @@ if (array_key_exists($pages_ref, $PAGES)) {
             ? $TitlesitenameX
             : Language::affLangue(substr($PAGES[$pages_ref]['title'], 0, strlen($PAGES[$pages_ref]['title'])));
     } else {
-        $title = removeHack($title);
+        $title = Hack::removeHack($title);
     }
 
     // meta description
@@ -416,7 +416,7 @@ head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_descriptio
 global $httpref, $nuke_url, $httprefmax, $admin;
 if ($httpref == 1) {
 
-    $referer = htmlentities(strip_tags(removeHack(getenv('HTTP_REFERER'))), ENT_QUOTES, 'UTF-8');
+    $referer = htmlentities(strip_tags(Hack::removeHack(getenv('HTTP_REFERER'))), ENT_QUOTES, 'UTF-8');
 
     if ($referer != '' and !strstr($referer, 'unknown') and !stristr($referer, $_SERVER['SERVER_NAME'])) {
         sql_query("INSERT INTO " . sql_prefix('referer') . " 
