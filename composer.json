@@ -4,10 +4,12 @@
         "psr-4": {
             "App\\": "app/",
             "Npds\\": "npds/",
+            "Modules\\": "modules/",
             "Shared\\": "shared/"
         },
         "files": [
             "shared/Support/helpers.php",
+            "npds/Support/Debug/helpers.php",
             "npds/Support/helpers.php"
         ]
     },
