@@ -5,7 +5,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Aliases de classes
+    | Aliases de classes.
     |--------------------------------------------------------------------------
     |
     | Cette section définit les alias pour les classes les plus utilisées
@@ -14,11 +14,7 @@ return [
     |
     */
 
-    /**
-     * Liste des alias de classes enregistrés.
-     *
-     * @var array<string, class-string>
-     */
+    // Liste des alias de classes enregistrés.
     'aliases' => array(
         'Config'   => 'Npds\Config\Config',
         'View'     => 'Npds\View\View',

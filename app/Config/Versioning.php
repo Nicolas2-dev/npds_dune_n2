@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Versioning Configuration
+    | Versioning Configuration.
     |--------------------------------------------------------------------------
     |
     | Informations sur la version de l'application.

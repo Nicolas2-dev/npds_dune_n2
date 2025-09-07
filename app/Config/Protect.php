@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Protection des URLs
+    | Protection des URLs.
     |--------------------------------------------------------------------------
     |
     | Liste des mots-clés ou motifs à filtrer pour sécuriser l'application

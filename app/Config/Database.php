@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Database Configuration
+    | Database Configuration.
     |--------------------------------------------------------------------------
     |
     | Paramètres de connexion à la base de données MySQL.
@@ -26,5 +26,18 @@ return [
     'persistent'  => true,
     'use_mysqli'  => true,
     'debug'       => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Options database.
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    // Détermine la taille maximale pour un fichier dans le processus SaveMysql
+    'savemysql_size' => 256,
+
+    // Type de processus MySQL (1, 2 ou 3)
+    'savemysql_mode' => 1,
 
 ];
