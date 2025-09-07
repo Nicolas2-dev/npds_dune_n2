@@ -2,11 +2,13 @@
 
 namespace App\Library\Security;
 
+use Npds\Config\Config;
 use App\Library\Access\Access;
 
 
 class UrlProtector
 {
+
 
     /**
      * Vérifie et protège les URL contre les contenus ou clés interdites.
@@ -23,13 +25,16 @@ class UrlProtector
      */
     public static function urlProtect(string $arr, string $key): void
     {
-        // include urlProtect Bad Words and create the filter function
-        include 'config/urlProtect.php';
+        // mieux faire face aux techniques d'évasion de code 
+        // : base64_decode(utf8_decode(bin2hex($arr))));
+        $arr            = rawurldecode($arr);
+        $RQ_tmp         = strtolower($arr);
+        $RQ_tmp_large   = strtolower($key) . '=' . $RQ_tmp;
 
-        // mieux faire face aux techniques d'évasion de code : base64_decode(utf8_decode(bin2hex($arr))));
-        $arr = rawurldecode($arr);
-        $RQ_tmp = strtolower($arr);
-        $RQ_tmp_large = strtolower($key) . '=' . $RQ_tmp;
+        $bad_uri_content = Config::get('protect.filters');    
+
+        $bad_uri_key     = static::getServerKeys();
+        $badname_in_uri  = static::detectForbiddenInUri();
 
         if (
             in_array($RQ_tmp, $bad_uri_content)
@@ -47,4 +52,48 @@ class UrlProtector
             Access::accessDenied();
         }
     }
+
+    /**
+     * Récupère toutes les clés de l'environnement $_SERVER.
+     *
+     * @return array
+     */
+    public static function getServerKeys(): array
+    {
+        return array_keys($_SERVER);
+    }
+
+    /**
+     * Retourne la liste des noms de variables interdites dans l'URI.
+     *
+     * @return array
+     */
+    public static function getForbiddenUriNames(): array
+    {
+        return [
+            'GLOBALS',
+            '_SERVER',
+            '_REQUEST',
+            '_GET',
+            '_POST',
+            '_FILES',
+            '_ENV',
+            '_COOKIE',
+            '_SESSION',
+        ];
+    }
+
+    /**
+     * Vérifie si des noms interdits sont présents dans les paramètres GET.
+     *
+     * @return array Les noms interdits trouvés dans l'URI
+     */
+    public static function detectForbiddenInUri(): array
+    {
+        $forbidden = self::getForbiddenUriNames();
+        $getKeys = array_keys($_GET);
+
+        return array_intersect($getKeys, $forbidden);
+    }
+
 }

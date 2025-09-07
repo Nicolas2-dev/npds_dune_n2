@@ -34,4 +34,11 @@ return [
      */
     'url' => 'http://localhost:8080/',
 
+    /**
+     * Nom de l'application.
+     *
+     * @var string
+     */
+    'name' => 'Npds Dev Framework',
+
 ];
