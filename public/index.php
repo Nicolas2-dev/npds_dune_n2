@@ -1,25 +1,151 @@
 <?php
 
+use Npds\Http\Request;
+use Npds\Config\Config;
+use Npds\Http\Response;
+use Npds\Routing\Router;
+use Npds\Application\AliasLoader;
+use App\Exceptions\Handler as ExceptionHandler;
+
+/*
+|--------------------------------------------------------------------------
+| Définition du séparateur de dossier (DS)
+|--------------------------------------------------------------------------
+*/
+
 /**
- * Définit le séparateur de dossier (DS) pour améliorer la portabilité du code.
- * 
+ * Séparateur de dossier compatible avec tous les systèmes.
  * Exemple : "/" sous Linux, "\" sous Windows.
  */
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
+/*
+|--------------------------------------------------------------------------
+| Définition des chemins principaux du projet
+|--------------------------------------------------------------------------
+*/
+
 /**
- * Définit la constante BASEPATH qui pointe vers le répertoire racine du projet.
+ * Chemin racine du projet.
+ *
+ * @var string
  */
 define('BASEPATH', realpath(__DIR__ . '/../') . DS);
 
 /**
- * Charge l’autoloader de Composer, qui permet de gérer automatiquement
- * le chargement des classes.
+ * Chemin du répertoire web/public.
+ *
+ * @var string
  */
-require __DIR__ . '/../vendor/autoload.php';
+define('WEBPATH', realpath(__DIR__) . DS);
 
 /**
- * Débogage dev : affiche un message de confirmation ainsi que l’instance NPDS
- * et le chemin de base de l’application.
+ * Chemin du répertoire app (code source principal).
+ *
+ * @var string
  */
-dump('hello npds mvc run');
+define('APPPATH', BASEPATH . 'app' . DS);
+
+/*
+|--------------------------------------------------------------------------
+| Chargement de l’autoloader Composer
+|--------------------------------------------------------------------------
+|
+| Permet le chargement automatique des classes via PSR-4.
+|
+*/
+require __DIR__ . '/../vendor/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
+| Initialisation des erreurs PHP
+|--------------------------------------------------------------------------
+*/
+error_reporting(-1);
+ini_set('display_errors', 'Off');
+
+/*
+|--------------------------------------------------------------------------
+| Chargement des fichiers de configuration
+|--------------------------------------------------------------------------
+*/
+require APPPATH . 'Config.php';
+
+// Parcours et chargement dynamique des fichiers de configuration
+foreach (glob(APPPATH . 'Config/*.php') as $path) {
+    $key = lcfirst(pathinfo($path, PATHINFO_FILENAME));
+    Config::set($key, require($path));
+}
+
+/*
+|--------------------------------------------------------------------------
+| Définition du fuseau horaire par défaut
+|--------------------------------------------------------------------------
+*/
+$timezone = Config::get('app.timezone', 'Europe/London');
+date_default_timezone_set($timezone);
+
+/*
+|--------------------------------------------------------------------------
+| Initialisation du gestionnaire d’exceptions
+|--------------------------------------------------------------------------
+*/
+ExceptionHandler::initialize();
+
+/*
+|--------------------------------------------------------------------------
+| Initialisation du chargeur d’alias
+|--------------------------------------------------------------------------
+*/
+AliasLoader::initialize();
+
+/*
+|--------------------------------------------------------------------------
+| Exécution du bootstrap local
+|--------------------------------------------------------------------------
+*/
+require APPPATH . 'Bootstrap' . DS . 'Bootstrap.php';
+
+/*
+|--------------------------------------------------------------------------
+| Initialisation du routeur et chargement des routes
+|--------------------------------------------------------------------------
+*/
+$router = Router::getInstance();
+require APPPATH . 'Routes' . DS . 'Front' . DS . 'Routes.php';
+require APPPATH . 'Routes' . DS . 'Admin' . DS . 'Routes.php';
+
+/*
+|--------------------------------------------------------------------------
+| Récupération de la requête HTTP
+|--------------------------------------------------------------------------
+*/
+$request = Request::getInstance();
+
+/*
+|--------------------------------------------------------------------------
+| Dispatch de la requête et génération de la réponse
+|--------------------------------------------------------------------------
+*/
+$response = $router->dispatch($request);
+
+if (! $response instanceof Response) {
+    $response = new Response($response);
+}
+
+// Envoi de la réponse HTTP
+$response->send();
+
+/*
+|--------------------------------------------------------------------------
+| Débogage (uniquement en développement)
+|--------------------------------------------------------------------------
+*/
+if (Config::get('app.debug')) {
+    dump(
+        'hello npds mvc run',
+        Config::all(),
+        $router,
+        $request
+    );
+}

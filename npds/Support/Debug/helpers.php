@@ -2,7 +2,6 @@
 
 use Npds\Support\Debug\Debug;
 
-
 if (! function_exists('dd'))
 {
     /**
@@ -22,7 +21,6 @@ if (! function_exists('dd'))
         die (1);
     }
 }
-
 
 if (! function_exists('vd'))
 {

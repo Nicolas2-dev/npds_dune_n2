@@ -5,6 +5,7 @@
             "App\\": "app/",
             "Npds\\": "npds/",
             "Modules\\": "modules/",
+            "Themes\\": "themes/",
             "Shared\\": "shared/"
         },
         "files": [
