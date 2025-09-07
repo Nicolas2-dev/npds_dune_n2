@@ -19,18 +19,7 @@ define('BASEPATH', realpath(__DIR__ . '/../') . DS);
 require __DIR__ . '/../vendor/autoload.php';
 
 /**
- * Initialise l’application en important le fichier Bootstrap.
- *
- * @var \App\Bootstrap\Bootstrap $npds Instance principale de l’application NPDS.
- */
-$npds = require_once 'app' . DS . 'Bootstrap' . DS . 'Bootstrap.php';
-
-/**
  * Débogage dev : affiche un message de confirmation ainsi que l’instance NPDS
  * et le chemin de base de l’application.
  */
-dump(
-    'hello npds mvc run', 
-    $npds,
-    $npds->basePath()
-);
+dump('hello npds mvc run');
