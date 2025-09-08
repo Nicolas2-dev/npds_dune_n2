@@ -3,19 +3,11 @@
 namespace App\Http\Controllers\Front\Start;
 
 use Npds\View\View;
-use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\Log\Log;
 use App\Library\Auth\Auth;
-use App\Library\Date\Date;
 use App\Library\News\News;
 use App\Library\Edito\Edito;
-use App\Library\Theme\Theme;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
 use Npds\Support\Facades\Redirect;
-use App\Library\Subscribe\Subscribe;
 use Npds\Http\Response as HttpResponse;
 use App\Http\Controllers\BaseController;
 
@@ -160,6 +152,7 @@ class StartPage extends BaseController
 }
 
 /*
+// voir ou je place cette function check install !
 // Modification pour IZ-Xinstall - EBH - JPB & PHR
 if (file_exists('IZ-Xinstall.ok')) {
     if (file_exists('install.php') || is_dir('install')) {
@@ -186,10 +179,12 @@ if (file_exists('IZ-Xinstall.ok')) {
     }
 }
 
+// deprecated !
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
+// controller !
 // Redirect for default Start Page of the portal - look at Admin Preferences for choice
 function select_start_page($op)
 {
@@ -214,6 +209,7 @@ function select_start_page($op)
     }
 }
 
+// controller !
 function theindex($op, $catid, $marqeur)
 {
     include 'header.php';
@@ -261,6 +257,7 @@ function theindex($op, $catid, $marqeur)
     include 'footer.php';
 }
 
+// deprecated !
 settype($op, 'string');
 settype($catid, 'integer');
 settype($marqeur, 'integer');
