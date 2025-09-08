@@ -91,9 +91,7 @@ if (! function_exists('asset_url')) {
 
         $map = [
             'theme'   => fn($name, $path) => site_url("themes/" . ($name ?? Config::get('app.theme', 'default')) . "/assets/{$path}"),
-            'themes'  => fn($name, $path) => site_url("themes/" . ($name ?? Config::get('app.theme', 'default')) . "/assets/{$path}"),
             'module'  => fn($name, $path) => site_url("modules/" . ($name ?? throw new InvalidArgumentException("Nom du module requis")) . "/assets/{$path}"),
-            'modules' => fn($name, $path) => site_url("modules/" . ($name ?? throw new InvalidArgumentException("Nom du module requis")) . "/assets/{$path}"),
         ];
 
         return $map[$type]($name, $path) ?? site_url("assets/{$path}");
