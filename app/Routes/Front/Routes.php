@@ -1,6 +1,6 @@
 <?php
 
-//Route::get('/',        'App\Http\Controllers\Front\Home@index');
+Route::get('test',        'App\Http\Controllers\DevTest\Home@index');
 
 Route::get(
     '/', 

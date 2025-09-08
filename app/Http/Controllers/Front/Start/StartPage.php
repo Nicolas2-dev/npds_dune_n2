@@ -9,7 +9,7 @@ use App\Library\News\News;
 use App\Library\Edito\Edito;
 use Npds\Support\Facades\Redirect;
 use Npds\Http\Response as HttpResponse;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Core\BaseController;
 
 class StartPage extends BaseController
 {
