@@ -2,6 +2,7 @@
 
 namespace App\Library\Messenger;
 
+use Npds\Config\Config;
 use App\Library\Date\Date;
 use App\Library\Error\Error;
 use App\Library\Theme\Theme;
@@ -32,8 +33,6 @@ class Messenger
      */
     public static function messCheckMailInterface(string $username, string $class): void
     {
-        global $anonymous;
-
         if ($ibid = Theme::themeImage('fle_b.gif')) {
             $imgtmp = $ibid;
         } else {
@@ -44,7 +43,7 @@ class Messenger
             $class = "class=\"$class\"";
         }
 
-        if ($username == $anonymous) {
+        if ($username == Config::get('user.anonymous')) {
             if ($imgtmp) {
                 echo "<img alt=\"\" src=\"$imgtmp\" align=\"center\" />$username - <a href=\"user.php\" $class>" . translate('Votre compte') . "</a>";
             } else {
@@ -68,7 +67,7 @@ class Messenger
      */
     public static function messCheckMailSub(string $username, string $class): string
     {
-        global $user;
+        global $user; // global a revoir !
 
         if ($username) {
             $userdata = explode(':', base64_decode($user));
@@ -124,11 +123,11 @@ class Messenger
      */
     public static function FormInstantMessage(string $to_userid): void
     {
-        include 'header.php';
+        //include 'header.php'; // a suuprimer !
 
         static::writeShortPrivateMessage(Hack::removeHack($to_userid));
 
-        include 'footer.php';
+        //include 'footer.php'; // a supprimer !
     }
 
     /**
@@ -178,13 +177,12 @@ class Messenger
                 }
             }
 
-            global $subscribe, $nuke_url, $sitename;
-            if ($subscribe) {
-                $sujet = html_entity_decode(translate_ml($user_languex, 'Notification message privé.'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $from_userid . '] / ' . $sitename;
+            if (Config::get('user.subscribe')) {
+                $sujet = html_entity_decode(translate_ml($user_languex, 'Notification message privé.'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . '[' . $from_userid . '] / ' . Config::get('app.sitename');
 
-                $message = $time . '<br />' . translate_ml($user_languex, 'Bonjour') . '<br />' . translate_ml($user_languex, 'Vous avez un nouveau message.') . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . $nuke_url . '/viewpmsg.php">' . translate_ml($user_languex, 'Cliquez ici pour lire votre nouveau message.') . '</a><br />';
+                $message = $time . '<br />' . translate_ml($user_languex, 'Bonjour') . '<br />' . translate_ml($user_languex, 'Vous avez un nouveau message.') . '<br /><br /><b>' . $subject . '</b><br /><br /><a href="' . Config::get('app.url') . '/viewpmsg.php">' . translate_ml($user_languex, 'Cliquez ici pour lire votre nouveau message.') . '</a><br />';
 
-                include 'config/signat.php';
+                $message .= Config::get('signature.signature');
 
                 Mailer::copyToEmail($to_useridx, $sujet, stripslashes($message));
             }

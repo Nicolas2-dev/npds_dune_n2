@@ -26,7 +26,7 @@ class News
      */
     public static function ctrlAff(int $ihome, int $catid = 0): bool
     {
-        global $user;
+        global $user; // global a revoir !
 
         $affich = false;
 
@@ -58,7 +58,7 @@ class News
 
     public static function automatedNews()
     {
-        global $gmt;
+        $gmt = Config::get('date.gmt'); // gmt a revoir !
 
         $today = getdate(time() + ((int)$gmt * 3600));
         $day = $today['mday'];
@@ -104,8 +104,7 @@ class News
                         sql_query("DELETE FROM " . sql_prefix('autonews') . " 
                                 WHERE anid='$anid'");
 
-                        global $subscribe;
-                        if ($subscribe) {
+                        if (Config::get('user.subscribe')) {
                             Subscribe::subscribeMail('topic', $topic, '', $subject, '');
                         }
 
@@ -213,8 +212,8 @@ class News
         $transl1 = translate('Page suivante');
         $transl2 = translate('Home');
 
-        global $storyhome, $cookie;
-        $storynum = isset($cookie[3]) ? $cookie[3] : $storyhome;
+        global $cookie; // global a revoir !
+        $storynum = isset($cookie[3]) ? $cookie[3] : Config::get('storie.storyhome');
 
         if ($op == 'categories') {
             if (sizeof($news_tab) == $storynum) {
@@ -446,7 +445,7 @@ class News
      */
     public static function prepaAffNews(string $op, int|string $catid, int $marqeur)  // : void
     {
-        global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
+        global $topicname, $topicimage, $topictext, $datetime, $cookie; // global a revoir !
 
         $storyhome = Config::get('storie.storyhome');
 
@@ -581,7 +580,7 @@ class News
     #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
     public static function getTopics($s_sid)
     {
-        global $topicname, $topicimage, $topictext;
+        global $topicname, $topicimage, $topictext; // global a revoir !
 
         $sid = $s_sid;
 
@@ -611,16 +610,14 @@ class News
     #autodoc ultramode() : Génération des fichiers ultramode.txt et net2zone.txt dans /cache
     public static function ultramode()
     {
-        global $nuke_url, $storyhome;
-
         $file = fopen('storage/cache/ultramode.txt', 'w');
         $file2 = fopen('storage/cache/net2zone.txt', 'w');
 
         fwrite($file, "General purpose self-explanatory file with news headlines\n");
 
-        $storynum = $storyhome;
+        $storynum = Config::get('storie.storyhome');
 
-        $xtab = static::newsAff('index', "WHERE ihome='0' AND archive='0'", $storyhome, '');
+        $xtab = static::newsAff('index', "WHERE ihome='0' AND archive='0'", Config::get('storie.storyhome'), '');
 
         $story_limit = 0;
 
@@ -636,6 +633,8 @@ class News
 
 
             $hometext = Metalang::metaLang(strip_tags($hometext));
+
+            $nuke_url = Config::get('app.url');
 
             fwrite($file, "%%\n$title\n$nuke_url/article.php?sid=$sid\n$time\n$aid\n$topictext\n$hometext\n$topicimage\n");
             fwrite($file2, "<NEWS>\n<NBX>$topictext</NBX>\n<TITLE>" . stripslashes($title) . "</TITLE>\n<SUMMARY>$hometext</SUMMARY>\n<URL>$nuke_url/article.php?sid=$sid</URL>\n<AUTHOR>" . $aid . "</AUTHOR>\n</NEWS>\n\n");

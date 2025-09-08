@@ -3,8 +3,11 @@
 namespace App\Library\Theme;
 
 use IntlDateFormatter;
+use Npds\Config\Config;
 use App\Library\Date\Date;
 use App\Library\User\User;
+use App\Library\Assets\Css;
+use App\Library\Editeur\Editeur;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 
@@ -15,7 +18,11 @@ class Theme
     public static function getTheme()
     {
         // take the right theme location !
-        global $Default_Theme, $Default_Skin, $user;
+        global $user; // global a revoir !
+
+        $Default_Theme = Config::get('theme.Default_Theme');
+        $Default_Skin = Config::get('theme.Default_Skin');
+        
         if (isset($user) and $user != '') {
 
             global $cookie;
@@ -57,7 +64,7 @@ class Theme
      */
     public static function image(string $theme_img): string|false
     {
-        global $theme;
+        global $theme; // global a revoir !
 
         if (@file_exists('themes/' . $theme . '/assets/' . $theme_img)) {
             return 'themes/' . $theme . '/assets/' . $theme_img;
@@ -163,7 +170,7 @@ class Theme
         string      $topictext,
         string|int  $id
     ): void {
-        global $tipath, $theme;
+        global $tipath, $theme; // global a revoir !
 
         $inclusion = false;
 
@@ -287,7 +294,7 @@ class Theme
         ?int        $next_sid,
         ?string     $archive
     ): void {
-        global $tipath, $theme, $counter, $boxtitle, $boxstuff;
+        global $tipath, $theme, $counter, $boxtitle, $boxstuff; // global a revoir 
 
         $inclusion = false;
 
@@ -367,7 +374,7 @@ class Theme
      */
     public static function themeSidebox(string $title, string $content): void
     {
-        global $theme, $B_class_title, $B_class_content, $bloc_side, $htvar;
+        global $theme, $B_class_title, $B_class_content, $bloc_side, $htvar; // global a revoir !
 
         $inclusion = false;
 
@@ -425,7 +432,7 @@ class Theme
      */
     public static function themEdito(string $content): string|false
     {
-        global $theme;
+        global $theme; // global a revoir !
 
         $inclusion = false;
 
@@ -457,10 +464,13 @@ class Theme
 
     ////////// provisoire a revoir /////////
 
+    // Note toutes ces function sont a revoir !
 
     function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords)
     {
-        global $slogan, $Titlesitename, $banners, $Default_Theme, $theme, $gzhandler, $language, $topic, $hlpfile, $user, $hr, $long_chain, $theme_darkness;
+        // global a revoir !
+        global $slogan, $Titlesitename, $banners, $Default_Theme, $theme, $gzhandler; 
+        global $language, $topic, $hlpfile, $user, $hr, $long_chain, $theme_darkness;
 
         settype($m_keywords, 'string');
         settype($m_description, 'string');
@@ -488,7 +498,7 @@ class Theme
         <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/favicon-180.png" />';
 
         // Syndication RSS & autres
-        global $sitename, $nuke_url;
+        global $sitename, $nuke_url; // global a revoir !
 
         // Canonical
         $scheme = strtolower($_SERVER['REQUEST_SCHEME'] ?? 'http');
@@ -585,9 +595,10 @@ class Theme
         include 'themes/' . $tmp_theme . '/views/header.php';
     }
 
+    // function a revoir suite a suppression des global !
     function footmsg()
     {
-        global $foot1, $foot2, $foot3, $foot4;
+        global $foot1, $foot2, $foot3, $foot4; // global a revoir !
 
         $foot = '<p align="center">';
 
@@ -609,7 +620,7 @@ class Theme
 
     function foot()
     {
-        global $user, $Default_Theme, $cookie9;
+        global $user, $Default_Theme, $cookie9; // global a revoir !
 
         if ($user) {
             $cookie = explode(':', base64_decode($user));

@@ -2,6 +2,7 @@
 
 namespace App\Library\Subscribe;
 
+use Npds\Config\Config;
 use App\Library\Mailer\Mailer;
 
 
@@ -25,7 +26,6 @@ class Subscribe
         string      $Xresume,
         int|string  $Xsauf
     ): void {
-        global $sitename, $nuke_url;
 
         if ($Xtype == 'topic') {
             $result = sql_query("SELECT topictext 
@@ -65,6 +65,8 @@ class Subscribe
 
         include_once 'language/lang-multi.php';
 
+        $nuke_url = Config::get('app.url');
+
         while (list($uid) = sql_fetch_row($result)) {
             if ($uid != $Xsauf) {
 
@@ -94,12 +96,12 @@ class Subscribe
                     }
                 }
 
-                $subject = html_entity_decode(translate_ml($user_langue, "Abonnement"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " / $sitename";
+                $subject = html_entity_decode(translate_ml($user_langue, "Abonnement"), ENT_COMPAT | ENT_HTML401, 'UTF-8') . " / ". Config::get('app.sitename');
                 $message = $entete;
                 $message .= $resume;
                 $message .= $url;
 
-                include 'config/signat.php';
+                $message .= Config::get('signature.signature');
 
                 Mailer::sendEmail($email, $subject, $message, '', true, 'html');
             }

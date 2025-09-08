@@ -1574,7 +1574,7 @@ class Sform
      */
     function sformReadMysql(string $clef) // : ?bool
     {
-        global $op;
+        global $op; // global a revoir !
 
         $op = (isset($op)) ? $op : '';
 

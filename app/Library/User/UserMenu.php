@@ -24,7 +24,7 @@ class UserMenu
      */
     public static function memberMenu(bool $minisite, string $uname): void
     {
-        global $op;
+        global $op; // global a revoir !
 
         $ed_u    = $op === 'edituser' ? 'active' : '';
         $cl_edj  = $op === 'editjournal' ? 'active' : '';

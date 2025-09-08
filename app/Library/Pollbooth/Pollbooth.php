@@ -21,7 +21,7 @@ class Pollbooth
      */
     public static function pollSecur(int|string $pollID): array
     {
-        global $user;
+        global $user; // global a revoir !
 
         //$pollIDX = false;
 

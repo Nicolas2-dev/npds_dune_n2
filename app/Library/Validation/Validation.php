@@ -2,6 +2,7 @@
 
 namespace App\Library\Validation;
 
+use Npds\Config\Config;
 use App\Library\Language\Language;
 
 
@@ -27,8 +28,6 @@ class Validation
      */
     public static function adminFoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
     {
-        global $minpass;
-
         if ($fv == 'fv') {
 
             if ($fv_parametres != '') {
@@ -89,11 +88,11 @@ class Validation
                         if (value.length < 8) {
                             return {
                                 valid: false,
-                                message: "' . translate('Le mot de passe doit contenir') . ' ' . $minpass . ' ' . translate('caractères au minimum') . '",
+                                message: "' . translate('Le mot de passe doit contenir') . ' ' . Config::get('password.minpass') . ' ' . translate('caractères au minimum') . '",
                                 meta:{score: score-5},
                             };
                         }
-                        score += ((value.length >= ' . $minpass . ') ? 1 : -1);
+                        score += ((value.length >= ' . Config::get('password.minpass') . ') ? 1 : -1);
                         if (/[A-Z]/.test(value)) score += 1;
                         if (/[a-z]/.test(value)) score += 1; 
                         if (/[0-9]/.test(value)) score += 1;

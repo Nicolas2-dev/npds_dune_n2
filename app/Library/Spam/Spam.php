@@ -19,7 +19,6 @@ class Spam
      */
     public static function checkIP(string $logPath = 'logs/spam.log', int $threshold = 5): void
     {
-
         $logPath = STORAGE_PATH . $logPath;
 
         if (!file_exists($logPath)) {
@@ -32,6 +31,7 @@ class Spam
         }
 
         $ip = Request::getIp();
+
         $version = str_contains($ip, ':') ? '6' : '4';
         $key = $ip . '|' . $threshold;
 
@@ -71,7 +71,7 @@ class Spam
         // Idée originale, développement et intégration - Gérald MARINO alias neo-machine
         // Rajout brouillage antiSpam() : David MARTINET, alias Boris (2011)
         // Other stuff : Dev 2012
-        global $user;
+        global $user; // global a revoir !
 
         $asb_question = array(
             '4 - (3 / 1)'       => 1,
@@ -239,9 +239,7 @@ class Spam
      */
     public static function reponseSpambot(string $asb_question, string $asb_reponse, string $message = ''): bool
     {
-        // idée originale, développement et intégration - Gérald MARINO alias neo-machine
-        global $user;
-        global $REQUEST_METHOD;
+        global $user, $REQUEST_METHOD; // global a revoir !
 
         if ($REQUEST_METHOD == 'POST') {
             if ($user == '') {

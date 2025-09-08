@@ -2,6 +2,7 @@
 
 namespace App\Library\Url;
 
+// Note Deprecated a venir !!
 
 class Url
 {

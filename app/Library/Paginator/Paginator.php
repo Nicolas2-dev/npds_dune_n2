@@ -20,9 +20,15 @@ class Paginator
      */
     public static function paginateSingle(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
-        $prev = $current - 1; // page précédente
-        $next = $current + 1; // page suivante
-        $penultimate = $total - 1; //avant-dernière page
+        // page précédente
+        $prev = $current - 1; 
+
+        // page suivante
+        $next = $current + 1; 
+
+        //avant-dernière page
+        $penultimate = $total - 1; 
+
         $pagination = '';
 
         if ($total > 1) {
@@ -38,10 +44,10 @@ class Paginator
             }
 
             /*
-        * Début affichage des pages, l'exemple reprend le cas de 3 numéros de pages adjacents (par défaut) de chaque côté du numéro courant
-        * - CAS 1 : il y a au plus 12 pages, insuffisant pour faire une troncature
-        * - CAS 2 : il y a au moins 13 pages, on effectue la troncature pour afficher 11 numéros de pages au total
-        */
+             * Début affichage des pages, l'exemple reprend le cas de 3 numéros de pages adjacents (par défaut) de chaque côté du numéro courant
+             * - CAS 1 : il y a au plus 12 pages, insuffisant pour faire une troncature
+             * - CAS 2 : il y a au moins 13 pages, on effectue la troncature pour afficher 11 numéros de pages au total
+             */
 
             //  CAS 1 : au plus 12 pages -> pas de troncature
             if ($total < 7 + ($adj * 2)) {
@@ -128,9 +134,15 @@ class Paginator
      */
     public static function paginate(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
-        $prev = $start - $topics_per_page; // page précédente
-        $next = $start + $topics_per_page; // page suivante
-        $penultimate = $total - 1; //avant-dernière page
+        // page précédente
+        $prev = $start - $topics_per_page; 
+        
+        // page suivante
+        $next = $start + $topics_per_page; 
+        
+        //avant-dernière page
+        $penultimate = $total - 1; 
+
         $pagination = '';
 
         if ($total > 1) {
@@ -144,6 +156,7 @@ class Paginator
             } else {
                 $pagination .= '<li class="page-item disabled"><a class="page-link" href="#">◄</a></li>';
             }
+            
             /**
              * Début affichage des pages, l'exemple reprend le cas de 3 numéros de pages adjacents (par défaut) de chaque côté du numéro courant
              * - CAS 1 : il y a au plus 12 pages, insuffisant pour faire une troncature

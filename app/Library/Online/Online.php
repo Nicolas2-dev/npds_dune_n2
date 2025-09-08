@@ -31,7 +31,7 @@ class Online
      */
     public static function whoOnlineSub(): array
     {
-        global $user, $cookie;
+        global $user, $cookie; // global a revoir !
 
         list($member_online_num, $guest_online_num) = static::siteLoad();
 
@@ -59,7 +59,7 @@ class Online
      */
     public static function siteLoad(): array
     {
-        global $SuperCache, $who_online_num;
+        global $SuperCache, $who_online_num; // global a revoir !
 
         $guest_online_num = 0;
         $member_online_num = 0;

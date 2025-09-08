@@ -17,7 +17,7 @@ class Smilies
     public static function smilie(string $message): string
     {
         // Tranforme un :-) en IMG
-        global $theme;
+        global $theme; // global a revoir !
 
         if ($ibid = Theme::themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
@@ -66,7 +66,7 @@ class Smilies
     public static function smile(string $message): string
     {
         // Tranforme une IMG en :-)
-        global $theme;
+        global $theme; // global a revoir !
 
         if ($ibid = Theme::themeImage('forum/smilies/smilies.php')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/smilies/';
@@ -106,7 +106,7 @@ class Smilies
      */
     public static function putitemsMore(): void
     {
-        global $theme, $tmp_theme;
+        global $theme, $tmp_theme; // global a revoir !
 
         if (stristr($_SERVER['PHP_SELF'], 'more_emoticon.php')) {
             $theme = $tmp_theme;

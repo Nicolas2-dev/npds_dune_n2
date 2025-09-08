@@ -2,6 +2,12 @@
 
 namespace App\Library\User;
 
+use Npds\Config\Config;
+use App\Library\Auth\Auth;
+use App\Library\Spam\Spam;
+use App\Library\Forum\Forum;
+use App\Library\Theme\Theme;
+
 
 class User
 {
@@ -20,13 +26,11 @@ class User
      */
     public static function userPopover(string $who, int $dim, int $avpop): ?string
     {
-        global $short_user, $user;
+        global $user; // global a revoir !
 
         $result = sql_query("SELECT uname 
                             FROM " . sql_prefix('users') . " 
                             WHERE uname ='$who'");
-
-        include_once 'functions.php';
 
         if (sql_num_rows($result)) {
 
@@ -38,7 +42,7 @@ class User
 
             $my_rs = '';
 
-            if (!$short_user) {
+            if (!Config::get('user.short_user')) {
                 if ($temp_user['uid'] != 1) {
 
                     $posterdata_extend = Forum::getUserDataExtendFromId($temp_user['uid']);

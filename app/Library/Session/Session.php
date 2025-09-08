@@ -22,7 +22,7 @@ class Session
      */
     public static function sessionManage(): void
     {
-        global $cookie, $REQUEST_URI, $nuke_url;
+        global $cookie, $REQUEST_URI; // global a revoir !
 
         $guest = 0;
 

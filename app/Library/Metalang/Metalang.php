@@ -130,7 +130,7 @@ class Metalang
      */
     public static function chargMetalang(): array
     {
-        global $SuperCache, $CACHE_TIMINGS, $REQUEST_URI, $NPDS_Prefix;
+        global $SuperCache, $CACHE_TIMINGS, $REQUEST_URI; // global + supercache a revoir !
 
         if ($SuperCache) {
             $racine = parse_url(basename($REQUEST_URI));
@@ -216,7 +216,7 @@ class Metalang
      */
     public static function metaLang(string $Xcontent): string
     {
-        global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle;
+        global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle; // global a revoir !
 
         // Reduction
         $Xcontent = str_replace('<!--meta', '', $Xcontent);
