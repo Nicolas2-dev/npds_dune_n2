@@ -2,6 +2,25 @@
 
 // Path functions.
 
+if (!function_exists('base_path')) {
+    /**
+     * Get the path to the application folder with capitalized segments.
+     *
+     * @param string $path Optional subpath to append
+     * @return string
+     */
+    function base_path(string $path = ''): string
+    {
+        $basePath = rtrim(BASEPATH, DS);
+
+        if ($path === '') {
+            return $basePath;
+        }
+
+        return $basePath . DS . $path;
+    }
+}
+
 if (!function_exists('app_path')) {
     /**
      * Get the path to the application folder with capitalized segments.

@@ -62,6 +62,26 @@ if (! function_exists('site_url'))
     }
 }
 
+if (! function_exists('asset_url'))
+{
+    /**
+     * Assistant d'URL d'élément
+     *
+     * @param string $path
+     * @return string
+     */
+    function asset_url($path, $package = null)
+    {
+        $path = ltrim($path, '/');
+
+        if (is_null($package)) {
+            return site_url('assets/' .$path);
+        }
+
+        return site_url($path);
+    }
+}
+
 if (! function_exists('config'))
 {
     /**
@@ -76,7 +96,6 @@ if (! function_exists('config'))
         return Config::has($key) ? Config::get($key) : $default;
     }
 }
-
 
 if (! function_exists('with'))
 {

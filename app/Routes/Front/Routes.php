@@ -46,6 +46,8 @@ Route::get('language/{choice_user_language}', array('uses' => function ($choice_
         }
     }*/ 
 
+    //return $choice_user_language;
     return Redirect::to('/');
     
 }, 'where' => array('choice_user_language' => '[a-z]{2}')));
+
