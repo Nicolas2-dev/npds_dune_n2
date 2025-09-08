@@ -135,9 +135,3 @@ if (! $response instanceof Response) {
 
 // Envoi de la réponse HTTP
 $response->send();
-
-
-dump(
-    asset_url('css/style.css', 'theme::base'),
-    asset_url('css/style.css', 'module::geoloc'),
-);
