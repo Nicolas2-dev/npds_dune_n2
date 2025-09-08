@@ -1,2 +1,101 @@
 
 
+Exception information:
+
+    Date: Sep 08, 2025 18:29PM
+
+    Message: opendir(language): Failed to open directory: No such file or directory
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Language/Language.php
+
+    Line: 115
+
+    Stack trace:
+
+#0 [internal function]: Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Language/Language.php(115): opendir()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Language/Language.php(23): App\Library\Language\Language::languageList()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Language/Language.php(230): App\Library\Language\Language::languageCache()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(224): App\Library\Language\Language::makeTabLangue()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(107): require('...')
+#6 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 08, 2025 18:31PM
+
+    Message: Type error: App\Http\Controllers\Front\Start\StartPage::index(): Return value must be of type Npds\View\View|Npds\Http\Response, none returned
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php
+
+    Line: 60
+
+    Stack trace:
+
+#0 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/BaseController.php(43): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(547): App\Http\Controllers\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(220): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(130): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 08, 2025 18:34PM
+
+    Message: Class "App\Library\auth\Auth" not found
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php
+
+    Line: 42
+
+    Stack trace:
+
+#0 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/BaseController.php(43): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(547): App\Http\Controllers\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(220): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(130): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 08, 2025 18:35PM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Front/Start/StartPage/theindex.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(76): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/BaseController.php(102): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(54): App\Http\Controllers\BaseController->createView()
+#3 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(547): App\Http\Controllers\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(220): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(130): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+

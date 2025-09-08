@@ -2,9 +2,18 @@
 
 //Route::get('/',        'App\Http\Controllers\Front\Home@index');
 
+Route::get(
+    '/', 
+    'App\Http\Controllers\Front\Start\StartPage@index'
+);
 
-Route::get('/', 'App\Http\Controllers\Front\Start\StartPage@index');
-
+/**
+ * 
+ */
+Route::get(
+    '/index/{start?}', 
+    'App\Http\Controllers\Front\Start\StartPage@index'
+);
 
 /**
  * Afficher les informations PHP.

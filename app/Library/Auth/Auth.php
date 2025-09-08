@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\auth;
+namespace App\Library\Auth;
 
 use App\Library\Groupe\Groupe;
 
