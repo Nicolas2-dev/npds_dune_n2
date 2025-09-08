@@ -12,7 +12,7 @@ return [
     */
 
     // Active ou désactive le mode debug.
-    'debug' => true,
+    'debug' => false,
 
     /*
     |--------------------------------------------------------------------------

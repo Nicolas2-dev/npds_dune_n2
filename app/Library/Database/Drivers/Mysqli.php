@@ -1,26 +1,7 @@
 <?php
 
+use Npds\Config\Config;
 use App\Library\Log\Log;
-
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/*                                                                      */
-/* NPDS Copyright (c) 2001-2024 by Philippe Brunier                     */
-/* =========================                                            */
-/*                                                                      */
-/* Multi DataBase Support - MysqlI                                      */
-/* Copyright (c) JIRECK 2013                                            */
-/* Mise à jour 2017/2024 jpb, nicolas2                                  */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
-
-global $debugmysql;
-
-define('NPDS_DEBUG', $debugmysql);
-
-$sql_nbREQ = 0;
 
 /**
  * Initialise la connexion à la base de données.
@@ -56,7 +37,13 @@ function Mysql_Connexion(): mysqli|false
  */
 function sql_connect(): mysqli|false
 {
-   global $mysql_p, $dbhost, $dbuname, $dbpass, $dbname, $dblink, $mysql_error;
+   global $dblink, $mysql_error;
+
+   $mysql_p = Config::get('database.mysql_p');
+   $dbhost  = Config::get('database.dbhost');
+   $dbuname = Config::get('database.dbuname');
+   $dbpass  = Config::get('database.dbpass');
+   $dbname  = Config::get('database.dbname');
 
    try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -78,7 +65,7 @@ function sql_connect(): mysqli|false
 
       error_log($message = sprintf('Erreur de connexion SQL : %s', $mysql_error));
 
-      if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
+      if (Config::get('database.debugmysql')) {
          Log::ecrireLog('mysql', $message, '');
       }
 
@@ -115,7 +102,9 @@ function sql_error(): string
  */
 function sql_query(string $sql): mysqli_result|false
 {
-   global $sql_nbREQ, $dblink;
+   static $sql_nbREQ = 0;
+
+   global $dblink;
 
    $sql_nbREQ++;
 
@@ -131,7 +120,7 @@ function sql_query(string $sql): mysqli_result|false
       $value = mysqli_real_escape_string($dblink, $value);
 
       // Debug
-      if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
+      if (Config::get('database.debugmysql')) {
          error_log('Valeur avant échappement : ' . $value);
          error_log('Valeur après échappement : ' . $value);
       }
@@ -175,7 +164,7 @@ function sql_query(string $sql): mysqli_result|false
       }
    }
 
-   if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
+   if (Config::get('database.debugmysql')) {
       error_log($message = sprintf('Requête finale : %s', $sql));
 
       Log::ecrireLog('mysql', $message, '');
@@ -187,7 +176,7 @@ function sql_query(string $sql): mysqli_result|false
       // Utilisation de sql_error() pour récupérer l'erreur de requête
       error_log($message = sprintf('Échec de la requête : %s - Erreur : %s', $sql, sql_error()));
 
-      if (defined('NPDS_DEBUG') && NPDS_DEBUG) {
+      if (Config::get('database.debugmysql')) {
          Log::ecrireLog('mysql', $message, '');
       }
 
@@ -309,9 +298,7 @@ function sql_last_id(): int
 function sql_list_tables(string $dbnom = ''): mysqli_result|false
 {
    if (empty($dbnom)) {
-      global $dbname;
-
-      $dbnom = $dbname;
+      $dbnom = Config::get('database.dbname');
    }
 
    return sql_query("SHOW TABLES FROM $dbnom");
@@ -322,9 +309,9 @@ function sql_list_tables(string $dbnom = ''): mysqli_result|false
  */
 function sql_select_db(): bool
 {
-   global $dbname, $dblink;
+   global $dblink;
 
-   if (!mysqli_select_db($dblink, $dbname)) {
+   if (!mysqli_select_db($dblink, Config::get('database.dbname'))) {
       return false;
    } else {
       return true;
@@ -346,9 +333,9 @@ function sql_free_result(mysqli_result $q_id) //: void //: bool
  */
 function sql_close() // : void // : bool
 {
-   global $dblink, $mysql_p;
+   global $dblink;
 
-   if (!$mysql_p) {
+   if (!Config::get('database.mysql_p')) {
       return mysqli_close($dblink);
    }
 }

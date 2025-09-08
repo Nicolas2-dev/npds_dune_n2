@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Library\Language\Sigleton;
+
 /**
  * Classe LanguageManager
  *

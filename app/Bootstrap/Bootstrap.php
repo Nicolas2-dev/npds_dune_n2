@@ -10,6 +10,7 @@ use Npds\Support\Facades\Request;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 use App\Library\Security\UrlProtector;
+use App\Library\Language\Sigleton\LanguageManager;
 
 /*
 |--------------------------------------------------------------------------
@@ -223,7 +224,45 @@ if (!empty($_FILES)) {
 |
 */
 
-include 'language/' . $language . '/lang-' . $language . '.php';
+// Note a revoir non finaliser !!!
+/*
+if (isset($choice_user_language)) {
+    if ($choice_user_language != '') {
+
+        $user_cook_duration = max(1, Config::get('cookie.user_cook_duration'));
+
+        $timeX = time() + (3600 * $user_cook_duration);
+
+        $languageslist = Language::languageCache();
+
+        if ((stristr($languageslist, $choice_user_language)) and ($choice_user_language != ' ')) {
+            setcookie('user_language', $choice_user_language, $timeX);
+
+            // voir pour faire un set user_language dans l'app ! 
+            $user_language = $choice_user_language;
+        }
+    }
+}
+
+if (Config::get('language.multi_langue')) {
+    if (($user_language != '') and ($user_language != " ")) {
+        $tmpML = stristr($languageslist, $user_language);
+        $tmpML = explode(' ', $tmpML);
+
+        if ($tmpML[0]) {
+
+            // voir pour faire un set language dans l'app ! 
+            $language = $tmpML[0];
+        }
+    }
+}
+*/
+
+//$langManager = LanguageManager::getInstance();
+
+//$iso = strtoupper($langManager->getIso($language = Config::get('language.language')));
+
+//include APPPATH . 'Language/' . $iso . '/lang-' . $language . '.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -232,9 +271,9 @@ include 'language/' . $language . '/lang-' . $language . '.php';
 |
 */
 
-include 'library/database/mysqli.php';
+//include APPPATH .'library/database/mysqli.php';
 
-$dblink = Mysql_Connexion();
+//$dblink = Mysql_Connexion();
 
 /*
 |--------------------------------------------------------------------------
@@ -252,7 +291,7 @@ $dblink = Mysql_Connexion();
 |
 */
 
-require_once 'auth.inc.php';
+//require_once APPPATH .'Http/Controllers/Front/auth.inc.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -261,9 +300,9 @@ require_once 'auth.inc.php';
 |
 */
 
-if (isset($user)) {
-    $cookie = Cookie::cookieDecode($user);
-}
+//if (isset($user)) {
+//    $cookie = Cookie::cookieDecode($user);
+//}
 
 /*
 |--------------------------------------------------------------------------
@@ -272,7 +311,7 @@ if (isset($user)) {
 |
 */
 
-Session::sessionManage();
+//Session::sessionManage();
 
 /*
 |--------------------------------------------------------------------------
@@ -281,7 +320,7 @@ Session::sessionManage();
 |
 */
 
-$tab_langue = Language::makeTabLangue();
+//$tab_langue = Language::makeTabLangue();
 
 /*
 |--------------------------------------------------------------------------
@@ -290,8 +329,8 @@ $tab_langue = Language::makeTabLangue();
 |
 */
 
-global $meta_glossaire; // global a supprimer 
-$meta_glossaire = Metalang::chargMetalang();
+//global $meta_glossaire; // global a supprimer 
+//$meta_glossaire = Metalang::chargMetalang();
 
 /*
 |--------------------------------------------------------------------------
@@ -300,4 +339,4 @@ $meta_glossaire = Metalang::chargMetalang();
 |
 */
 
-Block::loadBlocks('blocks');
+//Block::loadBlocks('blocks');

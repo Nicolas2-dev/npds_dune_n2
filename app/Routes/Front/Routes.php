@@ -12,8 +12,10 @@ Route::get('/',        'App\Http\Controllers\Front\Home@index');
 // A revoir !
 Route::get('language/{choice_user_language}', array('uses' => function ($choice_user_language)
 {
+    //return htmlentities($choice_user_language);
+
     // Note a revoir non finaliser !!!
-    if (isset($choice_user_language)) {
+    /*if (isset($choice_user_language)) {
         if ($choice_user_language != '') {
             
             $user_cook_duration = max(1, Config::get('cookie.user_cook_duration'));
@@ -42,7 +44,8 @@ Route::get('language/{choice_user_language}', array('uses' => function ($choice_
                 $language = $tmpML[0];
             }
         }
-    }   
+    }*/ 
 
+    return Redirect::to('/');
+    
 }, 'where' => array('choice_user_language' => '[a-z]{2}')));
-

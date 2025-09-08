@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use Npds\View\View;
+use App\Library\Database\Sql;
 use App\Http\Controllers\BaseController;
 
 class Home extends BaseController
@@ -26,6 +27,14 @@ class Home extends BaseController
     public function index(): View
     {
         $content = 'This is the Homepage';
+
+        //vd(
+        //    new Sql(), 
+        //    Sql::fetch_assoc(Sql::query('SELECT * FROM ' . sql_prefix('users') . ' WHERE uid='. 2)),
+        //    sql_fetch_assoc(sql_query('SELECT * FROM ' . sql_prefix('users') . ' WHERE uid='. 2))
+        //);
+
+        //vd('member_list', config('user.member_list'), config('user.member_list_toto'));
 
         return $this->createView()
             ->shares('title', 'Homepage')

@@ -66,7 +66,6 @@ class Dispatcher
         }
     }
 
-
     /**
      * Vérifie si un événement possède des écouteurs.
      *

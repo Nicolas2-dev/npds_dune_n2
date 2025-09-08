@@ -155,7 +155,10 @@ class Router
 
         $regexp = preg_replace_callback('#/\{(.*?)(\?)?\}#', function ($matches) use ($route, $patterns, &$optionals, &$variables)
         {
-            @list(, $name, $optional) = $matches;
+            //@list(, $name, $optional) = $matches;
+
+            $name     = $matches[1];
+            $optional = $matches[2] ?? null; 
 
             if (in_array($name, $variables)) {
                 throw new LogicException("Pattern [$route] cannot reference variable name [$name] more than once.");

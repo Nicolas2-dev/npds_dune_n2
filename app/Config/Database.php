@@ -13,19 +13,19 @@ return [
     | dbuname     : Nom d'utilisateur MySQL
     | dbpass      : Mot de passe MySQL
     | dbname      : Nom de la base de données
-    | persistent  : Connexion persistante (true/false)
-    | use_mysqli  : Utiliser l'extension MySQLi (true)
-    | debug       : Activer le log et le rapport d'erreurs pour MySQL
+    | mysql_p     : Connexion persistante (true/false)
+    | mysql_i     : Utiliser l'extension MySQLi (true)
+    | debugmysql  : Activer le log et le rapport d'erreurs pour MySQL
     |
     */
 
     'dbhost'      => 'localhost',
-    'dbuname'     => 'root',
-    'dbpass'      => '',
-    'dbname'      => 'revolution',
-    'persistent'  => true,
-    'use_mysqli'  => true,
-    'debug'       => false,
+    'dbuname'     => 'npdslocal',
+    'dbpass'      => ']Y!FomJW6rAeFK7!',
+    'dbname'      => 'npdslocal',
+    'mysql_p'     => true,
+    'mysql_i'     => true,
+    'debugmysql'  => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -62,6 +62,22 @@ if (! function_exists('site_url'))
     }
 }
 
+if (! function_exists('config'))
+{
+    /**
+     * Récupère la valeur d'une clé de configuration.
+     *
+     * @param string $key
+     * @param mixed $default Valeur par défaut si la clé n'existe pas
+     * @return mixed
+     */
+    function config(string $key, mixed $default = null): mixed
+    {
+        return Config::has($key) ? Config::get($key) : $default;
+    }
+}
+
+
 if (! function_exists('with'))
 {
     /**
