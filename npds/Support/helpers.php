@@ -62,19 +62,41 @@ if (! function_exists('site_url'))
     }
 }
 
-if (! function_exists('asset_url'))
-{
+if (! function_exists('asset_url')) {
     /**
-     * Assistant d'URL d'élément
+     * Génère l'URL complète d'un asset (CSS, JS, image, etc.).
      *
-     * @param string $path
-     * @return string
+     * Permet de gérer différents types de packages : thèmes, modules ou assets globaux.
+     * Le paramètre `$package` peut être de la forme "type::nom" :
+     *   - 'theme::DarkMode' → /themes/DarkMode/assets/...
+     *   - 'module::Blog'   → /modules/Blog/assets/...
+     *   - null             → /assets/...
+     *
+     * @param  string      $path    Chemin relatif vers l'asset (ex: 'css/style.css').
+     * @param  string|null $package Type et nom du package séparés par '::' (ex: 'theme::DarkMode').
+     *
+     * @return string                URL complète vers l'asset.
+     *
+     * @throws InvalidArgumentException Si un module est demandé sans préciser son nom.
      */
-    function asset_url($path)
+    function asset_url(string $path, ?string $package = null): string
     {
         $path = ltrim($path, '/');
 
-        return site_url('assets/' .$path);
+        if ($package === null) {
+            return site_url("assets/{$path}");
+        }
+
+        [$type, $name] = array_pad(explode('::', $package, 2), 2, null);
+
+        $map = [
+            'theme'   => fn($name, $path) => site_url("themes/" . ($name ?? Config::get('app.theme', 'default')) . "/assets/{$path}"),
+            'themes'  => fn($name, $path) => site_url("themes/" . ($name ?? Config::get('app.theme', 'default')) . "/assets/{$path}"),
+            'module'  => fn($name, $path) => site_url("modules/" . ($name ?? throw new InvalidArgumentException("Nom du module requis")) . "/assets/{$path}"),
+            'modules' => fn($name, $path) => site_url("modules/" . ($name ?? throw new InvalidArgumentException("Nom du module requis")) . "/assets/{$path}"),
+        ];
+
+        return $map[$type]($name, $path) ?? site_url("assets/{$path}");
     }
 }
 
