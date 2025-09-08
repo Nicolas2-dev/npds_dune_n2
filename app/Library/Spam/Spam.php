@@ -3,11 +3,63 @@
 namespace App\Library\Spam;
 
 use App\Library\Http\Request;
+use App\Library\Access\Access;
 use App\Library\Encryption\Encrypter;
 
 
 class Spam
 {
+
+    /**
+     * Vérifie si l'adresse IP actuelle est bannie dans le log anti-spam.
+     *
+     * @param string $logPath Chemin vers le fichier log spam.
+     * @param int $threshold Nombre de tentatives KO avant blocage.
+     * @return void
+     */
+    public static function checkIP(string $logPath = 'logs/spam.log', int $threshold = 5): void
+    {
+
+        $logPath = STORAGE_PATH . $logPath;
+
+        if (!file_exists($logPath)) {
+            return;
+        }
+
+        $tabSpam = array_map('trim', file($logPath)); // retire \r\n
+        if (!is_array($tabSpam)) {
+            return;
+        }
+
+        $ip = Request::getIp();
+        $version = str_contains($ip, ':') ? '6' : '4';
+        $key = $ip . '|' . $threshold;
+
+        // Vérifie IP exacte
+        if (in_array($key, $tabSpam)) {
+            Access::accessDenied();
+        }
+
+        // Vérifie plages pour IPv4
+        if ($version === '4') {
+            $parts = explode('.', $ip);
+
+            if (in_array("{$parts[0]}.{$parts[1]}.%|{$threshold}", $tabSpam) ||
+                in_array("{$parts[0]}.{$parts[1]}.{$parts[2]}.%|{$threshold}", $tabSpam)) {
+                Access::accessDenied();
+            }
+        }
+
+        // Vérifie plages pour IPv6
+        if ($version === '6') {
+            $parts = explode(':', $ip);
+
+            if (in_array("{$parts[0]}:{$parts[1]}:%|{$threshold}", $tabSpam) ||
+                in_array("{$parts[0]}:{$parts[1]}:{$parts[2]}:%|{$threshold}", $tabSpam)) {
+                Access::accessDenied();
+            }
+        }
+    }
 
     /**
      * Forge un champ de formulaire anti-spambot.

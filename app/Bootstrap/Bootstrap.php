@@ -1,14 +1,13 @@
 <?php
 
 use Npds\Config\Config;
+use App\Library\Spam\Spam;
 use App\Library\Block\Block;
 use App\Library\Debug\Debug;
 use App\Library\Database\Sql;
-use App\Library\Access\Access;
 use App\Library\Cookie\Cookie;
 use App\Library\Session\Session;
 use App\Library\String\Sanitize;
-use Npds\Support\Facades\Request;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 use App\Library\Security\UrlProtector;
@@ -27,52 +26,12 @@ if (Config::get('debug.debug')) {
 
 /*
 |--------------------------------------------------------------------------
-| Note en faire une function dans une class. A revoir !
+| Vérifie si l'adresse IP actuelle est bannie dans le log anti-spam.
 |--------------------------------------------------------------------------
 |
 */
 
-// First of all : Spam from IP / |5 indicate that the same IP has passed 6 times with status KO in the anti_spambot function
-$path_log = 'storage/logs/spam.log';
-
-if (file_exists($path_log)) {
-    $tab_spam = str_replace("\r\n", '', file($path_log));
-
-    if (is_array($tab_spam)) {
-        $ipadr = Request::getip();
-        $ipv = strstr($ipadr, ':') ? '6' : '4';
-
-        if (in_array($ipadr . '|5', $tab_spam)) {
-            Access::accessDenied();
-        }
-
-        // nous pouvons bannir une plage d'adresse ip en V4 (dans l'admin IPban sous forme x.x.%|5 ou x.x.x.%|5)
-        if ($ipv == '4') {
-            $ip4detail = explode('.', $ipadr);
-
-            if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.%|5', $tab_spam)) {
-                Access::accessDenied();
-            }
-
-            if (in_array($ip4detail[0] . '.' . $ip4detail[1] . '.' . $ip4detail[2] . '.%|5', $tab_spam)) {
-                Access::accessDenied();
-            }
-        }
-
-        // nous pouvons bannir une plage d'adresse ip en V6 (dans l'admin IPban sous forme x:x:%|5 ou x:x:x:%|5)
-        if ($ipv == '6') {
-            $ip6detail = explode(':', $ipadr);
-
-            if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':%|5', $tab_spam)) {
-                Access::accessDenied();
-            }
-
-            if (in_array($ip6detail[0] . ':' . $ip6detail[1] . ':' . $ip6detail[2] . ':%|5', $tab_spam)) {
-                Access::accessDenied();
-            }
-        }
-    }
-}
+Spam::checkIP('logs/spam.log', $threshold = 5);
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +51,7 @@ if (!empty($_GET)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! 
 |--------------------------------------------------------------------------
 |
 */
@@ -100,19 +59,19 @@ if (!empty($_GET)) {
 if (!empty($_POST)) {
     array_walk_recursive($_POST, [Sanitize::class, 'addslashesGpc']);
     /*
-        array_walk_recursive($_POST, [UrlProtector::class, 'post_protect']);
-
-        if(!isset($_SERVER['HTTP_REFERER'])) {
-            Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
-            Spam::logSpambot('', 'false');
-            Access::accessDenied();
-            
-        } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
-            Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
-            Spam::logSpambot('', "false");
-            Access::accessDenied();
-        }
-        */
+    array_walk_recursive($_POST, [UrlProtector::class, 'post_protect']);
+    
+    if(!isset($_SERVER['HTTP_REFERER'])) {
+        Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
+        Spam::logSpambot('', 'false');
+        Access::accessDenied();
+        
+    } else if ($_SERVER['HTTP_REFERER'] !== $nuke_url.$_SERVER['ORIG_PATH_INFO']) {
+        Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . '. => ' . $_SERVER['HTTP_REFERER'], '');
+        Spam::logSpambot('', "false");
+        Access::accessDenied();
+    }
+    */
 
     extract($_POST, EXTR_OVERWRITE);
 }
