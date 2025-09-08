@@ -1,12 +1,22 @@
 <?php
 
-Route::get('/',        'App\Http\Controllers\Front\Home@index');
+//Route::get('/',        'App\Http\Controllers\Front\Home@index');
 
 
+Route::get('/', 'App\Http\Controllers\Front\Start\StartPage@index');
 
 
+/**
+ * Afficher les informations PHP.
+ */
+Route::get('phpinfo', function ()
+{
+    ob_start();
 
+    phpinfo();
 
+    return Response::make(ob_get_clean(), 200);
+});
 
 
 // A revoir !

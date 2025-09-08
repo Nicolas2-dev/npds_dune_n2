@@ -291,20 +291,24 @@ class Router
         // Ajouter des en-têtes de cache pour améliorer les performances
         $lastModified = filemtime($realPath);
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastModified) . ' GMT');
-        header('Cache-Control: public, max-age=3600'); // Cache 1 heure
+        
+        // Cache 1 heure
+        header('Cache-Control: public, max-age=3600'); 
         
         // Vérifier si le client a déjà le fichier en cache
         if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
             $ifModifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+            
             if ($ifModifiedSince >= $lastModified) {
-                http_response_code(304); // Not Modified
-                return '';
+                // Not Modified
+                http_response_code(304); 
+                exit;
             }
         }
 
         // Lire et envoyer le contenu du fichier
         readfile($realPath);
-        return '';
+        exit;
     }
 
     /**
@@ -326,7 +330,8 @@ class Router
         // Ex: /modules/geoloc/assets/css/style.css -> ['', 'modules', 'geoloc', 'assets', 'css', 'style.css']
         $pathParts = explode('/', $path);
         
-        if (count($pathParts) < 4) { // Au minimum ['', 'modules', 'nom', 'assets']
+        // Au minimum ['', 'modules', 'nom', 'assets']
+        if (count($pathParts) < 4) { 
             return null;
         }
 
@@ -351,12 +356,16 @@ class Router
         // Essayer de trouver le dossier réel (insensible à la casse)
         if (is_dir($basePath)) {
             $realDirs = array_filter(glob($basePath . '/*'), 'is_dir');
+
             foreach ($realDirs as $realDir) {
                 $realDirName = basename($realDir);
+
                 if (strtolower($realDirName) === strtolower($moduleOrThemeName)) {
+
                     // Remplacer le nom par le nom réel
                     $pathParts[2] = $realDirName;
                     $foundPath = implode('/', array_slice($pathParts, 1));
+
                     if (file_exists($foundPath)) {
                         return $foundPath;
                     }
@@ -384,6 +393,7 @@ class Router
         // 2. Dossiers modules (cherche dans tous les modules)
         if (is_dir($this->modulesPath)) {
             $modules = array_filter(glob($this->modulesPath . '/*'), 'is_dir');
+
             foreach ($modules as $moduleDir) {
                 $assetPath = $moduleDir . '/assets/' . ltrim($relativePath, '/');
                 $paths[] = $assetPath;
@@ -393,6 +403,7 @@ class Router
         // 3. Dossiers themes (cherche dans tous les thèmes)
         if (is_dir($this->themesPath)) {
             $themes = array_filter(glob($this->themesPath . '/*'), 'is_dir');
+
             foreach ($themes as $themeDir) {
                 $assetPath = $themeDir . '/assets/' . ltrim($relativePath, '/');
                 $paths[] = $assetPath;
@@ -413,6 +424,7 @@ class Router
     {
         // Vérifier le dossier assets principal
         $assetsRealPath = realpath($this->assetsPath);
+
         if ($assetsRealPath && str_starts_with($realPath, $assetsRealPath)) {
             return true;
         }
@@ -420,6 +432,7 @@ class Router
         // Vérifier les dossiers modules
         if (is_dir($this->modulesPath)) {
             $modulesRealPath = realpath($this->modulesPath);
+
             if ($modulesRealPath && str_starts_with($realPath, $modulesRealPath)) {
                 // S'assurer que le chemin contient '/assets/'
                 return strpos($realPath, '/assets/') !== false;
@@ -429,6 +442,7 @@ class Router
         // Vérifier les dossiers themes
         if (is_dir($this->themesPath)) {
             $themesRealPath = realpath($this->themesPath);
+
             if ($themesRealPath && str_starts_with($realPath, $themesRealPath)) {
                 // S'assurer que le chemin contient '/assets/'
                 return strpos($realPath, '/assets/') !== false;
