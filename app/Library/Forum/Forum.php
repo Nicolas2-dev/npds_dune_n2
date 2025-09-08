@@ -3,9 +3,11 @@
 namespace App\Library\Forum;
 
 use IntlDateFormatter;
+use Npds\Config\Config;
 use App\Library\Log\Log;
 use App\Library\Date\Date;
 use App\Library\Spam\Spam;
+use App\Library\User\User;
 use App\Library\Error\Error;
 use App\Library\Theme\Theme;
 use App\Library\Groupe\Groupe;
@@ -135,7 +137,7 @@ class Forum
                 $rowQ1 = Q_Select($sql2 . "'" . $myrow[1] . "'", 3600);
 
                 $val = Date::formatTimes($myrow[0], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
-                $val .= $rowQ1 ? ' ' . userpopover($rowQ1[0]['uname'], 36, 2) : '';
+                $val .= $rowQ1 ? ' ' . User::userPopover($rowQ1[0]['uname'], 36, 2) : '';
             }
         }
 
@@ -367,7 +369,7 @@ class Forum
      */
     public static function htmlAdd(): string
     {
-        $affich = '<div class="mt-2">
+        return '<div class="mt-2">
             <a href="javascript: addText(\'&lt;b&gt;\',\'&lt;/b&gt;\');" title="' . translate('Gras') . '" data-bs-toggle="tooltip" ><i class="fa fa-bold fa-lg me-2 mb-3"></i></a>
             <a href="javascript: addText(\'&lt;i&gt;\',\'&lt;/i&gt;\');" title="' . translate('Italique') . '" data-bs-toggle="tooltip" ><i class="fa fa-italic fa-lg me-2 mb-3"></i></a>
             <a href="javascript: addText(\'&lt;u&gt;\',\'&lt;/u&gt;\');" title="' . translate('Souligné') . '" data-bs-toggle="tooltip" ><i class="fa fa-underline fa-lg me-2 mb-3"></i></a>
@@ -411,8 +413,6 @@ class Forum
                 </div>
             </div>
         </div>';
-
-        return $affich;
     }
 
     /**
@@ -423,7 +423,7 @@ class Forum
      */
     public static function emotionAdd(string $image_subject): string
     {
-        global $theme;
+        global $theme; // global a revoir !
 
         if ($ibid = Theme::themeImage('forum/subject/index.html')) {
             $imgtmp = 'themes/' . $theme . '/assets/images/forum/subject';
@@ -478,11 +478,9 @@ class Forum
      */
     public static function makeClickable(string $text): string
     {
-        $ret = '';
         $ret = preg_replace('#(^|\s)(http|https|ftp|sftp)(://)([^\s]*)#i', ' <a href="$2$3$4" target="_blank">$2$3$4</a>', $text);
-        $ret = preg_replace_callback('#([_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4})#i', [static::class, 'fakedMail'], $ret);
-
-        return $ret;
+        
+        return preg_replace_callback('#([_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4})#i', [static::class, 'fakedMail'], $ret);
     }
 
     /**
@@ -493,12 +491,14 @@ class Forum
      */
     public static function undoHtmlspecialchars(string $input): string
     {
-        $input = preg_replace('/&gt;/i', '>', $input);
-        $input = preg_replace('/&lt;/i', '<', $input);
-        $input = preg_replace('/&quot;/i', '\'', $input);
-        $input = preg_replace('/&amp;/i', '&', $input);
+        $map = [
+            '&gt;'   => '>',
+            '&lt;'   => '<',
+            '&quot;' => '"',
+            '&amp;'  => '&',
+        ];
 
-        return $input;
+        return str_replace(array_keys($map), array_values($map), $input);
     }
 
     /**
@@ -508,7 +508,7 @@ class Forum
      */
     public static function searchBlock(): string
     {
-        $ibid = '<form class="row" id="forum_search" action="searchbb.php" method="post" name="forum_search">
+        return '<form class="row" id="forum_search" action="searchbb.php" method="post" name="forum_search">
             <input type="hidden" name="addterm" value="any" />
             <input type="hidden" name="sortby" value="0" />
             <div class="col">
@@ -518,8 +518,6 @@ class Forum
             </div>
             </div>
         </form>';
-
-        return $ibid;
     }
 
     /**
@@ -532,8 +530,6 @@ class Forum
      */
     public static function memberQualif(string $poster, int $posts, ?string $rank = null): string
     {
-        global $anonymous;
-
         $tmp = '';
 
         if ($ibid = Theme::themeImage('forum/rank/post.gif')) {
@@ -544,7 +540,7 @@ class Forum
 
         $tmp = '<img class="n-smil" src="' . $imgtmpP . '" alt="" loading="lazy" />' . $posts . '&nbsp;';
 
-        if ($poster != $anonymous) {
+        if ($poster != Config::get('user.anonymous')) {
             $nux = 0;
 
             if ($posts >= 10 and $posts < 30) {
@@ -599,7 +595,7 @@ class Forum
      */
     public static function controlEffacePost(string $apli, $post_id = null, $topic_id = null, $IdForum = null): void
     {
-        global $upload_table;
+        global $upload_table; // a revoir global a supprimer !
 
         include 'modules/upload/config/upload.conf.forum.php';
 
@@ -637,7 +633,7 @@ class Forum
      */
     public static function autorize(): bool
     {
-        global $IdPost, $IdTopic, $IdForum, $user;
+        global $IdPost, $IdTopic, $IdForum, $user; // global a revoir !
 
         list($poster_id) = sql_fetch_row(sql_query("SELECT poster_id 
                                                     FROM " . sql_prefix('posts') . " 
@@ -691,9 +687,8 @@ class Forum
     {
         // antiFlood : nb de post dans les 90 puis 30 dernières minutes / les modérateurs echappent à cette règle
         // security.log est utilisée pour enregistrer les tentatives
-        global $anonymous;
 
-        $compte = !array_key_exists('uname', $userdataX) ? $anonymous : $userdataX['uname'];
+        $compte = !array_key_exists('uname', $userdataX) ? Config::get('user.anonymous') : $userdataX['uname'];
 
         if ((!$modoX) and ($paramAFX > 0)) {
 
@@ -736,7 +731,7 @@ class Forum
      */
     public static function forum(?array $rowQ1): string
     {
-        global $user, $subscribe, $theme, $admin, $adminforum;
+        global $user, $theme, $admin, $adminforum; // global a revoir !
 
         // droits des admin sur les forums (superadmin et admin avec droit gestion forum)
         $adminforum = false;
@@ -770,6 +765,7 @@ class Forum
         if ($user) {
             $userX = base64_decode($user);
             $userR = explode(':', $userX);
+
             $tab_groupe = Groupe::validGroup($user);
         }
 
@@ -960,7 +956,7 @@ class Forum
                                     $ibid .= ' ] </span>';
 
                                     // Subscribe
-                                    if (($subscribe) and ($user)) {
+                                    if ((Config::get('user.subscribe')) and ($user)) {
                                         if (!$redirect) {
                                             if (static::isBadMailUser($userR[0]) === false) {
                                                 $ibid .= '<span class="d-flex w-100 mt-1" >
@@ -994,7 +990,7 @@ class Forum
             }
         }
 
-        if (($subscribe) and ($user) and ($ok_affich)) {
+        if ((Config::get('user.subscribe')) and ($user) and ($ok_affich)) {
             //proto
             if (static::isBadMailUser($userR[0]) === false) {
                 $ibid .= '<div class="form-check mt-1">
@@ -1015,7 +1011,7 @@ class Forum
      */
     public static function subForumFolder(int $forum): string
     {
-        global $user;
+        global $user; // globa a revoir !
 
         if ($user) {
             $userX = base64_decode($user);

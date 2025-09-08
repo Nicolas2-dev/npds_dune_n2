@@ -2,6 +2,7 @@
 
 namespace App\Library\Auth;
 
+use Npds\Config\Config;
 use App\Library\Groupe\Groupe;
 
 
@@ -55,9 +56,9 @@ class Auth
      */
     public static function autoReg(): bool
     {
-        global $autoRegUser, $user;
+        global $user;
 
-        $autoRegEnabled = (bool) $autoRegUser;
+        $autoRegEnabled = (bool) Config::get('user.autoRegUser');
 
         if (!$autoRegEnabled) {
             if (isset($user)) {

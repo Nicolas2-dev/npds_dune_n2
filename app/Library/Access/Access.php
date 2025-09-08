@@ -29,29 +29,30 @@ class Access
      */
     public static function adminDie(): void
     {
-        $Titlesitename = 'NPDS';
-
         if (file_exists('storage/meta/meta.php')) {
-            include 'storage/meta/meta.php';
+
+            $Titlesitename = 'NPDS';
+
+            include storage_path('meta/meta.php');
         }
 
-        echo '<link id="bsth" rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+        echo '<link id="bsth" rel="stylesheet" href="'. asset_url('shared/bootstrap/dist/css/bootstrap.min.css') .'" />
             </head>
             <body>
                 <div class="contenair-fluid mt-5">
                     <div class= "card mx-auto p-3" style="width:380px; text-align:center">
                         <span style="font-size: 72px;">🚫</span>
                         <span class="text-danger h3 mb-3" style="">
-                        Acc&egrave;s refus&eacute; ! <br />
-                        Access denied ! <br />
-                        Zugriff verweigert ! <br />
-                        Acceso denegado ! <br />
-                        &#x901A;&#x5165;&#x88AB;&#x5426;&#x8BA4; ! <br />
+                            Acc&egrave;s refus&eacute; ! <br />
+                            Access denied ! <br />
+                            Zugriff verweigert ! <br />
+                            Acceso denegado ! <br />
+                            &#x901A;&#x5165;&#x88AB;&#x5426;&#x8BA4; ! <br />
                         </span>
                         <hr />
                         <div>
-                        <span class="text-body-secondary">NPDS - Portal System</span>
-                        <img width="48px" class="adm_img ms-2" src="assets/images/admin/message_npds.png" alt="icon_npds">
+                            <span class="text-body-secondary">NPDS - Portal System</span>
+                            <img width="48px" class="adm_img ms-2" src="'. asset_url('images/admin/message_npds.png') .'" alt="icon_npds">
                         </div>
                     </div>
                 </div>
@@ -85,12 +86,19 @@ class Access
 
         Log::ecrireLog('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
 
-        include storage_path('meta/meta.php');
+        if (file_exists('storage/meta/meta.php')) {
+
+            $Titlesitename = 'NPDS';
+
+            include storage_path('meta/meta.php');
+        }
 
         echo '
             </head>
             <body>
-                <br /><br /><br />
+                <br />
+                <br />
+                <br />
                 <p style="font-size: 24px; font-family: Tahoma, Arial; color: red; text-align:center;">
                     <strong>.: ' . translate('Votre adresse Ip est enregistrée') . ' :.</strong>
                 </p>

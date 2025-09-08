@@ -50,7 +50,13 @@ class Date
         // Utilise la langue de l'affichage du site.
         $locale = Language::languageIso(1, '_', 1);
 
-        $fmt = datefmt_create($locale, $dateStyle, $timeStyle, $timezone, IntlDateFormatter::GREGORIAN);
+        $fmt = datefmt_create(
+            $locale, 
+            $dateStyle, 
+            $timeStyle, 
+            $timezone, 
+            IntlDateFormatter::GREGORIAN
+        );
 
         $timestamp = is_numeric($time) ? (int) $time : strtotime($time);
 

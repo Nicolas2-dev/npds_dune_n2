@@ -4,6 +4,7 @@ namespace App\Library\Block;
 
 use FilesystemIterator;
 use App\Library\auth\Auth;
+use App\Library\Theme\Theme;
 use App\Library\Groupe\Groupe;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -318,7 +319,7 @@ class Block
                 if (($member == 1) and (isset($user))) {
                     if (!static::blockFonction($title, $content)) {
                         if (!$hidden) {
-                            themesidebox($title, $content);
+                            Theme::themeSidebox($title, $content);
                         } else {
                             echo $content;
                         }
@@ -326,7 +327,7 @@ class Block
                 } elseif ($member == 0) {
                     if (!static::blockFonction($title, $content)) {
                         if (!$hidden) {
-                            themesidebox($title, $content);
+                            Theme::themeSidebox($title, $content);
                         } else {
                             echo $content;
                         }
@@ -337,7 +338,7 @@ class Block
                     if (Groupe::groupeAutorisation($member, $tab_groupe)) {
                         if (!static::blockFonction($title, $content)) {
                             if (!$hidden) {
-                                themesidebox($title, $content);
+                                Theme::themeSidebox($title, $content);
                             } else {
                                 echo $content;
                             }
@@ -346,7 +347,7 @@ class Block
                 } elseif (($member == -1) and (!isset($user))) {
                     if (!static::blockFonction($title, $content)) {
                         if (!$hidden) {
-                            themesidebox($title, $content);
+                            Theme::themeSidebox($title, $content);
                         } else {
                             echo $content;
                         }
@@ -354,7 +355,7 @@ class Block
                 } elseif (($member == -127) and (isset($admin)) and ($admin)) {
                     if (!static::blockFonction($title, $content)) {
                         if (!$hidden) {
-                            themesidebox($title, $content);
+                            Theme::themeSidebox($title, $content);
                         } else {
                             echo $content;
                         }
@@ -417,7 +418,7 @@ class Block
      */
     public static function PreFabBlock($Xid, string $Xblock, string $moreclass): void
     {
-        global $htvar; // modif Jireck
+        global $htvar;
 
         if ($Xid) {
             $result = $Xblock == 'RB'

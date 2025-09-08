@@ -40,4 +40,3 @@ define('STORAGE_PATH', BASEPATH . 'storage' . DS);
  * @var string
  */
 define('PREFIX', '');
-

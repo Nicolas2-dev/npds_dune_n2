@@ -2,6 +2,8 @@
 
 namespace App\Library\Encryption;
 
+use Npds\Config\Config;
+
 
 class Encrypter
 {
@@ -41,9 +43,7 @@ class Encrypter
      */
     public static function encrypt(string $txt): string
     {
-        global $NPDS_Key;
-
-        return static::encryptK($txt, $NPDS_Key);
+        return static::encryptK($txt, Config::get('app.NPDS_Key'));
     }
 
     /**
@@ -96,9 +96,7 @@ class Encrypter
      */
     public static function decrypt(string $txt): string
     {
-        global $NPDS_Key;
-
-        return static::decryptK($txt, $NPDS_Key);
+        return static::decryptK($txt, Config::get('app.NPDS_Key'));
     }
 
     /**

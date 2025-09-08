@@ -18,15 +18,17 @@ class Debug
      */
     public static function initDebug(): void
     {
-        $type = Config::get('debug.type', 'php');
-        $debug = Config::get('debug.debug', false);
+        $type   = Config::get('debug.type', 'php');
+        $debug  = Config::get('debug.debug', false);
 
         if ($debug && $type === 'php') {
             $level = Config::get('debug.level', 0);
+
             static::setErrorReporting($level);
 
         } elseif ($debug && $type === 'whoops') {
             $prettyPage = Config::get('debug.whoops.pretty_page', true);
+
             static::initWhoops($prettyPage);
         }
     }
@@ -44,7 +46,7 @@ class Debug
             'dev'      => E_ERROR | E_WARNING | E_PARSE | E_NOTICE,
             'standard' => E_ERROR | E_WARNING | E_PARSE,
             'all'      => E_ALL,
-            default    => is_int($level) ? $level : throw new InvalidArgumentException("Niveau d'erreur inconnu : $level"),
+            default    => is_int($level) ? $level : throw new InvalidArgumentException('Niveau d\'erreur inconnu : '. $level),
         };
 
         error_reporting($reporting);
@@ -64,7 +66,7 @@ class Debug
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
         } else {
             $whoops->pushHandler(function ($exception) {
-                echo "Une erreur est survenue : " . $exception->getMessage();
+                echo 'Une erreur est survenue : ' . $exception->getMessage();
             });
         }
 

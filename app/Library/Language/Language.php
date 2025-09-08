@@ -2,6 +2,8 @@
 
 namespace App\Library\Language;
 
+use Npds\Support\Facades\Request;
+
 
 class Language
 {
@@ -36,7 +38,7 @@ class Language
      */
     public static function languageIso($l, $s, $c): string
     {
-        global $language, $user_language;
+        global $language, $user_language; // global a revoir !
 
         $iso_lang = '';
         $iso_country = '';
@@ -141,7 +143,7 @@ class Language
      */
     public static function affLangue(?string $ibid): string
     {
-        global $language, $tab_langue;
+        global $language, $tab_langue; // global a revoir !
 
         // copie du tableau + rajout de transl pour gestion de l'appel à translate(...); - Theme Dynamic
         $tab_llangue = $tab_langue;
@@ -225,7 +227,7 @@ class Language
      */
     public static function makeTabLangue(): array
     {
-        global $language; 
+        global $language; // global a revoir !
         
         $languageslist = static::languageCache();
 
@@ -244,7 +246,7 @@ class Language
      */
     public static function affLocalzoneLangue(string $ibid): string
     {
-        global $tab_langue;
+        global $tab_langue; // global a revoir !
 
         $flag = array('french' => '🇫🇷', 'spanish' => '🇪🇸', 'german' => '🇩🇪', 'english' => '🇺🇸', 'chinese' => '🇨🇳');
 
@@ -277,8 +279,7 @@ class Language
     public static function affLocalLangue(string $ibid_index, string $ibid, string $mess = ''): string
     {
         if ($ibid_index == '') {
-            global $REQUEST_URI;
-            $ibid_index = $REQUEST_URI;
+            $ibid_index = Request::uri();
         }
 
         $M_langue = '<form action="' . $ibid_index . '" name="local_user_language" method="post">';
@@ -301,7 +302,7 @@ class Language
     {
         if ($local_user_language) {
 
-            global $language, $tab_langue;
+            global $language, $tab_langue; // global a revoir !
 
             $old_langue = $language;
             $language = $local_user_language;

@@ -3,6 +3,7 @@
 namespace App\Library\Edito;
 
 use App\Library\Date\Date;
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 
@@ -25,7 +26,7 @@ class Edito
             $ret = false;
 
             if (function_exists('themedito')) {
-                $ret = themedito($Xcontents);
+                $ret = Theme::themEdito($Xcontents);
             } else {
                 if (function_exists('theme_centre_box')) {
                     $title = (!$notitle) ? translate('EDITO') : '';

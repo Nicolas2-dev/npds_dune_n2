@@ -151,6 +151,16 @@ class Request
     }
 
     /**
+     * Retourne l'URI complet de la requête (chemin + query string).
+     *
+     * @return string
+     */
+    public function uri(): string
+    {
+        return $this->server['REQUEST_URI'] ?? '/';
+    }
+
+    /**
      * Retourne l'adresse IP du client
      *
      * @return string

@@ -3,9 +3,10 @@
 namespace App\Library\Download;
 
 use IntlDateFormatter;
-use App\Library\String\Sanitize;
+use Npds\Config\Config;
 use App\Library\auth\Auth;
 use App\Library\Date\Date;
+use App\Library\String\Sanitize;
 use App\Library\Language\Language;
 
 
@@ -25,13 +26,13 @@ class Download
      */
     public static function topDownloadData(string $form, string $ordre): string
     {
-        global $top, $long_chain;
+        global $long_chain; // dans theme a revoir !
 
         if (!$long_chain) {
             $long_chain = 13;
         }
 
-        $top = (int) $top;
+        $top = (int) Config::get('storie.top');
 
         $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms 
                             FROM " . sql_prefix('downloads') . " 

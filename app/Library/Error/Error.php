@@ -2,6 +2,8 @@
 
 namespace App\Library\Error;
 
+use Npds\Config\Config;
+
 
 class Error
 {
@@ -17,7 +19,7 @@ class Error
      */
     public static function forumError(string $e_code): void
     {
-        global $sitename, $header;
+        global $header;
 
         $errors = [
             '0001' => 'Pas de connexion à la base forums.',
@@ -66,7 +68,7 @@ class Error
             include 'header.php';
         }
 
-        echo '<div class="alert alert-danger"><strong>' . $sitename . '<br />' . translate('Erreur du forum') . '</strong><br />';
+        echo '<div class="alert alert-danger"><strong>' . Config::get('app.sitename') . '<br />' . translate('Erreur du forum') . '</strong><br />';
         echo translate('Code d\'erreur :') . ' ' . $e_code . '<br /><br />';
         echo translate($error_msg) . '<br /><br />';
         echo '<a href="javascript:history.go(-1)" class="btn btn-secondary">' . translate('Retour en arrière') . '</a><br /></div>';

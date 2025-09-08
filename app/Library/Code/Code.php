@@ -38,7 +38,7 @@ class Code
     {
         $pattern = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
 
-        $content = preg_replace_callback($pattern, 'changeCode', $content, -1, $count);
+        $content = preg_replace_callback($pattern, [static::class, 'changeCode'], $content, -1, $count);
 
         if ($convertNewlines) {
             $content = nl2br($content);

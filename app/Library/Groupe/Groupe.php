@@ -3,7 +3,7 @@
 namespace App\Library\Groupe;
 
 use IntlDateFormatter;
-use App\Library\String\Sanitize;
+use Npds\Config\Config;
 use App\Library\Assets\Js;
 use App\Library\auth\Auth;
 use App\Library\Date\Date;
@@ -11,6 +11,7 @@ use App\Library\Spam\Spam;
 use App\Library\Forum\Forum;
 use App\Library\Theme\Theme;
 use App\Library\Online\Online;
+use App\Library\String\Sanitize;
 use App\Library\Language\Language;
 use App\Library\Encryption\Encrypter;
 
@@ -118,7 +119,7 @@ class Groupe
      */
     public static function fabEspaceEroupe(int|string $gr, int $t_gr, int $i_gr): string
     {
-        global $short_user, $dblink;
+        global $dblink; // global a revoir !
 
         $rsql = sql_fetch_assoc(sql_query("SELECT groupe_id, groupe_name, groupe_description, groupeForum, groupe_mns, groupe_chat, groupe_blocnote, groupe_pad 
                                         FROM " . sql_prefix('groupes') . " 
@@ -186,7 +187,7 @@ class Groupe
             $res_id = array();
             $my_rs = '';
 
-            if (!$short_user) {
+            if (!Config::get('user.short_user')) {
 
                 include_once 'functions.php';
 

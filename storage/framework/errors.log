@@ -1414,3 +1414,69 @@ Exception information:
 
 ---------
 
+Exception information:
+
+    Date: Sep 08, 2025 23:49PM
+
+    Message: require_once(/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/deprecated/auth.inc.php): Failed to open stream: No such file or directory
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php
+
+    Line: 195
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): require_once()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(107): require('...')
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#4 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 08, 2025 23:49PM
+
+    Message: require_once(/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/deprecated/auth.inc.php): Failed to open stream: No such file or directory
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php
+
+    Line: 195
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): require_once()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(107): require('...')
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#4 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 08, 2025 23:49PM
+
+    Message: require_once(/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/deprecated/auth.inc.php): Failed to open stream: No such file or directory
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php
+
+    Line: 195
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(195): require_once()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(107): require('...')
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#4 {main}
+
+---------
+

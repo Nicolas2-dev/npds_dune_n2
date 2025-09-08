@@ -2,6 +2,7 @@
 
 namespace App\Library\Editeur;
 
+use Npds\Config\Config;
 use App\Library\Language\Language;
 
 
@@ -19,12 +20,11 @@ class Editeur
      */
     public static function affEditeur(string $Xzone, mixed $Xactiv): string
     {
-        //global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl;
-        global $tiny_mce;
+        //global $language, $tmp_theme, $tiny_mce, $tiny_mce_theme, $tiny_mce_relurl; // note a revoir !
 
         $output = '';
 
-        if (!$tiny_mce) {
+        if (!Config::get('editeur.tiny_mce')) {
             return $output;
         }
 
@@ -45,7 +45,7 @@ class Editeur
                                 selector: 'textarea.tin',
                                 mobile: {menubar: true},
                                 language : '" . Language::languageIso(1, '', '') . "',";
-
+                    // a revoir pour integrer les config dans un fichier config pour lib config !
                     include 'shared/tinymce/themes/advanced/npds.conf.php';
 
                     $output .= '});
@@ -54,6 +54,7 @@ class Editeur
                         </script>';
                 }
             } else {
+                // probleme non pris en compte par le routeur a revoir !
                 $output .= '<script type="text/javascript" src="shared/tinymce/tinymce.min.js"></script>';
             }
         } else {
