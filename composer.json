@@ -10,6 +10,7 @@
         },
         "files": [
             "app/Support/helpers.php",
+            "app/Library/Cache/helpers.php",
             "shared/Support/helpers.php",
             "npds/Support/Debug/helpers.php",
             "npds/Support/helpers.php"
