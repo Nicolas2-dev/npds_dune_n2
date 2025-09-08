@@ -135,17 +135,3 @@ if (! $response instanceof Response) {
 
 // Envoi de la réponse HTTP
 $response->send();
-
-/*
-|--------------------------------------------------------------------------
-| Débogage (uniquement en développement).
-|--------------------------------------------------------------------------
-*/
-if (Config::get('debug.debug')) {
-    dump(
-        'hello npds mvc run',
-        Config::all(),
-        $router,
-        $request
-    );
-}
