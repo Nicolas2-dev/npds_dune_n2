@@ -31,7 +31,7 @@ if (Config::get('debug.debug')) {
 |
 */
 
-Spam::checkIP('logs/spam.log', $threshold = 5);
+Spam::checkIP('logs/spam.log', 5);
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ if (!empty($_POST)) {
     array_walk_recursive($_POST, [Sanitize::class, 'addslashesGpc']);
     /*
     array_walk_recursive($_POST, [UrlProtector::class, 'post_protect']);
-    
+
     if(!isset($_SERVER['HTTP_REFERER'])) {
         Log::ecrireLog('security', 'Ghost form in ' . $_SERVER['ORIG_PATH_INFO'] . ' => who playing with form ?', '');
         Spam::logSpambot('', 'false');
