@@ -17,15 +17,7 @@ if (!function_exists('app_path')) {
             return $basePath;
         }
 
-        // Remplace tous les types de slash par DIRECTORY_SEPARATOR
-        $segments = preg_split('/[\/\\\\]+/', $path);
-
-        // Met la première lettre de chaque segment en majuscule
-        $segments = array_map(fn($segment) => ucfirst($segment), $segments);
-
-        $normalized_path = implode(DS, $segments);
-
-        return $basePath . DS . $normalized_path;
+        return $basePath . DS . normalize_path($path);
     }
 }
 
@@ -44,11 +36,7 @@ if (!function_exists('module_path')) {
             return $basePath;
         }
 
-        $segments = preg_split('/[\/\\\\]+/', $path);
-        $segments = array_map(fn($segment) => ucfirst($segment), $segments);
-        $normalized_path = implode(DS, $segments);
-
-        return $basePath . DS . $normalized_path;
+        return $basePath . DS . normalize_path($path);
     }
 }
 
@@ -67,14 +55,34 @@ if (!function_exists('theme_path')) {
             return $basePath;
         }
 
-        $segments = preg_split('/[\/\\\\]+/', $path);
-        $segments = array_map(fn($segment) => ucfirst($segment), $segments);
-        $normalized_path = implode(DS, $segments);
-
-        return $basePath . DS . $normalized_path;
+        return $basePath . DS . normalize_path($path);
     }
 }
 
+if (! function_exists('normalize_path')) {
+    /**
+     * Normalise un chemin de fichier ou de dossier.
+     *
+     * - Remplace tous les slashs ("/" ou "\") par le DIRECTORY_SEPARATOR.
+     * - Met la première lettre de chaque segment de chemin en majuscule.
+     *
+     * Exemples :
+     *   normalize_path('library/spam');      // 'Library/Spam'
+     *   normalize_path('\theme\dark_mode');  // 'Theme/Dark_mode'
+     *
+     * @param string $path Chemin relatif à normaliser
+     * @return string Chemin normalisé avec DIRECTORY_SEPARATOR et segments capitalisés
+     */
+    function normalize_path(string $path): string {
+        // Remplace tous les types de slash par DIRECTORY_SEPARATOR
+        $segments = preg_split('/[\/\\\\]+/', $path);
+
+        // Met la première lettre de chaque segment en majuscule
+        $segments = array_map(fn($segment) => ucfirst($segment), $segments);
+
+        return implode(DS, $segments);
+    }
+}
 
 // SuperCache Functions.
 
