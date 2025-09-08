@@ -70,15 +70,11 @@ if (! function_exists('asset_url'))
      * @param string $path
      * @return string
      */
-    function asset_url($path, $package = null)
+    function asset_url($path)
     {
         $path = ltrim($path, '/');
 
-        if (is_null($package)) {
-            return site_url('assets/' .$path);
-        }
-
-        return site_url($path);
+        return site_url('assets/' .$path);
     }
 }
 

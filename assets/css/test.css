@@ -1,0 +1,56 @@
+/* 1) Classe basique .toto */
+.toto {
+  --toto-bg: #f0f4ff;         /* variable CSS utile */
+  --toto-accent: #4b6cff;
+
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background: var(--toto-bg);
+  color: #0b1a3d;
+  border: 2px solid rgba(75,108,255,0.12);
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 18px rgba(11,26,61,0.06);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* Effet au survol */
+.toto:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(11,26,61,0.12);
+}
+
+/* 2) Variante "active" + petite icône pseudo-élément */
+.toto--active::before {
+  content: "★";
+  margin-right: 0.5rem;
+  color: var(--toto-accent);
+}
+
+/* 3) Id #toto (si tu préfères un id unique) */
+#toto {
+  padding: 1rem;
+  border-left: 4px solid var(--toto-accent, #4b6cff);
+  background: linear-gradient(90deg, rgba(75,108,255,0.03), transparent);
+}
+
+/* 4) Animation bidon "toto-pulse" */
+@keyframes toto-pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.03); opacity: 0.92; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Appliquer l'animation */
+.toto.pulse {
+  animation: toto-pulse 1.6s infinite ease-in-out;
+}
+
+/* 5) Responsive: plus compacte sur petits écrans */
+@media (max-width: 480px) {
+  .toto {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+}
