@@ -11,21 +11,21 @@
  *
  * @var string
  */
-define('MODPATH', BASEPATH . 'modules' . DS);
+define('MODULE_PATH', BASEPATH . 'modules' . DS);
 
 /**
  * Chemin vers le répertoire des thèmes.
  *
  * @var string
  */
-define('THEPATH', BASEPATH . 'themes' . DS);
+define('THEME_PATH', BASEPATH . 'themes' . DS);
 
 /**
  * Chemin vers le répertoire partagé.
  *
  * @var string
  */
-define('SHAPATH', BASEPATH . 'shared' . DS);
+define('SHARED_PATH', BASEPATH . 'shared' . DS);
 
 /**
  * Chemin vers le répertoire de stockage.

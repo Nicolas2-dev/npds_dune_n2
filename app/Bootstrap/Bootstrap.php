@@ -15,14 +15,14 @@ use App\Library\Language\Sigleton\LanguageManager;
 
 /*
 |--------------------------------------------------------------------------
-| Mode Debug Interne. A revoir !
+| Mode Debug Interne. A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
 
-if (Config::get('debug.debug')) {
-    Debug::initDebug();
-}
+//if (Config::get('debug.debug')) {
+//    Debug::initDebug();
+//}
 
 /*
 |--------------------------------------------------------------------------
