@@ -358,7 +358,5 @@ function sql_close() // : void // : bool
  */
 function sql_prefix(string $table = ''): string
 {
-   global $NPDS_Prefix;
-
-   return $NPDS_Prefix . $table;
+   return PREFIX . $table;
 }

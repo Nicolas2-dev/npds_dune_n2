@@ -9,7 +9,7 @@ use App\Exceptions\Handler as ExceptionHandler;
 
 /*
 |--------------------------------------------------------------------------
-| Définition du séparateur de dossier (DS)
+| Définition du séparateur de dossier (DS).
 |--------------------------------------------------------------------------
 */
 
@@ -21,7 +21,7 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
 /*
 |--------------------------------------------------------------------------
-| Définition des chemins principaux du projet
+| Définition des chemins principaux du projet.
 |--------------------------------------------------------------------------
 */
 
@@ -48,7 +48,7 @@ define('APPPATH', BASEPATH . 'app' . DS);
 
 /*
 |--------------------------------------------------------------------------
-| Chargement de l’autoloader Composer
+| Chargement de l’autoloader Composer.
 |--------------------------------------------------------------------------
 |
 | Permet le chargement automatique des classes via PSR-4.
@@ -58,7 +58,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
-| Initialisation des erreurs PHP
+| Initialisation des erreurs PHP.
 |--------------------------------------------------------------------------
 */
 error_reporting(-1);
@@ -66,7 +66,7 @@ ini_set('display_errors', 'Off');
 
 /*
 |--------------------------------------------------------------------------
-| Chargement des fichiers de configuration
+| Chargement des fichiers de configuration.
 |--------------------------------------------------------------------------
 */
 require APPPATH . 'Config.php';
@@ -79,7 +79,7 @@ foreach (glob(APPPATH . 'Config/*.php') as $path) {
 
 /*
 |--------------------------------------------------------------------------
-| Définition du fuseau horaire par défaut
+| Définition du fuseau horaire par défaut.
 |--------------------------------------------------------------------------
 */
 $timezone = Config::get('app.timezone', 'Europe/London');
@@ -87,28 +87,28 @@ date_default_timezone_set($timezone);
 
 /*
 |--------------------------------------------------------------------------
-| Initialisation du gestionnaire d’exceptions
+| Initialisation du gestionnaire d’exceptions.
 |--------------------------------------------------------------------------
 */
 ExceptionHandler::initialize();
 
 /*
 |--------------------------------------------------------------------------
-| Initialisation du chargeur d’alias
+| Initialisation du chargeur d’alias.
 |--------------------------------------------------------------------------
 */
 AliasLoader::initialize();
 
 /*
 |--------------------------------------------------------------------------
-| Exécution du bootstrap local
+| Exécution du bootstrap local.
 |--------------------------------------------------------------------------
 */
 require APPPATH . 'Bootstrap' . DS . 'Bootstrap.php';
 
 /*
 |--------------------------------------------------------------------------
-| Initialisation du routeur et chargement des routes
+| Initialisation du routeur et chargement des routes.
 |--------------------------------------------------------------------------
 */
 $router = Router::getInstance();
@@ -117,14 +117,14 @@ require APPPATH . 'Routes' . DS . 'Admin' . DS . 'Routes.php';
 
 /*
 |--------------------------------------------------------------------------
-| Récupération de la requête HTTP
+| Récupération de la requête HTTP.
 |--------------------------------------------------------------------------
 */
 $request = Request::getInstance();
 
 /*
 |--------------------------------------------------------------------------
-| Dispatch de la requête et génération de la réponse
+| Dispatch de la requête et génération de la réponse.
 |--------------------------------------------------------------------------
 */
 $response = $router->dispatch($request);
@@ -138,7 +138,7 @@ $response->send();
 
 /*
 |--------------------------------------------------------------------------
-| Débogage (uniquement en développement)
+| Débogage (uniquement en développement).
 |--------------------------------------------------------------------------
 */
 if (Config::get('app.debug')) {

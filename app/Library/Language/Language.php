@@ -7,6 +7,26 @@ class Language
 {
 
     /**
+     * Récupère le cache des langues depuis un fichier ou génère la liste des langues.
+     *
+     * Si le fichier `storage/locale/language.php` existe, il est inclus et utilisé.
+     * Sinon, la liste des langues est générée via `Language::languageList()`.
+     *
+     * @return string La liste des langues
+     */
+    public static function languageCache(): string
+    {
+        if (file_exists('storage/locale/language.php')) {
+            include 'storage/locale/language.php';
+        } else {
+            //include($local_path . 'manuels/list.php');
+            $languageslist = Language::languageList();
+        }
+
+        return $languageslist;
+    }
+
+    /**
      * Retourne un code ISO de langue/pays selon les paramètres.
      *
      * @param int $l 1 pour inclure le code langue ISO 639-1, sinon 0
