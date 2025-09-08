@@ -49,6 +49,8 @@ if ($controle != 0) {
 } else {
     $ibid = false;
 
+    $nuke_url = config('app.url');
+
     if (strstr($nuke_url, 'https')) {
         if (Response::fileContentsExist($file_path[0])) {
 

@@ -2,6 +2,8 @@
 
 use Npds\Config\Config;
 use App\Library\Block\Block;
+use App\Library\Debug\Debug;
+use App\Library\Database\Sql;
 use App\Library\Access\Access;
 use App\Library\Cookie\Cookie;
 use App\Library\Session\Session;
@@ -14,28 +16,13 @@ use App\Library\Language\Sigleton\LanguageManager;
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| Mode Debug Interne. A revoir !
 |--------------------------------------------------------------------------
 |
 */
 
-if (Config::get('app.debug')) {
-
-    // Report NO ERROR
-    // error_reporting(0);
-
-    // Devel report
-    // error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-
-    // standard ERROR report
-    //error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
-    // report toutes les erreurs.
-    // error_reporting(E_ALL);
-
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();
+if (Config::get('debug.debug')) {
+    Debug::initDebug();
 }
 
 /*
@@ -132,7 +119,7 @@ if (!empty($_POST)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -144,7 +131,7 @@ if (!empty($_COOKIE)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -157,7 +144,7 @@ if (isset($user)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -170,7 +157,7 @@ if (isset($user_language)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -183,7 +170,7 @@ if (isset($admin)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -195,7 +182,7 @@ if (!empty($_SERVER)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -206,7 +193,7 @@ if (!empty($_ENV)) {
 
 /*
 |--------------------------------------------------------------------------
-| A revoir !
+| A revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
@@ -219,90 +206,45 @@ if (!empty($_FILES)) {
 
 /*
 |--------------------------------------------------------------------------
-| Load language a revoir !
+| Load language a revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
 
-// Note a revoir non finaliser !!!
+$langManager = LanguageManager::getInstance();
+
+$iso = strtoupper($langManager->getIso($language = Config::get('language.language')));
+
+include APPPATH . 'Language/' . $iso . '/lang-' . $language . '.php';
+
 /*
-if (isset($choice_user_language)) {
-    if ($choice_user_language != '') {
+|--------------------------------------------------------------------------
+| Initilisation databasse connection.
+|--------------------------------------------------------------------------
+|
+*/
 
-        $user_cook_duration = max(1, Config::get('cookie.user_cook_duration'));
+new Sql();
 
-        $timeX = time() + (3600 * $user_cook_duration);
+/*
+|--------------------------------------------------------------------------
+| auth a revoir ! va être déprécié !
+|--------------------------------------------------------------------------
+|
+*/
 
-        $languageslist = Language::languageCache();
+require_once APPPATH .'Http/Controllers/Front/deprecated/auth.inc.php';
 
-        if ((stristr($languageslist, $choice_user_language)) and ($choice_user_language != ' ')) {
-            setcookie('user_language', $choice_user_language, $timeX);
+/*
+|--------------------------------------------------------------------------
+| Cookie user a revoir ! va être déprécié !
+|--------------------------------------------------------------------------
+|
+*/
 
-            // voir pour faire un set user_language dans l'app ! 
-            $user_language = $choice_user_language;
-        }
-    }
+if (isset($user)) {
+    $cookie = Cookie::cookieDecode($user);
 }
-
-if (Config::get('language.multi_langue')) {
-    if (($user_language != '') and ($user_language != " ")) {
-        $tmpML = stristr($languageslist, $user_language);
-        $tmpML = explode(' ', $tmpML);
-
-        if ($tmpML[0]) {
-
-            // voir pour faire un set language dans l'app ! 
-            $language = $tmpML[0];
-        }
-    }
-}
-*/
-
-//$langManager = LanguageManager::getInstance();
-
-//$iso = strtoupper($langManager->getIso($language = Config::get('language.language')));
-
-//include APPPATH . 'Language/' . $iso . '/lang-' . $language . '.php';
-
-/*
-|--------------------------------------------------------------------------
-| Database a revoir !
-|--------------------------------------------------------------------------
-|
-*/
-
-//include APPPATH .'library/database/mysqli.php';
-
-//$dblink = Mysql_Connexion();
-
-/*
-|--------------------------------------------------------------------------
-| Deprecated plus de mainfile !
-|--------------------------------------------------------------------------
-|
-*/
-
-//$mainfile = 1; // ==> depredted
-
-/*
-|--------------------------------------------------------------------------
-| auth a revoir !
-|--------------------------------------------------------------------------
-|
-*/
-
-//require_once APPPATH .'Http/Controllers/Front/auth.inc.php';
-
-/*
-|--------------------------------------------------------------------------
-| Cookie user a revoir !
-|--------------------------------------------------------------------------
-|
-*/
-
-//if (isset($user)) {
-//    $cookie = Cookie::cookieDecode($user);
-//}
 
 /*
 |--------------------------------------------------------------------------
@@ -311,16 +253,16 @@ if (Config::get('language.multi_langue')) {
 |
 */
 
-//Session::sessionManage();
+Session::sessionManage();
 
 /*
 |--------------------------------------------------------------------------
-| Language a revoir !
+| Language a revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
 */
 
-//$tab_langue = Language::makeTabLangue();
+$tab_langue = Language::makeTabLangue();
 
 /*
 |--------------------------------------------------------------------------
@@ -329,8 +271,8 @@ if (Config::get('language.multi_langue')) {
 |
 */
 
-//global $meta_glossaire; // global a supprimer 
-//$meta_glossaire = Metalang::chargMetalang();
+global $meta_glossaire; // global a supprimer 
+$meta_glossaire = Metalang::chargMetalang();
 
 /*
 |--------------------------------------------------------------------------
@@ -339,4 +281,4 @@ if (Config::get('language.multi_langue')) {
 |
 */
 
-//Block::loadBlocks('blocks');
+Block::loadBlocks();

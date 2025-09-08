@@ -141,7 +141,7 @@ $response->send();
 | Débogage (uniquement en développement).
 |--------------------------------------------------------------------------
 */
-if (Config::get('app.debug')) {
+if (Config::get('debug.debug')) {
     dump(
         'hello npds mvc run',
         Config::all(),

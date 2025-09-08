@@ -35,10 +35,10 @@ class Session
         }
 
         //==> geoloc
-        include 'modules/geoloc/config/config.php';
+        include MODPATH.'Geoloc/Config/config.php';
 
         if ($geo_ip == 1) {
-            include 'modules/geoloc/support/geoloc_refip.php';
+            include MODPATH.'Geoloc/Support/geoloc_refip.php';
         }
 
         //<== geoloc

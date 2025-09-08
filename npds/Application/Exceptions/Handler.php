@@ -33,7 +33,7 @@ class Handler
      */
     public function __construct()
     {
-        $this->debug = Config::get('app.debug', true);
+        $this->debug = Config::get('debug.debug_handler', true);
     }
 
     /**

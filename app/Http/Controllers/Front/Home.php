@@ -29,7 +29,6 @@ class Home extends BaseController
         $content = 'This is the Homepage';
 
         //vd(
-        //    new Sql(), 
         //    Sql::fetch_assoc(Sql::query('SELECT * FROM ' . sql_prefix('users') . ' WHERE uid='. 2)),
         //    sql_fetch_assoc(sql_query('SELECT * FROM ' . sql_prefix('users') . ' WHERE uid='. 2))
         //);

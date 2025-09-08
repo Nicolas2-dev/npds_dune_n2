@@ -225,7 +225,9 @@ class Language
      */
     public static function makeTabLangue(): array
     {
-        global $language, $languageslist;
+        global $language; 
+        
+        $languageslist = static::languageCache();
 
         $languageslocal = $language . ' ' . str_replace($language, '', $languageslist);
         $languageslocal = trim(str_replace('  ', ' ', $languageslocal));

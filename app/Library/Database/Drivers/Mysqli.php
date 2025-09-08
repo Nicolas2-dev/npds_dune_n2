@@ -100,7 +100,7 @@ function sql_error(): string
  * @param string $sql
  * @return mysqli_result|false
  */
-function sql_query(string $sql): mysqli_result|false
+function sql_query(string $sql): mysqli_result|bool // : mysqli_result|false
 {
    static $sql_nbREQ = 0;
 

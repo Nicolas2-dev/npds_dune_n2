@@ -16,20 +16,29 @@ class Block
 {
 
     /**
-     * Charge tous les fichiers PHP d'un répertoire et de ses sous-répertoires.
+     * Charge récursivement tous les fichiers PHP d'un répertoire donné.
      *
-     * @param string $dir Chemin du répertoire à parcourir.
+     * Cette méthode parcourt le répertoire spécifié (et tous ses sous-répertoires)
+     * et inclut chaque fichier avec `require_once`.  
+     * Si le répertoire n'existe pas, un warning est émis.
+     *
+     * @param string|null $dir Nom du répertoire à parcourir, relatif à APPPATH. 
+     *                         Par défaut : 'Blocks'.
      * @return void
+     *
+     * @throws \RuntimeException Si le répertoire n'existe pas (optionnel si tu préfères throw au lieu de trigger_error)
      */
-    public static function loadBlocks(string $dir): void
+    public static function loadBlocks(?string $dir = 'Blocks'): void
     {
-        if (!is_dir($dir)) {
-            trigger_error('Dossier introuvable : ' . $dir, E_USER_WARNING);
+        $path = APPPATH . $dir;
+
+        if (!is_dir($path)) {
+            trigger_error('Dossier introuvable : ' . $path, E_USER_WARNING);
             return;
         }
 
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS)
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)
         );
 
         foreach ($iterator as $file) {
