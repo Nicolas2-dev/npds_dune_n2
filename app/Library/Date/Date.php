@@ -3,6 +3,7 @@
 namespace App\Library\Date;
 
 use IntlDateFormatter;
+use Npds\Config\Config;
 use App\Library\Language\Language;
 
 
@@ -19,7 +20,8 @@ class Date
      */
     public static function nightDay(): string
     {
-        global $lever, $coucher;
+        $lever   =  Config::get('date.lever');
+        $coucher = Config::get('date.coucher');
 
         $maintenant = strtotime('now');
 

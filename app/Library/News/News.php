@@ -2,11 +2,16 @@
 
 namespace App\Library\News;
 
-use App\Library\String\Sanitize;
+use Npds\Config\Config;
+use App\Library\Log\Log;
 use App\Library\Code\Code;
+use App\Library\Edito\Edito;
+use App\Library\Theme\Theme;
 use App\Library\Groupe\Groupe;
+use App\Library\String\Sanitize;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
+use App\Library\Subscribe\Subscribe;
 
 
 class News
@@ -51,6 +56,227 @@ class News
         return $affich;
     }
 
+    public static function automatedNews()
+    {
+        global $gmt;
+
+        $today = getdate(time() + ((int)$gmt * 3600));
+        $day = $today['mday'];
+
+        if ($day < 10) {
+            $day = '0' . $day;
+        }
+
+        $month = $today['mon'];
+
+        if ($month < 10) {
+            $month = '0' . $month;
+        }
+
+        $year = $today['year'];
+        $hour = $today['hours'];
+        $min = $today['minutes'];
+
+        $result = sql_query("SELECT anid, date_debval 
+                            FROM " . sql_prefix('autonews') . " 
+                            WHERE date_debval LIKE '$year-$month%'");
+
+        while (list($anid, $date_debval) = sql_fetch_row($result)) {
+            preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $date_debval, $date);
+
+            if (($date[1] <= $year) and ($date[2] <= $month) and ($date[3] <= $day)) {
+                if (($date[4] < $hour) and ($date[5] >= $min) or ($date[4] <= $hour) and ($date[5] <= $min) or (($day - $date[3]) >= 1)) {
+
+                    $result2 = sql_query("SELECT catid, aid, title, hometext, bodytext, topic, informant, notes, ihome, date_finval, auto_epur 
+                                        FROM " . sql_prefix('autonews') . " 
+                                        WHERE anid='$anid'");
+
+                    while (list($catid, $aid, $title, $hometext, $bodytext, $topic, $author, $notes, $ihome, $date_finval, $epur) = sql_fetch_row($result2)) {
+
+                        $subject    = stripslashes(Sanitize::fixQuotes($title));
+                        $hometext   = stripslashes(Sanitize::fixQuotes($hometext));
+                        $bodytext   = stripslashes(Sanitize::fixQuotes($bodytext));
+                        $notes      = stripslashes(Sanitize::fixQuotes($notes));
+
+                        sql_query("INSERT INTO " . sql_prefix('stories') . " 
+                                VALUES (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$author', '$notes', '$ihome', '0', '$date_finval', '$epur')");
+
+                        sql_query("DELETE FROM " . sql_prefix('autonews') . " 
+                                WHERE anid='$anid'");
+
+                        global $subscribe;
+                        if ($subscribe) {
+                            Subscribe::subscribeMail('topic', $topic, '', $subject, '');
+                        }
+
+                        // Réseaux sociaux
+                        if (file_exists('modules/npds_twi/http/controllers/npds_to_twi.php')) {
+                            include 'modules/npds_twi/http/controllers/npds_to_twi.php';
+                        }
+
+                        // module non fini fbk nexiste pas !
+                        //if (file_exists('modules/npds_fbk/http/controllers/npds_to_fbk.php')) {
+                        //    include 'modules/npds_twi/http/controllers/npds_to_fbk.php';
+                        //}
+                    }
+                }
+            }
+        }
+
+        // Purge automatique
+        $result = sql_query("SELECT sid, date_finval, auto_epur 
+                            FROM " . sql_prefix('stories') . " 
+                            WHERE date_finval LIKE '$year-$month%'");
+
+        while (list($sid, $date_finval, $epur) = sql_fetch_row($result)) {
+            preg_match('#^(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$#', $date_finval, $date);
+
+            if (($date[1] <= $year) and ($date[2] <= $month) and ($date[3] <= $day)) {
+                if (($date[4] < $hour) and ($date[5] >= $min) or ($date[4] <= $hour) and ($date[5] <= $min)) {
+                    if ($epur == 1) {
+
+                        sql_query("DELETE FROM " . sql_prefix('stories') . " 
+                                WHERE sid='$sid'");
+
+                        if (file_exists('modules/comments/config/article.php')) {
+                            include 'modules/comments/config/article.php';
+
+                            sql_query("DELETE FROM " . sql_prefix('posts') . " 
+                                    WHERE forum_id='$forum' 
+                                    AND topic_id='$topic'");
+                        }
+
+                        Log::ecrireLog('security', sprintf('removeStory(%s, epur) by automated epur : system', $sid), '');
+                    } else
+                        sql_query("UPDATE " . sql_prefix('stories') . " 
+                                SET archive='1' 
+                                WHERE sid='$sid'");
+                }
+            }
+        }
+    }
+
+    public static function affNews($op, $catid, $marqeur)
+    {
+        $url = $op;
+
+        if ($op == 'edito-newindex') {
+            if ($marqeur == 0) {
+                Edito::affEdito();
+            }
+
+            $op = 'news';
+        }
+
+        if ($op == 'newindex') {
+            $op = $catid == '' ? 'news' : 'categories';
+        }
+
+        if ($op == 'newtopic') {
+            $op = 'topics';
+        }
+
+        if ($op == 'newcategory') {
+            $op = 'categories';
+        }
+
+        $news_tab = News::prepaAffNews($op, $catid, $marqeur);
+        $story_limit = 0;
+
+        // si le tableau $news_tab est vide alors return 
+        if (is_null($news_tab)) {
+            return;
+        }
+
+        $newscount = sizeof($news_tab);
+
+        while ($story_limit < $newscount) {
+            $story_limit++;
+
+            $aid = unserialize($news_tab[$story_limit]['aid']);
+            $informant = unserialize($news_tab[$story_limit]['informant']);
+            $datetime = unserialize($news_tab[$story_limit]['datetime']);
+            $title = unserialize($news_tab[$story_limit]['title']);
+            $counter = unserialize($news_tab[$story_limit]['counter']);
+            $topic = unserialize($news_tab[$story_limit]['topic']);
+            $hometext = unserialize($news_tab[$story_limit]['hometext']);
+            $notes = unserialize($news_tab[$story_limit]['notes']);
+            $morelink = unserialize($news_tab[$story_limit]['morelink']);
+            $topicname = unserialize($news_tab[$story_limit]['topicname']);
+            $topicimage = unserialize($news_tab[$story_limit]['topicimage']);
+            $topictext = unserialize($news_tab[$story_limit]['topictext']);
+            $s_id = unserialize($news_tab[$story_limit]['id']);
+
+            Theme::themeIndex($aid, $informant, $datetime, $title, $counter, $topic, $hometext, $notes, $morelink, $topicname, $topicimage, $topictext, $s_id);
+        }
+
+        $transl1 = translate('Page suivante');
+        $transl2 = translate('Home');
+
+        global $storyhome, $cookie;
+        $storynum = isset($cookie[3]) ? $cookie[3] : $storyhome;
+
+        if ($op == 'categories') {
+            if (sizeof($news_tab) == $storynum) {
+                $marqeur = $marqeur + sizeof($news_tab);
+
+                echo '<div class="text-end">
+                    <a href="index.php?op=' . $url . '&amp;catid=' . $catid . '&amp;marqeur=' . $marqeur . '" class="page_suivante" >
+                        ' . $transl1 . '<i class="fa fa-chevron-right fa-lg ms-2" title="' . $transl1 . '" data-bs-toggle="tooltip"></i>
+                    </a>
+                </div>';
+            } else {
+                if ($marqeur >= $storynum) {
+                    echo '<div class="text-end">
+                        <a href="index.php?op=' . $url . '&amp;catid=' . $catid . '&amp;marqeur=0" class="page_suivante" title="' . $transl2 . '">
+                            ' . $transl2 . '
+                        </a>
+                    </div>';
+                }
+            }
+        }
+
+        if ($op == 'news') {
+            if (sizeof($news_tab) == $storynum) {
+                $marqeur = $marqeur + sizeof($news_tab);
+
+                echo '<div class="text-end">
+                    <a href="index.php?op=' . $url . '&amp;catid=' . $catid . '&amp;marqeur=' . $marqeur . '" class="page_suivante" >
+                        ' . $transl1 . '<i class="fa fa-chevron-right fa-lg ms-2" title="' . $transl1 . '" data-bs-toggle="tooltip"></i>
+                    </a>
+                </div>';
+            } else {
+                if ($marqeur >= $storynum) {
+                    echo '<div class="text-end">
+                        <a href="index.php?op=' . $url . '&amp;catid=' . $catid . '&amp;marqeur=0" class="page_suivante" title="' . $transl2 . '">
+                            ' . $transl2 . '
+                        </a>
+                    </div>';
+                }
+            }
+        }
+
+        if ($op == 'topics') {
+            if (sizeof($news_tab) == $storynum) {
+                $marqeur = $marqeur + sizeof($news_tab);
+
+                echo '<div align="right">
+                    <a href="index.php?op=newtopic&amp;topic=' . $topic . '&amp;marqeur=' . $marqeur . '" class="page_suivante" >
+                        ' . $transl1 . '<i class="fa fa-chevron-right fa-lg ms-2" title="' . $transl1 . '" data-bs-toggle="tooltip"></i>
+                    </a>
+                </div>';
+            } else {
+                if ($marqeur >= $storynum) {
+                    echo '<div class="text-end">
+                        <a href="index.php?op=newtopic&amp;topic=' . $topic . '&amp;marqeur=0" class="page_suivante" title="' . $transl2 . '">
+                            ' . $transl2 . '
+                        </a>
+                    </div>';
+                }
+            }
+        }
+    }
+
     /**
      * Récupère les news selon le type de requête et les critères de sélection.
      *
@@ -60,7 +286,7 @@ class News
      * @param int|string $oldnum Ancien nombre d'articles (utilisé pour certains calculs)
      * @return array Tableau contenant les news récupérées
      */
-    public static function newsAff(string $type_req, string $sel, int $storynum, int|string $oldnum): array
+    public static function newsAff(string $type_req, string $sel, int|string $storynum, int|string $oldnum): array
     {
         // pas stabilisé ...!
         // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
@@ -181,6 +407,8 @@ class News
 
                 $tab[$ibid] = sql_fetch_row($result2);
 
+
+
                 if (is_array($tab[$ibid])) {
                     $ibid++;
                 }
@@ -220,10 +448,12 @@ class News
     {
         global $storyhome, $topicname, $topicimage, $topictext, $datetime, $cookie;
 
+        $storyhome = Config::get('storie.storyhome');
+
         if (isset($cookie[3])) {
-            $storynum = $cookie[3];
+            $storynum = (int) $cookie[3];
         } else {
-            $storynum = $storyhome;
+            $storynum = (int) $storyhome;
         }
 
         if ($op == 'categories') {

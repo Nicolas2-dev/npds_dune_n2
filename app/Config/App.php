@@ -68,7 +68,7 @@ return [
 
     // Page par défaut de votre site (par défaut : index.php mais vous pouvez utiliser : topics.php, links.php ...)
     //'Start_Page' => 'index.php?op=edito',
-    'Start_Page' => 'index/edito',
+    'Start_Page' => 'index/edito-newindex',
 
     // Date de départ à afficher dans la page des statistiques
     'startdate' => '20/08/2025',

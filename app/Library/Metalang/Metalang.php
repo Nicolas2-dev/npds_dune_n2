@@ -61,7 +61,7 @@ class Metalang
     {
         if (is_array($arguments)) {
 
-            array_walk($arguments, 'argFilter');
+            array_walk($arguments, [static::class, 'argFilter']);
 
             $nbr = count($arguments);
 

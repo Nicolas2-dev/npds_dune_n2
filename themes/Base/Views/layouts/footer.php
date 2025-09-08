@@ -122,5 +122,33 @@ echo '<script type="text/javascript">
     </script>';
 
 // Ne supprimez pas cette ligne / Don't remove this line
-require_once 'themes/base/views/footer.php';
-    // Ne supprimez pas cette ligne / Don't remove this line
+//require_once 'themes/base/views/footer.php';
+// Ne supprimez pas cette ligne / Don't remove this line
+
+global $theme;
+
+$rep = false;
+
+settype($ContainerGlobal, 'string');
+
+if (file_exists('themes/' . $theme . '/views/partials/footer/footer.php')) {
+    $rep = $theme;
+} elseif (file_exists('themes/base/partials/footer/footer.php')) {
+    $rep = 'base';
+} else {
+    echo 'footer.php manquant / not find !<br />';
+    die();
+}
+
+if ($rep) {
+    ob_start();
+    include 'themes/' . $rep . '/views/partials/footer/footer.php';
+    $Xcontent = ob_get_contents();
+    ob_end_clean();
+
+    if ($ContainerGlobal) {
+        $Xcontent .= $ContainerGlobal;
+    }
+
+    echo Metalang::metaLang(Language::affLangue($Xcontent));
+}  

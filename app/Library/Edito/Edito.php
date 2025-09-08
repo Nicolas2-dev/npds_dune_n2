@@ -10,6 +10,42 @@ use App\Library\Metalang\Metalang;
 class Edito
 {
 
+    public static function affEdito()
+    {
+        list($affich, $Xcontents) = Edito::fabEdito();
+
+        if (($affich) and ($Xcontents != '')) {
+            $notitle = false;
+
+            if (strstr($Xcontents, '!edito-notitle!')) {
+                $notitle = 'notitle';
+                $Xcontents = str_replace('!edito-notitle!', '', $Xcontents);
+            }
+
+            $ret = false;
+
+            if (function_exists('themedito')) {
+                $ret = themedito($Xcontents);
+            } else {
+                if (function_exists('theme_centre_box')) {
+                    $title = (!$notitle) ? translate('EDITO') : '';
+
+                    theme_centre_box($title, $Xcontents);
+                    $ret = true;
+                }
+            }
+
+            if ($ret == false) {
+                if (!$notitle) {
+                    echo '<span class="edito">' . translate('EDITO') . '</span>';
+                }
+
+                echo $Xcontents;
+                echo '<br />';
+            }
+        }
+    }
+
     /**
      * Construit et retourne l'édito.
      *
@@ -91,7 +127,7 @@ class Edito
      * @param string $path Chemin complet du fichier à lire.
      * @return string Contenu du fichier, ou une chaîne vide si le fichier est vide ou ne peut être lu.
      */
-    private function readFile(string $path): string
+    private static function readFile(string $path): string
     {
         if (is_readable($path) && filesize($path) > 0) {
             $fp = fopen($path, 'r');

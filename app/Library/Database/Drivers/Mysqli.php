@@ -321,7 +321,7 @@ function sql_select_db(): bool
 /**
  * Libère les ressources de la requête.
  */
-function sql_free_result(mysqli_result $q_id) //: void //: bool
+function sql_free_result($q_id) //: void //: bool
 {
    if ($q_id instanceof mysqli_result) {
       return mysqli_free_result($q_id);
