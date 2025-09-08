@@ -14,6 +14,34 @@ use App\Library\Block\Block;
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+//////////// a integrer dans le layout
+
+// -----------------------
+$header = 1;
+// -----------------------
+
+// include externe file from themes/base/bootstrap/ for functions, codes ...
+if (file_exists('themes/base/bootstrap/header_before.php')) {
+    include 'themes/base/bootstrap/header_before.php';
+}
+
+// mis dans lib theme provisoirement a revoir !
+head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords);
+
+// faire listener
+refererUpdate();
+
+// faire listener
+counterUpdate();
+
+
+// include externe file from themes/base/bootstrap/ for functions, codes ...
+if (file_exists('themes/base/bootstrap/header_after.php')) {
+    include 'themes/base/bootstrap/header_after.php';
+}
+
+///////////////
+
 /*
  * Nomination des div par l'attribut id:
  * col_princ contient le contenu principal

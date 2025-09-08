@@ -12,6 +12,43 @@ use App\Library\Metalang\Metalang;
 class Theme
 {
 
+    public static function getTheme()
+    {
+        // take the right theme location !
+        global $Default_Theme, $Default_Skin, $user;
+        if (isset($user) and $user != '') {
+
+            global $cookie;
+            if ($cookie[9] != '') {
+                $ibix = explode('+', urldecode($cookie[9]));
+
+                if (array_key_exists(0, $ibix)) {
+                    $theme = $ibix[0];
+                } else {
+                    $theme = $Default_Theme;
+                }
+
+                if (array_key_exists(1, $ibix)) {
+                    $skin = $ibix[1];
+                } else {
+                    $skin = $Default_Skin;
+                }
+
+                $tmp_theme = $theme;
+
+                if (!$file = @opendir('themes/' . $theme)) {
+                    $tmp_theme = $Default_Theme;
+                }
+            } else {
+                $tmp_theme = $Default_Theme;
+            }
+        } else {
+            $theme = $Default_Theme;
+            $skin = $Default_Skin;
+            $tmp_theme = $theme;
+        }
+    }
+
     /**
      * Retourne le chemin complet de l'image si elle existe dans le répertoire du thème.
      *
@@ -415,6 +452,206 @@ class Theme
         }
 
         return $inclusion;
+    }
+
+
+    ////////// provisoire a revoir /////////
+
+
+    function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords)
+    {
+        global $slogan, $Titlesitename, $banners, $Default_Theme, $theme, $gzhandler, $language, $topic, $hlpfile, $user, $hr, $long_chain, $theme_darkness;
+
+        settype($m_keywords, 'string');
+        settype($m_description, 'string');
+
+        if ($gzhandler == 1)
+            ob_start('ob_gzhandler');
+
+        include 'themes/' . $tmp_theme . '/views/theme.php';
+
+        // Meta
+        if (file_exists('storage/meta/meta.php')) {
+            $meta_op = '';
+            include 'storage/meta/meta.php';
+        }
+
+        // Favicon
+        $favico = (file_exists('themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'))
+            ? 'themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'
+            : 'assets/images/favicon/favicon.ico';
+
+        echo '
+        <link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
+        <link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/favicon-120.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/favicon-152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/favicon-180.png" />';
+
+        // Syndication RSS & autres
+        global $sitename, $nuke_url;
+
+        // Canonical
+        $scheme = strtolower($_SERVER['REQUEST_SCHEME'] ?? 'http');
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = $_SERVER['REQUEST_URI'];
+
+        echo '<link rel="canonical" href="' . ($scheme . '://' . $host . $uri) . '" />';
+
+        // humans.txt
+        if (file_exists('humans.txt')) {
+            echo '<link type="text/plain" rel="author" href="' . $nuke_url . '/humans.txt" />';
+        }
+
+        echo '<link href="backend.php?op=RSS0.91" title="' . $sitename . ' - RSS 0.91" rel="alternate" type="text/xml" />
+        <link href="backend.php?op=RSS1.0" title="' . $sitename . ' - RSS 1.0" rel="alternate" type="text/xml" />
+        <link href="backend.php?op=RSS2.0" title="' . $sitename . ' - RSS 2.0" rel="alternate" type="text/xml" />
+        <link href="backend.php?op=ATOM" title="' . $sitename . ' - ATOM" rel="alternate" type="application/atom+xml" />';
+
+        // Tiny_mce
+        if ($tiny_mce_init) {
+            echo Editeur::affEditeur('tiny_mce', 'begin');
+        }
+
+        // include externe JAVASCRIPT file from modules/include or themes/.../include for functions, codes in the <body onload="..." event...
+        $body_onloadH = '
+        <script type="text/javascript">
+            //<![CDATA[
+                function init() {';
+
+        $body_onloadF = '
+                }
+            //]]>
+        </script>';
+
+        if (file_exists('themes/base/bootstrap/body_onload.php')) {
+            echo $body_onloadH;
+            include 'themes/base/bootstrap/body_onload.php';
+            echo $body_onloadF;
+        }
+
+        if (file_exists('themes/' . $tmp_theme . '/bootstrap/body_onload.php')) {
+            echo $body_onloadH;
+            include 'themes/' . $tmp_theme . '/bootstrap/body_onload.php';
+            echo $body_onloadF;
+        }
+
+        // include externe file from themes/base/bootstrap/ || themes/.../bootstrap/ for functions, codes ... - skin motor
+        if (file_exists('themes/base/bootstrap/header_head.php')) {
+
+            ob_start();
+            include 'themes/base/bootstrap/header_head.php';
+            $hH = ob_get_contents();
+            ob_end_clean();
+
+            if ($skin != '' and substr($tmp_theme, -3) == '_sk') {
+                $hH = str_replace('assets/shared/bootstrap/dist/css/bootstrap.min.css', 'assets/skins/' . $skin . '/bootstrap.min.css', $hH);
+                $hH = str_replace('assets/shared/bootstrap/dist/css/extra.css', 'assets/skins/' . $skin . '/extra.css', $hH);
+            }
+
+            echo $hH;
+        }
+
+        if (file_exists('themes/' . $tmp_theme . '/bootstrap/header_head.php')) {
+            include 'themes/' . $tmp_theme . '/bootstrap/header_head.php';
+        }
+
+        echo Css::importCss($tmp_theme, $language, '', $css_pages_ref, $css);
+
+        // Mod by Jireck - Chargeur de JS via PAGES.PHP
+        if ($js) {
+            if (is_array($js)) {
+                foreach ($js as $k => $tab_js) {
+                    if (stristr($tab_js, 'http://') || stristr($tab_js, 'https://')) {
+                        echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
+                    } else {
+                        if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
+                            echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
+                        } elseif (file_exists("$tab_js") and ($tab_js != "")) {
+                            echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
+                        }
+                    }
+                }
+            } else {
+                if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
+                    echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
+                } elseif (file_exists($js)) {
+                    echo '<script type="text/javascript" src="' . $js . '"></script>';
+                }
+            }
+        }
+
+        echo '</head>';
+
+        include 'themes/' . $tmp_theme . '/views/header.php';
+    }
+
+    function footmsg()
+    {
+        global $foot1, $foot2, $foot3, $foot4;
+
+        $foot = '<p align="center">';
+
+        // Boucle sur les variables $foot1 à $foot4
+        for ($i = 1; $i <= 4; $i++) {
+            $varName = 'foot' . $i;
+            if (!empty($$varName)) {
+                $foot .= stripslashes($$varName);
+                if ($i < 4) {
+                    $foot .= '<br />';
+                }
+            }
+        }
+
+        $foot .= '</p>';
+
+        echo Language::affLangue($foot);
+    }
+
+    function foot()
+    {
+        global $user, $Default_Theme, $cookie9;
+
+        if ($user) {
+            $cookie = explode(':', base64_decode($user));
+
+            if ($cookie[9] == '') {
+                $cookie[9] = $Default_Theme;
+            }
+
+            $ibix = explode('+', urldecode($cookie[9]));
+
+            if (!@opendir('themes/' . $ibix[0])) {
+                $theme = $Default_Theme;
+            } else {
+                $theme = $ibix[0];
+            }
+        } else {
+            $theme = $Default_Theme;
+        }
+
+        include 'themes/' . $theme . '/views/footer.php';
+
+        if ($user) {
+            $cookie9 = $ibix[0];
+        }
+    }
+
+    function footer_after($theme)
+    {
+        if (file_exists($path_theme = 'themes/' . $theme . '/bootstrap/footer_after.php')) {
+            include $path_theme;
+        } else {
+            if (file_exists($path_module = 'themes/base/bootstrap/footer_after.php')) {
+                include $path_module;
+            }
+        }
+    }
+
+    function footer_before()
+    {
+        if (file_exists($path_module = 'themes/base/bootstrap/footer_before.php')) {
+            include $path_module;
+        }
     }
 
 }

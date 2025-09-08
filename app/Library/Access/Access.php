@@ -15,7 +15,50 @@ class Access
      */
     public static function accessDenied(): void
     {
-        include 'admin/die.php';
+        static:: adminDie();
+    }
+
+    /**
+     * Affiche une page d'accès refusé et termine l'exécution du script.
+     *
+     * Cette méthode inclut éventuellement le fichier de métadonnées 
+     * `storage/meta/meta.php` si présent, puis affiche une carte Bootstrap
+     * indiquant que l'accès est refusé dans plusieurs langues, et termine le script.
+     *
+     * @return void Ne retourne rien, termine le script avec die().
+     */
+    public static function adminDie(): void
+    {
+        $Titlesitename = 'NPDS';
+
+        if (file_exists('storage/meta/meta.php')) {
+            include 'storage/meta/meta.php';
+        }
+
+        echo '<link id="bsth" rel="stylesheet" href="assets/shared/bootstrap/dist/css/bootstrap.min.css" />
+            </head>
+            <body>
+                <div class="contenair-fluid mt-5">
+                    <div class= "card mx-auto p-3" style="width:380px; text-align:center">
+                        <span style="font-size: 72px;">🚫</span>
+                        <span class="text-danger h3 mb-3" style="">
+                        Acc&egrave;s refus&eacute; ! <br />
+                        Access denied ! <br />
+                        Zugriff verweigert ! <br />
+                        Acceso denegado ! <br />
+                        &#x901A;&#x5165;&#x88AB;&#x5426;&#x8BA4; ! <br />
+                        </span>
+                        <hr />
+                        <div>
+                        <span class="text-body-secondary">NPDS - Portal System</span>
+                        <img width="48px" class="adm_img ms-2" src="assets/images/admin/message_npds.png" alt="icon_npds">
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>';
+
+        die();
     }
 
     /**

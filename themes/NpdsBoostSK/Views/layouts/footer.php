@@ -152,3 +152,30 @@ if ($rep) {
 
     echo Metalang::metaLang(Language::affLangue($Xcontent));
 }  
+
+
+global $tiny_mce;
+if ($tiny_mce) {
+    echo Editeur::affEditeur('tiny_mce', 'end');
+}
+
+// include externe file from modules/include for functions, codes ...
+footer_before();
+
+foot();
+
+// include externe file from modules/themes include for functions, codes ...
+if (isset($user)) {
+    global $cookie9;
+    footer_after($cookie9);
+} else {
+    global $Default_Theme;
+    footer_after($Default_Theme);
+}
+
+echo '</body>
+</html>';
+
+include 'sitemap.php';
+
+sql_close();
