@@ -1,7 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Download\Download;
-
 
 if (! function_exists('topdownload')) {
     #autodoc topdownload() : Bloc topdownload <br />=> syntaxe : function#topdownload
@@ -19,7 +19,7 @@ if (! function_exists('topdownload')) {
             $boxstuff = '';
         }
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }
 
@@ -39,6 +39,6 @@ if (! function_exists('lastdownload')) {
             $boxstuff = '';
         }
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }

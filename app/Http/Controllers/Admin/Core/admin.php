@@ -16,17 +16,15 @@ use App\Library\Language\Language;
 use App\Library\Paginator\Paginator;
 use App\Library\Validation\Validation;
 
+// deprecated !
 if (!function_exists('Mysql_Connexion')) {
     include 'mainfile.php';
 }
 
+// deprecated !
 include 'language/' . $language . '/lang-adm-' . $language . '.php';
 
-function Access_Error()
-{
-    include 'admin/die.php';
-}
-
+// contoller ou lib Auth ?
 function admindroits($aid, $f_meta_nom)
 {
     global $radminsuper;
@@ -52,6 +50,7 @@ function admindroits($aid, $f_meta_nom)
     $radminsuper = $supers[0];
 }
 
+// controller ou lib Graphic ?
 function adminhead($f_meta_nom, $f_titre, $adminimg)
 {
     global $admf_ext, $ModPath, $adm_img_mod;
@@ -79,12 +78,14 @@ function adminhead($f_meta_nom, $f_titre, $adminimg)
     echo $entete_adm;
 }
 
+// en faire une fucntion helpers !
 $filemanager = false;
 
 if (file_exists('config/filemanager.conf')) {
     include_once 'config/filemanager.conf';
 }
 
+// controller auth admin
 function login()
 {
     include 'header.php';
@@ -127,6 +128,8 @@ function login()
     Validation::adminFoot('fv', '', $arg1, '');
 }
 
+// controller ou lib Graphic ?
+// function trop volumineuse, retirer les alerte en faire une lib, idem pour la messagerie, idem helpfile
 function GraphicAdmin($hlpfile)
 {
     global $aid, $admingraphic, $adminimg, $language, $admin, $banners, $filemanager, $Version_Sub, $Version_Num, $httprefmax, $httpref, $short_menu_admin, $admf_ext, $adm_ent, $nuke_url, $Default_Theme;
@@ -723,6 +726,7 @@ function GraphicAdmin($hlpfile)
     return $Q['radminsuper'];
 }
 
+// controller Admin Home !
 function adminMain($deja_affiches)
 {
     global $language, $admart, $hlpfile, $aid, $admf_ext;
@@ -892,6 +896,7 @@ function adminMain($deja_affiches)
     include 'footer.php';
 }
 
+// tout ce bordel va être deprecated !
 if ($admintest) {
 
     settype($op, 'string');

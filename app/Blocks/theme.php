@@ -1,7 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
-
 
 if (! function_exists('block_skin')) {
     /* 
@@ -107,6 +107,6 @@ if (! function_exists('block_skin')) {
         global $block_title;
         $title = $block_title == '' ? translate('Theme Skin') : $block_title;
 
-        themesidebox($title, Language::affLangue($content));
+        Theme::themeSidebox($title, Language::affLangue($content));
     }
 }

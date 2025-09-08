@@ -4,7 +4,6 @@ use App\Library\String\Sanitize;
 use App\Library\Stat\Stat;
 use App\Library\Theme\Theme;
 
-
 if (! function_exists('Site_Activ')) {
     #autodoc:<Mainfile.php>
     #autodoc <span class="text-success">BLOCS NPDS</span>:
@@ -61,6 +60,6 @@ if (! function_exists('Site_Activ')) {
 
         $title = $block_title == '' ? translate('Activité du site') : $block_title;
 
-        themesidebox($title, $aff);
+        Theme::themeSidebox($title, $aff);
     }
 }

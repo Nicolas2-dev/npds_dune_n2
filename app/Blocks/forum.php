@@ -1,8 +1,8 @@
 <?php
 
-use App\Library\String\Sanitize;
+use App\Library\Theme\Theme;
 use App\Library\Groupe\Groupe;
-
+use App\Library\String\Sanitize;
 
 if (! function_exists('RecentForumPosts')) {
     #autodoc RecentForumPosts($title, $maxforums, $maxtopics, $dposter, $topicmaxchars,$hr,$decoration) : Bloc Forums <br />=> syntaxe :<br />function#RecentForumPosts<br />params#titre, nb_max_forum (O=tous), nb_max_topic, affiche_l'emetteur(true / false), topic_nb_max_char, affiche_HR(true / false),
@@ -16,7 +16,7 @@ if (! function_exists('RecentForumPosts')) {
             $title = $block_title == '' ? translate('Forums infos') : $block_title;
         }
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }
 

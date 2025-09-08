@@ -16,12 +16,6 @@
 use App\Library\String\Sanitize;
 use App\Library\Messenger\Messenger;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'powerpack_f.php';
-
 global $powerpack;
 $powerpack = true;
 
@@ -58,24 +52,4 @@ switch ($op) {
         Header('Location: index.php');
         break;
 
-    // Purge Chat Box
-    case 'admin_chatbox_write':
-        if ($admin) {
-            $adminX = base64_decode($admin);
-            $adminR = explode(':', $adminX);
-
-            $Q = sql_fetch_assoc(sql_query("SELECT * 
-                                            FROM " . sql_prefix('authors') . " 
-                                            WHERE aid='$adminR[0]' 
-                                            LIMIT 1"));
-
-            if ($Q['radminsuper'] == 1)
-                if ($chatbox_clearDB == 'OK') {
-                    sql_query("DELETE FROM " . sql_prefix('chatbox') . " 
-                               WHERE date <= " . (time() - (60 * 5)));
-                }
-        }
-
-        Header('Location: index.php');
-        break;
 }

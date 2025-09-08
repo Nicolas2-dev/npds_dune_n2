@@ -1,5 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
+
 if (! function_exists('userblock'))
 {   
     #autodoc userblock() : Bloc membre <br />=> syntaxe : function#userblock
@@ -15,7 +17,7 @@ if (! function_exists('userblock'))
             global $block_title;
             $title = $block_title == '' ? translate('Menu de') . ' ' . $cookie[1] : $block_title;
 
-            themesidebox($title, $ublock['ublock']);
+            Theme::themeSidebox($title, $ublock['ublock']);
         }
     }
 }

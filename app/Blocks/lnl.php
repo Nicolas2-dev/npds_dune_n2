@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\Theme\Theme;
 
 if (! function_exists('lnlbox'))
 { 
@@ -25,6 +26,6 @@ if (! function_exists('lnlbox'))
             <button type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class ="fa fa-check fa-lg me-2"></i>' . translate('Valider') . '</button>
         </form>';
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\Theme\Theme;
 
 if (! function_exists('loginbox'))
 { 
@@ -32,7 +33,7 @@ if (! function_exists('loginbox'))
             global $block_title;
             $title = $block_title == '' ? translate('Se connecter') : $block_title;
 
-            themesidebox($title, $boxstuff);
+            Theme::themeSidebox($title, $boxstuff);
         }
     }
 }

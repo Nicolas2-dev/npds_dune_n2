@@ -5,7 +5,6 @@ use App\Library\Theme\Theme;
 use App\Library\Online\Online;
 use App\Library\Language\Language;
 
-
 if (! function_exists('instant_members_message')) {
     #autodoc:<Powerpack_f.php>
     #autodoc <span class="text-success">BLOCS NPDS</span>:
@@ -141,7 +140,7 @@ if (! function_exists('instant_members_message')) {
 
             $boxstuff .= '</ul>';
 
-            themesidebox($block_title, $boxstuff);
+            Theme::themeSidebox($block_title, $boxstuff);
         } else {
             if ($admin) {
                 $ibid = Online::onlineMembers();
@@ -153,7 +152,7 @@ if (! function_exists('instant_members_message')) {
                         $boxstuff .= $M . '<br />';
                     }
 
-                    themesidebox('<i>' . $block_title . '</i>', $boxstuff);
+                    Theme::themeSidebox('<i>' . $block_title . '</i>', $boxstuff);
                 }
             }
         }

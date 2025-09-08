@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\Theme\Theme;
 
 if (! function_exists('searchbox')) {
     #autodoc searchbox() : Bloc Search-engine <br />=> syntaxe : function#searchbox
@@ -13,6 +14,6 @@ if (! function_exists('searchbox')) {
             <input class="form-control" type="text" name="query" />
         </form>';
 
-        themesidebox($title, $content);
+        Theme::themeSidebox($title, $content);
     }
 }

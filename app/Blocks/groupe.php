@@ -1,8 +1,8 @@
 <?php
 
 use App\Library\auth\Auth;
+use App\Library\Theme\Theme;
 use App\Library\Groupe\Groupe;
-
 
 if (! function_exists('bloc_espace_groupe')) {
     #autodoc espace_groupe() : Bloc du WorkSpace <br />=> syntaxe :<br />function#bloc_espace_groupe<br />params#ID_du_groupe, Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, Le nom du groupe sera utilisé
@@ -20,7 +20,7 @@ if (! function_exists('bloc_espace_groupe')) {
             $title = $block_title;
         }
 
-        themesidebox($title, Groupe::fabEspaceEroupe($gr, "0", $i_gr));
+        Theme::themeSidebox($title, Groupe::fabEspaceEroupe($gr, "0", $i_gr));
     }
 }
 
@@ -32,7 +32,7 @@ if (! function_exists('bloc_groupes')) {
 
         $title = $block_title == '' ? 'Les groupes' : $block_title;
 
-        themesidebox($title, fab_groupes_bloc($user, $im));
+        Theme::themeSidebox($title, fab_groupes_bloc($user, $im));
     }
 }
 

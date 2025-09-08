@@ -1,7 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
-
 
 if (! function_exists('adminblock')) {
     #autodoc adminblock() : Bloc Admin <br />=> syntaxe : function#adminblock
@@ -200,7 +200,7 @@ if (! function_exists('adminblock')) {
                 });
             </script>';
 
-            themesidebox($title, $content);
+            Theme::themeSidebox($title, $content);
         }
     }
 }

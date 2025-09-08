@@ -1,7 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Http\Request;
-
 
 if (! function_exists('online'))
 { 
@@ -83,6 +83,6 @@ if (! function_exists('online'))
         global $block_title;
         $title = $block_title == '' ? translate('Qui est en ligne ?') : $block_title;
 
-        themesidebox($title, $content);
+        Theme::themeSidebox($title, $content);
     }
 }

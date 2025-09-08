@@ -3,8 +3,8 @@
 use App\Library\auth\Auth;
 use App\Library\Date\Date;
 use App\Library\News\News;
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
-
 
 if (! function_exists('oldNews')) {
     #autodoc oldNews($storynum) : Bloc Anciennes News <br />=> syntaxe <br />function#oldNews<br />params#$storynum,lecture (affiche le NB de lecture) - facultatif
@@ -78,7 +78,7 @@ if (! function_exists('oldNews')) {
         global $block_title;
         $boxTitle = $block_title == '' ? translate('Anciens articles') : $block_title;
 
-        themesidebox($boxTitle, $boxstuff);
+        Theme::themeSidebox($boxTitle, $boxstuff);
     }
 }
 
@@ -108,7 +108,7 @@ if (! function_exists('bigstory')) {
         global $block_title;
         $boxtitle = $block_title == '' ? translate('Article du Jour') : $block_title;
 
-        themesidebox($boxtitle, $content);
+        Theme::themeSidebox($boxtitle, $content);
     }
 }
 
@@ -157,7 +157,7 @@ if (! function_exists('category')) {
             global $block_title;
             $title = $block_title == '' ? translate('Catégories') : $block_title;
 
-            themesidebox($title, $boxstuff);
+            Theme::themeSidebox($title, $boxstuff);
         }
     }
 }
@@ -226,6 +226,6 @@ if (! function_exists('bloc_rubrique')) {
         global $block_title;
         $title = $block_title == '' ? translate('Rubriques') : $block_title;
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }

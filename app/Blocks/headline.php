@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\Theme\Theme;
 
 if (! function_exists('headlines'))
 { 
@@ -56,7 +57,7 @@ if (! function_exists('headlines'))
                         $ibid = rename($cache_file, $cache_file_sec);
                     }
 
-                    themesidebox($boxtitle, 'Security Error');
+                    Theme::themeSidebox($boxtitle, 'Security Error');
 
                     return;
                 } else {
@@ -165,7 +166,7 @@ if (! function_exists('headlines'))
             $boxstuff .= '<div class="text-end"><a href="' . $url . '" target="_blank">' . translate('Lire la suite...') . '</a></div>';
 
             if ($block) {
-                themesidebox($boxtitle, $boxstuff);
+                Theme::themeSidebox($boxtitle, $boxstuff);
                 $boxstuff = '';
             } else {
                 return $boxstuff;

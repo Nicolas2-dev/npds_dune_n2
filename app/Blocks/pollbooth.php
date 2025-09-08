@@ -1,8 +1,8 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
 use App\Library\Pollbooth\Pollbooth;
-
 
 if (! function_exists('pollMain')) {
     #autodoc pollMain($pollID,$pollClose) : Construit le bloc sondage
@@ -96,7 +96,7 @@ if (! function_exists('pollMain')) {
 
         $boxContent .= '</ul>';
 
-        themesidebox($boxTitle, $boxContent);
+        Theme::themeSidebox($boxTitle, $boxContent);
     }
 }
 

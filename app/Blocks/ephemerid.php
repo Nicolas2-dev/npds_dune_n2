@@ -1,7 +1,7 @@
 <?php
 
+use App\Library\Theme\Theme;
 use App\Library\Language\Language;
-
 
 if (! function_exists('ephemblock')) {
     #autodoc ephemblock() : Bloc ephemerid <br />=> syntaxe : function#ephemblock
@@ -38,6 +38,6 @@ if (! function_exists('ephemblock')) {
         global $block_title;
         $title = $block_title == '' ? translate('Ephémérides') : $block_title;
 
-        themesidebox($title, $boxstuff);
+        Theme::themeSidebox($title, $boxstuff);
     }
 }

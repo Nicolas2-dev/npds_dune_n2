@@ -78,6 +78,24 @@ if (!function_exists('theme_path')) {
     }
 }
 
+if (!function_exists('storage_path')) {
+    /**
+     * Retourne le chemin absolu vers le répertoire de stockage.
+     *
+     * Cette fonction concatène le chemin de base de stockage (`STORAGE_PATH`) 
+     * avec un chemin optionnel fourni en argument. Utilise le séparateur de 
+     * dossier défini par `DS`.
+     *
+     * @param string $path Chemin relatif à ajouter au répertoire de stockage (optionnel)
+     *
+     * @return string Chemin absolu complet vers le fichier ou dossier dans le stockage
+     */
+    function storage_path(string $path = ''): string
+    {
+        return STORAGE_PATH . DS . $path;
+    }
+}
+
 if (! function_exists('normalize_path')) {
     /**
      * Normalise un chemin de fichier ou de dossier.

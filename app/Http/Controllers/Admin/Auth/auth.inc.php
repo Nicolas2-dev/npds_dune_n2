@@ -13,32 +13,9 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-use App\Library\Log\Log;
 use App\Library\Password\Password;
 
-function Admin_alert($motif)
-{
-    global $admin;
-
-    setcookie('admin', '', 0);
-    unset($admin);
-
-    Log::ecrireLog('security', 'auth.inc.php/Admin_alert : ' . $motif, '');
-
-    include 'storage/meta/meta.php';
-
-    echo '
-        </head>
-        <body>
-            <br /><br /><br />
-            <p style="font-size: 24px; font-family: Tahoma, Arial; color: red; text-align:center;">
-                <strong>.: ' . translate('Votre adresse Ip est enregistrée') . ' :.</strong>
-            </p>
-        </body>
-    </html>';
-    die();
-}
-
+// controller auth admin !
 if ((isset($aid)) and (isset($pwd)) and ($op == 'login')) {
     if ($aid != '' and $pwd != '') {
 

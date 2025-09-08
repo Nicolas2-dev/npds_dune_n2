@@ -2,9 +2,9 @@
 
 use App\Library\Assets\Js;
 use App\Library\Block\Block;
+use App\Library\Theme\Theme;
 use App\Library\Media\Smilies;
 use App\Library\Encryption\Encrypter;
-
 
 if (! function_exists('makeChatBox')) {
     #autodoc makeChatBox($pour) : Bloc ChatBox <br />=> syntaxe : function#makeChatBox <br />params#chat_membres <br /> le parametre doit être en accord avec l'autorisation donc (chat_membres, chat_tous, chat_admin, chat_anonyme)
@@ -115,7 +115,7 @@ if (! function_exists('makeChatBox')) {
             $block_title = translate('Bloc Chat');
         }
 
-        themesidebox($block_title, $thing);
+        Theme::themeSidebox($block_title, $thing);
 
         sql_free_result($result);
     }
