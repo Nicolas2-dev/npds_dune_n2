@@ -100,6 +100,10 @@ class BaseController extends Controller
             $view = $matches[1] .'/' .$matches[2] .'/' .$view;
 
             return View::make($view, $data);
+        } elseif(preg_match('#^Modules/(.*)/Http/Controllers/(.*)/(.*)$#', $classPath, $matches) === 1) {
+            $view = 'modules/' .$matches[1] .'/' .$matches[2] .'/' .$view;
+
+            return View::make($view, $data);
         }
 
         throw new BadMethodCallException('Invalid Controller namespace');

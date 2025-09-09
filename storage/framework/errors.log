@@ -1827,3 +1827,211 @@ Exception information:
 
 ---------
 
+Exception information:
+
+    Date: Sep 09, 2025 8:51AM
+
+    Message: Controller [Modules\Contact\Http\Controllers\Front\Contact] not found.
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php
+
+    Line: 226
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#3 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:52AM
+
+    Message: Invalid Controller namespace
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php
+
+    Line: 105
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#1 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#7 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:54AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Contact/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(76): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(108): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:55AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views//home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Views/Contact/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(76): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(108): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:56AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views//home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Views/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(76): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(108): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:57AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views//home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Views/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(76): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(108): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 9:05AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/modules/Contact/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(89): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(106): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 9:06AM
+
+    Message: File path [/home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Views/Contact/Front/Index.php] does not exist
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php
+
+    Line: 44
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(81): Npds\View\View->__construct()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(106): Npds\View\View::make()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/modules/Contact/Http/Controllers/Front/Contact.php(38): App\Http\Controllers\Core\BaseController->createView()
+#3 [internal function]: Modules\Contact\Http\Controllers\Front\Contact->index()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(140): Npds\Routing\Router->dispatch()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#9 {main}
+
+---------
+

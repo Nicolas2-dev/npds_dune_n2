@@ -50,28 +50,39 @@ class View
     }
 
     /**
+     * Résout le chemin complet d'une vue.
+     */
+    protected static function resolvePath(string $view): string
+    {
+        // Si la vue commence par "modules/", c'est un module
+        if (str_starts_with($view, 'modules/')) {
+
+            $module = explode('/', $view, 3);
+
+            // Construire le chemin correct : MODULE_PATH/{Module}/Views/{view}.php
+            return MODULE_PATH . $module[1] . DS . 'Views' . DS . str_replace('/', DS, $module[2]) . '.php';
+        }
+
+        // Sinon c'est dans l'application
+        return APPPATH . str_replace('/', DS, "Views/$view.php");
+    }
+
+    /**
      * Vérifie si une vue existe.
-     *
-     * @param string $view Nom de la vue
-     * @return bool Vrai si le fichier existe et est lisible
      */
     public static function exists(string $view): bool
     {
-        $path = APPPATH .str_replace('/', DS, "Views/$view.php");
-
+        $path = static::resolvePath($view);
+        
         return is_readable($path);
     }
 
     /**
      * Crée une instance de vue.
-     *
-     * @param string $view Nom de la vue
-     * @param array<string, mixed> $data Données à passer à la vue
-     * @return static
      */
     public static function make(string $view, array $data = []): static
     {
-        $path = APPPATH .str_replace('/', DS, "Views/$view.php");
+        $path = static::resolvePath($view);
 
         return new static($path, $data);
     }

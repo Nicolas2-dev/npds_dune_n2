@@ -1,6 +1,9 @@
 <?php
 
-Route::get('test',        'App\Http\Controllers\DevTest\Home@index');
+Route::get(
+    'test',        
+    'App\Http\Controllers\DevTest\Home@index'
+);
 
 Route::get(
     '/', 
@@ -14,6 +17,12 @@ Route::get(
     '/index/{start?}', 
     'App\Http\Controllers\Front\Start\StartPage@index'
 );
+
+Route::get(
+    'contact',        
+    'Modules\Contact\Http\Controllers\Front\Contact@index'
+);
+
 
 /**
  * Afficher les informations PHP.
