@@ -1480,3 +1480,350 @@ Exception information:
 
 ---------
 
+Exception information:
+
+    Date: Sep 09, 2025 5:32AM
+
+    Message: Type error: App\Library\Theme\Theme::themeIndex(): Argument #3 ($time) must be of type int, string given, called in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php on line 209
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Theme/Theme.php
+
+    Line: 212
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php(209): App\Library\Theme\Theme::themeIndex()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(129): App\Library\News\News::affNews()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(147): App\Http\Controllers\Front\Start\StartPage->App\Http\Controllers\Front\Start\{closure}()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(67): App\Http\Controllers\Front\Start\StartPage->theindex()
+#4 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(547): App\Http\Controllers\Core\BaseController->callAction()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(220): Npds\Routing\Router->call()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(130): Npds\Routing\Router->dispatch()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#10 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:34AM
+
+    Message: Call to protected method class@anonymous::getDependencies() from global scope
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 187
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once()
+#1 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:36AM
+
+    Message: Call to protected method class@anonymous::getDependencies() from global scope
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 212
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once()
+#1 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:36AM
+
+    Message: Call to a member function getName() on null
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 206
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(212): class@anonymous->getDependencies()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:38AM
+
+    Message: Call to a member function getName() on null
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 206
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(212): class@anonymous->getDependencies()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:38AM
+
+    Message: Call to a member function getName() on null
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 206
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(212): class@anonymous->getDependencies()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:38AM
+
+    Message: Call to a member function getName() on null
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 206
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(212): class@anonymous->getDependencies()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 5:39AM
+
+    Message: Call to a member function getName() on null
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 208
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(214): class@anonymous->getDependencies()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:32AM
+
+    Message: Cannot redeclare Npds\Asset\Asset::dispatchInstance()
+
+    Code: 64
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Asset/Asset.php
+
+    Line: 121
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:32AM
+
+    Message: Cannot redeclare Npds\Asset\Asset::dispatchInstance()
+
+    Code: 64
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Asset/Asset.php
+
+    Line: 121
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:34AM
+
+    Message: Call to undefined method Npds\Asset\Asset::dispatchInstance()
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 141
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once()
+#1 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:34AM
+
+    Message: Call to undefined method Npds\Asset\Asset::dispatchInstance()
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 141
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once()
+#1 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:35AM
+
+    Message: Type error: App\Library\Theme\Theme::themeIndex(): Argument #3 ($time) must be of type int, string given, called in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php on line 209
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Theme/Theme.php
+
+    Line: 212
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php(209): App\Library\Theme\Theme::themeIndex()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(129): App\Library\News\News::affNews()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(147): App\Http\Controllers\Front\Start\StartPage->App\Http\Controllers\Front\Start\{closure}()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(67): App\Http\Controllers\Front\Start\StartPage->theindex()
+#4 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(547): App\Http\Controllers\Core\BaseController->callAction()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(220): Npds\Routing\Router->call()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(147): Npds\Routing\Router->dispatch()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#10 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:37AM
+
+    Message: Type error: App\Library\Theme\Theme::themeIndex(): Argument #3 ($time) must be of type int, string given, called in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php on line 209
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Theme/Theme.php
+
+    Line: 212
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php(209): App\Library\Theme\Theme::themeIndex()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(129): App\Library\News\News::affNews()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(147): App\Http\Controllers\Front\Start\StartPage->App\Http\Controllers\Front\Start\{closure}()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(67): App\Http\Controllers\Front\Start\StartPage->theindex()
+#4 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(147): Npds\Routing\Router->dispatch()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#10 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:37AM
+
+    Message: Type error: App\Library\Theme\Theme::themeIndex(): Argument #3 ($time) must be of type int, string given, called in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php on line 209
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Theme/Theme.php
+
+    Line: 212
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php(209): App\Library\Theme\Theme::themeIndex()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(129): App\Library\News\News::affNews()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(147): App\Http\Controllers\Front\Start\StartPage->App\Http\Controllers\Front\Start\{closure}()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Front/Start/StartPage.php(67): App\Http\Controllers\Front\Start\StartPage->theindex()
+#4 [internal function]: App\Http\Controllers\Front\Start\StartPage->index()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(43): call_user_func_array()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(234): App\Http\Controllers\Core\BaseController->callAction()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(136): Npds\Routing\Router->call()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(147): Npds\Routing\Router->dispatch()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#10 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 09, 2025 8:38AM
+
+    Message: Class "Npds\Asset\Asset" not found
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php
+
+    Line: 134
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once()
+#1 {main}
+
+---------
+

@@ -15,7 +15,7 @@ use App\Library\Metalang\Metalang;
 class Theme
 {
 
-    public static function getTheme()
+    public static function getThemeNpds()
     {
         // take the right theme location !
         global $user; // global a revoir !
@@ -55,6 +55,60 @@ class Theme
             $tmp_theme = $theme;
         }
     }
+
+    /**
+     * Récupère le thème actif pour l'utilisateur.
+     *
+     * Cette méthode vérifie si l'utilisateur est connecté et si un cookie contient un thème personnalisé.
+     * Si le thème indiqué dans le cookie n'existe pas, le thème par défaut est retourné.
+     *
+     * @return string Le nom du thème actif
+     */
+    public static function getTheme(): string
+    {
+        global $user, $cookie;
+
+        $defaultTheme = Config::get('theme.Default_Theme');
+
+        if (isset($user) && $user !== '') {
+            if (!empty($cookie[9])) {
+                $ibix = explode('+', urldecode($cookie[9]));
+                $theme = $ibix[0] ?? $defaultTheme;
+
+                // Vérifie que le répertoire du thème existe
+                if (@opendir('themes/' . $theme)) {
+                    return $theme;
+                }
+            }
+        }
+
+        return $defaultTheme;
+    }
+
+    /**
+     * Récupère le skin actif pour l'utilisateur.
+     *
+     * Cette méthode vérifie si l'utilisateur est connecté et si un cookie contient un skin personnalisé.
+     * Si aucun skin n'est défini dans le cookie, le skin par défaut est retourné.
+     *
+     * @return string Le nom du skin actif
+     */
+    public static function getSkin(): string
+    {
+        global $user, $cookie;
+
+        $defaultSkin = Config::get('theme.Default_Skin');
+
+        if (isset($user) && $user !== '') {
+            if (!empty($cookie[9])) {
+                $ibix = explode('+', urldecode($cookie[9]));
+                return $ibix[1] ?? $defaultSkin;
+            }
+        }
+
+        return $defaultSkin;
+    }
+
 
     /**
      * Retourne le chemin complet de l'image si elle existe dans le répertoire du thème.

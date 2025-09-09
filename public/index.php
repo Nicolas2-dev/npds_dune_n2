@@ -4,6 +4,7 @@ use Npds\Http\Request;
 use Npds\Config\Config;
 use Npds\Http\Response;
 use Npds\Routing\Router;
+use Npds\Routing\Asset\Asset;
 use Npds\Application\AliasLoader;
 use App\Exceptions\Handler as ExceptionHandler;
 
@@ -120,7 +121,16 @@ require APPPATH . 'Routes' . DS . 'Admin' . DS . 'Routes.php';
 | Récupération de la requête HTTP.
 |--------------------------------------------------------------------------
 */
+
 $request = Request::getInstance();
+
+/*
+|--------------------------------------------------------------------------
+| Rouing Assets.
+|--------------------------------------------------------------------------
+*/
+
+Asset::getInstance()->dispatch($request);
 
 /*
 |--------------------------------------------------------------------------
