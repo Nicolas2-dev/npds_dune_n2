@@ -24,12 +24,6 @@ use App\Library\FileManagement\File;
 use App\Library\Paginator\Paginator;
 use App\Library\FileManagement\FileManagement;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include_once 'library/file/File.php';
-include 'functions.php';
 
 function geninfo($did, $out_template)
 {

@@ -424,6 +424,7 @@ function DelCategory($cat)
 
     Validation::adminFoot('', '', '', '');
 }
+
 function YesDelCategory($catid)
 {
     sql_query("DELETE FROM " . sql_prefix('stories_cat') . " 

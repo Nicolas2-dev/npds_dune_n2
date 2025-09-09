@@ -18,22 +18,12 @@ use App\Library\Http\Request;
 use App\Library\Media\Smilies;
 use App\Library\Encryption\Encrypter;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 // chatbox avec salon privatif - on utilise id pour filtrer les messages -> id = l'id du groupe au sens autorisation de NPDS (-127,-1,0,1,2...126))
 settype($id, 'integer');
 
 if ($id === '' || unserialize(Encrypter::decrypt($auto)) != $id) {
     die();
 }
-
-if (!function_exists('makeChatBox')) {
-    include 'powerpack_f.php';
-}
-
-include 'functions.php';
 
 // Savoir si le 'connecté' a le droit à ce chat ?
 // le problème c'est que tous les groupes qui existent on le droit au chat ... donc il faut trouver une solution pour pouvoir l'interdire

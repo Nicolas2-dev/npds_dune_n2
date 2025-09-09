@@ -20,10 +20,6 @@ use App\Library\Forum\Forum;
 use App\Library\Http\Request;
 use App\Library\Mailer\Mailer;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 function SuserCheck($email)
 {
     global $stop;

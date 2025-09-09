@@ -27,12 +27,6 @@ use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Validation\Validation;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'functions.php';
-
 $cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
 include 'auth.php';

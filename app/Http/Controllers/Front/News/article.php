@@ -20,10 +20,6 @@ use App\Library\Metalang\Metalang;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 settype($sid, 'integer');
 settype($archive, 'integer');
 

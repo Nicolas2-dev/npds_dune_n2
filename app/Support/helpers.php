@@ -150,8 +150,9 @@ if (! function_exists('counterUpdate')) {
      */
     function counterUpdate()
     {
-        global $admin, $not_admin_count;
-        if ((!$admin) or ($not_admin_count != 1)) {
+        global $admin; // global a revoir !
+
+        if ((!$admin) or (Config::get('user.not_admin_count') != 1)) {
             $user_agent = getenv('HTTP_USER_AGENT');
 
             if ((stristr($user_agent, 'Nav'))
@@ -228,9 +229,7 @@ if (! function_exists('refererUpdate')) {
      */
     function refererUpdate()
     {
-        global $httpref, $nuke_url, $httprefmax, $admin;
-
-        if ($httpref == 1) {
+        if (Config::get('referer.httpref') == 1) {
 
             $referer = htmlentities(strip_tags(Hack::removeHack(getenv('HTTP_REFERER'))), ENT_QUOTES, 'UTF-8');
 

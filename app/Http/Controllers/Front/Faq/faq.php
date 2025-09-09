@@ -19,10 +19,6 @@ use App\Library\Metalang\Metalang;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 function ShowFaq($id_cat, $categories)
 {
     echo '<h2 class="mb-4">' . translate('FAQ - Questions fréquentes') . '</h2>

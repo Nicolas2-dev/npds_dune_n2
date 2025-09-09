@@ -7,6 +7,49 @@ use App\Http\Controllers\Core\BaseController;
 class AdminBaseController extends BaseController 
 {
 
+    public function __construct()
+    {
+        /*
+        #autodoc $admintest - $super_admintest : permet de savoir si un admin est connect&ecute; ($admintest=true) et s'il est SuperAdmin ($super_admintest=true)
+        $admintest = false;
+        $super_admintest = false;
+
+        if (isset($admin) and ($admin != '')) {
+            $Xadmin = base64_decode($admin);
+            $Xadmin = explode(':', $Xadmin);
+
+            $aid = urlencode($Xadmin[0]);
+
+            $AIpwd = $Xadmin[1];
+
+            if ($aid == '' or $AIpwd == '') {
+                Admin_Alert('Null Aid or Passwd');
+            }
+
+            $result = sql_query("SELECT pwd, radminsuper 
+                                FROM " . sql_prefix('authors') . " 
+                                WHERE aid = '$aid'");
+
+            if (!$result) {
+                Admin_Alert(sprintf('DB not ready #2 : %s / %s', $aid, $AIpwd));
+            } else {
+                list($AIpass, $Xsuper_admintest) = sql_fetch_row($result);
+
+                if (md5($AIpass) == $AIpwd and $AIpass != '') {
+                    $admintest = true;
+                    $super_admintest = $Xsuper_admintest;
+                } else {
+                    Admin_Alert(printf('Password in Cookies not Good #1 : %s / %s', $aid, $AIpwd));
+                }
+            }
+
+            unset($AIpass);
+            unset($AIpwd);
+            unset($Xadmin);
+            unset($Xsuper_admintest);
+        }  
+        */  
+    }
 
     // contoller ou lib Auth ?
     function admindroits($aid, $f_meta_nom)

@@ -20,22 +20,12 @@ use App\Library\Media\Smilies;
 use App\Library\Security\Hack;
 use App\Library\Encryption\Encrypter;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 // chatbox avec salon privatif - on utilise id pour filtrer les messages -> id = l'id du groupe au sens autorisation de NPDS (-127,-1,0,1,2...126))
 settype($id, 'integer');
 
 if ($id === '' || unserialize(Encrypter::decrypt($auto)) != $id) {
     die();
 }
-
-if (!function_exists('makeChatBox')) {
-    include 'powerpack_f.php';
-}
-
-include 'functions.php';
 
 settype($repere, 'integer');
 settype($aff_entetes, 'integer');

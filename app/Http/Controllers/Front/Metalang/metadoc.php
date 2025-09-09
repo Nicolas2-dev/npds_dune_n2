@@ -14,10 +14,6 @@
 use App\Library\Assets\Css;
 use App\Library\Language\Language;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 global $Default_Theme, $Default_Skin, $user, $language;
 
 if (isset($user) and $user != '') {

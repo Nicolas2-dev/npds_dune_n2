@@ -19,12 +19,6 @@ use App\Library\Theme\Theme;
 use App\Library\Security\Hack;
 use App\Library\Paginator\Paginator;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'functions.php';
-
 // Make Member_list Private or not
 if (!Auth::autoReg()) {
     unset($user);

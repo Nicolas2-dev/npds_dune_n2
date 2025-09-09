@@ -19,9 +19,6 @@ use App\Library\Metalang\Metalang;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
 
 $cache_obj = ($SuperCache) ? new SuperCacheManager() :  new SuperCacheEmpty();
 

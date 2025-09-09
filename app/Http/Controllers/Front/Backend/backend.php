@@ -13,29 +13,17 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
+use Shared\Feed\FeedItem;
 use App\Library\Date\Date;
 use App\Library\News\News;
+use Shared\Feed\FeedImage;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
+use Shared\Feed\FeedCreatorConfig;
+use Shared\Feed\UniversalFeedCreator;
 
-include 'mainfile.php';
 
 // note a revoir pour les namespace !
-
-include 'Library\Feed\HtmlDescribable.php';
-include 'Library\Feed\FeedCreator.php';
-include 'Library\Feed\AtomCreator03.php';
-include 'Library\Feed\FeedCreatorConfig.php';
-include 'Library\Feed\FeedDate.php';
-include 'Library\Feed\FeedHtmlField.php';
-include 'Library\Feed\FeedImage.php';
-include 'Library\Feed\FeedItem.php';
-include 'Library\Feed\MBOXCreator.php';
-include 'Library\Feed\OPMLCreator.php';
-include 'Library\Feed\RSSCreator091.php';
-include 'Library\Feed\RSSCreator10.php';
-include 'Library\Feed\RSSCreator20.php';
-include 'Library\Feed\UniversalFeedCreator.php';
 
 function fab_feed($type, $filename, $timeout)
 {

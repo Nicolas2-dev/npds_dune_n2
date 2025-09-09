@@ -187,12 +187,12 @@ new Sql();
 
 /*
 |--------------------------------------------------------------------------
-| auth a revoir ! va être déprécié !
+| auth a revoir ! Deprecated !
 |--------------------------------------------------------------------------
 |
 */
 
-require_once APPPATH .'Http/Controllers/Front/deprecated/auth.inc.php';
+// require_once APPPATH .'Http/Controllers/Front/deprecated/auth.inc.php';
 
 /*
 |--------------------------------------------------------------------------

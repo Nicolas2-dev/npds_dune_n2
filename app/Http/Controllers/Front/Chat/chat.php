@@ -14,10 +14,6 @@
 // gp_id=ID du groupe au sens NPDS du terme => 0 : tous / -127 : Admin / -1 : Anonyme / 1 : membre / 2 ... 126 : groupe de membre
 // token_de_securite = Encrypter::encrypt(serialize(gp_id)) => Permet d'éviter le lancement du Chat sans autorisation
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 $meta_op = '';
 $meta_doctype = '<!DOCTYPE html>';
 

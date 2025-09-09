@@ -23,10 +23,6 @@ use App\Library\Security\Hack;
 use App\Library\Language\Language;
 use App\Library\Validation\Validation;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 function display_score($score)
 {
     $image = '<i class="fa fa-star"></i>';

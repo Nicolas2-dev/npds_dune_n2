@@ -21,7 +21,6 @@ use App\Library\Mailer\Mailer;
 use App\Library\Language\Language;
 use App\Library\Validation\Validation;
 
-include_once 'mainfile.php';
 
 function viewbanner()
 {

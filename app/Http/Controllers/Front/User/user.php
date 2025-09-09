@@ -38,9 +38,6 @@ use App\Library\Encryption\Encrypter;
 use App\Library\Validation\Validation;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
 
 function message_error($ibid, $op)
 {

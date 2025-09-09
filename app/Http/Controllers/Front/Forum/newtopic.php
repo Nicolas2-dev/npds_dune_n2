@@ -33,12 +33,6 @@ if ($cancel) {
     header('Location: viewforum.php?forum=' . $forum);
 }
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'functions.php';
-
 $cache_obj = ($SuperCache) ? new SuperCacheManager() : new SuperCacheEmpty();
 
 include 'auth.php';

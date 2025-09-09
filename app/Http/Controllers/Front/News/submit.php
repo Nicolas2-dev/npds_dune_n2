@@ -27,10 +27,6 @@ use App\Library\Editeur\Editeur;
 use App\Library\Language\Language;
 use App\Library\Media\Base64Image;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 include 'publication.php';
 
 settype($user, 'string');

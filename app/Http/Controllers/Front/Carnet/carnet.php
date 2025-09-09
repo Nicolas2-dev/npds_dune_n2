@@ -13,10 +13,6 @@
 use App\Library\Assets\Css;
 use App\Library\Encryption\Encrypter;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 global $user, $Default_Theme;
 if (!$user) {
     Header('Location: user.php');

@@ -18,10 +18,6 @@ use App\Library\Language\Language;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 function mapsections()
 {
     $tmp = '';

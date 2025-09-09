@@ -19,12 +19,6 @@ use App\Library\Language\Language;
 use App\Library\Media\MediaPlayer;
 use App\Library\Metalang\Metalang;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'functions.php';
-
 settype($gr_name, 'string');
 settype($new_pages, 'string');
 

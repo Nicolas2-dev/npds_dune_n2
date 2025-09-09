@@ -27,11 +27,6 @@ use App\Library\Media\MediaPlayer;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
-include 'functions.php';
 include 'auth.php';
 
 if ($allow_upload_forum) {

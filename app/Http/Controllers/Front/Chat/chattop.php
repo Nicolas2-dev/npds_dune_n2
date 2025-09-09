@@ -14,8 +14,6 @@
 $nuke_url = '';
 $meta_op = '';
 
-include 'mainfile.php';
-
 include 'storage/meta/meta.php';
 
 echo '</head>

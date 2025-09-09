@@ -16,10 +16,6 @@
 use App\Library\String\Sanitize;
 use App\Library\Theme\Theme;
 
-if (!function_exists('Mysql_Connexion')) {
-   include 'mainfile.php';
-}
-
 include 'header.php';
 
 function generatePourcentageAndTotal($count, $total)

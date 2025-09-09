@@ -20,9 +20,6 @@ use App\Library\Security\Hack;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
 
 function PrintPage($oper, $DB, $nl, $sid)
 {

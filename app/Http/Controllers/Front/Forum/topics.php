@@ -17,10 +17,6 @@ use App\Library\Url\Url;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;
 
-if (!function_exists('Mysql_Connexion')) {
-    include 'mainfile.php';
-}
-
 settype($op, 'string');
 
 if ($op != 'maj_subscribe') {

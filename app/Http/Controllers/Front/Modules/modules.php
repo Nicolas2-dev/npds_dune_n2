@@ -15,7 +15,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-include 'bootstrap/grab_globals.php';
+// deprecated !
 
 function Access_Error()
 {
@@ -39,9 +39,6 @@ function filtre_module($strtmp)
 }
 
 if (filtre_module($ModPath) and filtre_module($ModStart)) {
-    if (!function_exists('Mysql_Connexion')) {
-        include 'mainfile.php';
-    }
 
     $isControllerAdmin = (strpos($ModPath, 'admin') !== false);
 
