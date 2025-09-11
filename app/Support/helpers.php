@@ -331,6 +331,6 @@ if (! function_exists('data_image_to_file_url')) {
             $j++;
         }
 
-        return $base_64_string;
+        return site_url($base_64_string);
     }
 }

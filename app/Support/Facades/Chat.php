@@ -5,7 +5,7 @@ namespace App\Support\Facades;
 use App\Library\Chat\Chat as ChatManager;
 
 
-class Chatk
+class Chat
 {
 
     /**

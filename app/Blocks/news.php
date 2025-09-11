@@ -1,5 +1,6 @@
 <?php
 
+use Npds\Config\Config;
 use App\Support\Facades\Auth;
 use App\Support\Facades\Date;
 use App\Support\Facades\News;
@@ -11,10 +12,16 @@ if (! function_exists('oldNews')) {
     #autodoc oldNews($storynum) : Bloc Anciennes News <br />=> syntaxe <br />function#oldNews<br />params#$storynum,lecture (affiche le NB de lecture) - facultatif
     function oldNews($storynum, $typ_aff = '')
     {
-        global $oldnum, $storyhome, $categories, $cat, $user, $cookie, $language;
+        global $categories, $cat, $user, $cookie, $language;
+
+        $storyhome = Config::get('storie.storyhome');
+        $oldnum = Config::get('storie.oldnum');
 
         $boxstuff = '<ul class="list-group">';
-        $storynum = isset($cookie[3]) ? $cookie[3] : $storyhome;
+
+
+        // pfff $storynum passer en argument de function puis ecracer juste en dessous ??????? !!!!!!
+        $storynum = isset($cookie[3]) ? $cookie[3] : (int) $storyhome;
 
         if (($categories == 1) and ($cat != ''))
             $sel = $user ? "WHERE catid='$cat'" : "WHERE catid='$cat' AND ihome=0";
@@ -25,7 +32,7 @@ if (! function_exists('oldNews')) {
 
         $vari = 0;
 
-        $xtab = News::newsAff('old_news', $sel, $storynum, $oldnum);
+        $xtab = News::newsAff('old_news', $sel, (int) $storynum, $oldnum);
 
         $story_limit = 0;
         $time2 = 0;

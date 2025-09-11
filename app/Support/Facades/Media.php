@@ -5,7 +5,7 @@ namespace App\Support\Facades;
 use App\Library\Media\MediaPlayer as MediaPlayerManager;
 
 
-class MediaPlayer
+class Media
 {
 
     /**

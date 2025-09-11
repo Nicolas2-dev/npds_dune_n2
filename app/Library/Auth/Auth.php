@@ -3,6 +3,7 @@
 namespace App\Library\Auth;
 
 use Npds\Config\Config;
+use App\Support\Facades\Groupe;
 
 
 class Auth

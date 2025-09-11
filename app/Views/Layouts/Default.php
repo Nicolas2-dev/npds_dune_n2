@@ -18,10 +18,10 @@
     <?php endif; ?>
 
     <!-- meta backend -->
-    <link href="backend.php?op=RSS0.91" title="<?= config('app.sitename'); ?> - RSS 0.91" rel="alternate" type="text/xml">
-    <link href="backend.php?op=RSS1.0" title="<?= config('app.sitename'); ?> - RSS 1.0" rel="alternate" type="text/xml">
-    <link href="backend.php?op=RSS2.0" title="<?= config('app.sitename'); ?> - RSS 2.0" rel="alternate" type="text/xml">
-    <link href="backend.php?op=ATOM" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
+    <link href="<?= site_url('backend/RSS0.91'); ?>" title="<?= config('app.sitename'); ?> - RSS 0.91" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/RSS1.0'); ?>" title="<?= config('app.sitename'); ?> - RSS 1.0" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/RSS2.0'); ?>" title="<?= config('app.sitename'); ?> - RSS 2.0" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/ATOM'); ?>" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
 
     <!-- import css et js -->
     <?php Event::fire('assets.css'); ?>
@@ -29,13 +29,12 @@
 </head>
 <body>
 
-<?php require 'themes/'. $theme .'/Views/partials/header/header.php'; ?>
+<?php require 'themes/'. $theme .'/Views/layouts/header.php'; ?>
 
-<div class="container">
-    <?= $content; ?>
-</div>
+<?= $content; ?>
 
-<?php require 'themes/'. $theme .'/Views/partials/footer/footer.php'; ?>
+<?php require 'themes/'. $theme .'/Views/layouts/footer.php'; ?>
+
 
 <!-- import js -->
 <?php Event::fire('assets.footer.js'); ?>

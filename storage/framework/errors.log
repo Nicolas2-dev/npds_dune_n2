@@ -1,0 +1,116 @@
+Exception information:
+
+    Date: Sep 11, 2025 3:45AM
+
+    Message: Uncaught ErrorException: Undefined variable $theme in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php:32
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php(32): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(109): include('...')
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(125): Npds\View\View->render()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#5 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#6 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php
+
+    Line: 32
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 11, 2025 3:45AM
+
+    Message: Uncaught ErrorException: Undefined variable $theme in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php:32
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php(32): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(109): include('...')
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(125): Npds\View\View->render()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#5 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#6 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php
+
+    Line: 32
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 11, 2025 3:45AM
+
+    Message: Uncaught ErrorException: Undefined variable $theme in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php:32
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php(32): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(109): include('...')
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(125): Npds\View\View->render()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#5 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#6 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php
+
+    Line: 32
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 11, 2025 3:45AM
+
+    Message: Uncaught ErrorException: Undefined variable $theme in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php:32
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php(32): Npds\Application\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(109): include('...')
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(125): Npds\View\View->render()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#5 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#6 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Views/Layouts/Default.php
+
+    Line: 32
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+

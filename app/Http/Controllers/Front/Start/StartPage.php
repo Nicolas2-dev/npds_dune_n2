@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Front\Start;
 
 use Npds\View\View;
 use Npds\Config\Config;
-use App\Library\Auth\Auth;
-use App\Library\News\News;
-use App\Library\Edito\Edito;
+
+use App\Support\Facades\Auth;
+use App\Support\Facades\News;
+use App\Support\Facades\Edito;
 use Npds\Support\Facades\Redirect;
 use Npds\Http\Response as HttpResponse;
 use App\Http\Controllers\Core\FrontBaseController;
 
 class StartPage extends FrontBaseController
 {
+
+    protected int $pdst = 1;
 
     /**
      * Liste des urls autorisées pour la page d'accueil.

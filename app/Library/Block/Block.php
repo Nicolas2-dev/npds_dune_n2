@@ -3,11 +3,11 @@
 namespace App\Library\Block;
 
 use FilesystemIterator;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use App\Support\Facades\Auth;
-use App\Support\Groupe\Groupe;
 use App\Support\Facades\Theme;
+use RecursiveIteratorIterator;
+use App\Support\Facades\Groupe;
+use RecursiveDirectoryIterator;
 use App\Support\Facades\Language;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
@@ -543,4 +543,65 @@ class Block
             return '';
         }
     }
+
+    /**
+     * Vérifie et ajuste la valeur de pdst selon les blocs actifs dans la base.
+     *
+     * @param int $pdst Valeur initiale de pdst
+     * @return int Valeur ajustée de pdst
+     */
+    public function checkPdst(int $pdst): int
+    {
+        // Vérification des lblocks actifs
+        $blg_actif = sql_query("SELECT * 
+                                FROM " . sql_prefix('lblocks') . " 
+                                WHERE actif ='1'");
+        $nb_blg_actif = sql_num_rows($blg_actif);
+        sql_free_result($blg_actif);
+
+        if ($nb_blg_actif === 0) {
+            switch ($pdst) {
+                case 0:
+                    $pdst = -1;
+                    break;
+                case 1:
+                case 4:
+                    $pdst = 2;
+                    break;
+                case 3:
+                    $pdst = 5;
+                    break;
+                case 6:
+                    $pdst = -1;
+                    break;
+            }
+        }
+
+        // Vérification des rblocks actifs
+        $bld_actif = sql_query("SELECT * 
+                                FROM " . sql_prefix('rblocks') . " 
+                                WHERE actif ='1'");
+        $nb_bld_actif = sql_num_rows($bld_actif);
+        sql_free_result($bld_actif);
+
+        if ($nb_bld_actif === 0) {
+            switch ($pdst) {
+                case 1:
+                case 3:
+                    $pdst = 0;
+                    break;
+                case 2:
+                case 5:
+                    $pdst = -1;
+                    break;
+                case 4:
+                    $pdst = 6;
+                    break;
+            }
+        }
+
+        return $pdst;
+    }
+
+
 }

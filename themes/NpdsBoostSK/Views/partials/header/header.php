@@ -1,7 +1,7 @@
 <?php
 
-use App\Library\Auth\Auth;
-use App\Library\Forum\Forum;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Forum;
 use App\Support\Facades\Theme;
 
 global $cookie, $anonymous, $Default_Skin, $user;

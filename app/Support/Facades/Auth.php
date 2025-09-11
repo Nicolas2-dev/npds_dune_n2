@@ -2,7 +2,7 @@
 
 namespace App\Support\Facades;
 
-use App\Library\Auth\auth as AuthManager;
+use App\Library\Auth\Auth as AuthManager;
 
 
 class Auth

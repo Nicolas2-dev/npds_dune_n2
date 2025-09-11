@@ -1,17 +1,16 @@
 <?php
 
 use Npds\Config\Config;
-use App\Library\Spam\Spam;
-use App\Library\Block\Block;
-use App\Library\Debug\Debug;
-use App\Library\Database\Sql;
-use App\Library\Cookie\Cookie;
-use App\Library\Session\Session;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
-use App\Library\Security\UrlProtector;
+use App\Support\Sanitize;
+use App\Support\Facades\Sql;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Block;
+use App\Support\Facades\Cookie;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Support\Security\UrlProtector;
 use App\Library\Language\Sigleton\LanguageManager;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -198,7 +197,7 @@ include APPPATH . 'Language/' . $iso . '/lang-' . $language . '.php';
 |
 */
 
-new Sql();
+Sql::getInstance();
 
 /*
 |--------------------------------------------------------------------------

@@ -494,6 +494,23 @@ class Theme
         return $inclusion;
     }
 
+    /**
+     * Génère un bloc HTML pour un lien "Plus de contenu" avec collapse Bootstrap.
+     *
+     * @param string $coltarget L’ID ou sélecteur de l’élément collapsible ciblé.
+     * @return void HTML du bloc collapsible
+     */
+    public function colsyst(string $coltarget): void
+    {
+        echo '<div class="col d-lg-none me-2 my-2">
+            <hr />
+            <a class=" small float-end" href="#" data-bs-toggle="collapse" data-bs-target="' . $coltarget . '">
+                <span class="plusdecontenu trn">Plus de contenu</span>
+            </a>
+        </div>';
+    }
+
+
     // deprecated !
     public function getThemeNpds()
     {
@@ -648,7 +665,7 @@ class Theme
 
         //global $css_pages_ref, $css, $js;
 
-        echo Css::importCss($tmp_theme, $language, '', $css_pages_ref, $css);
+        //echo Css::importCss($tmp_theme, $language, '', $css_pages_ref, $css);
 
         // Mod by Jireck - Chargeur de JS via PAGES.PHP
         // PageRef::js();

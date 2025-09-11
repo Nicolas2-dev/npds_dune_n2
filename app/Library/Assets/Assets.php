@@ -360,14 +360,23 @@ class Assets
      */
     protected function assetUrl(string $file): string
     {
-        $path = BASEPATH . 'assets/' . $file;
+        // Chemin physique selon qu'on soit dans un thème ou dans assets classique
+        
+        $isTheme = str_starts_with($file, 'themes/');
+        
+        if ($isTheme) {
+            $path = THEME_PATH . $file; 
+        } else {
+            $path = BASEPATH . 'assets/' . $file;
+        }
 
         if (file_exists($path)) {
             $version = filemtime($path);
-            return asset_url($file . '?v=' . $version);
+
+            return $isTheme ? site_url($file . '?v=' . $version) : asset_url($file . '?v=' . $version);
         }
 
-        return asset_url($file);
+        return $isTheme ? site_url($file) : asset_url($file);
     }
 
     /**

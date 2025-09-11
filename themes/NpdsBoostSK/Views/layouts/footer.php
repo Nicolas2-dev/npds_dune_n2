@@ -1,44 +1,9 @@
 <?php
 
-use App\Library\Block\Block;
-
-// Editeur::end()
-
-// include externe file from modules/include for functions, codes ...
-//footer_before();
-
-if (file_exists($path_module = 'themes/Base/Bootstrap/footer_before.php')) {
-    include $path_module;
-}
-
-
-//foot();
-
-global $user, $Default_Theme, $cookie9; // global a revoir !
-
-if ($user) {
-    $cookie = explode(':', base64_decode($user));
-
-    if ($cookie[9] == '') {
-        $cookie[9] = $Default_Theme;
-    }
-
-    $ibix = explode('+', urldecode($cookie[9]));
-
-    if (!@opendir(THEME_PATH . $ibix[0])) {
-        $theme = $Default_Theme;
-    } else {
-        $theme = $ibix[0];
-    }
-} else {
-    $theme = $Default_Theme;
-}
-
-//include 'themes/' . $theme . '/Views/footer.php';
-
-
-
-global $pdst, $theme_darkness;
+use App\Support\Facades\Block;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 $moreclass = 'col-12';
 
@@ -56,7 +21,7 @@ switch ($pdst) {
     case '2':
         echo '</div>';
 
-        colsyst('#col_RB');
+        Theme::colsyst('#col_RB');
 
         echo '<div id="col_RB" class="collapse show col-lg-3 ">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -72,7 +37,7 @@ switch ($pdst) {
     case '4':
         echo '</div>';
 
-        colsyst('#col_LB');
+        Theme::colsyst('#col_LB');
 
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -82,7 +47,7 @@ switch ($pdst) {
         echo '</div>
         </div>';
 
-        colsyst('#col_RB');
+        Theme::colsyst('#col_RB');
 
         echo '<div id="col_RB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -98,7 +63,7 @@ switch ($pdst) {
     case '6':
         echo '</div>';
 
-        colsyst('#col_LB');
+        Theme::colsyst('#col_LB');
 
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -118,31 +83,23 @@ switch ($pdst) {
         break;
 }
 
-// pilotage du mode dark/light du thème ...
-echo '<script type="text/javascript">
-        //<![CDATA[
-            (() => {
-                "use strict"
-                const theme = localStorage.setItem("theme", "' . $theme_darkness . '");
-                var getStoredTheme = localStorage.getItem("theme");
-                if (getStoredTheme === "auto") {
-                    document.querySelector("body").setAttribute("data-bs-theme", (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"))
-                } else {
-                    document.querySelector("body").setAttribute("data-bs-theme", "' . $theme_darkness . '");
-                }
-            })()
-        //]]>
-    </script>';
-
-
-
-
 // Ne supprimez pas cette ligne / Don't remove this line
 // require_once 'themes/themes-dynamic/footer.php';
 //require_once 'themes/base/views/footer.php';
 // Ne supprimez pas cette ligne / Don't remove this line
 
-global $theme;
+// Editeur::end()
+
+// include externe file from modules/include for functions, codes ...
+//footer_before();
+
+//if (file_exists($path_module = 'themes/Base/Bootstrap/footer_before.php')) {
+//    include $path_module;
+//}
+
+//foot();
+
+//include 'themes/' . $theme . '/Views/partials/footer/footer.php';
 
 //$rep = false;
 
@@ -172,8 +129,8 @@ if ($rep) {
 */
 
 $paths = [
-    "themes/{$theme}/views/partials/footer/footer.php",
-    "themes/base/partials/footer/footer.php",
+    "themes/{$theme}/Views/partials/footer/footer.php",
+    "themes/Base/Views/partials/footer/footer.php",
 ];
 
 $rep = null;
@@ -200,15 +157,14 @@ if (! empty($ContainerGlobal)) {
     $Xcontent .= $ContainerGlobal;
 }
 
-echo Metalang::metaLang(Language::affLangue($Xcontent));
-
-
+//echo Metalang::metaLang(Language::affLangue($Xcontent));
+echo Language::affLangue($Xcontent);
 
 // footer
 
-if ($user) {
-    $cookie9 = $ibix[0];
-}
+//if ($user) {
+//    $cookie9 = $ibix[0];
+//}
 
 
 // include externe file from modules/themes include for functions, codes ...
@@ -236,19 +192,19 @@ if ($user) {
 
 //}
 
-$theme = isset($user) ? $cookie9 : $Default_Theme;
+//$theme = isset($user) ? $cookie9 : $Default_Theme;
+//
+//if (is_readable($theme_file  = "themes/".$theme."/include/footer_after.inc")) {
+//    include $theme_file;
+//} elseif (is_readable($module_file = 'modules/include/footer_after.inc')) {
+//    include $module_file;
+//}
 
-if (is_readable($theme_file  = "themes/".$theme."/include/footer_after.inc")) {
-    include $theme_file;
-} elseif (is_readable($module_file = 'modules/include/footer_after.inc')) {
-    include $module_file;
-}
 
-
-echo '</body>
-</html>';
+//echo '</body>
+//</html>';
 
 // faire listener ou middleware
 //include 'sitemap.php';
 
-sql_close();
+//sql_close();

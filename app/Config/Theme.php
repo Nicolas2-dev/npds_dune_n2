@@ -33,4 +33,7 @@ return [
         'foot4' => '',
     ],
 
+    // provisoire le temp de finir toute la gestion des themes, layouts, vues
+    'theme_darkness' => 'auto', 
+
 ];

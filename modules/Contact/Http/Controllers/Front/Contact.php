@@ -3,11 +3,13 @@
 namespace Modules\Contact\Http\Controllers\Front;
 
 use Npds\View\View;
-use App\Http\Controllers\Core\BaseController;
+use App\Http\Controllers\Core\FrontBaseController;
 
 
-class Contact extends BaseController
+class Contact extends FrontBaseController
 {
+
+    protected int $pdst = 1;
 
     /**
      * Constructeur du contrôleur Home
@@ -17,6 +19,7 @@ class Contact extends BaseController
     public function __construct()
     {
         //
+        parent::__construct();
     }
 
     /**

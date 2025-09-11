@@ -1,9 +1,10 @@
 <?php
 
 use Npds\Config\Config;
-use App\Library\Block\Block;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
+use App\Support\Facades\Block;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+
 
 /************************************************************************/
 /* Theme for NPDS / Net Portal Dynamic System                           */
@@ -68,96 +69,10 @@ use App\Library\Metalang\Metalang;
 
 $coltarget = '';
 
-global $pdst;
-
-$blg_actif = sql_query("SELECT * 
-                        FROM " . sql_prefix('lblocks') . " 
-                        WHERE actif ='1'");
-
-$nb_blg_actif = sql_num_rows($blg_actif);
-
-sql_free_result($blg_actif);
-
-if ($nb_blg_actif == 0) {
-
-    switch ($pdst) {
-
-        case '0':
-            $pdst = '-1';
-            break;
-
-        case '1':
-            $pdst = '2';
-            break;
-
-        case '3':
-            $pdst = '5';
-            break;
-
-        case '4':
-            $pdst = '2';
-            break;
-
-        case '6':
-            $pdst = '-1';
-            break;
-    }
-}
-
-$bld_actif = sql_query("SELECT * 
-                        FROM " . sql_prefix('rblocks') . " 
-                        WHERE actif ='1'");
-
-$nb_bld_actif = sql_num_rows($bld_actif);
-
-sql_free_result($bld_actif);
-
-if ($nb_bld_actif == 0) {
-    switch ($pdst) {
-
-        case '1':
-            $pdst = '0';
-            break;
-
-        case '2':
-            $pdst = '-1';
-            break;
-
-        case '3':
-            $pdst = '0';
-            break;
-
-        case '4':
-            $pdst = '6';
-            break;
-
-        case '5':
-            $pdst = '-1';
-            break;
-    }
-}
-
-function colsyst($coltarget)
-{
-    $coltoggle = '<div class="col d-lg-none me-2 my-2">
-        <hr />
-        <a class=" small float-end" href="#" data-bs-toggle="collapse" data-bs-target="' . $coltarget . '">
-            <span class="plusdecontenu trn">Plus de contenu</span>
-        </a>
-    </div>';
-
-    echo $coltoggle;
-}
-
-
 // Ne supprimez pas cette ligne / Don't remove this line
 //require_once 'themes/base/views/header.php';
 
-global $theme;
-
 $rep = false;
-
-$Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
 settype($ContainerGlobal, 'string');
 
@@ -182,18 +97,22 @@ if ($rep) {
     $ContainerGlobal = '<div id="container">';
 
     if (!$ContainerGlobal) {
-        echo '<body' . $onload_init . ' class="body" data-bs-theme="' . $theme_darkness . '">';
+        echo '<body' . $onload_init . ' class="body" data-bs-theme="' . config('theme.theme_darkness') . '">';
     } else {
-        echo '<body' . $onload_init . ' data-bs-theme="' . $theme_darkness . '">';
+        echo '<body' . $onload_init . ' data-bs-theme="' . config('theme.theme_darkness') . '">';
         echo $ContainerGlobal;
     }
 
     ob_start();
+
+
+    $Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
+
     // landing page
     if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/Views/partials/header/header_landing.php')) {
         include 'themes/' . $rep . '/Views/partials/header/header_landing.php';
     } else {
-       // include THEME_PATH . $rep . '/Views/partials/header/header.php';
+       include THEME_PATH . $rep . '/Views/partials/header/header.php';
     }
 
     $Xcontent = ob_get_contents();
@@ -231,7 +150,7 @@ switch ($pdst) {
         break;
 
     case '1':
-        colsyst('#col_LB');
+        Theme::colsyst('#col_LB');
 
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -249,7 +168,7 @@ switch ($pdst) {
         break;
 
     case '3':
-        colsyst('#col_LB');
+        Theme::colsyst('#col_LB');
 
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -259,7 +178,7 @@ switch ($pdst) {
         echo '</div>
         </div>';
 
-        colsyst('#col_RB');
+        Theme::colsyst('#col_RB');
 
         echo '<div id="col_RB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -276,7 +195,7 @@ switch ($pdst) {
         break;
 
     case '5':
-        colsyst('#col_RB');
+        Theme::colsyst('#col_RB');
 
         echo '<div id="col_RB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
@@ -289,7 +208,7 @@ switch ($pdst) {
         break;
 
     default:
-        colsyst('#col_LB');
+        Theme::colsyst('#col_LB');
 
         echo '<div id="col_LB" class="collapse show col-lg-3">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
