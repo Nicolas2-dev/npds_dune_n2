@@ -14,7 +14,7 @@
 /************************************************************************/
 
 use App\Library\String\Sanitize;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Date\Date;
 use App\Library\Http\Request;
 use App\Library\Mailer\Mailer;

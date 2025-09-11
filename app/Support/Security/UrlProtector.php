@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Library\Security;
+namespace App\Support\Security;
 
 use Npds\Config\Config;
-use App\Library\Access\Access;
-
+use App\Support\Facades\Access;
 
 class UrlProtector
 {
-
 
     /**
      * Vérifie et protège les URL contre les contenus ou clés interdites.

@@ -12,10 +12,10 @@ return [
     */
 
     // Thème par défaut pour votre site (Voir le répertoire /themes pour la liste complète, sensible à la casse !)
-    'Default_Theme' => 'npds-boost_sk',
+    'Default_Theme' => 'NpdsBoostSK',
 
     // Skin par défaut pour le thème ... avec skins (Voir le répertoire /themes/_skins pour la liste complète, sensible à la casse !)
-    'Default_Skin' => 'default',
+    'Default_Skin' => 'cerulean', // 'default'
 
     // Messages pour tous les pieds de page (peuvent inclure du code HTML)
     'footer' => [

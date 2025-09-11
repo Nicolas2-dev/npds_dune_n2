@@ -4,6 +4,28 @@ namespace App\Library\Database;
 
 class Sql
 {
+    
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Constructeur de la classe.
@@ -25,7 +47,7 @@ class Sql
      *
      * @return \mysqli|false Retourne l'objet mysqli si la connexion est réussie, sinon false.
      */
-    public static function connect(): \mysqli|false
+    public function connect(): \mysqli|false
     {
         return Mysql_Connexion();
     }
@@ -35,7 +57,7 @@ class Sql
      *
      * @return string Le message d'erreur SQL.
      */
-    public static function error(): string
+    public function error(): string
     {
         return sql_error();
     }
@@ -46,7 +68,7 @@ class Sql
      * @param string $sql La requête SQL à exécuter.
      * @return \mysqli_result|false Résultat de la requête ou false en cas d'échec.
      */
-    public static function query(string $sql): \mysqli_result|false
+    public function query(string $sql): \mysqli_result|false
     {
         return sql_query($sql);
     }
@@ -57,7 +79,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return array|null Retourne la ligne en tableau associatif ou null si aucune.
      */
-    public static function fetch_assoc(\mysqli_result|null $q_id = null): array|null
+    public function fetch_assoc(\mysqli_result|null $q_id = null): array|null
     {
         return sql_fetch_assoc($q_id);
     }
@@ -68,7 +90,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return array|null Retourne la ligne en tableau numérique ou null si aucune.
      */
-    public static function fetch_row(\mysqli_result|null $q_id = null): array|null
+    public function fetch_row(\mysqli_result|null $q_id = null): array|null
     {
         return sql_fetch_row($q_id);
     }
@@ -79,7 +101,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return array|null Retourne la ligne en tableau mixte ou null si aucune.
      */
-    public static function fetch_array(\mysqli_result|null $q_id = null): array|null
+    public function fetch_array(\mysqli_result|null $q_id = null): array|null
     {
         return sql_fetch_array($q_id);
     }
@@ -90,7 +112,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return object|null Retourne la ligne en objet ou null si aucune.
      */
-    public static function fetch_object(\mysqli_result|null $q_id = null): object|null
+    public function fetch_object(\mysqli_result|null $q_id = null): object|null
     {
         return sql_fetch_object($q_id);
     }
@@ -101,7 +123,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return int Nombre de lignes du résultat.
      */
-    public static function num_rows(\mysqli_result|null $q_id = null): int
+    public function num_rows(\mysqli_result|null $q_id = null): int
     {
         return sql_num_rows($q_id);
     }
@@ -112,7 +134,7 @@ class Sql
      * @param \mysqli_result|null $q_id Résultat de la requête.
      * @return int Nombre de champs.
      */
-    public static function num_fields(\mysqli_result|null $q_id = null): int
+    public function num_fields(\mysqli_result|null $q_id = null): int
     {
         return sql_num_fields($q_id);
     }
@@ -123,7 +145,7 @@ class Sql
      *
      * @return int Nombre de lignes affectées.
      */
-    public static function affected_rows(): int
+    public function affected_rows(): int
     {
         return sql_affected_rows();
     }
@@ -133,7 +155,7 @@ class Sql
      *
      * @return int L'ID généré.
      */
-    public static function last_id(): int
+    public function last_id(): int
     {
         return sql_last_id();
     }
@@ -144,7 +166,7 @@ class Sql
      * @param string $dbnom Nom de la base (facultatif).
      * @return \mysqli_result|false Résultat de la requête ou false en cas d'échec.
      */
-    public static function list_tables(string $dbnom = ''): \mysqli_result|false
+    public function list_tables(string $dbnom = ''): \mysqli_result|false
     {
         return sql_list_tables($dbnom);
     }
@@ -154,7 +176,7 @@ class Sql
      *
      * @return bool Retourne true si succès, false sinon.
      */
-    public static function select_db(): bool
+    public function select_db(): bool
     {
         return sql_select_db();
     }
@@ -165,7 +187,7 @@ class Sql
      * @param \mysqli_result $q_id Résultat de la requête.
      * @return bool True si réussi, sinon false.
      */
-    public static function free_result(\mysqli_result $q_id)
+    public function free_result(\mysqli_result $q_id)
     {
         return sql_free_result($q_id);
     }
@@ -175,7 +197,7 @@ class Sql
      *
      * @return bool True si la fermeture est réussie, sinon false.
      */
-    public static function close()
+    public function close()
     {
         return sql_close();
     }
@@ -186,7 +208,7 @@ class Sql
      * @param string $table Nom de la table sans préfixe.
      * @return string Nom complet avec préfixe.
      */
-    public static function prefix(string $table = ''): string
+    public function prefix(string $table = ''): string
     {
         return sql_prefix($table);
     }

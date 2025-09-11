@@ -15,7 +15,7 @@
 /************************************************************************/
 
 use App\Library\Url\Url;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Date\Date;
 use App\Library\Spam\Spam;
 use App\Library\Error\Error;

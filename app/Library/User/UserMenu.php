@@ -7,6 +7,28 @@ class UserMenu
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Génère le menu utilisateur pour le compte et les options associées.
      *
      * Ce menu inclut :
@@ -22,7 +44,7 @@ class UserMenu
      * @param string $uname Nom d'utilisateur utilisé pour les liens miniSite.
      * @return void Affiche directement le menu HTML.
      */
-    public static function memberMenu(bool $minisite, string $uname): void
+    public function memberMenu(bool $minisite, string $uname): void
     {
         global $op; // global a revoir !
 

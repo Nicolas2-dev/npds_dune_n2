@@ -9,6 +9,28 @@ class Log
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Écrit dans un fichier de log.
      *
      * @param string $fic_log Nom du fichier de log (ex: "security" pour security.log)
@@ -16,7 +38,7 @@ class Log
      * @param string $mot_log Informations supplémentaires ; si vide, l'IP est enregistrée
      * @return void
      */
-    public static function ecrireLog(string $fic_log, string $req_log, string $mot_log): void
+    public function ecrireLog(string $fic_log, string $req_log, string $mot_log): void
     {
         // $Fic_log= the file name :
         //  => "security" for security maters

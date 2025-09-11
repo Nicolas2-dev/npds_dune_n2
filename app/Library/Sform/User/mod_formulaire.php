@@ -12,10 +12,10 @@
 /* Dont modify this file if you dont know what you do                   */
 /************************************************************************/
 
-use App\Library\Forum\Forum;
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
-use App\Library\Validation\Validation;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 
 $m->addTitle(translate('Utilisateur'));
 

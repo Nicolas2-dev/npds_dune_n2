@@ -7,6 +7,28 @@ class Pollbooth
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Assure la gestion sécurisée des sondages pour les membres.
      *
      * Vérifie le type de sondage et si l'utilisateur est autorisé à y accéder.
@@ -19,7 +41,7 @@ class Pollbooth
      *       1 => sondage fermé
      *       99 => sondage réservé aux membres non connectés
      */
-    public static function pollSecur(int|string $pollID): array
+    public function pollSecur(int|string $pollID): array
     {
         global $user; // global a revoir !
 

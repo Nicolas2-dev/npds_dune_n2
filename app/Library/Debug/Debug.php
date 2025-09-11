@@ -8,6 +8,29 @@ use InvalidArgumentException;
 
 class Debug 
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Initialise le mode debug selon la configuration.
      * 
@@ -16,7 +39,7 @@ class Debug
      *
      * @return void
      */
-    public static function initDebug(): void
+    public function initDebug(): void
     {
         $type   = Config::get('debug.type', 'php');
         $debug  = Config::get('debug.debug', false);

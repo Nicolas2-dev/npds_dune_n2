@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Security;
+namespace App\Support\Security;
 
 
 class Hack

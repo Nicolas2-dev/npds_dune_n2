@@ -15,7 +15,7 @@
 
 use App\Library\Log\Log;
 use App\Library\String\Sanitize;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Date\Date;
 use App\Library\News\News;
 use App\Library\Spam\Spam;
@@ -1864,7 +1864,7 @@ function savejournal($uid, $journal, $datetime)
             chmod($user_dir . '/index.html', 0644);
         }
 
-        $journal = Base64Image::dataImageToFileUrl($journal, 'storage/users_private/' . $cookie[1] . '/jou'); //
+        $journal = data_image_to_file_url($journal, 'storage/users_private/' . $cookie[1] . '/jou'); //
         $journal = Hack::removeHack(stripslashes(Sanitize::fixQuotes($journal)));
 
         if ($datetime) {

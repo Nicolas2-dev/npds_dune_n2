@@ -3,20 +3,42 @@
 namespace App\Library\News;
 
 use Npds\Config\Config;
-use App\Library\Log\Log;
-use App\Library\Code\Code;
-use App\Library\Edito\Edito;
-use App\Library\Theme\Theme;
-use App\Library\Groupe\Groupe;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
-use App\Library\Subscribe\Subscribe;
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Code;
+use App\Support\Facades\Edito;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Support\Facades\Subscribe;
 
 
 class News
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Contrôle l'affichage d'un article ou d'une news selon le paramètre ihome et le catid.
      *
@@ -24,7 +46,7 @@ class News
      * @param int $catid Identifiant de la catégorie (par défaut 0)
      * @return bool Retourne true si l'article doit être affiché, false sinon
      */
-    public static function ctrlAff(int $ihome, int $catid = 0): bool
+    public function ctrlAff(int $ihome, int $catid = 0): bool
     {
         global $user; // global a revoir !
 
@@ -56,7 +78,7 @@ class News
         return $affich;
     }
 
-    public static function automatedNews()
+    public function automatedNews()
     {
         $gmt = Config::get('date.gmt'); // gmt a revoir !
 
@@ -155,7 +177,7 @@ class News
         }
     }
 
-    public static function affNews($op, $catid, $marqeur)
+    public function affNews($op, $catid, $marqeur)
     {
         $url = $op;
 
@@ -285,7 +307,7 @@ class News
      * @param int|string $oldnum Ancien nombre d'articles (utilisé pour certains calculs)
      * @return array Tableau contenant les news récupérées
      */
-    public static function newsAff(string $type_req, string $sel, int|string $storynum, int|string $oldnum): array
+    public function newsAff(string $type_req, string $sel, int|string $storynum, int|string $oldnum): array
     {
         // pas stabilisé ...!
         // Astuce pour afficher le nb de News correct même si certaines News ne sont pas visibles (membres, groupe de membres)
@@ -374,7 +396,7 @@ class News
                 $ihome = 0;
             }
 
-            if (static::ctrlAff($ihome, $catid)) {
+            if ($this->ctrlAff($ihome, $catid)) {
 
                 if (($type_req == 'index') or ($type_req == 'libre')) {
                     $result2 = sql_query("SELECT sid, catid, aid, title, time, hometext, bodytext, comments, counter, topic, informant, notes 
@@ -430,7 +452,7 @@ class News
      * @param string $notes Notes supplémentaires (optionnel)
      * @return void
      */
-    public static function themePreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
+    public function themePreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
     {
         echo "$title<br />" . Metalang::metaLang($hometext) . "<br />" . Metalang::metaLang($bodytext) . "<br />" . Metalang::metaLang($notes);
     }
@@ -443,7 +465,7 @@ class News
      * @param int $marqeur Index de départ pour la sélection des news
      * @return void
      */
-    public static function prepaAffNews(string $op, int|string $catid, int $marqeur)  // : void
+    public function prepaAffNews(string $op, int|string $catid, int $marqeur)  // : void
     {
         global $topicname, $topicimage, $topictext, $datetime, $cookie; // global a revoir !
 
@@ -466,7 +488,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::newsAff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = $this->newsAff('libre', "WHERE catid='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'topics') {
@@ -476,7 +498,7 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::newsAff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
+            $xtab = $this->newsAff("libre", "WHERE topic='$catid' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", "", "-1");
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'news') {
@@ -486,13 +508,13 @@ class News
                 $marqeur = 0;
             }
 
-            $xtab = static::newsAff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
+            $xtab = $this->newsAff('libre', "WHERE ihome!='1' AND archive='0' ORDER BY sid DESC LIMIT $marqeur,$storynum", '', '-1');
 
             $storynum = sizeof($xtab);
         } elseif ($op == 'article') {
-            $xtab = static::newsAff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
+            $xtab = $this->newsAff('index', "WHERE ihome!='1' AND sid='$catid'", 1, '');
         } else {
-            $xtab = static::newsAff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
+            $xtab = $this->newsAff('index', "WHERE ihome!='1' AND archive='0'", $storynum, '');
         }
 
         $story_limit = 0;
@@ -506,7 +528,7 @@ class News
             $printP = '<a href="print.php?sid=' . $s_sid . '" class="me-3" title="' . translate('Page spéciale pour impression') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-print"></i></a>&nbsp;';
             $sendF = '<a href="friend.php?op=FriendSend&amp;sid=' . $s_sid . '" class="me-3" title="' . translate('Envoyer cet article à un ami') . '" data-bs-toggle="tooltip" ><i class="fa fa-lg fa-at"></i></a>';
 
-            static::getTopics($s_sid);
+            $this->getTopics($s_sid);
 
             $title      = Language::affLangue(stripslashes($title));
             $hometext   = Language::affLangue(stripslashes($hometext));
@@ -578,7 +600,7 @@ class News
     }
 
     #autodoc getTopics($s_sid) : Retourne le nom, l'image et le texte d'un topic ou False
-    public static function getTopics($s_sid)
+    public function getTopics($s_sid)
     {
         global $topicname, $topicimage, $topictext; // global a revoir !
 
@@ -608,7 +630,7 @@ class News
     }
 
     #autodoc ultramode() : Génération des fichiers ultramode.txt et net2zone.txt dans /cache
-    public static function ultramode()
+    public function ultramode()
     {
         $file = fopen('storage/cache/ultramode.txt', 'w');
         $file2 = fopen('storage/cache/net2zone.txt', 'w');
@@ -617,7 +639,7 @@ class News
 
         $storynum = Config::get('storie.storyhome');
 
-        $xtab = static::newsAff('index', "WHERE ihome='0' AND archive='0'", Config::get('storie.storyhome'), '');
+        $xtab = $this->newsAff('index', "WHERE ihome='0' AND archive='0'", Config::get('storie.storyhome'), '');
 
         $story_limit = 0;
 

@@ -3,11 +3,32 @@
 namespace App\Library\Auth;
 
 use Npds\Config\Config;
-use App\Library\Groupe\Groupe;
 
 
 class Auth
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Récupère les informations d'un utilisateur depuis la table `users`.
@@ -16,7 +37,7 @@ class Auth
      * @return array|null Retourne un tableau associatif contenant les informations de l'utilisateur,
      *                    ou null si l'utilisateur n'existe pas.
      */
-    public static function getUserInfo(string $user): ?array
+    public function getUserInfo(string $user): ?array
     {
         $cookie = explode(':', base64_decode($user));
 
@@ -54,7 +75,7 @@ class Auth
      * @return bool True si l'utilisateur peut rester connecté / auto-enregistré,
      *              False si le cookie NPDS a été réinitialisé.
      */
-    public static function autoReg(): bool
+    public function autoReg(): bool
     {
         global $user;
 
@@ -97,7 +118,7 @@ class Auth
      *                     - 'all'        : tout le monde
      * @return bool True si l'utilisateur a l'autorisation, false sinon.
      */
-    public static function autorisation(string $auto): bool
+    public function autorisation(string $auto): bool
     {
         global $user, $admin;
 
@@ -145,7 +166,7 @@ class Auth
      * @param string $typeStatut Le type de statut à vérifier ('member' ou 'admin').
      * @return bool True si le visiteur correspond au type, false sinon.
      */
-    public static function securStatic(string $typeStatut): bool
+    public function securStatic(string $typeStatut): bool
     {
         global $user, $admin;
 

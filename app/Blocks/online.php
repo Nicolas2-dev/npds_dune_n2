@@ -1,7 +1,8 @@
 <?php
 
-use App\Library\Theme\Theme;
-use App\Library\Http\Request;
+use App\Support\Facades\Theme;
+use Npds\Support\Facades\Request;
+
 
 if (! function_exists('online'))
 { 

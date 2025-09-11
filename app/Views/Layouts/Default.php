@@ -1,24 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= Language::languageIso(1, '', 0); ?>">
 <head>
     <meta charset="utf-8">
     <title><?= isset($title) ? $title : 'Page'; ?> - <?= Config::get('app.name'); ?></title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- test -->    
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('css/test.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('css/style.css'); ?>">
+    <!-- metatag a faire -->
+
+    <!-- favico -->
+    <?php Event::fire('assets.favico'); ?>
+
+    <!-- meta canocical -->
+    <link rel="canonical" href="<?= Request::url(); ?>" />
+
+    <!-- meta humans.txt -->
+    <?php if (file_exists('humans.txt')): ?>
+        <link type="text/plain" rel="author" href="<?= site_url('humans.txt'); ?>">
+    <?php endif; ?>
+
+    <!-- meta backend -->
+    <link href="backend.php?op=RSS0.91" title="<?= config('app.sitename'); ?> - RSS 0.91" rel="alternate" type="text/xml">
+    <link href="backend.php?op=RSS1.0" title="<?= config('app.sitename'); ?> - RSS 1.0" rel="alternate" type="text/xml">
+    <link href="backend.php?op=RSS2.0" title="<?= config('app.sitename'); ?> - RSS 2.0" rel="alternate" type="text/xml">
+    <link href="backend.php?op=ATOM" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
+
+    <!-- import css et js -->
+    <?php Event::fire('assets.css'); ?>
+    <?php Event::fire('assets.header.js'); ?>
 </head>
 <body>
+
+<?php require 'themes/'. $theme .'/Views/partials/header/header.php'; ?>
 
 <div class="container">
     <?= $content; ?>
 </div>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<?php require 'themes/'. $theme .'/Views/partials/footer/footer.php'; ?>
+
+<!-- import js -->
+<?php Event::fire('assets.footer.js'); ?>
 
 </body>
 </html>

@@ -3,25 +3,47 @@
 namespace App\Library\Messenger;
 
 use Npds\Config\Config;
-use App\Library\Date\Date;
-use App\Library\Error\Error;
-use App\Library\Theme\Theme;
-use App\Library\Mailer\Mailer;
-use App\Library\Security\Hack;
+use App\Support\Error\Error;
+use App\Support\Facades\Date;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Mailer;
 
 
 class Messenger
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Appel la fonction d'affichage du groupe check_mail (theme principal de NPDS) sans class
      *
      * @param string $username Nom de l'utilisateur
      * @return void
      */
-    public static function messCheckMail(string $username): void
+    public function messCheckMail(string $username): void
     {
-        static::messCheckMailInterface($username, '');
+        $this->messCheckMailInterface($username, '');
     }
 
     /**
@@ -31,7 +53,7 @@ class Messenger
      * @param string $class Classe CSS optionnelle
      * @return void
      */
-    public static function messCheckMailInterface(string $username, string $class): void
+    public function messCheckMailInterface(string $username, string $class): void
     {
         if ($ibid = Theme::themeImage('fle_b.gif')) {
             $imgtmp = $ibid;
@@ -51,9 +73,9 @@ class Messenger
             }
         } else {
             if ($imgtmp) {
-                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . static::messCheckMailSub($username, $class);
+                echo "<a href=\"user.php\" $class><img alt=\"\" src=\"$imgtmp\" align=\"center\" />" . translate('Votre compte') . "</a>&nbsp;" . $this->messCheckMailSub($username, $class);
             } else {
-                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . static::messCheckMailSub($username, $class) . "]";
+                echo "[<a href=\"user.php\" $class>" . translate('Votre compte') . "</a>&nbsp;&middot;&nbsp;" . $this->messCheckMailSub($username, $class) . "]";
             }
         }
     }
@@ -65,7 +87,7 @@ class Messenger
      * @param string $class Classe CSS optionnelle
      * @return string Contenu HTML du groupe check_mail
      */
-    public static function messCheckMailSub(string $username, string $class): string
+    public function messCheckMailSub(string $username, string $class): string
     {
         global $user; // global a revoir !
 
@@ -121,11 +143,11 @@ class Messenger
      * @param string $to_userid Identifiant du destinataire
      * @return void
      */
-    public static function FormInstantMessage(string $to_userid): void
+    public function FormInstantMessage(string $to_userid): void
     {
         //include 'header.php'; // a suuprimer !
 
-        static::writeShortPrivateMessage(Hack::removeHack($to_userid));
+        $this->writeShortPrivateMessage(Hack::removeHack($to_userid));
 
         //include 'footer.php'; // a supprimer !
     }
@@ -141,7 +163,7 @@ class Messenger
      * @param bool $copie Conserver une copie pour l'expéditeur
      * @return void
      */
-    public static function dbWritePrivateMessage(string $to_userid, string $image, string $subject, string $from_userid, string $message, bool $copie): void
+    public function dbWritePrivateMessage(string $to_userid, string $image, string $subject, string $from_userid, string $message, bool $copie): void
     {
         $res = sql_query("SELECT uid, user_langue 
                         FROM " . sql_prefix('users') . " 
@@ -195,7 +217,7 @@ class Messenger
      * @param string $to_userid Identifiant du destinataire
      * @return void
      */
-    public static function writeShortPrivateMessage(string $to_userid): void
+    public function writeShortPrivateMessage(string $to_userid): void
     {
         echo '<h2>' . translate('Message à un membre') . '</h2>
         <h3><i class="fa fa-at me-1"></i>' . $to_userid . '</h3>

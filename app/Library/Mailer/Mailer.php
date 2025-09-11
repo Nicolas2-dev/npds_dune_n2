@@ -4,7 +4,7 @@ namespace App\Library\Mailer;
 
 use Exception;
 use Npds\Config\Config;
-use App\Library\Log\Log;
+use App\Support\Facades\Log;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -12,6 +12,28 @@ use PHPMailer\PHPMailer\PHPMailer;
 class Mailer
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Envoie un mail en texte ou HTML, avec ou sans pièce jointe.
      *
@@ -25,7 +47,7 @@ class Mailer
      *
      * @return bool True si mail envoyé, false sinon
      */
-    public static function sendEmail(
+    public function sendEmail(
         string $email,
         string $subject,
         string $message,
@@ -181,7 +203,7 @@ class Mailer
      *
      * @return void
      */
-    public static function copyToEmail(int $to_userid, string $sujet, string $message): void
+    public function copyToEmail(int $to_userid, string $sujet, string $message): void
     {
         $result = sql_query("SELECT email, send_email 
                             FROM " . sql_prefix('users') . " 
@@ -190,7 +212,7 @@ class Mailer
         list($mail, $avertir_mail) = sql_fetch_row($result);
 
         if (($mail) and ($avertir_mail == 1)) {
-            static::sendEmail($mail, $sujet, $message, '', true, 'html', '');
+            $this->sendEmail($mail, $sujet, $message, '', true, 'html', '');
         }
     }
 }

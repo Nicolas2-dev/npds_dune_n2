@@ -4,19 +4,41 @@ namespace App\Library\Forum;
 
 use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\Log\Log;
-use App\Library\Date\Date;
-use App\Library\Spam\Spam;
-use App\Library\User\User;
-use App\Library\Error\Error;
-use App\Library\Theme\Theme;
-use App\Library\Groupe\Groupe;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
+use App\Support\Error\Error;
+use App\Support\Facades\Log;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\User;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 
 class Forum
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Retourne le nombre total de sujets dans un forum.
@@ -24,7 +46,7 @@ class Forum
      * @param int $forum_id ID du forum
      * @return int|string Le nombre de sujets, ou 'ERROR' en cas de problème
      */
-    public static function getTotalTopics(int $forum_id): int|string
+    public function getTotalTopics(int $forum_id): int|string
     {
         $sql = "SELECT COUNT(*) AS total 
                 FROM " . sql_prefix('forumtopics') . " 
@@ -52,7 +74,7 @@ class Forum
      * @param bool $Mmod Indique si l'utilisateur est modérateur
      * @return int|string Nombre de posts, ou 'ERROR' en cas de problème
      */
-    public static function getTotalPosts(int $fid, ?int $tid, string $type, bool $Mmod): int|string
+    public function getTotalPosts(int $fid, ?int $tid, string $type, bool $Mmod): int|string
     {
         $post_aff = $Mmod ? '' : " AND post_aff='1'";
 
@@ -98,7 +120,7 @@ class Forum
      * @param bool $Mmod Ancien paramètre non utilisé
      * @return string Informations sur le dernier post
      */
-    public static function getLastPost(int $id, string $type, string $cmd, bool $Mmod): string
+    public function getLastPost(int $id, string $type, string $cmd, bool $Mmod): string
     {
         // $Mmod ne sert plus - maintenu pour compatibilité
         switch ($type) {
@@ -153,7 +175,7 @@ class Forum
      * @param int $tid ID du topic
      * @return string IDs des contributeurs séparés par espace
      */
-    public static function getContributeurs(int $fid, int $tid): string
+    public function getContributeurs(int $fid, int $tid): string
     {
         $rowQ1 = Q_Select("SELECT DISTINCT poster_id 
                         FROM " . sql_prefix('posts') . " 
@@ -177,7 +199,7 @@ class Forum
      * @param string|int $user_id ID(s) de l'utilisateur(s)
      * @return string Liste des noms séparés par espace ou 'None' si aucun
      */
-    public static function getModerator(string|int $user_id): string
+    public function getModerator(string|int $user_id): string
     {
         $user_id = str_replace(",", "' or uid='", $user_id);
 
@@ -208,7 +230,7 @@ class Forum
      * @param int $forum_accessX Niveau d'accès requis
      * @return int|false Niveau si modérateur, false sinon
      */
-    public static function userIsModerator(int $uidX, string $passwordX, int $forum_accessX): int|false
+    public function userIsModerator(int $uidX, string $passwordX, int $forum_accessX): int|false
     {
         $result1 = sql_query("SELECT pass 
                             FROM " . sql_prefix('users') . " 
@@ -237,7 +259,7 @@ class Forum
      * @param int $userid ID de l'utilisateur
      * @return array Données combinées des tables users et users_status
      */
-    public static function getUserDataFromId(int $userid): array
+    public function getUserDataFromId(int $userid): array
     {
         $sql1 = "SELECT * 
                 FROM " . sql_prefix('users') . " 
@@ -266,7 +288,7 @@ class Forum
      * @param int $userid ID de l'utilisateur
      * @return array Données de la table users_extend
      */
-    public static function getUserDataExtendFromId(int $userid): array
+    public function getUserDataExtendFromId(int $userid): array
     {
         $sql1 = "SELECT * 
                 FROM " . sql_prefix('users_extend') . " 
@@ -283,7 +305,7 @@ class Forum
      * @param string $username Nom d'utilisateur
      * @return array Informations de l'utilisateur
      */
-    public static function getUserData(string $username): array
+    public function getUserData(string $username): array
     {
         $sql = "SELECT * 
                 FROM " . sql_prefix('users') . " 
@@ -307,7 +329,7 @@ class Forum
      * @param string $type 'forum' ou 'topic'
      * @return bool
      */
-    public static function doesExists(int $id, string $type): bool
+    public function doesExists(int $id, string $type): bool
     {
         switch ($type) {
 
@@ -341,7 +363,7 @@ class Forum
      * @param int $topic ID du topic
      * @return bool
      */
-    public static function isLocked(int $topic): bool
+    public function isLocked(int $topic): bool
     {
         $sql = "SELECT topic_status 
                 FROM " . sql_prefix('forumtopics') . " 
@@ -367,7 +389,7 @@ class Forum
      *
      * @return string HTML de la barre d'édition
      */
-    public static function htmlAdd(): string
+    public function htmlAdd(): string
     {
         return '<div class="mt-2">
             <a href="javascript: addText(\'&lt;b&gt;\',\'&lt;/b&gt;\');" title="' . translate('Gras') . '" data-bs-toggle="tooltip" ><i class="fa fa-bold fa-lg me-2 mb-3"></i></a>
@@ -421,7 +443,7 @@ class Forum
      * @param string $image_subject Image actuellement sélectionnée
      * @return string HTML contenant les radios pour chaque image
      */
-    public static function emotionAdd(string $image_subject): string
+    public function emotionAdd(string $image_subject): string
     {
         global $theme; // global a revoir !
 
@@ -476,11 +498,11 @@ class Forum
      * @param string $text Texte à transformer
      * @return string Texte avec liens HTML
      */
-    public static function makeClickable(string $text): string
+    public function makeClickable(string $text): string
     {
         $ret = preg_replace('#(^|\s)(http|https|ftp|sftp)(://)([^\s]*)#i', ' <a href="$2$3$4" target="_blank">$2$3$4</a>', $text);
         
-        return preg_replace_callback('#([_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4})#i', [static::class, 'fakedMail'], $ret);
+        return preg_replace_callback('#([_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4})#i', [self::class, 'fakedMail'], $ret);
     }
 
     /**
@@ -489,7 +511,7 @@ class Forum
      * @param string $input Texte encodé
      * @return string Texte décodé
      */
-    public static function undoHtmlspecialchars(string $input): string
+    public function undoHtmlspecialchars(string $input): string
     {
         $map = [
             '&gt;'   => '>',
@@ -506,7 +528,7 @@ class Forum
      *
      * @return string HTML du formulaire
      */
-    public static function searchBlock(): string
+    public function searchBlock(): string
     {
         return '<form class="row" id="forum_search" action="searchbb.php" method="post" name="forum_search">
             <input type="hidden" name="addterm" value="any" />
@@ -528,7 +550,7 @@ class Forum
      * @param string|null $rank Rang de l'utilisateur
      * @return string HTML des qualifications et badges
      */
-    public static function memberQualif(string $poster, int $posts, ?string $rank = null): string
+    public function memberQualif(string $poster, int $posts, ?string $rank = null): string
     {
         $tmp = '';
 
@@ -593,7 +615,7 @@ class Forum
      *
      * @return void
      */
-    public static function controlEffacePost(string $apli, $post_id = null, $topic_id = null, $IdForum = null): void
+    public function controlEffacePost(string $apli, $post_id = null, $topic_id = null, $IdForum = null): void
     {
         global $upload_table; // a revoir global a supprimer !
 
@@ -631,7 +653,7 @@ class Forum
      *
      * @return bool True si autorisé, False sinon
      */
-    public static function autorize(): bool
+    public function autorize(): bool
     {
         global $IdPost, $IdTopic, $IdForum, $user; // global a revoir !
 
@@ -648,7 +670,7 @@ class Forum
                                                 WHERE (forum_id='$IdForum')"));
 
             if ($myrow) {
-                $moderator = static::getModerator($myrow['forum_moderator']);
+                $moderator =  $this->getModerator($myrow['forum_moderator']);
                 $moderator = explode(' ', $moderator);
 
                 if (isset($user)) {
@@ -683,7 +705,7 @@ class Forum
      *
      * @return void
      */
-    public static function antiFlood(bool $modoX, int $paramAFX, string $poster_ipX, array $userdataX, int $gmtX): void
+    public function antiFlood(bool $modoX, int $paramAFX, string $poster_ipX, array $userdataX, int $gmtX): void
     {
         // antiFlood : nb de post dans les 90 puis 30 dernières minutes / les modérateurs echappent à cette règle
         // security.log est utilisée pour enregistrer les tentatives
@@ -729,7 +751,7 @@ class Forum
      *                                                   Chaque élément doit contenir au minimum 'cat_id' et 'cat_title'.
      * @return string HTML généré pour l'affichage des forums
      */
-    public static function forum(?array $rowQ1): string
+    public function forum(?array $rowQ1): string
     {
         global $user, $theme, $admin, $adminforum; // global a revoir !
 
@@ -866,7 +888,7 @@ class Forum
                                     $title_aff = false;
                                 }
 
-                                $forum_moderator = explode(' ', static::getModerator($myrow['forum_moderator']));
+                                $forum_moderator = explode(' ',  $this->getModerator($myrow['forum_moderator']));
 
                                 $Mmod = false;
 
@@ -876,7 +898,7 @@ class Forum
                                     }
                                 }
 
-                                $last_post = static::getLastPost($myrow['forum_id'], "forum", "infos", $Mmod);
+                                $last_post =  $this->getLastPost($myrow['forum_id'], "forum", "infos", $Mmod);
 
                                 $ibid .= '<p class="mb-0 flex-column align-items-start p-3">
                                 <span class="lead d-flex w-100 mt-1">';
@@ -958,7 +980,7 @@ class Forum
                                     // Subscribe
                                     if ((Config::get('user.subscribe')) and ($user)) {
                                         if (!$redirect) {
-                                            if (static::isBadMailUser($userR[0]) === false) {
+                                            if ( $this->isBadMailUser($userR[0]) === false) {
                                                 $ibid .= '<span class="d-flex w-100 mt-1" >
                                                 <span class="form-check">';
 
@@ -992,7 +1014,7 @@ class Forum
 
         if ((Config::get('user.subscribe')) and ($user) and ($ok_affich)) {
             //proto
-            if (static::isBadMailUser($userR[0]) === false) {
+            if ( $this->isBadMailUser($userR[0]) === false) {
                 $ibid .= '<div class="form-check mt-1">
                     <input class="form-check-input" type="checkbox" id="ckball_f" />
                     <label class="form-check-label text-body-secondary" for="ckball_f" id="ckb_status_f">Tout cocher</label>
@@ -1009,7 +1031,7 @@ class Forum
      * @param int $forum L'identifiant du forum
      * @return string HTML de l'image correspondant au statut du forum
      */
-    public static function subForumFolder(int $forum): string
+    public function subForumFolder(int $forum): string
     {
         global $user; // globa a revoir !
 
@@ -1060,7 +1082,7 @@ class Forum
      * @param array $r Tableau contenant au moins l'élément [1] à filtrer
      * @return string Chaîne filtrée
      */
-    public static function fakedMail(array $r): string
+    public function fakedMail(array $r): string
     {
         return Spam::pregAntiSpam($r[1]);
     }
@@ -1071,7 +1093,7 @@ class Forum
      * @param string $email Adresse email à tester
      * @return bool True si le domaine possède un serveur de mail, false sinon
      */
-    public static function checkDnsMail(string $email): bool
+    public function checkDnsMail(string $email): bool
     {
         $ibid = explode('@', $email);
 
@@ -1088,7 +1110,7 @@ class Forum
      * @param string $username Nom d'utilisateur à vérifier
      * @return bool True si l'utilisateur est interdit, false sinon
      */
-    public static function isBadMailUser(string $username): bool
+    public function isBadMailUser(string $username): bool
     {
         $contents = '';
 

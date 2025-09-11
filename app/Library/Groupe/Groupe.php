@@ -4,20 +4,42 @@ namespace App\Library\Groupe;
 
 use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\Assets\Js;
-use App\Library\auth\Auth;
-use App\Library\Date\Date;
-use App\Library\Spam\Spam;
-use App\Library\Forum\Forum;
-use App\Library\Theme\Theme;
-use App\Library\Online\Online;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
-use App\Library\Encryption\Encrypter;
+use App\Support\Sanitize;
+use App\Support\Facades\Js;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Online;
+use App\Support\Facades\Language;
+use App\Support\Facades\Encrypter;
 
 
 class Groupe
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Retourne un tableau contenant la liste des groupes d'appartenance d'un membre.
@@ -25,7 +47,7 @@ class Groupe
      * @param string|null $xuser Chaîne encodée en base64 contenant l'UID de l'utilisateur
      * @return array<string>|string Tableau de groupes ou chaîne vide si aucun utilisateur
      */
-    public static function validGroup(?string $xuser): array|string
+    public function validGroup(?string $xuser): array|string
     {
         if ($xuser) {
             $userdata = explode(':', base64_decode($xuser));
@@ -49,7 +71,7 @@ class Groupe
      *
      * @return array<int|string, string> Tableau associatif [id => nom du groupe]
      */
-    public static function listeGroup(): array
+    public function listeGroup(): array
     {
         $r = sql_query("SELECT groupe_id, groupe_name 
                         FROM " . sql_prefix('groupes') . " 
@@ -73,9 +95,9 @@ class Groupe
      * @param array<string> $tab_groupeX Groupes de l'utilisateur
      * @return bool True si autorisé, false sinon
      */
-    public static function groupeForum(string $forum_groupeX, array $tab_groupeX): bool
+    public function groupeForum(string $forum_groupeX, array $tab_groupeX): bool
     {
-        return static::groupeAutorisation($forum_groupeX, $tab_groupeX);
+        return $this->groupeAutorisation($forum_groupeX, $tab_groupeX);
     }
 
     /**
@@ -85,7 +107,7 @@ class Groupe
      * @param array<string> $tab_groupeX Groupes de l'utilisateur
      * @return bool True si autorisé, false sinon
      */
-    public static function groupeAutorisation(string $groupeX, array $tab_groupeX): bool
+    public function groupeAutorisation(string $groupeX, array $tab_groupeX): bool
     {
         $tab_groupe = explode(',', $groupeX);
 
@@ -117,7 +139,7 @@ class Groupe
      * @param int $i_gr Affichage de l'image (1 = afficher)
      * @return string HTML du bloc groupe
      */
-    public static function fabEspaceEroupe(int|string $gr, int $t_gr, int $i_gr): string
+    public function fabEspaceEroupe(int|string $gr, int $t_gr, int $i_gr): string
     {
         global $dblink; // global a revoir !
 

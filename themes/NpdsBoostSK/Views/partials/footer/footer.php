@@ -3,38 +3,5 @@
         <p>!sc_infos!
             <br />!msg_foot!
         </p>
-        <script type="text/javascript" src="assets/shared/jquery/jquery.translate.js"></script>
-        <script type="text/javascript" src="assets/js/npds_dicotransl.js"></script>
-        <script type="text/javascript">
-            //<![CDATA[
-            $(document).ready(function() {
-                var translator = $('body').translate({
-                    lang: "fr",
-                    t: dict
-                });
-                translator.lang("<?php echo Language::languageIso(1, '', 0); ?>");
-                $('.plusdecontenu').click(function() {
-                    var $this = $(this);
-                    $this.toggleClass('plusdecontenu');
-                    if ($this.hasClass('plusdecontenu')) {
-                        $this.text(translator.get('Plus de contenu'));
-                    } else {
-                        $this.text(translator.get('Moins de contenu'));
-                    }
-                });
-                if (matchMedia) {
-                    const mq = window.matchMedia("(max-width: 991px)");
-                    mq.addListener(WidthChange);
-                    WidthChange(mq);
-                }
-
-                function WidthChange(mq) {
-                    if (mq.matches) {
-                        $("#col_LB, #col_RB").removeClass("show")
-                    } else {
-                        $("#col_LB, #col_RB").addClass("show")
-                    }
-                }
-            });
-            //]]
-        </script>
+    </div>
+</footer>

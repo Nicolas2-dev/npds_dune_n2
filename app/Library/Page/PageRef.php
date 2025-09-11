@@ -8,6 +8,28 @@ class PageRef
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Modèles HTML pour l'inclusion des fichiers CSS.
      *
      * - 'theme_css' : modèle pour les fichiers CSS situés dans le dossier du thème actif.
@@ -15,7 +37,7 @@ class PageRef
      *
      * @var array<string, string>
      */
-    protected static $templates = [
+    protected $templates = [
         'theme_css' => '<link href="themes/%s/assets/css/%s" rel="stylesheet" type="text/css" media="all" />',
         'tab_css'   => '<link href="%s" rel="stylesheet" type="text/css" media="all" />',
     ];
@@ -34,7 +56,7 @@ class PageRef
      *
      * @return string|null Le bloc HTML <link> pour inclure les CSS, ou null si aucun CSS trouvé
      */
-    public static function importPageRefCss(string $css_pages_ref, string $css): ?string // Bug : $css ne sert a rien puisque écraser plus bas !!!
+    public function importPageRefCss(string $css_pages_ref, string $css): ?string // Bug : $css ne sert a rien puisque écraser plus bas !!!
     {
         // Chargeur CSS spécifique
         if ($css_pages_ref) {
@@ -320,4 +342,30 @@ if (array_key_exists($pages_ref, $PAGES)) {
     $js = '';
 }
 
+*/
+
+
+// code a la base dans header.php function head()
+/*
+        if ($js) {
+            if (is_array($js)) {
+                foreach ($js as $k => $tab_js) {
+                    if (stristr($tab_js, 'http://') || stristr($tab_js, 'https://')) {
+                        echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
+                    } else {
+                        if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
+                            echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
+                        } elseif (file_exists("$tab_js") and ($tab_js != "")) {
+                            echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
+                        }
+                    }
+                }
+            } else {
+                if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
+                    echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
+                } elseif (file_exists($js)) {
+                    echo '<script type="text/javascript" src="' . $js . '"></script>';
+                }
+            }
+        }
 */

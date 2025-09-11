@@ -731,9 +731,9 @@ function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topi
     $hlpfile = 'manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(Base64Image::dataImageToFileUrl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
-    $notes = stripslashes(Base64Image::dataImageToFileUrl($notes, 'cache/an'));
+    $hometext = stripslashes(data_image_to_file_url($hometext, 'cache/ai'));
+    $bodytext = stripslashes(data_image_to_file_url($bodytext, 'cache/ac'));
+    $notes = stripslashes(data_image_to_file_url($notes, 'cache/an'));
 
     if ($topic < 1) {
         $topic = 1;
@@ -928,9 +928,9 @@ function postStory($type_pub, $qid, $uid, $author, $subject, $hometext, $bodytex
 
     $subject = stripslashes(Sanitize::fixQuotes(str_replace('"', '&quot;', $subject)));
 
-    $hometext = Base64Image::dataImageToFileUrl($hometext, 'modules/upload/storage/ai');
-    $bodytext = Base64Image::dataImageToFileUrl($bodytext, 'modules/upload/storage/ac');
-    $notes = Base64Image::dataImageToFileUrl($notes, 'modules/upload/storage/an');
+    $hometext = data_image_to_file_url($hometext, 'modules/upload/storage/ai');
+    $bodytext = data_image_to_file_url($bodytext, 'modules/upload/storage/ac');
+    $notes = data_image_to_file_url($notes, 'modules/upload/storage/an');
 
     $hometext = stripslashes(Sanitize::fixQuotes($hometext));
     $bodytext = stripslashes(Sanitize::fixQuotes($bodytext));
@@ -1577,8 +1577,8 @@ function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihom
     $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
     $subject = stripslashes(str_replace('"', '&quot;', $subject));
-    $hometext = stripslashes(Base64Image::dataImageToFileUrl($hometext, 'cache/ai'));
-    $bodytext = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
+    $hometext = stripslashes(data_image_to_file_url($hometext, 'cache/ai'));
+    $bodytext = stripslashes(data_image_to_file_url($bodytext, 'cache/ac'));
 
     settype($sel, 'string');
 

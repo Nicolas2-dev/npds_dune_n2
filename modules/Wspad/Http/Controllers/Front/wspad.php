@@ -524,7 +524,7 @@ settype($groupe, 'integer');
 switch ($op) {
 
     case 'sauve':
-        $content = Hack::removeHack(stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/ws'))));
+        $content = Hack::removeHack(stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'modules/upload/storage/ws'))));
         $auteur = Hack::removeHack(stripslashes(Sanitize::fixQuotes($auteur)));
 
         $row = sql_fetch_assoc(sql_query("SELECT MAX(ranq) AS ranq 

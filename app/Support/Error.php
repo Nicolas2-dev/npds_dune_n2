@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Error;
+namespace App\Support\Error;
 
 use Npds\Config\Config;
 

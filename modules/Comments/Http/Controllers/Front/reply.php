@@ -162,7 +162,7 @@ if (isset($submitS)) {
 
         $image_subject = '';
 
-        $message = addslashes(Base64Image::dataImageToFileUrl($message, 'modules/upload/storage/co'));
+        $message = addslashes(data_image_to_file_url($message, 'modules/upload/storage/co'));
 
         $time = date('Y-m-d H:i:s', time() + ((int)$gmt * 3600));
 

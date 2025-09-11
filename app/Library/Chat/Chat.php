@@ -2,14 +2,35 @@
 
 namespace App\Library\Chat;
 
-use App\Library\String\Sanitize;
-use App\Library\Block\Block;
-use App\Library\Http\Request;
-use App\Library\Security\Hack;
+use App\Support\Sanitize;
+use App\Support\Facades\Block;
+use App\Support\Security\Hack;
+use Npds\Support\Facades\Request;
 
 
 class Chat
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Retourne le nombre d'utilisateurs connectés au chat pour un contexte donné.
@@ -17,7 +38,7 @@ class Chat
      * @param string $pour Contexte ou identifiant pour filtrer les autorisations
      * @return int Nombre d'utilisateurs connectés
      */
-    public static function ifChat(string $pour): int
+    public function ifChat(string $pour): int
     {
         $auto = Block::autorisationBlock('params#' . $pour);
 
@@ -46,7 +67,7 @@ class Chat
      * @param int    $id       ID du groupe pour filtrer les messages
      * @return void
      */
-    public static function insertChat(string $username, string $message, int $dbname, int $id): void
+    public function insertChat(string $username, string $message, int $dbname, int $id): void
     {
         if ($message === '') {
             return;
@@ -61,4 +82,5 @@ class Chat
         sql_query("INSERT INTO " . sql_prefix('chatbox') . " 
                    VALUES ('" . $username . "', '" . $ip . "', '" . $message . "', '" . time() . "', '$id', " . $dbname . ")");
     }
+    
 }

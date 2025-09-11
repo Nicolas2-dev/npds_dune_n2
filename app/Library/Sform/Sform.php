@@ -17,8 +17,8 @@
 
 namespace App\Library\Sform;
 
-use App\Library\Spam\Spam;
-use App\Library\Language\Language;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Language;
 
 
 class Sform

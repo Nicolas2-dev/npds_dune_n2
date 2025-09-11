@@ -2,16 +2,38 @@
 
 namespace App\Library\Edito;
 
-use App\Library\Date\Date;
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
+use App\Support\Facades\Date;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 
 class Edito
 {
 
-    public static function affEdito()
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    public function affEdito()
     {
         list($affich, $Xcontents) = Edito::fabEdito();
 
@@ -58,21 +80,21 @@ class Edito
      *               - bool $affich Indique si l'édito doit être affiché.
      *               - string $Xcontents Contenu de l'édito prêt à l'affichage.
      */
-    public static function fabEdito(): array
+    public function fabEdito(): array
     {
         global $cookie;
 
         if (isset($cookie[3])) {
             if (file_exists($path = 'storage/static/edito_membres.txt')) {
-                $Xcontents = static::readFile($path);
+                $Xcontents =  $this->readFile($path);
             } else {
                 if (file_exists($path = 'storage/static/edito.txt')) {
-                    $Xcontents = static::readFile($path);
+                    $Xcontents =  $this->readFile($path);
                 }
             }
         } else {
             if (file_exists($path = 'storage/static/edito.txt')) {
-                $Xcontents = static::readFile($path);
+                $Xcontents =  $this->readFile($path);
             }
         }
 
@@ -128,7 +150,7 @@ class Edito
      * @param string $path Chemin complet du fichier à lire.
      * @return string Contenu du fichier, ou une chaîne vide si le fichier est vide ou ne peut être lu.
      */
-    private static function readFile(string $path): string
+    private function readFile(string $path): string
     {
         if (is_readable($path) && filesize($path) > 0) {
             $fp = fopen($path, 'r');

@@ -7,6 +7,28 @@ class Js
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Génère un tableau JavaScript à partir d'une requête SQL et implémente un auto-complete pour un champ input.
      *
      * Dépendances : jquery.min.js, jquery-ui.js
@@ -21,7 +43,7 @@ class Js
      * @return string Retourne le code JavaScript complet à insérer dans la page si $inputId est défini,
      *                sinon retourne uniquement le tableau JavaScript.
      */
-    public static function autoComplete(
+    public function autoComplete(
         string  $jsArrayName,
         string  $columnName,
         string  $tableName,
@@ -83,7 +105,7 @@ class Js
      * 
      * @return string Code HTML <script> pour l'auto-complete.
      */
-    public static function autoCompleteMulti(
+    public function autoCompleteMulti(
         string  $jsArrayName,
         string  $columnName,
         string  $tableName,
@@ -163,7 +185,7 @@ class Js
      *
      * @return string Chaîne de paramètres à passer à `window.open()`
      */
-    public static function javaPopup(
+    public function javaPopup(
         string  $url,
         string  $title,
         int     $width,

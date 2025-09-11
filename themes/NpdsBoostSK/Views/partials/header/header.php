@@ -1,5 +1,10 @@
 <?php
-global $cookie, $anonymous, $Default_Skin;
+
+use App\Library\Auth\Auth;
+use App\Library\Forum\Forum;
+use App\Support\Facades\Theme;
+
+global $cookie, $anonymous, $Default_Skin, $user;
 
 $ava = '';
 $cha = '';
@@ -8,7 +13,6 @@ $bal = '';
 $menuser = '';
 
 if ($user) {
-    include_once 'functions.php';
 
     $userdata = Forum::getUserDataFromId($cookie[0]);
 
@@ -23,10 +27,6 @@ if ($user) {
 }
 
 $headerclasses = 'navbar navbar-expand-md bg-primary fixed-top';
-
-if (!isset($powerpack)) {
-    include_once 'powerpack.php';
-}
 
 if (Auth::autorisation(-1)) {
     $btn_con = '<a class="dropdown-item" href="user.php"><i class="fas fa-sign-in-alt fa-lg me-2 align-middle"></i>' . translate("Connexion") . '</a>';
@@ -54,18 +54,18 @@ if (Auth::autorisation(-1)) {
                                                   WHERE uname='" . $username . "'"));
 
     if (!$user_avatar) {
-        $imgtmp = 'assets/images/forum/avatar/blank.gif';
+        $imgtmp = 'images/forum/avatar/blank.gif';
     } else if (stristr($user_avatar, 'users_private')) {
         $imgtmp = $user_avatar;
     } else {
         if ($ibid = Theme::themeImage('forum/avatar/' . $user_avatar)) {
             $imgtmp = $ibid;
         } else {
-            $imgtmp = 'assets/images/forum/avatar/' . $user_avatar;
+            $imgtmp = 'images/forum/avatar/' . $user_avatar;
         }
 
         if (!file_exists($imgtmp)) {
-            $imgtmp = 'assets/images/forum/avatar/blank.gif';
+            $imgtmp = 'images/forum/avatar/blank.gif';
         }
     }
 
@@ -73,7 +73,7 @@ if (Auth::autorisation(-1)) {
         $bal = '<li class="nav-item"><a class="nav-link" href="viewpmsg.php"><i class="fa fa-envelope fs-4 faa-shake animated" title="' . translate("Message personnel") . ' <span class=\'badge rounded-pill bg-danger ms-2\'>' . $nbmes . '</span>" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="right"></i></a></li>';
     }
 
-    $ava = '<a class="dropdown-item" href="user.php" ><img src="' . $imgtmp . '" class="n-ava-64" alt="avatar" title="' . translate("Votre compte") . '" data-bs-toggle="tooltip" data-bs-placement="right" /></a><li class="dropdown-divider"></li>';
+    $ava = '<a class="dropdown-item" href="user.php" ><img src="' . asset_url($imgtmp) . '" class="n-ava-64" alt="avatar" title="' . translate("Votre compte") . '" data-bs-toggle="tooltip" data-bs-placement="right" /></a><li class="dropdown-divider"></li>';
 
     $btn_con = '<a class="dropdown-item" href="user.php?op=logout"><i class="fas fa-sign-out-alt fa-lg text-danger me-2"></i>' . translate("Déconnexion") . '</a>';
 }
@@ -119,7 +119,7 @@ if (Auth::autorisation(-1)) {
 </nav>
 <div class="page-header">
     <div class="row">
-        <div class="col-sm-2"><img class="img-fluid" src="themes/!theme!/assets/images/header.png" loading="lazy" alt="logo" /></div>
+        <div class="col-sm-2"><img class="img-fluid" src="<?= site_url('themes/'. $theme .'/assets/images/header.png'); ?>" loading="lazy" alt="logo" /></div>
         <div id="logo_header" class="col-sm-6">
             <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
         </div>

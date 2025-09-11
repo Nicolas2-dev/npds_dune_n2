@@ -7,15 +7,37 @@ class Online
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Affiche qui est en ligne et un message de bienvenue.
      *
      * @return array{0:string,1:string} Tableau contenant :
      *                                  [0] : message visiteurs/membres en ligne
      *                                  [1] : message de bienvenue pour l'utilisateur connecté ou invité
      */
-    public static function whoOnline(): array
+    public function whoOnline(): array
     {
-        list($content1, $content2) = static::whoOnlineSub();
+        list($content1, $content2) = $this->whoOnlineSub();
 
         return array($content1, $content2);
     }
@@ -29,11 +51,11 @@ class Online
      *                                  [0] : message visiteurs/membres en ligne
      *                                  [1] : message de bienvenue pour l'utilisateur connecté ou invité
      */
-    public static function whoOnlineSub(): array
+    public function whoOnlineSub(): array
     {
         global $user, $cookie; // global a revoir !
 
-        list($member_online_num, $guest_online_num) = static::siteLoad();
+        list($member_online_num, $guest_online_num) = $this->siteLoad();
 
         $content1 = "$guest_online_num " . translate('visiteur(s) et') . " $member_online_num " . translate('membre(s) en ligne.');
 
@@ -57,7 +79,7 @@ class Online
      *                            [0] : nombre de membres en ligne
      *                            [1] : nombre d'invités en ligne
      */
-    public static function siteLoad(): array
+    public function siteLoad(): array
     {
         global $SuperCache, $who_online_num; // global a revoir !
 
@@ -98,7 +120,7 @@ class Online
      *
      * @return array<int, mixed> Tableau contenant le nombre de membres et la liste des membres connectés
      */
-    public static function onlineMembers(): array
+    public function onlineMembers(): array
     {
         $result = sql_query("SELECT username, guest, time 
                             FROM " . sql_prefix('session') . " 

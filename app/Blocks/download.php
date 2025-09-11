@@ -1,7 +1,8 @@
 <?php
 
-use App\Library\Theme\Theme;
-use App\Library\Download\Download;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Download;
+
 
 if (! function_exists('topdownload')) {
     #autodoc topdownload() : Bloc topdownload <br />=> syntaxe : function#topdownload

@@ -1,6 +1,7 @@
 <?php
 
-use App\Library\Theme\Theme;
+use App\Support\Facades\Theme;
+
 
 if (! function_exists('headlines'))
 { 

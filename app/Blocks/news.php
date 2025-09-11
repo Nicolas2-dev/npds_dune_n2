@@ -1,10 +1,11 @@
 <?php
 
-use App\Library\auth\Auth;
-use App\Library\Date\Date;
-use App\Library\News\News;
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+
 
 if (! function_exists('oldNews')) {
     #autodoc oldNews($storynum) : Bloc Anciennes News <br />=> syntaxe <br />function#oldNews<br />params#$storynum,lecture (affiche le NB de lecture) - facultatif

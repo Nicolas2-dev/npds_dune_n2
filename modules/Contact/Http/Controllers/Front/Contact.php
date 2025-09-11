@@ -28,7 +28,7 @@ class Contact extends BaseController
     {
         $content = 'This is the Contact page';
 
-        include_once 'modules/contact/support/sform/contact.php';
+        //include_once 'modules/contact/support/sform/contact.php';
 
         return $this->createView()
             ->shares('title', 'Contact')

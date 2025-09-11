@@ -1,12 +1,34 @@
 <?php
 
-namespace App\Library\Url;
+namespace App\Library\Routing;
 
 // Note Deprecated a venir !!
 
 class Url
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Redirige vers une URL donnée en utilisant JavaScript.
      *
@@ -16,7 +38,7 @@ class Url
      * @param string $urlx L'URL vers laquelle rediriger.
      * @return void
      */
-    public static function redirectUrl(string $urlx): void
+    public function redirectUrl(string $urlx): void
     {
         echo "<script type=\"text/javascript\">\n";
         echo "//<![CDATA[\n";

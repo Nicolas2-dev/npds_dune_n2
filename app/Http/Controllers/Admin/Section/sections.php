@@ -832,7 +832,7 @@ function rubriquemake($rubname, $introc)
     global $radminsuper, $aid;
 
     $rubname = stripslashes(Sanitize::fixQuotes($rubname));
-    $introc = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introc, 'modules/upload/storage/rub')));
+    $introc = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($introc, 'modules/upload/storage/rub')));
 
     sql_query("INSERT INTO " . sql_prefix('rubriques') . " 
                VALUES (NULL, '$rubname', '$introc', '0', '0')");
@@ -868,7 +868,7 @@ function rubriquemake($rubname, $introc)
 function rubriquechange($rubid, $rubname, $introc, $enligne)
 {
     $rubname = stripslashes(Sanitize::fixQuotes($rubname));
-    $introc = Base64Image::dataImageToFileUrl($introc, 'modules/upload/storage/rub');
+    $introc = data_image_to_file_url($introc, 'modules/upload/storage/rub');
     $introc = stripslashes(Sanitize::fixQuotes($introc));
 
     sql_query("UPDATE " . sql_prefix('rubriques') . " 
@@ -1030,7 +1030,7 @@ function sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd)
     $rubref = stripslashes(Sanitize::fixQuotes($rubref));
     $image = stripslashes(Sanitize::fixQuotes($image));
 
-    $introd = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($introd, 'modules/upload/storage/sec')));
 
     sql_query("INSERT INTO " . sql_prefix('sections') . " 
                VALUES (NULL,'$secname', '$image', '$members', '$rubref', '$introd', '99', '0')");
@@ -1064,7 +1064,7 @@ function sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $
     $secname = stripslashes(Sanitize::fixQuotes($secname));
     $image = stripslashes(Sanitize::fixQuotes($image));
 
-    $introd = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($introd, 'modules/upload/storage/sec')));
+    $introd = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($introd, 'modules/upload/storage/sec')));
 
     sql_query("UPDATE " . sql_prefix('sections') . " 
                SET secname='$secname', image='$image', userlevel='$members', rubid='$rubref', intro='$introd' 
@@ -1098,7 +1098,7 @@ function secartedit($artid)
     adminhead($f_meta_nom, $f_titre, $adminimg);
 
     $arttitle = stripslashes($arttitle);
-    $content = stripslashes(Base64Image::dataImageToFileUrl($content, 'cache/s'));
+    $content = stripslashes(data_image_to_file_url($content, 'cache/s'));
 
     echo '<hr />
     <h3 class="mb-3">' . adm_translate('Editer une publication') . '</h3>
@@ -1234,7 +1234,7 @@ function secartupdate($artid)
     echo $debut;
 
     $title = stripslashes($title);
-    $content = stripslashes(Base64Image::dataImageToFileUrl($content, 'cache/s'));
+    $content = stripslashes(data_image_to_file_url($content, 'cache/s'));
 
     echo '<form id="secartupdate" action="admin.php" method="post" name="adminForm">
         <input type="hidden" name="artid" value="' . $artid . '" />
@@ -1297,7 +1297,7 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
         if ($radminsuper == 1) {
             $timestamp = time();
 
-            $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
+            $content = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'modules/upload/storage/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members', '$timestamp')");
@@ -1305,7 +1305,7 @@ function secarticleadd($secid, $title, $content, $autho, $members, $Mmembers)
             global $aid;
             Log::ecrireLog('security', sprintf('CreateArticleSections(%s, %s) by AID : %s', $secid, $title, $aid), '');
         } else {
-            $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'cache/s')));
+            $content = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'cache/s')));
 
             sql_query("INSERT INTO " . sql_prefix('seccont_tempo') . " 
                        VALUES (NULL, '$secid', '$title', '$content', '0', '$autho', '99', '$members')");
@@ -1325,7 +1325,7 @@ function secartchange($artid, $secid, $title, $content, $members, $Mmembers)
     }
 
     $title = stripslashes(Sanitize::fixQuotes($title));
-    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $content = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'modules/upload/storage/s')));
 
     $timestamp = time();
 
@@ -1348,7 +1348,7 @@ function secartchangeup($artid, $secid, $title, $content, $members, $Mmembers)
     }
 
     $title = stripslashes(Sanitize::fixQuotes($title));
-    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'storage/cache/s')));
+    $content = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'storage/cache/s')));
 
     if ($secid != '0') {
         sql_query("UPDATE " . sql_prefix('seccont_tempo') . " 
@@ -1368,7 +1368,7 @@ function secartpublish($artid, $secid, $title, $content, $author, $members, $Mme
         $members = implode(',', $Mmembers);
     }
 
-    $content = stripslashes(Sanitize::fixQuotes(Base64Image::dataImageToFileUrl($content, 'modules/upload/storage/s')));
+    $content = stripslashes(Sanitize::fixQuotes(data_image_to_file_url($content, 'modules/upload/storage/s')));
     $title = stripslashes(Sanitize::fixQuotes($title));
 
     if ($secid != '0') {

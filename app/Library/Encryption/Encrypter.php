@@ -9,6 +9,28 @@ class Encrypter
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Composant utilisé pour les fonctions d'encrypt et decrypt.
      *
      * Applique un XOR entre chaque caractère du texte et la clé MD5.
@@ -17,7 +39,7 @@ class Encrypter
      * @param string $encrypt_key Clé de chiffrement.
      * @return string Texte transformé.
      */
-    public static function keyED(string $txt, string $encrypt_key): string
+    public function keyED(string $txt, string $encrypt_key): string
     {
         $encrypt_key = md5($encrypt_key);
         $ctr = 0;
@@ -41,9 +63,9 @@ class Encrypter
      * @param string $txt Texte à chiffrer.
      * @return string Texte encrypté.
      */
-    public static function encrypt(string $txt): string
+    public function encrypt(string $txt): string
     {
-        return static::encryptK($txt, Config::get('app.NPDS_Key'));
+        return  $this->encryptK($txt, Config::get('app.NPDS_Key'));
     }
 
     /**
@@ -53,7 +75,7 @@ class Encrypter
      * @param string $C_key Clé de chiffrement.
      * @return string Texte encrypté.
      */
-    public static function encryptK(string $txt, string $C_key): string
+    public function encryptK(string $txt, string $C_key): string
     {
         // note : srand() est optionnel depuis PHP 4.2.0 ne sert plus a rien !
 
@@ -85,7 +107,7 @@ class Encrypter
             $ctr++;
         }
 
-        return base64_encode(static::keyED($tmp, $C_key));
+        return base64_encode( $this->keyED($tmp, $C_key));
     }
 
     /**
@@ -94,9 +116,9 @@ class Encrypter
      * @param string $txt Texte à déchiffrer.
      * @return string Texte décrypté.
      */
-    public static function decrypt(string $txt): string
+    public function decrypt(string $txt): string
     {
-        return static::decryptK($txt, Config::get('app.NPDS_Key'));
+        return  $this->decryptK($txt, Config::get('app.NPDS_Key'));
     }
 
     /**
@@ -106,9 +128,9 @@ class Encrypter
      * @param string $C_key Clé de déchiffrement.
      * @return string Texte décrypté.
      */
-    public static function decryptK(string $txt, string $C_key): string
+    public function decryptK(string $txt, string $C_key): string
     {
-        $txt = static::keyED(base64_decode($txt), $C_key);
+        $txt =  $this->keyED(base64_decode($txt), $C_key);
         $tmp = '';
 
         for ($i = 0; $i < strlen($txt); $i++) {
@@ -124,18 +146,18 @@ class Encrypter
      * Chiffre une chaîne en utilisant une clé dérivée de l'utilisateur courant.
      *
      * La clé est extraite depuis $userdata[2] (8 caractères à partir de l'offset 8),
-     * puis transmise à {@see static::encryptK()} pour effectuer le chiffrement.
+     * puis transmise à {@see  $this->encryptK()} pour effectuer le chiffrement.
      *
      * @param string $txt Texte en clair à chiffrer.
      * @return string     Texte chiffré tel que retourné par encryptK().
      */
-    public static function lEncrypt(string $txt): string
+    public function lEncrypt(string $txt): string
     {
         global $userdata;
 
         $key = substr($userdata[2], 8, 8);
 
-        return static::encryptK($txt, $key);
+        return  $this->encryptK($txt, $key);
     }
 
 }

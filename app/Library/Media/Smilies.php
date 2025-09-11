@@ -2,19 +2,41 @@
 
 namespace App\Library\Media;
 
-use App\Library\Theme\Theme;
+use App\Support\Facades\Theme;
 
 
 class Smilies
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Transforme les codes texte de smilies en images.
      *
      * @param string $message Message contenant des codes de smilies (ex: :-)
      * @return string Message avec les smilies remplacés par des <img>
      */
-    public static function smilie(string $message): string
+    public function smilie(string $message): string
     {
         // Tranforme un :-) en IMG
         global $theme; // global a revoir !
@@ -63,7 +85,7 @@ class Smilies
      * @param string $message Message contenant des <img> de smilies
      * @return string Message avec les images remplacées par leurs codes texte
      */
-    public static function smile(string $message): string
+    public function smile(string $message): string
     {
         // Tranforme une IMG en :-)
         global $theme; // global a revoir !
@@ -104,7 +126,7 @@ class Smilies
      *
      * @return void
      */
-    public static function putitemsMore(): void
+    public function putitemsMore(): void
     {
         global $theme, $tmp_theme; // global a revoir !
 
@@ -147,7 +169,7 @@ class Smilies
      * @param string $targetarea ID du textarea cible
      * @return void
      */
-    public static function putitems(string $targetarea): void
+    public function putitems(string $targetarea): void
     {
         echo '<div title="' . translate('Cliquez pour insérer des emoji dans votre message') . '" data-bs-toggle="tooltip">
             <button class="btn btn-link ps-0" type="button" id="button-textOne" data-bs-toggle="emojiPopper" data-bs-target="#' . $targetarea . '">

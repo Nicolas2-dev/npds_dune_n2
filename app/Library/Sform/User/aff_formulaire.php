@@ -12,7 +12,8 @@
 /* Dont modify this file if you dont know what you make                 */
 /************************************************************************/
 
-use App\Library\Theme\Theme;
+use App\Support\Facades\Theme;
+
 
 $m->addFormFieldSize(50);
 

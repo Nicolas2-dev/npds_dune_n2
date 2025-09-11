@@ -24,6 +24,15 @@ class BaseController extends Controller
      */
     protected string $layout = 'Default';
 
+    /**
+     * Constructeur du contrôleur Home
+     *
+     * Permet d'initialiser le contrôleur, charger des services ou des middleware si nécessaire.
+     */
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Exécute une méthode d'action du contrôleur avec les paramètres fournis
@@ -98,13 +107,11 @@ class BaseController extends Controller
 
         if (preg_match('#^App/Http/Controllers/(.*)/(.*)$#', $classPath, $matches) === 1) {
             $view = $matches[1] .'/' .$matches[2] .'/' .$view;
-
-            return View::make($view, $data);
         } elseif(preg_match('#^Modules/(.*)/Http/Controllers/(.*)/(.*)$#', $classPath, $matches) === 1) {
             $view = 'modules/' .$matches[1] .'/' .$matches[2] .'/' .$view;
-
-            return View::make($view, $data);
         }
+
+        return View::make($view, $data);
 
         throw new BadMethodCallException('Invalid Controller namespace');
     }

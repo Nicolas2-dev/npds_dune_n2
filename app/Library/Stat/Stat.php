@@ -7,6 +7,28 @@ class Stat
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Retourne un tableau contenant les statistiques du site (membres, news, critiques, forums, sujets, pages vues).
      *
      * @return array<int> Tableau contenant les statistiques dans l'ordre suivant :
@@ -17,7 +39,7 @@ class Stat
      *  [4] => nombre de sujets
      *  [5] => nombre total de pages vues
      */
-    public static function reqStat(): array
+    public function reqStat(): array
     {
         // Les membres
         $result = sql_query("SELECT uid 

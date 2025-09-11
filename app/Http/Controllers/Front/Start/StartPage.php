@@ -9,9 +9,9 @@ use App\Library\News\News;
 use App\Library\Edito\Edito;
 use Npds\Support\Facades\Redirect;
 use Npds\Http\Response as HttpResponse;
-use App\Http\Controllers\Core\BaseController;
+use App\Http\Controllers\Core\FrontBaseController;
 
-class StartPage extends BaseController
+class StartPage extends FrontBaseController
 {
 
     /**
@@ -21,10 +21,10 @@ class StartPage extends BaseController
      */
     private const ALLOWED_OP = [
         'index',
-        'newcategory', 
-        'newtopic', 
-        'newindex',  
-        'edito', 
+        'newcategory',
+        'newtopic',
+        'newindex',
+        'edito',
         'edito-nonews',
         'edito-newindex'
     ];
@@ -38,6 +38,7 @@ class StartPage extends BaseController
     public function __construct()
     {
         //
+        parent::__construct();
     }
 
     /**
@@ -57,7 +58,7 @@ class StartPage extends BaseController
 
         if (!Auth::AutoReg()) {
             global $user;
-        
+
             unset($user);
         }
 
@@ -132,11 +133,11 @@ class StartPage extends BaseController
                     include theme_path($theme . '/central.php');
                 } else {
                     if (in_array($start, ['edito', 'edito-nonews'])) {
-                      Edito::affEdito();
+                        Edito::affEdito();
                     }
 
                     if ($start != 'edito-nonews') {
-                       News::affNews($start, $catid, $marqeur);
+                        News::affNews($start, $catid, $marqeur);
                     }
                 }
             }
@@ -145,9 +146,7 @@ class StartPage extends BaseController
         };
 
         return $this->createView(['content' => $renderContent()], 'theindex')
-            ->shares('title', 'Homepage')
-            ->with('contentw', 'test with')
-            ->with('Start_Page', Config::get('app.Start_Page'));
+            ->shares('title', 'Homepage');
     }
 }
 

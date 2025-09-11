@@ -1,7 +1,7 @@
 <?php
 
 use Npds\Config\Config;
-use App\Library\Log\Log;
+use App\Support\Facades\Log;
 
 /**
  * Initialise la connexion à la base de données.

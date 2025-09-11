@@ -3,12 +3,34 @@
 namespace App\Library\Validation;
 
 use Npds\Config\Config;
-use App\Library\Language\Language;
+use App\Support\Facades\Language;
 
 
 class Validation
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Génère le footer de l'administration avec support du validateur de formulaire et inclusion des scripts JS.
      *
@@ -26,7 +48,7 @@ class Validation
      *                    - 'foo' : inclut seulement footer.php
      * @return void
      */
-    public static function adminFoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
+    public function adminFoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
     {
         if ($fv == 'fv') {
 

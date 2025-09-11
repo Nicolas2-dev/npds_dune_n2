@@ -29,3 +29,7 @@
                         <li><a href="submit.php">[french]Soumettre un article[/french][english]Submit a New[/english]</a></li>
                     </div>
                 </div>
+
+        </tr>                
+    </div>               
+</table>

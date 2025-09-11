@@ -2,24 +2,41 @@
 
 use App\Library\Block\Block;
 
-/************************************************************************/
-/* Theme for NPDS / Net Portal Dynamic System                           */
-/*======================================================================*/
-/* This theme use the NPDS theme-dynamic engine (Meta-Lang)             */
-/*                                                                      */
-/* Theme : npds-boost_sk 2015 by jpb                                    */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
+// Editeur::end()
 
-/************************************************************************/
-/* Fermeture ou ouverture et fermeture according with $pdst :           */
-/*       col_LB +|| col_princ +|| col_RB                                */
-/* Fermeture : div > div"#corps"> $ContainerGlobal>                     */
-/*                    ouverts dans le Header.php                        */
-/* =====================================================================*/
+// include externe file from modules/include for functions, codes ...
+//footer_before();
+
+if (file_exists($path_module = 'themes/Base/Bootstrap/footer_before.php')) {
+    include $path_module;
+}
+
+
+//foot();
+
+global $user, $Default_Theme, $cookie9; // global a revoir !
+
+if ($user) {
+    $cookie = explode(':', base64_decode($user));
+
+    if ($cookie[9] == '') {
+        $cookie[9] = $Default_Theme;
+    }
+
+    $ibix = explode('+', urldecode($cookie[9]));
+
+    if (!@opendir(THEME_PATH . $ibix[0])) {
+        $theme = $Default_Theme;
+    } else {
+        $theme = $ibix[0];
+    }
+} else {
+    $theme = $Default_Theme;
+}
+
+//include 'themes/' . $theme . '/Views/footer.php';
+
+
 
 global $pdst, $theme_darkness;
 
@@ -101,10 +118,6 @@ switch ($pdst) {
         break;
 }
 
-// ContainerGlobal permet de transmettre · Theme-Dynamic un élément de personnalisation après
-// le chargement de footer.html / Si vide alors rien de plus n'est affiché par TD
-$ContainerGlobal = '</div>';
-
 // pilotage du mode dark/light du thème ...
 echo '<script type="text/javascript">
         //<![CDATA[
@@ -121,16 +134,20 @@ echo '<script type="text/javascript">
         //]]>
     </script>';
 
+
+
+
 // Ne supprimez pas cette ligne / Don't remove this line
+// require_once 'themes/themes-dynamic/footer.php';
 //require_once 'themes/base/views/footer.php';
 // Ne supprimez pas cette ligne / Don't remove this line
 
 global $theme;
 
-$rep = false;
+//$rep = false;
 
-settype($ContainerGlobal, 'string');
-
+//settype($ContainerGlobal, 'string');
+/*
 if (file_exists('themes/' . $theme . '/views/partials/footer/footer.php')) {
     $rep = $theme;
 } elseif (file_exists('themes/base/partials/footer/footer.php')) {
@@ -151,31 +168,87 @@ if ($rep) {
     }
 
     echo Metalang::metaLang(Language::affLangue($Xcontent));
-}  
+}
+*/
 
+$paths = [
+    "themes/{$theme}/views/partials/footer/footer.php",
+    "themes/base/partials/footer/footer.php",
+];
 
-global $tiny_mce;
-if ($tiny_mce) {
-    echo Editeur::affEditeur('tiny_mce', 'end');
+$rep = null;
+foreach ($paths as $path) {
+    if (is_readable($path)) {
+        $rep = $path;
+        break;
+    }
 }
 
-// include externe file from modules/include for functions, codes ...
-footer_before();
+if (! $rep) {
+    die('footer.php manquant / not found !<br />');
+}
 
-foot();
+ob_start();
+include $rep;
+$Xcontent = ob_get_clean();
+
+// ContainerGlobal permet de transmettre · Theme-Dynamic un élément de personnalisation après
+// le chargement de footer.html / Si vide alors rien de plus n'est affiché par TD
+$ContainerGlobal = '</div>';
+
+if (! empty($ContainerGlobal)) {
+    $Xcontent .= $ContainerGlobal;
+}
+
+echo Metalang::metaLang(Language::affLangue($Xcontent));
+
+
+
+// footer
+
+if ($user) {
+    $cookie9 = $ibix[0];
+}
+
 
 // include externe file from modules/themes include for functions, codes ...
-if (isset($user)) {
-    global $cookie9;
-    footer_after($cookie9);
-} else {
-    global $Default_Theme;
-    footer_after($Default_Theme);
+//if (isset($user)) {
+//    global $cookie9;
+//    footer_after($cookie9);
+    //if (file_exists($path_theme = 'themes/' . $cookie9 . '/Bootstrap/footer_after.php')) {
+    //    include $path_theme;
+    //} else {
+    //    if (file_exists($path_module = 'themes/Base/Bootstrap/footer_after.php')) {
+    //        include $path_module;
+    //    }
+    //}
+//} else {
+//    global $Default_Theme;
+//    footer_after($Default_Theme);
+
+    //if (file_exists($path_theme = 'themes/' . $Default_Theme . '/Bootstrap/footer_after.php')) {
+    //    include $path_theme;
+    //} else {
+    //    if (file_exists($path_module = 'themes/Base/Bootstrap/footer_after.php')) {
+    //        include $path_module;
+    //    }
+    //}
+
+//}
+
+$theme = isset($user) ? $cookie9 : $Default_Theme;
+
+if (is_readable($theme_file  = "themes/".$theme."/include/footer_after.inc")) {
+    include $theme_file;
+} elseif (is_readable($module_file = 'modules/include/footer_after.inc')) {
+    include $module_file;
 }
+
 
 echo '</body>
 </html>';
 
-include 'sitemap.php';
+// faire listener ou middleware
+//include 'sitemap.php';
 
 sql_close();

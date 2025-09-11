@@ -1,7 +1,8 @@
 <?php
 
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+
 
 if (! function_exists('bloc_langue')) {
     #autodoc bloc_langue() : Bloc langue <br />=> syntaxe : function#bloc_langue

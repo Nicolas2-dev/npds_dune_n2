@@ -1,6 +1,9 @@
 <?php
 
+use Npds\Config\Config;
 use App\Library\Block\Block;
+use App\Library\Language\Language;
+use App\Library\Metalang\Metalang;
 
 /************************************************************************/
 /* Theme for NPDS / Net Portal Dynamic System                           */
@@ -17,31 +20,33 @@ use App\Library\Block\Block;
 //////////// a integrer dans le layout
 
 // -----------------------
-$header = 1;
+//$header = 1;
 // -----------------------
 
 // include externe file from themes/base/bootstrap/ for functions, codes ...
-if (file_exists('themes/base/bootstrap/header_before.php')) {
-    include 'themes/base/bootstrap/header_before.php';
-}
+//if (file_exists('themes/base/bootstrap/header_before.php')) {
+//    include 'themes/base/bootstrap/header_before.php';
+//}
+
+
+// pageref chargement 
 
 // mis dans lib theme provisoirement a revoir !
-head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords);
+//head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords);
 
-// faire listener
-refererUpdate();
+// faire listener ou middleware
+//refererUpdate();
 
-// faire listener
-counterUpdate();
+// faire listener ou middleware
+//counterUpdate();
 
 
 // include externe file from themes/base/bootstrap/ for functions, codes ...
-if (file_exists('themes/base/bootstrap/header_after.php')) {
-    include 'themes/base/bootstrap/header_after.php';
-}
+//if (file_exists('themes/base/bootstrap/header_after.php')) {
+//    include 'themes/base/bootstrap/header_after.php';
+//}
 
 ///////////////
-
 /*
  * Nomination des div par l'attribut id:
  * col_princ contient le contenu principal
@@ -144,24 +149,21 @@ function colsyst($coltarget)
     echo $coltoggle;
 }
 
-// ContainerGlobal permet de transmettre à Theme-Dynamic un élément de personnalisation avant
-// le chargement de header.html / Si vide alors la class body est chargée par défaut par TD
-$ContainerGlobal = '<div id="container">';
 
 // Ne supprimez pas cette ligne / Don't remove this line
 //require_once 'themes/base/views/header.php';
 
-global $theme, $Start_Page;
+global $theme;
 
 $rep = false;
 
-$Start_Page = str_replace('/', '', $Start_Page);
+$Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
 settype($ContainerGlobal, 'string');
 
-if (file_exists('themes/' . $theme . '/views/partials/header/header.php')) {
+if (file_exists('themes/' . $theme . '/Views/partials/header/header.php')) {
     $rep = $theme;
-} elseif (file_exists('themes/base/views/partials/header/header.php')) {
+} elseif (file_exists('themes/Base/Views/partials/header/header.php')) {
     $rep = 'base';
 } else {
     echo 'header.php manquant / not find !<br />';
@@ -169,11 +171,15 @@ if (file_exists('themes/' . $theme . '/views/partials/header/header.php')) {
 }
 
 if ($rep) {
-    if (file_exists('themes/base/bootstrap/body_onload.php') || file_exists('themes/' . $theme . '/bootstrap/body_onload.php')) {
+    if (file_exists('themes/Base/Bootstrap/body_onload.php') || file_exists('themes/' . $theme . '/Bootstrap/body_onload.php')) {
         $onload_init = ' onload="init();"';
     } else {
         $onload_init = '';
     }
+
+    // ContainerGlobal permet de transmettre à Theme-Dynamic un élément de personnalisation avant
+    // le chargement de header.html / Si vide alors la class body est chargée par défaut par TD
+    $ContainerGlobal = '<div id="container">';
 
     if (!$ContainerGlobal) {
         echo '<body' . $onload_init . ' class="body" data-bs-theme="' . $theme_darkness . '">';
@@ -184,16 +190,17 @@ if ($rep) {
 
     ob_start();
     // landing page
-    if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/views/partials/header/header_landing.php')) {
-        include 'themes/' . $rep . '/views/partials/header/header_landing.php';
+    if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && file_exists('themes/' . $rep . '/Views/partials/header/header_landing.php')) {
+        include 'themes/' . $rep . '/Views/partials/header/header_landing.php';
     } else {
-        include 'themes/' . $rep . '/views/partials/header/header.php';
+       // include THEME_PATH . $rep . '/Views/partials/header/header.php';
     }
 
     $Xcontent = ob_get_contents();
     ob_end_clean();
 
-    echo Metalang::metaLang(Language::affLangue($Xcontent));
+    //echo Metalang::metaLang(Language::affLangue($Xcontent));
+    echo Language::affLangue($Xcontent);
 }
 
 // powerpack deprecated !

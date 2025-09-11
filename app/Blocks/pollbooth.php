@@ -1,8 +1,9 @@
 <?php
 
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
-use App\Library\Pollbooth\Pollbooth;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Pollbooth;
+
 
 if (! function_exists('pollMain')) {
     #autodoc pollMain($pollID,$pollClose) : Construit le bloc sondage

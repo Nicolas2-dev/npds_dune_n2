@@ -9,6 +9,28 @@ class Language
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Récupère le cache des langues depuis un fichier ou génère la liste des langues.
      *
      * Si le fichier `storage/locale/language.php` existe, il est inclus et utilisé.
@@ -16,7 +38,7 @@ class Language
      *
      * @return string La liste des langues
      */
-    public static function languageCache(): string
+    public function languageCache(): string
     {
         if (file_exists('storage/locale/language.php')) {
             include 'storage/locale/language.php';
@@ -36,7 +58,7 @@ class Language
      * @param int $c 1 pour inclure le code pays ISO 3166-2, sinon 0
      * @return string Code formaté (ex: fr-FR, en, US, etc.)
      */
-    public static function languageIso($l, $s, $c): string
+    public function languageIso($l, $s, $c): string
     {
         global $language, $user_language; // global a revoir !
 
@@ -105,7 +127,7 @@ class Language
      *
      * @return string Liste des langues séparées par espace.
      */
-    public static function languageList(): string
+    public function languageList(): string
     {
         $local_path = '';
         $languageslist = '';
@@ -141,7 +163,7 @@ class Language
      * @param string|null $ibid Chaîne à analyser et à transformer.
      * @return string Chaîne transformée avec les sections traduites.
      */
-    public static function affLangue(?string $ibid): string
+    public function affLangue(?string $ibid): string
     {
         global $language, $tab_langue; // global a revoir !
 
@@ -225,11 +247,11 @@ class Language
      *
      * @return array<string> Tableau des langues.
      */
-    public static function makeTabLangue(): array
+    public function makeTabLangue(): array
     {
         global $language; // global a revoir !
         
-        $languageslist = static::languageCache();
+        $languageslist = $this->languageCache();
 
         $languageslocal = $language . ' ' . str_replace($language, '', $languageslist);
         $languageslocal = trim(str_replace('  ', ' ', $languageslocal));
@@ -244,7 +266,7 @@ class Language
      * @param string $ibid Nom du champ select.
      * @return string HTML du formulaire de sélection de langue.
      */
-    public static function affLocalzoneLangue(string $ibid): string
+    public function affLocalzoneLangue(string $ibid): string
     {
         global $tab_langue; // global a revoir !
 
@@ -276,7 +298,7 @@ class Language
      * @param string $mess Message à afficher avant la sélection.
      * @return string HTML du formulaire complet.
      */
-    public static function affLocalLangue(string $ibid_index, string $ibid, string $mess = ''): string
+    public function affLocalLangue(string $ibid_index, string $ibid, string $mess = ''): string
     {
         if ($ibid_index == '') {
             $ibid_index = Request::uri();
@@ -284,7 +306,7 @@ class Language
 
         $M_langue = '<form action="' . $ibid_index . '" name="local_user_language" method="post">';
 
-        $M_langue .= $mess . static::affLocalzoneLangue($ibid);
+        $M_langue .= $mess .  $this->affLocalzoneLangue($ibid);
 
         $M_langue .= '</form>';
 
@@ -298,7 +320,7 @@ class Language
      * @param string $ibid Chaîne à traduire.
      * @return string Chaîne traduite avec la langue temporaire.
      */
-    public static function previewLocalLangue(?string $local_user_language, string $ibid): string
+    public function previewLocalLangue(?string $local_user_language, string $ibid): string
     {
         if ($local_user_language) {
 
@@ -307,8 +329,8 @@ class Language
             $old_langue = $language;
             $language = $local_user_language;
 
-            $tab_langue = static::makeTabLangue();
-            $ibid = static::affLangue($ibid);
+            $tab_langue =  $this->makeTabLangue();
+            $ibid =  $this->affLangue($ibid);
 
             $language = $old_langue;
         }

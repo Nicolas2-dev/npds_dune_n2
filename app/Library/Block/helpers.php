@@ -1,6 +1,7 @@
 <?php
 
-use App\Library\Block\Block;
+use App\Support\Facades\Block;
+
 
 // Block Functions.
 

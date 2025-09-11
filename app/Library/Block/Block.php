@@ -3,18 +3,40 @@
 namespace App\Library\Block;
 
 use FilesystemIterator;
-use App\Library\auth\Auth;
-use App\Library\Theme\Theme;
-use App\Library\Groupe\Groupe;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use App\Library\Language\Language;
+use App\Support\Facades\Auth;
+use App\Support\Groupe\Groupe;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
 
 class Block
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Charge récursivement tous les fichiers PHP d'un répertoire donné.
@@ -29,7 +51,7 @@ class Block
      *
      * @throws \RuntimeException Si le répertoire n'existe pas (optionnel si tu préfères throw au lieu de trigger_error)
      */
-    public static function loadBlocks(?string $dir = 'Blocks'): void
+    public function loadBlocks(?string $dir = 'Blocks'): void
     {
         $path = APPPATH . $dir;
 
@@ -59,7 +81,7 @@ class Block
      * @param string $contentX Contenu du bloc à analyser
      * @return bool True si la fonction a été exécutée, false sinon
      */
-    public static function blockFonction(string $title, string $contentX): bool
+    public function blockFonction(string $title, string $contentX): bool
     {
         global $block_title;
 
@@ -155,7 +177,7 @@ class Block
      * @param int    $Xcache  Durée de cache en secondes
      * @return void
      */
-    public static function fabBlock(string $title, int $member, string $content, int $Xcache): void
+    public function fabBlock(string $title, int $member, string $content, int $Xcache): void
     {
         global $SuperCache, $CACHE_TIMINGS;
 
@@ -317,7 +339,7 @@ class Block
 
             if (!empty($content)) {
                 if (($member == 1) and (isset($user))) {
-                    if (!static::blockFonction($title, $content)) {
+                    if (!$this->blockFonction($title, $content)) {
                         if (!$hidden) {
                             Theme::themeSidebox($title, $content);
                         } else {
@@ -325,7 +347,7 @@ class Block
                         }
                     }
                 } elseif ($member == 0) {
-                    if (!static::blockFonction($title, $content)) {
+                    if (!$this->blockFonction($title, $content)) {
                         if (!$hidden) {
                             Theme::themeSidebox($title, $content);
                         } else {
@@ -336,7 +358,7 @@ class Block
                     $tab_groupe = Groupe::validGroup($user);
 
                     if (Groupe::groupeAutorisation($member, $tab_groupe)) {
-                        if (!static::blockFonction($title, $content)) {
+                        if (!$this->blockFonction($title, $content)) {
                             if (!$hidden) {
                                 Theme::themeSidebox($title, $content);
                             } else {
@@ -345,7 +367,7 @@ class Block
                         }
                     }
                 } elseif (($member == -1) and (!isset($user))) {
-                    if (!static::blockFonction($title, $content)) {
+                    if (!$this->blockFonction($title, $content)) {
                         if (!$hidden) {
                             Theme::themeSidebox($title, $content);
                         } else {
@@ -353,7 +375,7 @@ class Block
                         }
                     }
                 } elseif (($member == -127) and (isset($admin)) and ($admin)) {
-                    if (!static::blockFonction($title, $content)) {
+                    if (!$this->blockFonction($title, $content)) {
                         if (!$hidden) {
                             Theme::themeSidebox($title, $content);
                         } else {
@@ -375,9 +397,9 @@ class Block
      * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
      * @return void
      */
-    public static function leftBlocks(string $moreclass): void
+    public function leftBlocks(string $moreclass): void
     {
-        static::PreFabBlock('', 'LB', $moreclass);
+        $this->PreFabBlock('', 'LB', $moreclass);
     }
 
     /**
@@ -386,9 +408,9 @@ class Block
      * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
      * @return void
      */
-    public static function rightBlocks(string $moreclass): void
+    public function rightBlocks(string $moreclass): void
     {
-        static::PreFabBlock('', 'RB', $moreclass);
+        $this->PreFabBlock('', 'RB', $moreclass);
     }
 
     /**
@@ -398,10 +420,10 @@ class Block
      * @param string $Xblock 'LB' ou 'RB'
      * @return string HTML du bloc
      */
-    public static function oneBlock($Xid, string $Xblock): string
+    public function oneBlock($Xid, string $Xblock): string
     {
         ob_start();
-        static::PreFabBlock($Xid, $Xblock, '');
+        $this->PreFabBlock($Xid, $Xblock, '');
         $tmp = ob_get_contents();
         ob_end_clean();
 
@@ -416,7 +438,7 @@ class Block
      * @param string $moreclass Classe(s) CSS supplémentaires pour le conteneur du bloc
      * @return void
      */
-    public static function PreFabBlock($Xid, string $Xblock, string $moreclass): void
+    public function PreFabBlock($Xid, string $Xblock, string $moreclass): void
     {
         global $htvar;
 
@@ -450,7 +472,7 @@ class Block
                     ? '<div class="' . $moreclass . '" id="' . $Xblock . '_' . $id . '">'
                     : '<div class="' . $moreclass . ' ' . strtolower($bloc_side) . 'bloc">';
 
-                static::fabBlock($title, $member, $content, $cache);
+                $this->fabBlock($title, $member, $content, $cache);
                 // echo "</div>"; // modif Jireck
             }
         }
@@ -464,7 +486,7 @@ class Block
      * @param string $Xcontent Expression régulière correspondant au contenu du bloc (ex: 'function#...')
      * @return string|null Retourne une chaîne "member,actif" si trouvé, sinon null
      */
-    public static function nivBlock(string $Xcontent): ?string
+    public function nivBlock(string $Xcontent): ?string
     {
         $result = sql_query("SELECT member, actif 
                             FROM " . sql_prefix('rblocks') . " 
@@ -497,11 +519,11 @@ class Block
      * @param string $Xcontent Expression régulière correspondant au contenu du bloc (ex: 'function#...')
      * @return array|string Retourne un tableau d'autorisations si actif, sinon une chaîne vide
      */
-    public static function autorisationBlock(string $Xcontent): array|string
+    public function autorisationBlock(string $Xcontent): array|string
     {
         $autoX = array(); //notice .... to follow
 
-        $auto = explode(',', static::nivBlock($Xcontent));
+        $auto = explode(',', $this->nivBlock($Xcontent));
 
         // le dernier indice indique si le bloc est actif
         $actif = $auto[count($auto) - 1];

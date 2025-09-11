@@ -4,56 +4,36 @@ namespace App\Library\Theme;
 
 use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\Date\Date;
-use App\Library\User\User;
-use App\Library\Assets\Css;
-use App\Library\Editeur\Editeur;
-use App\Library\Language\Language;
-use App\Library\Metalang\Metalang;
+use App\Support\Facades\Css;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 
 class Theme
 {
 
-    public static function getThemeNpds()
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
     {
-        // take the right theme location !
-        global $user; // global a revoir !
-
-        $Default_Theme = Config::get('theme.Default_Theme');
-        $Default_Skin = Config::get('theme.Default_Skin');
-        
-        if (isset($user) and $user != '') {
-
-            global $cookie;
-            if ($cookie[9] != '') {
-                $ibix = explode('+', urldecode($cookie[9]));
-
-                if (array_key_exists(0, $ibix)) {
-                    $theme = $ibix[0];
-                } else {
-                    $theme = $Default_Theme;
-                }
-
-                if (array_key_exists(1, $ibix)) {
-                    $skin = $ibix[1];
-                } else {
-                    $skin = $Default_Skin;
-                }
-
-                $tmp_theme = $theme;
-
-                if (!$file = @opendir('themes/' . $theme)) {
-                    $tmp_theme = $Default_Theme;
-                }
-            } else {
-                $tmp_theme = $Default_Theme;
-            }
-        } else {
-            $theme = $Default_Theme;
-            $skin = $Default_Skin;
-            $tmp_theme = $theme;
+        if (isset(static::$instance)) {
+            return static::$instance;
         }
+
+        return static::$instance = new static();
     }
 
     /**
@@ -64,7 +44,7 @@ class Theme
      *
      * @return string Le nom du thème actif
      */
-    public static function getTheme(): string
+    public function getTheme(): string
     {
         global $user, $cookie;
 
@@ -93,7 +73,7 @@ class Theme
      *
      * @return string Le nom du skin actif
      */
-    public static function getSkin(): string
+    public function getSkin(): string
     {
         global $user, $cookie;
 
@@ -109,14 +89,13 @@ class Theme
         return $defaultSkin;
     }
 
-
     /**
      * Retourne le chemin complet de l'image si elle existe dans le répertoire du thème.
      *
      * @param string $theme_img Nom du fichier image
      * @return string|false Chemin complet si trouvé, sinon false
      */
-    public static function image(string $theme_img): string|false
+    public function image(string $theme_img): string|false
     {
         global $theme; // global a revoir !
 
@@ -133,9 +112,9 @@ class Theme
      * @param string $theme_img Nom du fichier image
      * @return string|false Chemin complet si trouvé, sinon false
      */
-    public static function themeImage($theme_img)
+    public function themeImage($theme_img)
     {
-        return static::image($theme_img);
+        return $this->image($theme_img);
     }
 
     /**
@@ -145,7 +124,7 @@ class Theme
      *
      * @return string Liste des thèmes séparés par un espace
      */
-    public static function themeList(): string
+    public function themeList(): string
     {
         $themelist = [];
         $handle = opendir('themes');
@@ -173,7 +152,7 @@ class Theme
      * @param string $Xcontent Contenu texte contenant éventuellement !var!VariableName
      * @return string|null Retourne le nom de la variable si trouvé, sinon null
      */
-    public static function localVar(string $Xcontent): ?string
+    public function localVar(string $Xcontent): ?string
     {
         if (strstr($Xcontent, '!var!')) {
             $deb = strpos($Xcontent, '!var!', 0) + 5;
@@ -196,7 +175,7 @@ class Theme
      *
      * @param string $aid ID de l'auteur
      * @param string $informant Nom de l'émetteur
-     * @param int $time Timestamp
+     * @param int|string $time Timestamp
      * @param string $title Titre de l'article
      * @param int $counter Nombre de lectures
      * @param string|int $topic ID du topic
@@ -209,10 +188,10 @@ class Theme
      * @param string|int $id ID de l'article
      * @return void
      */
-    public static function themeIndex(
+    public function themeIndex(
         string      $aid,
         string      $informant,
-        int         $time,
+        int|string  $time,
         string      $title,
         int         $counter,
         string|int  $topic,
@@ -228,16 +207,16 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/views/partials/news/index-news.php')) {
-            $inclusion = 'themes/' . $theme . '/views/partials/news/index-news.php';
-        } elseif (file_exists('themes/base/views/partials/news/index-news.php')) {
-            $inclusion = 'themes/base/views/partials/news/index-news.php';
+        if (file_exists('themes/' . $theme . '/Views/partials/news/index-news.php')) {
+            $inclusion = 'themes/' . $theme . '/Views/partials/news/index-news.php';
+        } elseif (file_exists('themes/Base/Views/partials/news/index-news.php')) {
+            $inclusion = 'themes/Base/Views/partials/news/index-news.php';
         } else {
             echo 'index-news.php manquant / not find !<br />';
             die();
         }
 
-        $H_var = static::localVar($thetext);
+        $H_var = $this->localVar($thetext);
 
         if ($H_var != '') {
             ${$H_var} = true;
@@ -333,7 +312,7 @@ class Theme
      * @param string|null $archive Archive associée
      * @return void
      */
-    public static function themeArticle(
+    public function themeArticle(
         string $aid,
         string      $informant,
         int         $time,
@@ -352,16 +331,16 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists("themes/" . $theme . "/views/partials/news/detail-news.php")) {
-            $inclusion = "themes/" . $theme . "/views/partials/news/detail-news.php";
-        } elseif (file_exists("themes/base/views/partials/news/detail-news.php")) {
-            $inclusion = "themes/base/views/partials/news/detail-news.php";
+        if (file_exists("themes/" . $theme . "/Views/partials/news/detail-news.php")) {
+            $inclusion = "themes/" . $theme . "/Views/partials/news/detail-news.php";
+        } elseif (file_exists("themes/Base/Views/partials/news/detail-news.php")) {
+            $inclusion = "themes/Base/Views/partials/news/detail-news.php";
         } else {
             echo 'detail-news.php manquant / not find !<br />';
             die();
         }
 
-        $H_var = static::localVar($thetext);
+        $H_var = $this->localVar($thetext);
 
         if ($H_var != '') {
             ${$H_var} = true;
@@ -426,25 +405,25 @@ class Theme
      * @param string $content Contenu HTML du bloc
      * @return void
      */
-    public static function themeSidebox(string $title, string $content): void
+    public function themeSidebox(string $title, string $content): void
     {
         global $theme, $B_class_title, $B_class_content, $bloc_side, $htvar; // global a revoir !
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/views/partials/block/bloc-right.php') && ($bloc_side == 'RIGHT')) {
-            $inclusion = 'themes/' . $theme . '/views/partials/block/bloc-right.php';
+        if (file_exists('themes/' . $theme . '/Views/partials/block/bloc-right.php') && ($bloc_side == 'RIGHT')) {
+            $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc-right.php';
         }
 
-        if (file_exists('themes/' . $theme . '/views/partials/block/bloc-left.php') && ($bloc_side == 'LEFT')) {
-            $inclusion = 'themes/' . $theme . '/views/partials/block/bloc-left.php';
+        if (file_exists('themes/' . $theme . '/Views/partials/block/bloc-left.php') && ($bloc_side == 'LEFT')) {
+            $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc-left.php';
         }
 
         if (!$inclusion) {
-            if (file_exists('themes/' . $theme . '/views/partials/block/bloc.php')) {
-                $inclusion = 'themes/' . $theme . '/views/partials/block/bloc.php';
-            } elseif (file_exists('themes/base/views/partials/block/bloc.php')) {
-                $inclusion = 'themes/base/views/partials/block/bloc.php';
+            if (file_exists('themes/' . $theme . '/Views/partials/block/bloc.php')) {
+                $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc.php';
+            } elseif (file_exists('themes/Base/Views/partials/block/bloc.php')) {
+                $inclusion = 'themes/Base/Views/partials/block/bloc.php';
             } else {
                 echo 'bloc.php manquant / not find !<br />';
                 die();
@@ -484,16 +463,16 @@ class Theme
      * @param string $content Le contenu à insérer dans l'éditorial.
      * @return string|false Le chemin du fichier inclus, ou false si non trouvé.
      */
-    public static function themEdito(string $content): string|false
+    public function themEdito(string $content): string|false
     {
         global $theme; // global a revoir !
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/views/partials/edito/editorial.php')) {
-            $inclusion = 'themes/' . $theme . '/views/partials/edito/editorial.php';
-        } elseif (file_exists('themes/base/views/partials/edito/editorial.php')) {
-            $inclusion = 'themes/base/views/partials/edito/editorial.php';
+        if (file_exists('themes/' . $theme . '/Views/partials/edito/editorial.php')) {
+            $inclusion = 'themes/' . $theme . '/Views/partials/edito/editorial.php';
+        } elseif (file_exists('themes/Base/Views/partials/edito/editorial.php')) {
+            $inclusion = 'themes/Base/Views/partials/edito/editorial.php';
         } else {
             echo 'editorial.php manquant / not find !<br />';
             die();
@@ -515,66 +494,109 @@ class Theme
         return $inclusion;
     }
 
+    // deprecated !
+    public function getThemeNpds()
+    {
+        // take the right theme location !
+        global $user; // global a revoir !
+
+        $Default_Theme = Config::get('theme.Default_Theme');
+        $Default_Skin = Config::get('theme.Default_Skin');
+        
+        if (isset($user) and $user != '') {
+
+            global $cookie;
+            if ($cookie[9] != '') {
+                $ibix = explode('+', urldecode($cookie[9]));
+
+                if (array_key_exists(0, $ibix)) {
+                    $theme = $ibix[0];
+                } else {
+                    $theme = $Default_Theme;
+                }
+
+                if (array_key_exists(1, $ibix)) {
+                    $skin = $ibix[1];
+                } else {
+                    $skin = $Default_Skin;
+                }
+
+                $tmp_theme = $theme;
+
+                if (!$file = @opendir('themes/' . $theme)) {
+                    $tmp_theme = $Default_Theme;
+                }
+            } else {
+                $tmp_theme = $Default_Theme;
+            }
+        } else {
+            $theme = $Default_Theme;
+            $skin = $Default_Skin;
+            $tmp_theme = $theme;
+        }
+    }
 
     ////////// provisoire a revoir /////////
 
-    // Note toutes ces function sont a revoir !
+    // Note toutes ces function sont a revoir et a déprécier !!
 
-    function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords)
+    //function head($tiny_mce_init, $css_pages_ref, $css, $tmp_theme, $skin, $js, $m_description, $m_keywords)
+    function head()
     {
         // global a revoir !
-        global $slogan, $Titlesitename, $banners, $Default_Theme, $theme, $gzhandler; 
-        global $language, $topic, $hlpfile, $user, $hr, $long_chain, $theme_darkness;
+        //global $slogan, $Titlesitename, $banners, $Default_Theme, $theme, $gzhandler; 
+        //global $language, $topic, $hlpfile, $user, $hr, $long_chain, $theme_darkness;
 
-        settype($m_keywords, 'string');
-        settype($m_description, 'string');
+        //$tmp_theme = $this->getTheme();
+        //$skin = $this->getSkin();
 
-        if ($gzhandler == 1)
-            ob_start('ob_gzhandler');
+        //settype($m_keywords, 'string');
+        //settype($m_description, 'string');
 
-        include 'themes/' . $tmp_theme . '/views/theme.php';
+        //if ($gzhandler == 1)
+        //    ob_start('ob_gzhandler');
+
+        //include 'themes/' . $tmp_theme . '/views/theme.php';
 
         // Meta
-        if (file_exists('storage/meta/meta.php')) {
-            $meta_op = '';
-            include 'storage/meta/meta.php';
-        }
+        //if (file_exists(storage_PATH('meta/meta.php'))) {
+        //    $meta_op = '';
+        //    include storage_PATH('meta/meta.php');
+        //}
 
         // Favicon
-        $favico = (file_exists('themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'))
-            ? 'themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'
-            : 'assets/images/favicon/favicon.ico';
-
-        echo '
-        <link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
-        <link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/favicon-120.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/favicon-152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/favicon-180.png" />';
+        //$favico = (file_exists('themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'))
+        //    ? 'themes/' . $tmp_theme . '/assets/images/favicon/favicon.ico'
+        //    : 'assets/images/favicon/favicon.ico';
+        //
+        //echo '
+        //<link rel="shortcut icon" href="' . $favico . '" type="image/x-icon" />
+        //<link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/favicon-120.png" />
+        //<link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/favicon-152.png" />
+        //<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/favicon-180.png" />';
 
         // Syndication RSS & autres
-        global $sitename, $nuke_url; // global a revoir !
+        //global $sitename, $nuke_url; // global a revoir !
 
         // Canonical
-        $scheme = strtolower($_SERVER['REQUEST_SCHEME'] ?? 'http');
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = $_SERVER['REQUEST_URI'];
+        //$scheme = strtolower($_SERVER['REQUEST_SCHEME'] ?? 'http');
+        //$host = $_SERVER['HTTP_HOST'];
+        //$uri = $_SERVER['REQUEST_URI'];
 
-        echo '<link rel="canonical" href="' . ($scheme . '://' . $host . $uri) . '" />';
+        //echo '<link rel="canonical" href="' . Request::url() . '" />';
 
         // humans.txt
-        if (file_exists('humans.txt')) {
-            echo '<link type="text/plain" rel="author" href="' . $nuke_url . '/humans.txt" />';
-        }
+        //if (file_exists('humans.txt')) {
+        //    echo '<link type="text/plain" rel="author" href="' . $nuke_url . '/humans.txt" />';
+        //}
 
-        echo '<link href="backend.php?op=RSS0.91" title="' . $sitename . ' - RSS 0.91" rel="alternate" type="text/xml" />
-        <link href="backend.php?op=RSS1.0" title="' . $sitename . ' - RSS 1.0" rel="alternate" type="text/xml" />
-        <link href="backend.php?op=RSS2.0" title="' . $sitename . ' - RSS 2.0" rel="alternate" type="text/xml" />
-        <link href="backend.php?op=ATOM" title="' . $sitename . ' - ATOM" rel="alternate" type="application/atom+xml" />';
+        //echo '<link href="backend.php?op=RSS0.91" title="' . $sitename . ' - RSS 0.91" rel="alternate" type="text/xml" />
+        //<link href="backend.php?op=RSS1.0" title="' . $sitename . ' - RSS 1.0" rel="alternate" type="text/xml" />
+        //<link href="backend.php?op=RSS2.0" title="' . $sitename . ' - RSS 2.0" rel="alternate" type="text/xml" />
+        //<link href="backend.php?op=ATOM" title="' . $sitename . ' - ATOM" rel="alternate" type="application/atom+xml" />';
 
         // Tiny_mce
-        if ($tiny_mce_init) {
-            echo Editeur::affEditeur('tiny_mce', 'begin');
-        }
+        //Editeur::start()
 
         // include externe JAVASCRIPT file from modules/include or themes/.../include for functions, codes in the <body onload="..." event...
         $body_onloadH = '
@@ -587,66 +609,54 @@ class Theme
             //]]>
         </script>';
 
-        if (file_exists('themes/base/bootstrap/body_onload.php')) {
+        if (file_exists('themes/Base/Bootstrap/body_onload.php')) {
             echo $body_onloadH;
-            include 'themes/base/bootstrap/body_onload.php';
+            include 'themes/Base/Bootstrap/body_onload.php';
             echo $body_onloadF;
         }
 
-        if (file_exists('themes/' . $tmp_theme . '/bootstrap/body_onload.php')) {
+        if (file_exists('themes/' . $tmp_theme . '/Bootstrap/body_onload.php')) {
             echo $body_onloadH;
-            include 'themes/' . $tmp_theme . '/bootstrap/body_onload.php';
+            include 'themes/' . $tmp_theme . '/Bootstrap/body_onload.php';
             echo $body_onloadF;
         }
+
+        // deprecated file : 
+        // themes/Base/Bootstrap/header_head.php
+        // themes/' . $tmp_theme . '/Bootstrap/header_head.php
+
 
         // include externe file from themes/base/bootstrap/ || themes/.../bootstrap/ for functions, codes ... - skin motor
-        if (file_exists('themes/base/bootstrap/header_head.php')) {
+        //if (file_exists('themes/Base/Bootstrap/header_head.php')) {
+        //
+        //    ob_start();
+        //    include 'themes/Base/Bootstrap/header_head.php';
+        //    $hH = ob_get_contents();
+        //    ob_end_clean();
+        //
+        //    if ($skin != '' and substr($tmp_theme, -3) == '_sk') {
+        //        $hH = str_replace('assets/shared/bootstrap/dist/css/bootstrap.min.css', 'assets/skins/' . $skin . '/bootstrap.min.css', $hH);
+        //        $hH = str_replace('assets/shared/bootstrap/dist/css/extra.css', 'assets/skins/' . $skin . '/extra.css', $hH);
+        //    }
+        //
+        //    echo $hH;
+        //}
 
-            ob_start();
-            include 'themes/base/bootstrap/header_head.php';
-            $hH = ob_get_contents();
-            ob_end_clean();
+        //if (file_exists('themes/' . $tmp_theme . '/Bootstrap/header_head.php')) {
+        //    include 'themes/' . $tmp_theme . '/Bootstrap/header_head.php';
+        //}
 
-            if ($skin != '' and substr($tmp_theme, -3) == '_sk') {
-                $hH = str_replace('assets/shared/bootstrap/dist/css/bootstrap.min.css', 'assets/skins/' . $skin . '/bootstrap.min.css', $hH);
-                $hH = str_replace('assets/shared/bootstrap/dist/css/extra.css', 'assets/skins/' . $skin . '/extra.css', $hH);
-            }
-
-            echo $hH;
-        }
-
-        if (file_exists('themes/' . $tmp_theme . '/bootstrap/header_head.php')) {
-            include 'themes/' . $tmp_theme . '/bootstrap/header_head.php';
-        }
+        //global $css_pages_ref, $css, $js;
 
         echo Css::importCss($tmp_theme, $language, '', $css_pages_ref, $css);
 
         // Mod by Jireck - Chargeur de JS via PAGES.PHP
-        if ($js) {
-            if (is_array($js)) {
-                foreach ($js as $k => $tab_js) {
-                    if (stristr($tab_js, 'http://') || stristr($tab_js, 'https://')) {
-                        echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
-                    } else {
-                        if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $tab_js) and ($tab_js != '')) {
-                            echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $tab_js . '"></script>';
-                        } elseif (file_exists("$tab_js") and ($tab_js != "")) {
-                            echo '<script type="text/javascript" src="' . $tab_js . '"></script>';
-                        }
-                    }
-                }
-            } else {
-                if (file_exists('themes/' . $tmp_theme . '/assets/js/' . $js)) {
-                    echo '<script type="text/javascript" src="themes/' . $tmp_theme . '/assets/js/' . $js . '"></script>';
-                } elseif (file_exists($js)) {
-                    echo '<script type="text/javascript" src="' . $js . '"></script>';
-                }
-            }
-        }
+        // PageRef::js();
 
-        echo '</head>';
 
-        include 'themes/' . $tmp_theme . '/views/header.php';
+        //echo '</head>';
+
+        //include THEME_PATH . $tmp_theme . '/Views/layouts/header.php';
     }
 
     // function a revoir suite a suppression des global !
@@ -674,39 +684,39 @@ class Theme
 
     function foot()
     {
-        global $user, $Default_Theme, $cookie9; // global a revoir !
+        //global $user, $Default_Theme, $cookie9; // global a revoir !
+        //
+        //if ($user) {
+        //    $cookie = explode(':', base64_decode($user));
+        //
+        //    if ($cookie[9] == '') {
+        //        $cookie[9] = $Default_Theme;
+        //    }
+        //
+        //    $ibix = explode('+', urldecode($cookie[9]));
+        //
+        //    if (!@opendir(THEME_PATH . $ibix[0])) {
+        //        $theme = $Default_Theme;
+        //    } else {
+        //        $theme = $ibix[0];
+        //    }
+        //} else {
+        //    $theme = $Default_Theme;
+        //}
 
-        if ($user) {
-            $cookie = explode(':', base64_decode($user));
+        // include 'themes/' . $theme . '/Views/footer.php';
 
-            if ($cookie[9] == '') {
-                $cookie[9] = $Default_Theme;
-            }
-
-            $ibix = explode('+', urldecode($cookie[9]));
-
-            if (!@opendir('themes/' . $ibix[0])) {
-                $theme = $Default_Theme;
-            } else {
-                $theme = $ibix[0];
-            }
-        } else {
-            $theme = $Default_Theme;
-        }
-
-        include 'themes/' . $theme . '/views/footer.php';
-
-        if ($user) {
-            $cookie9 = $ibix[0];
-        }
+        // if ($user) {
+        //     $cookie9 = $ibix[0];
+        // }
     }
 
     function footer_after($theme)
     {
-        if (file_exists($path_theme = 'themes/' . $theme . '/bootstrap/footer_after.php')) {
+        if (file_exists($path_theme = 'themes/' . $theme . '/Bootstrap/footer_after.php')) {
             include $path_theme;
         } else {
-            if (file_exists($path_module = 'themes/base/bootstrap/footer_after.php')) {
+            if (file_exists($path_module = 'themes/Base/Bootstrap/footer_after.php')) {
                 include $path_module;
             }
         }
@@ -714,7 +724,7 @@ class Theme
 
     function footer_before()
     {
-        if (file_exists($path_module = 'themes/base/bootstrap/footer_before.php')) {
+        if (file_exists($path_module = 'themes/Base/Bootstrap/footer_before.php')) {
             include $path_module;
         }
     }

@@ -4,15 +4,37 @@ namespace App\Library\Download;
 
 use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\auth\Auth;
-use App\Library\Date\Date;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
+use App\Support\Sanitize;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\Language;
 
 
 class Download
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Génère le bloc HTML pour les fichiers les plus téléchargés ou les derniers téléchargements.
      *
@@ -24,7 +46,7 @@ class Download
      * @param string $ordre Critère d'ordre : 'dcounter' ou 'ddate'
      * @return string HTML du bloc de téléchargement
      */
-    public static function topDownloadData(string $form, string $ordre): string
+    public function topDownloadData(string $form, string $ordre): string
     {
         global $long_chain; // dans theme a revoir !
 

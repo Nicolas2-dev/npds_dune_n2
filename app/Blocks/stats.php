@@ -1,8 +1,9 @@
 <?php
 
-use App\Library\String\Sanitize;
-use App\Library\Stat\Stat;
-use App\Library\Theme\Theme;
+use App\Support\Sanitize;
+use App\Support\Facades\Stat;
+use App\Support\Facades\Theme;
+
 
 if (! function_exists('Site_Activ')) {
     #autodoc:<Mainfile.php>

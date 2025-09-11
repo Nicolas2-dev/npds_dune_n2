@@ -1,7 +1,5 @@
 <?php
 
-use App\Library\Language\Language;
-
 /************************************************************************/
 /* SFORM Extender for NPDS USER                                         */
 /* ===========================                                          */
@@ -37,6 +35,8 @@ use App\Library\Language\Language;
    ==> Le nom des champs (C1, C2, M1, T1 ...) est IMPERATIF
    ==> un formulaire valide doit contenir au moins C1 ou M1 ou T1
 */
+
+use App\Support\Facades\Language;
 
 if (!isset($C1)) {
     $C1 = '';

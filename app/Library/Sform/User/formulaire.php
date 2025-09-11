@@ -12,9 +12,9 @@
 /* Dont modify this file if you dont know what you do                   */
 /************************************************************************/
 
-use App\Library\Assets\Js;
-use App\Library\Theme\Theme;
-use App\Library\Language\Language;
+use App\Support\Facades\Js;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
 
 $m->addTitle(translate('Inscription'));
 

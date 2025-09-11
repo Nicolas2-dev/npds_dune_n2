@@ -9,13 +9,34 @@ class Access
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Affiche la page d'accès refusé et termine l'exécution.
      *
      * @return void
      */
-    public static function accessDenied(): void
+    public function accessDenied(): void
     {
-        static:: adminDie();
+        $this->adminDie();
     }
 
     /**
@@ -27,7 +48,7 @@ class Access
      *
      * @return void Ne retourne rien, termine le script avec die().
      */
-    public static function adminDie(): void
+    public function adminDie(): void
     {
         if (file_exists('storage/meta/meta.php')) {
 
@@ -77,7 +98,7 @@ class Access
      *
      * @return void Cette fonction ne retourne rien et termine le script
      */
-    public static function AdminAlert(string $motif): void
+    public function AdminAlert(string $motif): void
     {
         global $admin;
 

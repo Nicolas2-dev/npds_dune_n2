@@ -15,7 +15,7 @@
 /* the Free Software Foundation; either version 3 of the License.       */
 /************************************************************************/
 
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Code\Code;
 use App\Library\Date\Date;
 use App\Library\Spam\Spam;

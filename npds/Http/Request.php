@@ -161,6 +161,45 @@ class Request
     }
 
     /**
+     * Retourne le schéma de la requête (http ou https)
+     *
+     * @return string
+     */
+    public function scheme(): string
+    {
+        // Si derrière un proxy, vérifier HTTP_X_FORWARDED_PROTO
+        if (!empty($this->server['HTTP_X_FORWARDED_PROTO'])) {
+            return strtolower($this->server['HTTP_X_FORWARDED_PROTO']);
+        }
+
+        return strtolower($this->server['REQUEST_SCHEME'] ?? 'http');
+    }
+
+    /**
+     * Retourne le host de la requête
+     *
+     * @return string
+     */
+    public function host(): string
+    {
+        return $this->server['HTTP_HOST'] ?? 'localhost';
+    }
+
+    /**
+     * Retourne l'URL complète (ex: https://example.com/path?query=1)
+     *
+     * @return string
+     */
+    public function url(): string
+    {
+        $scheme = $this->scheme();
+        $host   = $this->host();
+        $uri    = $this->server['REQUEST_URI'] ?? '/';
+
+        return $scheme . '://' . $host . $uri;
+    }
+
+    /**
      * Retourne l'adresse IP du client
      *
      * @return string

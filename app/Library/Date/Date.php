@@ -4,12 +4,34 @@ namespace App\Library\Date;
 
 use IntlDateFormatter;
 use Npds\Config\Config;
-use App\Library\Language\Language;
+use App\Support\Facades\Language;
 
 
 class Date
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Détermine si c'est actuellement le jour ou la nuit.
      * Se base sur l'heure de lever et de coucher du soleil définies dans les variables globales `$lever` et `$coucher`.
@@ -18,7 +40,7 @@ class Date
      * @global string $coucher Heure de coucher du soleil (format accepté par strtotime)
      * @return string 'Jour' si l'heure actuelle est entre le lever et le coucher, 'Nuit' sinon
      */
-    public static function nightDay(): string
+    public function nightDay(): string
     {
         $lever   =  Config::get('date.lever');
         $coucher = Config::get('date.coucher');
@@ -41,7 +63,7 @@ class Date
      * @param string     $timezone    Fuseau horaire à utiliser (default: 'Europe/Paris')
      * @return string   Date formatée avec première lettre en majuscule et encodage HTML
      */
-    public static function formatTimes(
+    public function formatTimes(
         int|string  $time,
         int         $dateStyle = IntlDateFormatter::SHORT,
         int         $timeStyle = IntlDateFormatter::NONE,
@@ -72,7 +94,7 @@ class Date
      * @param string     $timezone   Fuseau horaire à utiliser (default: 'Europe/Paris')
      * @return string   Date formatée avec première lettre en majuscule et encodage HTML
      */
-    public static function getPartOfTime(
+    public function getPartOfTime(
         int|string  $time,
         string      $format,
         string      $timezone = 'Europe/Paris'

@@ -7,6 +7,28 @@ class Paginator
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Retourne un bloc de pagination basé sur le numéro de page courant.
      *
      * @param string $url URL de base pour les liens de pagination
@@ -18,7 +40,7 @@ class Paginator
      * @param int $start Index de départ (non utilisé ici)
      * @return string Bloc HTML de pagination
      */
-    public static function paginateSingle(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
+    public function paginateSingle(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
         // page précédente
         $prev = $current - 1; 
@@ -132,7 +154,7 @@ class Paginator
      * @param int $start Index de départ (offset)
      * @return string Bloc HTML de pagination
      */
-    public static function paginate(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
+    public function paginate(string $url, string $urlmore, int $total, int $current, int $adj, int $topics_per_page, int $start): string
     {
         // page précédente
         $prev = $start - $topics_per_page; 

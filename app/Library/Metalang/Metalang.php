@@ -2,9 +2,9 @@
 
 namespace App\Library\Metalang;
 
-use App\Library\Code\Code;
-use App\Library\Theme\Theme;
-use App\Library\Security\Hack;
+use App\Support\Facades\Code;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
 use App\Library\Cache\SuperCacheEmpty;
 use App\Library\Cache\SuperCacheManager;
 
@@ -13,13 +13,35 @@ class Metalang
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Filtre un argument passé aux requêtes SQL.
      * Cette fonction est automatiquement appelée par META-LANG lors du passage de paramètres.
      *
      * @param string $arg L'argument à filtrer.
      * @return string L'argument filtré.
      */
-    public static function argFilter(string $arg): string
+    public function argFilter(string $arg): string
     {
         return Hack::removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
@@ -31,9 +53,9 @@ class Metalang
      * @param string $ibid Nom ou identifiant de l'image.
      * @return string|false Code HTML de l'image ou false si l'image n'existe pas.
      */
-    public static function MM_img(string $ibid): string|false
+    public function MM_img(string $ibid): string|false
     {
-        $ibid = static::argFilter($ibid);
+        $ibid = $this->argFilter($ibid);
         $ibidX = Theme::themeImage($ibid);
 
         if ($ibidX) {
@@ -57,11 +79,11 @@ class Metalang
      * @param array|mixed $arguments Les arguments à passer à la fonction.
      * @return mixed Le résultat de l'exécution de la fonction.
      */
-    public static function charg(callable $funct, mixed $arguments): mixed
+    public function charg(callable $funct, mixed $arguments): mixed
     {
         if (is_array($arguments)) {
 
-            array_walk($arguments, [static::class, 'argFilter']);
+            array_walk($arguments, [self::class, 'argFilter']);
 
             $nbr = count($arguments);
 
@@ -105,7 +127,7 @@ class Metalang
         return $cmd;
     }
 
-    public static function matchUri($racine, $R_uri)
+    public function matchUri($racine, $R_uri)
     {
         $tab_uri = explode(' ', $R_uri);
 
@@ -128,11 +150,11 @@ class Metalang
      *
      * @return array Glossaire des meta-langues
      */
-    public static function chargMetalang(): array
+    public function chargMetalang(): array
     {
         global $SuperCache, $CACHE_TIMINGS, $REQUEST_URI; // global + supercache a revoir !
 
-        if ($SuperCache) {
+       /* if ($SuperCache) {
             $racine = parse_url(basename($REQUEST_URI));
 
             $cache_clef = '[metalang]==>' . $racine['path'] . '.common';
@@ -145,7 +167,7 @@ class Metalang
         }
 
         if (($cache_obj->genereting_output == 1) || ($cache_obj->genereting_output == -1) || (!$SuperCache)) {
-
+*/
             settype($glossaire, 'array');
 
             $result = sql_query("SELECT def, content, type_meta, type_uri, uri 
@@ -163,7 +185,10 @@ class Metalang
                 // => Exemples : index.php user.php forum.php static.php
 
                 if ($uri != '') {
-                    $match = static::matchUri($racine['path'], $uri);
+
+                    $racine = parse_url(basename($REQUEST_URI));
+
+                    $match = $this->matchUri($racine['path'], $uri);
 
                     if (($match and $type_uri == '+') or (!$match and $type_uri == '-')) {
                         $glossaire[$def]['content'] = $content;
@@ -174,11 +199,11 @@ class Metalang
                     $glossaire[$def]['type'] = $type_meta;
                 }
             }
-        }
+       /* }
 
         if ($SuperCache) {
             $cache_obj->endCachingObjet($cache_clef, $glossaire);
-        }
+        }*/
 
         return $glossaire;
     }
@@ -190,7 +215,7 @@ class Metalang
      *
      * @return array Liste des arguments analysés
      */
-    public static function anaArgs(string $arg): array
+    public function anaArgs(string $arg): array
     {
         if (substr($arg, -1) == "\"") {
             $arguments[0] = str_replace("\"", '', $arg);
@@ -214,7 +239,7 @@ class Metalang
      *
      * @return string Contenu transformé avec les meta-langues appliquées
      */
-    public static function metaLang(string $Xcontent): string
+    public function metaLang(string $Xcontent): string
     {
         global $meta_glossaire, $admin, $NPDS_debug, $NPDS_debug_str, $NPDS_debug_cycle; // global a revoir !
 
@@ -275,7 +300,7 @@ class Metalang
                             $op = 2;
                             $Rword = substr($word, 0, $ibid);
                             $arg = substr($word, $ibid + 1, strlen($word) - ($ibid + 2));
-                            $arguments = static::anaArgs($arg);
+                            $arguments = $this->anaArgs($arg);
                         } else {
                             $op = 1;
                             $Rword = substr($word, 0, -1);
@@ -329,7 +354,7 @@ class Metalang
                     if ($car_meta) {
                         $Rword = substr($Cword, 1, $car_meta - 1);
                         $arg = substr($Cword, $car_meta + 1);
-                        $arguments = static::anaArgs($arg);
+                        $arguments = $this->anaArgs($arg);
 
                         if (array_key_exists('!' . $Rword . '!', $meta_glossaire)) {
                             $Cword = $meta_glossaire['!' . $Rword . '!']['content'];
@@ -360,7 +385,7 @@ class Metalang
                             @eval($Cword);
                         }
 
-                        $Cword = static::charg($Rword, $arguments);
+                        $Cword = $this->charg($Rword, $arguments);
                         $Rword = $word;
                     }
                 }

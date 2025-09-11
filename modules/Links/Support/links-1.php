@@ -18,7 +18,7 @@
 use App\Library\Log\Log;
 use App\Library\Url\Url;
 use App\Library\String\Sanitize;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Spam\Spam;
 use App\Library\Security\Hack;
 use App\Library\Editeur\Editeur;
@@ -273,7 +273,7 @@ function Add($title, $url, $name, $cat, $description, $email, $topicL, $asb_ques
 
     $title = Hack::removeHack(stripslashes(Sanitize::fixQuotes($title)));
     $url = Hack::removeHack(stripslashes(Sanitize::fixQuotes($url)));
-    $description = Base64Image::dataImageToFileUrl($description, 'modules/upload/storage/lindes');
+    $description = data_image_to_file_url($description, 'modules/upload/storage/lindes');
     $description = Hack::removeHack(stripslashes(Sanitize::fixQuotes($description)));
     $name = Hack::removeHack(stripslashes(Sanitize::fixQuotes($name)));
     $email = Hack::removeHack(stripslashes(Sanitize::fixQuotes($email)));

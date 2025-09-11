@@ -3,15 +3,37 @@
 namespace App\Library\User;
 
 use Npds\Config\Config;
-use App\Library\Auth\Auth;
-use App\Library\Spam\Spam;
-use App\Library\Forum\Forum;
-use App\Library\Theme\Theme;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
 
 
 class User
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Génère un avatar ou un popover utilisateur.
      *
@@ -24,7 +46,7 @@ class User
      * @param int $avpop Mode d'affichage : 1 pour avatar seul, 2 pour popover.
      * @return string|null HTML de l'avatar ou du popover, ou null si l'utilisateur n'existe pas.
      */
-    public static function userPopover(string $who, int $dim, int $avpop): ?string
+    public function userPopover(string $who, int $dim, int $avpop): ?string
     {
         global $user; // global a revoir !
 
@@ -47,8 +69,8 @@ class User
 
                     $posterdata_extend = Forum::getUserDataExtendFromId($temp_user['uid']);
 
-                    include 'modules/reseaux-sociaux/config/config.php';
-                    include 'modules/geoloc/config/config.php';
+                    include module_path('reseaux-sociaux/config/config.php');
+                    include module_path('geoloc/config/config.php');
 
                     if ($user or Auth::autorisation(-127)) {
                         if ($posterdata_extend['M2'] != '') {
@@ -147,5 +169,4 @@ class User
 
         return null;
     }
-
 }

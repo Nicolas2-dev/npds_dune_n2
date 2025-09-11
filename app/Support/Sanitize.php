@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\String;
+namespace App\Support;
 
 
 class Sanitize

@@ -16,7 +16,7 @@
 
 use App\Library\Log\Log;
 use App\Library\Url\Url;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Code\Code;
 use App\Library\Date\Date;
 use App\Library\Spam\Spam;

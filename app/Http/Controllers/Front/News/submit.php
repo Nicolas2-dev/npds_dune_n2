@@ -16,7 +16,7 @@
 use App\Library\Log\Log;
 use App\Library\Url\Url;
 use App\Library\String\Sanitize;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Code\Code;
 use App\Library\News\News;
 use App\Library\Spam\Spam;
@@ -159,8 +159,8 @@ function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_p
 
     include 'header.php';
 
-    $story      = stripslashes(Base64Image::dataImageToFileUrl($story, 'cache/ai'));
-    $bodytext   = stripslashes(Base64Image::dataImageToFileUrl($bodytext, 'cache/ac'));
+    $story      = stripslashes(data_image_to_file_url($story, 'cache/ai'));
+    $bodytext   = stripslashes(data_image_to_file_url($bodytext, 'cache/ac'));
     $subject    = stripslashes(str_replace('"', '&quot;', (strip_tags($subject))));
 
     echo '<h2>' . translate('Proposer un article') . '</h2>
@@ -287,8 +287,8 @@ function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_fi
         }
     }
 
-    $story      = Base64Image::dataImageToFileUrl($story, 'cache/ai');
-    $bodytext   = Base64Image::dataImageToFileUrl($bodytext, 'cache/ac');
+    $story      = data_image_to_file_url($story, 'cache/ai');
+    $bodytext   = data_image_to_file_url($bodytext, 'cache/ac');
 
     $subject    = Hack::removeHack(stripslashes(Sanitize::fixQuotes(str_replace("\"", "&quot;", (strip_tags($subject))))));
     $story      = Hack::removeHack(stripslashes(Sanitize::fixQuotes($story)));

@@ -2,11 +2,31 @@
 
 namespace App\Library\Assets;
 
-use App\Library\Page\PageRef;
-
 
 class Css
 {
+
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
 
     /**
      * Recherche et génère les balises <link> pour inclure les fichiers CSS.
@@ -26,7 +46,7 @@ class Css
      *
      * @return string HTML des balises <link> pour les fichiers CSS
      */
-    public static function importCssJavascript(
+    public function importCssJavascript(
         string $tmp_theme,
         string $language,
         string $fw_css,
@@ -82,13 +102,13 @@ class Css
      *
      * @return string HTML des balises <link> avec double quotes
      */
-    public static function importCss(
+    public function importCss(
         string $tmp_theme,
         string $language,
         string $fw_css,
         ?string $css_pages_ref = '',
         ?string $css = ''
     ): string {
-        return str_replace("'", "\"", static::importCssJavascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
+        return str_replace("'", "\"", $this->importCssJavascript($tmp_theme, $language, $fw_css, $css_pages_ref, $css));
     }
 }

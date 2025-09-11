@@ -17,7 +17,7 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Security\Hack;
 use App\Library\Language\Language;
 

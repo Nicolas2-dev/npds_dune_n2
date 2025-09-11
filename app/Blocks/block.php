@@ -1,8 +1,9 @@
 <?php
 
-use App\Library\Theme\Theme;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
+use App\Support\Sanitize;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+
 
 if (! function_exists('mainblock')) {
     #autodoc mainblock() : Bloc principal <br />=> syntaxe : function#mainblock

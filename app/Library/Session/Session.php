@@ -2,12 +2,34 @@
 
 namespace App\Library\Session;
 
-use App\Library\Http\Request;
+use Npds\Support\Facades\Request;
 
 
 class Session
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Met à jour la table des sessions pour l'utilisateur actuel ou invité.
      *
@@ -20,7 +42,7 @@ class Session
      *
      * @return void
      */
-    public static function sessionManage(): void
+    public function sessionManage(): void
     {
         global $cookie, $REQUEST_URI; // global a revoir !
 

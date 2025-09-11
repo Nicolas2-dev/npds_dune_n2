@@ -1,9 +1,10 @@
 <?php
 
-use App\Library\Assets\Js;
-use App\Library\Theme\Theme;
-use App\Library\Online\Online;
-use App\Library\Language\Language;
+use App\Support\Facades\Js;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Online;
+use App\Support\Facades\Language;
+
 
 if (! function_exists('instant_members_message')) {
     #autodoc:<Powerpack_f.php>

@@ -1,4 +1,6 @@
 <?php
+
+use App\Library\Language\Language;
 /* Do not change anything in this file manually. Use the administration interface. */
 /* généré le : 31-10-2024 15:31:17 */
 global $nuke_url;

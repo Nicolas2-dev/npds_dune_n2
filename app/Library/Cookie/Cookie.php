@@ -7,12 +7,33 @@ class Cookie
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Décode le cookie membre et vérifie certaines informations (ex. mot de passe).
      *
      * @param string $user Valeur du cookie à décoder
      * @return mixed Données décodées du cookie ou false si invalide
      */
-    public static function cookieDecode(string $user): ?array
+    public function cookieDecode(string $user): ?array
     {
         global $language;
 

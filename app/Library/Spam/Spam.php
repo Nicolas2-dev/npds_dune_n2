@@ -2,14 +2,36 @@
 
 namespace App\Library\Spam;
 
-use App\Library\Http\Request;
-use App\Library\Access\Access;
-use App\Library\Encryption\Encrypter;
+use App\Support\Facades\Access;
+use Npds\Support\Facades\Request;
+use App\Support\Facades\Encrypter;
 
 
 class Spam
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Vérifie si l'adresse IP actuelle est bannie dans le log anti-spam.
      *
@@ -17,7 +39,7 @@ class Spam
      * @param int $threshold Nombre de tentatives KO avant blocage.
      * @return void
      */
-    public static function checkIP(string $logPath = 'logs/spam.log', int $threshold = 5): void
+    public function checkIP(string $logPath = 'logs/spam.log', int $threshold = 5): void
     {
         $logPath = STORAGE_PATH . $logPath;
 
@@ -66,7 +88,7 @@ class Spam
      *
      * @return string HTML du champ de formulaire
      */
-    public static function questionSpambot(): string
+    public function questionSpambot(): string
     {
         // Idée originale, développement et intégration - Gérald MARINO alias neo-machine
         // Rajout brouillage antiSpam() : David MARTINET, alias Boris (2011)
@@ -135,7 +157,7 @@ class Spam
         if (function_exists('imagepng')) {
             $aff = "<img src=\"getfile.php?att_id=" . rawurlencode(Encrypter::encrypt($aff . " = ")) . "&amp;apli=captcha\" style=\"vertical-align: middle;\" />";
         } else {
-            $aff = static::antiSpam($aff . ' = ', 0);
+            $aff = $this->antiSpam($aff . ' = ', 0);
         }
 
         $tmp = '';
@@ -165,7 +187,7 @@ class Spam
      * @param string $status Statut à appliquer : 'true' = pas de log, 'false' = log+1, 'ban' = ban IP
      * @return void
      */
-    public static function logSpambot(string $ip, string $status): void
+    public function logSpambot(string $ip, string $status): void
     {
         $cpt_sup = 0;
         $maj_fic = false;
@@ -237,7 +259,7 @@ class Spam
      * @param string $message Contenu du message à vérifier
      * @return bool True si validé, false sinon
      */
-    public static function reponseSpambot(string $asb_question, string $asb_reponse, string $message = ''): bool
+    public function reponseSpambot(string $asb_question, string $asb_reponse, string $message = ''): bool
     {
         global $user, $REQUEST_METHOD; // global a revoir !
 
@@ -267,26 +289,26 @@ class Spam
                     preg_match_all('#http://#', $message, $regs);
 
                     if (count($regs[0]) > 2) {
-                        static::logSpambot('', 'false');
+                        $this->logSpambot('', 'false');
 
                         return false;
                     } else {
-                        static::logSpambot('', 'true');
+                        $this->logSpambot('', 'true');
 
                         return true;
                     }
                 } else {
-                    static::logSpambot('', 'false');
+                    $this->logSpambot('', 'false');
 
                     return false;
                 }
             } else {
-                static::logSpambot('', 'true');
+                $this->logSpambot('', 'true');
 
                 return true;
             }
         } else {
-            static::logSpambot('', 'false');
+            $this->logSpambot('', 'false');
 
             return false;
         }
@@ -298,10 +320,10 @@ class Spam
      * @param string $ibid Chaine à encoder
      * @return string Chaine encodée pour mailto
      */
-    public static function pregAntiSpam(string $ibid): string
+    public function pregAntiSpam(string $ibid): string
     {
         // Adaptation - David MARTINET alias Boris (2011)
-        return "<a href=\"mailto:" . static::antiSpam($ibid, 1) . "\" target=\"_blank\">" . static::antiSpam($ibid, 0) . "</a>";
+        return "<a href=\"mailto:" . $this->antiSpam($ibid, 1) . "\" target=\"_blank\">" . $this->antiSpam($ibid, 0) . "</a>";
     }
 
     /**
@@ -311,7 +333,7 @@ class Spam
      * @param int $highcode 0 = mix simple, 1 = codage ASCII pour mailto/URL
      * @return string Chaine encodée
      */
-    public static function antiSpam(string $str, int $highcode = 0): string
+    public function antiSpam(string $str, int $highcode = 0): string
     {
         // Idée originale : Pomme (2004). Nouvelle version : David MARTINET alias Boris (2011)
         $str_encoded = "";

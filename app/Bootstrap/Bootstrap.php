@@ -165,6 +165,21 @@ if (!empty($_FILES)) {
 
 /*
 |--------------------------------------------------------------------------
+| Compression Gzip
+|--------------------------------------------------------------------------
+|
+| Active la compression Gzip si elle est autorisée dans la config
+| et que l’environnement le permet.
+|
+*/
+
+// Compression Gzip (si dispo et pas déjà activée)
+if (Config::get('app.gzhandler') === 1 && !headers_sent() && extension_loaded('zlib') && !ini_get('zlib.output_compression')) {
+    ob_start('ob_gzhandler');
+}
+
+/*
+|--------------------------------------------------------------------------
 | Load language a revoir ! va être déprécié !
 |--------------------------------------------------------------------------
 |
@@ -212,7 +227,7 @@ if (isset($user)) {
 |
 */
 
-Session::sessionManage();
+//Session::sessionManage();
 
 /*
 |--------------------------------------------------------------------------

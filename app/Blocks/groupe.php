@@ -1,8 +1,9 @@
 <?php
 
-use App\Library\auth\Auth;
-use App\Library\Theme\Theme;
-use App\Library\Groupe\Groupe;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+
 
 if (! function_exists('bloc_espace_groupe')) {
     #autodoc espace_groupe() : Bloc du WorkSpace <br />=> syntaxe :<br />function#bloc_espace_groupe<br />params#ID_du_groupe, Aff_img_groupe(0 ou 1) / Si le bloc n'a pas de titre, Le nom du groupe sera utilisé

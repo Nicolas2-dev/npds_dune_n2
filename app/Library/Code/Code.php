@@ -7,6 +7,27 @@ class Code
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+
+    /**
      * Convertit les pseudo-balises [code]...[/code] et leur contenu en HTML.
      *
      * Cette fonction est utilisée comme callback pour `preg_replace_callback()`.
@@ -19,7 +40,7 @@ class Code
      *                       - [5] : contenu du code
      * @return string HTML généré pour le bloc de code
      */
-    public static function changeCode(array $matches): string
+    public function changeCode(array $matches): string
     {
         return '<' . $matches[2] . ' class="language-' . $matches[3] . '">' .
             htmlentities($matches[5], ENT_COMPAT | ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8') .
@@ -34,11 +55,11 @@ class Code
      * @param bool|null $convertNewlines Indique si les sauts de ligne doivent être convertis en <br />. Par défaut false.
      * @return string Chaîne transformée avec les balises [code] converties en HTML
      */
-    public static function afCode(string $content, ?bool $convertNewlines = false): string
+    public function afCode(string $content, ?bool $convertNewlines = false): string
     {
         $pattern = '#(\[)(\w+)\s+([^\]]*)(\])(.*?)\1/\2\4#s';
 
-        $content = preg_replace_callback($pattern, [static::class, 'changeCode'], $content, -1, $count);
+        $content = preg_replace_callback($pattern, [self::class, 'changeCode'], $content, -1, $count);
 
         if ($convertNewlines) {
             $content = nl2br($content);
@@ -54,7 +75,7 @@ class Code
      * @param string $content Contenu à analyser
      * @return string Contenu avec les balises HTML converties en pseudo-balises
      */
-    public static function desafCode(string $content): string
+    public function desafCode(string $content): string
     {
         $pattern = '#(<)(\w+)\s+(class="language-)([^">]*)(">)(.*?)\1/\2>#';
 
@@ -76,7 +97,7 @@ class Code
      * @param string $content Contenu à analyser
      * @return string Contenu avec les balises [code] remplacées par du HTML coloré
      */
-    public static function affCode(string $content): string
+    public function affCode(string $content): string
     {
         $pasfin = true;
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Security\Hack;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -17,8 +19,6 @@
 /* dev team : Philippe Revilliod (Phr), A.NICOL                         */
 /************************************************************************/
 
-use App\Library\Http\Response;
-use App\Library\Security\Hack;
 
 #autodoc geoloc_refip : contrôle si l'ip est déjà dans la base et incrémentation du compteur de visite de l'ip <br /> ou choisi un fournisseur en fonction du protocol du site et des clefs disponibles et complète la table ip_loc. 
 
@@ -52,7 +52,7 @@ if ($controle != 0) {
     $nuke_url = config('app.url');
 
     if (strstr($nuke_url, 'https')) {
-        if (Response::fileContentsExist($file_path[0])) {
+        if (file_contents_exist($file_path[0])) {
 
             $loc = file_get_contents($file_path[0]);
             $loc_obj = json_decode($loc);
@@ -73,7 +73,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $api_key_ipdata != '') {
-            if (Response::fileContentsExist($file_path[1])) {
+            if (file_contents_exist($file_path[1])) {
 
                 $loc = file_get_contents($file_path[1]);
                 $loc_obj = json_decode($loc);
@@ -95,7 +95,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $key_lookup != '') {
-            if (Response::fileContentsExist($file_path[2])) {
+            if (file_contents_exist($file_path[2])) {
 
                 $loc = file_get_contents($file_path[2]);
                 $loc_obj = json_decode($loc);
@@ -112,7 +112,7 @@ if ($controle != 0) {
             }
         }
     } else if (strstr($nuke_url, 'http')) {
-        if (Response::fileContentsExist($file_path[3])) {
+        if (file_contents_exist($file_path[3])) {
 
             $loc = file_get_contents($file_path[3]);
             $loc_obj = json_decode($loc);
@@ -131,7 +131,7 @@ if ($controle != 0) {
         }
 
         if ($ibid === false and $key_lookup != '') {
-            if (Response::fileContentsExist($file_path[4])) {
+            if (file_contents_exist($file_path[4])) {
 
                 $loc = file_get_contents($file_path[4]);
                 $loc_obj = json_decode($loc);

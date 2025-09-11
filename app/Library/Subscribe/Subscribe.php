@@ -3,12 +3,34 @@
 namespace App\Library\Subscribe;
 
 use Npds\Config\Config;
-use App\Library\Mailer\Mailer;
+use App\Support\Facades\Mailer;
 
 
 class Subscribe
 {
 
+    /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
     /**
      * Assure l'envoi d'un mail pour un abonnement à un topic ou forum.
      *
@@ -19,7 +41,7 @@ class Subscribe
      * @param int|string $Xsauf ID de l'utilisateur à exclure de l'envoi
      * @return void
      */
-    public static function subscribeMail(
+    public function subscribeMail(
         string      $Xtype,
         int|string  $Xtopic,
         int|string  $Xforum,
@@ -116,7 +138,7 @@ class Subscribe
      * @param int|string $Xclef ID du topic ou du forum
      * @return bool True si l'utilisateur est abonné, false sinon
      */
-    public static function subscribeQuery(
+    public function subscribeQuery(
         int|string  $Xuser,
         string      $Xtype,
         int|string  $Xclef

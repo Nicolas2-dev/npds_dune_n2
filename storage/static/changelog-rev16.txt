@@ -44,7 +44,7 @@ Cette version est la première compatible avec php8 et mysql8.
 - bug track :
    nombreuses corrections : var $NPDS-PREFIX manquante, non globalisée ou globalisée inutilement. Ces erreurs impactaient surtout les sites à tables préfixée (requêtes sql défaillantes) 
    missing globalisation var $NPDS-PREFIX dans réseaux sociaux.
-   implémentation Base64Image::dataImageToFileUrl() dans les minisite
+   implémentation data_image_to_file_url() dans les minisite
    création du répertoire utilisateur (si n'existe pas) à partir de l'édition du journal utilisateur ...
    tarteaucitron NO gtag @ start (minisite et core)
    deux each oubliés dans filemanager.php et class.navigator.php

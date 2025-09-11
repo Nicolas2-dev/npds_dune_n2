@@ -14,7 +14,7 @@
 /************************************************************************/
 
 use App\Library\Url\Url;
-use App\Library\auth\Auth;
+use App\Library\Auth\Auth;
 use App\Library\Code\Code;
 use App\Library\Language\Language;
 use App\Library\Metalang\Metalang;

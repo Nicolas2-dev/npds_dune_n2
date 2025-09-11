@@ -7,6 +7,28 @@ class MediaPlayer
 {
 
     /**
+     * Instance singleton du dispatcher.
+     *
+     * @var self|null
+     */
+    protected static ?self $instance = null;
+
+
+    /**
+     * Retourne l'instance singleton du dispatcher.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (isset(static::$instance)) {
+            return static::$instance;
+        }
+
+        return static::$instance = new static();
+    }
+    
+    /**
      * Analyse un texte et remplace les shortcodes vidéo ([video_yt], [video_vm], [video_dm])
      * par des balises HTML d'intégration.
      *
@@ -14,7 +36,7 @@ class MediaPlayer
      *
      * @return string Contenu avec les vidéos intégrées
      */
-    public static function affVideoYt(string $ibid): string
+    public function affVideoYt(string $ibid): string
     {
         $videoprovider = array('yt', 'vm', 'dm');
 

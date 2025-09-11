@@ -1,9 +1,5 @@
 <?php
 
-use App\Library\Groupe\Groupe;
-use App\Library\Language\Language;
-use App\Library\Validation\Validation;
-
 /************************************************************************/
 /* SFORM Extender for NPDS USER                                         */
 /* ===========================                                          */
@@ -16,6 +12,10 @@ use App\Library\Validation\Validation;
 /************************************************************************/
 /* Dont modify this file iF you dont know what you make                 */
 /************************************************************************/
+
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 
 // quand un form est utilisé plusieurs fois dans des context différents add/mod/new les variables ne sont pas toujours defini ce qui entraine des notices php dans les if ...solution peu élégante mais efficace
 if (!isset($chng_uname)) {
