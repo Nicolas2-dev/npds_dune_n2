@@ -109,16 +109,6 @@ require APPPATH . 'Bootstrap' . DS . 'Bootstrap.php';
 
 /*
 |--------------------------------------------------------------------------
-| Load Events files.
-|--------------------------------------------------------------------------
-*/
-foreach (glob(APPPATH . 'Events/*.php') as $path) {
-    $key = lcfirst(pathinfo($path, PATHINFO_FILENAME));
-    require_once($path);
-}
-
-/*
-|--------------------------------------------------------------------------
 | Initialisation du routeur et chargement des routes.
 |--------------------------------------------------------------------------
 */

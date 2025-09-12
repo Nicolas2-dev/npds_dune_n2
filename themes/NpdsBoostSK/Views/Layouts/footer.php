@@ -83,6 +83,39 @@ switch ($pdst) {
         break;
 }
 
+$paths = [
+    "themes/{$theme}/Views/partials/footer/footer.php",
+    "themes/Base/Views/partials/footer/footer.php",
+];
+
+$rep = null;
+foreach ($paths as $path) {
+    if (is_readable($path)) {
+        $rep = $path;
+        break;
+    }
+}
+
+if (! $rep) {
+    die('footer.php manquant / not found !<br />');
+}
+
+ob_start();
+include $rep;
+$Xcontent = ob_get_clean();
+
+// ContainerGlobal permet de transmettre · Theme-Dynamic un élément de personnalisation après
+// le chargement de footer.html / Si vide alors rien de plus n'est affiché par TD
+$ContainerGlobal = '</div>';
+
+if (! empty($ContainerGlobal)) {
+    $Xcontent .= $ContainerGlobal;
+}
+
+//echo Metalang::metaLang(Language::affLangue($Xcontent));
+echo Language::affLangue($Xcontent);
+
+
 // Ne supprimez pas cette ligne / Don't remove this line
 // require_once 'themes/themes-dynamic/footer.php';
 //require_once 'themes/base/views/footer.php';

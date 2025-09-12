@@ -6,6 +6,7 @@ use Npds\View\View;
 use Npds\Http\Response;
 use BadMethodCallException;
 use Npds\Routing\Controller;
+use App\Support\Facades\Assets as AssetManager;
 
 class BaseController extends Controller
 {
@@ -62,6 +63,9 @@ class BaseController extends Controller
      */
     protected function before(): mixed
     {
+        // Assets Register
+        AssetManager::register();
+
         // Aucun traitement par défaut
         return null;
     }

@@ -55,6 +55,14 @@ class View
     protected static function resolvePath(string $view): string
     {
         // Si la vue commence par "modules/", c'est un module
+        if (str_starts_with($view, 'themes/')) {
+
+            $theme = explode('/', $view, 4);
+
+            return THEME_PATH . $theme[1] . DS .'Views' . DS . str_replace('/', DS, $theme[3]) . '.php';
+        }
+
+        // Si la vue commence par "modules/", c'est un module
         if (str_starts_with($view, 'modules/')) {
 
             $module = explode('/', $view, 3);
