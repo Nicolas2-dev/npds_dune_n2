@@ -1,5 +1,7 @@
 <?php
 
+use Npds\Support\Arr;
+use Npds\Support\Str;
 use Npds\Config\Config;
 use Npds\Exceptions\Http\HttpException;
 use System\Http\Exceptions\HttpRedirectException;
@@ -124,5 +126,79 @@ if (! function_exists('with'))
     function with($object)
     {
         return $object;
+    }
+}
+
+if (! function_exists('array_first'))
+{
+    /**
+     * Retourne le premier élément d'un tableau correspondant à un callback, ou une valeur par défaut.
+     *
+     * @param array $array Tableau à parcourir
+     * @param callable $callback Fonction de filtrage
+     * @param mixed $default Valeur par défaut si aucun élément ne correspond
+     * @return mixed
+     */
+    function array_first(array $array, callable $callback, mixed $default = null): mixed
+    {
+        return Arr::first($array, $callback, $default);
+    }
+}
+
+if (! function_exists('array_except'))
+{
+    /**
+     * Retourne un tableau en excluant certaines clés.
+     *
+     * @param array $array Tableau initial
+     * @param string|array $keys Clé(s) à exclure
+     * @return array
+     */
+    function array_except(array $array, string|array $keys): array
+    {
+        return Arr::except($array, $keys);
+    }
+}
+
+if (! function_exists('head'))
+{
+    /**
+     * Retourne le premier élément d'un tableau.
+     *
+     * @param array $array Tableau
+     * @return mixed
+     */
+    function head(array $array): mixed
+    {
+        return reset($array);
+    }
+}
+
+if (! function_exists('value'))
+{
+    /**
+     * Si l'argument est une closure, l'exécute et retourne le résultat ; sinon, retourne la valeur telle quelle.
+     *
+     * @param mixed $value Valeur ou closure
+     * @return mixed
+     */
+    function value(mixed $value): mixed
+    {
+        return $value instanceof Closure ? $value() : $value;
+    }
+}
+
+if (! function_exists('ends_with'))
+{
+    /**
+     * Vérifie si une chaîne se termine par une ou plusieurs sous-chaînes.
+     *
+     * @param string $haystack Chaîne à tester
+     * @param string|array $needles Sous-chaîne(s) recherchée(s)
+     * @return bool
+     */
+    function ends_with(string $haystack, string|array $needles): bool
+    {
+        return Str::endsWith($haystack, $needles);
     }
 }

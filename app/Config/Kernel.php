@@ -25,6 +25,7 @@ return [
         'Request'  => 'Npds\Support\Facades\Request',
         'Response' => 'Npds\Support\Facades\Response',
         'Route'    => 'Npds\Support\Facades\Route',
+        'Views'    => 'Npds\Support\Facades\Views',
 
         // App
 

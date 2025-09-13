@@ -5,6 +5,7 @@ namespace Npds\View;
 use BadMethodCallException;
 use Exception;
 
+// Deprecated une foi la new getion des vue finaliser !
 class View
 {
 

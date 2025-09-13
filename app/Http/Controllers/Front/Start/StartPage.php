@@ -8,6 +8,7 @@ use Npds\Config\Config;
 use App\Support\Facades\Auth;
 use App\Support\Facades\News;
 use App\Support\Facades\Edito;
+use Npds\Support\Facades\Views;
 use Npds\Support\Facades\Redirect;
 use Npds\Http\Response as HttpResponse;
 use App\Http\Controllers\Core\FrontBaseController;
@@ -34,14 +35,11 @@ class StartPage extends FrontBaseController
 
 
     /**
-     * Constructeur du contrôleur Home
-     *
-     * Permet d'initialiser le contrôleur, charger des services ou des middleware si nécessaire.
+     * Method executed before any action.
      */
-    public function __construct()
+    protected function initialize()
     {
-        //
-        parent::__construct();
+        parent::initialize();
     }
 
     /**
@@ -55,7 +53,7 @@ class StartPage extends FrontBaseController
      *
      * @return View|HttpResponse  Vue de la page d’accueil ou réponse de redirection.
      */
-    public function index(?string $start = null): View|HttpResponse
+    public function index(?string $start = null)
     {
         $Start_Page = Config::get('app.Start_Page');
 
@@ -68,6 +66,7 @@ class StartPage extends FrontBaseController
         $start = $start ? rtrim($start, '/') : '';
 
         if (in_array($start, self::ALLOWED_OP, true)) {
+
             return $this->theindex($start);
         } else {
             return Redirect::to($Start_Page);
@@ -81,9 +80,9 @@ class StartPage extends FrontBaseController
      * @param int|null $catid    Identifiant optionnel de catégorie (par défaut 0).
      * @param int|null $marqeur  Identifiant optionnel de marqueur (par défaut 0).
      *
-     * @return View   Instance de la vue générée pour l’index.
+     * @return   Instance de la vue générée pour l’index.
      */
-    private function theindex(string $start, ?int $catid = 0, ?int $marqeur = 0): View
+    private function theindex(string $start, ?int $catid = 0, ?int $marqeur = 0)
     {
         global $theme, $user;
 
@@ -147,6 +146,9 @@ class StartPage extends FrontBaseController
 
             return ob_get_clean();
         };
+
+        // test : provioire chargement d'une vue avec le nouveau systeme de vue !
+        //$test = Views::make('index');
 
         return $this->createView(['content' => $renderContent()], 'theindex')
             ->shares('title', 'Homepage');

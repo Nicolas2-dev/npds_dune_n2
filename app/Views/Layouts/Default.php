@@ -166,7 +166,7 @@ switch ($pdst) {
         break;
 }
 
-$content;
+echo $content;
 
 $moreclass = 'col-12';
 

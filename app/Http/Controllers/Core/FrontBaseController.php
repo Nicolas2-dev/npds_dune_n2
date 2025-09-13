@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Core;
 use Npds\View\View;
 use App\Support\Facades\Block;
 use App\Support\Facades\Theme;
+use Npds\Support\Facades\Views;
 use App\Http\Controllers\Core\BaseController;
 
 
@@ -19,14 +20,14 @@ class FrontBaseController extends BaseController
      *
      * Permet d'initialiser le contrôleur, charger des services ou des middleware si nécessaire.
      */
-    public function __construct()
+    protected function initialize()
     {
         //
-        View::share('theme', Theme::getTheme());
+        Views::share('theme', Theme::getTheme());
 
-        View::share('pdst',  Block::checkPdst($this->pdst));
+        Views::share('pdst',  Block::checkPdst($this->pdst));
 
-        parent::__construct();
+        parent::initialize();
     }
 
 

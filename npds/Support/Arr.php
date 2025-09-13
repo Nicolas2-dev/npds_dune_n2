@@ -6,13 +6,42 @@ class Arr
 {
     
     /**
-     * Récupère une valeur dans un tableau en utilisant une clé "dot notation".
+     * Supprime une ou plusieurs clés d'un tableau.
      *
-     * @param array       $array   Tableau à parcourir
-     * @param string|null $key     Clé à récupérer, peut être en notation "dot"
-     * @param mixed       $default Valeur par défaut si la clé n'existe pas
+     * @param array $array Tableau source
+     * @param string|array $keys Clé(s) à exclure
+     * @return array Tableau après suppression des clés
+     */
+    public static function except(array $array, string|array $keys): array
+    {
+        return array_diff_key($array, array_flip((array) $keys));
+    }
+
+    /**
+     * Retourne le premier élément d'un tableau qui satisfait une condition.
      *
-     * @return mixed La valeur trouvée ou la valeur par défaut
+     * @param array $array Tableau à parcourir
+     * @param callable $callback Fonction de test (clé, valeur)
+     * @param mixed $default Valeur par défaut si aucun élément trouvé
+     * @return mixed
+     */
+    public static function first(array $array, callable $callback, mixed $default = null): mixed
+    {
+        foreach ($array as $key => $value)
+        {
+            if (call_user_func($callback, $key, $value)) return $value;
+        }
+
+        return value($default);
+    }
+
+    /**
+     * Récupère une valeur d'un tableau via une clé en notation "dot".
+     *
+     * @param array $array Tableau source
+     * @param string|null $key Clé à récupérer (ex: "user.name")
+     * @param mixed $default Valeur par défaut si la clé n'existe pas
+     * @return mixed
      */
     public static function get(array $array, ?string $key, mixed $default = null): mixed
     {
@@ -34,12 +63,11 @@ class Arr
     }
 
     /**
-     * Vérifie si une clé existe dans un tableau, avec support de la "dot notation".
+     * Vérifie si une clé existe dans un tableau (support "dot").
      *
-     * @param array       $array Tableau à parcourir
-     * @param string|null $key   Clé à vérifier
-     *
-     * @return bool True si la clé existe, false sinon
+     * @param array $array Tableau source
+     * @param string|null $key Clé à vérifier
+     * @return bool
      */
     public static function has(array $array, ?string $key): bool
     {
@@ -61,12 +89,11 @@ class Arr
     }
 
     /**
-     * Définit une valeur dans un tableau en utilisant une clé "dot notation".
+     * Définit une valeur dans un tableau via une clé en notation "dot".
      *
-     * @param array  $array Tableau à modifier (passé par référence)
-     * @param string $key   Clé à définir
-     * @param mixed  $value Valeur à assigner
-     *
+     * @param array $array Tableau à modifier (passé par référence)
+     * @param string $key Clé à définir (ex: "user.name")
+     * @param mixed $value Valeur à définir
      * @return array Tableau modifié
      */
     public static function set(array &$array, string $key, mixed $value): array

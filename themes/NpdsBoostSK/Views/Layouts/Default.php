@@ -1,24 +1,287 @@
+<?php
+if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_before')) {
+    echo Views::make($theme_file);
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= Language::languageIso(1, '', 0); ?>">
 <head>
     <meta charset="utf-8">
     <title><?= isset($title) ? $title : 'Page'; ?> - <?= Config::get('app.name'); ?></title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- test -->    
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('css/test.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('css/style.css'); ?>">
+    <!-- metatag a faire -->
+
+    <!-- favico -->
+    <?php Event::fire('assets.favico'); ?>
+
+    <!-- meta canocical -->
+    <link rel="canonical" href="<?= Request::url(); ?>" />
+
+    <!-- meta humans.txt -->
+    <?php if (file_exists('humans.txt')): ?>
+        <link type="text/plain" rel="author" href="<?= site_url('humans.txt'); ?>">
+    <?php endif; ?>
+
+    <!-- meta backend -->
+    <link href="<?= site_url('backend/RSS0.91'); ?>" title="<?= config('app.sitename'); ?> - RSS 0.91" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/RSS1.0'); ?>" title="<?= config('app.sitename'); ?> - RSS 1.0" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/RSS2.0'); ?>" title="<?= config('app.sitename'); ?> - RSS 2.0" rel="alternate" type="text/xml">
+    <link href="<?= site_url('backend/ATOM'); ?>" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
+
+    <?php
+    if (Views::exists($theme_file = 'Bootstrap/header_head')) {
+        echo Views::make($theme_file);
+    }
+
+    if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_head')) {
+        echo Views::make($theme_file);
+    }
+    ?>
+
+    <!-- import css et js -->
+    <?php Event::fire('assets.css'); ?>
+    <?php Event::fire('assets.header.js'); ?>
 </head>
-<body>
 
-<div class="container">
-    <?= $content; ?>
-</div>
+<?php 
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+// faire listener ou middleware
+//refererUpdate();
 
+// faire listener ou middleware
+//counterUpdate();
+
+if (Views::exists('Themes/NpdsBoostSK::Bootstrap/body_onload.php')) {
+    $onload_init = ' onload="init();"';
+} else {
+    $onload_init = '';
+}
+
+$ContainerGlobal = '<div id="container">';
+
+if (!$ContainerGlobal) {
+    echo '<body' . $onload_init . ' class="body" data-bs-theme="' . config('theme.theme_darkness') . '">';
+} else {
+    echo '<body' . $onload_init . ' data-bs-theme="' . config('theme.theme_darkness') . '">';
+    echo $ContainerGlobal;
+}
+
+$Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
+
+// landing page
+if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && Views::exists('Themes/NpdsBoostSK::partials/header/header_landing')) {
+    $Xcontent = Views::make('Themes/NpdsBoostSK::partials/header/header_landing');
+} else {
+    $Xcontent = Views::make('Themes/NpdsBoostSK::partials/header/header');
+}
+
+//echo Metalang::metaLang(Language::affLangue($Xcontent));
+echo Language::affLangue($Xcontent);
+
+if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_after')) {
+    echo Views::make($theme_file);
+}
+
+$moreclass = 'col';
+
+echo '<div id="corps" class="container-fluid n-hyphenate">
+    <div class="row g-3">';
+
+switch ($pdst) {
+
+    case '-1':
+        echo '<div id="col_princ" class="col-12">';
+        break;
+
+    case '1':
+        Theme::colsyst('#col_LB');
+
+        echo '<div id="col_LB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::leftBlocks($moreclass);
+
+        echo '</div>
+            </div>
+        <div id="col_princ" class="col-lg-6">';
+        break;
+
+    case '2':
+    case '6':
+        echo '<div id="col_princ" class="col-lg-9">';
+        break;
+
+    case '3':
+        Theme::colsyst('#col_LB');
+
+        echo '<div id="col_LB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::leftBlocks($moreclass);
+
+        echo '</div>
+        </div>';
+
+        Theme::colsyst('#col_RB');
+
+        echo '<div id="col_RB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::rightBlocks($moreclass);
+
+        echo '</div>
+            </div>
+        <div id="col_princ" class="col-lg-6">';
+        break;
+
+    case '4':
+        echo '<div id="col_princ" class="col-lg-6">';
+        break;
+
+    case '5':
+        Theme::colsyst('#col_RB');
+
+        echo '<div id="col_RB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::rightBlocks($moreclass);
+
+        echo '</div>
+            </div>
+            <div id="col_princ" class="col-lg-9">';
+        break;
+
+    default:
+        Theme::colsyst('#col_LB');
+
+        echo '<div id="col_LB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::leftBlocks($moreclass);
+
+        echo '</div>
+            </div>
+        <div id="col_princ" class="col-lg-9">';
+        break;
+}
+
+echo 'vue du theme NpdsBoostSK';
+
+echo $content;
+
+$moreclass = 'col-12';
+
+switch ($pdst) {
+
+    case '-1':
+    case '3':
+    case '5':
+        echo '</div>
+                </div>
+            </div>';
+        break;
+
+    case '1':
+    case '2':
+        echo '</div>';
+
+        Theme::colsyst('#col_RB');
+
+        echo '<div id="col_RB" class="collapse show col-lg-3 ">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::rightBlocks($moreclass);
+
+        echo '</div>
+                </div>
+            </div>
+        </div>';
+        break;
+
+    case '4':
+        echo '</div>';
+
+        Theme::colsyst('#col_LB');
+
+        echo '<div id="col_LB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::leftBlocks($moreclass);
+
+        echo '</div>
+        </div>';
+
+        Theme::colsyst('#col_RB');
+
+        echo '<div id="col_RB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::rightBlocks($moreclass);
+
+        echo '</div>
+                </div>
+            </div>
+        </div>';
+        break;
+
+    case '6':
+        echo '</div>';
+
+        Theme::colsyst('#col_LB');
+
+        echo '<div id="col_LB" class="collapse show col-lg-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1">';
+
+        Block::leftBlocks($moreclass);
+
+        echo '</div>
+                </div>
+            </div>
+        </div>';
+        break;
+
+    default:
+        echo '</div>
+            </div>
+        </div>';
+        break;
+}
+
+if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_before')) {
+    echo Views::make($theme_file);
+}
+
+$Xcontent = Views::make('Themes/NpdsBoostSK::partials/footer/footer');
+
+$ContainerGlobal = '</div>';
+
+if (! empty($ContainerGlobal)) {
+    $Xcontent .= $ContainerGlobal;
+}
+
+//echo Metalang::metaLang(Language::affLangue($Xcontent));
+echo Language::affLangue($Xcontent);
+
+if (Views::exists($theme_file = 'Bootstrap/footer_after')) {
+    echo Views::make($theme_file);
+}
+
+if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_after')) {
+    echo Views::make($theme_file);
+}
+
+Event::fire('assets.footer.js'); 
+
+?>
 </body>
 </html>
+
+<?php
+
+// faire listener ou middleware
+//include 'sitemap.php';
+
+//sql_close();
+
+?>
