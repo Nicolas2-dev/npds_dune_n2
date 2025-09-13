@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Core;
 
-use Npds\View\View;
 use App\Support\Facades\Block;
 use App\Support\Facades\Theme;
-use Npds\Support\Facades\Views;
+use Npds\Support\Facades\View;
 use App\Http\Controllers\Core\BaseController;
 
 
@@ -23,9 +22,9 @@ class FrontBaseController extends BaseController
     protected function initialize()
     {
         //
-        Views::share('theme', Theme::getTheme());
+        View::share('theme', Theme::getTheme());
 
-        Views::share('pdst',  Block::checkPdst($this->pdst));
+        View::share('pdst',  Block::checkPdst($this->pdst));
 
         parent::initialize();
     }

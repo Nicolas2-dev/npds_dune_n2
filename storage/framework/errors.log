@@ -1,0 +1,196 @@
+Exception information:
+
+    Date: Sep 13, 2025 5:07AM
+
+    Message: Cannot use Npds\Support\Facades\View as View because the name is already in use
+
+    Code: 64
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/FrontBaseController.php
+
+    Line: 8
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:07AM
+
+    Message: Call to undefined method Npds\View\View::make()
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php
+
+    Line: 121
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->handleException()
+#3 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#4 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:07AM
+
+    Message: Class "Views" not found
+
+    Code: 0
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/themes/NpdsBoostSK/Views/Layouts/Default.php
+
+    Line: 2
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(61): include()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(23): Npds\View\Engines\PhpEngine->evaluatePath()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(155): Npds\View\Engines\PhpEngine->get()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(125): Npds\View\View->getContents()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(94): Npds\View\View->renderContents()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(385): Npds\View\View->render()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Http/Response.php(127): Npds\View\View->__toString()
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Http/Response.php(114): Npds\Http\Response->render()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(147): Npds\Http\Response->send()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#10 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:07AM
+
+    Message: Uncaught Error: Call to undefined method Npds\View\View::make() in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php:121
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php(76): Npds\Application\Exceptions\Handler->render()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#2 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#3 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php
+
+    Line: 121
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:08AM
+
+    Message: Uncaught Error: Call to undefined method Npds\View\View::exists() in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php:65
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#2 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php
+
+    Line: 65
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:08AM
+
+    Message: Uncaught Error: Call to undefined method Npds\View\View::exists() in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php:65
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#2 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php
+
+    Line: 65
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:08AM
+
+    Message: Uncaught Error: Call to undefined method Npds\View\View::exists() in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php:65
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#2 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php
+
+    Line: 65
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+
+Exception information:
+
+    Date: Sep 13, 2025 5:08AM
+
+    Message: Uncaught Error: Call to undefined method Npds\View\View::exists() in /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php:65
+Stack trace:
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(95): App\Exceptions\Handler->render()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleException()
+#2 {main}
+  thrown
+
+    Code: 1
+
+    File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Exceptions/Handler.php
+
+    Line: 65
+
+    Stack trace:
+
+#0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Application/Exceptions/Handler.php(136): Npds\Application\Exceptions\Handler->fatalExceptionFromError()
+#1 [internal function]: Npds\Application\Exceptions\Handler->handleShutdown()
+#2 {main}
+
+---------
+

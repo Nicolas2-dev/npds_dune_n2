@@ -2,192 +2,199 @@
 
 namespace Npds\View;
 
-use BadMethodCallException;
+use Closure;
 use Exception;
+use ArrayAccess;
+use Npds\Support\Arr;
+use Npds\Support\Str;
+use Npds\View\Factory;
+use BadMethodCallException;
+use Npds\View\Contracts\EngineInterface;
+use Npds\Support\Contracts\ArrayableInterface as Arrayable;
+use Npds\Support\Contracts\RenderableInterface as Renderable;
 
-// Deprecated une foi la new getion des vue finaliser !
-class View
+
+class View implements ArrayAccess, Renderable
 {
 
     /**
-     * Chemin complet du fichier de vue.
+     * Factory des vues.
+     *
+     * @var Factory
+     */
+    protected Factory $factory;
+
+    /**
+     * Moteur de rendu de la vue (PhpEngine ou CompilerEngine ou FileEngine).
+     *
+     * @var EngineInterface
+     */
+    protected EngineInterface $engine;
+
+    /**
+     * Nom de la vue.
+     *
+     * @var string|null
+     */
+    protected ?string $view = null;
+
+    /**
+     * Chemin complet du fichier de la vue.
      *
      * @var string|null
      */
     protected ?string $path = null;
 
     /**
-     * Données spécifiques à cette instance de vue.
+     * Données disponibles pour la vue.
      *
-     * @var array<string, mixed>
+     * @var array
      */
     protected array $data = [];
 
     /**
-     * Données partagées entre toutes les vues.
+     * Indique si la vue utilise un layout.
      *
-     * @var array<string, mixed>
+     * @var bool
      */
-    protected static array $shared = [];
+    protected bool $layout = false;
 
-    
+
     /**
-     * Constructeur protégé pour créer une instance de vue.
+     * Constructeur.
      *
-     * @param string $path Chemin du fichier de vue
-     * @param array<string, mixed> $data Données associées à la vue
-     *
-     * @throws \BadMethodCallException Si le fichier n'existe pas ou n'est pas lisible
+     * @param Factory          $factory Factory de vues.
+     * @param EngineInterface  $engine  Moteur de rendu.
+     * @param string           $view    Nom de la vue.
+     * @param string           $path    Chemin complet du fichier de la vue.
+     * @param array|Arrayable  $data    Données à passer à la vue.
      */
-    protected function __construct(string $path, array $data = [])
+    public function __construct(Factory $factory, EngineInterface $engine, string $view, string $path, array|Arrayable $data = [])
     {
-        if (! is_readable($path)) {
-            throw new BadMethodCallException("File path [$path] does not exist");
-        }
+        $this->factory = $factory;
+        $this->engine  = $engine;
 
+        //
+        $this->view = $view;
         $this->path = $path;
 
-        $this->data = is_array($data) ? $data : array($data);
+        $this->data = ($data instanceof Arrayable) ? $data->toArray() : (array) $data;
     }
 
     /**
-     * Résout le chemin complet d'une vue.
-     */
-    protected static function resolvePath(string $view): string
-    {
-        // Si la vue commence par "modules/", c'est un module
-        if (str_starts_with($view, 'themes/')) {
-
-            $theme = explode('/', $view, 4);
-
-            return THEME_PATH . $theme[1] . DS .'Views' . DS . str_replace('/', DS, $theme[3]) . '.php';
-        }
-
-        // Si la vue commence par "modules/", c'est un module
-        if (str_starts_with($view, 'modules/')) {
-
-            $module = explode('/', $view, 3);
-
-            // Construire le chemin correct : MODULE_PATH/{Module}/Views/{view}.php
-            return MODULE_PATH . $module[1] . DS . 'Views' . DS . str_replace('/', DS, $module[2]) . '.php';
-        }
-
-        // Sinon c'est dans l'application
-        return APPPATH . str_replace('/', DS, "Views/$view.php");
-    }
-
-    /**
-     * Vérifie si une vue existe.
-     */
-    public static function exists(string $view): bool
-    {
-        $path = static::resolvePath($view);
-        
-        return is_readable($path);
-    }
-
-    /**
-     * Crée une instance de vue.
-     */
-    public static function make(string $view, array $data = []): static
-    {
-        $path = static::resolvePath($view);
-
-        return new static($path, $data);
-    }
-
-    /**
-     * Rend la vue en chaîne de caractères.
+     * Rend la vue.
      *
-     * @return string Contenu HTML généré
+     * @param Closure|null $callback Fonction callback à exécuter après rendu.
+     * @return string Contenu rendu.
+     * @throws Exception
      */
-    public function render(): string
+    public function render(?Closure $callback = null): string
     {
-        $__data = $this->gatherData();
-
-        ob_start();
-
-        // Extraire les variables de rendu.
-        foreach ($__data as $__variable => $__value) {
-            ${$__variable} = $__value;
-        }
-
-        unset($__variable, $__value);
-
         try {
-            include $this->path;
+            $contents = $this->renderContents();
+
+            $response = isset($callback) ? $callback($this, $contents) : null;
+
+            // Une fois que nous avons le contenu de la vue, nous viderons les sections si nous sommes
+            // terminé le rendu de toutes les vues afin qu'il ne reste plus rien en suspens lorsque
+            // une autre vue sera rendue ultérieurement par le développeur de l'application.
+            $this->factory->flushSectionsIfDoneRendering();
+
+            return $response ?: $contents;
         }
         catch (Exception $e) {
-            ob_get_clean();
+            $this->factory->flushSections();
 
             throw $e;
         }
-
-        return ltrim(ob_get_clean());
     }
 
     /**
-     * Rassemble les données de la vue en fusionnant données partagées et locales.
+     * Récupère le contenu de la vue.
      *
-     * @return array<string, mixed>
+     * @return string Contenu rendu de la vue.
      */
-    protected function gatherData(): array
+    public function renderContents(): string
     {
-        $data = array_merge(static::$shared, $this->data);
+        // Incrémente le compteur de vues rendues pour gérer les sections.
+        $this->factory->incrementRender();
 
-        foreach ($data as $key => $value) {
-            if ($value instanceof View) {
-                $data[$key] = $value->render();
-            }
-        }
+        // Appelle les composeurs éventuels.
+        $this->factory->callComposer($this);
 
-        return $data;
+        $contents = $this->getContents();
+
+        // Décrémente le compteur après rendu pour vider les sections correctement.
+        $this->factory->decrementRender();
+
+        return $contents;
     }
 
     /**
-     * Inclut une vue imbriquée dans la vue actuelle.
+     * Rend toutes les sections de la vue.
      *
-     * @param string $key Nom de la variable pour la vue imbriquée
-     * @param string $view Nom de la vue imbriquée
-     * @param array<string, mixed> $data Données de la vue imbriquée
-     * @return static
+     * Retourne le contenu des sections collectées pendant le rendu des vues.
+     *
+     * @return array Contenu des sections rendues
+     */
+    //public function renderSections()
+    //{
+    //    return $this->render(function ($view)
+    //    {
+    //        return $this->factory->getSections();
+    //    });
+    //}
+
+    /**
+     * Récupère le contenu en utilisant le moteur de rendu.
+     *
+     * @return string Contenu rendu.
+     */
+    protected function getContents(): string
+    {
+        return $this->engine->get($this->path, $this->gatherData());
+    }
+
+    /**
+     * Fusionne les données partagées et locales pour le rendu.
+     *
+     * @return array Données finales pour la vue.
+     */
+    public function gatherData(): array
+    {
+        $data = array_merge($this->factory->getShared(), $this->data);
+
+        return array_map(function ($value)
+        {
+            return ($value instanceof Renderable) ? $value->render() : $value;
+
+        }, $data);
+    }
+
+    /**
+     * Crée une vue imbriquée.
+     *
+     * @param string $key   Clé pour stocker la sous-vue.
+     * @param string $view  Nom de la vue imbriquée.
+     * @param array  $data  Données pour la sous-vue.
+     * @return $this
      */
     public function nest(string $key, string $view, array $data = []): static
     {
-        return $this->with($key, static::make($view, $data));
+        // L'instance de View imbriquée hérite des données parent si aucune n'est donnée.
+        if (empty($data)) {
+            $data = $this->getData();
+        }
+
+        return $this->with($key, $this->factory->make($view, $data));
     }
 
     /**
-     * Partage une variable pour toutes les vues.
+     * Associe une donnée à la vue.
      *
-     * @param string $key Nom de la variable
-     * @param mixed $value Valeur de la variable
-     */
-    public static function share(string $key, mixed $value = null): void
-    {
-        static::$shared[$key] = $value;
-    }
-
-    /**
-     * Partage une variable pour toutes les vues et retourne l'instance actuelle.
-     *
-     * @param string $key Nom de la variable
-     * @param mixed $value Valeur de la variable
-     * @return static
-     */
-    public function shares(string $key, mixed $value): static
-    {
-        static::share($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Ajoute une variable à la vue.
-     *
-     * @param string|array<string, mixed> $key Nom de la variable ou tableau de variables
-     * @param mixed $value Valeur de la variable (si $key est string)
-     * @return static
+     * @param string|array $key Clé ou tableau de données.
+     * @param mixed        $value Valeur à associer.
+     * @return $this
      */
     public function with(string|array $key, mixed $value = null): static
     {
@@ -201,39 +208,184 @@ class View
     }
 
     /**
-     * Conversion de la vue en chaîne de caractères.
+     * Ajoute des erreurs à la vue.
      *
-     * @return string
+     * @param MessageProvider|array $provider Source des messages d'erreurs.
+     * @return $this
+     */
+    //public function withErrors(MessageProvider|array $provider): static
+    //{
+    //    if ($provider instanceof MessageProvider) {
+    //        $this->with('errors', $provider->getMessageBag());
+    //    } else {
+    //        $this->with('errors', new MessageBag((array) $provider));
+    //    }
+    //
+    //    return $this;
+    //}
+
+    /**
+     * Partage une donnée globalement via la factory.
+     *
+     * @param string $key   Clé de la donnée.
+     * @param mixed  $value Valeur à partager.
+     * @return $this
+     */
+    public function shares(string $key, mixed $value): static
+    {
+        $this->factory->share($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Définit ou récupère le layout utilisé.
+     *
+     * @param bool|null $value True pour activer, false pour désactiver, null pour récupérer.
+     * @return bool|static
+     */
+    public function layout(?bool $value = null): bool|static
+    {
+        if (is_null($value)) {
+            return $this->layout;
+        }
+
+        $this->layout = (bool) $value;
+
+        return $this;
+    }
+
+    /**
+     * Récupère la factory associée.
+     *
+     * @return Factory
+     */
+    public function getFactory(): Factory
+    {
+        return $this->factory;
+    }
+
+    /**
+     * Récupère le nom de la vue.
+     *
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->view;
+    }
+
+    /**
+     * Récupère les données associées à la vue.
+     *
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Récupère le chemin complet du fichier de la vue.
+     *
+     * @return string|null
+     */
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    /**
+     * Définit le chemin complet du fichier de la vue.
+     *
+     * @param string $path Chemin complet.
+     */
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * Vérifie si une clé existe dans les données (ArrayAccess).
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->data);
+    }
+
+    /**
+     * Récupère une valeur via une clé (ArrayAccess).
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return Arr::get($this->data, $offset);
+    }
+
+    /**
+     * Définit une valeur pour une clé (ArrayAccess).
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->data[$offset] = $value;
+    }
+
+    /**
+     * Supprime une clé des données (ArrayAccess).
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        unset($this->data[$offset]);
+    }
+
+    /**
+     * Accède à une donnée via propriété magique.
+     */
+    public function __get(string $key): mixed
+    {
+        return Arr::get($this->data, $key);
+    }
+
+    /**
+     * Définit une donnée via propriété magique.
+     */
+    public function __set(string $key, mixed $value): void
+    {
+        $this->data[$key] = $value;
+    }
+
+    /**
+     * Vérifie si une donnée existe via propriété magique.
+     */
+    public function __isset(string $key): bool
+    {
+        return isset($this->data[$key]);
+    }
+
+    /**
+     * Permet les appels de méthodes dynamiques, ex: withX().
+     */
+    public function __call(string $method, array $params): mixed
+    {
+        // Ajoutez la prise en charge des méthodes dynamiques withX.
+        if (Str::startsWith($method, 'with')) {
+            $name = Str::camel(substr($method, 4));
+
+            return $this->with($name, array_shift($params));
+        }
+
+        throw new BadMethodCallException("ERROR : La méthode [$method] n'existe pas dans " . get_class($this));
+    }
+
+    /**
+     * Rend la vue lorsque l'objet est utilisé comme chaîne.
      */
     public function __toString(): string
     {
         try {
             return $this->render();
+        } catch (Exception $e) {
+            return $e; //'';
         }
-        catch (Exception $e) {
-            return '';
-        }
-    }
-
-    /**
-     * Gestion des appels aux méthodes dynamiques withX().
-     *
-     * @param string $method Nom de la méthode
-     * @param array<int, mixed> $params Paramètres passés
-     * @return static
-     *
-     * @throws \BadMethodCallException Si la méthode n'existe pas
-     */
-    public function __call(string $method, array $params): static
-    {
-        // Ajouter le support pour les méthodes dynamiques withX
-        if (substr($method, 0, 4) == 'with') {
-            $name = lcfirst(substr($method, 4));
-
-            return $this->with($name, array_shift($params));
-        }
-
-        throw new BadMethodCallException("Method [$method] does not exist");
     }
 
 }

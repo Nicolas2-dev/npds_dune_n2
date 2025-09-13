@@ -3,7 +3,7 @@
 namespace Npds\View;
 
 use Closure;
-use Npds\View\Views;
+use Npds\View\View;
 use RuntimeException;
 use BadMethodCallException;
 use Npds\Events\Dispatcher;
@@ -127,7 +127,7 @@ class Factory
      * @param array $mergeData Données supplémentaires à fusionner
      * @return Views
      */
-    public function make(string $view, array|Arrayable $data = [], array $mergeData = []): Views
+    public function make(string $view, array|Arrayable $data = [], array $mergeData = []): View
     {
         if (isset($this->aliases[$view])) $view = $this->aliases[$view];
 
@@ -142,7 +142,7 @@ class Factory
         );
 
         $this->callCreator(
-            $view = new Views($this, $this->getEngineFromPath($path), $view, $path, $data)
+            $view = new View($this, $this->getEngineFromPath($path), $view, $path, $data)
         );
 
         return $view;
@@ -244,9 +244,9 @@ class Factory
     /**
      * Appelle les listeners "composing" pour une vue.
      *
-     * @param Views $view
+     * @param View $view
      */
-    public function callComposer(Views $view): void
+    public function callComposer(View $view): void
     {
         $this->events->fire('composing: ' .$view->getName(), array($view));
     }
@@ -254,9 +254,9 @@ class Factory
     /**
      * Appelle les listeners "creating" pour une vue.
      *
-     * @param Views $view
+     * @param View $view
      */
-    public function callCreator(Views $view): void
+    public function callCreator(View $view): void
     {
         $this->events->fire('creating: ' .$view->getName(), array($view));
     }

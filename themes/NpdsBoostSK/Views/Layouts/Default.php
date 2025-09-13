@@ -1,6 +1,6 @@
 <?php
-if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_before')) {
-    echo Views::make($theme_file);
+if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_before')) {
+    echo View::make($theme_file);
 }
 ?>
 
@@ -30,12 +30,12 @@ if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_before')) 
     <link href="<?= site_url('backend/ATOM'); ?>" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
 
     <?php
-    if (Views::exists($theme_file = 'Bootstrap/header_head')) {
-        echo Views::make($theme_file);
+    if (View::exists($theme_file = 'Bootstrap/header_head')) {
+        echo View::make($theme_file);
     }
 
-    if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_head')) {
-        echo Views::make($theme_file);
+    if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_head')) {
+        echo View::make($theme_file);
     }
     ?>
 
@@ -52,7 +52,7 @@ if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_before')) 
 // faire listener ou middleware
 //counterUpdate();
 
-if (Views::exists('Themes/NpdsBoostSK::Bootstrap/body_onload.php')) {
+if (View::exists('Themes/NpdsBoostSK::Bootstrap/body_onload.php')) {
     $onload_init = ' onload="init();"';
 } else {
     $onload_init = '';
@@ -70,17 +70,17 @@ if (!$ContainerGlobal) {
 $Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
 // landing page
-if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && Views::exists('Themes/NpdsBoostSK::partials/header/header_landing')) {
-    $Xcontent = Views::make('Themes/NpdsBoostSK::partials/header/header_landing');
+if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('Themes/NpdsBoostSK::partials/header/header_landing')) {
+    $Xcontent = View::make('Themes/NpdsBoostSK::partials/header/header_landing');
 } else {
-    $Xcontent = Views::make('Themes/NpdsBoostSK::partials/header/header');
+    $Xcontent = View::make('Themes/NpdsBoostSK::partials/header/header');
 }
 
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_after')) {
-    echo Views::make($theme_file);
+if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/header_after')) {
+    echo View::make($theme_file);
 }
 
 $moreclass = 'col';
@@ -248,11 +248,11 @@ switch ($pdst) {
         break;
 }
 
-if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_before')) {
-    echo Views::make($theme_file);
+if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_before')) {
+    echo View::make($theme_file);
 }
 
-$Xcontent = Views::make('Themes/NpdsBoostSK::partials/footer/footer');
+$Xcontent = View::make('Themes/NpdsBoostSK::partials/footer/footer');
 
 $ContainerGlobal = '</div>';
 
@@ -263,12 +263,12 @@ if (! empty($ContainerGlobal)) {
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (Views::exists($theme_file = 'Bootstrap/footer_after')) {
-    echo Views::make($theme_file);
+if (View::exists($theme_file = 'Bootstrap/footer_after')) {
+    echo View::make($theme_file);
 }
 
-if (Views::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_after')) {
-    echo Views::make($theme_file);
+if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/footer_after')) {
+    echo View::make($theme_file);
 }
 
 Event::fire('assets.footer.js'); 

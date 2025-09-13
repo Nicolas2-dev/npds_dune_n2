@@ -6,7 +6,7 @@ use BadMethodCallException;
 use Npds\View\ViewBootstrap;
 
 
-class Views
+class View
 {
 
     /**

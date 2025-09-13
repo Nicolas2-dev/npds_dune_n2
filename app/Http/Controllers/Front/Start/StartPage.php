@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Front\Start;
 
-use Npds\View\View;
 use Npds\Config\Config;
-
 use App\Support\Facades\Auth;
 use App\Support\Facades\News;
 use App\Support\Facades\Edito;
-use Npds\Support\Facades\Views;
 use Npds\Support\Facades\Redirect;
 use Npds\Http\Response as HttpResponse;
 use App\Http\Controllers\Core\FrontBaseController;

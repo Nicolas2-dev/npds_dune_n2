@@ -18,14 +18,13 @@ return [
     'aliases' => array(
         // Npds
         'Config'   => 'Npds\Config\Config',
-        'View'     => 'Npds\View\View',
 
         'Event'    => 'Npds\Support\Facades\Event',
         'Redirect' => 'Npds\Support\Facades\Redirect',
         'Request'  => 'Npds\Support\Facades\Request',
         'Response' => 'Npds\Support\Facades\Response',
         'Route'    => 'Npds\Support\Facades\Route',
-        'Views'    => 'Npds\Support\Facades\Views',
+        'View'     => 'Npds\Support\Facades\View',
 
         // App
 
