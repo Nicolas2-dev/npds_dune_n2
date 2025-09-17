@@ -274,5 +274,4 @@ class AblaLog extends AdminBaseController
         return $content;
     }
 
-
 }

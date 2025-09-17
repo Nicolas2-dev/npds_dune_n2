@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\;
+namespace App\Http\Controllers\Admin\Dashboard;
 
 
 use App\Http\Controllers\Core\AdminBaseController;
 
 
-class extends AdminBaseController
+class Dashboard extends AdminBaseController
 {
     /**
      * Method executed before any action.
@@ -17,7 +17,7 @@ class extends AdminBaseController
     }
 
     // controller Admin Home !
-    function adminMain($deja_affiches)
+    public function adminMain($deja_affiches)
     {
         global $language, $admart, $hlpfile, $aid, $admf_ext;
 
