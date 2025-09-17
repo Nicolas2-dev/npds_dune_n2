@@ -52,6 +52,18 @@ class Pollbooth extends AdminBaseController
                 poll_SendEditPoll();
                 break;
         }
+
+        // SONDAGES
+        case 'create':
+        case 'createPosted':
+        case 'remove':
+        case 'removePosted':
+        case 'editpoll':
+        case 'editpollPosted':
+        case 'SendEditPoll':
+            include 'admin/polls.php';
+            break;
+
         */
 
         parent::initialize();        

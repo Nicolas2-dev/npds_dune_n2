@@ -22,6 +22,59 @@ class Faq extends AdminBaseController
         global $language;
         $hlpfile = 'admin/manuels/' . $language . '/faqs.html';
 
+        /*
+        // FAQ
+        case 'FaqCatSave':
+            include 'admin/adminfaq.php';
+            FaqCatSave($old_id_cat, $id_cat, $categories);
+            break;
+
+        case 'FaqCatGoSave':
+            include 'admin/adminfaq.php';
+            FaqCatGoSave($id, $question, $answer);
+            break;
+
+        case 'FaqCatAdd':
+            include 'admin/adminfaq.php';
+            FaqCatAdd($categories);
+            break;
+
+        case 'FaqCatGoAdd':
+            include 'admin/adminfaq.php';
+            FaqCatGoAdd($id_cat, $question, $answer);
+            break;
+
+        case 'FaqCatEdit':
+            include 'admin/adminfaq.php';
+            FaqCatEdit($id_cat);
+            break;
+
+        case 'FaqCatGoEdit':
+            include 'admin/adminfaq.php';
+            FaqCatGoEdit($id);
+            break;
+
+        case 'FaqCatDel':
+            include 'admin/adminfaq.php';
+            FaqCatDel($id_cat, $ok);
+            break;
+
+        case 'FaqCatGoDel':
+            include 'admin/adminfaq.php';
+            FaqCatGoDel($id, $ok);
+            break;
+
+        case 'FaqAdmin':
+            include 'admin/adminfaq.php';
+            FaqAdmin();
+            break;
+
+        case 'FaqCatGo':
+            include 'admin/adminfaq.php';
+            FaqCatGo($id_cat);
+            break;
+        */
+
         parent::initialize();        
     }
 

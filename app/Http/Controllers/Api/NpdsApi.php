@@ -13,6 +13,13 @@ class NpdsApi extends BaseController
      */
     protected function initialize()
     {
+        /*
+        case 'alerte_api':
+        case 'alerte_update':
+            include 'npds_api.php';
+            break;
+        */
+
         parent::initialize();
     }
 

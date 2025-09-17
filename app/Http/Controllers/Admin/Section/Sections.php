@@ -143,6 +143,39 @@ class Sections extends AdminBaseController
                 updaterights($chng_aid, $maxindex, $creation, $publication, $modification, $suppression);
                 break;
         }
+
+        // SECTIONS - RUBRIQUES
+        case 'new_rub_section':
+        case 'sections':
+        case 'sectionedit':
+        case 'sectionmake':
+        case 'sectiondelete':
+        case 'sectionchange':
+        case 'rubriquedit':
+        case 'rubriquemake':
+        case 'rubriquedelete':
+        case 'rubriquechange':
+        case 'secarticleadd':
+        case 'secartedit':
+        case 'secartchange':
+        case 'secartchangeup':
+        case 'secartdelete':
+        case 'secartpublish':
+        case 'secartupdate':
+        case 'secartdelete2':
+        case 'ordremodule':
+        case 'ordrechapitre':
+        case 'ordrecours':
+        case 'majmodule':
+        case 'majchapitre':
+        case 'majcours':
+        case 'publishcompat':
+        case 'updatecompat':
+        case 'droitauteurs':
+        case 'updatedroitauteurs':
+            include 'admin/sections.php';
+            break;
+
         */
 
         parent::initialize();        

@@ -189,6 +189,35 @@ class Groupe extends AdminBaseController
                 group_liste();
                 break;
         }
+
+        // NPDS-Admin-Groupe
+        case 'groupes';
+        case 'groupe_edit':
+        case 'groupe_maj':
+        case 'groupe_add':
+        case 'groupe_add_finish':
+        case 'bloc_groupe_create':
+        case 'retiredugroupe':
+        case 'retiredugroupe_all':
+        case 'membre_add':
+        case 'membre_add_finish':
+        case 'pad_create':
+        case 'pad_remove':
+        case 'note_create':
+        case 'note_remove':
+        case 'workspace_create':
+        case 'workspace_archive':
+        case 'forum_groupe_delete':
+        case 'forum_groupe_create':
+        case 'moderateur_update':
+        case 'groupe_mns_create':
+        case 'groupe_mns_delete':
+        case 'groupe_chat_create':
+        case 'groupe_chat_delete':
+        case 'groupe_member_ask':
+            include 'admin/groupes.php';
+            break;
+
         */
 
         parent::initialize();        

@@ -142,6 +142,17 @@ class ConfigFiles extends AdminBaseController
                 ConfigFiles('', '');
                 break;
         }
+
+        // ConfigFiles
+        case 'ConfigFiles':
+        case 'ConfigFiles_load':
+        case 'ConfigFiles_save':
+        case 'ConfigFiles_create':
+        case 'delete_configfile':
+        case 'ConfigFiles_delete':
+            include 'admin/configfiles.php';
+            break;
+
         */
 
         parent::initialize();        

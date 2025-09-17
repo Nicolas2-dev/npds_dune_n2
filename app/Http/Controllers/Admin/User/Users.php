@@ -323,6 +323,21 @@ class User extends AdminBaseController
                 displayUsers();
                 break;
         }
+
+        // USERS
+        case 'mod_users':
+        case 'modifyUser':
+        case 'updateUser':
+        case 'delUser':
+        case 'delUserConf':
+        case 'addUser':
+        case 'extractUserCSV':
+        case 'unsubUser':
+        case 'nonallowed_users':
+        case 'checkDnsMail_users':
+            include 'admin/users.php';
+            break;
+
         */
 
         parent::initialize();        

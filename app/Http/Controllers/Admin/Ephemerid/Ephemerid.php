@@ -48,6 +48,17 @@ class Ephemerid extends AdminBaseController
                 Ephemerids();
                 break;
         }
+
+        // EPHEMERIDS
+        case 'Ephemeridsedit':
+        case 'Ephemeridschange':
+        case 'Ephemeridsdel':
+        case 'Ephemeridsmaintenance':
+        case 'Ephemeridsadd':
+        case 'Ephemerids':
+            include 'admin/ephemerids.php';
+            break;
+
         */
 
         parent::initialize();        

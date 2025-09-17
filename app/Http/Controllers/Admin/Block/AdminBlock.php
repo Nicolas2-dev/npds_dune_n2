@@ -29,6 +29,12 @@ class AdminBlock extends AdminBaseController
                 changeablock($title, $content);
                 break;
         }
+
+        case 'ablock':
+        case 'changeablock':
+            include 'admin/adminblock.php';
+            break;
+
         */
 
         parent::initialize();        

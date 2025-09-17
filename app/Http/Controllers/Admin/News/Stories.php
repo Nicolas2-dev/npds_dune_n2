@@ -126,6 +126,29 @@ class Stories extends AdminBaseController
                 previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
                 break;
         }
+
+        // STORIES
+        case 'DisplayStory':
+        case 'PreviewAgain':
+        case 'PostStory':
+        case 'DeleteStory':
+        case 'EditStory':
+        case 'ChangeStory':
+        case 'RemoveStory':
+        case 'adminStory':
+        case 'PreviewAdminStory':
+
+        // CATEGORIES des NEWS
+        case 'EditCategory':
+        case 'DelCategory':
+        case 'YesDelCategory':
+        case 'NoMoveCategory':
+        case 'SaveEditCategory':
+        case 'AddCategory':
+        case 'SaveCategory':
+            include 'admin/stories.php';
+            break;
+
         */
 
         parent::initialize();        

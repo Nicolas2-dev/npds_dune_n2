@@ -13,6 +13,14 @@ class Plugins extends AdminBaseController
      */
     protected function initialize()
     {
+        /*
+        // NPDS-Admin-Plugins
+        case 'Extend-Admin-Module':
+        case 'Extend-Admin-SubModule':
+            include 'admin/plugins.php';
+            break;
+        */
+
         parent::initialize();        
     }
 

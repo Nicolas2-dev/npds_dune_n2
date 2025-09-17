@@ -57,6 +57,19 @@ class Topics extends AdminBaseController
                 relateddelete($tid, $rid);
                 break;
         }
+
+        // TOPIC Manager
+        case 'topicsmanager':
+        case 'topicedit':
+        case 'topicmake':
+        case 'topicdelete':
+        case 'topicchange':
+        case 'relatedsave':
+        case 'relatededit':
+        case 'relateddelete':
+            include 'admin/topics.php';
+            break;
+
         */
 
         parent::initialize();        

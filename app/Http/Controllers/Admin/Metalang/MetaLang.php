@@ -49,6 +49,17 @@ class Metalang extends AdminBaseController
                 List_metaLang();
                 break;
         }
+
+        // META-LANG
+        case 'Meta-LangAdmin':
+        case 'List_Meta_Lang':
+        case 'Creat_Meta_Lang':
+        case 'Edit_Meta_Lang':
+        case 'Kill_Meta_Lang':
+        case 'Valid_Meta_Lang':
+            include 'admin/meta_lang.php';
+            break;
+
         */
 
         parent::initialize();        

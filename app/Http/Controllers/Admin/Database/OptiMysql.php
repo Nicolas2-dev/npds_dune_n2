@@ -23,6 +23,13 @@ class OptiMysql extends AdminBaseController
 
         $hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
 
+        /*
+        // OPTIMYSQL
+        case 'OptimySQL':
+            include 'admin/optimysql.php';
+            break;
+        */
+
         parent::initialize();        
     }
 

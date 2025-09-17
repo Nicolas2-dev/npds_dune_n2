@@ -13,6 +13,18 @@ class Dashboard extends AdminBaseController
      */
     protected function initialize()
     {
+        /*
+        // NPDS-Admin-Main
+        case 'suite_articles':
+            adminMain($deja_affiches);
+            break;
+
+        case 'adminMain':
+        default:
+            adminMain(0);
+            break;
+        */
+
         parent::initialize();        
     }
 

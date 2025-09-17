@@ -38,6 +38,14 @@ class Referers extends AdminBaseController
                 delreferer();
                 break;
         }
+
+        // HTTP Referer
+        case 'hreferer':
+        case 'delreferer':
+        case 'archreferer':
+            include 'admin/referers.php';
+            break;
+
         */
 
         parent::initialize();        

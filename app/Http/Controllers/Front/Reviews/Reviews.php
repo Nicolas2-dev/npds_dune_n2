@@ -15,6 +15,22 @@ class Reviews extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        // CRITIQUES
+        case 'reviews':
+        case 'mod_main':
+        case 'add_review':
+            include 'admin/reviews.php';
+            break;
+
+        case 'deleteNotice':
+            sql_query("DELETE FROM " . sql_prefix('reviews_add') . " 
+                       WHERE id='$id'");
+
+            Header('Location: admin.php?op=' . $op_back);
+            break;
+        */
+
         parent::initialize();
     }
 

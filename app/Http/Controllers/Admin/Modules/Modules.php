@@ -22,6 +22,13 @@ class Modules extends AdminBaseController
         global $language, $adminimg, $admf_ext;
         $hlpfile = 'admin/manuels/' . $language . '/modules.html';
 
+        /*
+        // NPDS-Instal-Modules
+        case 'modules':
+            include 'admin/modules.php';
+            break;
+        */
+
         parent::initialize();        
     }
 

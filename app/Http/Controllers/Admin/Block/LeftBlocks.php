@@ -45,6 +45,14 @@ class LeftBlocks extends AdminBaseController
                 changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css);
                 break;
         }
+
+        case 'makelblock':
+        case 'deletelblock':
+        case 'changelblock':
+        case 'droitelblock':
+            include 'admin/leftBlocks.php';
+            break;
+
         */
 
         parent::initialize();        

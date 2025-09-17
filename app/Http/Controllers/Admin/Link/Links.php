@@ -113,6 +113,35 @@ class Links extends AdminBaseController
                 LinksDelLink($lid);
                 break;
         }
+
+        // LINKS
+        case 'links':
+        case 'LinksDelNew':
+        case 'LinksAddCat':
+        case 'LinksAddSubCat':
+        case 'LinksAddLink':
+        case 'LinksAddEditorial':
+        case 'LinksModEditorial':
+        case 'LinksDelEditorial':
+        case 'LinksCleanVotes':
+        case 'LinksListBrokenLinks':
+        case 'LinksDelBrokenLinks':
+        case 'LinksIgnoreBrokenLinks':
+        case 'LinksListModRequests':
+        case 'LinksChangeModRequests':
+        case 'LinksChangeIgnoreRequests':
+        case 'LinksDelCat':
+        case 'LinksModCat':
+        case 'LinksModCatS':
+        case 'LinksModLink':
+        case 'LinksModLinkS':
+        case 'LinksDelLink':
+        case 'LinksDelVote':
+        case 'LinksDelComment':
+        case 'suite_links':
+            include 'admin/links.php';
+            break;
+
         */
 
         parent::initialize();        

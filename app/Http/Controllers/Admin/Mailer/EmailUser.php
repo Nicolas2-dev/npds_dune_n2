@@ -33,6 +33,13 @@ class EmailUser extends AdminBaseController
                 email_user();
                 break;
         }
+
+        // DIFFUSION MI ADMIN
+        case 'email_user':
+        case 'send_email_to_user':
+            include 'admin/email_user.php';
+            break;
+
         */
 
         parent::initialize();        

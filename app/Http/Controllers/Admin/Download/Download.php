@@ -22,6 +22,34 @@ class Download extends AdminBaseController
         global $language;
         $hlpfile = 'admin/manuels/' . $language . '/downloads.html';
 
+        /*
+        // DOWNLOADS
+        case 'DownloadDel':
+            include 'admin/download.php';
+            DownloadDel($did, $ok);
+            break;
+
+        case 'DownloadAdd':
+            include 'admin/download.php';
+            DownloadAdd($dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $dver, $dcategory, $sdcategory, $xtext, $privs, $Mprivs);
+            break;
+
+        case 'DownloadSave':
+            include 'admin/download.php';
+            DownloadSave($did, $dcounter, $durl, $dfilename, $dfilesize, $dweb, $duser, $ddate, $dver, $dcategory, $sdcategory, $xtext, $privs, $Mprivs);
+            break;
+
+        case 'DownloadAdmin':
+            include 'admin/download.php';
+            DownloadAdmin();
+            break;
+
+        case 'DownloadEdit':
+            include 'admin/download.php';
+            DownloadEdit($did);
+            break;
+        */
+
         parent::initialize();        
     }
     

@@ -44,6 +44,14 @@ class Overload extends AdminBaseController
                 main();
                 break;
         }
+
+        // SUPERCACHE
+        case 'supercache':
+        case 'supercache_save':
+        case 'supercache_empty':
+            include 'admin/overload.php';
+            break;
+
         */
 
         parent::initialize();        

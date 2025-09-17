@@ -41,6 +41,13 @@ class Metatags extends AdminBaseController
                 MetaTagAdmin($meta_saved);
                 break;
         }
+
+        // METATAGS
+        case 'MetaTagAdmin':
+        case 'MetaTagSave':
+            include 'admin/metatags.php';
+            break;
+
         */
 
         parent::initialize();        

@@ -65,6 +65,12 @@ class SaveMysql extends AdminBaseController
                 header('Location: index.php');
                 break;
         }
+
+        // SAVEMYSQL
+        case 'SavemySQL':
+            include 'admin/savemysql.php';
+            break;
+
         */
 
         parent::initialize();        

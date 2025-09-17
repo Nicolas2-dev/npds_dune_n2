@@ -299,6 +299,11 @@ class ModuleInstall extends AdminBaseController
         echo $display;
 
         Validation::adminFoot('', '', '', '');
+
+        case 'Module-Install':
+            include 'admin/module-install.php';
+            break;
+
         */
 
         parent::initialize();        

@@ -50,6 +50,15 @@ class Automated extends AdminBaseController
                 autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur);
                 break;
         }
+
+        // AUTOMATED
+        case 'autoStory':
+        case 'autoEdit':
+        case 'autoDelete':
+        case 'autoSaveEdit':
+            include 'admin/automated.php';
+            break;
+
         */
 
         parent::initialize();        

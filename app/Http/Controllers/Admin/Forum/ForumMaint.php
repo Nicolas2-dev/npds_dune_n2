@@ -24,6 +24,53 @@ class ForumMaint extends AdminBaseController
 
         include 'auth.php';
 
+        /*
+        case 'MaintForumAdmin':
+            include 'admin/phpbbmaint.php';
+            ForumMaintAdmin();
+            break;
+
+        case 'MaintForumMarkTopics':
+            include 'admin/phpbbmaint.php';
+            ForumMaintMarkTopics();
+            break;
+
+        case 'MaintForumTopics':
+            include 'admin/phpbbmaint.php';
+            ForumMaintTopics($before, $forum_name);
+            break;
+
+        case 'MaintForumTopicDetail':
+            include 'admin/phpbbmaint.php';
+            ForumMaintTopicDetail($topic, $topic_title);
+            break;
+
+        case 'SynchroForum':
+            include 'admin/phpbbmaint.php';
+            SynchroForum();
+            break;
+
+        case 'ForumMaintTopicSup':
+            include 'admin/phpbbmaint.php';
+            ForumMaintTopicSup($topic);
+            break;
+
+        case 'ForumMaintTopicMassiveSup':
+            include 'admin/phpbbmaint.php';
+            ForumMaintTopicMassiveSup($topics);
+            break;
+
+        case 'MergeForum':
+            include 'admin/phpbbmaint.php';
+            MergeForum();
+            break;
+
+        case 'MergeForumAction':
+            include 'admin/phpbbmaint.php';
+            MergeForumAction($oriforum, $destforum);
+            break;
+        */
+
         parent::initialize();        
     }
 

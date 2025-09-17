@@ -29,6 +29,12 @@ class Submissions extends AdminBaseController
                 submissions();
                 break;
         }
+
+        // NEWS
+        case 'submissions':
+            include 'admin/submissions.php';
+            break;
+
         */
 
         parent::initialize();        

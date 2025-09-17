@@ -140,6 +140,17 @@ class Authors extends AdminBaseController
                 Header('Location: admin.php?op=mod_authors');
                 break;
         }
+
+        // AUTHORS
+        case 'mod_authors':
+        case 'modifyadmin':
+        case 'UpdateAuthor':
+        case 'AddAuthor':
+        case 'deladmin':
+        case 'deladminconf':
+            include 'admin/authors.php';
+            break;
+
         */
 
         parent::initialize();        

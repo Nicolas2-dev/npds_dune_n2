@@ -20,6 +20,13 @@ class AblaLog extends AdminBaseController
         // controle droit
         // admindroits($aid, $f_meta_nom);
 
+        /*
+        //BLACKBOARD
+        case 'abla':
+            include 'abla.php';
+            break;
+        */
+
         parent::initialize();        
     }
 

@@ -24,6 +24,59 @@ class Forum extends AdminBaseController
 
         include 'auth.php';
 
+        /*
+        case 'ForumGoAdd':
+            settype($forum_pass, 'string');
+            include 'admin/phpbbforum.php';
+            ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
+            break;
+
+        case 'ForumGoSave':
+            include 'admin/phpbbforum.php';
+            ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
+            break;
+
+        case 'ForumCatDel':
+            include 'admin/phpbbforum.php';
+            ForumCatDel($cat_id, $ok);
+            break;
+
+        case 'ForumGoDel':
+            include 'admin/phpbbforum.php';
+            ForumGoDel($forum_id, $ok);
+            break;
+
+        case 'ForumCatSave':
+            include 'admin/phpbbforum.php';
+            ForumCatSave($old_cat_id, $cat_id, $cat_title);
+            break;
+
+        case 'ForumCatEdit':
+            include 'admin/phpbbforum.php';
+            ForumCatEdit($cat_id);
+            break;
+
+        case 'ForumGoEdit':
+            include 'admin/phpbbforum.php';
+            ForumGoEdit($forum_id, $ctg);
+            break;
+
+        case 'ForumGo':
+            include 'admin/phpbbforum.php';
+            ForumGo($cat_id);
+            break;
+
+        case 'ForumCatAdd':
+            include 'admin/phpbbforum.php';
+            ForumCatAdd($catagories);
+            break;
+
+        case 'ForumAdmin':
+            include 'admin/phpbbforum.php';
+            ForumAdmin();
+            break;
+        */
+
         parent::initialize();        
     }
 

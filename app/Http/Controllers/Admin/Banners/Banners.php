@@ -66,6 +66,21 @@ class Banners extends AdminBaseController
                 BannersAdmin();
                 break;
         }
+
+        // BANNERS
+        case 'BannersAdmin':
+        case 'BannersAdd':
+        case 'BannerAddClient':
+        case 'BannerFinishDelete':
+        case 'BannerDelete':
+        case 'BannerEdit':
+        case 'BannerChange':
+        case 'BannerClientDelete':
+        case 'BannerClientEdit':
+        case 'BannerClientChange':
+            include 'admin/banners.php';
+            break;
+
         */
 
         parent::initialize();        

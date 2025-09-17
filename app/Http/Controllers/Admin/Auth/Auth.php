@@ -14,6 +14,24 @@ class Auth extends AdminBaseController
      */
     protected function initialize()
     {
+        /*
+        case 'logout':
+            setcookie('admin');
+            setcookie('adm_exp');
+
+            unset($admin);
+
+            Header('Location: index.php');
+            break;
+
+            // tout ce bordel va être deprecated !
+            if ($admintest) {
+
+            } else {
+                login();
+            }
+        */
+
         parent::initialize();        
     }
 

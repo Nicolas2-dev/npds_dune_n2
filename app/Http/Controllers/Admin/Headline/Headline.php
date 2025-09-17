@@ -45,6 +45,16 @@ class Headline extends AdminBaseController
                 HeadlinesEdit($hid);
                 break;
         }
+
+        // REFERANTS
+        case 'HeadlinesDel':
+        case 'HeadlinesAdd':
+        case 'HeadlinesSave':
+        case 'HeadlinesAdmin':
+        case 'HeadlinesEdit':
+            include 'admin/headlines.php';
+            break;
+
         */
 
         parent::initialize();        

@@ -423,6 +423,126 @@ class Newsletter extends AdminBaseController
                 break;
         }
 
+        // LNL
+        case 'lnl':
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_Header':
+            $op = 'Sup_Header';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_Body':
+            $op = 'Sup_Body';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_Footer':
+            $op = 'Sup_Footer';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_HeaderOK':
+            $op = 'Sup_HeaderOK';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_BodyOK':
+            $op = 'Sup_BodyOK';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_FooterOK':
+            $op = 'Sup_FooterOK';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Shw_Header':
+            $op = 'Shw_Header';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Shw_Body':
+            $op = 'Shw_Body';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Shw_Footer':
+            $op = 'Shw_Footer';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Header':
+            $op = 'Add_Header';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Header_Submit':
+            $op = 'Add_Header_Submit';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Header_Mod':
+            $op = 'Add_Header_Mod';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Body':
+            $op = 'Add_Body';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Body_Submit':
+            $op = 'Add_Body_Submit';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Body_Mod':
+            $op = 'Add_Body_Mod';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Footer':
+            $op = 'Add_Footer';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Footer_Submit':
+            $op = 'Add_Footer_Submit';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Add_Footer_Mod':
+            $op = 'Add_Footer_Mod';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Test':
+            $op = 'Test';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Send':
+            $op = 'Send';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_List':
+            $op = 'List';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_User_List':
+            $op = 'User_List';
+            include 'admin/lnl.php';
+            break;
+
+        case 'lnl_Sup_User':
+            $op = 'Sup_User';
+            include 'admin/lnl.php';
+            break;
+
         */
 
         parent::initialize();        

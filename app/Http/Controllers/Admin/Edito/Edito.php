@@ -76,6 +76,14 @@ class Edito extends AdminBaseController
                 edito('', '', '', '', '');
                 break;
         }
+
+        // EDITO
+        case 'Edito':
+        case 'Edito_save':
+        case 'Edito_load':
+            include 'admin/adminedito.php';
+            break;
+
         */
         
         parent::initialize();        

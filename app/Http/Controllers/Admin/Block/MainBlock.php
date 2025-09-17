@@ -33,6 +33,12 @@ class MainBlock extends AdminBaseController
                 changemblock($title, $content);
                 break;
         }
+
+        case 'mblock':
+        case 'changemblock':
+            include 'admin/mainblock.php';
+            break;
+
         */
 
         parent::initialize();        

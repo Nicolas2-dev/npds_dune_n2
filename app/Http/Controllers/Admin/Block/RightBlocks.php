@@ -45,6 +45,13 @@ class RightBlocks extends AdminBaseController
                 break;
         }
 
+        case 'makerblock':
+        case 'deleterblock':
+        case 'changerblock':
+        case 'gaucherblock':
+            include 'admin/rightBlocks.php';
+            break;
+
         */
 
         parent::initialize();        

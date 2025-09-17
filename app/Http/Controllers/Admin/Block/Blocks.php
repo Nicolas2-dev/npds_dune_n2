@@ -28,6 +28,12 @@ class Blocks extends AdminBaseController
                 blocks();
                 break;
         }
+
+        // BLOCKS
+        case 'blocks':
+            include 'admin/blocks.php';
+            break;
+
         */
 
         parent::initialize();        

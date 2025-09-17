@@ -22,6 +22,19 @@ class ForumConfig extends AdminBaseController
         global $language, $adminimg, $admf_ext;
         $hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
 
+        /*
+        // FORUMS
+        case 'ForumConfigAdmin':
+            include 'admin/phpbbconfig.php';
+            ForumConfigAdmin();
+            break;
+
+        case 'ForumConfigChange':
+            include 'admin/phpbbconfig.php';
+            ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved);
+            break;
+        */
+
         parent::initialize();        
     }
 
