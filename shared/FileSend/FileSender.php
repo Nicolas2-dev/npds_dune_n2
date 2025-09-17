@@ -88,7 +88,7 @@ class FileSender
      */
     protected static function isCompressionAvailable(): bool
     {
-        return class_exists(\App\Support\Compress\Archive::class) 
+        return class_exists(\Shared\FileSend\Compress\Archive::class) 
                && function_exists('gzcompress') 
                && extension_loaded('zlib');
     }

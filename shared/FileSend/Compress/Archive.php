@@ -138,7 +138,7 @@ class Archive
     public function fileWrite(string $filename, ?int $perms = null): bool
     {
         if (!$this->overwrite && @file_exists($filename)) {
-            return $this->error('Le fichier $filename existe déjà.');
+            return $this->error('Le fichier ' . $filename . ' existe déjà.');
         }
 
         if (@file_exists($filename)) {
@@ -188,7 +188,7 @@ class Archive
         if ($fileSize === false || $fileSize === 0) {
             @fclose($fp);
 
-            $this->error('Fichier $filename vide.');
+            $this->error('Fichier ' . $filename . ' vide.');
 
             return false;
         }

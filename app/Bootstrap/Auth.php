@@ -1,5 +1,7 @@
 <?php
 
+// Forum 
+
 $rowQ1 = Q_Select("SELECT * 
                    FROM " . sql_prefix('config'), 3600);
 
