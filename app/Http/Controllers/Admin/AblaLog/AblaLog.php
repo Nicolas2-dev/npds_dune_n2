@@ -8,6 +8,7 @@ use App\Support\Error\Error;
 use App\Support\Facades\Url;
 use App\Support\Facades\Stat;
 use App\Support\Facades\Forum;
+use App\Library\Ablalog\AblaLogCache;
 use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
@@ -57,7 +58,7 @@ class AblaLog extends AdminBaseController
 
             ob_start();
 
-            include storage_path('abla/log.php');
+            include $path = storage_path('abla/log.php');
 
             list($membres, $totala, $totalb, $totalc, $totald, $totalz) = Stat::reqStat();
 
@@ -122,15 +123,15 @@ class AblaLog extends AdminBaseController
                         ' . $this->row_span($totalnl, $xtotalnl) . '
                     </tr>';
 
-            $xfile = "<?php\n";
-            $xfile .= "\$xdate = " . time() . ";\n";
-            $xfile .= "\$xtotalz = $totalz;\n";
-            $xfile .= "\$xmembres = $membres;\n";
-            $xfile .= "\$xtotala = $totala;\n";
-            $xfile .= "\$xtotalc = $totalc;\n";
-            $xfile .= "\$xtotald = $totald;\n";
-            $xfile .= "\$xtotalb = $totalb;\n";
-            $xfile .= "\$xtotalnl = $totalnl;\n";
+            $cache = new AblaLogCache($path);        
+            $cache->addVar('xdate', time());
+            $cache->addVar('xtotalz', $totalz);
+            $cache->addVar('xmembres', $membres);
+            $cache->addVar('xtotala', $totala);
+            $cache->addVar('xtotalc', $totalc);
+            $cache->addVar('xtotald', $totald);
+            $cache->addVar('xtotalb', $totalb);
+            $cache->addVar('xtotalnl', $totalnl);
 
             echo '</tbody>
             </table>
@@ -171,8 +172,8 @@ class AblaLog extends AdminBaseController
                 echo '</span> -/- ' . $dcounter . '</td>
                 </tr>';
 
-                $xfile .= "\$xdownload[$num_dow][1] = \"$dfilename\";\n";
-                $xfile .= "\$xdownload[$num_dow][2] = \"$dcounter\";\n";
+                $cache->addArray('xdownload', $num_dow, 1, $dfilename);
+                $cache->addArray('xdownload', $num_dow, 2, $dcounter);
             }
 
             echo '</tbody>
@@ -221,8 +222,10 @@ class AblaLog extends AdminBaseController
                         $total_topics = Forum::getTotalTopics((int) $myrow['forum_id']);
 
                         $name = stripslashes($myrow['forum_name']);
-                        $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
-                        $xfile .= "\$xforum[$num_for][2] = $total_topics;\n";
+
+                        $cache->addArray('xforum', $num_for, 1, $name);
+                        $cache->addArray('xforum', $num_for, 2, $total_topics);
+
                         $desc = stripslashes($myrow['forum_desc']);
 
                         echo '<td>
@@ -246,7 +249,8 @@ class AblaLog extends AdminBaseController
                         echo '</span> -/- ' . $total_topics . '</td>';
 
                         $total_posts = Forum::getTotalPosts((int) $myrow['forum_id'], "", "forum", false);
-                        $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
+                       
+                        $cache->addArray('xforum', $num_for, 3, $total_posts);
 
                         echo '<td class="text-center"><span class="text-danger">';
 
@@ -264,11 +268,7 @@ class AblaLog extends AdminBaseController
                 </tbody>
             </table>';
 
-            $file = fopen(storage_path('abla/log.php'), 'w');
-            $xfile .= "?>\n";
-
-            fwrite($file, $xfile);
-            fclose($file);
+            $cache->save();
 
             Validation::adminFoot('', '', '', '');
 
