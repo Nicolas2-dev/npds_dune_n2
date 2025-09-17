@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Controllers\Admin\User;
@@ -7,7 +6,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
-class User extends AdminBaseController
+class Users extends AdminBaseController
 {
     /**
      * Method executed before any action.

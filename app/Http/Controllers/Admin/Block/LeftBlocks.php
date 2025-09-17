@@ -58,7 +58,7 @@ class LeftBlocks extends AdminBaseController
         parent::initialize();        
     }
 
-    public function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLaide, $SHTML, $css)
+    public function makeLeftBlock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLaide, $SHTML, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -87,7 +87,7 @@ class LeftBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function changelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
+    public function changeLeftBlock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -128,7 +128,7 @@ class LeftBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function changedroitelblock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
+    public function changeDroiteLeftBlock($id, $title, $content, $members, $Mmember, $Lindex, $Scache, $Sactif, $BLaide, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -170,7 +170,7 @@ class LeftBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function deletelblock($id)
+    public function deleteLeftBlock($id)
     {
         sql_query("DELETE FROM " . sql_prefix('lblocks') . " 
                 WHERE id='$id'");

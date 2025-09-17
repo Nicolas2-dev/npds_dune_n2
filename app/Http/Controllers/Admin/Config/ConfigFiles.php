@@ -158,7 +158,7 @@ class ConfigFiles extends AdminBaseController
         parent::initialize();        
     }
 
-    public function ConfigFiles($contents, $files)
+    public function configFiles($contents, $files)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -281,7 +281,7 @@ class ConfigFiles extends AdminBaseController
         Validation::adminFoot('', '', '', '');
     }
 
-    public function ConfigFiles_save($Xtxt, $Xfiles)
+    public function configFilesSave($Xtxt, $Xfiles)
     {
         if ($Xfiles == 'header_before') {
             $fp = fopen('themes/base/bootstrap/header_before.php', 'w');
@@ -335,7 +335,7 @@ class ConfigFiles extends AdminBaseController
         header('location: admin.php?op=ConfigFiles');
     }
 
-    public function delete_configfile($fileX)
+    public function deleteConfigFile($fileX)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -351,7 +351,7 @@ class ConfigFiles extends AdminBaseController
         Validation::adminFoot('', '', '', '');
     }
 
-    public function ConfigFiles_delete($modele)
+    public function configFilesDelete($modele)
     {
         if ($modele == 'header_before') {
             @unlink('themes/base/bootstrap/header_before.php');
@@ -377,7 +377,7 @@ class ConfigFiles extends AdminBaseController
         header('location: admin.php?op=ConfigFiles');
     }
 
-    public function copy_sample($fileX)
+    public function copySample($fileX)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $header;
 
@@ -396,7 +396,7 @@ class ConfigFiles extends AdminBaseController
         Validation::adminFoot('', '', '', '');
     }
 
-    public function ConfigFiles_create($modele)
+    public function configFilesCreate($modele)
     {
         @umask(0000);
 

@@ -2,7 +2,7 @@
 
 namespace Modules\Contact\Http\Controllers\Front;
 
-use Npds\View\View;
+use Npds\Support\Facades\View;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -12,14 +12,14 @@ class Contact extends FrontBaseController
     protected int $pdst = 1;
 
     /**
-     * Constructeur du contrôleur Home
-     *
-     * Permet d'initialiser le contrôleur, charger des services ou des middleware si nécessaire.
+     * Method executed before any action.
      */
-    public function __construct()
+    protected function initialize()
     {
-        //
-        parent::__construct();
+
+        View::addNamespace('Modules/Contact', 'modules/Contact/Views');
+
+        parent::initialize();        
     }
 
     /**
@@ -27,7 +27,7 @@ class Contact extends FrontBaseController
      *
      * @return View  Instance de la vue pour la page d'accueil
      */
-    public function index(): View
+    public function index()
     {
         $content = 'This is the Contact page';
 

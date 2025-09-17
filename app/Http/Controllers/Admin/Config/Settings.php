@@ -47,7 +47,7 @@ class Setting extends AdminBaseController
         parent::initialize();        
     }
 
-    public function Configure()
+    public function configure()
     {
         global $hlpfile, $filemanager, $f_meta_nom, $f_titre, $adminimg;
 

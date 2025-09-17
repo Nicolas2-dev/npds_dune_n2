@@ -44,7 +44,7 @@ class MainBlock extends AdminBaseController
         parent::initialize();        
     }
 
-    public function mblock()
+    public function mainBlock()
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -90,7 +90,7 @@ class MainBlock extends AdminBaseController
         Validation::adminFoot('fv', '', '', '');
     }
 
-    public function changemblock($title, $content)
+    public function changeMainBlock($title, $content)
     {
         global $aid;
 

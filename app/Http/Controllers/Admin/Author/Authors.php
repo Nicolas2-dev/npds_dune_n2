@@ -229,7 +229,7 @@ class Authors extends AdminBaseController
         </script>';
     }
 
-    public function displayadmins()
+    public function displayAdmins()
     {
         global $hlpfile, $admf_ext, $fieldnames, $listdroits, $listdroitsmodulo, $f_meta_nom, $f_titre, $adminimg, $scri_check;
 
@@ -391,7 +391,7 @@ class Authors extends AdminBaseController
         Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     }
 
-    public function modifyadmin($chng_aid)
+    public function modifyAdmin($chng_aid)
     {
         global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $scri_check, $fv_parametres;
 
@@ -556,13 +556,13 @@ class Authors extends AdminBaseController
         Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     }
 
-    public function deletedroits($del_dr_aid)
+    public function deleteDroits($del_dr_aid)
     {
         $res = sql_query("DELETE FROM " . sql_prefix('droits') . " 
                         WHERE d_aut_aid='$del_dr_aid'");
     }
 
-    public function updatedroits($chng_aid)
+    public function updateDroits($chng_aid)
     {
         foreach ($_POST as $y => $w) {
             if (stristr("$y", 'ad_d_')) {
@@ -572,7 +572,7 @@ class Authors extends AdminBaseController
         }
     }
 
-    public function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $ad_d_27, $old_pwd)
+    public function updateAdmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $ad_d_27, $old_pwd)
     {
         if (!($chng_aid && $chng_name && $chng_email)) {
             Header('Location: admin.php?op=mod_authors');
@@ -701,7 +701,7 @@ class Authors extends AdminBaseController
         Header('Location: admin.php?op=mod_authors');
     }
 
-    public function error_handler($ibid)
+    public function errorHandler($ibid)
     {
         echo '<div class="alert alert-danger mb-3">
         ' . adm_translate('Merci d\'entrer l\'information en fonction des spécifications') . '<br />' . $ibid . '

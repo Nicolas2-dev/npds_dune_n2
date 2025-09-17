@@ -40,7 +40,7 @@ class AdminBlock extends AdminBaseController
         parent::initialize();        
     }
 
-    public function ablock()
+    public function adminBlock()
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
 
@@ -83,7 +83,7 @@ class AdminBlock extends AdminBaseController
         Validation::adminFoot('fv', '', $arg1 ?? '', '');
     }
 
-    public function changeablock($title, $content)
+    public function changeAdminBlock($title, $content)
     {
         global $aid;
 

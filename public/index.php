@@ -142,6 +142,6 @@ $response = $router->dispatch($request);
 if (! $response instanceof Response) {
     $response = new Response($response);
 }
-
+ 
 // Envoi de la réponse HTTP
 $response->send();

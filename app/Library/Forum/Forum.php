@@ -69,12 +69,12 @@ class Forum
      * Retourne le nombre total de posts pour un forum, un topic ou un utilisateur.
      *
      * @param int $fid ID du forum
-     * @param int|null $tid ID du topic (optionnel)
+     * @param string $tid ID du topic (optionnel)
      * @param string $type 'forum', 'topic' ou 'user'
      * @param bool $Mmod Indique si l'utilisateur est modérateur
      * @return int|string Nombre de posts, ou 'ERROR' en cas de problème
      */
-    public function getTotalPosts(int $fid, ?int $tid, string $type, bool $Mmod): int|string
+    public function getTotalPosts(int $fid, string $tid, string $type, bool $Mmod): int|string
     {
         $post_aff = $Mmod ? '' : " AND post_aff='1'";
 

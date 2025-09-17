@@ -189,6 +189,7 @@ $langManager = LanguageManager::getInstance();
 $iso = strtoupper($langManager->getIso($language = Config::get('language.language')));
 
 include APPPATH . 'Language/' . $iso . '/lang-' . $language . '.php';
+include APPPATH . 'Language/' . $iso . '/lang-adm-'.$language.'.php';
 
 /*
 |--------------------------------------------------------------------------

@@ -19,7 +19,7 @@ Route::get(
 );
 
 Route::get(
-    'contact',        
+    '/contact',        
     'Modules\Contact\Http\Controllers\Front\Contact@index'
 );
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Core;
 use Npds\Support\Str;
 use Npds\Http\Request;
 use Npds\Config\Config;
-use Npds\Http\Response;
 use BadMethodCallException;
 use Npds\Routing\Controller;
 use Npds\Support\Facades\View;
@@ -214,12 +213,15 @@ class BaseController extends Controller
         $path = str_replace('\\', '/', static::class);
 
         if (preg_match('#^(.+)/Http/Controllers/(.*)$#', $path, $matches) === 1) {
+
             list (, $basePath, $viewPath) = $matches;
 
             //
             if ($basePath != 'App') {
                 $viewPath = sprintf('%s::%s', $basePath, $viewPath);
             }
+
+            //$viewPath = $this->resolveViewFromTheme($viewPath);
 
             return $this->viewPath = $viewPath;
         }

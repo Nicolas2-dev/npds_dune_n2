@@ -78,7 +78,7 @@ class Blocks extends AdminBaseController
         );
     }
 
-    public function droits_bloc($member, $j, $lb)
+    public function droitsBloc($member, $j, $lb)
     {
         echo '<div class="mb-3">
         <div class="form-check form-check-inline">';

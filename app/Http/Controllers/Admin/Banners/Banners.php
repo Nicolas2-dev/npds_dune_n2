@@ -86,7 +86,7 @@ class Banners extends AdminBaseController
         parent::initialize();        
     }
 
-    public function BannersAdmin()
+    public function bannersAdmin()
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -384,7 +384,7 @@ class Banners extends AdminBaseController
         Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     }
 
-    public function BannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
+    public function bannersAdd($cid, $imptotal, $imageurl, $clickurl, $userlevel)
     {
         sql_query("INSERT INTO " . sql_prefix('banner') . " 
                 VALUES (NULL, '$cid', '$imptotal', '1', '0', '$imageurl', '$clickurl', '$userlevel', now())");
@@ -392,7 +392,7 @@ class Banners extends AdminBaseController
         Header('Location: admin.php?op=BannersAdmin');
     }
 
-    public function BannerAddClient($name, $contact, $email, $login, $passwd, $extrainfo)
+    public function bannerAddClient($name, $contact, $email, $login, $passwd, $extrainfo)
     {
         sql_query("INSERT INTO " . sql_prefix('bannerclient') . " 
                 VALUES (NULL, '$name', '$contact', '$email', '$login', '$passwd', '$extrainfo')");
@@ -400,7 +400,7 @@ class Banners extends AdminBaseController
         Header('Location: admin.php?op=BannersAdmin');
     }
 
-    public function BannerFinishDelete($bid)
+    public function bannerFinishDelete($bid)
     {
         sql_query("DELETE FROM " . sql_prefix('bannerfinish') . " 
                 WHERE bid='$bid'");
@@ -408,7 +408,7 @@ class Banners extends AdminBaseController
         Header('Location: admin.php?op=BannersAdmin');
     }
 
-    public function BannerDelete($bid, $ok = 0)
+    public function bannerDelete($bid, $ok = 0)
     {
         global $f_meta_nom, $f_titre, $adminimg;
 
@@ -479,7 +479,7 @@ class Banners extends AdminBaseController
         Validation::adminFoot('', '', '', '');
     }
 
-    public function BannerEdit($bid)
+    public function bannerEdit($bid)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -565,7 +565,7 @@ class Banners extends AdminBaseController
         Validation::adminFoot('fv', '', $arg1, '');
     }
 
-    public function BannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
+    public function bannerChange($bid, $cid, $imptotal, $impadded, $imageurl, $clickurl, $userlevel)
     {
         $imp = $imptotal + $impadded;
 
@@ -576,7 +576,7 @@ class Banners extends AdminBaseController
         Header('Location: admin.php?op=BannersAdmin');
     }
 
-    public function BannerClientDelete($cid, $ok = 0)
+    public function bannerClientDelete($cid, $ok = 0)
     {
         global $sitename, $f_meta_nom, $f_titre, $adminimg;
 
@@ -629,7 +629,7 @@ class Banners extends AdminBaseController
         Validation::adminFoot('', '', '', '');
     }
 
-    public function BannerClientEdit($cid)
+    public function bannerClientEdit($cid)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
@@ -701,7 +701,7 @@ class Banners extends AdminBaseController
         Validation::adminFoot('fv', $fv_parametres, $arg1, '');
     }
 
-    public function BannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)
+    public function bannerClientChange($cid, $name, $contact, $email, $extrainfo, $login, $passwd)
     {
         sql_query("UPDATE " . sql_prefix('bannerclient') . " 
                 SET name='$name', contact='$contact', email='$email', login='$login', passwd='$passwd', extrainfo='$extrainfo' 

@@ -78,18 +78,18 @@ class Response
     /**
      * Constructeur de la réponse.
      *
-     * @param string|object $content Contenu de la réponse
+     * @param string|object|null $content Contenu de la réponse
      * @param int $status Code de statut HTTP
      * @param array<string, string> $headers En-têtes HTTP
      */
-    public function __construct(string|object $content = '', int $status = 200, array $headers = [])
+    public function __construct(string|object|null $content = '', int $status = 200, array $headers = [])
     {
         if (isset(self::$statuses[$status])) {
             $this->status = $status;
         }
 
         $this->headers = $headers;
-        $this->content = $content;
+        $this->content = $content ?? '';
     }
 
     /**
@@ -176,11 +176,21 @@ class Response
     /**
      * Récupère le contenu de la réponse.
      *
-     * @return string|object
+     * @return string|object|null
      */
     public function content(): string|object
     {
         return $this->content;
+    }
+
+    /**
+     * Setter explicite si besoin.
+     */
+    public function setContent(string|object $content): self
+    {
+        $this->content = $content;
+        
+        return $this;
     }
 
     /**

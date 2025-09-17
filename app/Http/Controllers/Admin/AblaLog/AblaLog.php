@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Abla;
+namespace App\Http\Controllers\Admin\AblaLog;
 
 
+use App\Support\Sanitize;
+use App\Support\Error\Error;
+use App\Support\Facades\Url;
+use App\Support\Facades\Stat;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
 class AblaLog extends AdminBaseController
 {
+
+    protected int $pdst = 0;
 
     /**
      * Method executed before any action.
@@ -15,7 +23,7 @@ class AblaLog extends AdminBaseController
     protected function initialize()
     {
         // $f_meta_nom = 'abla';
-        // $f_titre = translate('Tableau de bord');
+        //$f_titre = translate('Tableau de bord');
 
         // controle droit
         // admindroits($aid, $f_meta_nom);
@@ -30,9 +38,11 @@ class AblaLog extends AdminBaseController
         parent::initialize();        
     }
 
-    public function index()
+    public function log()
     {
-        global $admin; // global a revoir !
+        //global $admin; // global a revoir !
+
+        $admin = true;
 
         if ($admin) {
             // include 'header.php';
@@ -44,7 +54,11 @@ class AblaLog extends AdminBaseController
             // adminhead($f_meta_nom, $f_titre, $adminimg);
 
             // global $startdate;
-            
+
+            ob_start();
+
+            include storage_path('abla/log.php');
+
             list($membres, $totala, $totalb, $totalc, $totald, $totalz) = Stat::reqStat();
 
             // LNL Email in outside table
@@ -56,8 +70,6 @@ class AblaLog extends AdminBaseController
             } else {
                 $totalnl = "0";
             }
-
-            include storage_path('abla/log.php');
 
             $timex = time() - $xdate;
 
@@ -202,11 +214,11 @@ class AblaLog extends AdminBaseController
                     do {
                         $num_for++;
 
-                        $last_post = Forum::getLastPost($myrow['forum_id'], 'forum', 'infos', true);
+                        $last_post = Forum::getLastPost((int) $myrow['forum_id'], 'forum', 'infos', true);
 
                         echo '<tr>';
 
-                        $total_topics = Forum::getTotalTopics($myrow['forum_id']);
+                        $total_topics = Forum::getTotalTopics((int) $myrow['forum_id']);
 
                         $name = stripslashes($myrow['forum_name']);
                         $xfile .= "\$xforum[$num_for][1] = \"$name\";\n";
@@ -233,7 +245,7 @@ class AblaLog extends AdminBaseController
 
                         echo '</span> -/- ' . $total_topics . '</td>';
 
-                        $total_posts = Forum::getTotalPosts($myrow['forum_id'], "", "forum", false);
+                        $total_posts = Forum::getTotalPosts((int) $myrow['forum_id'], "", "forum", false);
                         $xfile .= "\$xforum[$num_for][3] = $total_posts;\n";
 
                         echo '<td class="text-center"><span class="text-danger">';
@@ -259,12 +271,18 @@ class AblaLog extends AdminBaseController
             fclose($file);
 
             Validation::adminFoot('', '', '', '');
+
+            $renderContent = ob_get_clean();
+
+            return $this->createView(['content' => $renderContent])
+                ->shares('title', 'Homepage');
+
         } else {
             Url::redirectUrl('index.php');
         }
     }
 
-    private function row_span($total, $xtotal)
+    private function row_span(int $total, int $xtotal): string 
     {
         $content = '<td>' . Sanitize::wrh($total) . ' (';
 

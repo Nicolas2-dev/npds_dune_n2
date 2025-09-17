@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 
+use Npds\Config\Config;
+use App\Support\Facades\Language;
+use App\Support\Facades\Paginator;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
 class Dashboard extends AdminBaseController
 {
+
+    protected int $pdst = 0;
+
     /**
      * Method executed before any action.
      */
@@ -29,20 +35,23 @@ class Dashboard extends AdminBaseController
     }
 
     // controller Admin Home !
-    public function adminMain($deja_affiches)
+    public function adminMain(int $deja_affiches = 0)
     {
-        global $language, $admart, $hlpfile, $aid, $admf_ext;
+        global $language, $hlpfile, $aid;
 
-        $hlpfile = 'manuels/' . $language . '/admin.html';
+        $admart = Config::get('graphics.admart');
+        $admf_ext = Config::get('graphics.admf_ext');
 
-        include 'header.php';
-        include_once 'functions.php';
+        //$hlpfile = 'manuels/' . $language . '/admin.html';
 
         global $short_menu_admin;
 
         $short_menu_admin = false;
 
-        $radminsuper = GraphicAdmin($hlpfile);
+        //$radminsuper = GraphicAdmin($hlpfile);
+        $radminsuper = true;
+
+        ob_start();
 
         echo '
         <div id="adm_men_art" class="adm_workarea">
@@ -195,7 +204,11 @@ class Dashboard extends AdminBaseController
 
         echo '</div>';
 
-        include 'footer.php';
+        $renderContent = ob_get_clean();
+
+        return $this->createView(['content' => $renderContent], 'Index')
+            ->shares('title', 'Homepage');
+
     }
 
 }

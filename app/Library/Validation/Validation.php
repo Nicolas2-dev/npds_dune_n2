@@ -3,6 +3,7 @@
 namespace App\Library\Validation;
 
 use Npds\Config\Config;
+use Npds\Support\Facades\View;
 use App\Support\Facades\Language;
 
 
@@ -50,18 +51,20 @@ class Validation
      */
     public function adminFoot(string $fv, string $fv_parametres, string $arg1, string $foo): void
     {
+        $content = '';
+        
         if ($fv == 'fv') {
 
             if ($fv_parametres != '') {
                 $fv_parametres = explode('!###!', $fv_parametres);
             }
 
-            echo '<script type="text/javascript" src="assets/shared/es6/es6-shim.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/FormValidation.full.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/locales/' . Language::languageIso(1, "_", 1) . '.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-            <script type="text/javascript" src="assets/shared/formvalidation/dist/js/plugins/L10n.min.js"></script>
-            <script type="text/javascript" src="assets/js/npds_checkfieldinp.js"></script>
+            $content .= '<script type="text/javascript" src="' . asset_url('shared/es6/es6-shim.min.js') .'"></script>
+            <script type="text/javascript" src="' . asset_url('shared/formvalidation/dist/js/FormValidation.full.min.js') .'"></script>
+            <script type="text/javascript" src="' . asset_url('shared/formvalidation/dist/js/locales/' . Language::languageIso(1, "_", 1) . '.min.js') .'"></script>
+            <script type="text/javascript" src="' . asset_url('shared/formvalidation/dist/js/plugins/Bootstrap5.min.js') .'"></script>
+            <script type="text/javascript" src="' . asset_url('shared/formvalidation/dist/js/plugins/L10n.min.js') .'"></script>
+            <script type="text/javascript" src="' . asset_url('js/npds_checkfieldinp.js') .'"></script>
             <script type="text/javascript">
             //<![CDATA[
             ' . $arg1 . '
@@ -135,10 +138,10 @@ class Validation
                         fields: {';
 
             if ($fv_parametres != '') {
-                echo '' . $fv_parametres[0];
+                $content .= '' . $fv_parametres[0];
             }
 
-            echo '},
+            $content .= '},
                     plugins: {
                         declarative: new FormValidation.plugins.Declarative({
                             html5Input: true,
@@ -185,11 +188,11 @@ class Validation
 
             if ($fv_parametres != '') {
                 if (array_key_exists(1, $fv_parametres)) {
-                    echo '' . $fv_parametres[1];
+                    $content .= '' . $fv_parametres[1];
                 }
             }
 
-            echo '})
+            $content .= '})
                 });
             //]]>
             </script>';
@@ -198,13 +201,15 @@ class Validation
         switch ($foo) {
 
             case '':
-                echo '</div>';
-                include 'footer.php';
+                $content .= '</div>';
+                //include 'footer.php';
                 break;
 
-            case 'foo':
-                include 'footer.php';
-                break;
+            //case 'foo':
+            //    include 'footer.php';
+            //    break;
         }
+
+        View::share('validation', $content);
     }
 }

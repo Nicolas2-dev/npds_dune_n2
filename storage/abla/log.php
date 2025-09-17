@@ -1,7 +1,7 @@
 <?php
-$xdate = 1442510729;
-$xtotalz = 2;
-$xmembres = 2;
+$xdate = 1758102596;
+$xtotalz = 19;
+$xmembres = 1;
 $xtotala = 4;
 $xtotalc = 2;
 $xtotald = 3;
@@ -13,3 +13,4 @@ $xforum[1][3] = 2;
 $xforum[2][1] = "Arbre";
 $xforum[2][2] = 1;
 $xforum[2][3] = 4;
+?>

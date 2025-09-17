@@ -166,7 +166,7 @@ switch ($pdst) {
         break;
 }
 
-echo 'vue du theme NpdsBoostSK';
+echo 'vue du layout theme NpdsBoostSK';
 
 echo $content;
 

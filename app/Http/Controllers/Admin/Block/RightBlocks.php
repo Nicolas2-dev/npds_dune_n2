@@ -57,7 +57,7 @@ class RightBlocks extends AdminBaseController
         parent::initialize();        
     }
 
-    public function makerblock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRaide, $SHTML, $css)
+    public function makeRightBlock($title, $content, $members, $Mmember, $Rindex, $Scache, $BRaide, $SHTML, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -87,7 +87,7 @@ class RightBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function changerblock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
+    public function changeRightBlock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -121,7 +121,7 @@ class RightBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function changegaucherblock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
+    public function changegaucheRightBlock($id, $title, $content, $members, $Mmember, $Rindex, $Scache, $Sactif, $BRaide, $css)
     {
         if (is_array($Mmember) and ($members == 1)) {
             $members = implode(',', $Mmember);
@@ -157,7 +157,7 @@ class RightBlocks extends AdminBaseController
         Header('Location: admin.php?op=blocks');
     }
 
-    public function deleterblock($id)
+    public function deleteRightBlock($id)
     {
         sql_query("DELETE FROM " . sql_prefix('rblocks') . " 
                 WHERE id='$id'");

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Support\Facades\Block;
+use App\Support\Facades\Theme;
+use Npds\Support\Facades\View;
 use App\Http\Controllers\Core\BaseController;
 
 
 class AdminBaseController extends BaseController 
 {
+
+    protected int $pdst = 1;
 
     /**
      * Method executed before any action.
@@ -81,6 +86,11 @@ class AdminBaseController extends BaseController
         } 
         */  
         
+        //
+        View::share('theme', Theme::getTheme());
+
+        View::share('pdst',  Block::checkPdst($this->pdst));
+
         parent::initialize();
     }
 

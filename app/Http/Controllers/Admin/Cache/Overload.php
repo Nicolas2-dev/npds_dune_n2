@@ -57,55 +57,6 @@ class Overload extends AdminBaseController
         parent::initialize();        
     }
 
-    public function save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules)
-    {
-        $line = "/************************************************************************/\n";
-        $content = "<?php\n";
-        $content .= "$line";
-        $content .= "/* DUNE by NPDS / SUPER-CACHE engine                                    */\n";
-        $content .= "/*                                                                      */\n";
-        $content .= "/* NPDS Copyright (c) 2002-" . date("Y") . " by Philippe Brunier        */\n";
-        $content .= "/*                                                                      */\n";
-        $content .= "/* This program is free software. You can redistribute it and/or modify */\n";
-        $content .= "/* it under the terms of the GNU General Public License as published by */\n";
-        $content .= "/* the Free Software Foundation; either version 3 of the License.       */\n";
-        $content .= "$line";
-        $content .= "/* \n";
-        $content .= "Notes : \n";
-        $content .= "- les valeurs des éléments du tableau \$CACHE_TIMINGS sont des integer représentant des secondes\n";
-        $content .= "- les valeurs des éléments du tableau \$CACHE_QUERYS sont des chaines de caractères représentant un masque (pattern) valide d'une expression régulière (preg_match)\n";
-        $content .= "exemples :\n";
-        $content .= "#\$CACHE_TIMINGS['index.php'] = 300; //==> soit 5 minutes\n";
-        $content .= "#\$CACHE_QUERYS['index.php']  = \"^\"; //==> soit toujours vrai dans cet exemple donc /index.php suivi de n'importe quel paramètres\n\n";
-        $content .= "#\$CACHE_QUERYS['leprog.php']  = \"^opc=(visite|modification|commentaire)\"; //==> soit vrai SI le premier paramètre de /leprog.php est opc=visite ou opc=modification ou opc=commentaire (quelques soient les paramètres suivants)\n";
-        $content .= "#\$CACHE_QUERYS['section.php'] = \"^offset=(10|20|30)&cat=[0-9]{1,2}\"; //==> soit vrai SI le premier paramètre de /section.php est offset=10 ou offset=20 ou offset=30 suivi du paramètre cat ayant une valeur de 0 à 99\n";
-        $content .= "#\$CACHE_QUERYS['news.php']    = \"^idn=[0-9]{1,2}\"; //==> soit vrai SI le premier paramètre de /news.php est idn avec une valeur de 0 à 99\n\n";
-        $content .= "*/\n";
-        $content .= "\$SuperCache = $xsupercache;\n\n";
-        $content .= "\$CACHE_TIMINGS['index.php'] = $xt_index;\n";
-        $content .= "\$CACHE_QUERYS['index.php'] = \"^\";\n\n";
-        $content .= "\$CACHE_TIMINGS['article.php'] = $xt_article;\n";
-        $content .= "\$CACHE_QUERYS['article.php'] = \"^\";\n\n";
-        $content .= "\$CACHE_TIMINGS['sections.php'] = $xt_sections;\n";
-        $content .= "\$CACHE_QUERYS['sections.php'] = \"^op\";\n\n";
-        $content .= "\$CACHE_TIMINGS['faq.php'] = $xt_faq;\n";
-        $content .= "\$CACHE_QUERYS['faq.php'] = \"^myfaq\";\n\n";
-        $content .= "\$CACHE_TIMINGS['links.php'] = $xt_links;\n";
-        $content .= "\$CACHE_QUERYS['links.php'] = \"^\";\n\n";
-        $content .= "\$CACHE_TIMINGS['forum.php'] = $xt_forum;\n";
-        $content .= "\$CACHE_QUERYS['forum.php'] = \"^\";\n\n";
-        $content .= "\$CACHE_TIMINGS['memberslist.php'] = $xt_memberlist;\n";
-        $content .= "\$CACHE_QUERYS['memberslist.php'] = \"^\";\n\n";
-        $content .= "\$CACHE_TIMINGS['modules.php'] = $xt_modules;\n";
-        $content .= "\$CACHE_QUERYS['modules.php'] = \"^\";\n";
-        $content .= "?>";
-
-        $file = fopen('config/cache.timings.php', 'w');
-
-        fwrite($file, $content);
-        fclose($file);
-    }
-
     public function main()
     {
         global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
@@ -301,6 +252,55 @@ class Overload extends AdminBaseController
             inpandfieldlen("xt_modules",6);';
 
         Validation::adminFoot('fv', $fv_parametres, $arg1, '');
+    }
+
+    public function saveSuperCache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules)
+    {
+        $line = "/************************************************************************/\n";
+        $content = "<?php\n";
+        $content .= "$line";
+        $content .= "/* DUNE by NPDS / SUPER-CACHE engine                                    */\n";
+        $content .= "/*                                                                      */\n";
+        $content .= "/* NPDS Copyright (c) 2002-" . date("Y") . " by Philippe Brunier        */\n";
+        $content .= "/*                                                                      */\n";
+        $content .= "/* This program is free software. You can redistribute it and/or modify */\n";
+        $content .= "/* it under the terms of the GNU General Public License as published by */\n";
+        $content .= "/* the Free Software Foundation; either version 3 of the License.       */\n";
+        $content .= "$line";
+        $content .= "/* \n";
+        $content .= "Notes : \n";
+        $content .= "- les valeurs des éléments du tableau \$CACHE_TIMINGS sont des integer représentant des secondes\n";
+        $content .= "- les valeurs des éléments du tableau \$CACHE_QUERYS sont des chaines de caractères représentant un masque (pattern) valide d'une expression régulière (preg_match)\n";
+        $content .= "exemples :\n";
+        $content .= "#\$CACHE_TIMINGS['index.php'] = 300; //==> soit 5 minutes\n";
+        $content .= "#\$CACHE_QUERYS['index.php']  = \"^\"; //==> soit toujours vrai dans cet exemple donc /index.php suivi de n'importe quel paramètres\n\n";
+        $content .= "#\$CACHE_QUERYS['leprog.php']  = \"^opc=(visite|modification|commentaire)\"; //==> soit vrai SI le premier paramètre de /leprog.php est opc=visite ou opc=modification ou opc=commentaire (quelques soient les paramètres suivants)\n";
+        $content .= "#\$CACHE_QUERYS['section.php'] = \"^offset=(10|20|30)&cat=[0-9]{1,2}\"; //==> soit vrai SI le premier paramètre de /section.php est offset=10 ou offset=20 ou offset=30 suivi du paramètre cat ayant une valeur de 0 à 99\n";
+        $content .= "#\$CACHE_QUERYS['news.php']    = \"^idn=[0-9]{1,2}\"; //==> soit vrai SI le premier paramètre de /news.php est idn avec une valeur de 0 à 99\n\n";
+        $content .= "*/\n";
+        $content .= "\$SuperCache = $xsupercache;\n\n";
+        $content .= "\$CACHE_TIMINGS['index.php'] = $xt_index;\n";
+        $content .= "\$CACHE_QUERYS['index.php'] = \"^\";\n\n";
+        $content .= "\$CACHE_TIMINGS['article.php'] = $xt_article;\n";
+        $content .= "\$CACHE_QUERYS['article.php'] = \"^\";\n\n";
+        $content .= "\$CACHE_TIMINGS['sections.php'] = $xt_sections;\n";
+        $content .= "\$CACHE_QUERYS['sections.php'] = \"^op\";\n\n";
+        $content .= "\$CACHE_TIMINGS['faq.php'] = $xt_faq;\n";
+        $content .= "\$CACHE_QUERYS['faq.php'] = \"^myfaq\";\n\n";
+        $content .= "\$CACHE_TIMINGS['links.php'] = $xt_links;\n";
+        $content .= "\$CACHE_QUERYS['links.php'] = \"^\";\n\n";
+        $content .= "\$CACHE_TIMINGS['forum.php'] = $xt_forum;\n";
+        $content .= "\$CACHE_QUERYS['forum.php'] = \"^\";\n\n";
+        $content .= "\$CACHE_TIMINGS['memberslist.php'] = $xt_memberlist;\n";
+        $content .= "\$CACHE_QUERYS['memberslist.php'] = \"^\";\n\n";
+        $content .= "\$CACHE_TIMINGS['modules.php'] = $xt_modules;\n";
+        $content .= "\$CACHE_QUERYS['modules.php'] = \"^\";\n";
+        $content .= "?>";
+
+        $file = fopen('config/cache.timings.php', 'w');
+
+        fwrite($file, $content);
+        fclose($file);
     }
 
 }
