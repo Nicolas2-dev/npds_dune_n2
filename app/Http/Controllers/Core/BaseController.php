@@ -16,7 +16,6 @@ use Npds\Support\Contracts\RenderableInterface;
 class BaseController extends Controller
 {
 
-
     protected Request $request;
 
 
@@ -45,7 +44,6 @@ class BaseController extends Controller
 
 
     protected $skin;
-
 
 
     public function __construc(Request $request)

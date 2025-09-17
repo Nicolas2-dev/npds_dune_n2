@@ -1,27 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* NPDS Copyright (c) 2002-2024 by Philippe Brunier                     */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
-/*********************************************************************************************/
-/* NPDS V - SavemySQL_Databases 0.5     (20040611)                                           */
-/* based on SaveDB addon by Thomas Rudant (thomas.rudant@grunk.net)                          */
-/* originally inspired by the build_dump librarie of phpMyAdmin (http://www.phpmyadmin.org)  */
-/* Adapted by : M. PASCAL aKa EBH (plan.net@free.fr)                                         */
-/*********************************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Url\Url;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'SavemySQL';
 

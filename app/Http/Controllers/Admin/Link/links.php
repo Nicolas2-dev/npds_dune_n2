@@ -1,29 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* Based on PhpNuke 4.x source code                                     */
-/*                                                                      */
-/* This version name NPDS Copyright (c) 2001-2024 by Philippe Brunier   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Log\Log;
-use App\Library\String\Sanitize;
-use App\Library\Date\Date;
-use App\Library\Mailer\Mailer;
-use App\Library\Editeur\Editeur;
-use App\Library\Language\Language;
-use App\Library\Validation\Validation;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'links';
 $f_titre = 'Liens';

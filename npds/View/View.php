@@ -137,13 +137,13 @@ class View implements ArrayAccess, Renderable
      *
      * @return array Contenu des sections rendues
      */
-    //public function renderSections()
-    //{
-    //    return $this->render(function ($view)
-    //    {
-    //        return $this->factory->getSections();
-    //    });
-    //}
+    public function renderSections()
+    {
+        return $this->render(function ($view)
+        {
+            return $this->factory->getSections();
+        });
+    }
 
     /**
      * Récupère le contenu en utilisant le moteur de rendu.
@@ -174,6 +174,14 @@ class View implements ArrayAccess, Renderable
     /**
      * Crée une vue imbriquée.
      *
+     * <code>
+     *     // Add a View instance to a View's data
+     *     $view = View::make('foo')->nest('footer', 'Partials/Footer');
+     *
+     *     // Equivalent functionality using the "with" method
+     *     $view = View::make('foo')->with('footer', View::make('Partials/Footer'));
+     * </code>
+     * 
      * @param string $key   Clé pour stocker la sous-vue.
      * @param string $view  Nom de la vue imbriquée.
      * @param array  $data  Données pour la sous-vue.
@@ -213,16 +221,16 @@ class View implements ArrayAccess, Renderable
      * @param MessageProvider|array $provider Source des messages d'erreurs.
      * @return $this
      */
-    //public function withErrors(MessageProvider|array $provider): static
-    //{
-    //    if ($provider instanceof MessageProvider) {
-    //        $this->with('errors', $provider->getMessageBag());
-    //    } else {
-    //        $this->with('errors', new MessageBag((array) $provider));
-    //    }
-    //
-    //    return $this;
-    //}
+    public function withErrors(MessageProvider|array $provider): static
+    {
+        if ($provider instanceof MessageProvider) {
+            $this->with('errors', $provider->getMessageBag());
+        } else {
+            $this->with('errors', new MessageBag((array) $provider));
+        }
+    
+        return $this;
+    }
 
     /**
      * Partage une donnée globalement via la factory.
@@ -384,7 +392,8 @@ class View implements ArrayAccess, Renderable
         try {
             return $this->render();
         } catch (Exception $e) {
-            return $e; //'';
+            //return $e; //'';
+            return '';
         }
     }
 

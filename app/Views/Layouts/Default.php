@@ -1,5 +1,5 @@
 <?php
-if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/header_before')) {
+if (View::exists($theme_file = 'Bootstrap/header_before')) {
     echo View::make($theme_file);
 }
 ?>
@@ -30,11 +30,7 @@ if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/header_before
     <link href="<?= site_url('backend/ATOM'); ?>" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
 
     <?php
-    if (View::exists($theme_file = 'themes/Base/View/Bootstrap/header_head')) {
-        echo View::make($theme_file);
-    }
-
-    if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/header_head')) {
+    if (View::exists($theme_file = 'Bootstrap/header_head')) {
         echo View::make($theme_file);
     }
     ?>
@@ -52,7 +48,7 @@ if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/header_before
 // faire listener ou middleware
 //counterUpdate();
 
-if (file_exists('themes/' . $theme . '/Bootstrap/body_onload.php')) {
+if (View::exists('Bootstrap/body_onload.php')) {
     $onload_init = ' onload="init();"';
 } else {
     $onload_init = '';
@@ -70,16 +66,16 @@ if (!$ContainerGlobal) {
 $Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
 // landing page
-if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('themes/' . $theme . '/View/partials/header/header_landing')) {
-    $Xcontent = View::make('themes/'. $theme . '/View/partials/header/header_landing');
+if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('partials/header/header_landing')) {
+    $Xcontent = View::make('partials/header/header_landing');
 } else {
-    $Xcontent = View::make('themes/'. $theme . '/View/partials/header/header');
+    $Xcontent = View::make('partials/header/header');
 }
 
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/header_after')) {
+if (View::exists($theme_file = 'Bootstrap/header_after')) {
     echo View::make($theme_file);
 }
 
@@ -166,6 +162,8 @@ switch ($pdst) {
         break;
 }
 
+echo 'vue du App Base';
+
 echo $content;
 
 $moreclass = 'col-12';
@@ -246,11 +244,11 @@ switch ($pdst) {
         break;
 }
 
-if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/footer_before')) {
+if (View::exists($theme_file = 'Bootstrap/footer_before')) {
     echo View::make($theme_file);
 }
 
-$Xcontent = View::make('themes/'. $theme . '/View/partials/footer/footer');
+$Xcontent = View::make('partials/footer/footer');
 
 $ContainerGlobal = '</div>';
 
@@ -261,11 +259,7 @@ if (! empty($ContainerGlobal)) {
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (View::exists($theme_file = 'themes/Base/View/Bootstrap/footer_after')) {
-    echo View::make($theme_file);
-}
-
-if (View::exists($theme_file = 'themes/'. $theme .'/View/Bootstrap/footer_after')) {
+if (View::exists($theme_file = 'Bootstrap/footer_after')) {
     echo View::make($theme_file);
 }
 

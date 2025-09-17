@@ -98,4 +98,5 @@ class UserMenu
         </ul>
         <div class="mt-3"></div>';
     }
+
 }

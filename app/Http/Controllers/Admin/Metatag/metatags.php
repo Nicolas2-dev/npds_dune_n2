@@ -1,22 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* This version name NPDS Copyright (c) 2001-2024 by Philippe Brunier   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Log\Log;
-use App\Library\Validation\Validation;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'MetaTagAdmin';
 $f_titre = adm_translate('Administration des MétaTags');

@@ -2,11 +2,12 @@
 
 namespace App\Exceptions;
 
-use Npds\Application\Exceptions\Handler as BaseHandler;
-use Npds\Exceptions\Http\HttpException;
-use Npds\View\View;
-
 use Exception;
+use Npds\Support\Facades\View;
+
+
+use Npds\Exceptions\Http\HttpException;
+use Npds\Exceptions\Handler as BaseHandler;
 
 class Handler extends BaseHandler
 {
@@ -31,14 +32,14 @@ class Handler extends BaseHandler
         $date = date('M d, Y G:iA');
 
         $message = "Exception information:\n
-    Date: {$date}\n
-    Message: {$message}\n
-    Code: {$code}\n
-    File: {$file}\n
-    Line: {$line}\n
-    Stack trace:\n
-{$trace}\n
----------\n\n";
+        Date: {$date}\n
+        Message: {$message}\n
+        Code: {$code}\n
+        File: {$file}\n
+        Line: {$line}\n
+        Stack trace:\n
+        {$trace}\n
+        ---------\n\n";
 
         //
         $path = STORAGE_PATH .'framework' .DS .'errors.log';

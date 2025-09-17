@@ -12,13 +12,11 @@ class Home extends BaseController
 {
 
     /**
-     * Constructeur du contrôleur Home
-     *
-     * Permet d'initialiser le contrôleur, charger des services ou des middleware si nécessaire.
+     * Method executed before any action.
      */
-    public function __construct()
+    protected function initialize()
     {
-        //
+        parent::initialize();
     }
 
     /**

@@ -6,12 +6,16 @@ use App\Library\Password\Password;
 use App\Library\Validation\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
+
 class Auth extends AdminBaseController
 {
 
-    public function __construct()
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
     {
-        //
+        parent::initialize();        
     }
 
     // controller auth admin

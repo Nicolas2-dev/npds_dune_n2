@@ -1,37 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* Kill the Ereg by JPB on 24-01-2011 and cast MySql engine type        */
-/* This version name NPDS Copyright (c) 2001-2024 by Philippe Brunier   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
-/************************************************************************/
-/* Module-Install Version 1.1 - Mai 2005                                */
-/* --------------------------                                           */
-/* Copyright (c) 2005 Boris L'Ordi-Dépanneur & Hotfirenet               */
-/*                                                                      */
-/* Version 1.2 - 22 Avril 2009                                          */
-/* --------------------------                                           */
-/*                                                                      */
-/* Modifié par jpb et phr pour le rendre compatible avec Evolution      */
-/*                                                                      */
-/* --------------------------                                           */
-/* Version 2.0 - 30/08/2015 by jpb                                      */
-/************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Url\Url;
-use App\Library\Language\Language;
-use App\Library\Validation\Validation;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'modules';
 $f_titre = adm_translate('Gestion, Installation Modules');

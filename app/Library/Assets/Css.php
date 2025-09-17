@@ -126,7 +126,7 @@ class Css
         } elseif (file_exists('../themes/' . $tmp_theme . '/assets/css/style.css')) {
             $tmp .= '<link href="../themes/' . $tmp_theme . '/assets/css/style.css" title="default" rel="stylesheet" type="text/css" media="all" />';
 
-            if (file_exists('../themes/' . $tmp_theme . '"assets/css/style-AA.css')) {
+            if (file_exists('../themes/' . $tmp_theme . '"/assets/css/style-AA.css')) {
                 $tmp .= '<link href="../themes/' . $tmp_theme . '/assets/css/style-AA.css" title="alternate stylesheet" rel="alternate stylesheet" type="text/css" media="all" />';
             }
 

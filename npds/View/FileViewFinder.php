@@ -101,8 +101,7 @@ class FileViewFinder implements ViewFinderInterface
         $paths = $this->hints[$namespace];
 
         if (Str::endsWith($path = head($this->paths), DS .'Overrides')) {
-            //$path = $path .DS .'Packages' .DS .$namespace;
-            $path = $path .DS .$namespace;
+            $path = $path .DS .'Packages' .DS .$namespace;
 
             if (! in_array($path, $paths) && $this->files->isDirectory($path)) {
                 array_unshift($paths, $path);

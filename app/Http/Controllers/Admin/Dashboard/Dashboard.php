@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Dashboard;
+namespace App\Http\Controllers\Admin\;
+
 
 use App\Http\Controllers\Core\AdminBaseController;
 
-class Dashboard extends AdminBaseController
+
+class extends AdminBaseController
 {
-
-
-    public function __construct()
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
     {
-        //
+        parent::initialize();        
     }
 
     // controller Admin Home !

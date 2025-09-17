@@ -11,7 +11,6 @@ use App\Http\Controllers\Core\BaseController;
 class FrontBaseController extends BaseController
 {
 
-
     protected int $pdst = 1;
 
     /**

@@ -1,25 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* Based on PhpNuke 4.x source code                                     */
-/*                                                                      */
-/* NPDS Copyright (c) 2002-2024 by Philippe Brunier                     */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Log\Log;
-use App\Library\String\Sanitize;
-use App\Library\Language\Language;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'blocks';
 

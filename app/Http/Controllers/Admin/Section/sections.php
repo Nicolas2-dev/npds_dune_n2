@@ -1,29 +1,20 @@
 <?php
 
-/************************************************************************/
-/* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* Major changes from ALAT 2004-2005                                    */
-/* NPDS Copyright (c) 2002-2025 by Philippe Brunier                     */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 3 of the License.       */
-/************************************************************************/
+namespace App\Http\Controllers\Admin\;
 
-use App\Library\Log\Log;
-use App\Library\String\Sanitize;
-use App\Library\Groupe\Groupe;
-use App\Library\Mailer\Mailer;
-use App\Library\Editeur\Editeur;
-use App\Library\Language\Language;
-use App\Library\Media\Base64Image;
-use App\Library\Validation\Validation;
 
-if (!function_exists('admindroits')) {
-    include 'die.php';
-}
+use App\Http\Controllers\Core\AdminBaseController;
+
+
+class extends AdminBaseController
+{
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
+    {
+        parent::initialize();        
+    }
 
 $f_meta_nom = 'sections';
 $f_titre = adm_translate('Rubriques');

@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Core\BaseController;
 
+
 class AdminBaseController extends BaseController 
 {
 
-    public function __construct()
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
     {
         /*
         #autodoc $admintest - $super_admintest : permet de savoir si un admin est connect&ecute; ($admintest=true) et s'il est SuperAdmin ($super_admintest=true)
@@ -49,6 +53,8 @@ class AdminBaseController extends BaseController
             unset($Xsuper_admintest);
         }  
         */  
+        
+        parent::initialize();
     }
 
     // contoller ou lib Auth ?

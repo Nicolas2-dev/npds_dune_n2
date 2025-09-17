@@ -310,16 +310,16 @@ class Factory
     }
 
     /**
-     * Récupère les données partagées.
+     * Ajoutez un nouvel espace de noms au chargeur.
      *
-     * @return array
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * @return void
      */
-    public function getShared(): array
+    public function addNamespace($namespace, $hints)
     {
-        return $this->shared;
+        $this->finder->addNamespace($namespace, $hints);
     }
-
-
 
     /**
      * Configurez les chemins pour le remplacement des vues.
@@ -333,15 +333,13 @@ class Factory
     }
 
     /**
-     * Ajoutez un nouvel espace de noms au chargeur.
+     * Récupère les données partagées.
      *
-     * @param  string  $namespace
-     * @param  string|array  $hints
-     * @return void
+     * @return array
      */
-    public function addNamespace($namespace, $hints)
+    public function getShared(): array
     {
-        $this->finder->addNamespace($namespace, $hints);
+        return $this->shared;
     }
 
 }

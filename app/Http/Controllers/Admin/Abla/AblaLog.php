@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Admin\Abla;
 
 use App\Library\Url\Url;
 use App\Library\Stat\Stat;
@@ -13,15 +13,18 @@ use App\Http\Controllers\Core\AdminBaseController;
 class AblaLog extends AdminBaseController
 {
 
-    public function __construct()
+    /**
+     * Method executed before any action.
+     */
+    protected function initialize()
     {
-        //
-
         // $f_meta_nom = 'abla';
         // $f_titre = translate('Tableau de bord');
 
         // controle droit
         // admindroits($aid, $f_meta_nom);
+
+        parent::initialize();        
     }
 
     public function index()
