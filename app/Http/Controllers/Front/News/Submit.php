@@ -55,7 +55,7 @@ class Submit extends FrontBaseController
     {
         global $user, $anonymous;
 
-        include 'header.php';
+        //include 'header.php';
 
         if ($user) {
             $userinfo = Auth::getUserInfo($user);
@@ -144,14 +144,14 @@ class Submit extends FrontBaseController
             </div>
         </form>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
     {
         global $tipath, $topicimage;
 
-        include 'header.php';
+        //include 'header.php';
 
         $story      = stripslashes(data_image_to_file_url($story, 'cache/ai'));
         $bodytext   = stripslashes(data_image_to_file_url($bodytext, 'cache/ac'));
@@ -258,7 +258,7 @@ class Submit extends FrontBaseController
             </div>
         </form>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function submitStory($subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur, $asb_question, $asb_reponse)
@@ -299,20 +299,20 @@ class Submit extends FrontBaseController
                 Mailer::sendEmail($notify_email, $notify_subject, $notify_message, $notify_from, false, "html", '');
             }
 
-            include 'header.php';
+            //include 'header.php';
 
             echo '
             <h2>' . translate('Proposer un article') . '</h2>
             <hr />
             <div class="alert alert-success lead">' . translate('Merci pour votre contribution.') . '</div>';
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             echo sql_error();
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

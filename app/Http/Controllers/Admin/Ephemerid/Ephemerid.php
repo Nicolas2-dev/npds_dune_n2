@@ -190,10 +190,10 @@ class Ephemerid extends AdminBaseController
             header('location: admin.php?op=Ephemerids');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Maintenance des Ephémérides') . '</h3>
@@ -233,10 +233,10 @@ class Ephemerid extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT yid, content 
                             FROM " . sql_prefix('ephem') . " 

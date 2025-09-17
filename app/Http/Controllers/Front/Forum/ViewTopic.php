@@ -189,7 +189,7 @@ class ViewTopic extends FrontBaseController
         $title = $forum_name;
         $post = $topic_subject;
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<a name="topofpage"></a>
             <p class="lead">
@@ -802,7 +802,7 @@ class ViewTopic extends FrontBaseController
                 </ul>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function aff_pub($lock_state, $topic, $forum, $mod)

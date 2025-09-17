@@ -55,10 +55,10 @@ class Referers extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         settype($filter, 'integer');
 

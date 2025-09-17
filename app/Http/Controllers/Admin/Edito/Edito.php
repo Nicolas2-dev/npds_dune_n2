@@ -93,12 +93,12 @@ class Edito extends AdminBaseController
     {
         global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        $hlpfile = 'admin/manuels/' . $language . '/edito.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/edito.html';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />';
 

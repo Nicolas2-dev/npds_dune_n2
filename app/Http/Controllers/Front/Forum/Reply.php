@@ -22,7 +22,7 @@ class Reply extends FrontBaseController
     {
         $cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();
 
-        include('auth.php');
+        include 'auth.php';
 
         settype($cancel, 'string');
 
@@ -75,7 +75,7 @@ class Reply extends FrontBaseController
                     $userdata = array('uid' => 1);
                     $modo = '';
 
-                    include 'header.php';
+                    //include 'header.php';
                 } else {
                     if (($username == '') or ($password == '')) {
                         Error::forumError('0027');
@@ -91,9 +91,9 @@ class Reply extends FrontBaseController
 
                             if ($userdata['uid'] == 1) {
                                 Error::forumError('0027');
-                            } else {
-                                include 'header.php';
-                            }
+                            } //else {
+                                //include 'header.php';
+                            //}
                         } else {
                             Error::forumError('0028');
                         }
@@ -121,7 +121,7 @@ class Reply extends FrontBaseController
 
                 $userdata = Forum::getUserData($userdata[1]);
 
-                include 'header.php';
+                //include 'header.php';
             }
 
             // Either valid user/pass, or valid session. continue with post.
@@ -266,7 +266,7 @@ class Reply extends FrontBaseController
                 <a class="btn btn-outline-primary" href="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</a>';
             }
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             if ($allow_bbcode == 1) {
                 include 'library/formhelp.java.php';
@@ -752,7 +752,7 @@ class Reply extends FrontBaseController
             }
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

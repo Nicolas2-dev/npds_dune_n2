@@ -157,7 +157,7 @@ class ViewForum extends FrontBaseController
 
         if (($myrow['forum_type'] == 1) and (($myrow['forum_name'] != $forum_name) or ($Forum_passwd != $myrow['forum_pass']))) {
 
-            include 'header.php';
+            //include 'header.php';
 
             echo '<h3 class="mb-3">' . stripslashes($forum_name) . '</h3>
                 <p class="lead">' . translate('Modéré par : ') . '';
@@ -213,7 +213,7 @@ class ViewForum extends FrontBaseController
 
             $title = $forum_name;
 
-            include 'header.php';
+            //include 'header.php';
 
             if ($user) {
                 $userX = base64_decode($user);
@@ -569,7 +569,7 @@ class ViewForum extends FrontBaseController
                 $cache_obj->endCachingBlock($cache_clef);
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             header('location: forum.php');
         }

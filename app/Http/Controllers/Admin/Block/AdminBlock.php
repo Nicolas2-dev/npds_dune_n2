@@ -44,12 +44,12 @@ class AdminBlock extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
 
-        include 'header.php';
+        //include 'header.php';
 
-        $hlpfile = 'admin/manuels/' . $language . '/adminblock.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/adminblock.html';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
             <h3 class="mb-3">' . adm_translate('Editer le Bloc Administration') . '</h3>';

@@ -20,7 +20,7 @@ class User extends FrontBaseController
 
     function message_error($ibid, $op)
     {
-        include 'header.php';
+        //include 'header.php';
 
         echo '<h2>' . translate('Utilisateur') . '</h2>
         <div class="alert alert-danger lead">';
@@ -39,22 +39,20 @@ class User extends FrontBaseController
 
         echo '</div>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function message_pass($ibid)
     {
-        include 'header.php';
+        //include 'header.php';
 
         echo $ibid;
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function userCheck($uname, $email)
     {
-        include_once 'functions.php';
-
         $stop = '';
 
         if ((!$email) || ($email == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email))) {
@@ -153,7 +151,7 @@ class User extends FrontBaseController
             global $smilies, $short_user, $memberpass;
             global $uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $vpass, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1;
 
-            include 'header.php';
+            //include 'header.php';
 
             showimage();
 
@@ -248,7 +246,7 @@ class User extends FrontBaseController
         }
 
         if (!$stop) {
-            include 'header.php';
+            //include 'header.php';
 
             echo '<h2>' . translate('Utilisateur') . '</h2>
             <hr />
@@ -277,7 +275,7 @@ class User extends FrontBaseController
                     </form>';
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             message_error($stop, 'new user');
         }
@@ -307,7 +305,7 @@ class User extends FrontBaseController
         $stop = userCheck($uname, $email);
 
         if (!$stop) {
-            include 'header.php';
+            //include 'header.php';
 
             if (!$memberpass) {
                 $makepass = makepass();
@@ -441,7 +439,7 @@ class User extends FrontBaseController
                 );
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             message_error($stop, 'finish');
         }
@@ -466,8 +464,7 @@ class User extends FrontBaseController
 
         global $cookie;
 
-        include 'header.php';
-        include_once 'functions.php';
+        //include 'header.php';
 
         $email          = Hack::removeHack($femail);
         $name           = stripslashes(Hack::removeHack($name));
@@ -892,7 +889,7 @@ class User extends FrontBaseController
             echo '<p class="n-signature">' . $user_sig . '</p>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function main($user)
@@ -901,7 +898,7 @@ class User extends FrontBaseController
 
         if (!isset($user)) {
 
-            include 'header.php';
+            //include 'header.php';
 
             echo '<h2>' . translate('Utilisateur') . '</h2>';
 
@@ -945,7 +942,7 @@ class User extends FrontBaseController
                 }
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } elseif (isset($user)) {
             $cookie = Cookie::cookieDecode($user);
 
@@ -973,7 +970,7 @@ class User extends FrontBaseController
 
     function ForgetPassword()
     {
-        include 'header.php';
+        //include 'header.php';
 
         echo '<h2 class="mb-3">' . translate('Utilisateur') . '</h2>
         <div class="card card-body">
@@ -1067,7 +1064,7 @@ class User extends FrontBaseController
             $ibid = explode('#fpwd#', Encrypter::decryptK($ibid[1], $pass));
 
             if ($email == $ibid[0]) {
-                include 'header.php';
+                //include 'header.php';
 
                 echo '<p class="lead">' . translate('Vous avez perdu votre mot de passe ?') . '</p>
                 <div class="card border rounded p-3">
@@ -1095,7 +1092,7 @@ class User extends FrontBaseController
                     </div>
                 </div>';
 
-                include 'footer.php';
+                //include 'footer.php';
             } else {
                 message_pass('<div class="alert alert-danger lead text-center">' . translate('Erreur') . '</div>');
 
@@ -1275,9 +1272,7 @@ class User extends FrontBaseController
     {
         global $user, $smilies, $short_user, $subscribe, $member_invisible, $avatar_size;
 
-        include 'header.php';
-
-        include_once 'functions.php';
+        //include 'header.php';
 
         $userinfo = Auth::getUserInfo($user);
 
@@ -1294,7 +1289,7 @@ class User extends FrontBaseController
         showimage();
 
         include 'library/sform/extend-user/mod_extend-user.php';
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bio, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $attach, $usend_email, $uis_visible, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $MAX_FILE_SIZE, $raz_avatar)
@@ -1494,8 +1489,7 @@ class User extends FrontBaseController
     {
         global $user, $Default_Theme, $Default_Skin;
 
-        include 'header.php';
-        include_once 'functions.php';
+        //include 'header.php';
 
         $userinfo = Auth::getUserInfo($user);
 
@@ -1604,8 +1598,7 @@ class User extends FrontBaseController
     {
         global $user;
 
-        include 'header.php';
-        include_once 'functions.php';
+        //include 'header.php';
 
         $userinfo = Auth::getUserInfo($user);
 
@@ -1727,7 +1720,7 @@ class User extends FrontBaseController
         //]]
         </script>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function savetheme($uid, $theme)
@@ -1778,8 +1771,7 @@ class User extends FrontBaseController
     {
         global $user;
 
-        include 'header.php';
-        include_once 'functions.php';
+        //include 'header.php';
 
         $userinfo = Auth::getUserInfo($user);
 
@@ -1811,7 +1803,7 @@ class User extends FrontBaseController
             </div>
         </form>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function savejournal($uid, $journal, $datetime)

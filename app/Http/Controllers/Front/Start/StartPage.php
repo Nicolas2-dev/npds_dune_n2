@@ -213,7 +213,7 @@ function select_start_page($op)
 // controller !
 function theindex($op, $catid, $marqeur)
 {
-    include 'header.php';
+    //include 'header.php';
 
     // Include cache manager
     global $SuperCache;
@@ -255,7 +255,7 @@ function theindex($op, $catid, $marqeur)
         $cache_obj->endCachingPage();
     }
 
-    include 'footer.php';
+    //include 'footer.php';
 }
 
 // deprecated !

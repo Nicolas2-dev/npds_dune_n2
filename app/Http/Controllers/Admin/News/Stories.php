@@ -15,7 +15,7 @@ class Stories extends AdminBaseController
     {
         $f_meta_nom = 'adminStory';
 
-        include 'publication.php';
+        //include 'publication.php';
 
         //==> controle droit
         admindroits($aid, $f_meta_nom);
@@ -281,12 +281,12 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Articles');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Ajouter une nouvelle Catégorie') . '</h3>
@@ -320,7 +320,7 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Articles');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         $title = preg_replace('#"#', '', $title);
 
@@ -337,10 +337,10 @@ class Stories extends AdminBaseController
                                 VALUES (NULL, '$title', '0')");
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Ajouter une nouvelle Catégorie') . '</h3>
@@ -357,12 +357,12 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Articles');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Edition des Catégories') . '</h3>';
@@ -449,10 +449,10 @@ class Stories extends AdminBaseController
             Log::ecrireLog('security', sprintf('SaveEditCategory(%s, %s) by AID : %s', $catid, $title, $aid), '');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Edition des Catégories') . '</h3>
@@ -469,12 +469,12 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Articles');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT title 
                             FROM " . sql_prefix('stories_cat') . " 
@@ -577,12 +577,12 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Articles');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin('');
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin('');
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT title 
                             FROM " . sql_prefix('stories_cat') . " 
@@ -695,10 +695,10 @@ class Stories extends AdminBaseController
 
         $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
@@ -881,10 +881,10 @@ class Stories extends AdminBaseController
 
         $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Prévisualiser l\'Article') . '</h3>
@@ -1127,7 +1127,7 @@ class Stories extends AdminBaseController
         $f_titre = adm_translate('Editer un Article');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         if (($sid == '') or ($sid == '0')) {
             header('location: admin.php');
@@ -1174,10 +1174,10 @@ class Stories extends AdminBaseController
 
         $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topicname) . '</strong></span>';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT topictext, topicimage 
                             FROM " . sql_prefix('topics') . " 
@@ -1452,15 +1452,15 @@ class Stories extends AdminBaseController
             global $hlpfile, $language;
             $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
+            //GraphicAdmin($hlpfile);
 
             echo '
             <div class="alert alert-danger">' . adm_translate('Etes-vous sûr de vouloir effacer l\'Article N°') . ' ' . $sid . ' ' . adm_translate('et tous ses Commentaires ?') . '</div>
             <p class=""><a href="admin.php?op=RemoveStory&amp;sid=' . $sid . '&amp;ok=1" class="btn btn-danger" >' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php" class="btn btn-secondary" >' . adm_translate('Non') . '</a></p>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 
@@ -1552,18 +1552,18 @@ class Stories extends AdminBaseController
     {
         global $hlpfile, $language, $aid, $radminsuper, $adminimg;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Nouvel Article');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Nouvel Article');
 
         //controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         settype($hometext, 'string');
         settype($bodytext, 'string');
@@ -1690,7 +1690,7 @@ class Stories extends AdminBaseController
     {
         global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
 
-        $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
         $subject = stripslashes(str_replace('"', '&quot;', $subject));
         $hometext = stripslashes(data_image_to_file_url($hometext, 'cache/ai'));
@@ -1734,10 +1734,10 @@ class Stories extends AdminBaseController
 
         $topiclogo = '<span class="badge bg-secondary float-end"><strong>' . Language::affLangue($topictext) . '</strong></span>';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         global $local_user_language;
 

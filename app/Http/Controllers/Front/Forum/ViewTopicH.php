@@ -487,7 +487,7 @@ class ViewTopicH extends FrontBaseController
         $title  = $forum_name;
         $post   = $topic_subject;
 
-        include 'header.php';
+        //include 'header.php';
 
         $r_to = '';
         $n_to = '';
@@ -798,7 +798,7 @@ class ViewTopicH extends FrontBaseController
             </ul>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

@@ -38,9 +38,9 @@ class OptiMysql extends AdminBaseController
         $date_opt = date(adm_translate('dateforop'));
         $heure_opt = date('h:i a');
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         // Insertion de valeurs d'initialisation de la table (si nécessaire)
         $result = sql_query("SELECT optid 

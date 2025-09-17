@@ -181,10 +181,10 @@ class Metalang extends AdminBaseController
                             ORDER BY 'type_meta','def' ASC");
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $tablmeta = '';
         $tablmeta_c = '';
@@ -271,10 +271,10 @@ class Metalang extends AdminBaseController
         $Q = sql_fetch_assoc($Q);
         sql_free_result($Q);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />';
 
@@ -411,10 +411,10 @@ class Metalang extends AdminBaseController
     {
         global $hlpfile, $type_meta, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -528,10 +528,10 @@ class Metalang extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <div class="alert alert-danger">

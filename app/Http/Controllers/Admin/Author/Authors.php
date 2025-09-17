@@ -233,10 +233,10 @@ class Authors extends AdminBaseController
     {
         global $hlpfile, $admf_ext, $fieldnames, $listdroits, $listdroitsmodulo, $f_meta_nom, $f_titre, $adminimg, $scri_check;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT aid, name, url, email, radminsuper 
                             FROM " . sql_prefix('authors'));
@@ -395,10 +395,10 @@ class Authors extends AdminBaseController
     {
         global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $scri_check, $fv_parametres;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Actualiser l\'administrateur') . ' : <span class="text-body-secondary">' . $chng_aid . '</span></h3>';
@@ -578,18 +578,16 @@ class Authors extends AdminBaseController
             Header('Location: admin.php?op=mod_authors');
         }
 
-        include_once 'functions.php';
-
         if (Forum::checkDnsMail($chng_email) === false) {
             global $hlpfile;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
+            //GraphicAdmin($hlpfile);
 
             echo error_handler(adm_translate('ERREUR : DNS ou serveur de mail incorrect') . '<br />');
 
-            include 'footer.php';
+            //include 'footer.php';
             return;
         }
 
@@ -629,13 +627,13 @@ class Authors extends AdminBaseController
             if ($chng_pwd != $chng_pwd2) {
                 global $hlpfile;
 
-                include 'header.php';
+                //include 'header.php';
 
-                GraphicAdmin($hlpfile);
+                //GraphicAdmin($hlpfile);
 
                 echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
-                include 'footer.php';
+                //include 'footer.php';
                 exit;
             }
 

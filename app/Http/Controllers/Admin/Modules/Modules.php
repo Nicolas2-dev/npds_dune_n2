@@ -34,9 +34,9 @@ class Modules extends AdminBaseController
 
     public function index()
     {
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $handle = opendir('modules');
         $modlist = '';
@@ -77,7 +77,7 @@ class Modules extends AdminBaseController
             }
         }
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
             <h3>' . adm_translate('Les modules') . '</h3>

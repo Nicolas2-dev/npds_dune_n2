@@ -42,10 +42,10 @@ class ForumConfig extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT * FROM " . sql_prefix('config'));
 

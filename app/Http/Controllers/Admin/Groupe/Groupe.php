@@ -227,9 +227,9 @@ class Groupe extends AdminBaseController
     {
         global $hlpfile, $al, $mes, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $result = sql_query("SELECT uid, groupe 
                             FROM " . sql_prefix('users_status') . " 
@@ -263,7 +263,7 @@ class Groupe extends AdminBaseController
             }
         }
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<script type="text/javascript">
         //<![CDATA[';
@@ -555,10 +555,10 @@ class Groupe extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -592,7 +592,7 @@ class Groupe extends AdminBaseController
 
     public function membre_add_finish($groupe_id, $luname)
     {
-        include 'powerpack_f.php';
+        //include 'powerpack_f.php';
 
         $image = '18.png';
 
@@ -668,7 +668,7 @@ class Groupe extends AdminBaseController
 
     public function retiredugroupe($groupe_id, $uid, $uname)
     {
-        include 'powerpack_f.php';
+        //include 'powerpack_f.php';
 
         $image = '18.png';
 
@@ -802,10 +802,10 @@ class Groupe extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+       //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_fetch_assoc(sql_query("SELECT groupe_name, groupe_description 
                                             FROM " . sql_prefix('groupes') . " 
@@ -1326,7 +1326,7 @@ class Groupe extends AdminBaseController
 
         if (isset($sub_op)) {
 
-            include_once 'powerpack_f.php';
+            //include_once 'powerpack_f.php';
 
             $res = sql_query("SELECT uname 
                             FROM " . sql_prefix('users') . " 
@@ -1395,10 +1395,10 @@ class Groupe extends AdminBaseController
             }
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $iterator = new DirectoryIterator($directory);
 

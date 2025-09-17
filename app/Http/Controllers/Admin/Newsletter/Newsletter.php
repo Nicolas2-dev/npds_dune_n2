@@ -588,10 +588,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         // $type = HED or FOT
         $result = sql_query("SELECT text, html 
@@ -691,10 +691,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-2">' . adm_translate('Corps de message') . ' - ';
@@ -745,10 +745,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -844,10 +844,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         if ($ibid == 'HED') {
             $ti = 'message d\'entête';
@@ -917,10 +917,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $rowH, $rowB, $rowF;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-2">' . adm_translate('Petite Lettre D\'information') . '</h3>
@@ -1099,10 +1099,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -1117,10 +1117,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT text, html 
                             FROM " . sql_prefix('lnl_head_foot') . " 
@@ -1179,10 +1179,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT ref, header , body, footer, number_send, type_send, date, status 
                             FROM " . sql_prefix('lnl_send') . " 
@@ -1256,10 +1256,10 @@ class Newsletter extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT email, date, status 
                             FROM " . sql_prefix('lnl_outside_users') . " 

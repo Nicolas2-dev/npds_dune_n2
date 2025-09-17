@@ -141,7 +141,7 @@ class TopicAdmin extends FrontBaseController
                 $url_ret = 'viewtopic.php';
             }
 
-            include 'header.php';
+            //include 'header.php';
 
             echo '<div class="alert alert-success">
                 <h4 class="alert-heading">' . translate('Le sujet a été déplacé.') . '</h4>
@@ -150,14 +150,14 @@ class TopicAdmin extends FrontBaseController
 
             Q_Clean();
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             if ((isset($Mmod) and $Mmod === true) or ($adminforum == 1)) {
 
                 switch ($mode) {
 
                     case 'move':
-                        include 'header.php';
+                        //include 'header.php';
 
                         echo '<h2>' . translate('Forum') . '</h2>
                         <form action="topicadmin.php" method="post">
@@ -197,7 +197,7 @@ class TopicAdmin extends FrontBaseController
                             </div>
                         </form>';
 
-                        include 'footer.php';
+                        //include 'footer.php';
                         break;
 
                     case 'del':
@@ -275,7 +275,7 @@ class TopicAdmin extends FrontBaseController
                         break;
 
                     case 'viewip':
-                        include 'header.php';
+                        //include 'header.php';
                         include 'modules/geoloc/support/geoloc_locip.php';
 
                         $sql = "SELECT u.uname, p.poster_ip, p.poster_dns 
@@ -308,7 +308,7 @@ class TopicAdmin extends FrontBaseController
                         </div>
                         <a href="' . $url_ret . '?topic=' . $topic . '&amp;forum=' . $forum . '" class="btn btn-secondary">' . translate('Retour en arrière') . '</a>';
 
-                        include 'footer.php';
+                        //include 'footer.php';
                         break;
 
                     case 'banip':
@@ -341,13 +341,13 @@ class TopicAdmin extends FrontBaseController
                         break;
                 }
             } else {
-                include 'header.php';
+                //include 'header.php';
 
                 echo '<div class="alert alert-danger">' . translate('Vous n\'êtes pas identifié comme modérateur de ce forum. Opération interdite.') . '<br />
                     <a class="btn btn-secondary" href="javascript:history.go(-1)" >' . translate('Go Back') . '</a>
                 </div>';
 
-                include 'footer.php';
+                //include 'footer.php';
             }
         }
     }

@@ -78,10 +78,10 @@ class ForumMaint extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <h3>' . adm_translate('Marquer tous les Topics comme lus') . '</h3>
@@ -152,10 +152,10 @@ class ForumMaint extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $parse;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="text-danger">' . adm_translate('Supprimer massivement les Topics') . '</h3>';
@@ -218,11 +218,10 @@ class ForumMaint extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $resultTT = sql_query("SELECT post_text, post_time 
                             FROM " . sql_prefix('posts') . " 
@@ -374,10 +373,10 @@ class ForumMaint extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr/>
         <h3 class="mb-3">' . adm_translate('Fusionner des forums') . '</h3>
@@ -485,10 +484,10 @@ class ForumMaint extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Maintenance des Forums') . '</h3>';

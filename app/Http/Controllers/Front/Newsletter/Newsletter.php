@@ -22,8 +22,6 @@ class Newsletter extends FrontBaseController
     {
         global $stop;
 
-        include_once 'functions.php';
-
         $stop = '';
 
         if ((!$email) || ($email == '') || (!preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $email))) {
@@ -75,7 +73,7 @@ class Newsletter extends FrontBaseController
     function subscribe($var)
     {
         if ($var != '') {
-            include 'header.php';
+            //include 'header.php';
 
             echo '<h2>' . translate('La lettre') . '</h2>
             <hr />
@@ -88,7 +86,7 @@ class Newsletter extends FrontBaseController
                 <a href="index.php" class="btn btn-outline-secondary">' . translate('Retour en arrière') . '</a>
             </form>';
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             header('location: index.php');
         }
@@ -98,7 +96,7 @@ class Newsletter extends FrontBaseController
     {
         global $stop;
 
-        include 'header.php';
+        //include 'header.php';
 
         if ($xemail != '') {
             SuserCheck($xemail);
@@ -143,7 +141,7 @@ class Newsletter extends FrontBaseController
             error_handler(translate('Cette donnée ne doit pas être vide.') . '<br />');
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function unsubscribe($xemail)
@@ -174,19 +172,19 @@ class Newsletter extends FrontBaseController
                             SET status='NOK' 
                             WHERE email='$xemail'");
 
-                    include 'header.php';
+                    //include 'header.php';
 
                     echo '<div class="alert alert-success">' . translate('Merci') . '</div>
                     <a href="index.php">' . translate('Retour en arrière') . '</a>';
 
-                    include 'footer.php';
+                    //include 'footer.php';
                 } else {
-                    include 'header.php';
+                    //include 'header.php';
 
                     $stop = translate('Compte ou adresse IP désactivée. Cet émetteur a participé plus de x fois dans les dernières heures, merci de contacter le webmaster pour déblocage.') . "<br />";
                     error_handler($stop);
 
-                    include 'footer.php';
+                    //include 'footer.php';
                 }
             } else {
                 Url::redirectUrl('index.php');

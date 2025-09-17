@@ -24,7 +24,7 @@ class Pages extends FrontBaseController
 
         $remp = '';
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<div id="static_cont">';
 
@@ -79,7 +79,7 @@ class Pages extends FrontBaseController
 
         echo '</div>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

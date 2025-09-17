@@ -178,7 +178,7 @@ class Sections extends AdminBaseController
 
         */
 
-        parent::initialize();        
+        parent::initialize();
     }
 
     public function groupe($groupe)
@@ -373,10 +373,10 @@ class Sections extends AdminBaseController
     {
         global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = $radminsuper == 1
             ? sql_query("SELECT rubid, rubname, enligne, ordre 
@@ -660,10 +660,11 @@ class Sections extends AdminBaseController
     public function new_rub_section($type)
     {
         global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
-        include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //include 'header.php';
+
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $arg1 = '';
 
@@ -766,10 +767,10 @@ class Sections extends AdminBaseController
 
         list($titre) = sql_fetch_row($result2);
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT rubid, rubname, enligne, ordre 
                             FROM " . sql_prefix('rubriques') . " 
@@ -897,9 +898,9 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $result2 = sql_query("SELECT secid 
                             FROM " . sql_prefix('sections') . " 
@@ -910,7 +911,7 @@ class Sections extends AdminBaseController
         $rubname = stripslashes($rubname);
         $intro = stripslashes($intro);
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Editer une Rubrique : ') . ' <span class="text-body-secondary">' . Language::affLangue($rubname) . ' #' . $rubid . '</span></h3>';
@@ -1034,9 +1035,9 @@ class Sections extends AdminBaseController
     {
         global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg, $aid;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $result = sql_query("SELECT secid, secname, image, userlevel, rubid, intro 
                             FROM " . sql_prefix('sections') . " 
@@ -1047,7 +1048,7 @@ class Sections extends AdminBaseController
         $secname = stripslashes($secname);
         $intro = stripslashes($intro);
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Sous-rubrique') . ' : <span class="text-body-secondary">' . Language::affLangue($secname) . '</span></h3>';
@@ -1239,10 +1240,10 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $arttitle = stripslashes($arttitle);
         $content = stripslashes(data_image_to_file_url($content, 'cache/s'));
@@ -1370,10 +1371,10 @@ class Sections extends AdminBaseController
 
         $fin .= '&nbsp;<input class="btn btn-secondary" type="button" value="' . adm_translate('Retour en arrière') . '" onclick="javascript:history.back()" />';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Editer une publication') . '</h3>';
@@ -1594,10 +1595,10 @@ class Sections extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT rubname 
                                 FROM " . sql_prefix('rubriques') . " 
@@ -1650,10 +1651,10 @@ class Sections extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT secname 
                                 FROM " . sql_prefix('sections') . " 
@@ -1714,10 +1715,10 @@ class Sections extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT title 
                                 FROM " . sql_prefix('seccont') . " 
@@ -1732,7 +1733,7 @@ class Sections extends AdminBaseController
                 <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
             </p>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 
@@ -1749,10 +1750,10 @@ class Sections extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT title 
                                 FROM " . sql_prefix('seccont_tempo') . " 
@@ -1767,7 +1768,7 @@ class Sections extends AdminBaseController
                 <a class="btn btn-danger btn-sm" href="admin.php?op=secartdelete2&amp;artid=' . $artid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" role="button" href="admin.php?op=sections" >' . adm_translate('Non') . '</a>
             </p>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
     // Fonctions de DELETE
@@ -1781,10 +1782,10 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         //data-toggle="table" data-striped="true" data-search="true" data-show-toggle="true" data-mobile-responsive="true" data-icons-prefix="fa" data-icons="icons"
 
@@ -1856,10 +1857,10 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Changer l\'ordre des sous-rubriques') . ' ' . adm_translate('dans') . ' / <span class="text-body-secondary">' . $rubname . '</span></h3>
@@ -1934,10 +1935,10 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT secname 
                             FROM " . sql_prefix('sections') . " 
@@ -2070,10 +2071,10 @@ class Sections extends AdminBaseController
             Header('Location: admin.php?op=sections');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3"><i class="fa fa-user-edit me-2"></i>' . adm_translate('Droits des auteurs') . ' : <span class="text-body-secondary">' . $author . '</span></h3>

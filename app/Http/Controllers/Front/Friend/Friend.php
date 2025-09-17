@@ -33,7 +33,7 @@ class Friend extends FrontBaseController
             header('Location: index.php');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<div class="card card-body">
         <h2><i class="fa fa-at fa-lg text-body-secondary"></i>&nbsp;' . translate('Envoi de l\'article à un ami') . '</h2>
@@ -171,7 +171,7 @@ class Friend extends FrontBaseController
 
     function StorySent($title, $fname)
     {
-        include 'header.php';
+        //include 'header.php';
 
         $title = urldecode($title);
         $fname = urldecode($fname);
@@ -182,7 +182,7 @@ class Friend extends FrontBaseController
             echo '<div class="alert alert-success">' . translate('L\'article') . ' <strong>' . stripslashes($title) . '</strong> ' . translate('a été envoyé à') . '&nbsp;' . $fname . '<br />' . translate('Merci') . '</div>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function RecommendSite()
@@ -202,7 +202,7 @@ class Friend extends FrontBaseController
             $ye = '';
         }
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<div class="card card-body">
         <h2>' . translate('Recommander ce site à un ami') . '</h2>
@@ -296,7 +296,7 @@ class Friend extends FrontBaseController
 
     function SiteSent($fname)
     {
-        include 'header.php';
+        //include 'header.php';
 
         if ($fname == '') {
             echo '<div class="alert alert-danger lead" role="alert">
@@ -312,7 +312,7 @@ class Friend extends FrontBaseController
             </div>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

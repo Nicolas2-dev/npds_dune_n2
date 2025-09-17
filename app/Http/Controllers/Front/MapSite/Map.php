@@ -234,7 +234,7 @@ class Map extends FrontBaseController
 
     public function index()
     {
-        include 'header.php';
+        //include 'header.php';
 
         // Include cache manager classe
         global $SuperCache;
@@ -268,7 +268,7 @@ class Map extends FrontBaseController
             $cache_obj->endCachingPage();
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

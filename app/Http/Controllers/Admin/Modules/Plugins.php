@@ -26,7 +26,7 @@ class Plugins extends AdminBaseController
 
     public function index()
     {
-        include 'header.php';
+        //include 'header.php';
 
         if ($ModPath != '') {
 

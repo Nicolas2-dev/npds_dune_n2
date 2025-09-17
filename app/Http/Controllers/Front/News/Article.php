@@ -42,7 +42,7 @@ class Article extends FrontBaseController
                 SET counter=counter+1 
                 WHERE sid='$sid'");
 
-        include 'header.php';
+        //include 'header.php';
 
         // Include cache manager
         global $SuperCache;
@@ -214,7 +214,7 @@ class Article extends FrontBaseController
             $cache_obj->endCachingPage();
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

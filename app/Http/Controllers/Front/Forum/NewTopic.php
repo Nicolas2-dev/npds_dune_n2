@@ -231,7 +231,7 @@ class NewTopic extends FrontBaseController
                 </div>';
             }
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             if ($allow_bbcode) {
                 include 'library/formhelp.java.php';
@@ -490,7 +490,7 @@ class NewTopic extends FrontBaseController
             echo '</form>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

@@ -55,7 +55,7 @@ class Search extends FrontBaseController
         }
         /*jules*/
 
-        include 'header.php';
+        //include 'header.php';
 
         settype($term, 'string');
 
@@ -341,7 +341,7 @@ class Search extends FrontBaseController
 
         echo Js::autoComplete('membre', 'uname', 'users', 'username', '86400');
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

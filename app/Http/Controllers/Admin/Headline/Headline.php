@@ -64,10 +64,10 @@ class Headline extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -157,10 +157,10 @@ class Headline extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT sitename, url, headlinesurl, status 
                             FROM " . sql_prefix('headlines') . " 
@@ -257,10 +257,10 @@ class Headline extends AdminBaseController
         } else {
             global $hlpfile;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo '
             <hr />
@@ -269,7 +269,7 @@ class Headline extends AdminBaseController
                 <a class="btn btn-danger btn-sm" href="admin.php?op=HeadlinesDel&amp;hid=' . $hid . '&amp;ok=1" role="button">' . adm_translate('Oui') . '</a>&nbsp;<a class="btn btn-secondary btn-sm" href="admin.php?op=HeadlinesAdmin" role="button">' . adm_translate('Non') . '</a>
             </p>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

@@ -38,7 +38,7 @@ class Section extends FrontBaseController
     {
         global $sitename, $admin;
 
-        include 'header.php';
+        //include 'header.php';
 
         if (file_exists('config/sections.config.php')) {
             include 'config/sections.config.php';
@@ -219,7 +219,7 @@ class Section extends FrontBaseController
             $cache_obj->endCachingPage();
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function listarticles($secid)
@@ -246,7 +246,7 @@ class Section extends FrontBaseController
 
         $title =  Language::affLangue($secname);
 
-        include 'header.php';
+        //include 'header.php';
 
         global $SuperCache;
         if ($SuperCache) {
@@ -336,7 +336,7 @@ class Section extends FrontBaseController
             $cache_obj->endCachingPage();
         }
 
-        include('footer.php');
+        //include('footer.php');
     }
 
     function viewarticle($artid, $page)
@@ -392,7 +392,7 @@ class Section extends FrontBaseController
 
             $title = Language::affLangue($title);
 
-            include 'header.php';
+            //include 'header.php';
 
             global $SuperCache;
             if ($SuperCache) {
@@ -529,7 +529,7 @@ class Section extends FrontBaseController
                 $cache_obj->endCachingPage();
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else
             header('Location: sections.php');
     }

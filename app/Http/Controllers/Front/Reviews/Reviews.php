@@ -66,7 +66,7 @@ class Reviews extends FrontBaseController
     {
         global $admin, $sitename, $user, $cookie, $short_review;
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<h2>' . translate('Ecrire une critique') . '</h2>
         <hr />
@@ -175,7 +175,7 @@ class Reviews extends FrontBaseController
 
         $error = '';
 
-        include 'header.php';
+        //include 'header.php';
 
         echo '<h2 class="mb-4">';
         echo $id != 0 ? translate('Modification d\'une critique') : translate('Ecrire une critique');
@@ -325,7 +325,7 @@ class Reviews extends FrontBaseController
     {
         global $admin, $user;
 
-        include 'header.php';
+        //include 'header.php';
 
         $title = stripslashes(Sanitize::fixQuotes(strip_tags($title)));
         $text = stripslashes(Sanitize::fixQuotes(urldecode(Hack::removeHack($text))));
@@ -374,12 +374,12 @@ class Reviews extends FrontBaseController
         echo '</div>
         <a class="btn btn-secondary" href="reviews.php" title="' . translate('Retour à l\'index des critiques') . '">' . translate('Retour à l\'index des critiques') . '</a>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function reviews($field, $order)
     {
-        include 'header.php';
+        //include 'header.php';
 
         $r_result = sql_query("SELECT title, description 
                             FROM " . sql_prefix('reviews_main'));
@@ -512,14 +512,14 @@ class Reviews extends FrontBaseController
 
         sql_free_result($result);
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function showcontent($id)
     {
         global $admin;
 
-        include 'header.php';
+        //include 'header.php';
 
         //settype($id,'integer');
 
@@ -614,14 +614,14 @@ class Reviews extends FrontBaseController
             include 'modules/comments/http/controllers/comments.php';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function mod_review($id)
     {
         global $admin;
 
-        include 'header.php';
+        //include 'header.php';
 
         settype($id, 'integer');
         if (($id != 0) && ($admin)) {

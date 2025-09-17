@@ -496,7 +496,7 @@ class Stat extends FrontBaseController
         </p>
         <br />';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

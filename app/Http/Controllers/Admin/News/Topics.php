@@ -79,10 +79,10 @@ class Topics extends AdminBaseController
     {
         global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $nook;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT topicid, topicname, topicimage, topictext 
                             FROM " . sql_prefix('topics') . " 
@@ -234,10 +234,10 @@ class Topics extends AdminBaseController
     {
         global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $radminsuper;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT topicid, topicname, topicimage, topictext, topicadmin 
                             FROM " . sql_prefix('topics') . " 
@@ -403,10 +403,10 @@ class Topics extends AdminBaseController
     {
         global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT name, url 
                             FROM " . sql_prefix('related') . " 
@@ -639,10 +639,10 @@ class Topics extends AdminBaseController
         } else {
             global $hlpfile, $tipath, $topicimage, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result2 = sql_query("SELECT topicimage, topicname, topictext 
                                 FROM " . sql_prefix('topics') . " 

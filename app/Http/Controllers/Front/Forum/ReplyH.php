@@ -75,7 +75,7 @@ class ReplyH extends FrontBaseController
                     $userdata = array('uid' => 1);
                     $modo = '';
 
-                    include 'header.php';
+                    //include 'header.php';
                 } else {
                     if (($username == '') or ($password == '')) {
                         Error::forumError('0027');
@@ -92,7 +92,7 @@ class ReplyH extends FrontBaseController
                             if ($userdata['uid'] == 1) {
                                 Error::forumError('0027');
                             } else {
-                                include 'header.php';
+                                //include 'header.php';
                             }
                         } else {
                             Error::forumError('0028');
@@ -125,7 +125,7 @@ class ReplyH extends FrontBaseController
 
                 $userdata = Forum::getUserData($userdata[1]);
 
-                include 'header.php';
+                //include 'header.php';
             }
 
             // Either valid user/pass, or valid session. continue with post.
@@ -265,7 +265,7 @@ class ReplyH extends FrontBaseController
                 echo "[ <a href=\"javascript:history.go(-1)\" class=\"noir\">" . translate('Retour en arrière') . "</a> ]</p>";
             }
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             if ($allow_bbcode == 1) {
                 include 'library/formhelp.java.php';
@@ -522,7 +522,7 @@ class ReplyH extends FrontBaseController
             echo '</form>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

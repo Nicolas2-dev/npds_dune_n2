@@ -153,10 +153,10 @@ class Download extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $resultX = sql_query("SELECT DISTINCT dcategory 
                             FROM " . sql_prefix('downloads') . " 
@@ -360,10 +360,10 @@ class Download extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT did, dcounter, durl, dfilename, dfilesize, ddate, dweb, duser, dver, dcategory, ddescription, perms 
                             FROM " . sql_prefix('downloads') . " 
@@ -544,10 +544,10 @@ class Download extends AdminBaseController
         } else {
             global $hlpfile, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo ' <div class="alert alert-danger">
                 <strong>' . adm_translate('ATTENTION : êtes-vous sûr de vouloir supprimer ce fichier téléchargeable ?') . '</strong>

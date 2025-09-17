@@ -19,7 +19,7 @@ class Automated extends AdminBaseController
         // controle droit
         admindroits($aid, $f_meta_nom);
 
-        include 'publication.php';
+        //include 'publication.php';
 
         global $language;
         $hlpfile = 'admin/manuels/' . $language . '/automated.html';
@@ -182,10 +182,10 @@ class Automated extends AdminBaseController
     {
         global $hlpfile, $aid, $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -267,7 +267,7 @@ class Automated extends AdminBaseController
         $f_titre = adm_translate('Editer un Article');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         $result = sql_query("SELECT catid, title, time, hometext, bodytext, topic, informant, notes, ihome, date_debval,date_finval,auto_epur 
                             FROM " . sql_prefix('autonews') . " 
@@ -311,10 +311,10 @@ class Automated extends AdminBaseController
 
         $topiclogo = '<span class="badge bg-secondary" title="' . $topictext . '" data-bs-toggle="tooltip" data-bs-placement="left"><strong>' . Language::affLangue($topicname) . '</strong></span>';
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Editer l\'Article Automatique') . '</h3>

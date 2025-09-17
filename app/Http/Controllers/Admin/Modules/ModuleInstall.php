@@ -331,7 +331,7 @@ class ModuleInstall extends AdminBaseController
     // e1
     public function nmig_Start($name_module, $txtdeb)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -358,7 +358,7 @@ class ModuleInstall extends AdminBaseController
     // e2
     public function nmig_License($licence_file, $name_module)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -382,7 +382,7 @@ class ModuleInstall extends AdminBaseController
     //e3
     public function nmig_AlertSql($sql, $name_module)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -420,7 +420,7 @@ class ModuleInstall extends AdminBaseController
     // e4
     public function nmig_WriteSql($sql, $path_adm_module, $name_module, $affich, $icon)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display, $path_adm_module, $name_module, $affich, $icon;
 
@@ -496,7 +496,7 @@ class ModuleInstall extends AdminBaseController
     // e5
     public function nmig_AlertConfig($list_fich)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -517,7 +517,7 @@ class ModuleInstall extends AdminBaseController
     // e6
     public function nmig_WriteConfig($list_fich, $try_Chmod)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -625,7 +625,7 @@ class ModuleInstall extends AdminBaseController
     // e7
     public function nmig_AlertBloc($blocs, $name_module)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -663,7 +663,7 @@ class ModuleInstall extends AdminBaseController
     // e8
     public function nmig_WriteBloc($blocs, $posbloc, $name_module)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -738,7 +738,7 @@ class ModuleInstall extends AdminBaseController
     // e9 étape à fusionner avec la 10 ....
     public function nmig_txt($txtfin)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 
@@ -752,7 +752,7 @@ class ModuleInstall extends AdminBaseController
     // e10 étape à fusionner avec la 9 ....
     public function nmig_End($name_module, $end_link)
     {
-        include 'header.php';
+        //include 'header.php';
 
         global $ModInstall, $display;
 

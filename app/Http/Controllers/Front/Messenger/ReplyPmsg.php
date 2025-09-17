@@ -293,9 +293,9 @@ class ReplyPmsg extends FrontBaseController
 
                 echo '</head>
                 <body class="my-4 mx-4">';
-            } else {
-                include 'header.php';
-            }
+            } //else {
+                //include 'header.php';
+            //}
 
             if ($reply || $send || $to_user) {
                 if ($allow_bbcode) {

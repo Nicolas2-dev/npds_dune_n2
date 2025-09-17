@@ -90,10 +90,10 @@ class Banners extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Bannières actives') . '</h3>
@@ -420,10 +420,10 @@ class Banners extends AdminBaseController
         } else {
             global $hlpfile;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl 
                                 FROM " . sql_prefix('banner') . " 
@@ -483,10 +483,10 @@ class Banners extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, userlevel 
                             FROM " . sql_prefix('banner') . " 
@@ -589,10 +589,10 @@ class Banners extends AdminBaseController
 
             Header('Location: admin.php?op=BannersAdmin');
         } else {
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT cid, name 
                                 FROM " . sql_prefix('bannerclient') . " 
@@ -633,10 +633,10 @@ class Banners extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT name, contact, email, login, passwd, extrainfo 
                             FROM " . sql_prefix('bannerclient') . " 

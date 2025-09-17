@@ -22,7 +22,7 @@ class Topics extends FrontBaseController
     {
         if ($op != 'maj_subscribe') {
 
-            include 'header.php';
+            //include 'header.php';
 
             $inclusion = false;
 
@@ -43,7 +43,7 @@ class Topics extends FrontBaseController
                 echo Metalang::metaLang(Language::affLangue($Xcontent));
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             if ($subscribe) {
                 if ($user) {

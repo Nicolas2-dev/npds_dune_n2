@@ -61,7 +61,7 @@ class Faq extends FrontBaseController
     {
         if (!$myfaq) {
 
-            include 'header.php';
+            //include 'header.php';
 
             // Include cache manager
             if ($SuperCache) {
@@ -93,11 +93,11 @@ class Faq extends FrontBaseController
                 $cache_obj->endCachingPage();
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             $title = 'FAQ : ' . Hack::removeHack(StripSlashes($categories));
 
-            include 'header.php';
+            //include 'header.php';
 
             // Include cache manager
             if ($SuperCache) {
@@ -116,7 +116,7 @@ class Faq extends FrontBaseController
                 $cache_obj->endCachingPage();
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

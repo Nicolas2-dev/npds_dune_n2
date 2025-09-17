@@ -61,12 +61,12 @@ class Overload extends AdminBaseController
     {
         global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
-        include 'config/cache.timings.php';
+        //include 'config/cache.timings.php';
 
         echo '<hr />
             <form id="overloadcacheadm" action="admin.php" method="post">

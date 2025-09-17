@@ -151,10 +151,10 @@ class Links extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $results = sql_query("SELECT * FROM " . sql_prefix('links_links'));
         $numrows = sql_num_rows($results);
@@ -586,10 +586,11 @@ class Links extends AdminBaseController
     public function LinksModLink($lid)
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
-        include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //include 'header.php';
+
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT cid, sid, title, url, description, name, email, hits 
                             FROM " . sql_prefix('links_links') . " 
@@ -817,10 +818,10 @@ class Links extends AdminBaseController
             header('location: admin.php?op=links');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Liens cassés rapportés par un ou plusieurs Utilisateurs') . ' <span class="badge bg-danger float-end">' . $totalbrokenlinks . '</span></h3>
@@ -934,7 +935,7 @@ class Links extends AdminBaseController
             header('location: admin.php?op=links');
         }
 
-        include 'header.php';
+        //include 'header.php';
 
         $x_mod = '';
         $x_ori = '';
@@ -946,7 +947,7 @@ class Links extends AdminBaseController
             }
         }
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         echo '<h3 class="my-3">' . adm_translate('Requête de modification d\'un Lien Utilisateur') . '<span class="badge bg-danger float-end">' . $totalmodrequests . '</span></h3>';
 
@@ -1072,7 +1073,7 @@ class Links extends AdminBaseController
             </div>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     public function LinksChangeModRequests($Xrequestid)
@@ -1146,9 +1147,9 @@ class Links extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $cat = explode('-', $cat);
 
@@ -1156,7 +1157,7 @@ class Links extends AdminBaseController
             $cat[1] = 0;
         }
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         if ($cat[1] == 0) {
             echo '<hr />
@@ -1387,10 +1388,10 @@ class Links extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />';
         echo $ibid;

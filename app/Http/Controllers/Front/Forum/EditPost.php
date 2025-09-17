@@ -58,7 +58,7 @@ class EditPost extends FrontBaseController
 
         if ($submitS) {
 
-            include 'header.php';
+            //include 'header.php';
 
             $sql = "SELECT poster_id, topic_id 
                     FROM " . sql_prefix('posts') . " 
@@ -192,7 +192,7 @@ class EditPost extends FrontBaseController
                 }
             }
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             if ($allow_bbcode == 1) {
                 include 'library/formhelp.java.php';
@@ -355,7 +355,7 @@ class EditPost extends FrontBaseController
             </div>';
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

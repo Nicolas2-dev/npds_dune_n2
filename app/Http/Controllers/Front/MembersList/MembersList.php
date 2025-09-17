@@ -58,7 +58,8 @@ class MembersList extends FrontBaseController
             $uid_from_ws = '';
             $gr_from_ws = 0;
         }
-        include 'header.php';
+
+        //include 'header.php';
 
         $pagesize = $show_user;
 
@@ -423,7 +424,7 @@ class MembersList extends FrontBaseController
             }
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     function alpha()

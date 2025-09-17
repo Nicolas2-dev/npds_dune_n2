@@ -82,10 +82,10 @@ class Faq extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Liste des catégories') . '</h3>
@@ -155,9 +155,9 @@ class Faq extends AdminBaseController
     {
         global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
+        //GraphicAdmin($hlpfile);
 
         $lst_qr = '';
 
@@ -187,7 +187,7 @@ class Faq extends AdminBaseController
             </li>';
         }
 
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . $faq_cat . '</h3>
@@ -250,10 +250,10 @@ class Faq extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT categories 
                             FROM " . sql_prefix('faqcategories') . " 
@@ -296,10 +296,10 @@ class Faq extends AdminBaseController
     {
         global $hlpfile, $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT fa.question, fa.answer, fa.id_cat, fc.categories 
                                 FROM " . sql_prefix('') . "faqanswer fa 
@@ -421,10 +421,10 @@ class Faq extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo '<hr />
             <div class="alert alert-danger">
@@ -437,7 +437,7 @@ class Faq extends AdminBaseController
                 </a>
             </div>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 
@@ -451,10 +451,10 @@ class Faq extends AdminBaseController
         } else {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo '<hr />
             <div class="alert alert-danger">
@@ -467,7 +467,7 @@ class Faq extends AdminBaseController
                 </a>
             </div>';
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

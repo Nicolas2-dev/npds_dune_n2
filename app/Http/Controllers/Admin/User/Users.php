@@ -346,10 +346,10 @@ class Users extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
             <h3>' . adm_translate('Extraire l\'annuaire') . '</h3>
@@ -453,10 +453,11 @@ class Users extends AdminBaseController
     public function modifyUser($chng_user)
     {
         global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
-        include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //include 'header.php';
+
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT uid, uname, name, url, email, femail, user_from, user_occ, user_intrest, user_viewemail, user_avatar, user_sig, bio, pass, send_email, is_visible, mns, user_lnl 
                             FROM " . sql_prefix('users') . " 
@@ -577,10 +578,10 @@ class Users extends AdminBaseController
 
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
@@ -594,10 +595,10 @@ class Users extends AdminBaseController
             if ($chng_pass != $chng_pass2) {
                 global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-                include 'header.php';
+                //include 'header.php';
 
-                GraphicAdmin($hlpfile);
-                adminhead($f_meta_nom, $f_titre, $adminimg);
+                //GraphicAdmin($hlpfile);
+                //adminhead($f_meta_nom, $f_titre, $adminimg);
 
                 echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
@@ -608,15 +609,13 @@ class Users extends AdminBaseController
             $tmp = 1;
         }
 
-        include_once 'functions.php';
-
         if (Forum::checkDnsMail($chng_email) === false) {
             global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
@@ -735,10 +734,10 @@ class Users extends AdminBaseController
     {
         global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $newsuti = sql_query("SELECT u.uid, u.uname, u.name, u.user_regdate 
                             FROM " . sql_prefix('users') . " AS u 
@@ -783,12 +782,10 @@ class Users extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $adminmail, $page, $end, $autocont;
 
-        include 'header.php';
+        //include 'header.php';
 
-        include_once 'functions.php';
-
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         if (!isset($page)) {
             $page = 1;

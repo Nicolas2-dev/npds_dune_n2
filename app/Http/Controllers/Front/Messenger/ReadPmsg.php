@@ -27,7 +27,7 @@ class ReadPmsg extends FrontBaseController
         if (!$user) {
             Header('Location: user.php');
         } else {
-            include 'header.php';
+            //include 'header.php';
 
             $userX = base64_decode($user);
             $userdata = explode(':', $userX);
@@ -348,7 +348,7 @@ class ReadPmsg extends FrontBaseController
                 }
             }
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

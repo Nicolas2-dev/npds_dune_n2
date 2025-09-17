@@ -73,10 +73,10 @@ class Pollbooth extends AdminBaseController
     {
         global $hlpfile, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
             <hr />
@@ -186,10 +186,10 @@ class Pollbooth extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Retirer un Sondage existant') . '</h3>
@@ -228,7 +228,7 @@ class Pollbooth extends AdminBaseController
             </div>
         </form>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     public function poll_removePosted()
@@ -265,14 +265,14 @@ class Pollbooth extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
         $result = sql_query("SELECT pollID, pollTitle, timeStamp 
                             FROM " . sql_prefix('poll_desc') . " 
                             ORDER BY timeStamp");
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3 class="mb-3">' . adm_translate('Edition des sondages') . '</h3>
@@ -305,7 +305,7 @@ class Pollbooth extends AdminBaseController
             </div>
         </form>';
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
     public function poll_editPollPosted()
@@ -315,10 +315,10 @@ class Pollbooth extends AdminBaseController
         if ($id) {
             global $hlpfile;
 
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             $result = sql_query("SELECT pollID, pollTitle, timeStamp 
                                 FROM " . sql_prefix('poll_desc') . " 

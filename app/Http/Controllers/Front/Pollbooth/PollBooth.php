@@ -291,7 +291,7 @@ class Pollbooth extends FrontBaseController
         $header = 0;
 
         if (!isset($pollID)) {
-            include 'header.php';
+            //include 'header.php';
 
             pollList();
         }
@@ -308,9 +308,9 @@ class Pollbooth extends FrontBaseController
             list($ibid, $pollClose) = Pollbooth::pollSecur($pollID);
 
             if ($pollID == $ibid) {
-                if ($header != 1) {
-                    include 'header.php';
-                }
+                //if ($header != 1) {
+                //    include 'header.php';
+                //}
 
                 echo '<h2>' . translate('Sondage') . '</h2><hr />';
 
@@ -342,7 +342,7 @@ class Pollbooth extends FrontBaseController
             }
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

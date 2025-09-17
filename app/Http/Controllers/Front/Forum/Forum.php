@@ -48,7 +48,7 @@ class Forum extends FrontBaseController
             }
         }
 
-        include 'header.php';
+        //include 'header.php';
 
         // -- SuperCache
         if (($SuperCache) and (!$user)) {
@@ -91,7 +91,7 @@ class Forum extends FrontBaseController
             $cache_obj->endCachingPage();
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

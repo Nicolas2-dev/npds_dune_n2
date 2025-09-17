@@ -137,10 +137,10 @@ class Blocks extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $aid;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <h3>' . adm_translate('Edition des Blocs de gauche') . '</h3>';

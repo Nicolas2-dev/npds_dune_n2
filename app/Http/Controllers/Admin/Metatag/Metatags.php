@@ -59,10 +59,10 @@ class Metatags extends AdminBaseController
 
         $tags = GetMetaTags('storage/meta/meta.php');
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $sel = ' selected="selected"';
 

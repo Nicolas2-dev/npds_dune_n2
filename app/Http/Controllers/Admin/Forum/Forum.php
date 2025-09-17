@@ -84,10 +84,10 @@ class Forum extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '
         <hr />
@@ -149,10 +149,10 @@ class Forum extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT cat_title 
                             FROM " . sql_prefix('catagories') . " 
@@ -423,10 +423,10 @@ class Forum extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT forum_id, forum_name, forum_desc, forum_access, forum_moderator, cat_id, forum_type, forum_pass, arbre, attachement, forum_index 
                             FROM " . sql_prefix('forums') . " 
@@ -757,10 +757,10 @@ class Forum extends AdminBaseController
     {
         global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $result = sql_query("SELECT cat_id, cat_title 
                             FROM " . sql_prefix('catagories') . " 
@@ -862,14 +862,14 @@ class Forum extends AdminBaseController
         }
 
         if ($error_mod != '') {
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
+            //GraphicAdmin($hlpfile);
 
             echo "<div><p align=\"center\">" . adm_translate('Le Modérateur sélectionné n\'existe pas.') . " : $error_mod<br />";
             echo "[ <a href=\"javascript:history.go(-1)\" >" . adm_translate('Retour en arrière') . "</a> ]</p></div>";
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             $forum_mod = str_replace(' ', ',', chop($forum_mod));
 
@@ -941,16 +941,16 @@ class Forum extends AdminBaseController
         }
 
         if ($error_mod != '') {
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
+            //GraphicAdmin($hlpfile);
 
             echo '<div class="alert alert-danger">
                 <p>' . adm_translate('Le Modérateur sélectionné n\'existe pas.') . ' : ' . $error_mod . '</p>
                 <a href="javascript:history.go(-1)" class="btn btn-secondary">' . adm_translate('Retour en arrière') . '</a>
             </div>';
 
-            include 'footer.php';
+            //include 'footer.php';
         } else {
             if ($arbre > 1) {
                 $arbre = 1;
@@ -1003,10 +1003,10 @@ class Forum extends AdminBaseController
 
             Header('Location: admin.php?op=ForumAdmin');
         } else {
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo '<hr />
             <div class="alert alert-danger">
@@ -1045,10 +1045,10 @@ class Forum extends AdminBaseController
 
             Header('Location: admin.php?op=ForumAdmin');
         } else {
-            include 'header.php';
+            //include 'header.php';
 
-            GraphicAdmin($hlpfile);
-            adminhead($f_meta_nom, $f_titre, $adminimg);
+            //GraphicAdmin($hlpfile);
+            //adminhead($f_meta_nom, $f_titre, $adminimg);
 
             echo '<hr />
             <div class="alert alert-danger">

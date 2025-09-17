@@ -49,7 +49,7 @@ class Search extends FrontBaseController
             $limit = '';
         }
 
-        include 'header.php';
+        //include 'header.php';
 
         if ($topic > 0) {
             $result = sql_query("SELECT topicimage, topictext 
@@ -587,7 +587,7 @@ class Search extends FrontBaseController
             }
         }
 
-        include 'footer.php';
+        //include 'footer.php';
     }
 
 }

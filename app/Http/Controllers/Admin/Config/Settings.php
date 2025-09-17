@@ -51,14 +51,14 @@ class Setting extends AdminBaseController
     {
         global $hlpfile, $filemanager, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'config/config.php';
+        //include 'config/config.php';
 
         $notmodifiedlangue = $language; //ici la variable est conforme
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr />
         <form id="settingspref" action="admin.php" method="post">
