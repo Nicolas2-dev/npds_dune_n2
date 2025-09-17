@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'groupes';
+        $f_titre = adm_translate('Gestion des groupes');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language, $adminimg, $admf_ext;
+        $hlpfile = 'admin/manuels/' . $language . '/groupes.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'groupes';
-$f_titre = adm_translate('Gestion des groupes');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language, $adminimg, $admf_ext;
-$hlpfile = 'admin/manuels/' . $language . '/groupes.html';
 
 settype($al, 'string');
 

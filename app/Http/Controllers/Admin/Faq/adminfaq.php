@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'FaqAdmin';
+        $f_titre = adm_translate('Faq');
+
+        //controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/faqs.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'FaqAdmin';
-$f_titre = adm_translate('Faq');
 
-//controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/faqs.html';
 
 function FaqAdmin()
 {

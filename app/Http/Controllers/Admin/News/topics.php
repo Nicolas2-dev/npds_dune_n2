@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'topicsmanager';
+        $f_titre = adm_translate('Gestion des sujets');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/topics.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'topicsmanager';
-$f_titre = adm_translate('Gestion des sujets');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/topics.html';
 
 function topicsmanager()
 {

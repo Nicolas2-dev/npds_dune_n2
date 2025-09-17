@@ -13,16 +13,18 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'blocks';
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/leftBlocks.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'blocks';
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/leftBlocks.html';
 
 function makelblock($title, $content, $members, $Mmember, $Lindex, $Scache, $BLaide, $SHTML, $css)
 {

@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'MetaLangAdmin';
+        $f_titre = 'META-LANG';
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/meta_lang.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'MetaLangAdmin';
-$f_titre = 'META-LANG';
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/meta_lang.html';
 
 function go_back($label)
 {

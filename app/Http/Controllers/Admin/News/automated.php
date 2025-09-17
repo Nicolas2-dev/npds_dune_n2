@@ -13,19 +13,21 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'autoStory';
+        $f_titre = adm_translate('Articles programmés');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        include 'publication.php';
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/automated.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'autoStory';
-$f_titre = adm_translate('Articles programmés');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-include 'publication.php';
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/automated.html';
 
 function puthome($ihome)
 {

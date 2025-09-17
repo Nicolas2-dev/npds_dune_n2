@@ -13,14 +13,16 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'ablock';
+        $f_titre = adm_translate('Bloc Administration');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'ablock';
-$f_titre = adm_translate('Bloc Administration');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
 
 function ablock()
 {

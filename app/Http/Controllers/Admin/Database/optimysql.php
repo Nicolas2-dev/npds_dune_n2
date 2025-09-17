@@ -13,18 +13,20 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        global $dbname;
+
+        $f_meta_nom = 'OptimySQL';
+        $f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbname;
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        $hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
+
         parent::initialize();        
     }
 
-global $dbname;
 
-$f_meta_nom = 'OptimySQL';
-$f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbname;
-
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-$hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
 
 $date_opt = date(adm_translate('dateforop'));
 $heure_opt = date('h:i a');

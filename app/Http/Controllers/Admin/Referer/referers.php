@@ -13,16 +13,18 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'hreferer';
+        $f_titre = adm_translate('Sites Référents');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        $hlpfile = 'admin/manuels/' . $language . '/referer.html';
+
         parent::initialize();        
     }
     
-$f_meta_nom = 'hreferer';
-$f_titre = adm_translate('Sites Référents');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-$hlpfile = 'admin/manuels/' . $language . '/referer.html';
 
 function hreferer($filter)
 {

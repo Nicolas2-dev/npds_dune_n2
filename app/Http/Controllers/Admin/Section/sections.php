@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'sections';
+        $f_titre = adm_translate('Rubriques');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/sections.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'sections';
-$f_titre = adm_translate('Rubriques');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/sections.html';
 
 function groupe($groupe)
 {

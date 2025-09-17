@@ -13,14 +13,16 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'MetaTagAdmin';
+        $f_titre = adm_translate('Administration des MétaTags');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'MetaTagAdmin';
-$f_titre = adm_translate('Administration des MétaTags');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
 
 function MetaTagAdmin(bool $meta_saved = false)
 {

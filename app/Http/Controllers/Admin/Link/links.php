@@ -13,20 +13,21 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'links';
+        $f_titre = 'Liens';
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/weblinks.html';
+
+        // valeur du pas de pagination
+        $rupture = 100; //100   
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'links';
-$f_titre = 'Liens';
-
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/weblinks.html';
-
-// valeur du pas de pagination
-$rupture = 100; //100
 
 function links()
 {

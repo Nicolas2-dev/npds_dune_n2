@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'mblock';
+        $f_titre = adm_translate('Bloc Principal');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/mainblock.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'mblock';
-$f_titre = adm_translate('Bloc Principal');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/mainblock.html';
 
 function mblock()
 {

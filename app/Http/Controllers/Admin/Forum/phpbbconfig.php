@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'ForumConfigAdmin';
+        $f_titre = adm_translate('Configuration des Forums');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language, $adminimg, $admf_ext;
+        $hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'ForumConfigAdmin';
-$f_titre = adm_translate('Configuration des Forums');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language, $adminimg, $admf_ext;
-$hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
 
 function ForumConfigAdmin()
 {

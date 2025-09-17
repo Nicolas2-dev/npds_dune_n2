@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'submissions';
+        $f_titre = adm_translate('Article en attente de validation');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/submissions.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'submissions';
-$f_titre = adm_translate('Article en attente de validation');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/submissions.html';
 
 function submissions()
 {

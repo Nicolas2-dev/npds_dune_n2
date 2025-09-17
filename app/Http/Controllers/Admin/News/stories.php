@@ -13,15 +13,17 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'adminStory';
+
+        include 'publication.php';
+
+        //==> controle droit
+        admindroits($aid, $f_meta_nom);
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'adminStory';
 
-include 'publication.php';
-
-//==> controle droit
-admindroits($aid, $f_meta_nom);
 
 function puthome($ihome)
 {

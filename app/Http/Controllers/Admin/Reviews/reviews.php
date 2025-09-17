@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'reviews';
+        $f_titre = adm_translate('Critiques');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/reviews.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'reviews';
-$f_titre = adm_translate('Critiques');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
 function mod_main($title, $description)
 {

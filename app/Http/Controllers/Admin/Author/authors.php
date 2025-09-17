@@ -13,19 +13,21 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'mod_authors';
+        $f_titre = adm_translate('Administrateurs');
+
+        //controle droit
+        admindroits($aid, $f_meta_nom);
+
+        if ($radminsuper != 1) {
+            Access_Error();
+        }
+
         parent::initialize();        
     }
 
 
-$f_meta_nom = 'mod_authors';
-$f_titre = adm_translate('Administrateurs');
 
-//controle droit
-admindroits($aid, $f_meta_nom);
-
-if ($radminsuper != 1) {
-    Access_Error();
-}
 
 global $language, $adminimg, $admf_ext;
 

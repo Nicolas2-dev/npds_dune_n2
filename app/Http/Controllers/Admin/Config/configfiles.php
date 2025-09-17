@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'ConfigFiles';
+        $f_titre = adm_translate('Les fichiers de configuration');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/configfiles.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'ConfigFiles';
-$f_titre = adm_translate('Les fichiers de configuration');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/configfiles.html';
 
 function ConfigFiles($contents, $files)
 {

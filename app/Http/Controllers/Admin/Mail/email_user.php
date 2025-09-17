@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'email_user';
+        $f_titre = adm_translate('Diffusion d\'un Message Interne');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/email_user.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'email_user';
-$f_titre = adm_translate('Diffusion d\'un Message Interne');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/email_user.html';
 
 function email_user()
 {

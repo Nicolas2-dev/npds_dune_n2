@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'supercache';
+        $f_titre = adm_translate('SuperCache');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/overload.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'supercache';
-$f_titre = adm_translate('SuperCache');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/overload.html';
 
 function save_supercache($xsupercache, $xt_index, $xt_article, $xt_sections, $xt_faq, $xt_links, $xt_forum, $xt_memberlist, $xt_modules)
 {

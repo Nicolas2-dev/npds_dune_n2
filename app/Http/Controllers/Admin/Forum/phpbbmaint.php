@@ -13,20 +13,22 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'MaintForumAdmin';
+        $f_titre = adm_translate('Maintenance des Forums');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language, $adminimg, $admf_ext;
+        $hlpfile = 'admin/manuels/' . $language . '/forummaint.html';
+
+        include 'auth.php';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'MaintForumAdmin';
-$f_titre = adm_translate('Maintenance des Forums');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
 
-global $language, $adminimg, $admf_ext;
-$hlpfile = 'admin/manuels/' . $language . '/forummaint.html';
-
-include 'auth.php';
-include 'functions.php';
 
 function ForumMaintMarkTopics()
 {

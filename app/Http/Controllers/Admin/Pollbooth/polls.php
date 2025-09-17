@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'create';
+        $f_titre = adm_translate('Les sondages');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/surveys.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'create';
-$f_titre = adm_translate('Les sondages');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/surveys.html';
 
 function poll_createPoll()
 {

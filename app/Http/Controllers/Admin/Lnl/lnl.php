@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'lnl';
+        $f_titre = adm_translate('Petite Lettre D\'information');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/lnl.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'lnl';
-$f_titre = adm_translate('Petite Lettre D\'information');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/lnl.html';
 
 $rowH = array();
 

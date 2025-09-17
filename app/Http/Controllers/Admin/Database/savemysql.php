@@ -13,13 +13,15 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'SavemySQL';
+
+        //==> controle droit
+        admindroits($aid, $f_meta_nom);
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'SavemySQL';
 
-//==> controle droit
-admindroits($aid, $f_meta_nom);
 
 $name = $aid;
 

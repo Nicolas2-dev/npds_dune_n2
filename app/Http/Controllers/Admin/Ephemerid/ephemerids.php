@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'Ephemerids';
+        $f_titre = adm_translate('Ephémérides');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/ephem.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'Ephemerids';
-$f_titre = adm_translate('Ephémérides');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language;
-$hlpfile = 'admin/manuels/' . $language . '/ephem.html';
 
 function Ephemerids()
 {

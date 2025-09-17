@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'DownloadAdmin';
+        $f_titre = adm_translate('Téléchargements');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language;
+        $hlpfile = 'admin/manuels/' . $language . '/downloads.html';
+
         parent::initialize();        
     }
     
-//$f_meta_nom = 'DownloadAdmin';
-//$f_titre = adm_translate('Téléchargements');
 
-// controle droit
-//admindroits($aid, $f_meta_nom);
-
-//global $language;
-//$hlpfile = 'admin/manuels/' . $language . '/downloads.html';
 
 function groupe($groupe)
 {

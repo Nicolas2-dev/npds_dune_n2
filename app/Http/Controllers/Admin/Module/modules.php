@@ -13,17 +13,19 @@ class extends AdminBaseController
      */
     protected function initialize()
     {
+        $f_meta_nom = 'modules';
+        $f_titre = adm_translate('Gestion, Installation Modules');
+
+        // controle droit
+        admindroits($aid, $f_meta_nom);
+
+        global $language, $adminimg, $admf_ext;
+        $hlpfile = 'admin/manuels/' . $language . '/modules.html';
+
         parent::initialize();        
     }
 
-$f_meta_nom = 'modules';
-$f_titre = adm_translate('Gestion, Installation Modules');
 
-// controle droit
-admindroits($aid, $f_meta_nom);
-
-global $language, $adminimg, $admf_ext;
-$hlpfile = 'admin/manuels/' . $language . '/modules.html';
 
 include 'header.php';
 
