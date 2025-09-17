@@ -3,77 +3,81 @@
 namespace App\Http\Controllers\Admin\Forum;
 
 
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
-class Forum extends AdminBaseController
+class ForumAdmin extends AdminBaseController
 {
     /**
      * Method executed before any action.
      */
     protected function initialize()
     {
-        $f_meta_nom = 'ForumAdmin';
-        $f_titre = adm_translate('Gestion des forums');
+        //$f_meta_nom = 'ForumAdmin';
+        //$f_titre = adm_translate('Gestion des forums');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language, $adminimg, $admf_ext;
-        $hlpfile = 'admin/manuels/' . $language . '/forumcat.html';
+        //global $language, $adminimg, $admf_ext;
+        //$hlpfile = 'admin/manuels/' . $language . '/forumcat.html';
 
-        include 'auth.php';
+        //include 'auth.php';
 
         /*
         case 'ForumGoAdd':
             settype($forum_pass, 'string');
             include 'admin/phpbbforum.php';
-            ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
+            $this->ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
             break;
 
         case 'ForumGoSave':
             include 'admin/phpbbforum.php';
-            ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
+            $this->ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg);
             break;
 
         case 'ForumCatDel':
             include 'admin/phpbbforum.php';
-            ForumCatDel($cat_id, $ok);
+            $this->ForumCatDel($cat_id, $ok);
             break;
 
         case 'ForumGoDel':
             include 'admin/phpbbforum.php';
-            ForumGoDel($forum_id, $ok);
+            $this->ForumGoDel($forum_id, $ok);
             break;
 
         case 'ForumCatSave':
             include 'admin/phpbbforum.php';
-            ForumCatSave($old_cat_id, $cat_id, $cat_title);
+            $this->ForumCatSave($old_cat_id, $cat_id, $cat_title);
             break;
 
         case 'ForumCatEdit':
             include 'admin/phpbbforum.php';
-            ForumCatEdit($cat_id);
+            $this->ForumCatEdit($cat_id);
             break;
 
         case 'ForumGoEdit':
             include 'admin/phpbbforum.php';
-            ForumGoEdit($forum_id, $ctg);
+            $this->ForumGoEdit($forum_id, $ctg);
             break;
 
         case 'ForumGo':
             include 'admin/phpbbforum.php';
-            ForumGo($cat_id);
+            $this->ForumGo($cat_id);
             break;
 
         case 'ForumCatAdd':
             include 'admin/phpbbforum.php';
-            ForumCatAdd($catagories);
+            $this->ForumCatAdd($catagories);
             break;
 
         case 'ForumAdmin':
             include 'admin/phpbbforum.php';
-            ForumAdmin();
+            $this->ForumAdmin();
             break;
         */
 
@@ -82,7 +86,7 @@ class Forum extends AdminBaseController
 
     public function ForumAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -147,7 +151,7 @@ class Forum extends AdminBaseController
 
     public function ForumGo($cat_id)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -421,7 +425,7 @@ class Forum extends AdminBaseController
 
     public function ForumGoEdit($forum_id, $ctg)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -755,7 +759,7 @@ class Forum extends AdminBaseController
 
     public function ForumCatEdit($cat_id)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -834,7 +838,7 @@ class Forum extends AdminBaseController
 
     public function ForumGoSave($forum_id, $forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
     {
-        global $hlpfile;
+        //global $hlpfile;
 
         // il faut supprimer le dernier , à cause de l'auto-complete
         $forum_mod = rtrim(chop($forum_mod), ',');
@@ -913,7 +917,7 @@ class Forum extends AdminBaseController
 
     public function ForumGoAdd($forum_name, $forum_desc, $forum_access, $forum_mod, $cat_id, $forum_type, $forum_pass, $arbre, $attachement, $forum_index, $ctg)
     {
-        global $hlpfile;
+        //global $hlpfile;
 
         // il faut supprimer le dernier , à cause de l'auto-complete
         $forum_mod = rtrim(chop($forum_mod), ',');
@@ -972,7 +976,7 @@ class Forum extends AdminBaseController
 
     public function ForumCatDel($cat_id, $ok = 0)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         if ($ok == 1) {
             $result = sql_query("SELECT forum_id FROM " . sql_prefix('forums') . " WHERE cat_id='$cat_id'");
@@ -1021,7 +1025,7 @@ class Forum extends AdminBaseController
 
     public function ForumGoDel($forum_id, $ok = 0)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         if ($ok == 1) {
             sql_query("DELETE FROM " . sql_prefix('forumtopics') . " 

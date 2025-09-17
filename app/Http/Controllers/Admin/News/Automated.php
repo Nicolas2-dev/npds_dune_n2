@@ -3,6 +3,15 @@
 namespace App\Http\Controllers\Admin\News;
 
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,30 +22,30 @@ class Automated extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'autoStory';
-        $f_titre = adm_translate('Articles programmés');
+        //$f_meta_nom = 'autoStory';
+        //$f_titre = adm_translate('Articles programmés');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         //include 'publication.php';
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/automated.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/automated.html';
 
         /*
         switch ($op) {
 
             case 'autoStory':
-                autoStory();
+                $this->autoStory();
                 break;
 
             case 'autoDelete':
-                autodelete($anid);
+                $this->autodelete($anid);
                 break;
 
             case 'autoEdit':
-                autoEdit($anid);
+                $this->autoEdit($anid);
                 break;
 
             case 'autoSaveEdit':
@@ -47,7 +56,7 @@ class Automated extends AdminBaseController
                     $date_finval = $date_debval;
                 }
 
-                autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur);
+                $this->autoSaveEdit($anid, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $informant, $members, $Mmembers, $date_debval, $date_finval, $epur);
                 break;
         }
 
@@ -180,7 +189,7 @@ class Automated extends AdminBaseController
 
     public function autoStory()
     {
-        global $hlpfile, $aid, $radminsuper, $gmt, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         //include 'header.php';
 
@@ -261,10 +270,10 @@ class Automated extends AdminBaseController
 
     public function autoEdit($anid)
     {
-        global $aid, $hlpfile, $tipath, $radminsuper, $adminimg;
+        global $aid, $tipath, $radminsuper;
 
-        $f_meta_nom = 'autoStory';
-        $f_titre = adm_translate('Editer un Article');
+        //$f_meta_nom = 'autoStory';
+        //$f_titre = adm_translate('Editer un Article');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -333,7 +342,7 @@ class Automated extends AdminBaseController
             }
         }
 
-        code_aff('<div class="d-flex"><div class="w-100 p-2 ps-0"><h3>' . $titre . '</h3></div><div class="align-self-center p-2 flex-shrink-1 h3">' . $topiclogo . '</div></div>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
+        $this->code_aff('<div class="d-flex"><div class="w-100 p-2 ps-0"><h3>' . $titre . '</h3></div><div class="align-self-center p-2 flex-shrink-1 h3">' . $topiclogo . '</div></div>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
 
         echo '<hr /><b>' . adm_translate('Utilisateur') . '</b>' . $informant . '<br />';
 
@@ -384,8 +393,8 @@ class Automated extends AdminBaseController
             </div>
         </div>';
 
-        SelectCategory($catid);
-        puthome($ihome);
+        $this->SelectCategory($catid);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
                 <label class="col-form-label col-sm-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -417,7 +426,7 @@ class Automated extends AdminBaseController
         $dh_pub = substr($date_debval, 11, 5);
         $fh_pub = substr($date_finval, 11, 5);
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo '<div class="mb-3 row">
                 <div class="col-sm-12">

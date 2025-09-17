@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Database;
 
 
+use App\Support\Facades\Log;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -15,13 +17,13 @@ class OptiMysql extends AdminBaseController
     {
         global $dbname;
 
-        $f_meta_nom = 'OptimySQL';
-        $f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbname;
+        //$f_meta_nom = 'OptimySQL';
+        //$f_titre = adm_translate('Optimisation de la base de données') . ' : ' . $dbname;
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        $hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/optimysql.html';
 
         /*
         // OPTIMYSQL
@@ -147,7 +149,7 @@ class OptiMysql extends AdminBaseController
         list($gainopt, $countopt) = sql_fetch_row($result);
 
         // Affichage
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         echo '<hr /><p class="lead">' . adm_translate('Optimisation effectuée') . ' : ' . adm_translate('Gain total réalisé') . ' ' . $total_gain . ' Ko</br>';
 

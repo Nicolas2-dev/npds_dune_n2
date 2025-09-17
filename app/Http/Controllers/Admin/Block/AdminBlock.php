@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Block;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,11 +16,11 @@ class AdminBlock extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'ablock';
-        $f_titre = adm_translate('Bloc Administration');
+        //$f_meta_nom = 'ablock';
+        //$f_titre = adm_translate('Bloc Administration');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         /*
         switch ($op) {

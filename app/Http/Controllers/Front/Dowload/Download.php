@@ -29,6 +29,30 @@ class Download extends FrontBaseController
     {
         $this->download = LDownload::getInstance(); 
 
+        /*
+        switch ($op) {
+            case 'main':
+                main();
+                break;
+
+            case 'mydown':
+                transferfile($did);
+                break;
+
+            case 'geninfo':
+                geninfo($did, $out_template);
+                break;
+
+            case 'broken':
+                broken($did);
+                break;
+
+            default:
+                main();
+                break;
+        }
+        */
+
         parent::initialize();
     }    
 
@@ -153,27 +177,3 @@ class Download extends FrontBaseController
      */
 
 }
-
-/*
-switch ($op) {
-    case 'main':
-        main();
-        break;
-
-    case 'mydown':
-        transferfile($did);
-        break;
-
-    case 'geninfo':
-        geninfo($did, $out_template);
-        break;
-
-    case 'broken':
-        broken($did);
-        break;
-
-    default:
-        main();
-        break;
-}
-*/

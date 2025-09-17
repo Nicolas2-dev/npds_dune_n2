@@ -2,6 +2,17 @@
 
 namespace App\Http\Controllers\Front\Messenger;
 
+use IntlDateFormatter;
+use App\Support\Error\Error;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Smilies;
+use App\Support\Facades\Language;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -237,7 +248,7 @@ class ReadPmsg extends FrontBaseController
 
                 if ($allow_bbcode) {
                     $message = Smilies::smilie($message);
-                    $message = MediaPlayer::affVideoYt($message);
+                    $message = Media::affVideoYt($message);
                 }
 
                 $message = str_replace('[addsig]', '<br /><div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', Language::affLangue($message));

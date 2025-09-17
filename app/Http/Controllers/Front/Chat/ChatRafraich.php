@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\Front\Chat;
 
+use App\Support\Sanitize;
+use App\Support\Facades\Css;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Facades\Forum;
+use App\Support\Security\Hack;
+use App\Support\Facades\Smilies;
+use App\Support\Facades\Encrypter;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -89,7 +98,7 @@ class ChatRafraich extends FrontBaseController
                     if ((!$user) and ($member_list == 1) and (!$admin)) {
                         $thing .= "<div class='chatnom'>$username</div>";
                     } else {
-                        $thing .= "<div class='chatnom'><div class='float-start'> " . str_replace('"', '\"', userpopover($username, 36, 1)) . "</div> <a href='user.php?op=userinfo&amp;uname=$username' target='_blank'>$username</a></div>";
+                        $thing .= "<div class='chatnom'><div class='float-start'> " . str_replace('"', '\"', User::userPopover($username, 36, 1)) . "</div> <a href='user.php?op=userinfo&amp;uname=$username' target='_blank'>$username</a></div>";
                     }
                 } else {
                     $thing .= "<div class='chatnom'>$username</div>";

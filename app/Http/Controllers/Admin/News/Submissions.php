@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Admin\News;
 
 
+use IntlDateFormatter;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,20 +18,20 @@ class Submissions extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'submissions';
-        $f_titre = adm_translate('Article en attente de validation');
+        //$f_meta_nom = 'submissions';
+        //$f_titre = adm_translate('Article en attente de validation');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/submissions.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/submissions.html';
 
         /*
         switch ($op) {
 
             default:
-                submissions();
+                $this->submissions();
                 break;
         }
 
@@ -42,7 +47,7 @@ class Submissions extends AdminBaseController
 
     public function submissions()
     {
-        global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         $dummy = 0;
 
@@ -100,7 +105,7 @@ class Submissions extends AdminBaseController
                 }
 
                 echo '<tr>
-                    <td>' . userpopover($uname, '40', 2) . ' ' . $uname . '</td>
+                    <td>' . User::userPopover($uname, '40', 2) . ' ' . $uname . '</td>
                     <td>';
 
                 if ($subject == '') {

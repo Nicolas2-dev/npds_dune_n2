@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Front\News;
 
+use IntlDateFormatter;
+use App\Support\Facades\Code;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\Language;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Modules;
 
 
+use App\Support\Facades\Language;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +14,14 @@ class ModuleInstall extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'modules';
-        $f_titre = adm_translate('Gestion, Installation Modules');
+        //$f_meta_nom = 'modules';
+        //$f_titre = adm_translate('Gestion, Installation Modules');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        $hlpfile = '';
-        $display = '';
+        //$hlpfile = '';
+        //$display = '';
 
         /*
         // ************************
@@ -352,7 +353,7 @@ class ModuleInstall extends AdminBaseController
         <div class="text-center">
             <a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e2" class="btn btn-primary">' . adm_translate('Etape suivante') . '</a><br />
         </div>
-        ' . nmig_copyright();
+        ' . $this->nmig_copyright();
     }
 
     // e2
@@ -376,7 +377,7 @@ class ModuleInstall extends AdminBaseController
                 <br /><a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e3" class="btn btn-primary">' . adm_translate('Oui') . '</a>&nbsp;<a href="admin.php?op=modules" class="btn btn-danger">' . adm_translate('Non') . '</a><br />
             </div>
         </div>
-        ' . nmig_copyright();
+        ' . $this->nmig_copyright();
     }
 
     //e3
@@ -414,7 +415,7 @@ class ModuleInstall extends AdminBaseController
             <a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e4" class="btn btn-primary">' . adm_translate('Configurer MySql') . '</a>&nbsp;<a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e5" class="btn btn-danger">' . adm_translate('Sauter cette étape') . '</a><br />
         </div>
         <br />
-        ' . nmig_copyright();
+        ' . $this->nmig_copyright();
     }
 
     // e4
@@ -490,7 +491,7 @@ class ModuleInstall extends AdminBaseController
         <div class="text-center">
         <br /><a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e5" class="btn btn-primary">' . adm_translate('Etape suivante') . '</a><br />
         </div><br />
-        ' . nmig_copyright();
+        ' . $this->nmig_copyright();
     }
 
     // e5
@@ -511,7 +512,7 @@ class ModuleInstall extends AdminBaseController
         $display .= '</div>
         <div class="text-center mb-3">
             <a class="btn btn-primary" href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e6">' . adm_translate('Modifier le(s) fichier(s)') . '</a>
-        </div>' . nmig_copyright();
+        </div>' . $this->nmig_copyright();
     }
 
     // e6
@@ -619,7 +620,7 @@ class ModuleInstall extends AdminBaseController
             ? '<a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e6&amp;try_Chmod=1" class="text-danger">' . adm_translate('Réessayer avec chmod automatique') . '</a>'
             : '<a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e7" class="btn btn-primary">' . adm_translate('Etape suivante') . '</a>';
 
-        $display .=  '</div>' . nmig_copyright();
+        $display .=  '</div>' . $this->nmig_copyright();
     }
 
     // e7
@@ -657,7 +658,7 @@ class ModuleInstall extends AdminBaseController
             <a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e8&amp;posbloc=0" class="btn btn-danger mt-2">' . adm_translate('Sauter cette étape') . '</a>
         </div>';
 
-        $display .= nmig_copyright();
+        $display .= $this->nmig_copyright();
     }
 
     // e8
@@ -732,7 +733,7 @@ class ModuleInstall extends AdminBaseController
         $display .= '</div>
         <div class="text-center mt-3 mb-3">
             <a href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e9" class="btn btn-primary">' . adm_translate('Etape suivante') . '</a><br />
-        </div>' . nmig_copyright();
+        </div>' . $this->nmig_copyright();
     }
 
     // e9 étape à fusionner avec la 10 ....
@@ -746,7 +747,7 @@ class ModuleInstall extends AdminBaseController
         <div class="lead mb-3">' . Language::affLangue($txtfin) . '</div>
         <div class="text-center mb-3">
             <a class="btn btn-primary" href="admin.php?op=Module-Install&amp;ModInstall=' . $ModInstall . '&amp;nmig=e10" >' . adm_translate('Etape suivante') . '</a><br />
-        </div>' . nmig_copyright();
+        </div>' . $this->nmig_copyright();
     }
 
     // e10 étape à fusionner avec la 9 ....
@@ -765,7 +766,7 @@ class ModuleInstall extends AdminBaseController
         <div class="mb-3">
             <a href="' . $end_link . '" class="btn btn-success">' . adm_translate('Ok') . '</a>
         </div>
-        ' . nmig_copyright();
+        ' . $this->nmig_copyright();
     }
 
     public function nmig_clean($ModDesinstall)

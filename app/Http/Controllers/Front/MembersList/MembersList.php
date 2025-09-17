@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\Front\MembersList;
 
+use IntlDateFormatter;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Paginator;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -80,7 +88,7 @@ class MembersList extends FrontBaseController
         }
 
         if (isset($list)) {
-            $tempo = unique(explode(',', $list));
+            $tempo = $this->unique(explode(',', $list));
             $list = urlencode(implode(',', $tempo));
         }
 
@@ -121,11 +129,11 @@ class MembersList extends FrontBaseController
         echo '<div class="card card-body mb-3">
         <p>';
 
-        alpha();
+        $this->alpha();
 
         echo '</p>';
 
-        SortLinks($letter);
+        $this->SortLinks($letter);
 
         echo '</div>';
 
@@ -314,7 +322,7 @@ class MembersList extends FrontBaseController
                             <td>';
                         }
 
-                        if ($ibid_avatar = avatar($temp_user['user_avatar'])) {
+                        if ($ibid_avatar = $this->avatar($temp_user['user_avatar'])) {
                             echo '<a tabindex="0" data-bs-toggle="popover" data-bs-placement="right" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $temp_user['uname'] . '" data-bs-content=\'<div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'></i><img data-bs-html="true" class=" btn-outline-' . $clconnect . ' img-thumbnail img-fluid n-ava-40" src="' . $ibid_avatar . '" alt="' . $temp_user['uname'] . '" loading="lazy" /></a>
                             </td>
                             <td><a href="user.php?op=userinfo&amp;uname=' . $temp_user['uname'] . '" title="' . translate('Inscription') . ' : ' . Date::formatTimes($temp_user['user_regdate'], IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);

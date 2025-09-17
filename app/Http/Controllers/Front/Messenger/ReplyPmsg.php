@@ -2,6 +2,20 @@
 
 namespace App\Http\Controllers\Front\Messenger;
 
+use App\Support\Facades\Js;
+use App\Support\Error\Error;
+use App\Support\Facades\Css;
+use App\Support\Facades\Code;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Security\Hack;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Smilies;
+use App\Support\Facades\Validation;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -363,7 +377,7 @@ class ReplyPmsg extends FrontBaseController
 
                     if ($allow_bbcode) {
                         $Xmessage = Smilies::smilie($Xmessage);
-                        $Xmessage = MediaPlayer::affVideoYt($Xmessage);
+                        $Xmessage = Media::affVideoYt($Xmessage);
                     }
 
                     $Xmessage = Forum::makeClickable($Xmessage);
@@ -378,7 +392,7 @@ class ReplyPmsg extends FrontBaseController
                         <div class="col-sm-9">';
 
                 if ($reply) {
-                    echo userpopover($fromuserdata['uname'], 48, 2) . '
+                    echo User::userPopover($fromuserdata['uname'], 48, 2) . '
                     <input class="form-control-plaintext d-inline-block w-75" type="text" id="to_user" name="to_user" value="' . $fromuserdata['uname'] . '" readonly="readonly" />';
                 } else {
                     settype($Xto_user, 'string');

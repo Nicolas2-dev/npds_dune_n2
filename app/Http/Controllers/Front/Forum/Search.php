@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use IntlDateFormatter;
+use App\Support\Facades\Js;
+use App\Support\Error\Error;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Security\Hack;
+use App\Support\Facades\Groupe;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -325,7 +334,7 @@ class Search extends FrontBaseController
                     $ancre = ancre($row['forum_id'], $row['topic_id'], $row['post_id'], $posts_per_page);
 
                     echo '<td><a href="viewtopic' . $Hplus . '.php?topic=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . $ancre . '" >' . stripslashes($row['topic_title']) . '</a></td>
-                        <td>' . userpopover($row['uname'], 36, 1) . '<a href="user.php?op=userinfo&amp;uname=' . $row['uname'] . '" >' . $row['uname'] . '</a></td>
+                        <td>' . User::userPopover($row['uname'], 36, 1) . '<a href="user.php?op=userinfo&amp;uname=' . $row['uname'] . '" >' . $row['uname'] . '</a></td>
                         <td><small>' . Date::formatTimes($row['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</small></td>
                         </tr>';
 

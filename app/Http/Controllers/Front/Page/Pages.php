@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Front\Page;
 
+use App\Support\Facades\Code;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

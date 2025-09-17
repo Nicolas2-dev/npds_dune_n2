@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin\Block;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +17,14 @@ class MainBlock extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'mblock';
-        $f_titre = adm_translate('Bloc Principal');
+        //$f_meta_nom = 'mblock';
+        //$f_titre = adm_translate('Bloc Principal');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/mainblock.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/mainblock.html';
 
         /*
         switch ($op) {
@@ -46,7 +50,7 @@ class MainBlock extends AdminBaseController
 
     public function mainBlock()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

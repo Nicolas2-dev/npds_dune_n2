@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front\MapSite;
 
+use App\Support\Facades\Log;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -182,22 +183,22 @@ class SiteMap extends FrontBaseController
         $ibid .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\n http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\n\n";
 
         if (isset($PAGES['article.php']['sitemap'])) {
-            $ibid .= sitemaparticle($PAGES['article.php']['sitemap']);
+            $ibid .= $this->sitemaparticle($PAGES['article.php']['sitemap']);
         }
 
         if (isset($PAGES['forum.php']['sitemap'])) {
-            $ibid .= sitemapforum($PAGES['forum.php']['sitemap']);
+            $ibid .= $this->sitemapforum($PAGES['forum.php']['sitemap']);
         }
 
         if (isset($PAGES['sections.php']['sitemap'])) {
-            $ibid .= sitemaprub($PAGES['sections.php']['sitemap']);
+            $ibid .= $this->sitemaprub($PAGES['sections.php']['sitemap']);
         }
 
         if (isset($PAGES['download.php']['sitemap'])) {
-            $ibid .= sitemapdown($PAGES['download.php']['sitemap']);
+            $ibid .= $this->sitemapdown($PAGES['download.php']['sitemap']);
         }
 
-        $ibid .= sitemapothers($PAGES);
+        $ibid .= $this->sitemapothers($PAGES);
         $ibid .= '</urlset>';
 
         $file = fopen($filename, 'w');
@@ -219,10 +220,10 @@ class SiteMap extends FrontBaseController
         global $PAGES;
         if (file_exists($filename)) {
             if (time() - filemtime($filename) - $refresh > 0) {
-                sitemap_create($PAGES, $filename);
+                $this->sitemap_create($PAGES, $filename);
             }
         } else {
-            sitemap_create($PAGES, $filename);
+            $this->sitemap_create($PAGES, $filename);
         }
     }
 

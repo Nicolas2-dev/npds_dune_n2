@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

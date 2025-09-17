@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Admin\News;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,48 +18,48 @@ class Topics extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'topicsmanager';
-        $f_titre = adm_translate('Gestion des sujets');
+        //$f_meta_nom = 'topicsmanager';
+        //$f_titre = adm_translate('Gestion des sujets');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/topics.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/topics.html';
 
         /*
         switch ($op) {
 
             case 'topicsmanager':
-                topicsmanager();
+                $this->topicsmanager();
                 break;
 
             case 'topicedit':
-                topicedit($topicid);
+                $this->topicedit($topicid);
                 break;
 
             case 'topicmake':
-                topicmake($topicname, $topicimage, $topictext, $topicadmin);
+                $this->topicmake($topicname, $topicimage, $topictext, $topicadmin);
                 break;
 
             case 'topicdelete':
-                topicdelete($topicid, $ok);
+                $this->topicdelete($topicid, $ok);
                 break;
 
             case 'topicchange':
-                topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin, $name, $url);
+                $this->topicchange($topicid, $topicname, $topicimage, $topictext, $topicadmin, $name, $url);
                 break;
 
             case 'relatedsave':
-                relatedsave($tid, $rid, $name, $url);
+                $this->relatedsave($tid, $rid, $name, $url);
                 break;
 
             case 'relatededit':
-                relatededit($tid, $rid);
+                $this->relatededit($tid, $rid);
                 break;
 
             case 'relateddelete':
-                relateddelete($tid, $rid);
+                $this->relateddelete($tid, $rid);
                 break;
         }
 
@@ -77,7 +82,7 @@ class Topics extends AdminBaseController
 
     public function topicsmanager()
     {
-        global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $nook;
+        global $tipath, $nook;
 
         //include 'header.php';
 
@@ -232,7 +237,7 @@ class Topics extends AdminBaseController
 
     public function topicedit($topicid)
     {
-        global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg, $radminsuper;
+        global $tipath;
 
         //include 'header.php';
 
@@ -401,7 +406,7 @@ class Topics extends AdminBaseController
 
     public function relatededit($tid, $rid)
     {
-        global $hlpfile, $tipath, $f_meta_nom, $f_titre, $adminimg;
+        global $tipath;
 
         //include 'header.php';
 
@@ -637,7 +642,7 @@ class Topics extends AdminBaseController
 
             Header('Location: admin.php?op=topicsmanager');
         } else {
-            global $hlpfile, $tipath, $topicimage, $f_meta_nom, $f_titre, $adminimg;
+            global $tipath, $topicimage;
 
             //include 'header.php';
 

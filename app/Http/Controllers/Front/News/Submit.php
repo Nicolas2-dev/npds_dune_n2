@@ -2,6 +2,18 @@
 
 namespace App\Http\Controllers\Front\News;
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Code;
+use App\Support\Facades\News;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -134,7 +146,7 @@ class Submit extends FrontBaseController
 
         echo Editeur::affEditeur('bodytext', '');
 
-        publication('', '', '', '', 0);
+        $this->publication('', '', '', '', 0);
 
         echo '<div class="mb-3 row">
                 <div class="col-sm-12">
@@ -246,7 +258,7 @@ class Submit extends FrontBaseController
 
         echo Editeur::affEditeur('bodytext', '');
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo Spam::questionSpambot();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Referers;
 
 
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,13 +14,13 @@ class Referers extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'hreferer';
-        $f_titre = adm_translate('Sites Référents');
+        //$f_meta_nom = 'hreferer';
+        //$f_titre = adm_translate('Sites Référents');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        $hlpfile = 'admin/manuels/' . $language . '/referer.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/referer.html';
 
         /*
         settype($filter, 'integer');
@@ -27,15 +28,15 @@ class Referers extends AdminBaseController
         switch ($op) {
 
             case 'hreferer':
-                hreferer($filter);
+                $this->hreferer($filter);
                 break;
 
             case 'archreferer':
-                archreferer($filter);
+                $this->archreferer($filter);
                 break;
 
             case 'delreferer':
-                delreferer();
+                $this->delreferer();
                 break;
         }
 
@@ -53,7 +54,7 @@ class Referers extends AdminBaseController
 
     public function hreferer($filter)
     {
-        global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre;
+        //global $hlpfile, $f_meta_nom, $adminimg, $admf_ext, $f_titre;
 
         //include 'header.php';
 

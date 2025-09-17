@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use IntlDateFormatter;
+use App\Support\Error\Error;
+use App\Support\Facades\Code;
+use App\Support\Facades\Date;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Smilies;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -60,7 +69,7 @@ class Preview extends FrontBaseController
                     $messageP = Hack::removeHack($messageP);
 
                     if ($allow_bbcode) {
-                        $messageP = MediaPlayer::affVideoYt($messageP);
+                        $messageP = Media::affVideoYt($messageP);
                     }
                 }
 
@@ -98,7 +107,7 @@ class Preview extends FrontBaseController
                     $messageP = Hack::removeHack($messageP);
 
                     if ($allow_bbcode) {
-                        $messageP = MediaPlayer::affVideoYt($messageP);
+                        $messageP = Media::affVideoYt($messageP);
                     }
                 }
 
@@ -147,7 +156,7 @@ class Preview extends FrontBaseController
                     $messageP .= '<br /><div class=" text-body-secondary text-end small"><i class="fa fa-edit"></i> ' . translate('Message édité par') . ' : ' . $userdata['uname'] . '</div';
 
                     if ($allow_bbcode) {
-                        $messageP = MediaPlayer::affVideoYt($messageP);
+                        $messageP = Media::affVideoYt($messageP);
                     }
                 } else {
                     $messageP .= "\n\n" . translate('Message édité par') . ' : ' . $userdata['uname'];

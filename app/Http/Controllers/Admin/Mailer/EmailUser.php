@@ -3,6 +3,13 @@
 namespace App\Http\Controllers\Admin\Mailer;
 
 
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Date;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,24 +20,24 @@ class EmailUser extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'email_user';
-        $f_titre = adm_translate('Diffusion d\'un Message Interne');
+        //$f_meta_nom = 'email_user';
+        //$f_titre = adm_translate('Diffusion d\'un Message Interne');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/email_user.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/email_user.html';
 
         /*
         switch ($op) {
 
             case 'send_email_to_user':
-                send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur);
+                $this->send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur);
                 break;
 
             case 'email_user':
-                email_user();
+                $this->email_user();
                 break;
         }
 
@@ -172,7 +179,7 @@ class EmailUser extends AdminBaseController
 
     public function send_email_to_user($username, $subject, $message, $all, $groupe, $expediteur)
     {
-        global $f_meta_nom, $f_titre, $adminimg;
+        //global $f_meta_nom, $f_titre, $adminimg;
 
         if ($subject != '') {
             if ($expediteur == 1) {
@@ -277,7 +284,7 @@ class EmailUser extends AdminBaseController
         global $aid;
         Log::ecrireLog('security', sprintf('SendEmailToUser(%s) by AID : %s', $subject, $aid), '');
 
-        global $hlpfile;
+        //global $hlpfile;
 
         //include 'header.php';
 

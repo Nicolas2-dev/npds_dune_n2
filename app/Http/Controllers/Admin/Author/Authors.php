@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Admin\Authors;
 
 
+use Npds\Config\Config;
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Password;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,69 +19,69 @@ class Authors extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'mod_authors';
-        $f_titre = adm_translate('Administrateurs');
+        //$f_meta_nom = 'mod_authors';
+        //$f_titre = adm_translate('Administrateurs');
 
         //controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        if ($radminsuper != 1) {
-            Access_Error();
-        }
+        //if ($radminsuper != 1) {
+        //    Access::AccessError();
+        //}
 
-        global $language, $adminimg, $admf_ext;
+        //global $language, $adminimg, $admf_ext;
 
-        $listdroits = '';
-        $listdroitsmodulo = '';
+        //$listdroits = '';
+        //$listdroitsmodulo = '';
 
-        $hlpfile = 'admin/manuels/' . $language . '/authors.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/authors.html';
 
         /*
         switch ($op) {
 
             case 'mod_authors':
-                displayadmins();
+                $this->displayadmins();
                 break;
 
             case 'modifyadmin':
-                modifyadmin($chng_aid);
+                $this->modifyadmin($chng_aid);
                 break;
 
             case 'UpdateAuthor':
                 settype($chng_radminsuper, 'int');
                 settype($ad_d_27, 'int');
 
-                updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $ad_d_27, $old_pwd);
+                $this->updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $ad_d_27, $old_pwd);
                 break;
 
             case 'AddAuthor':
                 settype($add_radminsuper, 'int');
 
                 if (!($add_aid && $add_name && $add_email && $add_pwd)) {
-                    global $hlpfile;
+                    //global $hlpfile;
 
-                    include 'header.php';
+                    //include 'header.php';
 
-                    GraphicAdmin($hlpfile);
+                    //GraphicAdmin($hlpfile);
 
                     echo error_handler(adm_translate('Vous devez remplir tous les Champs') . '<br />');
 
-                    include ' footer.php';
+                    //include ' footer.php';
                     return;
                 }
 
                 include_once 'functions.php';
 
                 if (Forum::checkDnsMail($add_email) === false) {
-                    global $hlpfile;
+                    //global $hlpfile;
 
-                    include 'header.php';
+                    //include 'header.php';
 
-                    GraphicAdmin($hlpfile);
+                    //GraphicAdmin($hlpfile);
 
                     echo error_handler(adm_translate('ERREUR : DNS ou serveur de mail incorrect') . '<br />');
 
-                    include 'footer.php';
+                    //include 'footer.php';
                     return;
                 }
 
@@ -88,7 +94,7 @@ class Authors extends AdminBaseController
                 $result = sql_query("INSERT INTO " . sql_prefix('authors') . " 
                                     VALUES ('$add_aid', '$add_name', '$add_url', '$add_email', '$add_pwdX', '1', '0', '$add_radminsuper')");
 
-                updatedroits($add_aid);
+                $this->updatedroits($add_aid);
 
                 // Copie du fichier pour filemanager
                 if ($add_radminsuper or isset($ad_d_27)) { // $ad_d_27 pas là ?
@@ -105,12 +111,12 @@ class Authors extends AdminBaseController
                 break;
 
             case 'deladmin':
-                global $hlpfile;
+                //global $hlpfile;
 
-                include 'header.php';
+                //include 'header.php';
 
-                GraphicAdmin($hlpfile);
-                adminhead($f_meta_nom, $f_titre, $adminimg);
+                //GraphicAdmin($hlpfile);
+                //adminhead($f_meta_nom, $f_titre, $adminimg);
 
                 echo '<hr />
                 <h3>' . adm_translate('Effacer l\'Administrateur') . ' : <span class="text-body-secondary">' . $del_aid . '</span></h3>
@@ -126,7 +132,7 @@ class Authors extends AdminBaseController
                 sql_query("DELETE FROM " . sql_prefix('authors') . " 
                         WHERE aid='$del_aid'");
 
-                deletedroits($chng_aid = $del_aid);
+                $this->deletedroits($chng_aid = $del_aid);
 
                 sql_query("DELETE FROM " . sql_prefix('publisujet') . " 
                         WHERE aid='$del_aid'");
@@ -158,6 +164,9 @@ class Authors extends AdminBaseController
 
     public function formDroit()
     {
+        $listdroitsmodulo = '';
+        $listdroits = '';
+
         // sélection des fonctions sauf les fonctions de type alerte 
         $R = sql_query("SELECT fid, fnom, fnom_affich, fcategorie 
                         FROM " . sql_prefix('fonctions') . " f 
@@ -183,11 +192,13 @@ class Authors extends AdminBaseController
                     </div>';
             }
         }
+
+        return [$listdroitsmodulo, $listdroits];
     }
 
     public function uriCheck()
     {
-        $scri_check = '<script type="text/javascript">
+        return  '<script type="text/javascript">
             //<![CDATA[
                 $(function () {
                     check = $("#cb_radminsuper").is(":checked");
@@ -231,7 +242,7 @@ class Authors extends AdminBaseController
 
     public function displayAdmins()
     {
-        global $hlpfile, $admf_ext, $fieldnames, $listdroits, $listdroitsmodulo, $f_meta_nom, $f_titre, $adminimg, $scri_check;
+        global $admf_ext, $listdroits, $listdroitsmodulo, $adminimg, $scri_check;
 
         //include 'header.php';
 
@@ -393,7 +404,7 @@ class Authors extends AdminBaseController
 
     public function modifyAdmin($chng_aid)
     {
-        global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg, $scri_check, $fv_parametres;
+        global $admf_ext, $adminimg, $scri_check, $fv_parametres;
 
         //include 'header.php';
 
@@ -579,13 +590,13 @@ class Authors extends AdminBaseController
         }
 
         if (Forum::checkDnsMail($chng_email) === false) {
-            global $hlpfile;
+            //global $hlpfile;
 
             //include 'header.php';
 
             //GraphicAdmin($hlpfile);
 
-            echo error_handler(adm_translate('ERREUR : DNS ou serveur de mail incorrect') . '<br />');
+            echo $this->error_handler(adm_translate('ERREUR : DNS ou serveur de mail incorrect') . '<br />');
 
             //include 'footer.php';
             return;
@@ -603,13 +614,13 @@ class Authors extends AdminBaseController
                 'modules/f-manager/storage/users/' . strtolower($chng_aid) . ' .php'
             );
 
-            deletedroits($chng_aid);
+            $this->deletedroits($chng_aid);
         }
 
         if ($ori_radminsuper and !$chng_radminsuper) {
             @unlink('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php');
 
-            updatedroits($chng_aid);
+            $this->updatedroits($chng_aid);
         }
 
         if (file_exists('modules/f-manager/storage/users/' . strtolower($chng_aid) . '.php') and $ad_d_27 != '27') {
@@ -625,13 +636,13 @@ class Authors extends AdminBaseController
 
         if ($chng_pwd2 != '') {
             if ($chng_pwd != $chng_pwd2) {
-                global $hlpfile;
+                //global $hlpfile;
 
                 //include 'header.php';
 
                 //GraphicAdmin($hlpfile);
 
-                echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
+                echo $this->error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
                 //include 'footer.php';
                 exit;
@@ -644,7 +655,7 @@ class Authors extends AdminBaseController
             $chng_pwd   = crypt($chng_pwd, $hashpass);
 
             if ($old_pwd) {
-                global $admin, $admin_cook_duration;
+                global $admin;
 
                 $Xadmin = base64_decode($admin);
                 $Xadmin = explode(':', $Xadmin);
@@ -656,11 +667,7 @@ class Authors extends AdminBaseController
                     if (md5($old_pwd) == $AIpwd and $chng_pwd != '') {
                         $admin = base64_encode("$aid:" . md5($chng_pwd));
 
-                        if ($admin_cook_duration <= 0) {
-                            $admin_cook_duration = 1;
-                        }
-
-                        $timeX = time() + (3600 * $admin_cook_duration);
+                        $timeX = time() + (3600 * Config::get('cookie.admin_cook_duration', 1));
 
                         setcookie('admin', $admin, $timeX);
                         setcookie('adm_exp', $timeX, $timeX);
@@ -682,14 +689,14 @@ class Authors extends AdminBaseController
                                     SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='$chng_radminsuper' 
                                     WHERE aid='$chng_aid'");
 
-                deletedroits($chng_aid);
+                $this->deletedroits($chng_aid);
             } else {
                 $result = sql_query("UPDATE " . sql_prefix('authors') . " 
                                     SET name='$chng_name', email='$chng_email', url='$chng_url', radminsuper='0' 
                                     WHERE aid='$chng_aid'");
 
-                deletedroits($chng_aid);
-                updatedroits($chng_aid);
+                $this->deletedroits($chng_aid);
+                $this->updatedroits($chng_aid);
             }
         }
 

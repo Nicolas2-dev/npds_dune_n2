@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Reviews;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,28 +16,28 @@ class Reviews extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'reviews';
-        $f_titre = adm_translate('Critiques');
+        //$f_meta_nom = 'reviews';
+        //$f_titre = adm_translate('Critiques');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/reviews.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/reviews.html';
 
         /*
         switch ($op) {
 
             case 'reviews':
-                reviews();
+                $this->reviews();
                 break;
 
             case 'add_review':
-                add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title);
+                $this->add_review($id, $date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title);
                 break;
 
             case 'mod_main':
-                mod_main($title, $description);
+                $this->mod_main($title, $description);
                 break;
         }
         */
@@ -55,7 +58,7 @@ class Reviews extends AdminBaseController
 
     public function reviews()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

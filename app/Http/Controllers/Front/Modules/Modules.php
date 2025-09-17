@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Front\Modules;
 
+use App\Support\Facades\Access;
 use App\Http\Controllers\Core\FrontBaseController;
 
-    // deprecated !
+// deprecated !
 
 class Modules extends FrontBaseController
 {
@@ -36,7 +37,7 @@ class Modules extends FrontBaseController
             || stristr($strtmp, 'applet')
             || stristr($strtmp, 'object')
         ) {
-            Access_Error();
+            Access::AccessError();
         } else {
             return $strtmp != '' ? true : false;
         }
@@ -44,7 +45,7 @@ class Modules extends FrontBaseController
 
     Public function index()
     {
-        if (filtre_module($ModPath) and filtre_module($ModStart)) {
+        if ($this->filtre_module($ModPath) and $this->filtre_module($ModStart)) {
 
             $isControllerAdmin = (strpos($ModPath, 'admin') !== false);
 
@@ -62,10 +63,10 @@ class Modules extends FrontBaseController
                 exit;
             }
 
-            Access_Error();
+            Access::AccessError();
 
         } else {
-            Access_Error();
+            Access::AccessError();
         }
     }
 

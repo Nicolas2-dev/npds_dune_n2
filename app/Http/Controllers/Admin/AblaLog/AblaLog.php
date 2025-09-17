@@ -29,6 +29,12 @@ class AblaLog extends AdminBaseController
         // controle droit
         // admindroits($aid, $f_meta_nom);
 
+        // global $language;
+        // $hlpfile = '/admin/manuels/' . $language . '/abla.html';
+
+        // GraphicAdmin($hlpfile);
+        // adminhead($f_meta_nom, $f_titre, $adminimg);
+
         /*
         //BLACKBOARD
         case 'abla':
@@ -36,7 +42,7 @@ class AblaLog extends AdminBaseController
             break;
         */
 
-        parent::initialize();        
+        parent::initialize();
     }
 
     public function log()
@@ -46,15 +52,6 @@ class AblaLog extends AdminBaseController
         $admin = true;
 
         if ($admin) {
-            // include 'header.php';
-
-            // global $language;
-            // $hlpfile = '/admin/manuels/' . $language . '/abla.html';
-
-            // GraphicAdmin($hlpfile);
-            // adminhead($f_meta_nom, $f_titre, $adminimg);
-
-            // global $startdate;
 
             ob_start();
 
@@ -121,9 +118,11 @@ class AblaLog extends AdminBaseController
                     <tr>
                         <td>' . translate('Nb abonnés à lettre infos') . ' : </td>
                         ' . $this->row_span($totalnl, $xtotalnl) . '
-                    </tr>';
+                    </tr>
+                </tbody>
+            </table>';
 
-            $cache = new AblaLogCache($path);        
+            $cache = new AblaLogCache($path);
             $cache->addVar('xdate', time());
             $cache->addVar('xtotalz', $totalz);
             $cache->addVar('xmembres', $membres);
@@ -133,9 +132,26 @@ class AblaLog extends AdminBaseController
             $cache->addVar('xtotalb', $totalb);
             $cache->addVar('xtotalnl', $totalnl);
 
-            echo '</tbody>
-            </table>
-            <p class="lead my-3">' . translate('Statistiques des chargements') . '</p>
+            $this->statLogDownload($cache, $xdownload ?? []);
+
+            $this->statLogForum($cache, $xforum ?? []);
+
+            $cache->save();
+
+            Validation::adminFoot('', '', '', '');
+
+            $renderContent = ob_get_clean();
+
+            return $this->createView(['content' => $renderContent])
+                ->shares('title', 'Homepage');
+        } else {
+            Url::redirectUrl('index.php');
+        }
+    }
+
+    private function statLogDownload(AblaLogCache $cache, ?array $xdownload = []): void
+    {
+        echo '<p class="lead my-3">' . translate('Statistiques des chargements') . '</p>
             <table data-toggle="table" data-classes="table">
                 <thead class=" thead-default">
                     <tr>
@@ -145,40 +161,42 @@ class AblaLog extends AdminBaseController
                 </thead>
                 <tbody>';
 
-            $num_dow = 0;
+        $num_dow = 0;
 
-            $result = sql_query("SELECT dcounter, dfilename 
+        $result = sql_query("SELECT dcounter, dfilename 
                                 FROM " . sql_prefix('downloads'));
 
-            settype($xdownload, 'array');
+        while (list($dcounter, $dfilename) = sql_fetch_row($result)) {
+            $num_dow++;
 
-            while (list($dcounter, $dfilename) = sql_fetch_row($result)) {
-                $num_dow++;
-
-                echo '<tr>
+            echo '<tr>
                 <td><span class="text-danger">';
 
-                if (array_key_exists($num_dow, $xdownload)) {
-                    echo $xdownload[$num_dow][1];
-                }
-
-                echo '</span> -/- ' . $dfilename . '</td>
-                <td><span class="text-danger">';
-
-                if (array_key_exists($num_dow, $xdownload)) {
-                    echo $xdownload[$num_dow][2];
-                }
-
-                echo '</span> -/- ' . $dcounter . '</td>
-                </tr>';
-
-                $cache->addArray('xdownload', $num_dow, 1, $dfilename);
-                $cache->addArray('xdownload', $num_dow, 2, $dcounter);
+            if (array_key_exists($num_dow, $xdownload)) {
+                echo $xdownload[$num_dow][1];
             }
 
-            echo '</tbody>
-            </table>
-            <p class="lead my-3">Forums</p>
+            echo '</span> -/- ' . $dfilename . '</td>
+                <td><span class="text-danger">';
+
+            if (array_key_exists($num_dow, $xdownload)) {
+                echo $xdownload[$num_dow][2];
+            }
+
+            echo '</span> -/- ' . $dcounter . '</td>
+                </tr>';
+
+            $cache->addArray('xdownload', $num_dow, 1, $dfilename);
+            $cache->addArray('xdownload', $num_dow, 2, $dcounter);
+        }
+
+        echo '</tbody>
+            </table>';
+    }
+
+    private function statLogForum(AblaLogCache $cache, ?array $xforum = []): void
+    {
+        echo '<p class="lead my-3">Forums</p>
             <table class="table table-bordered table-sm" data-classes="table">
                 <thead class="">
                     <tr>
@@ -189,100 +207,88 @@ class AblaLog extends AdminBaseController
                     </tr>
                 </thead>';
 
-            $result = sql_query("SELECT * 
+        $result = sql_query("SELECT * 
                                 FROM " . sql_prefix('catagories') . " 
                                 ORDER BY cat_id");
 
-            $num_for = 0;
+        $num_for = 0;
 
-            while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
-                $sub_sql = "SELECT f.*, u.uname 
+        while (list($cat_id, $cat_title) = sql_fetch_row($result)) {
+            $sub_sql = "SELECT f.*, u.uname 
                             FROM " . sql_prefix('forums') . " f, " . sql_prefix('users') . " u 
                             WHERE f.cat_id = '$cat_id' 
                             AND f.forum_moderator = u.uid 
                             ORDER BY forum_index, forum_id";
 
-                if (!$sub_result = sql_query($sub_sql)) {
-                    Error::forumError('0022');
-                }
+            if (!$sub_result = sql_query($sub_sql)) {
+                Error::forumError('0022');
+            }
 
-                if ($myrow = sql_fetch_assoc($sub_result)) {
-                    echo '<tbody>
+            if ($myrow = sql_fetch_assoc($sub_result)) {
+                echo '<tbody>
                     <tr>
                     <td class="table-active" colspan="4">' . stripslashes($cat_title) . '</td>
                     </tr>';
 
-                    do {
-                        $num_for++;
+                do {
+                    $num_for++;
 
-                        $last_post = Forum::getLastPost((int) $myrow['forum_id'], 'forum', 'infos', true);
+                    $last_post = Forum::getLastPost((int) $myrow['forum_id'], 'forum', 'infos', true);
 
-                        echo '<tr>';
+                    echo '<tr>';
 
-                        $total_topics = Forum::getTotalTopics((int) $myrow['forum_id']);
+                    $total_topics = Forum::getTotalTopics((int) $myrow['forum_id']);
 
-                        $name = stripslashes($myrow['forum_name']);
+                    $name = stripslashes($myrow['forum_name']);
 
-                        $cache->addArray('xforum', $num_for, 1, $name);
-                        $cache->addArray('xforum', $num_for, 2, $total_topics);
+                    $cache->addArray('xforum', $num_for, 1, $name);
+                    $cache->addArray('xforum', $num_for, 2, $total_topics);
 
-                        $desc = stripslashes($myrow['forum_desc']);
+                    $desc = stripslashes($myrow['forum_desc']);
 
-                        echo '<td>
+                    echo '<td>
                         <a tabindex="0" role="button" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="' . $desc . '">
                             <i class="far fa-lg fa-file-alt me-2"></i>
                         </a>
                         <a href="viewforum.php?forum=' . $myrow['forum_id'] . '" >
                             <span class="text-danger">';
 
-                        if (array_key_exists($num_for, $xforum)) {
-                            echo $xforum[$num_for][1];
-                        }
+                    if (array_key_exists($num_for, $xforum)) {
+                        echo $xforum[$num_for][1];
+                    }
 
-                        echo '</span> -/- ' . $name . ' </a></td>
+                    echo '</span> -/- ' . $name . ' </a></td>
                         <td class="text-center"><span class="text-danger">';
 
-                        if (array_key_exists($num_for, $xforum)) {
-                            echo $xforum[$num_for][2];
-                        }
+                    if (array_key_exists($num_for, $xforum)) {
+                        echo $xforum[$num_for][2];
+                    }
 
-                        echo '</span> -/- ' . $total_topics . '</td>';
+                    echo '</span> -/- ' . $total_topics . '</td>';
 
-                        $total_posts = Forum::getTotalPosts((int) $myrow['forum_id'], "", "forum", false);
-                       
-                        $cache->addArray('xforum', $num_for, 3, $total_posts);
+                    $total_posts = Forum::getTotalPosts((int) $myrow['forum_id'], "", "forum", false);
 
-                        echo '<td class="text-center"><span class="text-danger">';
+                    $cache->addArray('xforum', $num_for, 3, $total_posts);
 
-                        if (array_key_exists($num_for, $xforum)) {
-                            echo $xforum[$num_for][3];
-                        }
+                    echo '<td class="text-center"><span class="text-danger">';
 
-                        echo '</span> -/- ' . $total_posts . '</td>
+                    if (array_key_exists($num_for, $xforum)) {
+                        echo $xforum[$num_for][3];
+                    }
+
+                    echo '</span> -/- ' . $total_posts . '</td>
                         <td class="text-end small">' . $last_post . '</td>';
-                    } while ($myrow = sql_fetch_assoc($sub_result));
-                }
+                } while ($myrow = sql_fetch_assoc($sub_result));
             }
+        }
 
-            echo '</tr>
+        echo '</tr>
                 </tbody>
             </table>';
-
-            $cache->save();
-
-            Validation::adminFoot('', '', '', '');
-
-            $renderContent = ob_get_clean();
-
-            return $this->createView(['content' => $renderContent])
-                ->shares('title', 'Homepage');
-
-        } else {
-            Url::redirectUrl('index.php');
-        }
     }
 
-    private function row_span(int $total, int $xtotal): string 
+
+    private function row_span(int $total, int $xtotal): string
     {
         $content = '<td>' . Sanitize::wrh($total) . ' (';
 
@@ -298,5 +304,4 @@ class AblaLog extends AdminBaseController
 
         return $content;
     }
-
 }

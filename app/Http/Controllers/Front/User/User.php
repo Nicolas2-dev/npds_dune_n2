@@ -2,6 +2,22 @@
 
 namespace App\Http\Controllers\Front\User;
 
+use IntlDateFormatter;
+use App\Support\Facades\Log;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Smilies;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Support\Facades\Password;
+use App\Support\Facades\UserMenu;
+use App\Library\Validation\Validation;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -15,6 +31,190 @@ class User extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        switch ($op) {
+
+            case 'logout':
+                logout();
+                break;
+
+            case 'new user':
+                // CheckBox
+                settype($user_viewemail, 'integer');
+                settype($user_lnl, 'integer');
+                settype($pass, 'string');
+                settype($vpass, 'string');
+
+                $this->confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $vpass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1);
+                break;
+
+            case 'finish':
+                $this->finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1);
+                break;
+
+            case 'forgetpassword':
+                $this->ForgetPassword();
+                break;
+
+            case 'mailpasswd':
+                if ($uname != '' and $code != '') {
+                    if (strlen($code) >= $minpass) {
+                        $this->mail_password($uname, $code);
+                    } else {
+                        $this->message_error("<i class=\"fa fa-exclamation\"></i>&nbsp;" . translate('Mot de passe erroné, refaites un essai.') . "<br /><br />", "");
+                    }
+                } else {
+                    $this->main($user);
+                }
+                break;
+
+            case 'validpasswd':
+                if ($code != '') {
+                    $this->valid_password($code);
+                } else {
+                    $this->main($user);
+                }
+                break;
+
+            case 'updatepasswd':
+                if ($code != '' and $passwd != '') {
+                    $this->update_password($code, $passwd);
+                } else {
+                    $this->main($user);
+                }
+                break;
+
+            case 'userinfo':
+                if (($member_list == 1) and ((!isset($user)) and (!isset($admin)))) {
+                    Header('Location: index.php');
+                }
+
+                if ($uname != '') {
+                    $this->userinfo($uname);
+                } else {
+                    $this->main($user);
+                }
+                break;
+
+            case 'login':
+                $this->login($uname, $pass);
+                break;
+
+            case 'edituser':
+                if ($user) {
+                    $this->edituser();
+                } else {
+                    $this->Header('Location: index.php');
+                }
+                break;
+
+            case 'saveuser':
+                $past = time() - 300;
+
+                sql_query("DELETE FROM " . sql_prefix('session') . " 
+                        WHERE time < $past");
+
+                $result = sql_query("SELECT time 
+                                    FROM " . sql_prefix('session') . " 
+                                    WHERE username='$cookie[1]'");
+
+                if (sql_num_rows($result) == 1) {
+
+                    // CheckBox
+                    settype($attach, 'integer');
+                    settype($user_viewemail, 'integer');
+                    settype($usend_email, 'integer');
+                    settype($uis_visible, 'integer');
+                    settype($user_lnl, 'integer');
+                    settype($raz_avatar, 'integer');
+
+                    $this->saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bio, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $attach, $usend_email, $uis_visible, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $MAX_FILE_SIZE, $raz_avatar);
+                } else {
+                    Header('Location: user.php');
+                }
+                break;
+
+            case 'edithome':
+                if ($user) {
+                    $this->edithome();
+                } else {
+                    Header('Location: index.php');
+                }
+                break;
+
+            case 'savehome':
+                settype($ublockon, 'integer');
+
+                $this->savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock);
+                break;
+
+            case 'chgtheme':
+                if ($user) {
+                    $this->chgtheme();
+                } else {
+                    Header('Location: index.php');
+                }
+                break;
+
+            case 'savetheme':
+                $theme = substr($theme_local, -3) != '_sk' ? $theme_local : $theme_local . '+' . $skins;
+
+                $this->savetheme($uid, $theme);
+                break;
+
+            case 'editjournal':
+                if ($user) {
+                    $this->editjournal();
+                } else {
+                    Header('Location: index.php');
+                }
+                break;
+
+            case 'savejournal':
+                settype($datetime, 'integer');
+
+                $this->savejournal($uid, $journal, $datetime);
+                break;
+
+            case 'only_newuser':
+                global $CloseRegUser;
+                if ($CloseRegUser == 0) {
+                    $this->Only_NewUser();
+                } else {
+                    include 'header.php';
+
+                    if (file_exists('storage/static/closed.txt')) {
+                        include 'storage/static/closed.txt';
+                    }
+
+                    include 'footer.php';
+                }
+                break;
+
+            case 'askforgroupe':
+                if ($user) {
+                    $userdata = explode(':', base64_decode($user));
+
+                    if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt')) {
+                        fopen('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt', 'w');
+                    }
+
+                    Header('Location: index.php');
+                } else {
+                    Header('Location: index.php');
+                }
+                break;
+
+            default:
+                if (!Auth::autoReg()) {
+                    unset($user);
+                }
+
+                $this->main($user);
+                break;
+        }
+        */
+
         parent::initialize();
     }
 
@@ -28,7 +228,7 @@ class User extends FrontBaseController
         echo $ibid;
 
         if (($op == 'only_newuser') or ($op == 'new user') or ($op == 'finish')) {
-            hidden_form();
+            $this->hidden_form();
 
             echo '<input type="hidden" name="op" value="only_newuser" />
                 <button class="btn btn-secondary mt-2" type="submit">' . translate('Retour en arrière') . '</button>
@@ -153,7 +353,7 @@ class User extends FrontBaseController
 
             //include 'header.php';
 
-            showimage();
+            $this->showimage();
 
             echo '<div>
             <h2 class="mb-3">' . translate('Utilisateur') . '</h2>
@@ -235,7 +435,7 @@ class User extends FrontBaseController
             $user_viewemail = '0';
         }
 
-        $stop = userCheck($uname, $email);
+        $stop = $this->userCheck($uname, $email);
 
         if ($memberpass) {
             if ((isset($pass)) and ($pass != $vpass)) {
@@ -259,7 +459,7 @@ class User extends FrontBaseController
             echo '</div>
             </div>';
 
-            hidden_form();
+            $this->hidden_form();
 
             global $charte;
             if (!$charte) {
@@ -277,7 +477,7 @@ class User extends FrontBaseController
 
             //include 'footer.php';
         } else {
-            message_error($stop, 'new user');
+            $this->message_error($stop, 'new user');
         }
     }
 
@@ -302,13 +502,13 @@ class User extends FrontBaseController
         }
 
         $user_regdate = time() + ((int)$gmt * 3600);
-        $stop = userCheck($uname, $email);
+        $stop = $this->userCheck($uname, $email);
 
         if (!$stop) {
             //include 'header.php';
 
             if (!$memberpass) {
-                $makepass = makepass();
+                $makepass = $this->makepass();
             } else {
                 $makepass = $pass;
             }
@@ -441,7 +641,7 @@ class User extends FrontBaseController
 
             //include 'footer.php';
         } else {
-            message_error($stop, 'finish');
+            $this->message_error($stop, 'finish');
         }
     }
 
@@ -781,7 +981,7 @@ class User extends FrontBaseController
             echo '<p><a href="' . $url . '">' . translate('Posté : ') . Date::formatTimes($post_time, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT) . '</a></p>';
 
             $message = Smilies::smilie(stripslashes($post_text));
-            $message = MediaPlayer::affVideoYt($message);
+            $message = Media::affVideoYt($message);
             $message = str_replace('[addsig]', '', $message);
 
             echo nl2br($message) . '<hr />';
@@ -1858,187 +2058,3 @@ class User extends FrontBaseController
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'logout':
-        logout();
-        break;
-
-    case 'new user':
-        // CheckBox
-        settype($user_viewemail, 'integer');
-        settype($user_lnl, 'integer');
-        settype($pass, 'string');
-        settype($vpass, 'string');
-
-        confirmNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $vpass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1);
-        break;
-
-    case 'finish':
-        finishNewUser($uname, $name, $email, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $pass, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1);
-        break;
-
-    case 'forgetpassword':
-        ForgetPassword();
-        break;
-
-    case 'mailpasswd':
-        if ($uname != '' and $code != '') {
-            if (strlen($code) >= $minpass) {
-                mail_password($uname, $code);
-            } else {
-                message_error("<i class=\"fa fa-exclamation\"></i>&nbsp;" . translate('Mot de passe erroné, refaites un essai.') . "<br /><br />", "");
-            }
-        } else {
-            main($user);
-        }
-        break;
-
-    case 'validpasswd':
-        if ($code != '') {
-            valid_password($code);
-        } else {
-            main($user);
-        }
-        break;
-
-    case 'updatepasswd':
-        if ($code != '' and $passwd != '') {
-            update_password($code, $passwd);
-        } else {
-            main($user);
-        }
-        break;
-
-    case 'userinfo':
-        if (($member_list == 1) and ((!isset($user)) and (!isset($admin)))) {
-            Header('Location: index.php');
-        }
-
-        if ($uname != '') {
-            userinfo($uname);
-        } else {
-            main($user);
-        }
-        break;
-
-    case 'login':
-        login($uname, $pass);
-        break;
-
-    case 'edituser':
-        if ($user) {
-            edituser();
-        } else {
-            Header('Location: index.php');
-        }
-        break;
-
-    case 'saveuser':
-        $past = time() - 300;
-
-        sql_query("DELETE FROM " . sql_prefix('session') . " 
-                   WHERE time < $past");
-
-        $result = sql_query("SELECT time 
-                             FROM " . sql_prefix('session') . " 
-                             WHERE username='$cookie[1]'");
-
-        if (sql_num_rows($result) == 1) {
-
-            // CheckBox
-            settype($attach, 'integer');
-            settype($user_viewemail, 'integer');
-            settype($usend_email, 'integer');
-            settype($uis_visible, 'integer');
-            settype($user_lnl, 'integer');
-            settype($raz_avatar, 'integer');
-
-            saveuser($uid, $name, $uname, $email, $femail, $url, $pass, $vpass, $bio, $user_avatar, $user_occ, $user_from, $user_intrest, $user_sig, $user_viewemail, $attach, $usend_email, $uis_visible, $user_lnl, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $MAX_FILE_SIZE, $raz_avatar);
-        } else {
-            Header('Location: user.php');
-        }
-        break;
-
-    case 'edithome':
-        if ($user) {
-            edithome();
-        } else {
-            Header('Location: index.php');
-        }
-        break;
-
-    case 'savehome':
-        settype($ublockon, 'integer');
-
-        savehome($uid, $uname, $theme, $storynum, $ublockon, $ublock);
-        break;
-
-    case 'chgtheme':
-        if ($user) {
-            chgtheme();
-        } else {
-            Header('Location: index.php');
-        }
-        break;
-
-    case 'savetheme':
-        $theme = substr($theme_local, -3) != '_sk' ? $theme_local : $theme_local . '+' . $skins;
-
-        savetheme($uid, $theme);
-        break;
-
-    case 'editjournal':
-        if ($user) {
-            editjournal();
-        } else {
-            Header('Location: index.php');
-        }
-        break;
-
-    case 'savejournal':
-        settype($datetime, 'integer');
-
-        savejournal($uid, $journal, $datetime);
-        break;
-
-    case 'only_newuser':
-        global $CloseRegUser;
-        if ($CloseRegUser == 0) {
-            Only_NewUser();
-        } else {
-            include 'header.php';
-
-            if (file_exists('storage/static/closed.txt')) {
-                include 'storage/static/closed.txt';
-            }
-
-            include 'footer.php';
-        }
-        break;
-
-    case 'askforgroupe':
-        if ($user) {
-            $userdata = explode(':', base64_decode($user));
-
-            if (!file_exists('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt')) {
-                fopen('storage/users_private/groupe/ask4group_' . $userdata[0] . '_' . $askedgroup . '_.txt', 'w');
-            }
-
-            Header('Location: index.php');
-        } else {
-            Header('Location: index.php');
-        }
-        break;
-
-    default:
-        if (!Auth::autoReg()) {
-            unset($user);
-        }
-
-        main($user);
-        break;
-}
-*/

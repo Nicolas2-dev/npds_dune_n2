@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Config;
 
 
+use App\Support\Facades\Log;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +15,14 @@ class ConfigFiles extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'ConfigFiles';
-        $f_titre = adm_translate('Les fichiers de configuration');
+        //$f_meta_nom = 'ConfigFiles';
+        //$f_titre = adm_translate('Les fichiers de configuration');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/configfiles.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/configfiles.html';
 
         /*
         switch ($op) {
@@ -160,7 +162,7 @@ class ConfigFiles extends AdminBaseController
 
     public function configFiles($contents, $files)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -337,7 +339,7 @@ class ConfigFiles extends AdminBaseController
 
     public function deleteConfigFile($fileX)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -379,7 +381,7 @@ class ConfigFiles extends AdminBaseController
 
     public function copySample($fileX)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $header;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $header;
 
         //if ($header != 1) {
         //    include 'header.php';

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Block;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Language;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,13 +16,13 @@ class LeftBlocks extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'blocks';
+        //$f_meta_nom = 'blocks';
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/leftBlocks.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/leftBlocks.html';
 
         /*
         settype($css, 'integer');

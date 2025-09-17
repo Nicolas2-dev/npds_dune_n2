@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Front\Friend;
 
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Spam;
+use App\Support\Security\Hack;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

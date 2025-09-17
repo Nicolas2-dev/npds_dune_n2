@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers\Front\Chat;
 
+use App\Support\Facades\Css;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Chat;
+use App\Support\Facades\Smilies;
+use Npds\Support\Facades\Request;
+use App\Support\Facades\Encrypter;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

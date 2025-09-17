@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front\Carnet;
 
+use App\Support\Facades\Css;
+use App\Support\Facades\Encrypter;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

@@ -3,6 +3,13 @@
 namespace App\Http\Controllers\Admin\Sections;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +20,14 @@ class Sections extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'sections';
-        $f_titre = adm_translate('Rubriques');
+        //$f_meta_nom = 'sections';
+        //$f_titre = adm_translate('Rubriques');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/sections.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/sections.html';
 
         /*
         settype($Mmembers, 'array');
@@ -32,115 +39,115 @@ class Sections extends AdminBaseController
         switch ($op) {
 
             case 'new_rub_section':
-                new_rub_section($type);
+                $this->new_rub_section($type);
                 break;
 
             case 'sections':
-                sections();
+                $this->sections();
                 break;
 
             case 'sectionedit':
-                sectionedit($secid);
+                $this->sectionedit($secid);
                 break;
 
             case 'sectionmake':
-                sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd);
+                $this->sectionmake($secname, $image, $members, $Mmembers, $rubref, $introd);
                 break;
 
             case 'sectiondelete':
-                sectiondelete($secid, $ok);
+                $this->sectiondelete($secid, $ok);
                 break;
 
             case 'sectionchange':
-                sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $introd);
+                $this->sectionchange($secid, $secname, $image, $members, $Mmembers, $rubref, $introd);
                 break;
 
             case 'rubriquedit':
-                rubriquedit($rubid);
+                $this->rubriquedit($rubid);
                 break;
 
             case 'rubriquemake':
-                rubriquemake($rubname, $introc);
+                $this->rubriquemake($rubname, $introc);
                 break;
 
             case 'rubriquedelete':
-                rubriquedelete($rubid, $ok);
+                $this->rubriquedelete($rubid, $ok);
                 break;
 
             case 'rubriquechange':
-                rubriquechange($rubid, $rubname, $introc, $enligne);
+                $this->rubriquechange($rubid, $rubname, $introc, $enligne);
                 break;
 
             case 'secarticleadd':
-                secarticleadd($secid, $title, $content, $autho, $members, $Mmembers);
+                $this->secarticleadd($secid, $title, $content, $autho, $members, $Mmembers);
                 break;
 
             case 'secartedit':
-                secartedit($artid);
+                $this->secartedit($artid);
                 break;
 
             case 'secartchange':
-                secartchange($artid, $secid, $title, $content, $members, $Mmembers);
+                $this->secartchange($artid, $secid, $title, $content, $members, $Mmembers);
                 break;
 
             case 'secartchangeup':
-                secartchangeup($artid, $secid, $title, $content, $members, $Mmembers);
+                $this->secartchangeup($artid, $secid, $title, $content, $members, $Mmembers);
                 break;
 
             case 'secartdelete':
-                secartdelete($artid, $ok);
+                $this->secartdelete($artid, $ok);
                 break;
 
             case 'secartpublish':
-                secartpublish($artid, $secid, $title, $content, $author, $members, $Mmembers);
+                $this->secartpublish($artid, $secid, $title, $content, $author, $members, $Mmembers);
                 break;
 
             case 'secartupdate':
-                secartupdate($artid);
+                $this->secartupdate($artid);
                 break;
 
             case 'secartdelete2':
-                secartdelete2($artid, $ok);
+                $this->secartdelete2($artid, $ok);
                 break;
 
             case 'ordremodule':
-                ordremodule();
+                $this->ordremodule();
                 break;
 
             case 'ordrechapitre':
-                ordrechapitre();
+                $this->ordrechapitre();
                 break;
 
             case 'ordrecours':
-                ordrecours();
+                $this->ordrecours();
                 break;
 
             case 'majmodule':
-                updateordre($rubid, '', '', $op, $ordre);
+                $this->updateordre($rubid, '', '', $op, $ordre);
                 break;
 
             case 'majchapitre':
-                updateordre('', '', $secid, $op, $ordre);
+                $this->updateordre('', '', $secid, $op, $ordre);
                 break;
 
             case 'majcours':
-                updateordre('', $artid, '', $op, $ordre);
+                $this->updateordre('', $artid, '', $op, $ordre);
                 break;
 
             case 'publishcompat':
-                publishcompat($article);
+                $this->publishcompat($article);
                 break;
 
             case 'updatecompat':
-                updatecompat($article, $admin_rub, $idx);
+                $this->updatecompat($article, $admin_rub, $idx);
                 break;
 
             case 'droitauteurs':
-                publishrights($author);
+                $this->publishrights($author);
                 break;
 
             case 'updatedroitauteurs':
-                updaterights($chng_aid, $maxindex, $creation, $publication, $modification, $suppression);
+                $this->updaterights($chng_aid, $maxindex, $creation, $publication, $modification, $suppression);
                 break;
         }
 
@@ -255,7 +262,7 @@ class Sections extends AdminBaseController
             <div class="mb-3">
                 <label class="col-form-label" for="Mmember[]">' . adm_translate('Groupes') . '</label>';
 
-            echo groupe($member) . '
+            echo $this->groupe($member) . '
             </div>';
         } else {
             if ($member == 0) {
@@ -275,7 +282,7 @@ class Sections extends AdminBaseController
             <div class="mb-3">
                 <label class="col-form-label" for="Mmember[]">' . adm_translate('Groupes') . '</label>';
 
-            echo groupe($member) . '
+            echo $this->groupe($member) . '
                 </div>
             </fieldset>';
         }
@@ -371,7 +378,7 @@ class Sections extends AdminBaseController
 
     public function sections()
     {
-        global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         //include 'header.php';
 
@@ -470,7 +477,7 @@ class Sections extends AdminBaseController
                     echo '</div>';
 
                     while (list($secid, $secname) = sql_fetch_row($result2)) {
-                        $droit_pub = droits_publication($secid);
+                        $droit_pub = $this->droits_publication($secid);
                         $secname = Language::affLangue($secname);
 
                         $result3 = sql_query("SELECT artid, title 
@@ -555,7 +562,7 @@ class Sections extends AdminBaseController
             </form>';
 
             // Ajout d'une publication
-            $autorise_pub = sousrub_select('');
+            $autorise_pub = $this->sousrub_select('');
 
             if ($autorise_pub) {
                 echo '<hr />
@@ -583,7 +590,7 @@ class Sections extends AdminBaseController
                     <input type="hidden" name="op" value="secarticleadd" />
                     <input type="hidden" name="autho" value="' . $aid . '" />';
 
-                droits("0");
+                $this->droits("0");
 
                 echo '<div class="mb-3">
                     <input class="btn btn-primary" type="submit" value="' . adm_translate('Ajouter') . '" />
@@ -659,7 +666,7 @@ class Sections extends AdminBaseController
 
     public function new_rub_section($type)
     {
-        global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         //include 'header.php';
 
@@ -715,7 +722,7 @@ class Sections extends AdminBaseController
 
             echo '</div>';
 
-            droits(0);
+            $this->droits(0);
 
             echo '<div class="mb-3">
                 <input type="hidden" name="op" value="sectionmake" />
@@ -759,7 +766,7 @@ class Sections extends AdminBaseController
     // Fonction publications connexes
     public function publishcompat($article)
     {
-        global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         $result2 = sql_query("SELECT title 
                             FROM " . sql_prefix('seccont') . " 
@@ -882,7 +889,7 @@ class Sections extends AdminBaseController
     // Fonctions RUBRIQUES
     public function rubriquedit($rubid)
     {
-        global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $radminsuper;
 
         if ($radminsuper != 1) {
             Header('Location: admin.php?op=sections');
@@ -1003,7 +1010,7 @@ class Sections extends AdminBaseController
 
             list($seclast) = sql_fetch_row($result);
 
-            droitsalacreation($aid, $seclast);
+            $this->droitsalacreation($aid, $seclast);
 
             Log::ecrireLog('security', sprintf('CreateSections(Vide) by AID : %s (via system)', $aid), '');
         }
@@ -1033,7 +1040,7 @@ class Sections extends AdminBaseController
     // Fonctions SECTIONS
     public function sectionedit($secid)
     {
-        global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg, $aid;
+        global $radminsuper, $aid;
 
         //include 'header.php';
 
@@ -1142,9 +1149,9 @@ class Sections extends AdminBaseController
 
         echo Editeur::affEditeur('introd', '');
 
-        droits($userlevel);
+        $this->droits($userlevel);
 
-        $droit_pub = droits_publication($secid);
+        $droit_pub = $this->droits_publication($secid);
 
         if ($droit_pub == 3 or $droit_pub == 7) {
             echo '<input type="hidden" name="secid" value="' . $secid . '" />
@@ -1191,7 +1198,7 @@ class Sections extends AdminBaseController
 
             list($secid) = sql_fetch_row($result);
 
-            droitsalacreation($aid, $secid);
+            $this->droitsalacreation($aid, $secid);
         }
 
         Log::ecrireLog('security', sprintf('CreateSections(%s) by AID : %s', $secname, $aid), '');
@@ -1228,7 +1235,7 @@ class Sections extends AdminBaseController
     // Fonction ARTICLES
     public function secartedit($artid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         $result2 = sql_query("SELECT author, artid, secid, title, content, userlevel 
                             FROM " . sql_prefix('seccont') . " 
@@ -1258,7 +1265,7 @@ class Sections extends AdminBaseController
                     <div class="col-sm-8">';
 
         // la on déraille ???
-        $tmp_autorise = sousrub_select($secid);
+        $tmp_autorise = $this->sousrub_select($secid);
 
         if ($tmp_autorise) {
             echo $tmp_autorise;
@@ -1298,9 +1305,9 @@ class Sections extends AdminBaseController
         echo '<div class="mb-3 row">
             <div class="col-sm-12">';
 
-        droits($userlevel);
+        $this->droits($userlevel);
 
-        $droits_pub = droits_publication($secid);
+        $droits_pub = $this->droits_publication($secid);
 
         if ($droits_pub == 3 or $droits_pub == 7) {
             echo '<input class="btn btn-primary" type="submit" value="' . adm_translate('Enregistrer') . '" />&nbsp;';
@@ -1316,7 +1323,7 @@ class Sections extends AdminBaseController
 
     public function secartupdate($artid)
     {
-        global $hlpfile, $aid, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $aid, $radminsuper;
 
         $result = sql_query("SELECT author, artid, secid, title, content, userlevel 
                             FROM " . sql_prefix('seccont_tempo') . " 
@@ -1390,7 +1397,7 @@ class Sections extends AdminBaseController
                 <label class="col-form-label col-sm-4" for="secid">' . adm_translate('Sous-rubrique') . '</label>
                 <div class="col-sm-8">';
 
-        $tmp_autorise = sousrub_select($secid); /// a affiner pas bon car dans certain cas on peut donc publier dans une sous rubrique sur laquelle on n'a pas les droits
+        $tmp_autorise = $this->sousrub_select($secid); /// a affiner pas bon car dans certain cas on peut donc publier dans une sous rubrique sur laquelle on n'a pas les droits
 
         if ($tmp_autorise) {
             echo $tmp_autorise;
@@ -1421,7 +1428,7 @@ class Sections extends AdminBaseController
             </div>
             ' . Editeur::affEditeur('content', '');
 
-        droits($userlevel);
+        $this->droits($userlevel);
 
         echo $fin;
 
@@ -1593,7 +1600,7 @@ class Sections extends AdminBaseController
 
             Header('Location: admin.php?op=sections');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
@@ -1620,7 +1627,7 @@ class Sections extends AdminBaseController
     public function sectiondelete($secid, $ok = 0)
     {
         // protection
-        $tmp = droits_publication($secid);
+        $tmp = $this->droits_publication($secid);
 
         if (($tmp != 7) and ($tmp != 4)) {
             Header('Location: admin.php?op=sections');
@@ -1649,7 +1656,7 @@ class Sections extends AdminBaseController
 
             Header('Location: admin.php?op=sections');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
@@ -1682,7 +1689,7 @@ class Sections extends AdminBaseController
 
         list($secid) = sql_fetch_row($result);
 
-        $tmp = droits_publication($secid);
+        $tmp = $this->droits_publication($secid);
 
         if (($tmp != 7) and ($tmp != 4)) {
             Header('Location: admin.php?op=sections');
@@ -1713,7 +1720,7 @@ class Sections extends AdminBaseController
 
             Header('Location: admin.php?op=sections');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
@@ -1748,7 +1755,7 @@ class Sections extends AdminBaseController
 
             Header('Location: admin.php?op=sections');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
@@ -1776,7 +1783,7 @@ class Sections extends AdminBaseController
     // Fonctions de classement
     public function ordremodule()
     {
-        global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $radminsuper;
 
         if ($radminsuper <> 1) {
             Header('Location: admin.php?op=sections');
@@ -1851,7 +1858,7 @@ class Sections extends AdminBaseController
 
     public function ordrechapitre()
     {
-        global $rubname, $rubid, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $rubname, $rubid, $radminsuper;
 
         if ($radminsuper <> 1) {
             Header('Location: admin.php?op=sections');
@@ -1929,7 +1936,7 @@ class Sections extends AdminBaseController
 
     public function ordrecours()
     {
-        global $secid, $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $secid, $radminsuper;
 
         if ($radminsuper <> 1) {
             Header('Location: admin.php?op=sections');
@@ -2065,7 +2072,7 @@ class Sections extends AdminBaseController
     // Fonctions DROIT des AUTEURS
     public function publishrights($author)
     {
-        global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        global $radminsuper;
 
         if ($radminsuper != 1) {
             Header('Location: admin.php?op=sections');

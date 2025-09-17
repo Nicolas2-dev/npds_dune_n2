@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Front\Search;
 
+use IntlDateFormatter;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Security\Hack;
+use App\Support\Facades\Language;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

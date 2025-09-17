@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Forum;
 
 
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,25 +14,25 @@ class ForumConfig extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'ForumConfigAdmin';
-        $f_titre = adm_translate('Configuration des Forums');
+        //$f_meta_nom = 'ForumConfigAdmin';
+        //$f_titre = adm_translate('Configuration des Forums');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language, $adminimg, $admf_ext;
-        $hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
+        //global $language, $adminimg, $admf_ext;
+        //$hlpfile = 'admin/manuels/' . $language . '/forumconfig.html';
 
         /*
         // FORUMS
         case 'ForumConfigAdmin':
             include 'admin/phpbbconfig.php';
-            ForumConfigAdmin();
+            $this->ForumConfigAdmin();
             break;
 
         case 'ForumConfigChange':
             include 'admin/phpbbconfig.php';
-            ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved);
+            $this->ForumConfigChange($allow_html, $allow_bbcode, $allow_sig, $posts_per_page, $hot_threshold, $topics_per_page, $allow_upload_forum, $allow_forum_hide, $rank1, $rank2, $rank3, $rank4, $rank5, $antiFlood, $solved);
             break;
         */
 
@@ -40,7 +41,7 @@ class ForumConfig extends AdminBaseController
 
     public function ForumConfigAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

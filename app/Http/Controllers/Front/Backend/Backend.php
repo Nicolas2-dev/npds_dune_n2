@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\Front\Backend;
 
+use Shared\Feed\FeedItem;
+use Shared\Feed\FeedImage;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use Shared\Feed\FeedCreatorConfig;
+use Shared\Feed\UniversalFeedCreator;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -82,31 +90,31 @@ class Backend extends FrontBaseController
         switch ($op) {
 
             case 'MBOX':
-                fab_feed('MBOX', 'MBOX-feed', 3600);
+                $this->fab_feed('MBOX', 'MBOX-feed', 3600);
                 break;
 
             case 'OPML':
-                fab_feed('OPML', 'OPML-feed.xml', 3600);
+                $this->fab_feed('OPML', 'OPML-feed.xml', 3600);
                 break;
 
             case 'ATOM':
-                fab_feed('ATOM', 'ATOM-feed.xml', 3600);
+                $this->fab_feed('ATOM', 'ATOM-feed.xml', 3600);
                 break;
 
             case 'RSS1.0':
-                fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
+                $this->fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
                 break;
 
             case 'RSS2.0':
-                fab_feed('RSS2.0', 'RSS2.0-feed.xml', 3600);
+                $this->fab_feed('RSS2.0', 'RSS2.0-feed.xml', 3600);
                 break;
 
             case 'RSS0.91':
-                fab_feed('RSS0.91', 'RSS0.91-feed.xml', 3600);
+                $this->fab_feed('RSS0.91', 'RSS0.91-feed.xml', 3600);
                 break;
 
             default:
-                fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
+                $this->fab_feed('RSS1.0', 'RSS1.0-feed.xml', 3600);
                 break;
         }
     }

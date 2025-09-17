@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use App\Support\Facades\Url;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

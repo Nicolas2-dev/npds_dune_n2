@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Headline;
 
 
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,36 +14,36 @@ class Headline extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'HeadlinesAdmin';
-        $f_titre = adm_translate('Grands Titres de sites de News');
+        //$f_meta_nom = 'HeadlinesAdmin';
+        //$f_titre = adm_translate('Grands Titres de sites de News');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/headlines.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/headlines.html';
 
         /*
         switch ($op) {
 
             case 'HeadlinesDel':
-                HeadlinesDel($hid, $ok);
+                $this->HeadlinesDel($hid, $ok);
                 break;
 
             case 'HeadlinesAdd':
-                HeadlinesAdd($xsitename, $url, $headlinesurl, $status);
+                $this->HeadlinesAdd($xsitename, $url, $headlinesurl, $status);
                 break;
 
             case 'HeadlinesSave':
-                HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status);
+                $this->HeadlinesSave($hid, $xsitename, $url, $headlinesurl, $status);
                 break;
 
             case 'HeadlinesAdmin':
-                HeadlinesAdmin();
+                $this->HeadlinesAdmin();
                 break;
 
             case 'HeadlinesEdit':
-                HeadlinesEdit($hid);
+                $this->HeadlinesEdit($hid);
                 break;
         }
 
@@ -62,7 +63,7 @@ class Headline extends AdminBaseController
 
     public function HeadlinesAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -155,7 +156,7 @@ class Headline extends AdminBaseController
 
     public function HeadlinesEdit($hid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -247,7 +248,7 @@ class Headline extends AdminBaseController
 
     public function HeadlinesDel($hid, $ok = 0)
     {
-        global $f_meta_nom, $f_titre, $adminimg;
+        //global $f_meta_nom, $f_titre, $adminimg;
 
         if ($ok == 1) {
             sql_query("DELETE FROM " . sql_prefix('headlines') . " 
@@ -255,7 +256,7 @@ class Headline extends AdminBaseController
 
             Header('Location: admin.php?op=HeadlinesAdmin');
         } else {
-            global $hlpfile;
+            //global $hlpfile;
 
             //include 'header.php';
 

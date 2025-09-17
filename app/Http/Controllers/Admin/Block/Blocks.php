@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Block;
 
 
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +16,14 @@ class Blocks extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'blocks';
-        $f_titre = adm_translate('Gestion des blocs');
+        //$f_meta_nom = 'blocks';
+        //$f_titre = adm_translate('Gestion des blocs');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/blocks.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/blocks.html';
 
         /*
         switch ($op) {
@@ -110,7 +113,7 @@ class Blocks extends AdminBaseController
             <div class="mb-3 row">
                 <label for="Mmember[]" class="col-form-label col-sm-12">' . adm_translate('Groupes') . '</label>
                 <div class="col-sm-12">
-                    ' . groupe($member) . '
+                    ' . $this->groupe($member) . '
                 </div>
             </div>';
         } else {
@@ -127,7 +130,7 @@ class Blocks extends AdminBaseController
             <div class="mb-3 row">
                 <label for="Mmember[]" class="col-form-label col-sm-12">' . adm_translate('Groupes') . '</label>
                 <div class="col-sm-12">
-                    ' . groupe($member) . '
+                    ' . $this->groupe($member) . '
                 </div>
             </div>';
         }
@@ -135,7 +138,7 @@ class Blocks extends AdminBaseController
 
     public function blocks()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $aid;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $aid;
 
         //include 'header.php';
 
@@ -259,7 +262,7 @@ class Blocks extends AdminBaseController
                                 <fieldset>
                                 <legend>' . adm_translate('Droits') . '</legend>';
 
-                echo droits_bloc($member, $j, 'L');
+                echo $this->droits_bloc($member, $j, 'L');
 
                 echo '</fieldset>
                                 <div class="mb-3 row">
@@ -430,7 +433,7 @@ class Blocks extends AdminBaseController
                                 <fieldset>
                                 <legend>' . adm_translate('Droits') . '</legend>';
 
-                echo droits_bloc($member, $j, 'R');
+                echo $this->droits_bloc($member, $j, 'R');
 
                 echo '</fieldset>
                                 <div class="mb-3 row">
@@ -524,7 +527,7 @@ class Blocks extends AdminBaseController
                     <fieldset>
                     <legend>' . adm_translate('Droits') . '</legend>';
 
-        echo droits_bloc('0', '', '');
+        echo $this->droits_bloc('0', '', '');
 
         echo '
                     </fieldset>

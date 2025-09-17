@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Config;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
 use App\Http\Controllers\Core\AdminBaseController;
 
 

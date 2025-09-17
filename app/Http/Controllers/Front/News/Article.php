@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\Front\News;
 
+use App\Support\Facades\Code;
+use App\Support\Facades\News;
+use App\Support\Facades\User;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -111,7 +119,7 @@ class Article extends FrontBaseController
                 <li>
                     <a href="search.php?member=' . $informant . '" >
                         ' . translate('Article de') . ' ' . $informant . '
-                    </a> ' . userpopover($informant, 36, '') . '
+                    </a> ' . User::userPopover($informant, 36, '') . '
                 </li>
             </ul>
             <div>
@@ -199,7 +207,7 @@ class Article extends FrontBaseController
                 $next_sid = 0;
             }
 
-            themearticle($aid, $informant, $time, $title, $bodytext, $topic, $topicname, $topicimage, $topictext, $sid, $previous_sid, $next_sid, $archive);
+            Theme::themearticle($aid, $informant, $time, $title, $bodytext, $topic, $topicname, $topicimage, $topictext, $sid, $previous_sid, $next_sid, $archive);
 
             // theme sans le système de commentaire en meta-mot !
             if (!function_exists('Caff_pub')) {

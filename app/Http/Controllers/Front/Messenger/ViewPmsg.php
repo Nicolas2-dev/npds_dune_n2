@@ -2,6 +2,17 @@
 
 namespace App\Http\Controllers\Front\Messenger;
 
+
+use IntlDateFormatter;
+use App\Support\Error\Error;
+use App\Support\Facades\Date;
+use App\Support\Facades\User;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\UserMenu;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -171,7 +182,7 @@ class ViewPmsg extends FrontBaseController
                         }
                     }
 
-                    echo '<td>' . userpopover($posterdata['uname'], 40, 2);
+                    echo '<td>' . User::userPopover($posterdata['uname'], 40, 2);
 
                     echo ($posterdata['uid'] <> 1) ? $posterdata['uname'] : $sitename;
 
@@ -359,7 +370,7 @@ class ViewPmsg extends FrontBaseController
 
         <?php
 
-            include 'footer.php';
+            //include 'footer.php';
         }
     }
 

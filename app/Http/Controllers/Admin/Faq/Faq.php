@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Admin\Faq;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Code;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,65 +19,65 @@ class Faq extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'FaqAdmin';
-        $f_titre = adm_translate('Faq');
+        //$f_meta_nom = 'FaqAdmin';
+        //$f_titre = adm_translate('Faq');
 
         //controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/faqs.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/faqs.html';
 
         /*
         // FAQ
         case 'FaqCatSave':
             include 'admin/adminfaq.php';
-            FaqCatSave($old_id_cat, $id_cat, $categories);
+            $this->FaqCatSave($old_id_cat, $id_cat, $categories);
             break;
 
         case 'FaqCatGoSave':
             include 'admin/adminfaq.php';
-            FaqCatGoSave($id, $question, $answer);
+            $this->FaqCatGoSave($id, $question, $answer);
             break;
 
         case 'FaqCatAdd':
             include 'admin/adminfaq.php';
-            FaqCatAdd($categories);
+            $this->FaqCatAdd($categories);
             break;
 
         case 'FaqCatGoAdd':
             include 'admin/adminfaq.php';
-            FaqCatGoAdd($id_cat, $question, $answer);
+            $this->FaqCatGoAdd($id_cat, $question, $answer);
             break;
 
         case 'FaqCatEdit':
             include 'admin/adminfaq.php';
-            FaqCatEdit($id_cat);
+            $this->FaqCatEdit($id_cat);
             break;
 
         case 'FaqCatGoEdit':
             include 'admin/adminfaq.php';
-            FaqCatGoEdit($id);
+            $this->FaqCatGoEdit($id);
             break;
 
         case 'FaqCatDel':
             include 'admin/adminfaq.php';
-            FaqCatDel($id_cat, $ok);
+            $this->FaqCatDel($id_cat, $ok);
             break;
 
         case 'FaqCatGoDel':
             include 'admin/adminfaq.php';
-            FaqCatGoDel($id, $ok);
+            $this->FaqCatGoDel($id, $ok);
             break;
 
         case 'FaqAdmin':
             include 'admin/adminfaq.php';
-            FaqAdmin();
+            $this->FaqAdmin();
             break;
 
         case 'FaqCatGo':
             include 'admin/adminfaq.php';
-            FaqCatGo($id_cat);
+            $this->FaqCatGo($id_cat);
             break;
         */
 
@@ -80,7 +86,7 @@ class Faq extends AdminBaseController
 
     public function FaqAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -153,7 +159,7 @@ class Faq extends AdminBaseController
 
     public function FaqCatGo($id_cat)
     {
-        global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -248,7 +254,7 @@ class Faq extends AdminBaseController
 
     public function FaqCatEdit($id_cat)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -294,7 +300,7 @@ class Faq extends AdminBaseController
 
     public function FaqCatGoEdit($id)
     {
-        global $hlpfile, $local_user_language, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+        global $local_user_language;
 
         //include 'header.php';
 
@@ -419,7 +425,7 @@ class Faq extends AdminBaseController
 
             Header('Location: admin.php?op=FaqAdmin');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
@@ -449,7 +455,7 @@ class Faq extends AdminBaseController
 
             Header('Location: admin.php?op=FaqAdmin');
         } else {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 

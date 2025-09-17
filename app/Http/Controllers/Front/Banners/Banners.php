@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\Front\Banners;
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Library\Routing\Url;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Language;
+use Npds\Support\Facades\Request;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -15,6 +24,39 @@ class Banners extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        switch ($op) {
+
+            case 'click':
+                $this->clickbanner($bid);
+                break;
+
+            case 'login':
+                $this->clientlogin();
+                break;
+
+            case 'Ok':
+                $this->bannerstats($login, $pass);
+                break;
+
+            case translate('Changer'):
+                $this->change_banner_url_by_client($login, $pass, $cid, $bid, $url);
+                break;
+
+            case 'EmailStats':
+                $this->EmailStats($login, $cid, $bid);
+                break;
+
+            default:
+                if ($banners) {
+                    $this->viewbanner();
+                } else {
+                    Url::redirectUrl('index.php');
+                }
+                break;
+        }
+        */
+
         parent::initialize();
     }
 
@@ -149,7 +191,7 @@ class Banners extends FrontBaseController
 
     function clientlogin()
     {
-        header_page();
+        $this->header_page();
 
         echo '<div class="card card-body mb-3">
                 <h3 class="mb-4"><i class="fas fa-sign-in-alt fa-lg me-3 align-middle"></i>' . translate('Connexion') . '</h3>
@@ -175,12 +217,12 @@ class Banners extends FrontBaseController
 
         Validation::adminFoot('fv', '', $arg1, 'no');
 
-        footer_page();
+        $this->footer_page();
     }
 
     function IncorrectLogin()
     {
-        header_page();
+        $this->header_page();
 
         echo '<div class="alert alert-danger lead">
             ' . translate('Identifiant incorrect !') . '
@@ -188,7 +230,7 @@ class Banners extends FrontBaseController
             <button class="btn btn-secondary mt-2" onclick="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</button>
         </div>';
 
-        footer_page();
+        $this->footer_page();
     }
 
     function header_page()
@@ -253,10 +295,10 @@ class Banners extends FrontBaseController
         list($cid, $name, $passwd) = sql_fetch_row($result);
 
         if ($login == '' and $pass == '' or $pass == '') {
-            IncorrectLogin();
+            $this->IncorrectLogin();
         } else {
             if ($pass == $passwd) {
-                header_page();
+                $this->header_page();
 
                 echo '<h3>' . translate('Bannières actives pour') . ' ' . $name . '</h3>
                 <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-columns="true" data-icons="icons" data-icons-prefix="fa">
@@ -396,9 +438,9 @@ class Banners extends FrontBaseController
 
                 Validation::adminFoot('fv', '', '', 'no');
 
-                footer_page();
+                $this->footer_page();
             } else {
-                IncorrectLogin();
+                $this->IncorrectLogin();
             }
         }
     }
@@ -420,7 +462,7 @@ class Banners extends FrontBaseController
             list($name, $email) = sql_fetch_row($result2);
 
             if ($email == '') {
-                header_page();
+                $this->header_page();
 
                 echo '<p align="center">
                     <br />
@@ -433,7 +475,7 @@ class Banners extends FrontBaseController
                     <a href="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</a>
                 </p>';
 
-                footer_page();
+                $this->footer_page();
             } else {
                 $result = sql_query("SELECT bid, imptotal, impmade, clicks, imageurl, clickurl, date 
                                     FROM " . sql_prefix('banner') . " 
@@ -474,7 +516,7 @@ class Banners extends FrontBaseController
 
                 Mailer::sendEmail($email, $subject, $message, '', true, 'html', '');
 
-                header_page();
+                $this->header_page();
 
                 echo '<div class="card bg-light">
                     <div class="card-body"
@@ -486,7 +528,7 @@ class Banners extends FrontBaseController
                 </div>';
             }
         } else {
-            header_page();
+            $this->header_page();
 
             echo '<div class="alert alert-danger">
                 ' . translate('Identifiant incorrect !') . '
@@ -498,12 +540,12 @@ class Banners extends FrontBaseController
             </div>';
         }
 
-        footer_page();
+        $this->footer_page();
     }
 
     function change_banner_url_by_client($login, $pass, $cid, $bid, $url)
     {
-        header_page();
+        $this->header_page();
 
         $result = sql_query("SELECT passwd 
                             FROM " . sql_prefix('bannerclient') . " 
@@ -534,40 +576,7 @@ class Banners extends FrontBaseController
             </div>';
         }
 
-        footer_page();
+        $this->footer_page();
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'click':
-        clickbanner($bid);
-        break;
-
-    case 'login':
-        clientlogin();
-        break;
-
-    case 'Ok':
-        bannerstats($login, $pass);
-        break;
-
-    case translate('Changer'):
-        change_banner_url_by_client($login, $pass, $cid, $bid, $url);
-        break;
-
-    case 'EmailStats':
-        EmailStats($login, $cid, $bid);
-        break;
-
-    default:
-        if ($banners) {
-            viewbanner();
-        } else {
-            Url::redirectUrl('index.php');
-        }
-        break;
-}
-*/

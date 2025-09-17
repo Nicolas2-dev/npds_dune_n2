@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Front\Section;
 
+use App\Support\Facades\Url;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Code;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -15,6 +22,39 @@ class Section extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        switch ($op) {
+
+            case 'viewarticle':
+                if (verif_aff($artid)) {
+                    settype($page, 'string');
+
+                    viewarticle($artid, $page);
+                } else {
+                    header('location: sections.php');
+                }
+                break;
+
+            case 'listarticles':
+                listarticles($secid);
+                break;
+
+            case 'printpage':
+                if (verif_aff($artid)) {
+                    PrintSecPage($artid);
+                } else {
+                    header('location: sections.php');
+                }
+                break;
+
+            default:
+                settype($rubric, 'string');
+
+                listsections($rubric);
+                break;
+        }
+        */
+
         parent::initialize();
     }
 
@@ -118,7 +158,7 @@ class Section extends FrontBaseController
                     $aff .= '<div id="rub-' . $rubid . '" class="collapse" >';
 
                     while (list($secid, $secname, $image, $userlevel, $intro) = sql_fetch_row($result2)) {
-                        $okprintLV1 = autorisation_section($userlevel);
+                        $okprintLV1 = $this->autorisation_section($userlevel);
 
                         $aff1 = '';
                         $aff2 = '';
@@ -165,7 +205,7 @@ class Section extends FrontBaseController
 
                             while (list($artid, $title, $counter, $userlevel, $timestamp) = sql_fetch_row($result3)) {
 
-                                $okprintLV2 = autorisation_section($userlevel);
+                                $okprintLV2 = $this->autorisation_section($userlevel);
                                 $nouveau = '';
 
                                 if ($okprintLV2) {
@@ -257,7 +297,7 @@ class Section extends FrontBaseController
         }
 
         if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
-            $okprint1 = autorisation_section($userlevel);
+            $okprint1 = $this->autorisation_section($userlevel);
 
             if ($okprint1) {
                 $result = sql_query("SELECT artid, secid, title, content, userlevel, counter, timestamp 
@@ -272,7 +312,7 @@ class Section extends FrontBaseController
                 }
 
                 if (function_exists('themesection_title')) {
-                    themesection_title($title);
+                    $this->themesection_title($title);
                 } else {
                     echo $chemin . '
                     <hr />
@@ -299,7 +339,7 @@ class Section extends FrontBaseController
                 <div class="card card-body mb-3">';
 
                 while (list($artid, $secid, $title, $content, $userlevel, $counter, $timestamp) = sql_fetch_row($result)) {
-                    $okprint2 = autorisation_section($userlevel);
+                    $okprint2 = $this->autorisation_section($userlevel);
 
                     if ($okprint2) {
                         $nouveau = 'oo';
@@ -372,7 +412,7 @@ class Section extends FrontBaseController
         $tmp_auto = explode(',', $userlevel);
 
         foreach ($tmp_auto as $userlevel) {
-            $okprint = autorisation_section($userlevel);
+            $okprint = $this->autorisation_section($userlevel);
 
             if ($okprint) {
                 break;
@@ -410,7 +450,7 @@ class Section extends FrontBaseController
                 }
 
                 if (function_exists("themesection_title")) {
-                    themesection_title($title);
+                    $this->themesection_title($title);
                 } else {
                     echo $chemin . '
                     <hr />
@@ -484,7 +524,7 @@ class Section extends FrontBaseController
                         <ul class="list-group">';
 
                         while (list($artid, $secid, $title, $userlevel) = sql_fetch_row($result3)) {
-                            $okprint2 = autorisation_section($userlevel);
+                            $okprint2 = $this->autorisation_section($userlevel);
 
                             if ($okprint2) {
                                 echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid . '">' . Language::affLangue($title) . '</a></li>';
@@ -512,7 +552,7 @@ class Section extends FrontBaseController
 
                         list($artid2, $title, $userlevel) = sql_fetch_row($resultpdtcompat);
 
-                        $okprint2 = autorisation_section($userlevel);
+                        $okprint2 = $this->autorisation_section($userlevel);
 
                         if ($okprint2) {
                             echo '<li class="list-group-item list-group-item-action"><a href="sections.php?op=viewarticle&amp;artid=' . $artid2 . '">' . Language::affLangue($title) . '</a></li>';
@@ -598,42 +638,9 @@ class Section extends FrontBaseController
         list($userlevel) = sql_fetch_row($result);
 
         $okprint = false;
-        $okprint = autorisation_section($userlevel);
+        $okprint = $this->autorisation_section($userlevel);
 
         return $okprint;
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'viewarticle':
-        if (verif_aff($artid)) {
-            settype($page, 'string');
-
-            viewarticle($artid, $page);
-        } else {
-            header('location: sections.php');
-        }
-        break;
-
-    case 'listarticles':
-        listarticles($secid);
-        break;
-
-    case 'printpage':
-        if (verif_aff($artid)) {
-            PrintSecPage($artid);
-        } else {
-            header('location: sections.php');
-        }
-        break;
-
-    default:
-        settype($rubric, 'string');
-
-        listsections($rubric);
-        break;
-}
-*/

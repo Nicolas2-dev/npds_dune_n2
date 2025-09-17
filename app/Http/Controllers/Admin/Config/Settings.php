@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Config;
 
 
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +15,14 @@ class Setting extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'Configure';
-        $f_titre = adm_translate('Préférences');
+        //$f_meta_nom = 'Configure';
+        //$f_titre = adm_translate('Préférences');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/config.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/config.html';
 
         /*
         switch ($op) {
@@ -49,7 +51,7 @@ class Setting extends AdminBaseController
 
     public function configure()
     {
-        global $hlpfile, $filemanager, $f_meta_nom, $f_titre, $adminimg;
+        global $filemanager, $adminimg, $language;
 
         //include 'config/config.php';
 

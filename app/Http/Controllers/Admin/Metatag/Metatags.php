@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Metatags;
 
 
+use App\Support\Facades\Log;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,11 +15,11 @@ class Metatags extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'MetaTagAdmin';
-        $f_titre = adm_translate('Administration des MétaTags');
+        //$f_meta_nom = 'MetaTagAdmin';
+        //$f_titre = adm_translate('Administration des MétaTags');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         /*
         if (!stristr($_SERVER['PHP_SELF'], 'admin.php')) {
@@ -32,13 +34,13 @@ class Metatags extends AdminBaseController
         switch ($op) {
 
             case 'MetaTagSave':
-                $meta_saved = MetaTagSave('storage/meta/meta.php', $newtag);
+                $meta_saved = $this->MetaTagSave('storage/meta/meta.php', $newtag);
 
                 header('location: admin.php?op=MetaTagAdmin&meta_saved=' . $meta_saved);
                 break;
 
             case 'MetaTagAdmin':
-                MetaTagAdmin($meta_saved);
+                $this->MetaTagAdmin($meta_saved);
                 break;
         }
 
@@ -55,9 +57,9 @@ class Metatags extends AdminBaseController
 
     public function MetaTagAdmin(bool $meta_saved = false)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        $tags = GetMetaTags('storage/meta/meta.php');
+        $tags = $this->GetMetaTags('storage/meta/meta.php');
 
         //include 'header.php';
 
@@ -268,42 +270,42 @@ class Metatags extends AdminBaseController
                 $tags['content-type'] = htmlspecialchars(stripslashes($tags['content-type']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
 
                 if ($tags['doctype'] == 'HTML 5.1') {
-                    $content .= MetaTagMakeSingleTag('utf-8', '', 'charset');
+                    $content .= $this->MetaTagMakeSingleTag('utf-8', '', 'charset');
                 } else {
-                    $content .= MetaTagMakeSingleTag('content-type', $tags['content-type'], 'http-equiv');
+                    $content .= $this->MetaTagMakeSingleTag('content-type', $tags['content-type'], 'http-equiv');
                 }
             } else {
                 if ($tags['doctype'] == 'XHTML 1.0 Transitional' || $tags['doctype'] == 'XHTML 1.0 Strict') {
-                    $content .= MetaTagMakeSingleTag('content-type', 'text/html; charset=utf-8', 'http-equiv');
+                    $content .= $this->MetaTagMakeSingleTag('content-type', 'text/html; charset=utf-8', 'http-equiv');
                 } else {
-                    $content .= MetaTagMakeSingleTag('utf-8', '', 'charset');
+                    $content .= $this->MetaTagMakeSingleTag('utf-8', '', 'charset');
                 }
             }
 
             $content .= "\$l_meta.=\"      <title>\$Titlesitename</title>\\n\";\n";
-            $content .= MetaTagMakeSingleTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
-            $content .= MetaTagMakeSingleTag('content-script-type', 'text/javascript', 'http-equiv');
-            $content .= MetaTagMakeSingleTag('content-style-type', 'text/css', 'http-equiv');
-            $content .= MetaTagMakeSingleTag('expires', '0', 'http-equiv');
-            $content .= MetaTagMakeSingleTag('pragma', 'no-cache', 'http-equiv');
-            $content .= MetaTagMakeSingleTag('cache-control', 'no-cache', 'http-equiv');
-            $content .= MetaTagMakeSingleTag('identifier-url', '$nuke_url', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
+            $content .= $this->MetaTagMakeSingleTag('content-script-type', 'text/javascript', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('content-style-type', 'text/css', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('expires', '0', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('pragma', 'no-cache', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('cache-control', 'no-cache', 'http-equiv');
+            $content .= $this->MetaTagMakeSingleTag('identifier-url', '$nuke_url', 'http-equiv');
 
             if (!empty($tags['author'])) {
                 $tags['author'] = htmlspecialchars(stripslashes($tags['author']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('author', $tags['author']);
+                $content .= $this->MetaTagMakeSingleTag('author', $tags['author']);
             }
 
             if (!empty($tags['owner'])) {
                 $tags['owner'] = htmlspecialchars(stripslashes($tags['owner']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('owner', $tags['owner']);
+                $content .= $this->MetaTagMakeSingleTag('owner', $tags['owner']);
             }
 
             if (!empty($tags['reply-to'])) {
                 $tags['reply-to'] = htmlspecialchars(stripslashes($tags['reply-to']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('reply-to', $tags['reply-to']);
+                $content .= $this->MetaTagMakeSingleTag('reply-to', $tags['reply-to']);
             } else {
-                $content .= MetaTagMakeSingleTag('reply-to', $adminmail);
+                $content .= $this->MetaTagMakeSingleTag('reply-to', $adminmail);
             }
 
             if (!empty($tags['description'])) {
@@ -311,7 +313,7 @@ class Metatags extends AdminBaseController
                 $content .= "if (\$m_description!=\"\")\n";
                 $content .= "   \$l_meta.=\"      <meta name=\\\"description\\\" content=\\\"\$m_description\\\" />\\n\";\n";
                 $content .= "else\n";
-                $content .= "   " . MetaTagMakeSingleTag('description', $tags['description']);
+                $content .= "   " . $this->MetaTagMakeSingleTag('description', $tags['description']);
             }
 
             if (!empty($tags['keywords'])) {
@@ -319,51 +321,51 @@ class Metatags extends AdminBaseController
                 $content .= "if (\$m_keywords!=\"\")\n";
                 $content .= "   \$l_meta.=\"      <meta name=\\\"keywords\\\" content=\\\"\$m_keywords\\\" />\\n\";\n";
                 $content .= "else\n";
-                $content .= "   " . MetaTagMakeSingleTag('keywords', $tags['keywords']);
+                $content .= "   " . $this->MetaTagMakeSingleTag('keywords', $tags['keywords']);
             }
 
             if (!empty($tags['rating'])) {
                 $tags['rating'] = htmlspecialchars(stripslashes($tags['rating']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('rating', $tags['rating']);
+                $content .= $this->MetaTagMakeSingleTag('rating', $tags['rating']);
             }
 
             if (!empty($tags['distribution'])) {
                 $tags['distribution'] = htmlspecialchars(stripslashes($tags['distribution']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('distribution', $tags['distribution']);
+                $content .= $this->MetaTagMakeSingleTag('distribution', $tags['distribution']);
             }
 
             if (!empty($tags['copyright'])) {
                 $tags['copyright'] = htmlspecialchars(stripslashes($tags['copyright']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('copyright', $tags['copyright']);
+                $content .= $this->MetaTagMakeSingleTag('copyright', $tags['copyright']);
             }
 
             if (!empty($tags['revisit-after'])) {
                 $tags['revisit-after'] = htmlspecialchars(stripslashes($tags['revisit-after']), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-                $content .= MetaTagMakeSingleTag('revisit-after', $tags['revisit-after']);
+                $content .= $this->MetaTagMakeSingleTag('revisit-after', $tags['revisit-after']);
             } else {
-                $content .= MetaTagMakeSingleTag('revisit-after', '14 days');
+                $content .= $this->MetaTagMakeSingleTag('revisit-after', '14 days');
             }
 
-            $content .= MetaTagMakeSingleTag('resource-type', 'document');
-            $content .= MetaTagMakeSingleTag('robots', $tags['robots']);
-            $content .= MetaTagMakeSingleTag('generator', $Version_Id . $Version_Num . $Version_Sub);
+            $content .= $this->MetaTagMakeSingleTag('resource-type', 'document');
+            $content .= $this->MetaTagMakeSingleTag('robots', $tags['robots']);
+            $content .= $this->MetaTagMakeSingleTag('generator', $Version_Id . $Version_Num . $Version_Sub);
 
             // OpenGraph Meta Tags
-            $content .= MetaTagMakeSingleTag('og:type', 'website', 'property');
-            $content .= MetaTagMakeSingleTag('og:url', '$nuke_url', 'property');
-            $content .= MetaTagMakeSingleTag('og:title', '$Titlesitename', 'property');
-            $content .= MetaTagMakeSingleTag('og:description', $tags['description'], 'property');
-            $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_rect.png', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:width', '1200', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:height', '630', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:alt', 'logo site', 'property');
-            $content .= MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_square.png', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:width', '630', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:height', '630', 'property');
-            $content .= MetaTagMakeSingleTag('og:image:alt', 'logo site', 'property');
-            $content .= MetaTagMakeSingleTag('twitter:card', 'summary', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:type', 'website', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:url', '$nuke_url', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:title', '$Titlesitename', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:description', $tags['description'], 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_rect.png', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:width', '1200', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:height', '630', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:alt', 'logo site', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image', '$nuke_url/assets/shared/ogimg_square.png', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:type', 'image/png', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:width', '630', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:height', '630', 'property');
+            $content .= $this->MetaTagMakeSingleTag('og:image:alt', 'logo site', 'property');
+            $content .= $this->MetaTagMakeSingleTag('twitter:card', 'summary', 'property');
 
             //<== OpenGraph Meta Tags
             $content .= "if (\$meta_op==\"\") echo \$l_meta; else \$l_meta=str_replace(\"\\n\",\"\",str_replace(\"\\\"\",\"'\",\$l_meta));\n?>";

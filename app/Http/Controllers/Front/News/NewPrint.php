@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Front\News;
 
+use IntlDateFormatter;
+use App\Support\Facades\Code;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Security\Hack;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -221,18 +228,18 @@ class NewsPrint extends FrontBaseController
                 settype($metalang, 'integer');
                 settype($nl, 'integer');
 
-                PrintPage('static', $metalang, $nl, $tab[1]);
+                $this->PrintPage('static', $metalang, $nl, $tab[1]);
             } else {
                 if (!isset($archive)) {
-                    PrintPage('news', '', '', $sid);
+                    $this->PrintPage('news', '', '', $sid);
                 } else {
-                    PrintPage('archive', '', '', $sid);
+                    $this->PrintPage('archive', '', '', $sid);
                 }
             }
         } elseif (!empty($lid)) {
             settype($lid, 'integer');
 
-            PrintPage('links', $DB, '', $lid);
+            $this->PrintPage('links', $DB, '', $lid);
         } else {
             header('location: index.php');
         }

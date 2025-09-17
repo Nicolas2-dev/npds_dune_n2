@@ -3,6 +3,14 @@
 namespace App\Http\Controllers\Admin\Links;
 
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Date;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,17 +21,17 @@ class Links extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'links';
-        $f_titre = 'Liens';
+        //$f_meta_nom = 'links';
+        //$f_titre = 'Liens';
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/weblinks.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/weblinks.html';
 
         // valeur du pas de pagination
-        $rupture = 100; //100   
+        //$rupture = 100; //100   
 
         /*
         settype($op, 'string');
@@ -34,83 +42,83 @@ class Links extends AdminBaseController
 
             case 'links':
             case 'suite_links':
-                links();
+                $this->links();
                 break;
 
             case 'LinksDelNew':
-                LinksDelNew($lid);
+                $this->LinksDelNew($lid);
                 break;
 
             case 'LinksAddCat':
-                LinksAddCat($title, $cdescription);
+                $this->LinksAddCat($title, $cdescription);
                 break;
 
             case 'LinksAddSubCat':
-                LinksAddSubCat($cid, $title);
+                $this->LinksAddSubCat($cid, $title);
                 break;
 
             case 'LinksAddLink':
-                LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter);
+                $this->LinksAddLink($new, $lid, $title, $url, $cat, $xtext, $name, $email, $submitter);
                 break;
 
             case 'LinksAddEditorial':
-                LinksAddEditorial($linkid, $editorialtitle, $editorialtext);
+                $this->LinksAddEditorial($linkid, $editorialtitle, $editorialtext);
                 break;
 
             case 'LinksModEditorial':
-                LinksModEditorial($linkid, $editorialtitle, $editorialtext);
+                $this->LinksModEditorial($linkid, $editorialtitle, $editorialtext);
                 break;
 
             case 'LinksDelEditorial':
-                LinksDelEditorial($linkid);
+                $this->LinksDelEditorial($linkid);
                 break;
 
             case 'LinksListBrokenLinks':
-                LinksListBrokenLinks();
+                $this->LinksListBrokenLinks();
                 break;
 
             case 'LinksDelBrokenLinks':
-                LinksDelBrokenLinks($lid);
+                $this->LinksDelBrokenLinks($lid);
                 break;
 
             case 'LinksIgnoreBrokenLinks':
-                LinksIgnoreBrokenLinks($lid);
+                $this->LinksIgnoreBrokenLinks($lid);
                 break;
 
             case 'LinksListModRequests':
-                LinksListModRequests();
+                $this->LinksListModRequests();
                 break;
 
             case 'LinksChangeModRequests':
-                LinksChangeModRequests($requestid);
+                $this->LinksChangeModRequests($requestid);
                 break;
 
             case 'LinksChangeIgnoreRequests':
-                LinksChangeIgnoreRequests($requestid);
+                $this->LinksChangeIgnoreRequests($requestid);
                 break;
 
             case 'LinksDelCat':
-                LinksDelCat($cid, $sid, $sub, $ok);
+                $this->LinksDelCat($cid, $sid, $sub, $ok);
                 break;
 
             case 'LinksModCat':
-                LinksModCat($cat);
+                $this->LinksModCat($cat);
                 break;
 
             case 'LinksModCatS':
-                LinksModCatS($cid, $sid, $sub, $title, $cdescription);
+                $this->LinksModCatS($cid, $sid, $sub, $title, $cdescription);
                 break;
 
             case 'LinksModLink':
-                LinksModLink($lid);
+                $this->LinksModLink($lid);
                 break;
 
             case 'LinksModLinkS':
-                LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat);
+                $this->LinksModLinkS($lid, $title, $url, $xtext, $name, $email, $hits, $cat);
                 break;
 
             case 'LinksDelLink':
-                LinksDelLink($lid);
+                $this->LinksDelLink($lid);
                 break;
         }
 
@@ -149,7 +157,7 @@ class Links extends AdminBaseController
 
     public function links()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -585,7 +593,7 @@ class Links extends AdminBaseController
 
     public function LinksModLink($lid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -805,7 +813,7 @@ class Links extends AdminBaseController
 
     public function LinksListBrokenLinks()
     {
-        global $hlpfile, $anonymous, $f_meta_nom, $f_titre, $adminimg;
+        global $anonymous;
 
         $resultBrok = sql_query("SELECT requestid, lid, modifysubmitter 
                                 FROM " . sql_prefix('links_modrequest') . " 
@@ -922,7 +930,7 @@ class Links extends AdminBaseController
 
     public function LinksListModRequests()
     {
-        global $hlpfile;
+        //global $hlpfile;
 
         $resultLink = sql_query("SELECT requestid, lid, cid, sid, title, url, description, modifysubmitter 
                                 FROM " . sql_prefix('links_modrequest') . " 
@@ -1145,7 +1153,7 @@ class Links extends AdminBaseController
 
     public function LinksModCat($cat)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -1288,7 +1296,7 @@ class Links extends AdminBaseController
 
             Header('Location: admin.php?op=links');
         } else {
-            message_error('<div class="alert alert-danger">' . adm_translate('ATTENTION : Etes-vous sûr de vouloir effacer cette Catégorie et tous ses Liens ?') . '</div><br />
+            $this->message_error('<div class="alert alert-danger">' . adm_translate('ATTENTION : Etes-vous sûr de vouloir effacer cette Catégorie et tous ses Liens ?') . '</div><br />
             <a class="btn btn-danger me-2" href="admin.php?op=LinksDelCat&amp;cid=' . $cid . '&amp;sid=' . $sid . '&amp;sub=' . $sub . '&amp;ok=1" >' . adm_translate('Oui') . '</a>');
         }
     }
@@ -1312,7 +1320,7 @@ class Links extends AdminBaseController
         $numrows = sql_num_rows($result);
 
         if ($numrows > 0) {
-            message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
+            $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
         } else {
             sql_query("INSERT INTO " . sql_prefix('links_categories') . " 
                     VALUES (NULL, '$title', '$cdescription')");
@@ -1333,7 +1341,7 @@ class Links extends AdminBaseController
         $numrows = sql_num_rows($result);
 
         if ($numrows > 0) {
-            message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Sous-catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
+            $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : La Sous-catégorie') . " $title " . adm_translate('existe déjà !') . '</strong></div>');
         } else {
             sql_query("INSERT INTO " . sql_prefix('links_subcategories') . " 
                     VALUES (NULL, '$cid', '$title')");
@@ -1356,7 +1364,7 @@ class Links extends AdminBaseController
 
         Log::ecrireLog('security', sprintf('AddEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
 
-        message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial ajouté à la base de données') . '</strong></div>');
+        $this->message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial ajouté à la base de données') . '</strong></div>');
     }
 
     public function LinksModEditorial($linkid, $editorialtitle, $editorialtext)
@@ -1370,7 +1378,7 @@ class Links extends AdminBaseController
         global $aid;
         Log::ecrireLog('security', sprintf('ModEditorialLinks(%s, %s) by AID : %s', $linkid, $editorialtitle, $aid), '');
 
-        message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial modifié') . '</strong></div>');
+        $this->message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial modifié') . '</strong></div>');
     }
 
     public function LinksDelEditorial($linkid)
@@ -1381,12 +1389,12 @@ class Links extends AdminBaseController
         global $aid;
         Log::ecrireLog('security', sprintf('DeteteEditorialLinks(%s) by AID : %s', $linkid, $aid), '');
 
-        message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial supprimé de la base de données') . '</strong></div>');
+        $this->message_error('<div class="alert alert-success"><strong>' . adm_translate('Editorial supprimé de la base de données') . '</strong></div>');
     }
 
     public function message_error($ibid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -1409,18 +1417,18 @@ class Links extends AdminBaseController
         $numrows = sql_num_rows($result);
 
         if ($numrows > 0) {
-            message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : cette URL est déjà présente dans la base de données !') . '</strong></div>');
+            $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : cette URL est déjà présente dans la base de données !') . '</strong></div>');
         } else {
             if ($title == '') {
-                message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir un TITRE pour votre Lien !') . '</strong></div>');
+                $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir un TITRE pour votre Lien !') . '</strong></div>');
             }
 
             if ($url == '') {
-                message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir une URL pour votre Lien !') . '</strong></div>');
+                $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir une URL pour votre Lien !') . '</strong></div>');
             }
 
             if ($xtext == '') {
-                message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir une DESCRIPTION pour votre Lien !') . '</strong></div>');
+                $this->message_error('<div class="alert alert-danger"><strong>' . adm_translate('Erreur : vous devez saisir une DESCRIPTION pour votre Lien !') . '</strong></div>');
             }
 
             $cat = explode('-', $cat);
@@ -1457,7 +1465,7 @@ class Links extends AdminBaseController
             global $aid;
             Log::ecrireLog('security', sprintf('AddLinks(%s) by AID : %s', $title, $aid), '');
 
-            message_error('<div class="alert alert-success"><strong>' . adm_translate('Nouveau Lien ajouté dans la base de données') . '</strong></div>');
+            $this->message_error('<div class="alert alert-success"><strong>' . adm_translate('Nouveau Lien ajouté dans la base de données') . '</strong></div>');
         }
     }
 

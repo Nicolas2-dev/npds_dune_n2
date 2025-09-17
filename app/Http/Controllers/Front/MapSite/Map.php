@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Front\MapSite;
 
+use App\Support\Facades\Auth;
+use App\Support\Facades\Language;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -251,11 +255,11 @@ class Map extends FrontBaseController
             echo '<h2>' . translate('Plan du site') . '</h2>
             <hr />';
 
-            mapsections();
-            mapforum();
-            maptopics();
-            mapcategories();
-            mapfaq();
+            $this->mapsections();
+            $this->mapforum();
+            $this->maptopics();
+            $this->mapcategories();
+            $this->mapfaq();
 
             echo '<br />';
 

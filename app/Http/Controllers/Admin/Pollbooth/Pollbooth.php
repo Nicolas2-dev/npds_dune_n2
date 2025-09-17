@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Pollbooth;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,43 +16,43 @@ class Pollbooth extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'create';
-        $f_titre = adm_translate('Les sondages');
+        //$f_meta_nom = 'create';
+        //$f_titre = adm_translate('Les sondages');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/surveys.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/surveys.html';
 
         /*
         switch ($op) {
             case 'create':
-                poll_createPoll();
+                $this->poll_createPoll();
                 break;
 
             case 'createPosted':
-                poll_createPosted();
+                $this->poll_createPosted();
                 break;
 
             case 'remove':
-                poll_removePoll();
+                $this->poll_removePoll();
                 break;
 
             case 'removePosted':
-                poll_removePosted();
+                $this->poll_removePosted();
                 break;
 
             case 'editpoll':
-                poll_editPoll();
+                $this->poll_editPoll();
                 break;
 
             case 'editpollPosted':
-                poll_editPollPosted();
+                $this->poll_editPollPosted();
                 break;
 
             case 'SendEditPoll':
-                poll_SendEditPoll();
+                $this->poll_SendEditPoll();
                 break;
         }
 
@@ -71,7 +74,7 @@ class Pollbooth extends AdminBaseController
 
     public function poll_createPoll()
     {
-        global $hlpfile, $maxOptions, $f_meta_nom, $f_titre, $adminimg;
+        global $maxOptions;
 
         //include 'header.php';
 
@@ -160,7 +163,7 @@ class Pollbooth extends AdminBaseController
 
     public function poll_createPosted()
     {
-        global $maxOptions, $pollTitle, $optionText, $poll_type;
+        global $pollTitle, $optionText, $poll_type;
 
         $timeStamp = time();
         $pollTitle = Sanitize::fixQuotes($pollTitle);
@@ -184,7 +187,7 @@ class Pollbooth extends AdminBaseController
 
     public function poll_removePoll()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -263,7 +266,7 @@ class Pollbooth extends AdminBaseController
 
     public function poll_editPoll()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -408,7 +411,7 @@ class Pollbooth extends AdminBaseController
 
     public function poll_SendEditPoll()
     {
-        global $maxOptions, $pollTitle, $optionText, $poll_type, $pollID, $poll_close;
+        global $pollTitle, $optionText, $poll_type, $pollID, $poll_close;
 
         $result = sql_query("UPDATE " . sql_prefix('poll_desc') . " 
                             SET pollTitle='$pollTitle' 

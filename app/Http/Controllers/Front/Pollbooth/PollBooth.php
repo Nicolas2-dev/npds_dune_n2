@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Front\Pollbooth;
 
+use App\Support\Sanitize;
+use App\Support\Facades\Language;
+use Npds\Support\Facades\Request;
+use App\Support\Facades\Pollbooth as LPollbooth;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -293,19 +297,19 @@ class Pollbooth extends FrontBaseController
         if (!isset($pollID)) {
             //include 'header.php';
 
-            pollList();
+            $this->pollList();
         }
 
         settype($op, 'string');
 
         if (isset($forwarder)) {
             if (isset($voteID)) {
-                pollCollector($pollID, $voteID, $forwarder);
+                $this->pollCollector($pollID, $voteID, $forwarder);
             } else {
                 Header('Location: ' . $forwarder);
             }
         } elseif ($op == 'results') {
-            list($ibid, $pollClose) = Pollbooth::pollSecur($pollID);
+            list($ibid, $pollClose) = LPollbooth::pollSecur($pollID);
 
             if ($pollID == $ibid) {
                 //if ($header != 1) {
@@ -314,16 +318,16 @@ class Pollbooth extends FrontBaseController
 
                 echo '<h2>' . translate('Sondage') . '</h2><hr />';
 
-                pollResults($pollID);
+                $this->pollResults($pollID);
 
                 if (!$pollClose) {
                     $block_title = '<h3>' . translate('Voter') . '</h3>';
 
                     echo $block_title;
 
-                    pollboxbooth($pollID, $pollClose);
+                    $this->pollboxbooth($pollID, $pollClose);
                 } else {
-                    PollMain_aff();
+                    $this->PollMain_aff();
                 }
 
                 if ($pollcomm) {

@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers\Front\Reviews;
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Security\Hack;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -29,6 +39,45 @@ class Reviews extends FrontBaseController
 
             Header('Location: admin.php?op=' . $op_back);
             break;
+        */
+
+        /*
+        $id = isset($id) ? $id : 0;
+
+        switch ($op) {
+
+            case 'showcontent':
+                $this->showcontent($id);
+                break;
+
+            case 'write_review':
+                $this->write_review();
+                break;
+
+            case 'preview_review':
+                $this->preview_review($title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id);
+                break;
+
+            case 'add_reviews':
+                $this->send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $asb_question, $asb_reponse);
+                break;
+
+            case 'del_review':
+                $this->del_review($id_del);
+                break;
+
+            case 'mod_review':
+                $this->mod_review($id);
+                break;
+
+            case 'sort':
+                $this->reviews($field, $order);
+                break;
+
+            default:
+                $this->reviews('date', 'DESC');
+                break;
+        }
         */
 
         parent::initialize();
@@ -248,7 +297,7 @@ class Reviews extends FrontBaseController
             <strong>' . translate('Note') . '</strong>
             <span class="text-success">';
 
-            display_score($score);
+            $this->display_score($score);
 
             echo '</span>';
 
@@ -499,7 +548,7 @@ class Reviews extends FrontBaseController
                 echo '</td>
                 <td><span class="text-success">';
 
-                display_score($score);
+                $this->display_score($score);
 
                 echo '</span></td>
                     <td>' . $hits . '</td>
@@ -576,7 +625,7 @@ class Reviews extends FrontBaseController
 
         echo '<span class="text-success">';
 
-        display_score($score);
+        $this->display_score($score);
 
         echo '</span>
         </div>';
@@ -790,42 +839,3 @@ class Reviews extends FrontBaseController
     }
 
 }
-
-/*
-$id = isset($id) ? $id : 0;
-
-switch ($op) {
-
-    case 'showcontent':
-        showcontent($id);
-        break;
-
-    case 'write_review':
-        write_review();
-        break;
-
-    case 'preview_review':
-        preview_review($title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id);
-        break;
-
-    case 'add_reviews':
-        send_review($date, $title, $text, $reviewer, $email, $score, $cover, $url, $url_title, $hits, $id, $asb_question, $asb_reponse);
-        break;
-
-    case 'del_review':
-        del_review($id_del);
-        break;
-
-    case 'mod_review':
-        mod_review($id);
-        break;
-
-    case 'sort':
-        reviews($field, $order);
-        break;
-
-    default:
-        reviews('date', 'DESC');
-        break;
-}
-*/

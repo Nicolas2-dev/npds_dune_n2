@@ -3,6 +3,14 @@
 namespace App\Http\Controllers\Admin\Groupe;
 
 
+use DirectoryIterator;
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Language;
+use App\Support\Facades\Messenger;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,138 +21,138 @@ class Groupe extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'groupes';
-        $f_titre = adm_translate('Gestion des groupes');
+        //$f_meta_nom = 'groupes';
+        //$f_titre = adm_translate('Gestion des groupes');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language, $adminimg, $admf_ext;
-        $hlpfile = 'admin/manuels/' . $language . '/groupes.html';
+        //global $language, $adminimg, $admf_ext;
+        //$hlpfile = 'admin/manuels/' . $language . '/groupes.html';
 
-        settype($al, 'string');
+        //settype($al, 'string');
 
-        if ($al) {
-            if (preg_match('#^mod#', $al)) {
-                $al = explode('_', $al);
-                $mes = adm_translate('Vous ne pouvez pas exclure') . ' ' . $al[1] . ' ' . adm_translate('car il est modérateur unique de forum. Oter ses droits de modération puis retirer le du groupe.');
-            }
-        }
+        //if ($al) {
+        //    if (preg_match('#^mod#', $al)) {
+        //        $al = explode('_', $al);
+        //        $mes = adm_translate('Vous ne pouvez pas exclure') . ' ' . $al[1] . ' ' . adm_translate('car il est modérateur unique de forum. Oter ses droits de modération puis retirer le du groupe.');
+        //    }
+        //}
 
         /*
         switch ($op) {
             case 'membre_add':
-                membre_add($groupe_id);
+                $this->membre_add($groupe_id);
                 break;
 
             case 'membre_add_finish':
-                membre_add_finish($groupe_id, $luname);
+                $this->membre_add_finish($groupe_id, $luname);
                 break;
 
             case 'retiredugroupe':
-                retiredugroupe($groupe_id, $uid, $uname);
+                $this->retiredugroupe($groupe_id, $uid, $uname);
                 break;
 
             case 'retiredugroupe_all':
-                retiredugroupe_all($groupe_id, $tab_groupe);
+                $this->retiredugroupe_all($groupe_id, $tab_groupe);
                 break;
 
             case 'pad_create':
-                pad_create($groupe_id);
+                $this->pad_create($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'pad_remove':
-                pad_remove($groupe_id);
+                $this->pad_remove($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'note_create':
-                note_create($groupe_id);
+                $this->note_create($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'note_remove':
-                note_remove($groupe_id);
+                $this->note_remove($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'workspace_create':
-                workspace_create($groupe_id);
+                $this->workspace_create($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'workspace_archive':
-                workspace_archive($groupe_id);
+                $this->workspace_archive($groupe_id);
 
                 Header('Location: admin.php?op=groupes');
                 break;
 
             case 'forum_groupe_create':
-                forum_groupe_create($groupe_id, $groupe_name, $description, $moder);
+                $this->forum_groupe_create($groupe_id, $groupe_name, $description, $moder);
                 break;
 
             case 'moderateur_update':
-                moderateur_update($forum_id, $forum_moderator);
+                $this->moderateur_update($forum_id, $forum_moderator);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'forum_groupe_delete':
-                forum_groupe_delete($groupe_id);
+                $this->forum_groupe_delete($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_mns_create':
-                groupe_mns_create($groupe_id);
+                $this->groupe_mns_create($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_mns_delete':
-                groupe_mns_delete($groupe_id);
+                $this->groupe_mns_delete($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_chat_create':
-                groupe_chat_create($groupe_id);
+                $this->groupe_chat_create($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_chat_delete':
-                groupe_chat_delete($groupe_id);
+                $this->groupe_chat_delete($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_edit':
-                groupe_edit($groupe_id);
+                $this->groupe_edit($groupe_id);
                 break;
 
             case 'groupe_maj':
-                groupe_maj($sub_op);
+                $this->groupe_maj($sub_op);
                 break;
 
             case 'groupe_add':
-                groupe_edit('groupe_add');
+                $this->groupe_edit('groupe_add');
                 break;
 
             case 'bloc_groupe_create':
-                bloc_groupe_create($groupe_id);
+                $this->bloc_groupe_create($groupe_id);
 
                 Header('location: admin.php?op=groupes');
                 break;
 
             case 'groupe_member_ask':
-                groupe_member_ask();
+                $this->groupe_member_ask();
                 break;
 
             case 'groupe_add_finish':
@@ -186,7 +194,7 @@ class Groupe extends AdminBaseController
                 break;
 
             default:
-                group_liste();
+                $this->group_liste();
                 break;
         }
 
@@ -225,7 +233,7 @@ class Groupe extends AdminBaseController
 
     public function group_liste()
     {
-        global $hlpfile, $al, $mes, $f_meta_nom, $f_titre, $adminimg;
+        global $al, $mes;
 
         //include 'header.php';
 
@@ -800,7 +808,7 @@ class Groupe extends AdminBaseController
     // GROUPES
     public function groupe_edit($groupe_id)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -904,7 +912,7 @@ class Groupe extends AdminBaseController
             }
 
             if ($maj_ok) {
-                groupe_delete($groupe_id);
+                $this->groupe_delete($groupe_id);
             }
         }
 
@@ -925,11 +933,11 @@ class Groupe extends AdminBaseController
         sql_query("DELETE FROM " . sql_prefix('blocnotes') . " 
                 WHERE bnid='" . md5("WS-BN" . $groupe_id) . "'");
 
-        forum_groupe_delete($groupe_id);
+        $this->forum_groupe_delete($groupe_id);
 
-        workspace_archive($groupe_id);
+        $this->workspace_archive($groupe_id);
 
-        groupe_mns_delete($groupe_id);
+        $this->groupe_mns_delete($groupe_id);
 
         global $aid;
         Log::ecrireLog('security', sprintf('DeleteGroup(%s) by AID : %s', $groupe_id, $aid), '');

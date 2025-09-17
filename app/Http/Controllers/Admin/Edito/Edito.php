@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin\Edito;
 
 
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,16 +17,16 @@ class Edito extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'edito';
-        $f_titre = adm_translate('Edito');
+        //$f_meta_nom = 'edito';
+        //$f_titre = adm_translate('Edito');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         /*
         switch ($op) {
             case 'Edito_save':
-                edito_mod_save($edito_type, $XeditoJ, $XeditoN, $aff_jours, $aff_jour, $aff_nuit);
+                $this->edito_mod_save($edito_type, $XeditoJ, $XeditoN, $aff_jours, $aff_jour, $aff_nuit);
                 break;
 
             case 'Edito_load':
@@ -69,7 +73,7 @@ class Edito extends AdminBaseController
                     $Xibidout['aff_nuit'] = 'checked="checked"';
                 }
 
-                edito($edito_type, $Xcontents, $Xibidout['aff_jours'], $Xibidout['aff_jour'], $Xibidout['aff_nuit']);
+                $this->edito($edito_type, $Xcontents, $Xibidout['aff_jours'], $Xibidout['aff_jour'], $Xibidout['aff_nuit']);
                 break;
 
             default:
@@ -91,7 +95,7 @@ class Edito extends AdminBaseController
 
     public function edito($edito_type, $contents, $Xaff_jours, $Xaff_jour, $Xaff_nuit)
     {
-        global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $language, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -222,6 +226,7 @@ class Edito extends AdminBaseController
 
         if ($edito_type == 'G') {
             $fp = fopen("storage/static/edito.txt", "w");
+            
             fputs($fp, "[jour]" . str_replace('&quot;', '"', stripslashes($XeditoJ)) . '[/jour][nuit]' . str_replace('&quot;', '"', stripslashes($XeditoN)) . '[/nuit]');
             fputs($fp, 'aff_jours=' . $aff_jours);
             fputs($fp, '&aff_jour=' . $aff_jour);
@@ -230,6 +235,7 @@ class Edito extends AdminBaseController
             fclose($fp);
         } elseif ($edito_type == 'M') {
             $fp = fopen('storage/static/edito_membres.txt', 'w');
+
             fputs($fp, '[jour]' . str_replace('&quot;', '"', stripslashes($XeditoJ)) . '[/jour][nuit]' . str_replace('&quot;', '"', stripslashes($XeditoN)) . '[/nuit]');
             fputs($fp, 'aff_jours=' . $aff_jours);
             fputs($fp, '&aff_jour=' . $aff_jour);

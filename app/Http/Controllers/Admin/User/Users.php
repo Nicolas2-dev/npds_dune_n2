@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Admin\User;
 
 
+use App\Support\Facades\Js;
+use App\Support\Facades\Log;
+use App\Support\Facades\Date;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Password;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,24 +19,24 @@ class Users extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'mod_users';
-        $f_titre = adm_translate('Edition des Utilisateurs');
+        //$f_meta_nom = 'mod_users';
+        //$f_titre = adm_translate('Edition des Utilisateurs');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/users.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/users.html';
 
         /*
         switch ($op) {
 
             case 'extractUserCSV':
-                extractUserCSV();
+                $this->extractUserCSV();
                 break;
 
             case 'modifyUser':
-                modifyUser($chng_uid);
+                $this->modifyUser($chng_uid);
                 break;
 
             case 'updateUser':
@@ -47,15 +53,15 @@ class Users extends AdminBaseController
                     $add_group = '';
                 }
 
-                updateUser($chng_uid, $add_uname, $add_name, $add_url, $add_email, $add_femail, $add_user_from, $add_user_occ, $add_user_intrest, $add_user_viewemail, $add_avatar, $add_user_sig, $add_bio, $add_pass, $add_pass2, $add_level, $add_open_user, $add_group, $add_send_email, $add_is_visible, $add_mns, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $raz_avatar, $chng_rank, $user_lnl);
+                $this->updateUser($chng_uid, $add_uname, $add_name, $add_url, $add_email, $add_femail, $add_user_from, $add_user_occ, $add_user_intrest, $add_user_viewemail, $add_avatar, $add_user_sig, $add_bio, $add_pass, $add_pass2, $add_level, $add_open_user, $add_group, $add_send_email, $add_is_visible, $add_mns, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $M1, $M2, $T1, $T2, $B1, $raz_avatar, $chng_rank, $user_lnl);
                 break;
 
             case 'delUser':
-                global $hlpfile;
+                //global $hlpfile;
 
-                include 'header.php';
+                //include 'header.php';
 
-                GraphicAdmin($hlpfile);
+                //GraphicAdmin($hlpfile);
 
                 echo '<h3 class="text-danger mb-3">' . adm_translate('Supprimer un utilisateur') . '</h3>
                 <div class="alert alert-danger lead">' . adm_translate('Etes-vous sûr de vouloir effacer') . ' ' . adm_translate('Utilisateur') . ' <strong>' . $chng_uid . '</strong> ? <br />
@@ -68,7 +74,7 @@ class Users extends AdminBaseController
                 }
                 echo '</div>';
 
-                include 'footer.php';
+                //include 'footer.php';
                 break;
 
             case 'delUserConf':
@@ -197,12 +203,12 @@ class Users extends AdminBaseController
                 if (sql_num_rows(sql_query("SELECT uname 
                                             FROM " . sql_prefix('users') . " 
                                             WHERE uname='$add_uname'")) > 0) {
-                    global $hlpfile;
+                    //global $hlpfile;
 
-                    include 'header.php';
+                    //include 'header.php';
 
-                    GraphicAdmin($hlpfile);
-                    adminhead($f_meta_nom, $f_titre, $adminimg);
+                    //GraphicAdmin($hlpfile);
+                    //adminhead($f_meta_nom, $f_titre, $adminimg);
 
                     echo error_handler('<i class="fa fa-exclamation me-2"></i>' . adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
@@ -211,12 +217,12 @@ class Users extends AdminBaseController
                 }
 
                 if (!($add_uname && $add_email && $add_pass) or (preg_match('#[^a-zA-Z0-9_-]#', $add_uname))) {
-                    global $hlpfile;
+                    //global $hlpfile;
 
-                    include 'header.php';
+                    //include 'header.php';
 
-                    GraphicAdmin($hlpfile);
-                    adminhead($f_meta_nom, $f_titre, $adminimg);
+                    //GraphicAdmin($hlpfile);
+                    //adminhead($f_meta_nom, $f_titre, $adminimg);
 
                     echo error_handler(adm_translate('Vous devez remplir tous les Champs') . '<br />'); // ce message n'est pas très précis ..
 
@@ -224,15 +230,13 @@ class Users extends AdminBaseController
                     return;
                 }
 
-                include_once 'functions.php';
-
                 if (Forum::checkDnsMail($add_email) === false) {
-                    global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+                    //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-                    include 'header.php';
+                    //include 'header.php';
 
-                    GraphicAdmin($hlpfile);
-                    adminhead($f_meta_nom, $f_titre, $adminimg);
+                    //GraphicAdmin($hlpfile);
+                    //adminhead($f_meta_nom, $f_titre, $adminimg);
 
                     echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
@@ -282,7 +286,7 @@ class Users extends AdminBaseController
                 $result = sql_query("INSERT INTO " . sql_prefix('users_status') . " 
                                     VALUES ('$usr_id','0','$attach','$chng_rank','$add_level','1','$add_group')");
 
-                Minisites($add_mns, $add_uname);
+                $this->Minisites($add_mns, $add_uname);
 
                 global $aid;
                 Log::ecrireLog('security', sprintf('AddUser(%s, %s) by AID : %s', $add_name, $add_uname, $aid), '');
@@ -310,16 +314,16 @@ class Users extends AdminBaseController
                 break;
 
             case 'nonallowed_users':
-                nonallowedUsers();
+                $this->nonallowedUsers();
                 break;
 
             case 'checkDnsMail_users':
-                checkDnsMailusers();
+                $this->checkDnsMailusers();
                 break;
 
             case 'mod_users':
             default:
-                displayUsers();
+                $this->displayUsers();
                 break;
         }
 
@@ -344,7 +348,7 @@ class Users extends AdminBaseController
 
     public function displayUsers()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -452,7 +456,7 @@ class Users extends AdminBaseController
 
     public function modifyUser($chng_user)
     {
-        global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -487,7 +491,7 @@ class Users extends AdminBaseController
 
             include 'library/sform/extend-user/adm_extend-user.php';
         } else {
-            error_handler('Utilisateur inexistant !' . '<br />');
+            $this->error_handler('Utilisateur inexistant !' . '<br />');
         }
 
         Validation::adminFoot('', '', '', '');
@@ -576,14 +580,14 @@ class Users extends AdminBaseController
                                     WHERE uid!='$chng_uid' 
                                     AND uname='$chng_uname'")) > 0) {
 
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
             //GraphicAdmin($hlpfile);
             //adminhead($f_meta_nom, $f_titre, $adminimg);
 
-            echo error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
+            echo $this->error_handler(adm_translate('ERREUR : cet identifiant est déjà utilisé') . '<br />');
 
             Validation::adminFoot('', '', '', '');
             return;
@@ -593,14 +597,14 @@ class Users extends AdminBaseController
 
         if ($chng_pass2 != '') {
             if ($chng_pass != $chng_pass2) {
-                global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+                //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
                 //include 'header.php';
 
                 //GraphicAdmin($hlpfile);
                 //adminhead($f_meta_nom, $f_titre, $adminimg);
 
-                echo error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
+                echo $this->error_handler(adm_translate('Désolé, les nouveaux Mots de Passe ne correspondent pas. Cliquez sur retour et recommencez') . '<br />');
 
                 Validation::adminFoot('', '', '', '');
                 return;
@@ -610,14 +614,14 @@ class Users extends AdminBaseController
         }
 
         if (Forum::checkDnsMail($chng_email) === false) {
-            global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+            //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
             //include 'header.php';
 
             //GraphicAdmin($hlpfile);
             //adminhead($f_meta_nom, $f_titre, $adminimg);
 
-            echo error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
+            echo $this->error_handler(adm_translate('Erreur : DNS ou serveur de mail incorrect') . '<br />');
 
             Validation::adminFoot('', '', '', '');
             return;
@@ -630,7 +634,7 @@ class Users extends AdminBaseController
         list($tmp_mns) = sql_fetch_row($result);
 
         if ($tmp_mns == 0 and $chng_mns == 1) {
-            Minisites($chng_mns, $chng_uname);
+            $this->Minisites($chng_mns, $chng_uname);
         }
 
         if ($chng_send_email == '') {
@@ -732,7 +736,7 @@ class Users extends AdminBaseController
 
     public function nonallowedUsers()
     {
-        global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $admf_ext, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -780,7 +784,7 @@ class Users extends AdminBaseController
 
     public function checkDnsMailusers()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $adminmail, $page, $end, $autocont;
+        global $adminmail, $page, $end, $autocont;
 
         //include 'header.php';
 

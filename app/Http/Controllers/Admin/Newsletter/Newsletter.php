@@ -3,6 +3,13 @@
 namespace App\Http\Controllers\Admin\Newsletter;
 
 
+use IntlDateFormatter;
+use App\Support\Facades\Date;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Mailer;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Metalang;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,15 +20,16 @@ class Newsletter extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'lnl';
-        $f_titre = adm_translate('Petite Lettre D\'information');
+        //$f_meta_nom = 'lnl';
+        //$f_titre = adm_translate('Petite Lettre D\'information');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/lnl.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/lnl.html';
 
+        /*
         $rowH = array();
 
         $result = sql_query("SELECT ref, text, html 
@@ -59,6 +67,7 @@ class Newsletter extends AdminBaseController
         }
 
         sql_free_result($result);
+        */
 
         /*
         switch ($op) {
@@ -586,7 +595,7 @@ class Newsletter extends AdminBaseController
 
     public function Detail_Header_Footer($ibid, $type)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -689,7 +698,7 @@ class Newsletter extends AdminBaseController
 
     public function Detail_Body($ibid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -743,7 +752,7 @@ class Newsletter extends AdminBaseController
 
     public function Add_Body()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -842,7 +851,7 @@ class Newsletter extends AdminBaseController
 
     public function Add_Header_Footer($ibid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -915,7 +924,7 @@ class Newsletter extends AdminBaseController
 
     public function main()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $rowH, $rowB, $rowF;
+        global $rowH, $rowB, $rowF;
 
         //include 'header.php';
 
@@ -934,15 +943,15 @@ class Newsletter extends AdminBaseController
         </ul>
         <h4 class="my-3"><a href="admin.php?op=lnl_Add_Header" ><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Message d\'entête') . '"></i></a>' . adm_translate('Message d\'entête') . '</h4>';
 
-        ShowHeader();
+        $this->ShowHeader();
 
         echo '<h4 class="my-3"><a href="admin.php?op=lnl_Add_Body" ><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Corps de message') . '"></i></a>' . adm_translate('Corps de message') . '</h4>';
 
-        ShowBody();
+        $this->ShowBody();
 
         echo '<h4 class="my-3"><a href="admin.php?op=lnl_Add_Footer"><i class="fa fa-plus-square me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="' . adm_translate('Ajouter') . ' ' . adm_translate('Message de pied de page') . '"></i></a>' . adm_translate('Message de pied de page') . '</h4>';
 
-        ShowFooter();
+        $this->ShowFooter();
 
         echo '<hr />
         <h4>' . adm_translate('Assembler une lettre et la tester') . '</h4>
@@ -1097,7 +1106,7 @@ class Newsletter extends AdminBaseController
 
     public function Del_Question($retour, $param)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -1115,7 +1124,7 @@ class Newsletter extends AdminBaseController
 
     public function Test($Yheader, $Ybody, $Yfooter)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -1169,7 +1178,7 @@ class Newsletter extends AdminBaseController
         </div>
         <a class="btn btn-secondary my-3" href="javascript:history.go(-1)" >' . adm_translate('Retour en arrière') . '</a>';
 
-        global $adminmail;
+        //global $adminmail;
         Mailer::sendEmail($adminmail, 'LNL TEST', $message, $adminmail, true, $Xmime, '');
 
         Validation::adminFoot('', '', '', '');
@@ -1177,7 +1186,7 @@ class Newsletter extends AdminBaseController
 
     public function lnl_list()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -1254,7 +1263,7 @@ class Newsletter extends AdminBaseController
 
     public function lnl_user_list()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

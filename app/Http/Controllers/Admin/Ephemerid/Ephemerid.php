@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Ephemerid;
 
 
+use App\Support\Sanitize;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,39 +16,39 @@ class Ephemerid extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'Ephemerids';
-        $f_titre = adm_translate('Ephémérides');
+        //$f_meta_nom = 'Ephemerids';
+        //$f_titre = adm_translate('Ephémérides');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/ephem.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/ephem.html';
 
         /*
         switch ($op) {
             case 'Ephemeridsedit':
-                Ephemeridsedit($eid, $did, $mid);
+                $this->Ephemeridsedit($eid, $did, $mid);
                 break;
 
             case 'Ephemeridschange':
-                Ephemeridschange($eid, $did, $mid, $yid, $content);
+                $this->Ephemeridschange($eid, $did, $mid, $yid, $content);
                 break;
 
             case 'Ephemeridsdel':
-                Ephemeridsdel($eid, $did, $mid);
+                $this->Ephemeridsdel($eid, $did, $mid);
                 break;
 
             case 'Ephemeridsmaintenance':
-                Ephemeridsmaintenance($did, $mid);
+                $this->Ephemeridsmaintenance($did, $mid);
                 break;
 
             case 'Ephemeridsadd':
-                Ephemeridsadd($did, $mid, $yid, $content);
+                $this->Ephemeridsadd($did, $mid, $yid, $content);
                 break;
 
             case 'Ephemerids':
-                Ephemerids();
+                $this->Ephemerids();
                 break;
         }
 
@@ -66,12 +69,12 @@ class Ephemerid extends AdminBaseController
 
     public function Ephemerids()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
-        include 'header.php';
+        //include 'header.php';
 
-        GraphicAdmin($hlpfile);
-        adminhead($f_meta_nom, $f_titre, $adminimg);
+        //GraphicAdmin($hlpfile);
+        //adminhead($f_meta_nom, $f_titre, $adminimg);
 
         $nday = '1';
 
@@ -178,7 +181,7 @@ class Ephemerid extends AdminBaseController
 
     public function Ephemeridsmaintenance($did, $mid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         $resultX = sql_query("SELECT eid, did, mid, yid, content 
                             FROM " . sql_prefix('ephem') . " 
@@ -231,7 +234,7 @@ class Ephemerid extends AdminBaseController
 
     public function Ephemeridsedit($eid, $did, $mid)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

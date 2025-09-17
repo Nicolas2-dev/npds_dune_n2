@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use IntlDateFormatter;
+use App\Support\Error\Error;
+use App\Support\Facades\Css;
+use App\Support\Facades\Date;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Smilies;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

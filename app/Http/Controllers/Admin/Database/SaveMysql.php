@@ -16,11 +16,11 @@ class SaveMysql extends AdminBaseController
         $f_meta_nom = 'SavemySQL';
 
         //==> controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        $name = $aid;
+        //$name = $aid;
 
-        mysqli_set_charset($dblink, 'utf8mb4');
+        //mysqli_set_charset($dblink, 'utf8mb4');
 
         /*
         switch ($op) {

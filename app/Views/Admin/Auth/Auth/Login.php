@@ -31,4 +31,6 @@
         //]]>
     </script>
 
-    <?= $validation; ?>
+    <?php if (isset($validation)): ?>
+        <?= $validation; ?>
+    <?php endif; ?>

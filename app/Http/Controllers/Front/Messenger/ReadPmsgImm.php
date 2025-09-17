@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers\Front\Messenger;
 
+use App\Support\Error\Error;
+use App\Support\Facades\Css;
+use App\Support\Facades\User;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Smilies;
+use App\Support\Facades\Language;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -115,7 +125,7 @@ class ReadPmsgImm extends FrontBaseController
 
                     echo '<div class="card mb-3">
                     <div class="card-body">
-                        <div>' . userpopover($posterdata['uname'], 40, 2) . ' <span class="float-end small">' . translate('Envoyé') . ' : ' . $myrow['msg_time'] . '</span>';
+                        <div>' . User::userPopover($posterdata['uname'], 40, 2) . ' <span class="float-end small">' . translate('Envoyé') . ' : ' . $myrow['msg_time'] . '</span>';
 
                     echo '</div>
                     <h3>' . translate('Message personnel') . ' ' . translate('de');
@@ -160,7 +170,7 @@ class ReadPmsgImm extends FrontBaseController
 
                     if ($allow_bbcode) {
                         $message = Smilies::smilie($message);
-                        $message = MediaPlayer::affVideoYt($message);
+                        $message = Media::affVideoYt($message);
                     }
 
                     $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', Language::affLangue($message)); // ne sert à rien ici ????

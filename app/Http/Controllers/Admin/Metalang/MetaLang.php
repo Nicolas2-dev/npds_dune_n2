@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Metalang;
 
 
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,40 +15,40 @@ class Metalang extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'MetaLangAdmin';
-        $f_titre = 'META-LANG';
+        //$f_meta_nom = 'MetaLangAdmin';
+        //$f_titre = 'META-LANG';
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/meta_lang.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/meta_lang.html';
 
         /*
         switch ($op) {
 
             case 'List_Meta_Lang':
-                List_metaLang();
+                $this->List_metaLang();
                 break;
 
             case 'Creat_Meta_Lang':
-                Creat_metaLang();
+                $this->Creat_metaLang();
                 break;
 
             case 'Edit_Meta_Lang':
-                Edit_metaLang();
+                $this->Edit_metaLang();
                 break;
 
             case 'Kill_Meta_Lang':
-                kill_metaLang($nbr, $action);
+                $this->kill_metaLang($nbr, $action);
                 break;
 
             case 'Valid_Meta_Lang':
-                Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc);
+                $this->Maj_Bdd_ML($Maj_Bdd_ML, $def, $content, $type_meta, $type_uri, $uri, $desc);
                 break;
 
             default:
-                List_metaLang();
+                $this->List_metaLang();
                 break;
         }
 
@@ -163,7 +165,7 @@ class Metalang extends AdminBaseController
 
     public function List_metaLang()
     {
-        global $hlpfile, $meta, $type_meta, $f_meta_nom, $f_titre, $adminimg;
+        global $meta, $type_meta;
 
         if (!empty($meta)) {
             $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire 
@@ -228,8 +230,8 @@ class Metalang extends AdminBaseController
             <hr />
             <h3>' . adm_translate('Recherche rapide') . '</h3>
             <div class="row">
-                <div class="col-sm-3">' . list_meta($meta, $type_meta) . '</div>
-                <div class="col-sm-3">' . list_type_meta($type_meta) . '</div>
+                <div class="col-sm-3">' . $this->list_meta($meta, $type_meta) . '</div>
+                <div class="col-sm-3">' . $this->list_type_meta($type_meta) . '</div>
             </div>
             <hr />
             <h3>META-MOT <span class="tag tag-default float-end">' . $ibid . '</span></h3>
@@ -262,7 +264,7 @@ class Metalang extends AdminBaseController
 
     public function Edit_metaLang()
     {
-        global $hlpfile, $ml, $local_user_language, $language, $f_meta_nom, $f_titre, $adminimg;
+        global $ml, $local_user_language;
 
         $Q = sql_query("SELECT def, content, type_meta, type_uri, uri, description, obligatoire 
                         FROM " . sql_prefix('metalang') . " 
@@ -401,7 +403,7 @@ class Metalang extends AdminBaseController
 
             Validation::adminFoot('fv', '', $arg1, '');
         } else {
-            go_back('');
+            $this->go_back('');
 
             Validation::adminFoot('', '', '', '');
         }
@@ -409,7 +411,7 @@ class Metalang extends AdminBaseController
 
     public function Creat_metaLang()
     {
-        global $hlpfile, $type_meta, $f_meta_nom, $f_titre, $adminimg;
+        global $type_meta;
 
         //include 'header.php';
 
@@ -425,7 +427,7 @@ class Metalang extends AdminBaseController
             echo adm_translate('Veuillez choisir un type de META-MOT') . ' ';
         }
 
-        echo list_meta_type($type_meta);
+        echo $this->list_meta_type($type_meta);
 
         if ($type_meta) {
             echo '<div class="mb-3 row">
@@ -526,7 +528,7 @@ class Metalang extends AdminBaseController
 
     public function meta_exist($def)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -538,7 +540,7 @@ class Metalang extends AdminBaseController
             <strong>' . $def . '</strong>
             <br />' . adm_translate('Ce META-MOT existe déjà') . '<br />' . adm_translate('Veuillez nommer différement ce nouveau META-MOT') . '<br /><br />';
 
-        echo go_back('');
+        echo $this->go_back('');
 
         echo '</div>';
 
@@ -564,7 +566,7 @@ class Metalang extends AdminBaseController
             sql_free_result($Q);
 
             if ($Q['def']) {
-                meta_exist($Q['def']);
+                $this->meta_exist($Q['def']);
             } else {
                 if ($type_meta == 'smil') {
                     $content = "\$cmd=Metalang::Metalang::MM_img(\"$content\");";

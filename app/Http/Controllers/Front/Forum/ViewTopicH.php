@@ -2,6 +2,19 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use IntlDateFormatter;
+use App\Support\Error\Error;
+use App\Support\Facades\Url;
+use App\Support\Facades\Auth;
+use App\Support\Facades\Date;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Smilies;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -357,7 +370,7 @@ class ViewTopicH extends FrontBaseController
 
                 if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
                     $message = Smilies::smilie($message);
-                    $message = MediaPlayer::affVideoYt($message);
+                    $message = Media::affVideoYt($message);
                 }
 
                 if (($forum_type == '6') or ($forum_type == '5')) {

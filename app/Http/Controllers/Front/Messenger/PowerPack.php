@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front\Messenger;
 
+use App\Support\Sanitize;
+use App\Support\Facades\Messenger;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

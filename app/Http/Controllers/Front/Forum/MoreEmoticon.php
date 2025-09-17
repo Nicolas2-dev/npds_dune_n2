@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use App\Support\Facades\Css;
+use App\Support\Facades\Smilies;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

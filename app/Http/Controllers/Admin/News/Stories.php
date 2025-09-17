@@ -3,6 +3,20 @@
 namespace App\Http\Controllers\Admin\News;
 
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Date;
+use App\Support\Facades\News;
+use App\Support\Facades\User;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
+use App\Support\Facades\Subscribe;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,12 +27,12 @@ class Stories extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'adminStory';
+        //$f_meta_nom = 'adminStory';
 
         //include 'publication.php';
 
         //==> controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
         /*
         settype($catid, 'integer');
@@ -26,39 +40,39 @@ class Stories extends AdminBaseController
         switch ($op) {
 
             case 'EditCategory':
-                EditCategory($catid);
+                $this->EditCategory($catid);
                 break;
 
             case 'DelCategory':
-                DelCategory($cat);
+                $this->DelCategory($cat);
                 break;
 
             case 'YesDelCategory':
-                YesDelCategory($catid);
+                $this->YesDelCategory($catid);
                 break;
 
             case 'NoMoveCategory':
-                NoMoveCategory($catid, $newcat);
+                $this->NoMoveCategory($catid, $newcat);
                 break;
 
             case 'SaveEditCategory':
-                SaveEditCategory($catid, $title);
+                $this->SaveEditCategory($catid, $title);
                 break;
 
             case 'AddCategory':
-                AddCategory();
+                $this->AddCategory();
                 break;
 
             case 'SaveCategory':
-                SaveCategory($title);
+                $this->SaveCategory($title);
                 break;
 
             case 'DisplayStory':
-                displayStory($qid);
+                $this->displayStory($qid);
                 break;
 
             case 'PreviewAgain':
-                previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+                $this->previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
                 break;
 
             case 'PostStory':
@@ -84,20 +98,20 @@ class Stories extends AdminBaseController
                 $temp = time();
 
                 if ($temp > $temp_new) {
-                    postStory('pub_immediate', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
+                    $this->postStory('pub_immediate', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
                 } else {
-                    postStory('pub_automated', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
+                    $this->postStory('pub_automated', $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $date_debval, $date_finval, $epur);
                 }
                 break;
 
             case 'DeleteStory':
-                deleteStory($qid);
+                $this->deleteStory($qid);
 
                 Header('Location: admin.php?op=submissions');
                 break;
 
             case 'EditStory':
-                editStory($sid);
+                $this->editStory($sid);
                 break;
 
             case 'ChangeStory':
@@ -110,20 +124,20 @@ class Stories extends AdminBaseController
 
                 $date_finval = "$fd_pub $fh_pub:00";
 
-                changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme, $dd_pub, $fd_pub, $dh_pub, $fh_pub);
+                $this->changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $Cdate, $Csid, $date_finval, $epur, $theme, $dd_pub, $fd_pub, $dh_pub, $fh_pub);
                 break;
 
             case 'RemoveStory':
                 settype($ok, 'string');
-                removeStory($sid, $ok);
+                $this->removeStory($sid, $ok);
                 break;
 
             case 'adminStory':
-                adminStory();
+                $this->adminStory();
                 break;
 
             case 'PreviewAdminStory':
-                previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+                $this->previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
                 break;
         }
 
@@ -275,10 +289,8 @@ class Stories extends AdminBaseController
     // CATEGORIES
     public function AddCategory()
     {
-        global $aid, $adminimg;
-
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -314,10 +326,8 @@ class Stories extends AdminBaseController
 
     public function SaveCategory($title)
     {
-        global $aid, $f_meta_nom, $adminimg;
-
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -351,10 +361,8 @@ class Stories extends AdminBaseController
 
     public function EditCategory($catid)
     {
-        global $aid, $adminimg;
-
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -428,9 +436,10 @@ class Stories extends AdminBaseController
 
     public function SaveEditCategory($catid, $title)
     {
-        global $aid, $f_meta_nom, $adminimg;
+        global $aid;
 
-        $f_titre = adm_translate('Articles');
+        //$f_titre = adm_translate('Articles');
+
         $title = preg_replace('#"#', '', $title);
 
         $check = sql_num_rows(sql_query("SELECT catid 
@@ -463,10 +472,10 @@ class Stories extends AdminBaseController
 
     public function DelCategory($cat)
     {
-        global $hlpfile, $language, $aid, $radminsuper, $adminimg;
+        global $aid;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -571,10 +580,10 @@ class Stories extends AdminBaseController
 
     public function NoMoveCategory($catid, $newcat)
     {
-        global $f_meta_nom, $f_titre, $adminimg, $aid;
+        global $aid;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -647,12 +656,12 @@ class Stories extends AdminBaseController
     // NEWS
     public function displayStory($qid)
     {
-        global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+        global $tipath, $aid, $radminsuper;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
-        $hlpfile = 'manuels/' . $language . '/newarticle.html';
+        //$hlpfile = 'manuels/' . $language . '/newarticle.html';
 
         $result = sql_query("SELECT qid, uid, uname, subject, story, bodytext, topic, date_debval,date_finval,auto_epur 
                             FROM " . sql_prefix('queue') . " 
@@ -719,11 +728,11 @@ class Stories extends AdminBaseController
             }
         }
 
-        code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . Metalang::metaLang($story) . '</div>', Metalang::metaLang($bodytext), "");
+        $this->code_aff('<h4>' . $subject . $topiclogo . '</h4>', '<div class="text-body-secondary">' . Metalang::metaLang($story) . '</div>', Metalang::metaLang($bodytext), "");
 
         echo '</div>
             <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label" for="author">' . userpopover($uname, 40, '') . adm_translate('Utilisateur') . '</label>
+                <label class="col-sm-4 col-form-label" for="author">' . User::userPopover($uname, 40, '') . adm_translate('Utilisateur') . '</label>
                 <div class="col-sm-8">
                     <input class="form-control" type="text" id="author" name="author" value="' . $uname . '" />
                     <a href="replypmsg.php?send=' . urlencode($uname) . '" target="_blank" title="' . adm_translate('Diffusion d\'un Message Interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-lg"></i></a>
@@ -780,11 +789,11 @@ class Stories extends AdminBaseController
 
         settype($cat, 'string');
 
-        SelectCategory($cat);
+        $this->SelectCategory($cat);
 
         settype($ihome, 'integer');
 
-        puthome($ihome);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -818,7 +827,7 @@ class Stories extends AdminBaseController
         $dh_pub = substr($date_debval, 11, 5);
         $fh_pub = substr($date_finval, 11, 5);
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo '<input type="hidden" name="qid" value="' . $qid . '" />
             <input type="hidden" name="uid" value="' . $uid . '" />
@@ -839,12 +848,12 @@ class Stories extends AdminBaseController
 
     public function previewStory($qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
     {
-        global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+        global $tipath, $aid, $radminsuper;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Articles');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Articles');
 
-        $hlpfile = 'manuels/' . $language . '/newarticle.html';
+        //$hlpfile = 'manuels/' . $language . '/newarticle.html';
 
         $subject = stripslashes(str_replace('"', '&quot;', $subject));
         $hometext = stripslashes(data_image_to_file_url($hometext, 'cache/ai'));
@@ -905,7 +914,7 @@ class Stories extends AdminBaseController
             }
         }
 
-        code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . Metalang::metaLang($hometext) . '</div>', Metalang::metaLang($bodytext), Metalang::metaLang($notes));
+        $this->code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . Metalang::metaLang($hometext) . '</div>', Metalang::metaLang($bodytext), Metalang::metaLang($notes));
 
         echo '</div>
             <div class="mb-3 row">
@@ -963,7 +972,7 @@ class Stories extends AdminBaseController
                 </div>
             </div>';
 
-        SelectCategory($catid);
+        $this->SelectCategory($catid);
 
         if (($members == 1) and ($Mmembers == '')) {
             $ihome = '-127';
@@ -973,7 +982,7 @@ class Stories extends AdminBaseController
             $ihome = $Mmembers;
         }
 
-        puthome($ihome);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
             <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -1002,7 +1011,7 @@ class Stories extends AdminBaseController
 
         echo Editeur::affEditeur('notes', '');
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo '<input type="hidden" name="qid" value="' . $qid . '" />
             <input type="hidden" name="uid" value="' . $uid . '" />
@@ -1086,7 +1095,7 @@ class Stories extends AdminBaseController
             News::ultramode();
         }
 
-        deleteStory($qid);
+        $this->deleteStory($qid);
 
         if ($type_pub == 'pub_immediate') {
 
@@ -1121,10 +1130,10 @@ class Stories extends AdminBaseController
 
     public function editStory($sid)
     {
-        global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg;
+        global $tipath, $aid, $radminsuper;
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Editer un Article');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Editer un Article');
 
         // controle droit
         //admindroits($aid, $f_meta_nom);
@@ -1133,7 +1142,7 @@ class Stories extends AdminBaseController
             header('location: admin.php');
         }
 
-        $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
+        //$hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
         $result = sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, date_finval,auto_epur 
                             FROM " . sql_prefix('stories') . " 
@@ -1203,7 +1212,7 @@ class Stories extends AdminBaseController
 
         echo '<div id="art_preview" class="card card-body mb-3">';
 
-        echo code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
+        echo $this->code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, $notes);
 
         echo '</div>';
 
@@ -1254,9 +1263,9 @@ class Stories extends AdminBaseController
                 </div>
             </div>';
 
-        SelectCategory($catid);
+        $this->SelectCategory($catid);
 
-        puthome($ihome);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
                 <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -1313,7 +1322,7 @@ class Stories extends AdminBaseController
             $fh_pub = '00:00';
         }
 
-        publication(-1, $fd_pub, -1, $fh_pub, $epur);
+        $this->publication(-1, $fd_pub, -1, $fh_pub, $epur);
 
         global $theme;
 
@@ -1449,8 +1458,8 @@ class Stories extends AdminBaseController
 
             Header('Location: admin.php');
         } else {
-            global $hlpfile, $language;
-            $hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
+            //global $hlpfile, $language;
+            //$hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
             //include 'header.php';
 
@@ -1550,7 +1559,7 @@ class Stories extends AdminBaseController
 
     public function adminStory()
     {
-        global $hlpfile, $language, $aid, $radminsuper, $adminimg;
+        global $aid, $radminsuper;
 
         //$f_meta_nom = 'adminStory';
         //$f_titre = adm_translate('Nouvel Article');
@@ -1631,9 +1640,9 @@ class Stories extends AdminBaseController
 
         $cat = 0;
 
-        SelectCategory($cat);
+        $this->SelectCategory($cat);
 
-        puthome($ihome);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
                 <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -1653,7 +1662,7 @@ class Stories extends AdminBaseController
 
         echo Editeur::affEditeur('bodytext', '');
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo '<input type="hidden" name="author" value="' . $aid . '" />
             <input type="hidden" name="op" value="PreviewAdminStory" />
@@ -1688,7 +1697,7 @@ class Stories extends AdminBaseController
 
     public function previewAdminStory($subject, $hometext, $bodytext, $topic, $catid, $ihome, $members, $Mmembers, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur)
     {
-        global $tipath, $hlpfile, $language, $aid, $radminsuper, $adminimg, $topicimage;
+        global $tipath, $aid, $radminsuper, $topicimage;
 
         //$hlpfile = 'admin/manuels/' . $language . '/newarticle.html';
 
@@ -1726,8 +1735,8 @@ class Stories extends AdminBaseController
             header('location: admin.php');
         }
 
-        $f_meta_nom = 'adminStory';
-        $f_titre = adm_translate('Nouvel Article');
+        //$f_meta_nom = 'adminStory';
+        //$f_titre = adm_translate('Nouvel Article');
 
         // controle droit
         // admindroits($aid,$f_meta_nom); // à voir l'intégration avec les droits sur les topics ...
@@ -1739,7 +1748,7 @@ class Stories extends AdminBaseController
         //GraphicAdmin($hlpfile);
         //adminhead($f_meta_nom, $f_titre, $adminimg);
 
-        global $local_user_language;
+        //global $local_user_language;
 
         echo '
         <hr />
@@ -1761,7 +1770,7 @@ class Stories extends AdminBaseController
             }
         }
 
-        code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, '');
+        $this->code_aff('<h3>' . $subject . $topiclogo . '</h3>', '<div class="text-body-secondary">' . $hometext . '</div>', $bodytext, '');
 
         echo '</div>
                 <div class="mb-3 row">
@@ -1816,7 +1825,7 @@ class Stories extends AdminBaseController
 
         $cat = $catid;
 
-        SelectCategory($catid);
+        $this->SelectCategory($catid);
 
         if (($members == 1) and ($Mmembers == '')) {
             $ihome = '-127';
@@ -1826,7 +1835,7 @@ class Stories extends AdminBaseController
             $ihome = $Mmembers;
         }
 
-        puthome($ihome);
+        $this->puthome($ihome);
 
         echo '<div class="mb-3 row">
                     <label class="col-form-label col-12" for="hometext">' . adm_translate('Texte d\'introduction') . '</label>
@@ -1846,7 +1855,7 @@ class Stories extends AdminBaseController
 
         echo Editeur::affEditeur('bodytext', '');
 
-        publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+        $this->publication($dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
 
         echo '<div class="mb-3 row">
                 <input type="hidden" name="author" value="' . $aid . '" />

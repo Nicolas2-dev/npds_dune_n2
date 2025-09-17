@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Cache;
 
 
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +14,14 @@ class Overload extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'supercache';
-        $f_titre = adm_translate('SuperCache');
+        //$f_meta_nom = 'supercache';
+        //$f_titre = adm_translate('SuperCache');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/overload.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/overload.html';
 
         /*
         switch ($op) {
@@ -35,6 +36,7 @@ class Overload extends AdminBaseController
 
             case 'supercache_empty':
                 sc_clean();
+                
                 global $aid;
                 Log::ecrireLog('security', sprintf('EmptySuperCache() by AID : %s', $aid), '');
 
@@ -59,7 +61,7 @@ class Overload extends AdminBaseController
 
     public function main()
     {
-        global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $radminsuper, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 

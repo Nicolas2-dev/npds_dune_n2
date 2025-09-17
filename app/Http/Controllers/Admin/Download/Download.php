@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Admin\Download;
 
 
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
+use App\Library\FileManagement\FileManagement;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +18,14 @@ class Download extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'DownloadAdmin';
-        $f_titre = adm_translate('Téléchargements');
+        //$f_meta_nom = 'DownloadAdmin';
+        //$f_titre = adm_translate('Téléchargements');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/downloads.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/downloads.html';
 
         /*
         // DOWNLOADS
@@ -125,7 +130,7 @@ class Download extends AdminBaseController
                 <label class="col-form-label col-sm-12" for="mpri">' . adm_translate('Groupes') . '</label>
                 <div class="col-sm-12">';
 
-            echo groupe($member) . '
+            echo $this->groupe($member) . '
                 </div>
             </div>';
         } else {
@@ -143,7 +148,7 @@ class Download extends AdminBaseController
                 <label class="col-form-label col-sm-12" for="mpri">' . adm_translate('Groupes') . '</label>
                 <div class="col-sm-12">';
 
-            echo groupe($member) . '
+            echo $this->groupe($member) . '
                 </div>
             </div>';
         }
@@ -151,7 +156,7 @@ class Download extends AdminBaseController
 
     public function DownloadAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -333,7 +338,7 @@ class Download extends AdminBaseController
             <fieldset>
                 <legend>' . adm_translate('Droits') . '</legend>';
 
-        droits(0);
+        $this->droits(0);
 
         echo '</fieldset>
             <input type="hidden" name="op" value="DownloadAdd" />
@@ -358,7 +363,7 @@ class Download extends AdminBaseController
 
     public function DownloadEdit($did)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -453,7 +458,7 @@ class Download extends AdminBaseController
         echo '<fieldset>
                 <legend>' . adm_translate('Droits') . '</legend>';
 
-        droits($privs);
+        $this->droits($privs);
 
         echo '</fieldset>
             <div class="mb-3 row">
@@ -542,7 +547,7 @@ class Download extends AdminBaseController
 
             Header('Location: admin.php?op=DownloadAdmin');
         } else {
-            global $hlpfile, $f_titre, $adminimg;
+            //global $hlpfile, $f_titre, $adminimg;
 
             //include 'header.php';
 

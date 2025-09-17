@@ -3,6 +3,14 @@
 namespace App\Http\Controllers\Admin\Forum;
 
 
+use IntlDateFormatter;
+use App\Support\Sanitize;
+use App\Support\Facades\Js;
+use App\Support\Error\Error;
+use App\Support\Facades\Date;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,61 +21,61 @@ class ForumMaint extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'MaintForumAdmin';
-        $f_titre = adm_translate('Maintenance des Forums');
+        //$f_meta_nom = 'MaintForumAdmin';
+        //$f_titre = adm_translate('Maintenance des Forums');
 
         // controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language, $adminimg, $admf_ext;
-        $hlpfile = 'admin/manuels/' . $language . '/forummaint.html';
+        //global $language, $adminimg, $admf_ext;
+        //$hlpfile = 'admin/manuels/' . $language . '/forummaint.html';
 
-        include 'auth.php';
+        //include 'auth.php';
 
         /*
         case 'MaintForumAdmin':
             include 'admin/phpbbmaint.php';
-            ForumMaintAdmin();
+            $this->ForumMaintAdmin();
             break;
 
         case 'MaintForumMarkTopics':
             include 'admin/phpbbmaint.php';
-            ForumMaintMarkTopics();
+            $this->ForumMaintMarkTopics();
             break;
 
         case 'MaintForumTopics':
             include 'admin/phpbbmaint.php';
-            ForumMaintTopics($before, $forum_name);
+            $this->ForumMaintTopics($before, $forum_name);
             break;
 
         case 'MaintForumTopicDetail':
             include 'admin/phpbbmaint.php';
-            ForumMaintTopicDetail($topic, $topic_title);
+            $this->ForumMaintTopicDetail($topic, $topic_title);
             break;
 
         case 'SynchroForum':
             include 'admin/phpbbmaint.php';
-            SynchroForum();
+            $this->SynchroForum();
             break;
 
         case 'ForumMaintTopicSup':
             include 'admin/phpbbmaint.php';
-            ForumMaintTopicSup($topic);
+            $this->ForumMaintTopicSup($topic);
             break;
 
         case 'ForumMaintTopicMassiveSup':
             include 'admin/phpbbmaint.php';
-            ForumMaintTopicMassiveSup($topics);
+            $this->ForumMaintTopicMassiveSup($topics);
             break;
 
         case 'MergeForum':
             include 'admin/phpbbmaint.php';
-            MergeForum();
+            $this->MergeForum();
             break;
 
         case 'MergeForumAction':
             include 'admin/phpbbmaint.php';
-            MergeForumAction($oriforum, $destforum);
+            $this->MergeForumAction($oriforum, $destforum);
             break;
         */
 
@@ -76,7 +84,7 @@ class ForumMaint extends AdminBaseController
 
     public function ForumMaintMarkTopics()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -102,7 +110,8 @@ class ForumMaint extends AdminBaseController
                                 FROM " . sql_prefix('forums') . " 
                                 ORDER BY forum_id ASC");
 
-            $time_actu = time() + ((int) $gmt * 3600);
+            //$time_actu = time() + ((int) $gmt * 3600);
+            $time_actu = time();
 
             while (list($forum_id) = sql_fetch_row($resultF)) {
                 echo '<tr>
@@ -150,7 +159,7 @@ class ForumMaint extends AdminBaseController
 
     public function ForumMaintTopics($before, $forum_name)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $parse;
+        global $parse;
 
         //include 'header.php';
 
@@ -216,7 +225,7 @@ class ForumMaint extends AdminBaseController
 
     public function ForumMaintTopicDetail($topic, $topic_title)
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -371,7 +380,7 @@ class ForumMaint extends AdminBaseController
 
     public function MergeForum()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg;
 
         //include 'header.php';
 
@@ -482,7 +491,7 @@ class ForumMaint extends AdminBaseController
 
     public function ForumMaintAdmin()
     {
-        global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
+        //global $hlpfile, $f_meta_nom, $f_titre, $adminimg, $language;
 
         //include 'header.php';
 

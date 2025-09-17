@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use App\Support\Error\Error;
+use App\Support\Facades\User;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Paginator;
+use App\Support\Facades\Validation;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -444,7 +454,7 @@ class ViewForum extends FrontBaseController
                                                 WHERE uid='" . $myrow['topic_poster'] . "'", 3600);
 
                                 if ($rowQ1) {
-                                    echo '<td>' . userpopover($rowQ1[0]['uname'], 40, 2) . $rowQ1[0]['uname'] . '</td>';
+                                    echo '<td>' . User::userPopover($rowQ1[0]['uname'], 40, 2) . $rowQ1[0]['uname'] . '</td>';
                                 } else
                                     echo '<td>' . $anonymous . '</td>';
                             }

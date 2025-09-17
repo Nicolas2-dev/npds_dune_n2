@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Banners;
 
 
+use App\Support\Facades\Language;
+use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
 
 
@@ -13,14 +15,14 @@ class Banners extends AdminBaseController
      */
     protected function initialize()
     {
-        $f_meta_nom = 'BannersAdmin';
-        $f_titre = adm_translate('Administration des bannières');
+        //$f_meta_nom = 'BannersAdmin';
+        //$f_titre = adm_translate('Administration des bannières');
 
         //==> controle droit
-        admindroits($aid, $f_meta_nom);
+        //admindroits($aid, $f_meta_nom);
 
-        global $language;
-        $hlpfile = 'admin/manuels/' . $language . '/banners.html';
+        //global $language;
+        //$hlpfile = 'admin/manuels/' . $language . '/banners.html';
 
         /*
         switch ($op) {

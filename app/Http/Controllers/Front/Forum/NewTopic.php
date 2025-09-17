@@ -2,6 +2,18 @@
 
 namespace App\Http\Controllers\Front\Forum;
 
+use App\Support\Error\Error;
+use App\Support\Facades\Log;
+use App\Support\Facades\Url;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Theme;
+use App\Support\Security\Hack;
+use App\Support\Facades\Smilies;
+use Npds\Support\Facades\Request;
+use App\Support\Facades\Subscribe;
+use App\Library\Cache\SuperCacheEmpty;
+use App\Library\Cache\SuperCacheManager;
 use App\Http\Controllers\Core\FrontBaseController;
 
 

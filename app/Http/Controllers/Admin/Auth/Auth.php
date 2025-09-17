@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 
+use Npds\Config\Config;
+use App\Support\Facades\Access;
 use App\Support\Facades\Password;
 use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\AdminBaseController;
@@ -72,7 +74,6 @@ class Auth extends AdminBaseController
                     // compatible avec PHP 7.x, 8.0, 8.2 et 8.4+
                     $pwd = mb_convert_encoding($pwd, 'ISO-8859-1', 'UTF-8');
 
-
                     $scryptPass = null;
 
                     if (password_verify($pwd, $dbpass) or (strcmp($dbpass, $pwd) == 0)) {
@@ -111,16 +112,12 @@ class Auth extends AdminBaseController
                     } elseif (password_verify($dbpass, $scryptPass) or strcmp($dbpass, $pwd) == 0) {
                         $CryptpPWD = $pwd;
                     } else {
-                        Admin_Alert(sprintf('Passwd not in DB#1 : ', $aid));
+                        Access::AdminAlert(sprintf('Passwd not in DB#1 : ', $aid));
                     }
 
                     $admin = base64_encode("$aid:" . md5($CryptpPWD));
 
-                    if ($admin_cook_duration <= 0) {
-                        $admin_cook_duration = 1;
-                    }
-
-                    $timeX = time() + (3600 * $admin_cook_duration);
+                    $timeX = time() + (3600 * Config::get('cookie.admin_cook_duration', 1));
 
                     setcookie('admin', $admin, $timeX);
                     setcookie('adm_exp', $timeX, $timeX);

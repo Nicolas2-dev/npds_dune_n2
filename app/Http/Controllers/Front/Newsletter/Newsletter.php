@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Front\Newsletter;
 
+use App\Support\Facades\Url;
+use App\Support\Facades\Spam;
+use App\Support\Facades\Forum;
+use App\Support\Facades\Mailer;
+use Npds\Support\Facades\Request;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -15,6 +20,29 @@ class Newsletter extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        switch ($op) {
+
+            case 'subscribe':
+                subscribe($email);
+                break;
+
+            case 'subscribeOK':
+                //anti_spambot
+                if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
+                    Log::ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
+                    Url::redirectUrl('index.php');
+                    die();
+                }
+                subscribe_ok($email);
+                break;
+
+            case 'unsubscribe':
+                unsubscribe($email);
+                break;
+        }
+        */
+
         parent::initialize();
     }
 
@@ -99,7 +127,7 @@ class Newsletter extends FrontBaseController
         //include 'header.php';
 
         if ($xemail != '') {
-            SuserCheck($xemail);
+            $this->SuserCheck($xemail);
 
             if ($stop == '') {
                 $host_name = Request::getip();
@@ -132,13 +160,13 @@ class Newsletter extends FrontBaseController
                     <a href="index.php">' . translate('Retour en arrière') . '</a>';
                 } else {
                     $stop = translate('Compte ou adresse IP désactivée. Cet émetteur a participé plus de x fois dans les dernières heures, merci de contacter le webmaster pour déblocage.') . '<br />';
-                    error_handler($stop);
+                    $this->error_handler($stop);
                 }
             } else {
-                error_handler($stop);
+                $this->error_handler($stop);
             }
         } else {
-            error_handler(translate('Cette donnée ne doit pas être vide.') . '<br />');
+            $this->error_handler(translate('Cette donnée ne doit pas être vide.') . '<br />');
         }
 
         //include 'footer.php';
@@ -182,7 +210,7 @@ class Newsletter extends FrontBaseController
                     //include 'header.php';
 
                     $stop = translate('Compte ou adresse IP désactivée. Cet émetteur a participé plus de x fois dans les dernières heures, merci de contacter le webmaster pour déblocage.') . "<br />";
-                    error_handler($stop);
+                    $this->error_handler($stop);
 
                     //include 'footer.php';
                 }
@@ -195,26 +223,3 @@ class Newsletter extends FrontBaseController
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'subscribe':
-        subscribe($email);
-        break;
-
-    case 'subscribeOK':
-        //anti_spambot
-        if (!Spam::reponseSpambot($asb_question, $asb_reponse, '')) {
-            Log::ecrireLog('security', 'LNL Anti-Spam : email=' . $email, '');
-            Url::redirectUrl('index.php');
-            die();
-        }
-        subscribe_ok($email);
-        break;
-
-    case 'unsubscribe':
-        unsubscribe($email);
-        break;
-}
-*/

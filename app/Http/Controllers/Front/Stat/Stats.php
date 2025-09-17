@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front\Stat;
 
+use App\Support\Sanitize;
+use App\Support\Facades\Theme;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -39,15 +41,15 @@ class Stat extends FrontBaseController
                 $total = $count;
             } elseif ($type == 'browser') {
                 if ($var == 'Other') {
-                    $b_other = generatePourcentageAndTotal($count, $total);
+                    $b_other = $this->generatePourcentageAndTotal($count, $total);
                 } else {
-                    ${strtolower($var)} = generatePourcentageAndTotal($count, $total);
+                    ${strtolower($var)} = $this->generatePourcentageAndTotal($count, $total);
                 }
             } elseif ($type == 'os') {
                 if ($var == 'Other') {
-                    $os_other = generatePourcentageAndTotal($count, $total);
+                    $os_other = $this->generatePourcentageAndTotal($count, $total);
                 } else {
-                    ${strtolower(str_replace('/', '', $var))} = generatePourcentageAndTotal($count, $total);
+                    ${strtolower(str_replace('/', '', $var))} = $this->generatePourcentageAndTotal($count, $total);
                 }
             }
         }

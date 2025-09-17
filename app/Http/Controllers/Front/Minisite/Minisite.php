@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Front\Minisite;
 
+use App\Support\Facades\Forum;
+use App\Support\Facades\Media;
+use App\Support\Facades\Theme;
+use App\Support\Facades\Groupe;
+use App\Support\Facades\Editeur;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
@@ -443,7 +450,7 @@ class Minisite extends FrontBaseController
                         $fp = fopen($l_fic, 'r');
 
                         if (filesize($l_fic) > 0) {
-                            $Hcontent = convert_ressources(fread($fp, filesize($l_fic)));
+                            $Hcontent = $this->convert_ressources(fread($fp, filesize($l_fic)));
                         }
 
                         fclose($fp);
@@ -459,7 +466,7 @@ class Minisite extends FrontBaseController
                         $fp = fopen($l_fic, 'r');
 
                         if (filesize($l_fic) > 0) {
-                            $Fcontent = convert_ressources(fread($fp, filesize($l_fic)));
+                            $Fcontent = $this->convert_ressources(fread($fp, filesize($l_fic)));
                         }
 
                         fclose($fp);
@@ -467,7 +474,7 @@ class Minisite extends FrontBaseController
                 }
 
                 $blog_ajouter = (($adminblog) and (strstr($Xcontent, '!l_blog_ajouter!'))) ? '!l_blog_ajouterOK!' : '';
-                $Xcontent = convert_ressources($Xcontent);
+                $Xcontent = $this->convert_ressources($Xcontent);
 
                 // Meta-lang et removehack local
                 $MNS_METALANG_words = array(
@@ -485,13 +492,13 @@ class Minisite extends FrontBaseController
                 );
 
                 $Xcontent = preg_replace(array_keys($MNS_METALANG_words), array_values($MNS_METALANG_words), $Xcontent);
-                $Xcontent = Metalang::metaLang(MNSremoveHack($Xcontent));
+                $Xcontent = Metalang::metaLang($this->MNSremoveHack($Xcontent));
 
                 //applique aff_video que sur la partie affichage
                 $rupt = strpos($Xcontent, '#v_yt#');
 
                 echo substr($Xcontent, 0, $rupt);
-                echo MediaPlayer::affVideoYt(substr($Xcontent, $rupt + 6));
+                echo Media::affVideoYt(substr($Xcontent, $rupt + 6));
 
                 if ($adminblog) {
                     echo '<script type="text/javascript">
