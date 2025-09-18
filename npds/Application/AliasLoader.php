@@ -12,14 +12,23 @@ class AliasLoader
     /**
      * Liste des alias créés
      *
-     * @var array<string, string> [alias => classe originale]
+     * @var array<string, string>
      */
     protected static array $createdAliases = [];
 
     /**
-     * 
+     * Initialise les alias de classes définis dans la configuration.
      *
-     * @return  void    [return description]
+     * Cette méthode :
+     * - Récupère les alias de classes depuis `kernel.aliases`.
+     * - Vérifie que l'alias n'existe pas déjà.
+     * - Crée un alias de classe avec `class_alias`.
+     * - Stocke les alias créés dans `self::$createdAliases`.
+     * - Charge les alias spécifiques aux thèmes via `loadThemeAliases()`.
+     *
+     * @throws RuntimeException Si un alias de classe existe déjà.
+     * 
+     * @return void
      */
     public static function initialize(): void
     {
@@ -40,9 +49,17 @@ class AliasLoader
     }
 
     /**
-     * 
+     * Charge dynamiquement les alias de classes pour tous les thèmes disponibles.
      *
-     * @return  void    [return description]
+     * Pour chaque thème :
+     * - Récupère tous les fichiers PHP dans le dossier `Support/Facades`.
+     * - Génère le nom de classe complet.
+     * - Crée un alias de classe commençant par `Theme_`.
+     * - Stocke les alias créés dans `self::$createdAliases`.
+     *
+     * Cela permet d'utiliser facilement les facades des thèmes via des alias.
+     *
+     * @return void
      */
     public static function loadThemeAliases(): void
     {
@@ -51,10 +68,13 @@ class AliasLoader
 
         foreach ($themeArray as $themeName) {
             $facadePath = theme_path($themeName . '/Support/Facades/*.php');
+
             foreach (glob($facadePath) as $file) {
                 $className = pathinfo($file, PATHINFO_FILENAME);
+
                 $fullClassName = "Themes\\$themeName\\Support\\Facades\\$className";
                 $aliasName = '\Theme_' . $className;
+
                 if (class_exists($fullClassName) && !class_exists($aliasName)) {
                     class_alias($fullClassName, $aliasName);
                     self::$createdAliases[$aliasName] = $fullClassName;

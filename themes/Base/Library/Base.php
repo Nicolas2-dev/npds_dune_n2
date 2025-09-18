@@ -28,6 +28,4 @@ class Base
         return static::$instance = new static();
     }
 
-
-
 }
