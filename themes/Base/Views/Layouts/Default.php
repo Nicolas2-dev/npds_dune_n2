@@ -70,10 +70,10 @@ if (!$ContainerGlobal) {
 $Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
 // landing page
-if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('Themes/Base::partials/header/header_landing')) {
-    $Xcontent = View::make('Themes/Base::partials/header/header_landing');
+if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('Themes/Base::Partials/Header/HeaderLanding')) {
+    $Xcontent = View::make('Themes/Base::Partials/Header/HeaderLanding');
 } else {
-    $Xcontent = View::make('Themes/Base::partials/header/header');
+    $Xcontent = View::make('Themes/Base::Partials/Header/Header');
 }
 
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
@@ -250,7 +250,7 @@ if (View::exists($theme_file = 'Themes/Base::Bootstrap/Footer_before')) {
     echo View::make($theme_file);
 }
 
-$Xcontent = View::make('Themes/Base::partials/footer/footer');
+$Xcontent = View::make('Themes/Base::Partials/Footer/Footer');
 
 $ContainerGlobal = '</div>';
 

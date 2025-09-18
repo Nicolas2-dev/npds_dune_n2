@@ -207,12 +207,12 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/partials/news/index-news.php')) {
-            $inclusion = 'themes/' . $theme . '/Views/partials/news/index-news.php';
-        } elseif (file_exists('themes/Base/Views/partials/news/index-news.php')) {
-            $inclusion = 'themes/Base/Views/partials/news/index-news.php';
+        if (file_exists('themes/' . $theme . '/Views/Partials/News/IndexNews.php')) {
+            $inclusion = 'themes/' . $theme . '/Views/Partials/News/IndexNews.php';
+        } elseif (file_exists('themes/Base/Views/Partials/News/IndexNews.php')) {
+            $inclusion = 'themes/Base/Views/Partials/News/IndexNews.php';
         } else {
-            echo 'index-news.php manquant / not find !<br />';
+            echo 'IndexNews.php manquant / not find !<br />';
             die();
         }
 
@@ -331,10 +331,10 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists("themes/" . $theme . "/Views/partials/news/detail-news.php")) {
-            $inclusion = "themes/" . $theme . "/Views/partials/news/detail-news.php";
-        } elseif (file_exists("themes/Base/Views/partials/news/detail-news.php")) {
-            $inclusion = "themes/Base/Views/partials/news/detail-news.php";
+        if (file_exists("themes/" . $theme . "/Views/Partials/News/DetailNews.php")) {
+            $inclusion = "themes/" . $theme . "/Views/Partials/News/DetailNews.php";
+        } elseif (file_exists("themes/Base/Views/Partials/News/DetailNews.php")) {
+            $inclusion = "themes/Base/Views/Partials/News/DetailNews.php";
         } else {
             echo 'detail-news.php manquant / not find !<br />';
             die();
@@ -411,19 +411,19 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/partials/block/bloc-right.php') && ($bloc_side == 'RIGHT')) {
-            $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc-right.php';
+        if (file_exists('themes/' . $theme . '/Views/Partials/Block/BlocRight.php') && ($bloc_side == 'RIGHT')) {
+            $inclusion = 'themes/' . $theme . '/Views/Partials/Block/BlocRight.php';
         }
 
-        if (file_exists('themes/' . $theme . '/Views/partials/block/bloc-left.php') && ($bloc_side == 'LEFT')) {
-            $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc-left.php';
+        if (file_exists('themes/' . $theme . '/Views/Partials/Block/BlocLeft.php') && ($bloc_side == 'LEFT')) {
+            $inclusion = 'themes/' . $theme . '/Views/Partials/Block/BlocLeft.php';
         }
 
         if (!$inclusion) {
-            if (file_exists('themes/' . $theme . '/Views/partials/block/bloc.php')) {
-                $inclusion = 'themes/' . $theme . '/Views/partials/block/bloc.php';
-            } elseif (file_exists('themes/Base/Views/partials/block/bloc.php')) {
-                $inclusion = 'themes/Base/Views/partials/block/bloc.php';
+            if (file_exists('themes/' . $theme . '/Views/Partials/Block/Bloc.php')) {
+                $inclusion = 'themes/' . $theme . '/Views/Partials/Block/Bloc.php';
+            } elseif (file_exists('themes/Base/Views/Partials/Block/Bloc.php')) {
+                $inclusion = 'themes/Base/Views/Partials/Block/Bloc.php';
             } else {
                 echo 'bloc.php manquant / not find !<br />';
                 die();
@@ -469,10 +469,10 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/partials/edito/editorial.php')) {
-            $inclusion = 'themes/' . $theme . '/Views/partials/edito/editorial.php';
-        } elseif (file_exists('themes/Base/Views/partials/edito/editorial.php')) {
-            $inclusion = 'themes/Base/Views/partials/edito/editorial.php';
+        if (file_exists('themes/' . $theme . '/Views/Partials/Edito/Editorial.php')) {
+            $inclusion = 'themes/' . $theme . '/Views/Partials/Edito/Editorial.php';
+        } elseif (file_exists('themes/Base/Views/Partials/Edito/Editorial.php')) {
+            $inclusion = 'themes/Base/Views/Partials/Edito/Editorial.php';
         } else {
             echo 'editorial.php manquant / not find !<br />';
             die();
@@ -730,10 +730,10 @@ class Theme
 
     function footer_after($theme)
     {
-        if (file_exists($path_theme = 'themes/' . $theme . '/Bootstrap/footer_after.php')) {
+        if (file_exists($path_theme = 'themes/' . $theme . '/Views/Bootstrap/Footer_after.php')) {
             include $path_theme;
         } else {
-            if (file_exists($path_module = 'themes/Base/Bootstrap/footer_after.php')) {
+            if (file_exists($path_module = 'themes/Base/Views/Bootstrap/ooter_after.php')) {
                 include $path_module;
             }
         }
@@ -741,7 +741,7 @@ class Theme
 
     function footer_before()
     {
-        if (file_exists($path_module = 'themes/Base/Bootstrap/footer_before.php')) {
+        if (file_exists($path_module = 'themes/Base/Views/Bootstrap/Footer_before.php')) {
             include $path_module;
         }
     }

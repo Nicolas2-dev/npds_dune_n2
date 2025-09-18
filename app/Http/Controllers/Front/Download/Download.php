@@ -59,7 +59,7 @@ class Download extends FrontBaseController
 
     public function main(?string $dcategory = '', ?string $sortby = '', ?string $sortorder = '')
     {
-        $this->download->list();
+        $this->download->list($sortby, $dcategory);
 
         $dcategory  = Hack::removeHack($this->download->sanitizeCategory($dcategory)); 
         $dcategory  = str_replace("&#039;", "\'", $dcategory);  

@@ -124,61 +124,38 @@ class Download
 
     // Controller 
 
-    public function list()
+    public function list(string $sortby, string $dcategory)
     {
-        global $sortby, $dcategory;
-
-        ob_start();
-
         if ($dcategory == '') {
             $dcategory = addslashes(Config::get('download.download_cat'));
         }
-
-        $cate = stripslashes($dcategory);
-
-        echo '<p class="lead">' . translate('Sélectionner une catégorie') . '</p>
-        <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-between my-3 border rounded">
-            <p class="p-2 mb-0 ">';
-
+        
         $acounter = sql_query("SELECT COUNT(*) 
                             FROM " . sql_prefix('downloads'));
 
         list($acount) = sql_fetch_row($acounter);
-
-        if (($cate == translate('Tous')) or ($cate == '')) {
-            echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong><span class="align-middle">' . translate('Tous') . '</span>
-            <span class="badge bg-secondary ms-2 float-end my-2">' . $acount . '</span></strong>';
-        } else {
-            echo '<a href="download.php?dcategory=' . translate('Tous') . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . translate('Tous') . '</span></a><span class="badge bg-secondary ms-2 float-end my-2">' . $acount . '</span>';
-        }
 
         $result = sql_query("SELECT DISTINCT dcategory, COUNT(dcategory) 
                             FROM " . sql_prefix('downloads') . " 
                             GROUP BY dcategory 
                             ORDER BY dcategory");
 
-        echo '</p>';
+        $lists = [];
 
         while (list($category, $dcount) = sql_fetch_row($result)) {
-            $category = stripslashes($category);
-
-            echo '<p class="p-2 mb-0">';
-
-            if ($category == $cate) {
-                echo '<i class="fa fa-folder-open fa-2x text-body-secondary align-middle me-2"></i><strong class="align-middle">' . Language::affLangue($category) . '<span class="badge bg-secondary ms-2 float-end my-2">' . $dcount . '</span></strong>';
-            } else {
-                $category2 = urlencode($category);
-                echo '<a href="download.php?dcategory=' . $category2 . '&amp;sortby=' . $sortby . '"><i class="fa fa-folder fa-2x align-middle me-2"></i><span class="align-middle">' . Language::affLangue($category) . '</span></a><span class="badge bg-secondary ms-2 my-2 float-end">' . $dcount . '</span>';
-            }
-
-            echo '</p>';
+            $lists[] = [
+                'category'  => stripslashes($category),
+                'category2' => urlencode($category),
+                'dcount'    => $dcount,
+            ];
         }
 
-        echo '</div>';
-
-        $renderContent = ob_get_clean();
-
-        View::share('download_list', $renderContent);
+        View::share('download_list', View::fetch('Partials/Download/DownloadList', [
+            'cate'      => stripslashes($dcategory),
+            'acount'    => $acount,
+            'sortby'    => $sortby,
+            'lists'     => $lists
+        ]));
     }
 
     public function actDlTableHeader($dcategory, $sortby, $fieldname, $englishname)
