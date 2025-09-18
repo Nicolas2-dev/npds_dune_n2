@@ -230,8 +230,6 @@ if (isset($user)) {
 
 Theme::LoadConfig();
 
-dump(Config::All());
-
 /*
 |--------------------------------------------------------------------------
 | Session Manage.
