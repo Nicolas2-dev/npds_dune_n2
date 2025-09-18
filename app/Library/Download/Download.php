@@ -122,14 +122,22 @@ class Download
         return $ibid;
     }
 
-    // Controller 
+    // Controller Front
 
-    public function list(string $sortby, string $dcategory)
+    /**
+     * Génère la liste des catégories de téléchargement et partage la vue.
+     *
+     * @param string $sortby   Nom du champ pour le tri.
+     * @param string $category Catégorie sélectionnée.
+     *
+     * @return void
+     */
+    public function list(string $sortby, string $category): void
     {
-        if ($dcategory == '') {
-            $dcategory = addslashes(Config::get('download.download_cat'));
+        if ($category == '') {
+            $category = addslashes(Config::get('download.download_cat'));
         }
-        
+
         $acounter = sql_query("SELECT COUNT(*) 
                             FROM " . sql_prefix('downloads'));
 
@@ -142,52 +150,80 @@ class Download
 
         $lists = [];
 
-        while (list($category, $dcount) = sql_fetch_row($result)) {
+        while (list($dcategory, $dcount) = sql_fetch_row($result)) {
             $lists[] = [
-                'category'  => stripslashes($category),
-                'category2' => urlencode($category),
+                'category'  => stripslashes($dcategory),
+                'category2' => urlencode($dcategory),
                 'dcount'    => $dcount,
             ];
         }
 
         View::share('download_list', View::fetch('Partials/Download/DownloadList', [
-            'cate'      => stripslashes($dcategory),
+            'cate'      => stripslashes($category),
             'acount'    => $acount,
             'sortby'    => $sortby,
             'lists'     => $lists
         ]));
     }
 
-    public function actDlTableHeader($dcategory, $sortby, $fieldname, $englishname)
+    /**
+     * Affiche un en-tête de colonne actif pour le tableau de téléchargements avec liens de tri.
+     *
+     * @param string $dcategory   Catégorie de téléchargement.
+     * @param string $sortby      Champ actuellement trié.
+     * @param string $fieldname   Nom du champ pour le tri.
+     * @param string $englishname Libellé à afficher (clé de traduction).
+     *
+     * @return void
+     */
+    public function actDlTableHeader(string $dcategory, string $sortby, string $fieldname, string $englishname): void
     {
-        //echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
-        //' . translate($englishname) . '&nbsp;
-        //<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-up"></i></a>';
-    
-        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname) . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
+        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/ASC') . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
         ' . translate($englishname) . '&nbsp;
         <a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/DESC') . '" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-up"></i></a>';
     
     }
 
-    public function inactDlTableHeader($dcategory, $sortby, $fieldname, $englishname)
+    /**
+     * Affiche un en-tête de colonne inactif pour le tableau de téléchargements avec liens de tri.
+     *
+     * @param string $dcategory   Catégorie de téléchargement.
+     * @param string $sortby      Champ actuellement trié.
+     * @param string $fieldname   Nom du champ pour le tri.
+     * @param string $englishname Libellé à afficher (clé de traduction).
+     *
+     * @return void
+     */
+    public function inactDlTableHeader(string $dcategory, string $sortby, string $fieldname, string $englishname): void
     {
-        //echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
-        //' . translate($englishname) . '&nbsp;
-        //<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-up" ></i></a>';
-    
-        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname) . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
+        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/ASC') . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
         ' . translate($englishname) . '&nbsp;
         <a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/DESC') . '" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-up" ></i></a>';
     }
 
+    /**
+     * Affiche le début d'une nouvelle cellule dans un tableau de téléchargement.
+     *
+     * @deprecated Cette méthode est obsolète et ne devrait plus être utilisée.
+     */
     public function dlTableHeader()
     {
         echo '</td>
         <td>';
     }
 
-    public function popUploader($did, $ddescription, $dcounter, $dfilename, $aff)
+    /**
+     * Affiche les icônes et la fenêtre modale pour un fichier téléchargeable.
+     *
+     * @param int    $did          ID du téléchargement.
+     * @param string $ddescription Description du fichier.
+     * @param int    $dcounter     Nombre de téléchargements.
+     * @param string $dfilename    Nom du fichier.
+     * @param bool   $aff          Indique si le fichier est affichable.
+     *
+     * @return void
+     */
+    public function popUploader(int $did, string $ddescription, int $dcounter, string $dfilename, bool $aff): void
     {
         $out_template = 0;
 
@@ -215,7 +251,15 @@ class Download
         }
     }
 
-    public function sortLinks($dcategory, $sortby)
+    /**
+     * Affiche l’en-tête du tableau de téléchargements avec liens de tri.
+     *
+     * @param string $dcategory Catégorie de téléchargement.
+     * @param string $sortby    Champ actuellement trié.
+     *
+     * @return void
+     */
+    public function sortLinks(string $dcategory, string $sortby): void
     {
         global $user;
 
@@ -296,7 +340,16 @@ class Download
         </thead>';
     }
 
-    public function listDownloads($dcategory, $sortby, $sortorder)
+    /**
+     * Affiche la liste paginée des fichiers téléchargeables.
+     *
+     * @param string $dcategory Catégorie de téléchargement.
+     * @param string $sortby    Champ utilisé pour le tri.
+     * @param string $sortorder Ordre du tri (ASC ou DESC).
+     *
+     * @return void
+     */
+    public function listDownloads(string $dcategory, string $sortby, string $sortorder): void
     {
         global $page, $user;
 
@@ -525,6 +578,5 @@ class Download
             )
         );
     }
-
 
 }
