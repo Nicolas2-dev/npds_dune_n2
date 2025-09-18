@@ -13,7 +13,18 @@ use App\Library\FileManagement\FileManagement;
 trait DownloadTrait 
 {
 
-    public function genInfo(int $did, int $out_template)
+    /**
+     * Génère les informations détaillées d’un fichier téléchargeable.
+     *
+     * Affiche le nom, la taille, la version, la date de téléchargement, la catégorie,
+     * la description, l'auteur et le site web du fichier si l’utilisateur a les autorisations nécessaires.
+     *
+     * @param int $did          ID du téléchargement.
+     * @param int $out_template Indique si l’affichage doit utiliser le template complet (1) ou partiel (0).
+     *
+     * @return void
+     */
+    public function genInfo(int $did, int $out_template): void
     {
         $result = sql_query("SELECT dcounter, durl, dfilename, dfilesize, ddate, dweb, duser, dver, dcategory, ddescription, perms 
                             FROM " . sql_prefix('downloads') . " 
@@ -71,6 +82,5 @@ trait DownloadTrait
             Header('Location: download.php');
         }
     }
-
 
 }
