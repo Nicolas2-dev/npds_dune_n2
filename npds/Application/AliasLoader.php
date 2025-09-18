@@ -4,37 +4,73 @@ namespace Npds\Application;
 
 use RuntimeException;
 use Npds\Config\Config;
+use App\Library\Theme\Theme;
 
 class AliasLoader
 {
 
     /**
-     * Initialise les alias de classes définis dans la configuration.
+     * Liste des alias créés
      *
-     * Récupère les alias depuis la configuration 'kernel.aliases' et crée les alias
-     * dans l’espace de noms global. Si une classe portant le même nom existe déjà,
-     * une exception RuntimeException est levée.
+     * @var array<string, string> [alias => classe originale]
+     */
+    protected static array $createdAliases = [];
+
+    /**
+     * 
      *
-     * @return void
-     *
-     * @throws \RuntimeException Si un alias de classe existe déjà avec le même nom.
+     * @return  void    [return description]
      */
     public static function initialize(): void
     {
-        $classes = Config::get('kernel.aliases', array());
+        $classes = Config::get('kernel.aliases', []);
 
         foreach ($classes as $classAlias => $className) {
-            // Garantit que l’alias est créé dans l’espace de noms global.
-            $classAlias = '\\' .ltrim($classAlias, '\\');
+            $classAlias = '\\' . ltrim($classAlias, '\\');
 
-            // Vérifie si la classe existe déjà.
             if (class_exists($classAlias)) {
-                // Abandon : une classe existe déjà avec le même nom.
-                throw new RuntimeException('Une classe [' .$classAlias .'] existe déjà avec le même nom.');
+                throw new RuntimeException('Une classe [' . $classAlias . '] existe déjà avec le même nom.');
             }
 
             class_alias($className, $classAlias);
+            self::$createdAliases[$classAlias] = $className;
         }
+
+        self::loadThemeAliases();
+    }
+
+    /**
+     * 
+     *
+     * @return  void    [return description]
+     */
+    public static function loadThemeAliases(): void
+    {
+        $theme_lists = Theme::getInstance()->themeList();
+        $themeArray = explode(' ', $theme_lists);
+
+        foreach ($themeArray as $themeName) {
+            $facadePath = theme_path($themeName . '/Support/Facades/*.php');
+            foreach (glob($facadePath) as $file) {
+                $className = pathinfo($file, PATHINFO_FILENAME);
+                $fullClassName = "Themes\\$themeName\\Support\\Facades\\$className";
+                $aliasName = '\Theme_' . $className;
+                if (class_exists($fullClassName) && !class_exists($aliasName)) {
+                    class_alias($fullClassName, $aliasName);
+                    self::$createdAliases[$aliasName] = $fullClassName;
+                }
+            }
+        }
+    }
+
+    /**
+     * Retourne la liste complète des alias créés
+     *
+     * @return array<string,string> [alias => classe originale]
+     */
+    public static function dumpAliases(): array
+    {
+        return self::$createdAliases;
     }
 
 }

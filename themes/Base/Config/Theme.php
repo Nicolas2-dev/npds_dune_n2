@@ -17,7 +17,7 @@ return [
     // dark : (utilise les classes dark de bootstrap)
     // auto : (utilise automatiquement et alternativement (light/dark) les classes de bootsrap en fonction 
     // de la configuration de l'application|système)
-    'darkness' => 'auto',
+    'theme_darkness' => 'auto',
 
     // Nombre de caractères affichés avant troncature pour certains blocs
     'long_chain' => 34,

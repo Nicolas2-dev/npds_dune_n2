@@ -1,10 +1,13 @@
 <?php
 
+use App\Support\Facades\Theme;
 use App\Support\Facades\Language;
 use App\Support\Facades\Assets as AssetManager;
 
 //
 AssetManager::addJsFooter(path: 'js/npds_dicotransl.js');
+
+$theme_darkness = Theme::theme_config('theme.theme_darkness', config('theme.theme_darkness'));
 
 //
 AssetManager::addJsInlineFooter("
@@ -47,7 +50,7 @@ AssetManager::addJsInlineFooter("
     // Gestion du thème
     (() => {
         'use strict';
-        const storedTheme = localStorage.setItem('theme', '" . config('theme.theme_darkness') . "');
+        const storedTheme = localStorage.setItem('theme', '" . $theme_darkness . "');
         const getStoredTheme = localStorage.getItem('theme');
 
         if (getStoredTheme === 'auto') {
@@ -56,7 +59,7 @@ AssetManager::addJsInlineFooter("
                 window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
             );
         } else {
-            document.body.setAttribute('data-bs-theme', '" . config('theme.theme_darkness') . "');
+            document.body.setAttribute('data-bs-theme', '" . $theme_darkness . "');
         }
     })();
 //]]>

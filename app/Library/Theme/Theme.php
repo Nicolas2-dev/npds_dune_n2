@@ -56,6 +56,25 @@ class Theme
         }
     }
 
+        /**
+     * Récupère une valeur de configuration spécifique au thème courant.
+     *
+     * @param string $key Clé de configuration relative au thème (ex: ".theme.name")
+     * @param mixed  $default Valeur par défaut si la clé n'existe pas
+     * @return mixed
+     */
+    public function theme_config(string $key = '', mixed $default = null): mixed
+    {
+        $theme = Theme::getTheme();
+        $configKey = 'theme_' . strtolower($theme) . ($key !== '' ? '.' . $key : '');
+
+        if (Config::has($configKey)) {
+            return Config::get($configKey, $default);
+        }
+
+        return $default;
+    }
+
     /**
      * Récupère le thème actif pour l'utilisateur.
      *

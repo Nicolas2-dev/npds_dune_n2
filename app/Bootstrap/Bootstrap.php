@@ -7,6 +7,7 @@ use App\Support\Facades\Spam;
 use App\Support\Facades\Block;
 use App\Support\Facades\Theme;
 use App\Support\Facades\Cookie;
+use App\Support\Facades\Session;
 use App\Support\Facades\Language;
 use App\Support\Facades\Metalang;
 use App\Support\Security\UrlProtector;
