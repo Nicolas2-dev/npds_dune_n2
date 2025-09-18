@@ -2,6 +2,7 @@
 
 namespace App\Library\Language;
 
+use Npds\Config\Config;
 use Npds\Support\Facades\Request;
 
 
@@ -60,7 +61,10 @@ class Language
      */
     public function languageIso($l, $s, $c): string
     {
-        global $language, $user_language; // global a revoir !
+        //global $language, $user_language; // global a revoir !
+
+        $language       = Config::get('language.language');
+        $user_language  = Config::get('language.user_language');
 
         $iso_lang = '';
         $iso_country = '';
@@ -165,7 +169,9 @@ class Language
      */
     public function affLangue(?string $ibid): string
     {
-        global $language, $tab_langue; // global a revoir !
+        global $tab_langue; // global a revoir !
+
+        $language  = Config::get('language.language');
 
         // copie du tableau + rajout de transl pour gestion de l'appel à translate(...); - Theme Dynamic
         $tab_llangue = $tab_langue;
@@ -249,12 +255,13 @@ class Language
      */
     public function makeTabLangue(): array
     {
-        global $language; // global a revoir !
-        
+        $language  = Config::get('language.language');
+
         $languageslist = $this->languageCache();
 
         $languageslocal = $language . ' ' . str_replace($language, '', $languageslist);
         $languageslocal = trim(str_replace('  ', ' ', $languageslocal));
+
         $tab_langue = explode(' ', $languageslocal);
 
         return $tab_langue;
@@ -324,15 +331,16 @@ class Language
     {
         if ($local_user_language) {
 
-            global $language, $tab_langue; // global a revoir !
+            global $tab_langue; // global a revoir !
 
-            $old_langue = $language;
-            $language = $local_user_language;
+            $old_langue = Config::get('language.language');
+
+            Config::set('language.language', $local_user_language);
 
             $tab_langue =  $this->makeTabLangue();
-            $ibid =  $this->affLangue($ibid);
+            $ibid       =  $this->affLangue($ibid);
 
-            $language = $old_langue;
+            Config::set('language.language', $old_langue);
         }
 
         return $ibid;

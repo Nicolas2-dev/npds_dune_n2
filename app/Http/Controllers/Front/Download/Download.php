@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Front\Download;
 
 use Npds\Config\Config;
 use App\Support\Facades\Auth;
-use App\Support\Security\Hack;
 use App\Support\Facades\Mailer;
 use Npds\Support\Facades\Request;
-use App\Library\Download\DownloadTrait;
+use App\Library\Download\Traits\DownloadTrait;
 use App\Library\Download\Download as LDownload;
 use App\Http\Controllers\Core\FrontBaseController;
+use App\Support\Security\Hack;
 
 
 class Download extends FrontBaseController
@@ -18,8 +18,9 @@ class Download extends FrontBaseController
     use DownloadTrait;
 
     
-    protected int $pdst = 1;
+    protected int $pdst = 0;
 
+    
     protected $download;
 
     /**
@@ -56,17 +57,12 @@ class Download extends FrontBaseController
         parent::initialize();
     }    
 
-    public function main()
+    public function main(?string $dcategory = '', ?string $sortby = '', ?string $sortorder = '')
     {
-        global $dcategory, $sortby, $sortorder; // global a revoir !
-
-        echo '<h2>' . translate('Chargement de fichiers') . '</h2>
-        <hr />';
-
         $this->download->list();
 
         $dcategory  = Hack::removeHack($this->download->sanitizeCategory($dcategory)); 
-        $dcategory  = str_replace("&#039;", "\'", $dcategory);
+        $dcategory  = str_replace("&#039;", "\'", $dcategory);  
 
         if ($dcategory != translate('Aucune catégorie')) {
 
@@ -75,9 +71,14 @@ class Download extends FrontBaseController
             $this->download->listDownloads($dcategory, $sortby, $sortorder);
         }
 
-        if (file_exists('storage/static/download.ban.txt')) {
-            include 'storage/static/download.ban.txt';
+        if (file_exists($path = storage_path('static/download.ban.txt'))) {
+            ob_start();
+            include $path;
+            $download_ban = ob_get_clean();
         }
+
+        return $this->createView(['download_ban' => $download_ban ?? ''])
+            ->shares('title', 'Homepage');
     }
 
     public function transferFile(int $did)

@@ -7,10 +7,11 @@ use Npds\Config\Config;
 use App\Support\Sanitize;
 use App\Support\Facades\Auth;
 use App\Support\Facades\Date;
+use Npds\Support\Facades\View;
 use App\Support\Facades\Language;
 use App\Support\Facades\Paginator;
 use App\Library\FileManagement\File;
-use App\Library\Download\DownloadTrait;
+use App\Library\Download\Traits\DownloadTrait;
 use App\Library\FileManagement\FileManagement;
 
 
@@ -125,10 +126,12 @@ class Download
 
     public function list()
     {
-        global $sortby, $dcategory, $download_cat;
+        global $sortby, $dcategory;
+
+        ob_start();
 
         if ($dcategory == '') {
-            $dcategory = addslashes($download_cat);
+            $dcategory = addslashes(Config::get('download.download_cat'));
         }
 
         $cate = stripslashes($dcategory);
@@ -172,20 +175,33 @@ class Download
         }
 
         echo '</div>';
+
+        $renderContent = ob_get_clean();
+
+        View::share('download_list', $renderContent);
     }
 
     public function actDlTableHeader($dcategory, $sortby, $fieldname, $englishname)
     {
-        echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
-        ' . translate('$englishname') . '&nbsp;
-        <a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-up"></i></a>';
+        //echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
+        //' . translate($englishname) . '&nbsp;
+        //<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-up"></i></a>';
+    
+        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname) . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-down"></i></a>&nbsp;
+        ' . translate($englishname) . '&nbsp;
+        <a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/DESC') . '" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip" ><i class="fa fa-sort-amount-up"></i></a>';
+    
     }
 
     public function inactDlTableHeader($dcategory, $sortby, $fieldname, $englishname)
     {
-        echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
-        ' . translate('$englishname') . '&nbsp;
-        <a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-up" ></i></a>';
+        //echo '<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
+        //' . translate($englishname) . '&nbsp;
+        //<a class="d-none d-sm-inline" href="download.php?dcategory=' . $dcategory . '&amp;sortby=' . $fieldname . '&amp;sortorder=DESC" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-up" ></i></a>';
+    
+        echo '<a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname) . '" title="' . translate('Croissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-down" ></i></a>&nbsp;
+        ' . translate($englishname) . '&nbsp;
+        <a class="d-none d-sm-inline" href="' . site_url('download/' . $dcategory . '/' . $fieldname . '/DESC') . '" title="' . translate('Décroissant') . '" data-bs-toggle="tooltip"><i class="fa fa-sort-amount-up" ></i></a>';
     }
 
     public function dlTableHeader()
@@ -231,8 +247,16 @@ class Download
         echo '<thead>
             <tr>
                 <th class="text-center">' . translate('Fonctions') . '</th>
-                <th class="text-center n-t-col-xs-1" data-sortable="true" data-sorter="htmlSorter">' . translate('Type') . '</th>
                 <th class="text-center">';
+                
+        if ($sortby == 'dfiletype' or !$sortby) {
+            $this->actDlTableHeader($dcategory, $sortby, 'dfiletype', 'Type');
+        } else {
+            $this->inactDlTableHeader($dcategory, $sortby, 'dfiletype', 'Type');
+        }
+
+        echo '</th>
+        <th class="text-center">';
 
         if ($sortby == 'dfilename' or !$sortby) {
             $this->actDlTableHeader($dcategory, $sortby, 'dfilename', 'Nom');
@@ -297,10 +321,12 @@ class Download
 
     public function listDownloads($dcategory, $sortby, $sortorder)
     {
-        global $perpage, $page, $download_cat, $user;
+        global $page, $user;
+
+        ob_start();
 
         if ($dcategory == '') {
-            $dcategory = addslashes($download_cat);
+            $dcategory = addslashes(Config::get('download.download_cat'));
         }
 
         if (!$sortby) {
@@ -376,6 +402,8 @@ class Download
 
         $result = sql_query($sql);
         list($total) =  sql_fetch_row($result);
+
+        $perpage = Config::get('download.perpage');
 
         //
         if ($total > $perpage) {
@@ -492,17 +520,26 @@ class Download
         $dcategory = StripSlashes($dcategory);
 
         echo '<div class="mt-3"></div>
-        ' . Paginator::paginateSingle('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, '', $page);
+        ' . Paginator::paginateSingle('download.php?dcategory=' . $dcategory . '&amp;sortby=' . $sortby . '&amp;sortorder=' . $sortorder . '&amp;page=', '', $nbPages, $current, $adj = 3, 0, $page);
+    
+    
+        $renderContent = ob_get_clean();
+
+        View::share('download_lists', $renderContent);
     }
     
     /**
      * Nettoie une catégorie en appliquant urldecode + htmlspecialchars + stripslashes.
      *
-     * @param  string  $value
+     * @param  string|null  $value
      * @return string
      */
-    public function sanitizeCategory(string $value): string
+    public function sanitizeCategory(?string $value): string
     {
+        if ($value === null) {
+            return '';
+        }
+
         return stripslashes(
             htmlspecialchars(
                 urldecode($value),

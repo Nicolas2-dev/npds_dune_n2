@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Front\Carnet;
 
+use Npds\Config\Config;
 use App\Support\Facades\Css;
+use App\Support\Facades\Theme;
 use App\Support\Facades\Encrypter;
 use App\Http\Controllers\Core\FrontBaseController;
 
@@ -22,50 +24,49 @@ class Carnet extends FrontBaseController
 
     public function index()
     {
-        global $user, $Default_Theme;
+        global $user; // global a revoir !
+
         if (!$user) {
             Header('Location: user.php');
         } else {
-            $userX = base64_decode($user);
-            $userdata = explode(':', $userX);
+            $tmp_theme = Theme::getTheme();
 
-            if ($userdata[9] != '') {
-                if (!$file = @opendir('themes/' . $userdata[9])) {
-                    $tmp_theme = $Default_Theme;
-                } else {
-                    $tmp_theme = $userdata[9];
-                }
-            } else {
-                $tmp_theme = $Default_Theme;
-            }
+            // Note : en attente de la refonte des fichier de configuration des themes
+            include theme_path($tmp_theme . '/Config/Theme.php');
 
-            include 'themes/' . $tmp_theme . '/views/theme.php';
-
+            // Note : en attente de la refonte de la gestion des métatags 
             $Titlesitename = translate('Carnet d\'adresses');
 
-            include 'storage/meta/meta.php';
+            include storage_path('meta/meta.php');
 
-            echo '<link id="bsth" rel="stylesheet" href="assets/skins/default/bootstrap.min.css" />';
+            echo '<link id="bsth" rel="stylesheet" href="' . asset_url('skins/default/bootstrap.min.css') . '" />';
+
+            // Note : en attente de refonte de la gestion des assets 
+            $language = Config::get('language.language');
 
             echo Css::importCss($tmp_theme, $language, '', '', '');
 
-            include 'library/formhelp.java.php';
+            // Note a revoir avec assetManager 
+            include BASEPATH . 'assets/formhelp.java.php';
 
-            $fic = 'storage/users_private/' . $userdata[1] . '/mns/carnet.txt';
+            $userX      = base64_decode($user);
+            $userdata   = explode(':', $userX);
+
+            $user_carnet = storage_path('users_private/' . $userdata[1] . '/mns/carnet.txt');
 
             echo '</head>
             <body class="p-4">';
 
-            if (file_exists($fic)) {
-                $fp = fopen($fic, 'r');
+            if (file_exists($user_carnet)) {
+                $fp = fopen($user_carnet, 'r');
 
-                if (filesize($fic) > 0) {
-                    $contents = fread($fp, filesize($fic));
+                if (filesize($user_carnet) > 0) {
+                    $contents = fread($fp, filesize($user_carnet));
                 }
                 fclose($fp);
 
                 if (substr($contents, 0, 5) != 'CRYPT') {
-                    $fp = fopen($fic, 'w');
+                    $fp = fopen($user_carnet, 'w');
                     fwrite($fp, 'CRYPT' . Encrypter::lEncrypt($contents));
                     fclose($fp);
                 } else {

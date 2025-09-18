@@ -1,19 +1,23 @@
 <?php
 
-use App\Library\Language\Language;
-/* Do not change anything in this file manually. Use the administration interface. */
-/* généré le : 31-10-2024 15:31:17 */
-global $nuke_url;
-$meta_doctype = isset($meta_doctype) ? $meta_doctype : '';
-$nuke_url = isset($nuke_url) ? $nuke_url : '';
-$meta_op = isset($meta_op) ? $meta_op : '';
+use App\Support\Facades\Language;
+
+$nuke_url = site_url();
+
+$meta_doctype  = isset($meta_doctype) ? $meta_doctype : '';
+$nuke_url      = isset($nuke_url) ? $nuke_url : '';
+$meta_op       = isset($meta_op) ? $meta_op : '';
 $m_description = isset($m_description) ? $m_description : '';
-$m_keywords = isset($m_keywords) ? $m_keywords : '';
+$m_keywords    = isset($m_keywords) ? $m_keywords : '';
+
 $lang = Language::languageIso(1, '', 0);
-if ($meta_doctype == "")
-   $l_meta = "<!DOCTYPE html>\n<html lang=\"$lang\">\n   <head>\n";
-else
-   $l_meta = $meta_doctype . "\n<html lang=\"$lang\">\n   <head>\n";
+
+if ($meta_doctype == '') {
+    $l_meta = "<!DOCTYPE html>\n<html lang=\"$lang\">\n   <head>\n";
+} else {
+    $l_meta = $meta_doctype . "\n<html lang=\"$lang\">\n   <head>\n";
+}
+
 $l_meta .= "      <meta charset=\"utf-8\" />\n";
 $l_meta .= "      <title>$Titlesitename</title>\n";
 $l_meta .= "      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n";
@@ -26,14 +30,19 @@ $l_meta .= "      <meta http-equiv=\"identifier-url\" content=\"$nuke_url\" />\n
 $l_meta .= "      <meta name=\"author\" content=\"Developpeur\" />\n";
 $l_meta .= "      <meta name=\"owner\" content=\"npds.org\" />\n";
 $l_meta .= "      <meta name=\"reply-to\" content=\"developpeur@npds.org\" />\n";
-if ($m_description != "")
-   $l_meta .= "      <meta name=\"description\" content=\"$m_description\" />\n";
-else
-   $l_meta .= "      <meta name=\"description\" content=\"Générateur de portail Français en Open-Source sous licence Gnu-Gpl utilisant Php et MySql\" />\n";
-if ($m_keywords != "")
-   $l_meta .= "      <meta name=\"keywords\" content=\"$m_keywords\" />\n";
-else
-   $l_meta .= "      <meta name=\"keywords\" content=\"solution,solutions,portail,portails,generateur,générateur,nouveau,Nouveau,Technologie,technologie,npds,NPDS,Npds,nuke,Nuke,PHP-Nuke,phpnuke,php-nuke,nouvelle,Nouvelle,nouvelles,histoire,Histoire,histoires,article,Article,articles,Linux,linux,Windows,windows,logiciel,Logiciel,téléchargement,téléchargements,Téléchargement,Téléchargements,gratuit,Gratuit,Communauté,communauté;,Forum,forum,Forums,forums,Bulletin,bulletin,application,Application,dynamique,Dynamique,PHP,Php,php,sondage,Sondage,Commentaire,commentaire,Commentaires,commentaires,annonce,annonces,petite,Petite,petite annonce,mailling,mail,faq,Faq,faqs,lien,Lien,liens,france,francais,français,France,Francais,Français,libre,Libre,Open,open,Open Source,OpenSource,Opensource,GNU,gnu,GPL,gpl,License,license,Unix,UNIX,unix,MySQL,mysql,SQL,sql,Database,DataBase,database,Red Hat,RedHat,red hat,Web Site,web site,site,sites,web,Web\" />\n";
+
+if ($m_description != '') {
+    $l_meta .= "      <meta name=\"description\" content=\"$m_description\" />\n";
+} else {
+    $l_meta .= "      <meta name=\"description\" content=\"Générateur de portail Français en Open-Source sous licence Gnu-Gpl utilisant Php et MySql\" />\n";
+}
+
+if ($m_keywords != '') {
+    $l_meta .= "      <meta name=\"keywords\" content=\"$m_keywords\" />\n";
+} else {
+    $l_meta .= "      <meta name=\"keywords\" content=\"solution,solutions,portail,portails,generateur,générateur,nouveau,Nouveau,Technologie,technologie,npds,NPDS,Npds,nuke,Nuke,PHP-Nuke,phpnuke,php-nuke,nouvelle,Nouvelle,nouvelles,histoire,Histoire,histoires,article,Article,articles,Linux,linux,Windows,windows,logiciel,Logiciel,téléchargement,téléchargements,Téléchargement,Téléchargements,gratuit,Gratuit,Communauté,communauté;,Forum,forum,Forums,forums,Bulletin,bulletin,application,Application,dynamique,Dynamique,PHP,Php,php,sondage,Sondage,Commentaire,commentaire,Commentaires,commentaires,annonce,annonces,petite,Petite,petite annonce,mailling,mail,faq,Faq,faqs,lien,Lien,liens,france,francais,français,France,Francais,Français,libre,Libre,Open,open,Open Source,OpenSource,Opensource,GNU,gnu,GPL,gpl,License,license,Unix,UNIX,unix,MySQL,mysql,SQL,sql,Database,DataBase,database,Red Hat,RedHat,red hat,Web Site,web site,site,sites,web,Web\" />\n";
+}
+
 $l_meta .= "      <meta name=\"rating\" content=\"general\" />\n";
 $l_meta .= "      <meta name=\"distribution\" content=\"global\" />\n";
 $l_meta .= "      <meta name=\"copyright\" content=\"npds.org 2001-2024\" />\n";
@@ -56,5 +65,9 @@ $l_meta .= "      <meta property=\"og:image:width\" content=\"630\" />\n";
 $l_meta .= "      <meta property=\"og:image:height\" content=\"630\" />\n";
 $l_meta .= "      <meta property=\"og:image:alt\" content=\"logo site\" />\n";
 $l_meta .= "      <meta property=\"twitter:card\" content=\"summary\" />\n";
-if ($meta_op == "") echo $l_meta;
-else $l_meta = str_replace("\n", "", str_replace("\"", "'", $l_meta));
+
+if ($meta_op == '') {
+    echo $l_meta;
+} else {
+    $l_meta = str_replace("\n", "", str_replace("\"", "'", $l_meta));
+}

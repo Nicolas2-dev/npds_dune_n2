@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Download;
+namespace App\Library\Download\Traits;
 
 use IntlDateFormatter;
 use App\Support\Sanitize;

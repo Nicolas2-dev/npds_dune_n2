@@ -1,5 +1,7 @@
 <?php
 
+use Npds\Config\Config;
+
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /* ===========================                                          */
@@ -30,20 +32,22 @@ $autorise_upload_p = 'true';
 $racine = '';
 
 // Répertoire de téléchargement (avec le / terminal)
-$rep_upload = '/modules/upload/stoarge/';
+$rep_upload = MODULE_PATH . DS .'upload/stoarge/';
 
 // Répertoire de stockage des fichiers temporaires (avec le / terminal)
-$rep_cache = '/modules/storage/tmp/';
+$rep_cache = MODULE_PATH . DS .'storage/tmp/';
 
 // Répertoire/fichier de stockage de la log de téléchargement (par défaut /slogs/security.log)
-$rep_log = '/storage/logs/security.log';
+$rep_log = STORAGE_PATH . DS .'logs/security.log';
 
 // URL HTTP de votre site (exemple : http://www.monsite.org)  !
-$url_upload = 'http://localhost';
+$url_upload = 'http://localhost:8080';
 
 // URL de la feuille de style à utiliser pour la présentation de la fenetre d'upload (ou '')
 
-global $cookie, $user, $Default_Theme, $theme;
+global $cookie, $user, $theme;
+
+$Default_Theme = Config::get('theme.Default_Theme');
 
 if (isset($user)) {
     if ($cookie[9] == '') {
@@ -56,7 +60,7 @@ if (isset($user)) {
 
     $tmp_theme = $cookie[9];
 
-    if (!$file = @opendir('themes/' . $cookie[9])) {
+    if (!$file = @opendir(theme_path($cookie[9]))) {
         $tmp_theme = $Default_Theme;
     }
 } else {

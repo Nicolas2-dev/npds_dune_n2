@@ -1,5 +1,5 @@
 <?php
-if (View::exists($theme_file = 'Bootstrap/header_before')) {
+if (View::exists($theme_file = 'Bootstrap/Header_before')) {
     echo View::make($theme_file);
 }
 ?>
@@ -30,7 +30,7 @@ if (View::exists($theme_file = 'Bootstrap/header_before')) {
     <link href="<?= site_url('backend/ATOM'); ?>" title="<?= config('app.sitename'); ?> - ATOM" rel="alternate" type="application/atom+xml">
 
     <?php
-    if (View::exists($theme_file = 'Bootstrap/header_head')) {
+    if (View::exists($theme_file = 'Bootstrap/Header_head')) {
         echo View::make($theme_file);
     }
     ?>
@@ -48,7 +48,7 @@ if (View::exists($theme_file = 'Bootstrap/header_before')) {
 // faire listener ou middleware
 //counterUpdate();
 
-if (View::exists('Bootstrap/body_onload.php')) {
+if (View::exists('Bootstrap/Body_onload.php')) {
     $onload_init = ' onload="init();"';
 } else {
     $onload_init = '';
@@ -75,7 +75,7 @@ if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('partials/head
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (View::exists($theme_file = 'Bootstrap/header_after')) {
+if (View::exists($theme_file = 'Bootstrap/Header_after')) {
     echo View::make($theme_file);
 }
 
@@ -244,7 +244,7 @@ switch ($pdst) {
         break;
 }
 
-if (View::exists($theme_file = 'Bootstrap/footer_before')) {
+if (View::exists($theme_file = 'Bootstrap/Footer_before')) {
     echo View::make($theme_file);
 }
 
@@ -259,7 +259,7 @@ if (! empty($ContainerGlobal)) {
 //echo Metalang::metaLang(Language::affLangue($Xcontent));
 echo Language::affLangue($Xcontent);
 
-if (View::exists($theme_file = 'Bootstrap/footer_after')) {
+if (View::exists($theme_file = 'Bootstrap/Footer_after')) {
     echo View::make($theme_file);
 }
 

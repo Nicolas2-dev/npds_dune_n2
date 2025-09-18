@@ -70,6 +70,8 @@ class MBOXCreator extends FeedCreator
      */
     function createFeed()
     {
+        $feed = '';
+
         for ($i = 0; $i < count($this->items); $i++) {
             if ($this->items[$i]->author != '') {
                 $from = $this->items[$i]->author;
@@ -81,7 +83,7 @@ class MBOXCreator extends FeedCreator
 
             $FeedCreator = new FeedCreator();
 
-            $feed = "From " . strtr($this->qp_enc($from), " ", "_") . " " . date("D M d H:i:s Y", $itemDate->unix()) . "\n";
+            $feed .= "From " . strtr($this->qp_enc($from), " ", "_") . " " . date("D M d H:i:s Y", $itemDate->unix()) . "\n";
             $feed .= "Content-Type: text/plain;\n";
             $feed .= "   charset=\"" . $this->encoding . "\"\n";
             $feed .= "Content-Transfer-Encoding: quoted-printable\n";

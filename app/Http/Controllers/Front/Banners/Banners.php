@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Front\Banners;
 
 use IntlDateFormatter;
+use Npds\Config\Config;
 use App\Support\Sanitize;
-use App\Library\Routing\Url;
+use App\Support\Facades\Url;
 use App\Support\Facades\Auth;
 use App\Support\Facades\Date;
+use App\Support\Facades\Banner;
 use App\Support\Facades\Mailer;
 use App\Support\Facades\Language;
 use Npds\Support\Facades\Request;
@@ -60,114 +62,121 @@ class Banners extends FrontBaseController
         parent::initialize();
     }
 
-    function viewbanner()
+    public function viewBanner()
     {
-        $okprint = false;
+        if (Config::get('banner.banners')) {
 
-        $while_limit = 3;
-        $while_cpt = 0;
+            $okprint = false;
 
-        $bresult = sql_query("SELECT bid 
-                            FROM " . sql_prefix('banner') . " 
-                            WHERE userlevel!='9'");
+            $while_limit = 3;
+            $while_cpt   = 0;
 
-        $numrows = sql_num_rows($bresult);
-
-        while ((!$okprint) and ($while_cpt < $while_limit)) {
-
-            // More efficient random stuff, thanks to Cristian Arroyo from http://www.planetalinux.com.ar
-            if ($numrows > 0) {
-                mt_srand((float)microtime() * 1000000);
-                $bannum = mt_rand(0, $numrows);
-            } else {
-                break;
-            }
-
-            $bresult2 = sql_query("SELECT bid, userlevel 
+            $bresult = sql_query("SELECT bid 
                                 FROM " . sql_prefix('banner') . " 
-                                WHERE userlevel!='9' 
-                                LIMIT $bannum,1");
+                                WHERE userlevel!='9'");
 
-            list($bid, $userlevel) = sql_fetch_row($bresult2);
+            $numrows = sql_num_rows($bresult);
 
-            if ($userlevel == 0) {
-                $okprint = true;
-            } else {
-                if ($userlevel == 1) {
-                    if (Auth::securStatic('member')) {
-                        $okprint = true;
-                    }
+            while ((!$okprint) and ($while_cpt < $while_limit)) {
+
+                // More efficient random stuff, thanks to Cristian Arroyo from http://www.planetalinux.com.ar
+                if ($numrows > 0) {
+                    //mt_srand((float)microtime() * 1000000);
+                    //$bannum = mt_rand(0, $numrows);
+
+                    $bannum = random_int(0, $numrows);
+                } else {
+                    break;
                 }
 
-                if ($userlevel == 3) {
-                    if (Auth::securStatic('admin')) {
-                        $okprint = true;
-                    }
-                }
-            }
-
-            $while_cpt = $while_cpt + 1;
-        }
-
-        // Le risque est de sortir sans un BID valide
-        if (!isset($bid)) {
-            $rowQ1 = Q_Select("SELECT bid 
-                            FROM " . sql_prefix('banner') . " 
-                            WHERE userlevel='0' 
-                            LIMIT 0,1", 86400);
-
-            if ($rowQ1) {
-                $myrow = $rowQ1[0]; // erreur à l'install quand on n'a pas de banner dans la base ....
-                $bid = $myrow['bid'];
-
-                $okprint = true;
-            }
-        }
-
-        if ($okprint) {
-
-            global $myIP;
-            $myhost = Request::getip();
-
-            if ($myIP != $myhost) {
-                sql_query("UPDATE " . sql_prefix('banner') . " 
-                        SET impmade=impmade+1 
-                        WHERE bid='$bid'");
-            }
-
-            if (($numrows > 0) and ($bid)) {
-                $aborrar = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, date 
+                $bresult2 = sql_query("SELECT bid, userlevel 
                                     FROM " . sql_prefix('banner') . " 
-                                    WHERE bid='$bid'");
+                                    WHERE userlevel!='9' 
+                                    LIMIT $bannum,1");
 
-                list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date) = sql_fetch_row($aborrar);
+                list($bid, $userlevel) = sql_fetch_row($bresult2);
 
-                if ($imptotal == $impmade) {
-                    sql_query("INSERT INTO " . sql_prefix('bannerfinish') . " 
-                            VALUES (NULL, '$cid', '$impmade', '$clicks', '$date', now())");
+                if ($userlevel == 0) {
+                    $okprint = true;
+                } else {
+                    if ($userlevel == 1) {
+                        if (Auth::securStatic('member')) {
+                            $okprint = true;
+                        }
+                    }
 
-                    sql_query("DELETE FROM " . sql_prefix('banner') . " 
+                    if ($userlevel == 3) {
+                        if (Auth::securStatic('admin')) {
+                            $okprint = true;
+                        }
+                    }
+                }
+
+                $while_cpt = $while_cpt + 1;
+            }
+
+            // Le risque est de sortir sans un BID valide
+            if (!isset($bid)) {
+                $rowQ1 = Q_Select("SELECT bid 
+                                FROM " . sql_prefix('banner') . " 
+                                WHERE userlevel='0' 
+                                LIMIT 0,1", 86400);
+
+                if ($rowQ1) {
+
+                    $myrow  = $rowQ1[0]; // erreur à l'install quand on n'a pas de banner dans la base ....
+                    $bid    = $myrow['bid'];
+
+                    $okprint = true;
+                }
+            }
+
+            if ($okprint) {
+
+                $myhost = Request::getip();
+
+                if (Config::get('banner.myIP') != $myhost) {
+                    sql_query("UPDATE " . sql_prefix('banner') . " 
+                            SET impmade=impmade+1 
                             WHERE bid='$bid'");
                 }
 
-                if ($imageurl != '') {
-                    echo '<a href="banners.php?op=click&amp;bid=' . $bid . '" target="_blank">
-                        <img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="banner" loading="lazy" />
-                    </a>';
-                } else {
-                    if (stristr($clickurl, '.txt')) {
-                        if (file_exists($clickurl)) {
-                            include_once $clickurl;
-                        }
+                if (($numrows > 0) and ($bid)) {
+                    $aborrar = sql_query("SELECT cid, imptotal, impmade, clicks, imageurl, clickurl, date 
+                                        FROM " . sql_prefix('banner') . " 
+                                        WHERE bid='$bid'");
+
+                    list($cid, $imptotal, $impmade, $clicks, $imageurl, $clickurl, $date) = sql_fetch_row($aborrar);
+
+                    if ($imptotal == $impmade) {
+                        sql_query("INSERT INTO " . sql_prefix('bannerfinish') . " 
+                                VALUES (NULL, '$cid', '$impmade', '$clicks', '$date', now())");
+
+                        sql_query("DELETE FROM " . sql_prefix('banner') . " 
+                                WHERE bid='$bid'");
+                    }
+
+                    if ($imageurl != '') {
+                        echo '<a href="banners.php?op=click&amp;bid=' . $bid . '" target="_blank">
+                            <img class="img-fluid" src="' . Language::affLangue($imageurl) . '" alt="banner" loading="lazy" />
+                        </a>';
                     } else {
-                        echo $clickurl;
+                        if (stristr($clickurl, '.txt')) {
+                            if (file_exists($clickurl)) {
+                                include_once $clickurl;
+                            }
+                        } else {
+                            echo $clickurl;
+                        }
                     }
                 }
             }
+        } else {
+            Url::redirectUrl('index.php');
         }
     }
 
-    function clickbanner($bid)
+    public function clickBanner(int $bid)
     {
         $bresult = sql_query("SELECT clickurl 
                             FROM " . sql_prefix('banner') . " 
@@ -182,16 +191,15 @@ class Banners extends FrontBaseController
         sql_free_result($bresult);
 
         if ($clickurl == '') {
-            global $nuke_url;
-            $clickurl = $nuke_url;
+            $clickurl = site_url();
         }
 
         Header('Location: ' . Language::affLangue($clickurl));
     }
 
-    function clientlogin()
+    public function clientLogin()
     {
-        $this->header_page();
+        Banner::headerPage();
 
         echo '<div class="card card-body mb-3">
                 <h3 class="mb-4"><i class="fas fa-sign-in-alt fa-lg me-3 align-middle"></i>' . translate('Connexion') . '</h3>
@@ -217,12 +225,12 @@ class Banners extends FrontBaseController
 
         Validation::adminFoot('fv', '', $arg1, 'no');
 
-        $this->footer_page();
+        Banner::footerPage();
     }
 
-    function IncorrectLogin()
+    public function incorrectLogin()
     {
-        $this->header_page();
+        Banner::headerPage();
 
         echo '<div class="alert alert-danger lead">
             ' . translate('Identifiant incorrect !') . '
@@ -230,63 +238,10 @@ class Banners extends FrontBaseController
             <button class="btn btn-secondary mt-2" onclick="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</button>
         </div>';
 
-        $this->footer_page();
+        Banner::footerPage();
     }
 
-    function header_page()
-    {
-        global $Titlesitename, $Default_Theme, $language;
-
-        include_once 'modules/upload/config/config.php';
-
-        include 'storage/meta/meta.php';
-
-        if ($url_upload_css) {
-            $url_upload_cssX = str_replace('style.css', $language . '-style.css', $url_upload_css);
-
-            if (is_readable($url_upload . $url_upload_cssX)) {
-                $url_upload_css = $url_upload_cssX;
-            }
-
-            print("<link href=\"" . $url_upload . $url_upload_css . "\" title=\"default\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n");
-        }
-
-        if (file_exists('themes/base/bootstrap/header_head.php')) {
-            include 'themes/base/bootstrap/header_head.php';
-        }
-
-        if (file_exists('themes/' . $Default_Theme . '/bootstrape/header_head.php')) {
-            include 'themes/' . $Default_Theme . '/bootstrap/header_head.php';
-        }
-
-        if (file_exists('themes/' . $Default_Theme . '/assets/css/style.css')) {
-            echo '<link href="themes/' . $Default_Theme . '/assets/css/style.css" rel="stylesheet" type=\"text/css\" media="all" />';
-        }
-
-        echo '</head>
-        <body style="margin-top:64px;">
-            <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
-                <div class="container-fluid">
-                <a class="navbar-brand" href="index.php"><i class="fa fa-home fa-lg me-2"></i></a>
-                <span class="navbar-text">' . translate('Bannières - Publicité') . '</span>
-                </div>
-            </nav>
-            <h2 class="mt-4">' . translate('Bannières - Publicité') . ' @ ' . $Titlesitename . '</h2>
-            <p align="center">';
-    }
-
-    function footer_page()
-    {
-        include 'themes/base/bootstrap/footer_after.php';
-
-        echo '</p>
-                </div>
-            </body>
-        </html>';
-    }
-
-    function bannerstats($login, $pass)
+    public function bannerStats(string $login, string $pass)
     {
         $result = sql_query("SELECT cid, name, passwd 
                             FROM " . sql_prefix('bannerclient') . " 
@@ -295,10 +250,11 @@ class Banners extends FrontBaseController
         list($cid, $name, $passwd) = sql_fetch_row($result);
 
         if ($login == '' and $pass == '' or $pass == '') {
-            $this->IncorrectLogin();
+            $this->incorrectLogin();
+
         } else {
             if ($pass == $passwd) {
-                $this->header_page();
+                Banner::headerPage();
 
                 echo '<h3>' . translate('Bannières actives pour') . ' ' . $name . '</h3>
                 <table data-toggle="table" data-search="true" data-striped="true" data-mobile-responsive="true" data-show-export="true" data-show-columns="true" data-icons="icons" data-icons-prefix="fa">
@@ -339,12 +295,10 @@ class Banners extends FrontBaseController
                     </tr>';
                 }
 
-                global $nuke_url, $sitename;
-
                 echo '</tbody>
                 </table>
                 <div class="lead my-3">
-                    <a href="' . $nuke_url . '" target="_blank">' . $sitename . '</a>
+                    <a href="' . site_url() . '" target="_blank">' . Config::get('app.sitename') . '</a>
                 </div>';
 
                 $result = sql_query("SELECT bid, imageurl, clickurl 
@@ -353,12 +307,12 @@ class Banners extends FrontBaseController
 
                 while (list($bid, $imageurl, $clickurl) = sql_fetch_row($result)) {
 
-                    $numrows = sql_num_rows($result);
+                    //$numrows = sql_num_rows($result); ??
 
                     echo '<div class="card card-body mb-3">';
 
                     if ($imageurl != '') {
-                        echo '<p><img src="' . Language::affLangue($imageurl) . '" class="img-fluid" />'; //pourquoi affLangue ??
+                        echo '<p><img src="' . Language::affLangue($imageurl) . '" class="img-fluid" />'; // pourquoi affLangue ??
                     } else {
                         echo '<p>';
                         echo $clickurl;
@@ -438,14 +392,14 @@ class Banners extends FrontBaseController
 
                 Validation::adminFoot('fv', '', '', 'no');
 
-                $this->footer_page();
+                Banner::footerPage();
             } else {
-                $this->IncorrectLogin();
+                $this->incorrectLogin();
             }
         }
     }
 
-    function EmailStats($login, $cid, $bid)
+    public function emailStats(string $login, int $cid, int $bid)
     {
         $result = sql_query("SELECT login 
                             FROM " . sql_prefix('bannerclient') . " 
@@ -462,7 +416,7 @@ class Banners extends FrontBaseController
             list($name, $email) = sql_fetch_row($result2);
 
             if ($email == '') {
-                $this->header_page();
+                Banner::headerPage();
 
                 echo '<p align="center">
                     <br />
@@ -475,7 +429,7 @@ class Banners extends FrontBaseController
                     <a href="javascript:history.go(-1)" >' . translate('Retour en arrière') . '</a>
                 </p>';
 
-                $this->footer_page();
+                Banner::footerPage();
             } else {
                 $result = sql_query("SELECT bid, imptotal, impmade, clicks, imageurl, clickurl, date 
                                     FROM " . sql_prefix('banner') . " 
@@ -493,11 +447,9 @@ class Banners extends FrontBaseController
                     $left = $imptotal - $impmade;
                 }
 
-                global $sitename;
-
                 $fecha = Date::formatTimes(time(), IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
 
-                $subject = html_entity_decode(translate('Bannières - Publicité'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : ' . $sitename;
+                $subject = html_entity_decode(translate('Bannières - Publicité'), ENT_COMPAT | ENT_HTML401, 'UTF-8') . ' : ' . Config::get('app.sitename');
 
                 $message = nl2br(
                     "Client : $name\n"
@@ -512,11 +464,18 @@ class Banners extends FrontBaseController
                         . translate('Rapport généré le') . ' : ' . $fecha . "\n\n"
                 );
 
-                include 'config/signat.php';
+                if (Config::has('signature.signature')) {
+
+                    $signature = Config::get('signature.signature');
+
+                    if (!empty($signature)) {
+                        $message .= $signature;
+                    }
+                }
 
                 Mailer::sendEmail($email, $subject, $message, '', true, 'html', '');
 
-                $this->header_page();
+                Banner::headerPage();
 
                 echo '<div class="card bg-light">
                     <div class="card-body"
@@ -528,7 +487,7 @@ class Banners extends FrontBaseController
                 </div>';
             }
         } else {
-            $this->header_page();
+            Banner::headerPage();
 
             echo '<div class="alert alert-danger">
                 ' . translate('Identifiant incorrect !') . '
@@ -540,12 +499,12 @@ class Banners extends FrontBaseController
             </div>';
         }
 
-        $this->footer_page();
+        Banner::footerPage();
     }
 
-    function change_banner_url_by_client($login, $pass, $cid, $bid, $url)
+    public function changeBannerUrlByClient(string $login, string $pass, int $cid, int $bid, string $url)
     {
-        $this->header_page();
+        Banner::headerPage();
 
         $result = sql_query("SELECT passwd 
                             FROM " . sql_prefix('bannerclient') . " 
@@ -576,7 +535,7 @@ class Banners extends FrontBaseController
             </div>';
         }
 
-        $this->footer_page();
+        Banner::footerPage();
     }
 
 }
