@@ -249,3 +249,25 @@ Exception information:
 
         ---------
 
+Exception information:
+
+        Date: Sep 18, 2025 5:38AM
+
+        Message: Type error: call_user_func_array(): Argument #1 ($callback) must be a valid callback, class App\Library\Theme\Theme does not have a method "LoadConfig"
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Support/Facades/Theme.php
+
+        Line: 25
+
+        Stack trace:
+
+        #0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Support/Facades/Theme.php(25): call_user_func_array()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Bootstrap/Bootstrap.php(231): App\Support\Facades\Theme::__callStatic()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(108): require('...')
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#4 {main}
+
+        ---------
+

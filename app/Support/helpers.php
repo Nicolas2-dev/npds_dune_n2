@@ -1,6 +1,7 @@
 <?php
 
 use Npds\Config\Config;
+use App\Support\Facades\Theme;
 use App\Support\Security\Hack;
 
 // Path functions.
@@ -80,6 +81,28 @@ if (!function_exists('theme_path')) {
         return $basePath . DS . normalize_path($path);
     }
 }
+
+if (!function_exists('theme_config')) {
+    /**
+     * Récupère une valeur de configuration spécifique au thème courant.
+     *
+     * @param string $key Clé de configuration relative au thème (ex: ".theme.name")
+     * @param mixed  $default Valeur par défaut si la clé n'existe pas
+     * @return mixed
+     */
+    function theme_config(string $key = '', mixed $default = null): mixed
+    {
+        $theme = Theme::getTheme();
+        $configKey = 'theme' . $theme . ($key !== '' ? '.' . $key : '');
+
+        if (Config::has($configKey)) {
+            return Config::get($configKey, $default);
+        }
+
+        return $default;
+    }
+}
+
 
 if (!function_exists('storage_path')) {
     /**

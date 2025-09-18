@@ -37,6 +37,26 @@ class Theme
     }
 
     /**
+     * 
+     *
+     * @return  [type]  [return description]
+     */
+    public function loadConfig(): void
+    {
+        $theme_lists =  $this->themeList();
+
+        $themeArray = explode(' ', $theme_lists);
+
+        foreach ($themeArray  as $theme) {
+
+            foreach (glob(theme_path($theme . '/Config/*.php')) as $path) {
+                $key = lcfirst(pathinfo($path, PATHINFO_FILENAME));
+                Config::set('theme' . $theme . '.'. $key, require($path));
+            }
+        }
+    }
+
+    /**
      * Récupère le thème actif pour l'utilisateur.
      *
      * Cette méthode vérifie si l'utilisateur est connecté et si un cookie contient un thème personnalisé.

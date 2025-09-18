@@ -55,12 +55,6 @@ class Download
      */
     public function topDownloadData(string $form, string $ordre): string
     {
-        global $long_chain; // dans theme a revoir !
-
-        if (!$long_chain) {
-            $long_chain = 13;
-        }
-
         $top = (int) Config::get('storie.top');
 
         $result = sql_query("SELECT did, dcounter, dfilename, dcategory, ddate, perms 
@@ -85,6 +79,8 @@ class Download
                 }
 
                 $ori_dfilename = $dfilename;
+
+                $long_chain = theme_config('theme.long_chain', 13);
 
                 if (strlen($dfilename) > $long_chain) {
                     $dfilename = (substr($dfilename, 0, $long_chain)) . " ...";
@@ -206,11 +202,11 @@ class Download
      *
      * @deprecated Cette méthode est obsolète et ne devrait plus être utilisée.
      */
-    public function dlTableHeader()
-    {
-        echo '</td>
-        <td>';
-    }
+    //public function dlTableHeader()
+    //{
+    //    echo '</td>
+    //    <td>';
+    //}
 
     /**
      * Affiche les icônes et la fenêtre modale pour un fichier téléchargeable.

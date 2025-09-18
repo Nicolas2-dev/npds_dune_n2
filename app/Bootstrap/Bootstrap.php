@@ -5,6 +5,7 @@ use App\Support\Sanitize;
 use App\Support\Facades\Sql;
 use App\Support\Facades\Spam;
 use App\Support\Facades\Block;
+use App\Support\Facades\Theme;
 use App\Support\Facades\Cookie;
 use App\Support\Facades\Language;
 use App\Support\Facades\Metalang;
@@ -219,6 +220,17 @@ Sql::getInstance();
 if (isset($user)) {
     $cookie = Cookie::cookieDecode($user);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Load Config Theme.
+|--------------------------------------------------------------------------
+|
+*/
+
+Theme::LoadConfig();
+
+dump(Config::All());
 
 /*
 |--------------------------------------------------------------------------
