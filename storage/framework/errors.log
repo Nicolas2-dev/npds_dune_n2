@@ -271,3 +271,118 @@ Exception information:
 
         ---------
 
+Exception information:
+
+        Date: Sep 18, 2025 6:19AM
+
+        Message: Cannot modify header information - headers already sent by (output started at /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/vendor/symfony/var-dumper/Dumper/AbstractDumper.php:175)
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php
+
+        Line: 211
+
+        Stack trace:
+
+        #0 [internal function]: Npds\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(211): header()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(98): Npds\Routing\Asset\Asset->serveAsset()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(133): Npds\Routing\Asset\Asset->dispatch()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#5 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 18, 2025 6:19AM
+
+        Message: Cannot modify header information - headers already sent by (output started at /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/vendor/symfony/var-dumper/Dumper/AbstractDumper.php:175)
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php
+
+        Line: 211
+
+        Stack trace:
+
+        #0 [internal function]: Npds\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(211): header()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(98): Npds\Routing\Asset\Asset->serveAsset()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(133): Npds\Routing\Asset\Asset->dispatch()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#5 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 18, 2025 6:20AM
+
+        Message: Cannot modify header information - headers already sent by (output started at /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/vendor/symfony/var-dumper/Dumper/AbstractDumper.php:175)
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php
+
+        Line: 211
+
+        Stack trace:
+
+        #0 [internal function]: Npds\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(211): header()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(98): Npds\Routing\Asset\Asset->serveAsset()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(133): Npds\Routing\Asset\Asset->dispatch()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#5 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 18, 2025 6:20AM
+
+        Message: Cannot modify header information - headers already sent by (output started at /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/vendor/symfony/var-dumper/Dumper/AbstractDumper.php:175)
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php
+
+        Line: 211
+
+        Stack trace:
+
+        #0 [internal function]: Npds\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(211): header()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(98): Npds\Routing\Asset\Asset->serveAsset()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(133): Npds\Routing\Asset\Asset->dispatch()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#5 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 18, 2025 6:20AM
+
+        Message: Cannot modify header information - headers already sent by (output started at /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/vendor/symfony/var-dumper/Dumper/AbstractDumper.php:175)
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php
+
+        Line: 211
+
+        Stack trace:
+
+        #0 [internal function]: Npds\Exceptions\Handler->handleError()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(211): header()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Asset/Asset.php(98): Npds\Routing\Asset\Asset->serveAsset()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(133): Npds\Routing\Asset\Asset->dispatch()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#5 {main}
+
+        ---------
+

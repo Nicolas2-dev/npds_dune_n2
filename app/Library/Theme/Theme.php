@@ -51,7 +51,7 @@ class Theme
 
             foreach (glob(theme_path($theme . '/Config/*.php')) as $path) {
                 $key = lcfirst(pathinfo($path, PATHINFO_FILENAME));
-                Config::set('theme' . $theme . '.'. $key, require($path));
+                Config::set('theme_' . strtolower($theme) . '.'. $key, require($path));
             }
         }
     }

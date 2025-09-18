@@ -93,7 +93,7 @@ if (!function_exists('theme_config')) {
     function theme_config(string $key = '', mixed $default = null): mixed
     {
         $theme = Theme::getTheme();
-        $configKey = 'theme' . $theme . ($key !== '' ? '.' . $key : '');
+        $configKey = 'theme_' . strtolower($theme) . ($key !== '' ? '.' . $key : '');
 
         if (Config::has($configKey)) {
             return Config::get($configKey, $default);
@@ -102,7 +102,6 @@ if (!function_exists('theme_config')) {
         return $default;
     }
 }
-
 
 if (!function_exists('storage_path')) {
     /**
