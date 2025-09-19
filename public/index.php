@@ -84,7 +84,7 @@ foreach (glob(APPPATH . 'Config/*.php') as $path) {
 | Définition du fuseau horaire par défaut.
 |--------------------------------------------------------------------------
 */
-$timezone = Config::get('app.timezone', 'Europe/London');
+$timezone = Config::get('date.timezone', 'Europe/London');
 date_default_timezone_set($timezone);
 
 /*
