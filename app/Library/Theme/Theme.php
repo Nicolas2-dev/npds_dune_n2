@@ -166,7 +166,7 @@ class Theme
     public function themeList(): string
     {
         $themelist = [];
-        $handle = opendir('themes');
+        $handle = opendir(THEME_PATH);
 
         if ($handle !== false) {
             while (false !== ($file = readdir($handle))) {
@@ -246,10 +246,10 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/Partials/News/IndexNews.php')) {
-            $inclusion = 'themes/' . $theme . '/Views/Partials/News/IndexNews.php';
-        } elseif (file_exists('themes/Base/Views/Partials/News/IndexNews.php')) {
-            $inclusion = 'themes/Base/Views/Partials/News/IndexNews.php';
+        if (file_exists(BASEPATH.'themes/' . $theme . '/Views/Partials/News/IndexNews.php')) {
+            $inclusion = BASEPATH.'themes/' . $theme . '/Views/Partials/News/IndexNews.php';
+        } elseif (file_exists(BASEPATH.'themes/Base/Views/Partials/News/IndexNews.php')) {
+            $inclusion = BASEPATH.'themes/Base/Views/Partials/News/IndexNews.php';
         } else {
             echo 'IndexNews.php manquant / not find !<br />';
             die();
@@ -371,10 +371,10 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists("themes/" . $theme . "/Views/Partials/News/DetailNews.php")) {
-            $inclusion = "themes/" . $theme . "/Views/Partials/News/DetailNews.php";
-        } elseif (file_exists("themes/Base/Views/Partials/News/DetailNews.php")) {
-            $inclusion = "themes/Base/Views/Partials/News/DetailNews.php";
+        if (file_exists(BASEPATH."themes/" . $theme . "/Views/Partials/News/DetailNews.php")) {
+            $inclusion = BASEPATH."themes/" . $theme . "/Views/Partials/News/DetailNews.php";
+        } elseif (file_exists(BASEPATH."themes/Base/Views/Partials/News/DetailNews.php")) {
+            $inclusion = BASEPATH."themes/Base/Views/Partials/News/DetailNews.php";
         } else {
             echo 'detail-news.php manquant / not find !<br />';
             die();
@@ -452,19 +452,19 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/Partials/Block/BlocRight.php') && ($bloc_side == 'RIGHT')) {
-            $inclusion = 'themes/' . $theme . '/Views/Partials/Block/BlocRight.php';
+        if (file_exists(BASEPATH.'themes/' . $theme . '/Views/Partials/Block/BlocRight.php') && ($bloc_side == 'RIGHT')) {
+            $inclusion = BASEPATH.'themes/' . $theme . '/Views/Partials/Block/BlocRight.php';
         }
 
-        if (file_exists('themes/' . $theme . '/Views/Partials/Block/BlocLeft.php') && ($bloc_side == 'LEFT')) {
-            $inclusion = 'themes/' . $theme . '/Views/Partials/Block/BlocLeft.php';
+        if (file_exists(BASEPATH.'themes/' . $theme . '/Views/Partials/Block/BlocLeft.php') && ($bloc_side == 'LEFT')) {
+            $inclusion = BASEPATH.'themes/' . $theme . '/Views/Partials/Block/BlocLeft.php';
         }
 
         if (!$inclusion) {
-            if (file_exists('themes/' . $theme . '/Views/Partials/Block/Bloc.php')) {
-                $inclusion = 'themes/' . $theme . '/Views/Partials/Block/Bloc.php';
-            } elseif (file_exists('themes/Base/Views/Partials/Block/Bloc.php')) {
-                $inclusion = 'themes/Base/Views/Partials/Block/Bloc.php';
+            if (file_exists(BASEPATH.'themes/' . $theme . '/Views/Partials/Block/Bloc.php')) {
+                $inclusion = BASEPATH.'themes/' . $theme . '/Views/Partials/Block/Bloc.php';
+            } elseif (file_exists(BASEPATH.'themes/Base/Views/Partials/Block/Bloc.php')) {
+                $inclusion = BASEPATH.'themes/Base/Views/Partials/Block/Bloc.php';
             } else {
                 echo 'bloc.php manquant / not find !<br />';
                 die();
@@ -511,10 +511,10 @@ class Theme
 
         $inclusion = false;
 
-        if (file_exists('themes/' . $theme . '/Views/Partials/Edito/Editorial.php')) {
-            $inclusion = 'themes/' . $theme . '/Views/Partials/Edito/Editorial.php';
-        } elseif (file_exists('themes/Base/Views/Partials/Edito/Editorial.php')) {
-            $inclusion = 'themes/Base/Views/Partials/Edito/Editorial.php';
+        if (file_exists(BASEPATH.'themes/' . $theme . '/Views/Partials/Edito/Editorial.php')) {
+            $inclusion = BASEPATH.'themes/' . $theme . '/Views/Partials/Edito/Editorial.php';
+        } elseif (file_exists(BASEPATH.'themes/Base/Views/Partials/Edito/Editorial.php')) {
+            $inclusion = BASEPATH.'themes/Base/Views/Partials/Edito/Editorial.php';
         } else {
             echo 'editorial.php manquant / not find !<br />';
             die();
@@ -669,15 +669,15 @@ class Theme
             //]]>
         </script>';
 
-        if (file_exists('themes/Base/Bootstrap/body_onload.php')) {
+        if (file_exists(BASEPATH.'themes/Base/Bootstrap/body_onload.php')) {
             echo $body_onloadH;
-            include 'themes/Base/Bootstrap/body_onload.php';
+            include BASEPATH.'themes/Base/Bootstrap/body_onload.php';
             echo $body_onloadF;
         }
 
-        if (file_exists('themes/' . $tmp_theme . '/Bootstrap/body_onload.php')) {
+        if (file_exists(BASEPATH.'themes/' . $tmp_theme . '/Bootstrap/body_onload.php')) {
             echo $body_onloadH;
-            include 'themes/' . $tmp_theme . '/Bootstrap/body_onload.php';
+            include BASEPATH.'themes/' . $tmp_theme . '/Bootstrap/body_onload.php';
             echo $body_onloadF;
         }
 
@@ -773,10 +773,10 @@ class Theme
 
     function footer_after($theme)
     {
-        if (file_exists($path_theme = 'themes/' . $theme . '/Views/Bootstrap/Footer_after.php')) {
+        if (file_exists($path_theme = BASEPATH.'themes/' . $theme . '/Views/Bootstrap/Footer_after.php')) {
             include $path_theme;
         } else {
-            if (file_exists($path_module = 'themes/Base/Views/Bootstrap/ooter_after.php')) {
+            if (file_exists($path_module = BASEPATH.'themes/Base/Views/Bootstrap/ooter_after.php')) {
                 include $path_module;
             }
         }
@@ -784,7 +784,7 @@ class Theme
 
     function footer_before()
     {
-        if (file_exists($path_module = 'themes/Base/Views/Bootstrap/Footer_before.php')) {
+        if (file_exists($path_module = BASEPATH.'themes/Base/Views/Bootstrap/Footer_before.php')) {
             include $path_module;
         }
     }

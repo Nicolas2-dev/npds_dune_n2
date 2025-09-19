@@ -8,7 +8,7 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown" data-bs-theme="light"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">News</a>
                     <ul class="dropdown-menu" role="menu" aria-label="list news">
-                        <li><a class="dropdown-item" href="<?= site_url('index/index'); ?>.php">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('index/index'); ?>">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
                         <li><a class="dropdown-item" href="search.php">[french]Les archives[/french][english]Archives[/english][chinese]&#x6863;&#x6848;&#x9986;[/chinese][spanish]Los archivos[/spanish][german]Die Archive[/german]</a></li>
                         <li><a class="dropdown-item" href="submit.php">[french]Soumettre un article[/french][english]Submit a New[/english][chinese]&#x63D0;&#x8BAE;&#x51FA;&#x7248;&#x4E00;&#x4EFD;&#x51FA;&#x7248;&#x7269;[/chinese][spanish]Enviar un artículo[/spanish][german]Publikation vorschlagen[/german]</a></li>
                     </ul>

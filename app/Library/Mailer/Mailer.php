@@ -61,15 +61,15 @@ class Mailer
 
         if (preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $From_email)) {
 
-            if (Config::get('mailer.dkim_auto') == 2) {
+            $NPDS_Key = Config::get('app.NPDS_Key');
 
-                $NPDS_Key = Config::get('app.NPDS_Key ');
+            if (Config::get('mailer.php_mailer.dkim_auto') == 2) {
 
                 //Private key filename for this selector 
-                $privatekeyfile = 'storage/mailer/' . $NPDS_Key . '_dkim_private.pem';
+                $privatekeyfile = STORAGE_PATH.'mailer/' . $NPDS_Key . '_dkim_private.pem';
 
                 //Public key filename for this selector 
-                $publickeyfile = 'storage/mailer/' . $NPDS_Key . '_dkim_public.pem';
+                $publickeyfile = STORAGE_PATH.'mailer/' . $NPDS_Key . '_dkim_public.pem';
 
                 if (!file_exists($privatekeyfile)) {
                     //Create a 2048-bit RSA key with an SHA256 digest 
@@ -100,21 +100,21 @@ class Mailer
                 if (Config::get('mailer.mail_fonction') == 2) {
                     $mail->isSMTP();
 
-                    $mail->Host       = Config::get('mailer.smtp_host');
-                    $mail->SMTPAuth   = Config::get('mailer.smtp_auth');
-                    $mail->Username   = Config::get('mailer.smtp_username');
-                    $mail->Password   = Config::get('mailer.smtp_password');
+                    $mail->Host       = Config::get('mailer.php_mailer.smtp_host');
+                    $mail->SMTPAuth   = Config::get('mailer.php_mailer.smtp_auth');
+                    $mail->Username   = Config::get('mailer.php_mailer.smtp_username');
+                    $mail->Password   = Config::get('mailer.php_mailer.smtp_password');
 
-                    if (Config::get('mailer.smtp_secure')) {
-                        if (Config::get('mailer.smtp_crypt') === 'tls') {
+                    if (Config::get('mailer.php_mailer.smtp_secure')) {
+                        if (Config::get('mailer.php_mailer.smtp_crypt') === 'tls') {
                             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-                        } elseif (Config::get('mailer.smtp_crypt') === 'ssl') {
+                        } elseif (Config::get('mailer.php_mailer.smtp_crypt') === 'ssl') {
                             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                         }
                     }
 
-                    $mail->Port       = Config::get('mailer.smtp_port');
+                    $mail->Port       = Config::get('mailer.php_mailer.smtp_port');
                 }
 
                 $mail->CharSet = 'UTF-8';
@@ -160,14 +160,14 @@ class Mailer
                     $mail->Body = sprintf($stub_mail, $message);
                 }
 
-                if (Config::get('mailer.dkim_auto') == 2) {
+                if (Config::get('mailer.php_mailer.dkim_auto') == 2) {
                     $mail->DKIM_domain      = str_replace(['http://', 'https://'], ['', ''], Config::get('app.url'));
                     $mail->DKIM_private     = $privatekeyfile;;
                     $mail->DKIM_selector    = $NPDS_Key;
                     $mail->DKIM_identity    = $mail->From;
                 }
 
-                if (Config::get('mailer.mail_fonction') == 2) {
+                if (Config::get('mailer.php_mailer.mail_fonction') == 2) {
                     if ($debug) {
                         // on génère un journal détaillé après l'envoi du mail 
                         $mail->SMTPDebug = SMTP::DEBUG_SERVER;

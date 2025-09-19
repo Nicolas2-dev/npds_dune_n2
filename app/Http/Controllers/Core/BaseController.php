@@ -71,8 +71,8 @@ class BaseController extends Controller
 
         // provisoire le temps de finir les autres parties
         View::addNamespace('App', 'app');
-        View::addNamespace('Themes/NpdsBoostSK', 'themes/NpdsBoostSK/Views');
-        View::addNamespace('Themes/Base', 'themes/Base/Views');
+        View::addNamespace('Themes/NpdsBoostSK', BASEPATH.'themes/NpdsBoostSK/Views');
+        View::addNamespace('Themes/Base', BASEPATH.'themes/Base/Views');
 
         //
         Config::set('themes.current.base', $theme);

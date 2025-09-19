@@ -85,15 +85,15 @@ class Edito
         global $cookie;
 
         if (isset($cookie[3])) {
-            if (file_exists($path = 'storage/static/edito_membres.txt')) {
+            if (file_exists($path = storage_path('static/edito_membres.txt'))) {
                 $Xcontents =  $this->readFile($path);
             } else {
-                if (file_exists($path = 'storage/static/edito.txt')) {
+                if (file_exists($path = storage_path('static/edito.txt'))) {
                     $Xcontents =  $this->readFile($path);
                 }
             }
         } else {
-            if (file_exists($path = 'storage/static/edito.txt')) {
+            if (file_exists($path = storage_path('static/edito.txt'))) {
                 $Xcontents =  $this->readFile($path);
             }
         }

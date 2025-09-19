@@ -212,7 +212,7 @@ class Handler
 
         $theme = Theme::getTheme();    
            
-        View::addNamespace('Themes/' . $theme, 'themes/' . $theme .'/Views');
+        View::addNamespace('Themes/' . $theme, BASEPATH.'themes/' . $theme .'/Views');
 
         $view = View::make('Themes/' . $theme .'::Layouts/Default')
             ->shares('title', $info['title'])

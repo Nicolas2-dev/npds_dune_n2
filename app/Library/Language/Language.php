@@ -41,8 +41,8 @@ class Language
      */
     public function languageCache(): string
     {
-        if (file_exists('storage/locale/language.php')) {
-            include 'storage/locale/language.php';
+        if (file_exists(storage_path('locale/language.php'))) {
+            include storage_path('locale/language.php');
         } else {
             //include($local_path . 'manuels/list.php');
             $languageslist = Language::languageList();
@@ -136,11 +136,11 @@ class Language
         $local_path = '';
         $languageslist = '';
 
-        if (isset($module_mark)) {
-            $local_path = '../../';
-        }
+        //if (isset($module_mark)) {
+        //    $local_path = '../../';
+        //}
 
-        $handle = opendir($local_path . 'language');
+        $handle = opendir(APPPATH . 'language');
 
         while (false !== ($file = readdir($handle))) {
             if (!strstr($file, '.')) {
@@ -150,7 +150,7 @@ class Language
 
         closedir($handle);
 
-        $file = fopen($local_path . 'storage/locale/language.php', 'w');
+        $file = fopen(storage_path('locale/language.php'), 'w');
 
         fwrite($file, "<?php \$languageslist=\"" . trim($languageslist) . "\"; ?>");
         fclose($file);
