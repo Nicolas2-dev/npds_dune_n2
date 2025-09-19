@@ -156,11 +156,11 @@ class Handler
     /**
      * Rapporte une exception (log, monitoring, mail, etc.).
      *
-     * @param Exception $e
+     * @param Throwable $e
      *
      * @return void
      */
-    public function report(Exception $e): void
+    public function report(Throwable $e): void
     { 
         // Envoi mail si mode production
         if ( ! $this->debug) {
@@ -183,11 +183,11 @@ class Handler
      *
      * Cette méthode extrait la date, le message, le code, le fichier, la ligne et la trace de l'exception.
      *
-     * @param Exception $e L'exception à formater.
+     * @param Throwable $e L'exception à formater.
      *
      * @return string Une chaîne contenant les informations formatées de l'exception.
      */
-    protected function formatMessage(Exception $e): string
+    protected function formatMessage(Throwable $e): string
     {
         return sprintf(
             "Date: %s\nMessage: %s\nCode: %s\nFile: %s\nLine: %s\nTrace:\n%s\n\n",
@@ -203,11 +203,11 @@ class Handler
     /**
      * Affiche une exception à l’utilisateur.
      *
-     * @param Exception $e
+     * @param Throwable $e
      *
      * @return void
      */
-    public function render(Exception $e): void
+    public function render(Throwable $e): void
     {
         // Assets Register
         AssetManager::register();
@@ -231,7 +231,7 @@ class Handler
     /**
      * Détermine automatiquement le code HTTP depuis l’exception
      */
-    protected function getStatusCodeFromException(Exception $e): string|array
+    protected function getStatusCodeFromException(Throwable $e): string|array
     {
         foreach ($this->exceptionMap as $class => $info) {
             if ($e instanceof $class) {

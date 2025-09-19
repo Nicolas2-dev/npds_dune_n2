@@ -2,12 +2,8 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use App\Support\Facades\Theme;
-use Npds\Support\Facades\View;
-use Npds\Exceptions\Http\HttpException;
+use Throwable;
 use Npds\Exceptions\Handler as BaseHandler;
-use App\Support\Facades\Assets as AssetManager;
 
 class Handler extends BaseHandler
 {
@@ -15,11 +11,11 @@ class Handler extends BaseHandler
     /**
      * Journalise une exception dans le fichier errors.log.
      *
-     * @param Exception $e L'exception à journaliser
+     * @param Throwable $e L'exception à journaliser
      *
      * @return void
      */
-    public function report(Exception $e): void
+    public function report(Throwable $e): void
     {
         $message = $e->getMessage();
 
@@ -51,20 +47,18 @@ class Handler extends BaseHandler
     }
 
     /**
-     * Rendu d'une exception en réponse HTTP.
+     * Rendu d'une exception.
      *
-     * Si l'exception est une HttpException et qu'une vue correspondante existe,
-     * elle sera affichée avec la mise en page par défaut.
+     * Affiche une exception en choisissant la vue appropriée si elle existe.
+     * Si l'exception est une HttpException et qu'une vue correspondante est disponible,
+     * cette vue sera utilisée avec la mise en page par défaut.
      *
-     * @param Exception $e L'exception à afficher
+     * @param Throwable $e L'exception à afficher
      *
      * @return void
      */
-    public function render(Exception $e): void
+    public function render(Throwable $e): void
     {
-        // Journalisation personnalisée
-        //$this->report($e);
-
         // Laisse le parent gérer le rendu
         parent::render($e);
     }
