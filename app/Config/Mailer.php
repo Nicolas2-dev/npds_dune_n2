@@ -16,7 +16,7 @@ return [
     'domainemail' => 'webmaster@site.fr',
 
     // Quelle fonction Mail utiliser (1=mail, 2=email)
-    'mail_fonction' => 1,
+    'mail_fonction' => 2,
 
 
     /*

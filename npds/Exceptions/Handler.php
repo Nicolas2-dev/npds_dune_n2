@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use ErrorException;
 use Npds\Config\Config;
+use App\Support\Facades\Log;
 use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
 use App\Support\Facades\Mailer;
@@ -153,7 +154,7 @@ class Handler
     }
 
     /**
-     * Rapporte une exception (log, monitoring, etc.).
+     * Rapporte une exception (log, monitoring, mail, etc.).
      *
      * @param Exception $e
      *
@@ -162,14 +163,17 @@ class Handler
     public function report(Exception $e): void
     { 
         // Envoi mail si mode production
-        if ($this->debug) {
-
+        if ( ! $this->debug) {
             $email   = Config::get('mailer.adminmail');
             $subject = "Erreur sur le site : " . $e->getMessage();
             $message = $this->formatMessage($e);
             $headers = Config::get('mailer.domainemail');
             
-            Mailer::sendEmail($email, $subject, $message, $headers);
+            $success = Mailer::sendEmail($email, $subject, $message, $headers);
+
+            //if (! $success) {
+            //    Log::ecrireLog('smtpmail', "Échec envoi mail erreur", "Impossible d'envoyer le mail à $email");
+            //}
         }
     }
 
