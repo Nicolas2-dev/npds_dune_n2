@@ -8,6 +8,7 @@ use ErrorException;
 use Npds\Config\Config;
 use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
+use App\Support\Facades\Mailer;
 use Npds\Exceptions\Http\HttpException;
 use Npds\Exceptions\FatalThrowableError;
 use Npds\Exceptions\ForbiddenHttpException;
@@ -140,7 +141,11 @@ class Handler
             $e = new FatalThrowableError($e);
         }
 
-        if (! $e instanceof HttpException) {
+        //if (! $e instanceof HttpException) {
+        //    $this->report($e);
+        //}
+
+        if (!($e instanceof NotFoundHttpException || $e instanceof ForbiddenHttpException)) {
             $this->report($e);
         }
 
@@ -155,8 +160,39 @@ class Handler
      * @return void
      */
     public function report(Exception $e): void
+    { 
+        // Envoi mail si mode production
+        if ($this->debug) {
+
+            $email   = Config::get('mailer.adminmail');
+            $subject = "Erreur sur le site : " . $e->getMessage();
+            $message = $this->formatMessage($e);
+            $headers = Config::get('mailer.domainemail');
+            
+            Mailer::sendEmail($email, $subject, $message, $headers);
+        }
+    }
+
+    /**
+     * Formate les informations d'une exception en une chaîne lisible pour le journal ou l'envoi par mail.
+     *
+     * Cette méthode extrait la date, le message, le code, le fichier, la ligne et la trace de l'exception.
+     *
+     * @param Exception $e L'exception à formater.
+     *
+     * @return string Une chaîne contenant les informations formatées de l'exception.
+     */
+    protected function formatMessage(Exception $e): string
     {
-        // 
+        return sprintf(
+            "Date: %s\nMessage: %s\nCode: %s\nFile: %s\nLine: %s\nTrace:\n%s\n\n",
+            date('Y-m-d H:i:s'),
+            $e->getMessage(),
+            $e->getCode(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTraceAsString()
+        );
     }
 
     /**
@@ -183,6 +219,8 @@ class Handler
             ->nest('content', $info['view'], ['exception' => $e]);
 
         echo $view->render();
+
+        exit();
     }
 
     /**

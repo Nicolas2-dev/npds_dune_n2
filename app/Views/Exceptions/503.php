@@ -9,6 +9,12 @@
             <h3>Service indisponible</h3>
             <p>Nous revenons tout de suite.</p>
 
+            <div class="row mt-4">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <?= Component::backtohome(); ?>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

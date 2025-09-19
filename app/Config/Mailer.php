@@ -12,6 +12,9 @@ return [
     // Email de l’administrateur du site
     'adminmail' => 'webmaster@site.fr',
 
+    // Email de l’administrateur du site
+    'domainemail' => 'webmaster@site.fr',
+
     // Quelle fonction Mail utiliser (1=mail, 2=email)
     'mail_fonction' => 1,
 

@@ -45,6 +45,9 @@ class Handler extends BaseHandler
         $path = STORAGE_PATH .'framework' .DS .'errors.log';
 
         file_put_contents($path, $message, FILE_APPEND);
+
+        // Laisse le parent envoye le mail a l'admin
+        parent::report($e);
     }
 
     /**

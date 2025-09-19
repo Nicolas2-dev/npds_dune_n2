@@ -61,9 +61,7 @@ class Mailer
 
         if (preg_match('#^[_\.0-9a-z-]+@[0-9a-z-\.]+\.+[a-z]{2,4}$#i', $From_email)) {
 
-            include 'config/PHPmailer.conf.php';
-
-            if ($dkim_auto == 2) {
+            if (Config::get('mailer.dkim_auto') == 2) {
 
                 $NPDS_Key = Config::get('app.NPDS_Key ');
 
@@ -116,7 +114,7 @@ class Mailer
                         }
                     }
 
-                    $mail->Port       = $smtp_port;
+                    $mail->Port       = Config::get('mailer.smtp_port');
                 }
 
                 $mail->CharSet = 'UTF-8';
@@ -162,7 +160,7 @@ class Mailer
                     $mail->Body = sprintf($stub_mail, $message);
                 }
 
-                if ($dkim_auto == 2) {
+                if (Config::get('mailer.dkim_auto') == 2) {
                     $mail->DKIM_domain      = str_replace(['http://', 'https://'], ['', ''], Config::get('app.url'));
                     $mail->DKIM_private     = $privatekeyfile;;
                     $mail->DKIM_selector    = $NPDS_Key;
