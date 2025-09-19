@@ -67,7 +67,7 @@ return [
         'Theme'         => 'App\Support\Facades\Theme',
         'UserMenu'      => 'App\Support\Facades\UserMenu',
         'User'          => 'App\Support\Facades\User',
-
+        'Component'     => 'App\Support\Facades\Component'
     ),
 
 ];

@@ -8,6 +8,7 @@ use App\Support\Facades\Auth;
 use App\Support\Facades\Block;
 use Npds\Support\Facades\View;
 use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 
 class NpdsBoostSK

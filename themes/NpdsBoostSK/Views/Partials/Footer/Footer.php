@@ -1,7 +1,7 @@
 <footer id="footer" class="footer text-center mt-4">
     <div class="container">
-        <p>!sc_infos!
-            <br />!msg_foot!
+        <p><?= Component::ScInfo(); ?>
+            <br /><?= Component::footer(); ?>
         </p>
     </div>
 </footer>

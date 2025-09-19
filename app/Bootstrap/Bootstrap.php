@@ -10,6 +10,7 @@ use App\Support\Facades\Cookie;
 use App\Support\Facades\Session;
 use App\Support\Facades\Language;
 use App\Support\Facades\Metalang;
+use App\Library\Components\Component;
 use App\Support\Security\UrlProtector;
 use App\Library\Language\Sigleton\LanguageManager;
 

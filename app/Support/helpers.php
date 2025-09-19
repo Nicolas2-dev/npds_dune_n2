@@ -3,6 +3,8 @@
 use Npds\Config\Config;
 use App\Support\Facades\Theme;
 use App\Support\Security\Hack;
+use App\Support\Facades\Language;
+use App\Support\Facades\Metalang;
 
 // Path functions.
 

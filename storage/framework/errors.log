@@ -1,0 +1,45 @@
+Exception information:
+
+        Date: Sep 19, 2025 1:26AM
+
+        Message: Type error: App\Library\News\News::prepaAffNews(): Argument #3 ($marqeur) must be of type int, string given
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/News/News.php
+
+        Line: 468
+
+        Stack trace:
+
+        #0 [internal function]: App\Library\News\News->prepaAffNews()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Support/Facades/News.php(26): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Components/ArticleCompletIDComponent.php(30): App\Support\Facades\News::__callStatic()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Components/ComponentManager.php(159): ArticleCompletIDComponent->render()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Support/Facades/Component.php(25): App\Library\Components\ComponentManager->renderComponent()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/themes/NpdsBoostSK/Views/Partials/Footer/Footer.php(152): App\Support\Facades\Component::__callStatic()
+#6 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(61): include('...')
+#7 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(23): Npds\View\Engines\PhpEngine->evaluatePath()
+#8 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(155): Npds\View\Engines\PhpEngine->get()
+#9 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(125): Npds\View\View->getContents()
+#10 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(94): Npds\View\View->renderContents()
+#11 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(393): Npds\View\View->render()
+#12 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Library/Language/Language.php(170): Npds\View\View->__toString()
+#13 [internal function]: App\Library\Language\Language->affLangue()
+#14 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Support/Facades/Language.php(25): call_user_func_array()
+#15 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/themes/NpdsBoostSK/Library/NpdsBoostSK.php(315): App\Support\Facades\Language::__callStatic()
+#16 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/themes/NpdsBoostSK/Views/Layouts/Default.php(53): Themes\NpdsBoostSK\Library\NpdsBoostSK->footer()
+#17 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(61): include('...')
+#18 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/Engines/PhpEngine.php(23): Npds\View\Engines\PhpEngine->evaluatePath()
+#19 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(155): Npds\View\Engines\PhpEngine->get()
+#20 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(125): Npds\View\View->getContents()
+#21 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(94): Npds\View\View->renderContents()
+#22 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/View/View.php(393): Npds\View\View->render()
+#23 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Http/Response.php(127): Npds\View\View->__toString()
+#24 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Http/Response.php(114): Npds\Http\Response->render()
+#25 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(147): Npds\Http\Response->send()
+#26 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#27 {main}
+
+        ---------
+

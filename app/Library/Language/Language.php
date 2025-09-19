@@ -261,7 +261,7 @@ class Language
 
         $languageslocal = $language . ' ' . str_replace($language, '', $languageslist);
         $languageslocal = trim(str_replace('  ', ' ', $languageslocal));
-
+        
         $tab_langue = explode(' ', $languageslocal);
 
         return $tab_langue;

@@ -22,4 +22,16 @@ return [
     // Nombre de caractères affichés avant troncature pour certains blocs
     'long_chain' => 34,
 
+    // Définition des balises conteneur global utilisées dans l'en-tête et le pied de page
+    'ContainerGlobal' => [
+        'header' => '<div id="container">', // Ouverture du conteneur principal autour du corps de la page
+        'footer' => '</div>',               // Fermeture du conteneur principal autour du corps de la page
+    ],
+
+    // Classes CSS supplémentaires pour les colonnes gauche et droite
+    'moreclass' => [
+        'right' => 'col-12', // Classe appliquée aux blocs de droite (par défaut pleine largeur)
+        'left'  => 'col',    // Classe appliquée aux blocs de gauche (par défaut largeur automatique)
+    ],
+    
 ];

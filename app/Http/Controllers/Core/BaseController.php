@@ -8,6 +8,7 @@ use Npds\Config\Config;
 use BadMethodCallException;
 use Npds\Routing\Controller;
 use Npds\Support\Facades\View;
+use App\Support\Facades\Metalang;
 use App\Support\Facades\Assets as AssetManager;
 use Npds\Support\Contracts\RenderableInterface;
 

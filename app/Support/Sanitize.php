@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Support\Security\Hack;
+
 
 class Sanitize
 {
@@ -19,6 +21,18 @@ class Sanitize
             '<br />',
             $txt
         );
+    }
+
+    /**
+     * Filtre un argument passé aux requêtes SQL.
+     * Cette fonction est automatiquement appelée par META-LANG lors du passage de paramètres.
+     *
+     * @param string $arg L'argument à filtrer.
+     * @return string L'argument filtré.
+     */
+    public static function argFilter(string $arg): string
+    {
+        return Hack::removeHack(stripslashes(htmlspecialchars(urldecode($arg), ENT_QUOTES, 'UTF-8')));
     }
 
     /**

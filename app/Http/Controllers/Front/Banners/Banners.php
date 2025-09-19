@@ -49,13 +49,7 @@ class Banners extends FrontBaseController
                 $this->EmailStats($login, $cid, $bid);
                 break;
 
-            default:
-                if ($banners) {
-                    $this->viewbanner();
-                } else {
-                    Url::redirectUrl('index.php');
-                }
-                break;
+
         }
         */
 

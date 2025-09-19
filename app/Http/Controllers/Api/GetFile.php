@@ -18,7 +18,7 @@ class GetFile extends BaseController
         parent::initialize();
     }
 
-    public function index()
+    public function index(string $apli)
     {
         switch ($apli) {
             case 'f-manager':

@@ -2,7 +2,6 @@
 
 use Shared\FileSend\FileSender;
 
-
 if (! function_exists('get_os')) {
     /**
      * Détecte si le système de l'utilisateur est Windows

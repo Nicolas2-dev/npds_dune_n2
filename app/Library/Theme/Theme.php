@@ -231,7 +231,7 @@ class Theme
         string      $aid,
         string      $informant,
         int|string  $time,
-        string      $title,
+        string|null $title,
         int         $counter,
         string|int  $topic,
         string      $thetext,
@@ -331,6 +331,7 @@ class Theme
         );
 
         echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        //echo Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
     }
 
     /**
