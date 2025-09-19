@@ -163,7 +163,7 @@ class Handler
     public function report(Exception $e): void
     { 
         // Envoi mail si mode production
-        if ( $this->debug) {
+        if ( ! $this->debug) {
 
             $email   = Config::get('mailer.adminmail');
             $subject = "Erreur sur le site : " . $e->getMessage();
