@@ -163,7 +163,8 @@ class Handler
     public function report(Exception $e): void
     { 
         // Envoi mail si mode production
-        if ( ! $this->debug) {
+        if ( $this->debug) {
+
             $email   = Config::get('mailer.adminmail');
             $subject = "Erreur sur le site : " . $e->getMessage();
             $message = $this->formatMessage($e);
@@ -171,9 +172,9 @@ class Handler
             
             $success = Mailer::sendEmail($email, $subject, $message, $headers);
 
-            //if (! $success) {
-            //    Log::ecrireLog('smtpmail', "Échec envoi mail erreur", "Impossible d'envoyer le mail à $email");
-            //}
+            if (! $success) {
+                Log::ecrireLog('smtpmail', "Échec envoi mail erreur", "Impossible d'envoyer le mail à $email");
+            }
         }
     }
 

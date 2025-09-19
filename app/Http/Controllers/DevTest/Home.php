@@ -32,7 +32,7 @@ class Home extends FrontBaseController
         $content = 'This is the Homepage dev test';
 
         // test erreur !
-        toto();
+        //toto();
 
         //vd(
         //    Sql::fetch_assoc(Sql::query('SELECT * FROM ' . sql_prefix('users') . ' WHERE uid='. 2)),
