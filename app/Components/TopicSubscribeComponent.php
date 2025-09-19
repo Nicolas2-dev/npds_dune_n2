@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /* Exemple d'appel :
-<?= Component::TopicSubscribe('col-6'); ?>
+    <?= Component::TopicSubscribe('col-6'); ?>
 */
+
 class TopicSubscribeComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

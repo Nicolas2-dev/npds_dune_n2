@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Block;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::leftBlocks('R1'); ?>
-<?= Component::leftBlocks(['code' => 'L2']); ?>
-<?= Component::leftBlocks(['L3']); ?>
+Exemple d'appel :
+    <?= Component::leftBlocks('R1'); ?>
+    <?= Component::leftBlocks(['code' => 'L2']); ?>
+    <?= Component::leftBlocks(['L3']); ?>
 */
 
 class LeftBlocksComponent extends BaseComponent

@@ -1,18 +1,18 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\News;
 use App\Support\Facades\Theme;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::articleCompletID(5); ?>      // article ID 5
-<?= Component::articleCompletID(0); ?>      // dernier article
-<?= Component::articleCompletID(-1); ?>     // avant-dernier article
+Exemple d'appel :
+    <?= Component::articleCompletID(5); ?>      // article ID 5
+    <?= Component::articleCompletID(0); ?>      // dernier article
+    <?= Component::articleCompletID(-1); ?>     // avant-dernier article
 */
 
-/**
- * Composant pour récupérer et afficher un article complet par ID
- */
 class ArticleCompletIDComponent extends BaseComponent
 {
     /**

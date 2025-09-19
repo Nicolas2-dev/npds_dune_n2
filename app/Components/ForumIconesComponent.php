@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Theme;
 use App\Library\Components\BaseComponent;
 
 /*
 Exemples d'appel :
-<?= Component::forumIcones(); ?>
+    <?= Component::forumIcones(); ?>
 */
+
 class ForumIconesComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

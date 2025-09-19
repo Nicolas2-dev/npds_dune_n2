@@ -1,10 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
-/* Exemple d'appel :
-<?= Component::insertFlash('movie.swf', 600, 400, '#ffffff'); ?>
+/* 
+Exemple d'appel :
+    <?= Component::insertFlash('movie.swf', 600, 400, '#ffffff'); ?>
 */
+
 class InsertFlashComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Theme;
 use App\Library\Components\BaseComponent;
@@ -9,9 +11,10 @@ use App\Library\Components\BaseComponent;
  */
 
 /*
-<?= Component::siteConfig('slogan'); ?> <!-- Affiche Config::get('slogan') -->
-<?= Component::siteConfig('theme'); ?>  <!-- Affiche Config::get('theme') -->
-<?= Component::siteConfig('theme'); ?>  <!-- Affiche Theme::getTheme() -->
+Exemple d'appel :
+    <?= Component::siteConfig('slogan'); ?> <!-- Affiche Config::get('slogan') -->
+    <?= Component::siteConfig('theme'); ?>  <!-- Affiche Config::get('theme') -->
+    <?= Component::siteConfig('theme'); ?>  <!-- Affiche Theme::getTheme() -->
 */
 
 class SiteConfigComponent extends BaseComponent

@@ -1,15 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
-/**
- * Composant LastMember
- * [french]Renvoie le pseudo du dernier membre inscrit[/french]
- *
- * Exemple d'appel :
- *    <?= Component::lastMember(); ?>
- *    <?= Component::lastMember([]); ?>
- */
+/*
+Exemple d'appel :
+    <?= Component::lastMember(); ?>
+    <?= Component::lastMember([]); ?>
+*/
+
 class LastMemberComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

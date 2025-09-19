@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
 Exemple d'appel :
-<?= Component::administration(); ?>
+    <?= Component::administration(); ?>
 */
+
 class AdministrationComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

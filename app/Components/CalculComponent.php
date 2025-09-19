@@ -1,14 +1,17 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::calcul([
-    'opex' => '+',
-    'premier' => 10,
-    'deuxieme' => 5
-]); ?>
-<!-- Retournera 15 -->
+Exemple d'appel :
+    <?= Component::calcul([
+        'opex' => '+',
+        'premier' => 10,
+        'deuxieme' => 5
+    ]); ?>
+    <!-- Retournera 15 -->
 */
 
 class CalculComponent extends BaseComponent

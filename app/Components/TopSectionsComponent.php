@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::TopSections(5); ?>
+Exemple d'appel :
+    <?= Component::TopSections(5); ?>
 */
 
 class TopSectionsComponent extends BaseComponent

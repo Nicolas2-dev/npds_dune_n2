@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Forum;
 use App\Library\Components\BaseComponent;
 
 /* Exemple d'appel :
-<?= Component::TopicSubscribeOn(); ?>
+    <?= Component::TopicSubscribeOn(); ?>
 */
+
 class TopicSubscribeOnComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

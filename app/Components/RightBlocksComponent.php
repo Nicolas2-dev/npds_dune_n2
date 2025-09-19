@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Block;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::rightBlocks('R1'); ?>
-<?= Component::rightBlocks(['code' => 'R2']); ?>
-<?= Component::rightBlocks(['R3']); ?>
+Exemple d'appel :
+    <?= Component::rightBlocks('R1'); ?>
+    <?= Component::rightBlocks(['code' => 'R2']); ?>
+    <?= Component::rightBlocks(['R3']); ?>
 */
 
 class RightBlocksComponent extends BaseComponent

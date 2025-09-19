@@ -1,9 +1,13 @@
 <?php
+
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::SiteLogo(); ?>
+Exemple d'appel :
+    ent::SiteLogo(); ?>
 */
 
 class SiteLogoComponent extends BaseComponent

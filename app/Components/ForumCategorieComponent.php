@@ -1,13 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Support\Facades\Forum;
 use App\Library\Components\BaseComponent;
 
 /*
 Exemples d'appel :
-<?= Component::forumCategorie('1,3'); ?>
+    <?= Component::forumCategorie('1,3'); ?>
 */
+
 class ForumCategorieComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

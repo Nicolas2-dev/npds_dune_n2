@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use IntlDateFormatter;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::date(); ?>
+Exemple d'appel :
+    <?= Component::date(); ?>
 */
 
 class DateComponent extends BaseComponent

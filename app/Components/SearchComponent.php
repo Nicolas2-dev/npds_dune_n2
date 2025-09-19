@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::search(); ?> 
-<?= Component::search(['action' => 'recherche.php', 'name' => 'q', 'size' => 20]); ?>
+Exemple d'appel :
+    <?= Component::search(); ?> 
+    <?= Component::search(['action' => 'recherche.php', 'name' => 'q', 'size' => 20]); ?>
 */
 
 class SearchComponent extends BaseComponent

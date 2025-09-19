@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Messenger;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::member(); ?>
+Exemple d'appel :
+    <?= Component::member(); ?>
 */
 
 class MemberComponent extends BaseComponent

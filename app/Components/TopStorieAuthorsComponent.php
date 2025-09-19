@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::TopStorieAuthors(5); ?>
+Exemple d'appel :
+    <?= Component::TopStorieAuthors(5); ?>
 */
 
 class TopStorieAuthorsComponent extends BaseComponent

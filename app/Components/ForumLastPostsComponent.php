@@ -1,21 +1,18 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Theme;
 use App\Support\Facades\Groupe;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::forumLastPosts(); ?>
-<?= Component::forumLastPosts(['max' => 5, 'hot_threshold' => 8]); ?>
+Exemple d'appel :
+    <?= Component::forumLastPosts(); ?>
+    <?= Component::forumLastPosts(['max' => 5, 'hot_threshold' => 8]); ?>
 */
 
-/**
- * Composant ForumLastPosts
- *
- * [french]Retourne les derniers posts des forums en tenant compte des groupes.[/french]
- * [english]Returns the latest forum posts respecting user groups.[/english]
- */
 class ForumLastPostsComponent extends BaseComponent
 {
     /**

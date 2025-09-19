@@ -1,13 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Block;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::blocID('R1'); ?>        <!-- Bloc droite ID 1 -->
-<?= Component::blocID('L2'); ?>        <!-- Bloc gauche ID 2 -->
-<?= Component::blocID(['code' => 'R3']); ?> 
-<?= Component::blocID(['L4']); ?>
+Exemple d'appel :
+    <?= Component::blocID('R1'); ?>        <!-- Bloc droite ID 1 -->
+    <?= Component::blocID('L2'); ?>        <!-- Bloc gauche ID 2 -->
+    <?= Component::blocID(['code' => 'R3']); ?> 
+    <?= Component::blocID(['L4']); ?>
 */
 
 class BlocIDComponent extends BaseComponent

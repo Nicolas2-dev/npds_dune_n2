@@ -1,16 +1,15 @@
 <?php
 
-use HeadlineIDComponent; // attention namespace pas bon !
+namespace App\Components;
+
+use App\Components\HeadlineIDComponent;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::headlineAlias(3); ?>
+Exemple d'appel :
+    <?= Component::headlineAlias(3); ?>
 */
 
-/**
- * Composant headline
- * [french]Alias de headlineID[/french]
- */
 class HeadlineComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

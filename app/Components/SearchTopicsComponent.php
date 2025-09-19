@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::searchTopics(); ?>                       <!-- aucun topic présélectionné -->
-<?= Component::searchTopics(['selected' => 3]); ?>      <!-- présélectionne le topic id 3 -->
+Exemple d'appel :
+    <?= Component::searchTopics(); ?>                       <!-- aucun topic présélectionné -->
+    <?= Component::searchTopics(['selected' => 3]); ?>      <!-- présélectionne le topic id 3 -->
 */
 
 class SearchTopicsComponent extends BaseComponent

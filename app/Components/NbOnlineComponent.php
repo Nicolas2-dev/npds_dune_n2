@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Online;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::nbOnline(); ?>
+Exemple d'appel :
+    <?= Component::nbOnline(); ?>
 */
 
 class NbOnlineComponent extends BaseComponent

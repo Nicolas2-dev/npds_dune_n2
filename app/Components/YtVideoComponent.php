@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /* Exemple d'appel :
-<?= Component::YtVideo('dQw4w9WgXcQ'); ?>
+    <?= Component::YtVideo('dQw4w9WgXcQ'); ?>
 */
+
 class YtVideoComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

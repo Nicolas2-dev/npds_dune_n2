@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::smilies(':paf'); ?>
-<?= Component::smilies(':-P'); ?>
-<?= Component::smilies(':-o'); ?>
+Exemple d'appel :
+    <?= Component::smilies(':paf'); ?>
+    <?= Component::smilies(':-P'); ?>
+    <?= Component::smilies(':-o'); ?>
 */
 
 class SmiliesComponent extends BaseComponent

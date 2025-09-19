@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Online;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::whoIm(); ?>
+Exemple d'appel :
+    <?= Component::whoIm(); ?>
 */
 
 class WhoImComponent extends BaseComponent

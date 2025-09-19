@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::TopicAll(); ?>
+Exemple d'appel :
+    <?= Component::TopicAll(); ?>
 */
 
 class TopicAllComponent extends BaseComponent

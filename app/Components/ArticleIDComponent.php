@@ -1,17 +1,17 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::articleID(5); ?>
-<?= Component::articleID(['id' => 10]); ?>
-<?= Component::articleID([15]); ?>
+Exemple d'appel :
+    <?= Component::articleID(5); ?>
+    <?= Component::articleID(['id' => 10]); ?>
+    <?= Component::articleID([15]); ?>
 */
 
-/**
- * Component pour récupérer le titre et l'URL d'un article via son ID
- */
 class ArticleIDComponent extends BaseComponent
 {
     /**

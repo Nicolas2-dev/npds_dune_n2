@@ -1,17 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::dailymotionVideo('x7yzabc'); ?>
-<?= Component::dailymotionVideo(['id' => 'x7yzabc']); ?>
+Exemple d'appel :
+    <?= Component::dailymotionVideo('x7yzabc'); ?>
+    <?= Component::dailymotionVideo(['id' => 'x7yzabc']); ?>
 */
 
-/**
- * Composant Dailymotion
- * [french]Inclusion video Dailymotion. Syntaxe : dm_video(ID de la vidéo)[/french]
- */
 class DailymotionVideoComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

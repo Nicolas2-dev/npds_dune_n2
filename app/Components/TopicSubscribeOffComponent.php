@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /* Exemple d'appel :
-<?= Component::TopicSubscribeOff(); ?>
+    <?= Component::TopicSubscribeOff(); ?>
 */
+
 class TopicSubscribeOffComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

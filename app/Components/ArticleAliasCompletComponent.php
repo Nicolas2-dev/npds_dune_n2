@@ -1,18 +1,17 @@
 <?php
 
+namespace App\Components;
 
-use ArticleCompletIDComponent; // attention namespace pas bon 
 use App\Library\Components\BaseComponent;
+use App\Components\ArticleCompletIDComponent;
 
 /*
-<?= Component::articleComplet(5); ?>   <!-- équivalent à articleCompletID(5) -->
-<?= Component::articleComplet(0); ?>   <!-- dernier article -->
-<?= Component::articleComplet(-1); ?>  <!-- avant-dernier article -->
+Exemple d'appel :
+    <?= Component::articleComplet(5); ?>   <!-- équivalent à articleCompletID(5) -->
+    <?= Component::articleComplet(0); ?>   <!-- dernier article -->
+    <?= Component::articleComplet(-1); ?>  <!-- avant-dernier article -->
 */
 
-/**
- * Composant alias de ArticleCompletIDComponent
- */
 class ArticleAliasCompletComponent extends BaseComponent
 {
     /**

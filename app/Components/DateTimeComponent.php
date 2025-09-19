@@ -1,15 +1,18 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::dateTime('dateL'); ?>       <!-- 18/09/2025 -->
-<?= Component::dateTime('dateC'); ?>       <!-- 18/09/25 -->
-<?= Component::dateTime('heureC'); ?>      <!-- 14:30 -->
-<?= Component::dateTime('heureL'); ?>      <!-- 14:30:12 -->
+Exemple d'appel :
+    <?= Component::dateTime('dateL'); ?>       <!-- 18/09/2025 -->
+    <?= Component::dateTime('dateC'); ?>       <!-- 18/09/25 -->
+    <?= Component::dateTime('heureC'); ?>      <!-- 14:30 -->
+    <?= Component::dateTime('heureL'); ?>      <!-- 14:30:12 -->
 
-<!-- Ou avec format personnalisé -->
-<?= Component::dateTime(['format' => 'l, d F Y H:i']); ?>  <!-- jeudi, 18 septembre 2025 14:30 -->
+    <!-- Ou avec format personnalisé -->
+    <?= Component::dateTime(['format' => 'l, d F Y H:i']); ?>  <!-- jeudi, 18 septembre 2025 14:30 -->
 */
 
 class DateTimeComponent extends BaseComponent

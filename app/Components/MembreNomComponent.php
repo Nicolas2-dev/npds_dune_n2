@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::membreNom(); ?>
+Exemple d'appel :
+    <?= Component::membreNom(); ?>
 */
 
 class MembreNomComponent extends BaseComponent

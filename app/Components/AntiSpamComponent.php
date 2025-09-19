@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Spam;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::antiSpam('contact@npds.org'); ?>
-<?= Component::antiSpam(['email' => 'contact@npds.org']); ?>
-<?= Component::antiSpam(['contact@npds.org']); ?>
+Exemple d'appel :
+    <?= Component::antiSpam('contact@npds.org'); ?>
+    <?= Component::antiSpam(['email' => 'contact@npds.org']); ?>
+    <?= Component::antiSpam(['contact@npds.org']); ?>
 */
 
 class AntiSpamComponent extends BaseComponent

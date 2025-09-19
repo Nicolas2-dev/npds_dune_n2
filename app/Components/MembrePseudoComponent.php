@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::membrePseudo(); ?>
+Exemple d'appel :
+    <?= Component::membrePseudo(); ?>
 */
 
 class MembrePseudoComponent extends BaseComponent

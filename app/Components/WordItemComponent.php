@@ -1,18 +1,21 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::worditem([
-    'text'  => 'NPDS',
-    'url'   => 'http://www.npds.org',
-    'title' => 'Site officiel NPDS',
-    'class' => 'highlight'
-]); ?>
+Exemple d'appel :
+    <?= Component::worditem([
+        'text'  => 'NPDS',
+        'url'   => 'http://www.npds.org',
+        'title' => 'Site officiel NPDS',
+        'class' => 'highlight'
+    ]); ?>
 
-<?= Component::worditem([
-    'text' => 'Dev'
-]); ?>
+    <?= Component::worditem([
+        'text' => 'Dev'
+    ]); ?>
 */
 
 class WordItemComponent extends BaseComponent

@@ -100,19 +100,29 @@ class ComponentManager
     private function loadComponent(string $filePath): void
     {
         $className = $this->getClassNameFromFile($filePath);
-        
-        if ($className) {
 
-            require_once $filePath;
-            
-            if (class_exists($className)) {
-                $reflection = new ReflectionClass($className);
-                
+        if (! $className) {
+            return;
+        }
+
+        // Include le fichier (pour les classes sans namespace)
+        require_once $filePath;
+
+        // Tableau de classes possibles à tester
+        $possibleClasses = [
+            $className,                        // classe sans namespace
+            'App\\Components\\' . $className,  // classe avec namespace
+        ];
+
+        foreach ($possibleClasses as $fullClass) {
+            if (class_exists($fullClass)) {
+                $reflection = new ReflectionClass($fullClass);
+
                 // Vérifie que la classe hérite de BaseComponent
                 if ($reflection->isSubclassOf(BaseComponent::class)) {
                     $componentName = strtolower(str_replace('Component', '', $className));
-
-                    $this->components[$componentName] = $className;
+                    $this->components[$componentName] = $fullClass;
+                    break; // stop dès qu'on a trouvé une version valide
                 }
             }
         }

@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::ScInfo(); ?> '.:Page >> Super-Cache:.'
+Exemple d'appel :
+    <?= Component::ScInfo(); ?> '.:Page >> Super-Cache:.'
 */
 
 class ScInfoComponent extends BaseComponent

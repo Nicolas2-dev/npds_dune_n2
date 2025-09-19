@@ -1,15 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
-/**
- * Composant ListMns
- * [french]Affiche une liste de tous les membres possédant un minisite avec un lien vers ceux-ci[/french]
- *
- * Exemple d'appel :
- *    <?= Component::listMns(); ?>
- *    <?= Component::listMns([]); ?>
- */
+/*
+Exemple d'appel :
+    <?= Component::listMns(); ?>
+    <?= Component::listMns([]); ?>
+*/
+
 class ListMnsComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

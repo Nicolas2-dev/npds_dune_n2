@@ -1,11 +1,14 @@
 <?php
 
+namespace App\Components;
+
 use Npds\Config\Config;
 use App\Support\Facades\Spam;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::AdminMail(); ?>
+Exemple d'appel :
+    <?= Component::AdminMail(); ?>
 */
 
 class AdminMailComponent extends BaseComponent

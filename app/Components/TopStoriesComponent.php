@@ -1,14 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Support\Facades\News;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
-
 /* Exemple d'appel :
-<?= Component::topStories(5); ?>
+    <?= Component::topStories(5); ?>
 */
+
 class TopStoriesComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

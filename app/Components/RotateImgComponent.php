@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
 Exemple d'appel :
-<?= Component::rotateImg('http://site.com/img1.gif,http://site.com/img2.gif'); ?>
+    ponent::rotateImg('http://site.com/img1.gif,http://site.com/img2.gif'); ?>
 */
+
 class RotateImgComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

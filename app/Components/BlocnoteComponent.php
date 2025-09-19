@@ -1,20 +1,17 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Block;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::blocnote('R1'); ?>
-<?= Component::blocnote(['code' => 'R1']); ?>
-<?= Component::blocnote(['R1']); ?>
+Exemple d'appel :
+    <?= Component::blocnote('R1'); ?>
+    <?= Component::blocnote(['code' => 'R1']); ?>
+    <?= Component::blocnote(['R1']); ?>
 */
 
-/**
- * Composant Blocnote
- *
- * [french]Fabrique un blocnote contextuel en lieu et place du meta-mot / syntaxe : !blocnote!ID
- * ID = Id du bloc de droite dans le gestionnaire de bloc de NPDS[/french]
- */
 class BlocnoteComponent extends BaseComponent
 {
     /**

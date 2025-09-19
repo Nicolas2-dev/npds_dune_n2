@@ -1,9 +1,13 @@
 <?php
+
+namespace App\Components;
+
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::LanguageSelector("index.php"); ?>
+Exemple d'appel :
+    <?= Component::LanguageSelector("index.php"); ?>
 */
 
 class LanguageSelectorComponent extends BaseComponent

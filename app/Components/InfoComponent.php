@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::info('Dev'); ?> 
-<?= Component::info('Npds'); ?>
+Exemple d'appel :
+    <?= Component::info('Dev'); ?> 
+    <?= Component::info('Npds'); ?>
 */
 
 class InfoComponent extends BaseComponent

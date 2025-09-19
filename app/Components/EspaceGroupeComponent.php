@@ -1,12 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Support\Facades\Groupe;
 use App\Library\Components\BaseComponent;
 
-/* Exemple d'appel :
-<?= Component::EspaceGroupe('gp1', 1, 1); ?>
+/* 
+Exemple d'appel :
+    <?= Component::EspaceGroupe('gp1', 1, 1); ?>
 */
+
 class EspaceGroupeComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

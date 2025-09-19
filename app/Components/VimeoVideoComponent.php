@@ -1,17 +1,16 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::vimeoVideo('123456789'); ?>
-<?= Component::vimeoVideo(['id' => '123456789']); ?>
+Exemple d'appel :
+    <?= Component::vimeoVideo('123456789'); ?>
+    <?= Component::vimeoVideo(['id' => '123456789']); ?>
 */
 
-/**
- * Composant Vimeo
- * [french]Inclusion video Vimeo. Syntaxe : vm_video(ID de la vidéo)[/french]
- */
 class VimeoVideoComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

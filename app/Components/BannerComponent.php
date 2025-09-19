@@ -1,10 +1,14 @@
 <?php
+
+namespace App\Components;
+
 use Npds\Config\Config;
 use Npds\Events\Dispatcher;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::Banner(); ?>
+Exemple d'appel :
+    <?= Component::Banner(); ?>
 */
 
 class BannerComponent extends BaseComponent

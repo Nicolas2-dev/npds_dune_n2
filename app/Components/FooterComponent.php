@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::footer(); ?>
+Exemple d'appel :
+    <?= Component::footer(); ?>
 */
 
 class FooterComponent extends BaseComponent

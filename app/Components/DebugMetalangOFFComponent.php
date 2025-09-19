@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Components;
+
 use App\Library\Components\BaseComponent;
 
 /*
@@ -8,8 +10,9 @@ use App\Library\Components\BaseComponent;
 
 /*
 Exemples d'appel :
-<?= Component::debugOFF(); ?>
+    <?= Component::debugOFF(); ?>
 */
+
 class DebugMetalangOFFComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

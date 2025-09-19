@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
 Exemple d'appel :
-<?= Component::adminInfos('adminName'); ?>
+    <?= Component::adminInfos('adminName'); ?>
 */
+
 class AdminInfosComponent extends BaseComponent
 {
     public function render(array|string $params = []): string

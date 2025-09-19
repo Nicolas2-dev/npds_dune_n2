@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Component;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::blockAlias('R1'); ?>
-<?= Component::blockAlias(['code' => 'L2']); ?>
-<?= Component::blockAlias(['R3']); ?>
+Exemple d'appel :
+    <?= Component::blockAlias('R1'); ?>
+    <?= Component::blockAlias(['code' => 'L2']); ?>
+    <?= Component::blockAlias(['R3']); ?>
 */
 
 class BlockAliasComponent extends BaseComponent

@@ -1,17 +1,17 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Component;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::articleAlias(5); ?>
-<?= Component::articleAlias(['id' => 10]); ?>
-<?= Component::articleAlias([15]); ?>
+Exemple d'appel :
+    <?= Component::articleAlias(5); ?>
+    <?= Component::articleAlias(['id' => 10]); ?>
+    <?= Component::articleAlias([15]); ?>
 */
 
-/**
- * Alias pour ArticleIDComponent
- */
 class ArticleAliasComponent extends BaseComponent
 {
     /**

@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::TopReviews(5); ?>
+Exemple d'appel :
+    <?= Component::TopReviews(5); ?>
 */
 
 class TopReviewsComponent extends BaseComponent

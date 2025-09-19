@@ -1,11 +1,15 @@
 <?php
+
+namespace App\Components;
+
 use App\Support\Sanitize;
 use App\Support\Facades\News;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::TopCommentedStories(5); ?>
+Exemple d'appel :
+    <?= Component::TopCommentedStories(5); ?>
 */
 
 class TopCommentedStoriesComponent extends BaseComponent

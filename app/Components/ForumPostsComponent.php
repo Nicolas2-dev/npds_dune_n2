@@ -1,21 +1,18 @@
 <?php
 
+namespace App\Components;
+
 use App\Support\Facades\Theme;
 use App\Support\Facades\Groupe;
 use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
-<?= Component::forumPosts(); ?>
-<?= Component::forumPosts(['max' => 10, 'hot_threshold' => 5]); ?>
+Exemple d'appel :
+    <?= Component::forumPosts(); ?>
+    <?= Component::forumPosts(['max' => 10, 'hot_threshold' => 5]); ?>
 */
 
-/**
- * Composant ForumPosts
- *
- * [french]Affiche les derniers posts sur les forums.[/french]
- * [english]Displays the latest posts in the forums.[/english]
- */
 class ForumPostsComponent extends BaseComponent
 {
     /**
