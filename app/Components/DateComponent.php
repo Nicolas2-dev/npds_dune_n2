@@ -3,6 +3,8 @@
 namespace App\Components;
 
 use IntlDateFormatter;
+use Npds\Config\Config;
+use App\Support\Facades\Language;
 use App\Library\Components\BaseComponent;
 
 /*
@@ -21,13 +23,13 @@ class DateComponent extends BaseComponent
     public function render(array|string $params = []): string
     {
         // Utilisation d'IntlDateFormatter pour le format complet + medium
-        return datefmt_format(
-            datefmt_create(
-                null, // locale par défaut
+        $formatter = datefmt_create(
+                Language::languageIso(1, '_', 1), // locale par défaut
                 IntlDateFormatter::FULL,
-                IntlDateFormatter::MEDIUM
-            ),
-            time()
+                IntlDateFormatter::MEDIUM,
+                Config::get('date.timezone') ?: date_default_timezone_get()
         );
+
+        return $formatter ? datefmt_format($formatter, time()) : date('Y-m-d H:i:s');
     }
 }
