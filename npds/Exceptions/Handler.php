@@ -142,10 +142,6 @@ class Handler
             $e = new FatalThrowableError($e);
         }
 
-        //if (! $e instanceof HttpException) {
-        //    $this->report($e);
-        //}
-
         if (!($e instanceof NotFoundHttpException || $e instanceof ForbiddenHttpException)) {
             $this->report($e);
         }
