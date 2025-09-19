@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Core;
 
+use Npds\Events\Dispatcher;
 use App\Support\Facades\Block;
 use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
 use App\Http\Controllers\Core\BaseController;
+use App\Http\Controllers\Front\Banners\BannerService;
 
 
 class FrontBaseController extends BaseController
@@ -24,6 +26,11 @@ class FrontBaseController extends BaseController
         View::share('theme', Theme::getTheme());
 
         View::share('pdst',  Block::checkPdst($this->pdst));
+
+        Dispatcher::getInstance()->listen('render.banner', function() {
+            $bannerService = new BannerService();
+            return $bannerService->renderBanner();
+        });
 
         parent::initialize();
     }

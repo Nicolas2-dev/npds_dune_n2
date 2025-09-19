@@ -38,11 +38,11 @@
         <div id="logo_header" class="col-sm-6">
             <h1 class="my-4">NPDS<br /><small class="text-body-secondary">Responsive</small></h1>
         </div>
-        <div id="ban" class="col-sm-4 text-end">!banner!</div>
+        <div id="ban" class="col-sm-4 text-end"><?= Component::Banner(); ?></div>
     </div>
     <div class="row">
-        <div id="slogan" class="col-sm-8 text-body-secondary slogan"><strong>!slogan!</strong></div>
-        <div id="online" class="col-sm-4 text-body-secondary text-end">!nb_online! <br />!date!</div>
+        <div id="slogan" class="col-sm-8 text-body-secondary slogan"><strong><?= Component::siteConfig('slogan'); ?></strong></div>
+        <div id="online" class="col-sm-4 text-body-secondary text-end"><?= Component::nbOnline(); ?> <br /><?= Component::date(); ?></div>
     </div>
 </div>
 <script type="text/javascript">

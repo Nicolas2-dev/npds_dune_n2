@@ -10,7 +10,7 @@ return [
     */
 
     // Activer les bannières publicitaires pour votre site ? (1=Oui 0=Non)
-    'banners' => 1,
+    'banners' => false,
 
     // Indiquez votre adresse IP pour ne pas compter les impressions, soyez juste !
     'myIP' => '1.1.1.100',
