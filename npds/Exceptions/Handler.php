@@ -10,7 +10,14 @@ use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
 use Npds\Exceptions\Http\HttpException;
 use Npds\Exceptions\FatalThrowableError;
+use Npds\Exceptions\ForbiddenHttpException;
+use Npds\Exceptions\BadRequestHttpException;
 use App\Support\Facades\Assets as AssetManager;
+use Npds\Exceptions\Http\NotFoundHttpException;
+use Npds\Exceptions\Http\UnauthorizedHttpException;
+use Npds\Exceptions\Http\MethodNotAllowedHttpException;
+use Npds\Exceptions\Http\ServiceUnavailableHttpException;
+use Npds\Exceptions\Http\InternalServerErrorHttpException;
 
 class Handler
 {
@@ -29,7 +36,50 @@ class Handler
      */
     protected bool $debug = false;
 
-    
+    /**
+     * Mapping des exceptions vers code, vue et titre.
+     *
+     * @var array<class-string, array{code:int, view:string, title:string}>
+     */
+    protected array $exceptionMap = [
+        NotFoundHttpException::class => [
+            'code'  => 404,
+            'view'  => 'Exceptions/404',
+            'title' => 'Page non trouvée',
+        ],
+        ForbiddenHttpException::class => [
+            'code'  => 403,
+            'view'  => 'Exceptions/403',
+            'title' => 'Accès interdit',
+        ],
+        BadRequestHttpException::class => [
+            'code'  => 400,
+            'view'  => 'Exceptions/400',
+            'title' => 'Requête incorrecte',
+        ],
+        UnauthorizedHttpException::class => [
+            'code'  => 401,
+            'view'  => 'Exceptions/401',
+            'title' => 'Non autorisé',
+        ],
+        MethodNotAllowedHttpException::class => [
+            'code'  => 405,
+            'view'  => 'Exceptions/405',
+            'title' => 'Méthode non autorisée',
+        ],
+        InternalServerErrorHttpException::class => [
+            'code'  => 500,
+            'view'  => 'Exceptions/500',
+            'title' => 'Erreur interne du serveur',
+        ],
+        ServiceUnavailableHttpException::class => [
+            'code'  => 503,
+            'view'  => 'Exceptions/503',
+            'title' => 'Service indisponible',
+        ],
+    ];
+
+
     /**
      * Initialise l’instance du gestionnaire et configure le mode debug.
      */
@@ -116,23 +166,51 @@ class Handler
      *
      * @return void
      */
-    public function render(Exception $e)
+    public function render(Exception $e): void
     {
-        $type = $this->debug ? 'Debug' : 'Default';
-
-        $theme = Theme::getTheme();
-
         // Assets Register
         AssetManager::register();
 
+        $info = $this->getStatusCodeFromException($e);
+
+        $theme = Theme::getTheme();    
+           
         View::addNamespace('Themes/' . $theme, 'themes/' . $theme .'/Views');
 
         $view = View::make('Themes/' . $theme .'::Layouts/Default')
-            ->shares('title', 'Erreur Npds !')
+            ->shares('title', $info['title'])
             ->shares('pdst', 0)
-            ->nest('content', 'Exceptions/' .$type, array('exception' => $e));
+            ->nest('content', $info['view'], ['exception' => $e]);
 
         echo $view->render();
+    }
+
+    /**
+     * Détermine automatiquement le code HTTP depuis l’exception
+     */
+    protected function getStatusCodeFromException(Exception $e): string|array
+    {
+        foreach ($this->exceptionMap as $class => $info) {
+            if ($e instanceof $class) {
+                return $info;
+            }
+        }
+
+        // HttpException non listée
+        if ($e instanceof HttpException) {
+            return [
+                'code'  => $e->getStatusCode(),
+                'view'  => 'Exceptions/Default',
+                'title' => 'Erreur Npds',
+            ];
+        }
+
+        // Autres exceptions (PHP fatales, fonction inexistante, etc.)
+        return [
+            'code'  => $this->debug ? 'Debug' : 500,
+            'view'  => $this->debug ? 'Exceptions/Debug' : 'Exceptions/500',
+            'title' => 'Erreur interne du serveur',
+        ];
     }
 
     /**

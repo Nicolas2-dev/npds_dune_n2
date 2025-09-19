@@ -1,21 +1,120 @@
-
 Exception information:
 
-        Date: Sep 19, 2025 8:02AM
+        Date: Sep 19, 2025 9:24AM
 
-        Message: Cannot declare class AdminInfosComponent, because the name is already in use
+        Message: Call to undefined function App\Http\Controllers\DevTest\toto()
 
-        Code: 64
+        Code: 0
 
-        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Components/AdminInfosComponent.php
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/DevTest/Home.php
 
-        Line: 10
+        Line: 34
 
         Stack trace:
 
-        #0 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Exceptions/Handler.php(146): Npds\Exceptions\Handler->fatalExceptionFromError()
-#1 [internal function]: Npds\Exceptions\Handler->handleShutdown()
-#2 {main}
+        #0 [internal function]: App\Http\Controllers\DevTest\Home->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(113): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(236): App\Http\Controllers\Core\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(138): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(142): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 19, 2025 9:34AM
+
+        Message: Call to undefined function App\Http\Controllers\DevTest\toto()
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/DevTest/Home.php
+
+        Line: 35
+
+        Stack trace:
+
+        #0 [internal function]: App\Http\Controllers\DevTest\Home->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(113): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(236): App\Http\Controllers\Core\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(138): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(142): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 19, 2025 9:40AM
+
+        Message: Call to undefined function App\Http\Controllers\DevTest\toto()
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/DevTest/Home.php
+
+        Line: 35
+
+        Stack trace:
+
+        #0 [internal function]: App\Http\Controllers\DevTest\Home->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(113): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(236): App\Http\Controllers\Core\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(138): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(142): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 19, 2025 9:40AM
+
+        Message: Call to undefined function App\Http\Controllers\DevTest\toto()
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/DevTest/Home.php
+
+        Line: 35
+
+        Stack trace:
+
+        #0 [internal function]: App\Http\Controllers\DevTest\Home->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(113): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(236): App\Http\Controllers\Core\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(138): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(142): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
+
+        ---------
+
+Exception information:
+
+        Date: Sep 19, 2025 9:44AM
+
+        Message: Call to undefined function App\Http\Controllers\DevTest\toto()
+
+        Code: 0
+
+        File: /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/DevTest/Home.php
+
+        Line: 35
+
+        Stack trace:
+
+        #0 [internal function]: App\Http\Controllers\DevTest\Home->index()
+#1 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/app/Http/Controllers/Core/BaseController.php(113): call_user_func_array()
+#2 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(236): App\Http\Controllers\Core\BaseController->callAction()
+#3 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/npds/Routing/Router.php(138): Npds\Routing\Router->call()
+#4 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/public/index.php(142): Npds\Routing\Router->dispatch()
+#5 /home/nicolas/Bureau/npds_dune_n2-main/npds_dune_n2/server.php(21): require_once('...')
+#6 {main}
 
         ---------
 

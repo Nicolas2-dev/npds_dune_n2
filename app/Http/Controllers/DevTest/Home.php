@@ -31,6 +31,7 @@ class Home extends FrontBaseController
     {
         $content = 'This is the Homepage dev test';
 
+        // test erreur !
         //toto();
 
         //vd(

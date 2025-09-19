@@ -59,27 +59,10 @@ class Handler extends BaseHandler
      */
     public function render(Exception $e): void
     {
-        // Http Error Pages.
-        if ($e instanceof HttpException) {
-            $code = $e->getStatusCode();
+        // Journalisation personnalisée
+        //$this->report($e);
 
-            if (View::exists('Errors/' .$code)) {
-                $theme = Theme::getTheme();
-
-                // Assets Register
-                AssetManager::register();
-
-                View::addNamespace('Themes/' . $theme, 'themes/' . $theme .'/Views');
-
-                $view = View::make('Themes/' . $theme .'::Layouts/Default')
-                    ->shares('pdst', 0)
-                    ->shares('title', 'Error Npds ' .$code)
-                    ->nest('content', 'Errors/' .$code, array('exception' => $e));
-
-                echo $view->render();
-            }
-        }
-
+        // Laisse le parent gérer le rendu
         parent::render($e);
     }
 
