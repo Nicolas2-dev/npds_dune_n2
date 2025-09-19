@@ -4,6 +4,10 @@ use Npds\Config\Config;
 use App\Support\Facades\Theme;
 use App\Library\Components\BaseComponent;
 
+/**
+ * @deprecated
+ */
+
 /*
 <?= Component::siteConfig('slogan'); ?> <!-- Affiche Config::get('slogan') -->
 <?= Component::siteConfig('theme'); ?>  <!-- Affiche Config::get('theme') -->
@@ -29,10 +33,10 @@ class SiteConfigComponent extends BaseComponent
 
         // Map des clés pour traduction en config
         $map = [
-            'slogan' => 'app.slogan',
-            'theme'  => 'theme.Default_Theme',
-            'current_theme'  => Theme::getTheme(),
-            'sitename'  => 'app.sitename',
+            'slogan'            => 'app.slogan',
+            'theme'             => 'theme.Default_Theme',
+            'current_theme'     => Theme::getTheme(),
+            'sitename'          => 'app.sitename',
         ];
 
         if (!isset($map[strtolower($key)])) {
