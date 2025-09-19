@@ -6,9 +6,11 @@ use Exception;
 use Throwable;
 use ErrorException;
 use Npds\Config\Config;
+use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
 use Npds\Exceptions\Http\HttpException;
 use Npds\Exceptions\FatalThrowableError;
+use App\Support\Facades\Assets as AssetManager;
 
 class Handler
 {
@@ -114,13 +116,20 @@ class Handler
      *
      * @return void
      */
-    public function render(Exception $e): void
+    public function render(Exception $e)
     {
         $type = $this->debug ? 'Debug' : 'Default';
 
-        $view = View::make('Layouts/Default')
-            ->shares('title', 'Whoops!')
-            ->shares('pdst', -1)
+        $theme = Theme::getTheme();
+
+        // Assets Register
+        AssetManager::register();
+
+        View::addNamespace('Themes/' . $theme, 'themes/' . $theme .'/Views');
+
+        $view = View::make('Themes/' . $theme .'::Layouts/Default')
+            ->shares('title', 'Erreur Npds !')
+            ->shares('pdst', 0)
             ->nest('content', 'Exceptions/' .$type, array('exception' => $e));
 
         echo $view->render();

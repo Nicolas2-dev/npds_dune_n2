@@ -12,7 +12,6 @@
             "app/Support/helpers.php",
             "app/Library/Block/helpers.php",
             "app/Library/Cache/helpers.php",
-            "app/Library/Metalang/helpers.php",
             "shared/Support/helpers.php",
             "npds/Support/Debug/helpers.php",
             "npds/Support/helpers.php"

@@ -330,8 +330,8 @@ class Theme
             "'!N_suite!'i"          => $morel
         );
 
-        echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
-        //echo Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
+        //echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        echo Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
     }
 
     /**
@@ -435,7 +435,8 @@ class Theme
             "'!N_nb_lecture!'i"         => $counter
         );
 
-        echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        //echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+        echo Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
     }
 
     /**
@@ -489,7 +490,8 @@ class Theme
 
         echo $htvar;
 
-        echo Metalang::metaLang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
+        //echo Metalang::metaLang(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
+        echo preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent);
 
         echo '</div>';
     }
@@ -528,7 +530,8 @@ class Theme
                 "'!editorial_content!'i"    => $content
             );
 
-            echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+            //echo Metalang::metaLang(Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent)));
+            echo Language::affLangue(preg_replace(array_keys($npds_METALANG_words), array_values($npds_METALANG_words), $Xcontent));
         }
 
         return $inclusion;

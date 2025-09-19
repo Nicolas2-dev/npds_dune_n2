@@ -139,7 +139,8 @@ class Edito
             $affich = true;
         }
 
-        $Xcontents = Metalang::metaLang(Language::affLangue($Xcontents));
+        //$Xcontents = Metalang::metaLang(Language::affLangue($Xcontents));
+        $Xcontents = Language::affLangue($Xcontents);
 
         return [$affich, $Xcontents];
     }

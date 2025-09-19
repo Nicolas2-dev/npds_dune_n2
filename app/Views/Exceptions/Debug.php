@@ -1,5 +1,5 @@
 <div class="row page-header">
-    <h1>Whoops!</h1>
+    <h1>Erreur Npds !</h1>
 </div>
 
 <div class="row">

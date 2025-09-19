@@ -4,6 +4,7 @@ use Npds\Http\Request;
 use Npds\Config\Config;
 use Npds\Http\Response;
 use Npds\Routing\Router;
+use App\Exceptions\Handler;
 use Npds\Routing\Asset\Asset;
 use Npds\Application\AliasLoader;
 use App\Exceptions\Handler as ExceptionHandler;
@@ -63,7 +64,7 @@ require __DIR__ . '/../vendor/autoload.php';
 |--------------------------------------------------------------------------
 */
 error_reporting(-1);
-ini_set('display_errors', 'Off');
+ini_set('display_errors', 'On');
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +138,7 @@ Asset::getInstance()->dispatch($request);
 | Dispatch de la requête et génération de la réponse.
 |--------------------------------------------------------------------------
 */
+
 $response = $router->dispatch($request);
 
 if (! $response instanceof Response) {

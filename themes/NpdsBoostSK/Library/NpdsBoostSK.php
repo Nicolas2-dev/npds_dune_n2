@@ -256,7 +256,7 @@ class NpdsBoostSK
         // faire listener ou middleware
         //counterUpdate();
 
-        if (View::exists('Themes/NpdsBoostSK::Bootstrap/Hody_onload.php')) {
+        if (View::exists('Themes/NpdsBoostSK::Views/Bootstrap/Hody_onload.php')) {
             $onload_init = ' onload="init();"';
         } else {
             $onload_init = '';
@@ -275,15 +275,17 @@ class NpdsBoostSK
 
         $Start_Page = str_replace('/', '', Config::get('app.Start_Page'));
 
+        $theme = $this->theme->getTheme();
+
         // landing page
         if (stristr($_SERVER['REQUEST_URI'], $Start_Page) && View::exists('Themes/NpdsBoostSK::Partials/Header/HeaderLanding')) {
-            $Xcontent = View::make('Themes/NpdsBoostSK::Partials/Header/HeaderLanding');
+            $Xcontent = View::make('Themes/NpdsBoostSK::Partials/Header/HeaderLanding', compact('theme'));
         } else {
-            $Xcontent = View::make('Themes/NpdsBoostSK::Partials/Header/Header');
+            $Xcontent = View::make('Themes/NpdsBoostSK::Partials/Header/Header', compact('theme'));
         }
 
         //echo Metalang::metaLang(Language::affLangue($Xcontent));
-        echo Language::affLangue($Xcontent);
+        echo Language::affLangue($Xcontent->render());
 
         if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/Header_after')) {
             echo View::make($theme_file);
@@ -299,7 +301,7 @@ class NpdsBoostSK
      */
     public function footer(): void
     {
-        if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/Footer_before')) {
+        if (View::exists($theme_file = 'Themes/NpdsBoostSK::Views/Bootstrap/Footer_before')) {
             echo View::make($theme_file);
         }
 
@@ -318,7 +320,7 @@ class NpdsBoostSK
             echo View::make($theme_file);
         }
 
-        if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/Footer_after')) {
+        if (View::exists($theme_file = 'Themes/NpdsBoostSK::Views/Bootstrap/Footer_after')) {
             echo View::make($theme_file);
         }
     }

@@ -34,7 +34,7 @@ if (View::exists($theme_file = 'Themes/Base::Bootstrap/Header_before')) {
         echo View::make($theme_file);
     }
 
-    if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/Header_head')) {
+    if (View::exists($theme_file = 'Themes/Base::Bootstrap/Header_head')) {
         echo View::make($theme_file);
     }
     ?>
@@ -265,7 +265,7 @@ if (View::exists($theme_file = 'Bootstrap/Footer_after')) {
     echo View::make($theme_file);
 }
 
-if (View::exists($theme_file = 'Themes/NpdsBoostSK::Bootstrap/Footer_after')) {
+if (View::exists($theme_file = 'Themes/Base::Bootstrap/Footer_after')) {
     echo View::make($theme_file);
 }
 

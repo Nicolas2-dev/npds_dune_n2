@@ -256,9 +256,11 @@ $tab_langue = Language::makeTabLangue();
 |--------------------------------------------------------------------------
 |
 */
-
+/**
+ * @deprecated metalang remplacer par components
+ */
 global $meta_glossaire; // global a supprimer 
-$meta_glossaire = Metalang::chargMetalang();
+//$meta_glossaire = Metalang::chargMetalang();
 
 /*
 |--------------------------------------------------------------------------

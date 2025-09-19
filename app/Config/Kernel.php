@@ -52,7 +52,7 @@ return [
         'Media'         => 'App\Support\Facades\Media',
         'Smilies'       => 'App\Support\Facades\Smilies',
         'Messenger'     => 'App\Support\Facades\Messenger',
-        'Metalang'      => 'App\Support\Facades\Metalang',
+        //'Metalang'      => 'App\Support\Facades\Metalang',
         'News'          => 'App\Support\Facades\News',
         'Online'        => 'App\Support\Facades\Online',
         'PageRef'       => 'App\Support\Facades\PageRef',

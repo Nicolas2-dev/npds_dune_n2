@@ -9,6 +9,28 @@ AssetManager::addJsFooter(path: 'js/npds_dicotransl.js');
 
 $theme_darkness = Theme::theme_config('theme.theme_darkness', config('theme.theme_darkness'));
 
+AssetManager::addJsInlineFooter("
+//<![CDATA[
+
+    // Gestion du thème
+    (() => {
+        'use strict';
+        const storedTheme = localStorage.setItem('theme', '" . $theme_darkness . "');
+        const getStoredTheme = localStorage.getItem('theme');
+
+        if (getStoredTheme === 'auto') {
+            document.body.setAttribute(
+                'data-bs-theme', 
+                window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            );
+        } else {
+            document.body.setAttribute('data-bs-theme', '" . $theme_darkness . "');
+        }
+    })();
+//]]>
+");
+
+
 //
 AssetManager::addJsInlineFooter("
 //<![CDATA[
@@ -46,22 +68,6 @@ AssetManager::addJsInlineFooter("
             }
         }
     });
-    
-    // Gestion du thème
-    (() => {
-        'use strict';
-        const storedTheme = localStorage.setItem('theme', '" . $theme_darkness . "');
-        const getStoredTheme = localStorage.getItem('theme');
-
-        if (getStoredTheme === 'auto') {
-            document.body.setAttribute(
-                'data-bs-theme', 
-                window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-            );
-        } else {
-            document.body.setAttribute('data-bs-theme', '" . $theme_darkness . "');
-        }
-    })();
 //]]>
 ");
 

@@ -454,7 +454,8 @@ class News
      */
     public function themePreview(string $title, string $hometext, string $bodytext = '', string $notes = ''): void
     {
-        echo "$title<br />" . Metalang::metaLang($hometext) . "<br />" . Metalang::metaLang($bodytext) . "<br />" . Metalang::metaLang($notes);
+        //echo "$title<br />" . Metalang::metaLang($hometext) . "<br />" . Metalang::metaLang($bodytext) . "<br />" . Metalang::metaLang($notes);
+        echo "$title<br />" . $hometext . "<br />" . $bodytext . "<br />" . $notes;
     }
 
     /**
@@ -533,6 +534,7 @@ class News
             $title      = Language::affLangue(stripslashes($title));
             $hometext   = Language::affLangue(stripslashes($hometext));
             $notes      = Language::affLangue(stripslashes($notes));
+            
             $bodycount  = strlen(strip_tags(Language::affLangue($bodytext), '<img>'));
 
             if ($bodycount > 0) {
@@ -585,8 +587,13 @@ class News
             $news_tab[$story_limit]['title']        = serialize($title);
             $news_tab[$story_limit]['counter']      = serialize($counter);
             $news_tab[$story_limit]['topic']        = serialize($topic);
-            $news_tab[$story_limit]['hometext']     = serialize(Metalang::metaLang(Code::affCode($hometext)));
-            $news_tab[$story_limit]['notes']        = serialize(Metalang::metaLang(Code::affCode($notes)));
+            
+            //$news_tab[$story_limit]['hometext']     = serialize(Metalang::metaLang(Code::affCode($hometext)));
+            //$news_tab[$story_limit]['notes']        = serialize(Metalang::metaLang(Code::affCode($notes)));     
+
+            $news_tab[$story_limit]['hometext']     = serialize(Code::affCode($hometext));
+            $news_tab[$story_limit]['notes']        = serialize(Code::affCode($notes));
+
             $news_tab[$story_limit]['morelink']     = serialize($morelink);
             $news_tab[$story_limit]['topicname']    = serialize($topicname);
             $news_tab[$story_limit]['topicimage']   = serialize($topicimage);
@@ -654,7 +661,8 @@ class News
             list($topictext, $topicimage) = sql_fetch_row($rfile2);
 
 
-            $hometext = Metalang::metaLang(strip_tags($hometext));
+            //$hometext = Metalang::metaLang(strip_tags($hometext));
+            $hometext = strip_tags($hometext);
 
             $nuke_url = Config::get('app.url');
 

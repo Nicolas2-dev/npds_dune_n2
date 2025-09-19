@@ -3,11 +3,11 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Support\Facades\Theme;
 use Npds\Support\Facades\View;
-
-
 use Npds\Exceptions\Http\HttpException;
 use Npds\Exceptions\Handler as BaseHandler;
+use App\Support\Facades\Assets as AssetManager;
 
 class Handler extends BaseHandler
 {
@@ -64,13 +64,19 @@ class Handler extends BaseHandler
             $code = $e->getStatusCode();
 
             if (View::exists('Errors/' .$code)) {
-                $view = View::make('Layouts/Default')
-                    ->shares('title', 'Error ' .$code)
+                $theme = Theme::getTheme();
+
+                // Assets Register
+                AssetManager::register();
+
+                View::addNamespace('Themes/' . $theme, 'themes/' . $theme .'/Views');
+
+                $view = View::make('Themes/' . $theme .'::Layouts/Default')
+                    ->shares('pdst', 0)
+                    ->shares('title', 'Error Npds ' .$code)
                     ->nest('content', 'Errors/' .$code, array('exception' => $e));
 
                 echo $view->render();
-
-                return;
             }
         }
 

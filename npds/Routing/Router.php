@@ -5,6 +5,8 @@ namespace Npds\Routing;
 use Closure;
 use LogicException;
 use Npds\Http\Request;
+
+use Npds\Http\Response;
 use Npds\Exceptions\Http\NotFoundHttpException;
 
 class Router

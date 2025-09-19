@@ -1,6 +1,6 @@
 <nav id="uppernavbar" class="navbar navbar-expand-md bg-primary fixed-top" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php"><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
+        <a class="navbar-brand" href="<?= site_url('index'); ?>"><span data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" title="&lt;i class='fa fa-home fa-lg' &gt;&lt;/i&gt;">NPDS^ 16</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barnav" aria-controls="barnav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,13 +8,13 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown" data-bs-theme="light"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">News</a>
                     <ul class="dropdown-menu" role="menu" aria-label="list news">
-                        <li><a class="dropdown-item" href="index.php?op=index.php">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('index/index'); ?>.php">[french]Les articles[/french][english]Stories[/english][chinese]&#x6587;&#x7AE0;[/chinese][spanish]Art&#xED;culo[/spanish][german]Artikeln[/german]</a></li>
                         <li><a class="dropdown-item" href="search.php">[french]Les archives[/french][english]Archives[/english][chinese]&#x6863;&#x6848;&#x9986;[/chinese][spanish]Los archivos[/spanish][german]Die Archive[/german]</a></li>
                         <li><a class="dropdown-item" href="submit.php">[french]Soumettre un article[/french][english]Submit a New[/english][chinese]&#x63D0;&#x8BAE;&#x51FA;&#x7248;&#x4E00;&#x4EFD;&#x51FA;&#x7248;&#x7269;[/chinese][spanish]Enviar un artículo[/spanish][german]Publikation vorschlagen[/german]</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="forum.php">[french]Forums[/french][english]Forums[/english][chinese]&#x7248;&#x9762;&#x7BA1;&#x7406;[/chinese][spanish]Foros[/spanish][german]Foren[/german]</a></li>
-                <li class="nav-item"><a class="nav-link" href="download.php">[french]T&eacute;l&eacute;chargements[/french][english]Downloads[/english][chinese]Downloads[/chinese][spanish]Descargas[/spanish][german]Downloads[/german]</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= site_url('download'); ?>">[french]T&eacute;l&eacute;chargements[/french][english]Downloads[/english][chinese]Downloads[/chinese][spanish]Descargas[/spanish][german]Downloads[/german]</a></li>
                 <li class="nav-item"><a class="nav-link" href="modules.php?ModPath=links&amp;ModStart=links">[french]Liens[/french][english]Links[/english][chinese]&#x7F51;&#x9875;&#x94FE;&#x63A5;[/chinese][spanish]Enlaces web[/spanish][german]Internetlinks[/german]</a></li>
                 <li class="nav-item dropdown" data-bs-theme="light">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user fa-lg me-1"></i><?= Theme_NpdsBoostSK::userUsername(); ?></a>
