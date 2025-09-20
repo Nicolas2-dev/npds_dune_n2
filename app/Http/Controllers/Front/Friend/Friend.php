@@ -22,6 +22,37 @@ class Friend extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        /*
+        switch ($op) {
+
+            case 'FriendSend':
+                FriendSend($sid, $archive);
+                break;
+
+            case 'SendStory':
+                SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse);
+                break;
+
+            case 'StorySent':
+                StorySent($title, $fname);
+                break;
+
+            case 'SendSite':
+                SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse);
+                break;
+
+            case 'SiteSent':
+                SiteSent($fname);
+                break;
+
+            default:
+                RecommendSite();
+                break;
+        }
+        */
+        */
+
         parent::initialize();
     }
 
@@ -323,32 +354,3 @@ class Friend extends FrontBaseController
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'FriendSend':
-        FriendSend($sid, $archive);
-        break;
-
-    case 'SendStory':
-        SendStory($sid, $yname, $ymail, $fname, $fmail, $archive, $asb_question, $asb_reponse);
-        break;
-
-    case 'StorySent':
-        StorySent($title, $fname);
-        break;
-
-    case 'SendSite':
-        SendSite($yname, $ymail, $fname, $fmail, $asb_question, $asb_reponse);
-        break;
-
-    case 'SiteSent':
-        SiteSent($fname);
-        break;
-
-    default:
-        RecommendSite();
-        break;
-}
-*/

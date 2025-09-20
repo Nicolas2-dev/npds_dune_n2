@@ -37,6 +37,7 @@ class BannerService
         }
 
         $okprint = false;
+        
         $while_limit = 3;
         $while_cpt = 0;
 
@@ -62,6 +63,7 @@ class BannerService
 
         if (!isset($bid)) {
             $rowQ1 = Q_Select("SELECT bid FROM " . sql_prefix('banner') . " WHERE userlevel='0' LIMIT 0,1", 86400);
+
             if ($rowQ1) {
                 $bid = $rowQ1[0]['bid'];
                 $okprint = true;
@@ -70,6 +72,7 @@ class BannerService
 
         if ($okprint && $bid) {
             $myhost = Request::getip();
+
             if (Config::get('banner.myIP') != $myhost) {
                 sql_query("UPDATE " . sql_prefix('banner') . " SET impmade=impmade+1 WHERE bid='$bid'");
             }

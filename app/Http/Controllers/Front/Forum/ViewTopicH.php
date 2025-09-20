@@ -138,360 +138,6 @@ class ViewTopicH extends FrontBaseController
 
         $total_contributeurs = count($contributeurs);
 
-        function maketree($rootcatid, $sql, $maxlevel)
-        {
-            global $idtog, $clas;
-
-            $result = sql_query($sql);
-
-            $max_post_id = 0;
-
-            while ($tempo = sql_fetch_assoc($result)) {
-                $table[$tempo['post_idH']][$tempo['post_id']] = serialize($tempo);
-
-                if ($max_post_id < $tempo['post_id']) {
-                    $max_post_id = $tempo['post_id'];
-                }
-            }
-
-            $resultX = '';
-            $resultX .= makebranch($rootcatid, $table, 0, $maxlevel, $max_post_id, $clas, $idtog);
-
-            return $resultX;
-        }
-
-        function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $idtog)
-        {
-            global $imgtmpPI, $imgtmpNE, $user;
-            global $smilies, $theme, $forum, $forum_type, $allow_bbcode, $allow_to_post, $forum_access, $Mmod, $topic, $lock_state, $userdata;
-            global $allow_upload_forum, $att, $anonymous, $short_user, $last_read;
-
-            settype($result, 'string');
-
-            // $my_rsos = array();
-
-            $count = 0;
-
-            settype($idtog, 'integer');
-
-            $list = $table[$parcat];
-
-            foreach ($list as $key => $val) {
-                $myrow = unserialize($val);
-
-                if ($level != '0') {
-                    if ($level == 1) {
-                        $clas = 'collapse show';
-                        $idtog = $idtog . ($count + 1);
-                    } else {
-                        $idtog = $idtog . ($count + 1);
-                        $clas = 'collapse show';
-                    }
-                } else {
-                    $idtog = ($level + 1) . ($count + 1);
-                }
-
-                $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
-
-                if ($myrow['poster_id'] !== '0') {
-
-                    $posts = $posterdata['posts'];
-
-                    $socialnetworks = array();
-                    $posterdata_extend = array();
-                    $res_id = array();
-
-                    $my_rs = '';
-
-                    if (!$short_user) {
-                        $posterdata_extend = Forum::getUserDataExtendFromId($myrow['poster_id']);
-
-                        include 'modules/reseaux-sociaux/config/config.php';
-                        include 'modules/geoloc/config/config';
-
-                        if ($user or Auth::autorisation(-127)) {
-                            if (array_key_exists('M2', $posterdata_extend)) {
-                                if ($posterdata_extend['M2'] != '') {
-
-                                    $socialnetworks = explode(';', $posterdata_extend['M2']);
-
-                                    foreach ($socialnetworks as $socialnetwork) {
-                                        $res_id[] = explode('|', $socialnetwork);
-                                    }
-
-                                    sort($res_id);
-                                    sort($rs);
-
-                                    foreach ($rs as $v1) {
-                                        foreach ($res_id as $y1) {
-
-                                            $k = array_search($y1[0], $v1);
-
-                                            if (false !== $k) {
-                                                $my_rs .= '<a class="me-3" href="';
-
-                                                if ($v1[2] == 'skype') {
-                                                    $my_rs .= $v1[1] . $y1[1] . '?chat';
-                                                } else {
-                                                    $my_rs .= $v1[1] . $y1[1];
-                                                }
-
-                                                $my_rs .= '" target="_blank"><i class="fab fa-' . $v1[2] . ' fa-2x text-primary"></i></a> ';
-                                                break;
-                                            } else {
-                                                $my_rs .= '';
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    settype($ch_lat, 'string');
-
-                    $useroutils = '';
-
-                    if ($user or Auth::autorisation(-127)) {
-                        if ($posterdata['uid'] != 1 and $posterdata['uid'] != '') {
-                            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
-                        }
-
-                        if ($posterdata['uid'] != 1) {
-                            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Message') . '</span></a>';
-                        }
-
-                        if ($posterdata['femail'] != '') {
-                            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
-                        }
-
-                        if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
-                            if ($posterdata_extend[$ch_lat] != '') {
-                                $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&amp;op=u' . $posterdata['uid'] . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw">&nbsp;</i><span class="ms-3 d-none d-md-inline">' . translate('Localisation') . '</span></a>';
-                            }
-                        }
-                    }
-
-                    if ($posterdata['url'] != '') {
-                        $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="' . $posterdata['url'] . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-external-link-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visiter ce site web') . '</span></a>';
-                    }
-
-                    if ($posterdata['mns']) {
-                        $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-desktop fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visitez le minisite') . '</span></a>';
-                    }
-                }
-
-                echo '<div id="tog_' . $idtog . '" class="row  ' . $clas . '">
-                    <a name="' . $forum . $topic . $myrow['post_id'] . '"></a>';
-
-                if ($myrow['post_id'] == $max_post_id) {
-                    echo '<a name="lastpost"></a>';
-                }
-
-                $cardcla = '';
-
-                if ($count == 0 and $idtog == 11) {
-                    $cardcla = "border-dark";
-                }
-
-                if ($level > 0) {
-                    $cardcla = "border-0";
-                }
-
-                if ($idtog != 11 and $count != 0) {
-                    echo '<div class="d-flex justify-content-between pe-4 ">
-                        <div class="border-right" style="margin-left:4rem;height:2rem"></div>
-                    </div>';
-                }
-
-                echo '<div class="col-12">
-                    <div class="card ' . $cardcla . ' border-dark">
-                    <div class="card-header">';
-
-                if ($smilies) {
-                    if ($myrow['poster_id'] !== '0') {
-                        if ($posterdata['user_avatar'] != '') {
-                            if (stristr($posterdata['user_avatar'], 'users_private')) {
-                                $imgtmp = $posterdata['user_avatar'];
-                            } else {
-                                if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
-                                    $imgtmp = $ibid;
-                                } else {
-                                    $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
-                                }
-                            }
-                        }
-
-                        echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
-                        <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
-                    } else {
-                        echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
-                        <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
-                    }
-                } else {
-                    echo ($myrow['poster_id'] !== '0')
-                        ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>'
-                        : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
-                }
-
-                echo '<span class="float-end">';
-
-                if ($myrow['image'] != '') {
-                    if ($ibid = Theme::themeImage('forum/subject/' . $myrow['image'])) {
-                        $imgtmp = $ibid;
-                    } else {
-                        $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
-                    }
-
-                    echo '<img class="n-smil" src="' . $imgtmp . '" alt="" />';
-                } else {
-                    echo '<img class="n-smil" src="' . $imgtmpPI . '" alt="" />';
-                }
-
-                echo '</span>
-                    </div>';
-
-                $message = stripslashes($myrow['post_text']);
-
-                echo '<div class="card-body">
-                    <div class="card-text pt-2">';
-
-                $date_post = strtotime(Date::getPartOfTime($myrow['post_time'], 'yyyy-MM-dd H:m:s'));
-
-                if ($last_read != '') {
-                    if (($last_read <= $date_post) and $userdata[3] != '' and $last_read != "0" and $userdata[0] != $myrow['poster_id']) {
-                        //echo '&nbsp;<img src="'.$imgtmpNE.'" alt="" />';
-                        echo '<span class="me-2 badge bg-success animated faa-flash">NEW</span>';
-                    }
-                }
-
-                echo '</div>
-                    <div class="card-text pt-2">';
-
-                if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
-                    $message = Smilies::smilie($message);
-                    $message = Media::affVideoYt($message);
-                }
-
-                if (($forum_type == '6') or ($forum_type == '5')) {
-                    highlight_string(stripslashes($myrow['post_text'])) . '<br /><br />';
-                } else {
-                    if (array_key_exists('user_sig', $posterdata)) {
-                        $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', $message);
-                    }
-
-                    echo $message;
-                }
-
-                if ($att > 0) {
-                    $post_id = $myrow['post_id'];
-
-                    echo '<div class="card-text">';
-                    echo display_upload("forum_npds", $post_id, $Mmod);
-                    echo '</div>';
-                }
-
-                echo '</div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class=" col-sm-6 text-body-secondary small">' . Date::formatTimes($myrow['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>
-                            <div class=" col-sm-6 text-end">';
-
-                if ($forum_access != 9) {
-                    if ($allow_to_post) {
-                        echo ($idtog == 11)
-                            ? aff_pub_in($lock_state, $topic, $forum, 0)
-                            : aff_pub_in($lock_state, $topic, $forum, $myrow['post_id']);
-                    }
-
-                    if (($Mmod) or (!empty($userdata[0])) and ($posterdata['uid'] == $userdata[0]) and (!$lock_state) and ($posterdata['uid'] != '')) {
-                        echo '<a class="me-3" href="editpost.php?post_id=' . $myrow["post_id"] . '&amp;topic=' . $topic . '&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Editer') . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
-
-                        if ($allow_upload_forum) {
-                            $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
-
-                            echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
-                        }
-                    }
-
-                    if ($allow_to_post and !$lock_state and $posterdata['uid'] != '') {
-                        echo '<a class="me-3" href="replyH.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $myrow['post_id'] . '&amp;citation=1" title="' . translate('Citation') . '" data-bs-toggle="tooltip"><i class="fa fa-quote-left fa-lg"></i></a>';
-                    }
-
-                    echo '<a class="me-3" href="prntopic.php?forum=' . $forum . '&amp;topic=' . $topic . '&amp;post_id=' . $myrow['post_id'] . '" title="' . translate('Imprimer') . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
-
-                    if ($Mmod) {
-                        echo '<a class="me-3" href="topicadmin.php?mode=viewip&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;forum=' . $forum . '&amp;arbre=1" title="IP" data-bs-toggle="tooltip" ><i class="fa fa-laptop fa-lg"></i></a>';
-
-                        if (!$myrow['post_aff']) {
-                            echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=1&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Afficher ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye text-danger fa-lg"></i></a>&nbsp;';
-                        } else {
-                            echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=0&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Masquer ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye-slash fa-lg "></i></a>&nbsp;';
-                        }
-                    }
-                }
-
-                echo '</div>
-                    </div>
-                </div>';
-
-                if ((isset($table[$key])) and (($maxlevel > $level + 1) or ($maxlevel == '0'))) {
-                    echo '<div class="d-flex justify-content-between pe-4 border-top">
-                        <div class="border-right" style="margin-left:3rem"></div>
-                        <a data-bs-toggle="collapse" href="#tog_' . $idtog . 'z" aria-expanded="false" aria-controls="">
-                            <i class="togglearbr-icon fas fa-level-down-alt fa-2x"></i>
-                        </a>
-                    </div>
-                    <div id="tog_' . $idtog . 'z" class="collapse">';
-
-                    $result .= makebranch($key, $table, $level + 1, $maxlevel, $max_post_id, $clas, $idtog);
-
-                    echo '</div>';
-                }
-
-                echo '</div>
-                    </div>
-                </div>';
-
-                $count++;
-            }
-
-            return $result;
-        }
-
-        function aff_pub($lock_state, $topic, $forum, $post, $bouton)
-        {
-            $ibid = '';
-
-            if ($lock_state == 0) {
-                if (($bouton == 2) or ($bouton == 9)) {
-                    $ibid = '<a class="" href="newtopic.php?forum=' . $forum . '" title="' . translate('Nouveau sujet') . '" data-bs-toggle="tooltip" >
-                        <i class="fa fa-plus-square "></i>
-                    </a>&nbsp;';
-                }
-            } else {
-                $ibid = '<i class="fa fa-lock fa-lg text-danger" title="' . translate('Ce sujet est verrouillé : il ne peut accueillir aucune nouvelle contribution.') . '" data-bs-toggle="tooltip"></i>&nbsp;';
-            }
-
-            return $ibid;
-        }
-
-        function aff_pub_in($lock_state, $topic, $forum, $post)
-        {
-            $ibid = '';
-
-            if ($lock_state == 0) {
-                $ibid = '<a class="me-3" href="replyH.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $post . '" title="' . translate('Répondre') . '" data-bs-toggle="tooltip">
-                    <span class="d-none d-md-inline"></span>
-                    <i class="fa fa-reply me-2"></i>
-                    <span class="d-none d-md-inline">' . translate('Répondre') . '</span>
-                </a>';
-            }
-
-            return $ibid;
-        }
-
         $contributeurs = Forum::getContributeurs($forum, $topic);
         $contributeurs = explode(' ', $contributeurs);
 
@@ -814,4 +460,357 @@ class ViewTopicH extends FrontBaseController
         //include 'footer.php';
     }
 
+    function maketree($rootcatid, $sql, $maxlevel)
+    {
+        global $idtog, $clas;
+
+        $result = sql_query($sql);
+
+        $max_post_id = 0;
+
+        while ($tempo = sql_fetch_assoc($result)) {
+            $table[$tempo['post_idH']][$tempo['post_id']] = serialize($tempo);
+
+            if ($max_post_id < $tempo['post_id']) {
+                $max_post_id = $tempo['post_id'];
+            }
+        }
+
+        $resultX = '';
+        $resultX .= makebranch($rootcatid, $table, 0, $maxlevel, $max_post_id, $clas, $idtog);
+
+        return $resultX;
+    }
+
+    function makebranch($parcat, $table, $level, $maxlevel, $max_post_id, $clas, $idtog)
+    {
+        global $imgtmpPI, $imgtmpNE, $user;
+        global $smilies, $theme, $forum, $forum_type, $allow_bbcode, $allow_to_post, $forum_access, $Mmod, $topic, $lock_state, $userdata;
+        global $allow_upload_forum, $att, $anonymous, $short_user, $last_read;
+
+        settype($result, 'string');
+
+        // $my_rsos = array();
+
+        $count = 0;
+
+        settype($idtog, 'integer');
+
+        $list = $table[$parcat];
+
+        foreach ($list as $key => $val) {
+            $myrow = unserialize($val);
+
+            if ($level != '0') {
+                if ($level == 1) {
+                    $clas = 'collapse show';
+                    $idtog = $idtog . ($count + 1);
+                } else {
+                    $idtog = $idtog . ($count + 1);
+                    $clas = 'collapse show';
+                }
+            } else {
+                $idtog = ($level + 1) . ($count + 1);
+            }
+
+            $posterdata = Forum::getUserDataFromId($myrow['poster_id']);
+
+            if ($myrow['poster_id'] !== '0') {
+
+                $posts = $posterdata['posts'];
+
+                $socialnetworks = array();
+                $posterdata_extend = array();
+                $res_id = array();
+
+                $my_rs = '';
+
+                if (!$short_user) {
+                    $posterdata_extend = Forum::getUserDataExtendFromId($myrow['poster_id']);
+
+                    include 'modules/reseaux-sociaux/config/config.php';
+                    include 'modules/geoloc/config/config';
+
+                    if ($user or Auth::autorisation(-127)) {
+                        if (array_key_exists('M2', $posterdata_extend)) {
+                            if ($posterdata_extend['M2'] != '') {
+
+                                $socialnetworks = explode(';', $posterdata_extend['M2']);
+
+                                foreach ($socialnetworks as $socialnetwork) {
+                                    $res_id[] = explode('|', $socialnetwork);
+                                }
+
+                                sort($res_id);
+                                sort($rs);
+
+                                foreach ($rs as $v1) {
+                                    foreach ($res_id as $y1) {
+
+                                        $k = array_search($y1[0], $v1);
+
+                                        if (false !== $k) {
+                                            $my_rs .= '<a class="me-3" href="';
+
+                                            if ($v1[2] == 'skype') {
+                                                $my_rs .= $v1[1] . $y1[1] . '?chat';
+                                            } else {
+                                                $my_rs .= $v1[1] . $y1[1];
+                                            }
+
+                                            $my_rs .= '" target="_blank"><i class="fab fa-' . $v1[2] . ' fa-2x text-primary"></i></a> ';
+                                            break;
+                                        } else {
+                                            $my_rs .= '';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                settype($ch_lat, 'string');
+
+                $useroutils = '';
+
+                if ($user or Auth::autorisation(-127)) {
+                    if ($posterdata['uid'] != 1 and $posterdata['uid'] != '') {
+                        $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="user.php?op=userinfo&amp;uname=' . $posterdata['uname'] . '" target="_blank" title="' . translate('Profil') . '" data-bs-toggle="tooltip"><i class="fa fa-user fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Profil') . '</span></a>';
+                    }
+
+                    if ($posterdata['uid'] != 1) {
+                        $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="powerpack.php?op=instant_message&amp;to_userid=' . $posterdata["uname"] . '" title="' . translate('Envoyer un message interne') . '" data-bs-toggle="tooltip"><i class="far fa-envelope fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Message') . '</span></a>';
+                    }
+
+                    if ($posterdata['femail'] != '') {
+                        $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="mailto:' . Spam::antiSpam($posterdata['femail'], 1) . '" target="_blank" title="' . translate('Email') . '" data-bs-toggle="tooltip"><i class="fa fa-at fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Email') . '</span></a>';
+                    }
+
+                    if ($myrow['poster_id'] != 1 and array_key_exists($ch_lat, $posterdata_extend)) {
+                        if ($posterdata_extend[$ch_lat] != '') {
+                            $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="modules.php?ModPath=geoloc&amp;ModStart=geoloc&amp;op=u' . $posterdata['uid'] . '" title="' . translate('Localisation') . '" ><i class="fas fa-map-marker-alt fa-2x align-middle fa-fw">&nbsp;</i><span class="ms-3 d-none d-md-inline">' . translate('Localisation') . '</span></a>';
+                        }
+                    }
+                }
+
+                if ($posterdata['url'] != '') {
+                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="' . $posterdata['url'] . '" target="_blank" title="' . translate('Visiter ce site web') . '" data-bs-toggle="tooltip"><i class="fas fa-external-link-alt fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visiter ce site web') . '</span></a>';
+                }
+
+                if ($posterdata['mns']) {
+                    $useroutils .= '<a class="list-group-item list-group-item-action text-primary text-center text-md-start" href="minisite.php?op=' . $posterdata['uname'] . '" target="_blank" target="_blank" title="' . translate('Visitez le minisite') . '" data-bs-toggle="tooltip"><i class="fa fa-desktop fa-2x align-middle fa-fw"></i><span class="ms-3 d-none d-md-inline">' . translate('Visitez le minisite') . '</span></a>';
+                }
+            }
+
+            echo '<div id="tog_' . $idtog . '" class="row  ' . $clas . '">
+                    <a name="' . $forum . $topic . $myrow['post_id'] . '"></a>';
+
+            if ($myrow['post_id'] == $max_post_id) {
+                echo '<a name="lastpost"></a>';
+            }
+
+            $cardcla = '';
+
+            if ($count == 0 and $idtog == 11) {
+                $cardcla = "border-dark";
+            }
+
+            if ($level > 0) {
+                $cardcla = "border-0";
+            }
+
+            if ($idtog != 11 and $count != 0) {
+                echo '<div class="d-flex justify-content-between pe-4 ">
+                        <div class="border-right" style="margin-left:4rem;height:2rem"></div>
+                    </div>';
+            }
+
+            echo '<div class="col-12">
+                    <div class="card ' . $cardcla . ' border-dark">
+                    <div class="card-header">';
+
+            if ($smilies) {
+                if ($myrow['poster_id'] !== '0') {
+                    if ($posterdata['user_avatar'] != '') {
+                        if (stristr($posterdata['user_avatar'], 'users_private')) {
+                            $imgtmp = $posterdata['user_avatar'];
+                        } else {
+                            if ($ibid = Theme::themeImage('forum/avatar/' . $posterdata['user_avatar'])) {
+                                $imgtmp = $ibid;
+                            } else {
+                                $imgtmp = 'assets/images/forum/avatar/' . $posterdata['user_avatar'];
+                            }
+                        }
+                    }
+
+                    echo '<a style="position:absolute; top:1rem;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" data-bs-title="' . $posterdata['uname'] . '" data-bs-content=\'<div class="my-2 border rounded p-2">' . Forum::memberQualif($posterdata['uname'], $posts, $posterdata['rang']) . '</div><div class="list-group mb-3 text-center">' . $useroutils . '</div><div class="mx-auto text-center" style="max-width:170px;">' . $my_rs . '</div>\'><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="' . $imgtmp . '" alt="' . $posterdata['uname'] . '" /></a>
+                        <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>';
+                } else {
+                    echo '<a style="position:absolute; top:1rem;" title="' . $anonymous . '" data-bs-toggle="tooltip"><img class=" btn-outline-primary img-thumbnail img-fluid n-ava" src="assets/images/forum/avatar/blank.gif" alt="' . $anonymous . '" /></a>
+                        <span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
+                }
+            } else {
+                echo ($myrow['poster_id'] !== '0')
+                    ? '<span style="position:absolute; left:6em;" class="text-body-secondary"><strong>' . $posterdata['uname'] . '</strong></span>'
+                    : '<span class="text-body-secondary"><strong>' . $anonymous . '</strong></span>';
+            }
+
+            echo '<span class="float-end">';
+
+            if ($myrow['image'] != '') {
+                if ($ibid = Theme::themeImage('forum/subject/' . $myrow['image'])) {
+                    $imgtmp = $ibid;
+                } else {
+                    $imgtmp = 'assets/images/forum/subject/' . $myrow['image'];
+                }
+
+                echo '<img class="n-smil" src="' . $imgtmp . '" alt="" />';
+            } else {
+                echo '<img class="n-smil" src="' . $imgtmpPI . '" alt="" />';
+            }
+
+            echo '</span>
+                    </div>';
+
+            $message = stripslashes($myrow['post_text']);
+
+            echo '<div class="card-body">
+                    <div class="card-text pt-2">';
+
+            $date_post = strtotime(Date::getPartOfTime($myrow['post_time'], 'yyyy-MM-dd H:m:s'));
+
+            if ($last_read != '') {
+                if (($last_read <= $date_post) and $userdata[3] != '' and $last_read != "0" and $userdata[0] != $myrow['poster_id']) {
+                    //echo '&nbsp;<img src="'.$imgtmpNE.'" alt="" />';
+                    echo '<span class="me-2 badge bg-success animated faa-flash">NEW</span>';
+                }
+            }
+
+            echo '</div>
+                    <div class="card-text pt-2">';
+
+            if (($allow_bbcode) and ($forum_type != 6) and ($forum_type != 5)) {
+                $message = Smilies::smilie($message);
+                $message = Media::affVideoYt($message);
+            }
+
+            if (($forum_type == '6') or ($forum_type == '5')) {
+                highlight_string(stripslashes($myrow['post_text'])) . '<br /><br />';
+            } else {
+                if (array_key_exists('user_sig', $posterdata)) {
+                    $message = str_replace('[addsig]', '<div class="n-signature">' . nl2br($posterdata['user_sig']) . '</div>', $message);
+                }
+
+                echo $message;
+            }
+
+            if ($att > 0) {
+                $post_id = $myrow['post_id'];
+
+                echo '<div class="card-text">';
+                echo display_upload("forum_npds", $post_id, $Mmod);
+                echo '</div>';
+            }
+
+            echo '</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class=" col-sm-6 text-body-secondary small">' . Date::formatTimes($myrow['post_time'], IntlDateFormatter::SHORT, IntlDateFormatter::SHORT) . '</div>
+                            <div class=" col-sm-6 text-end">';
+
+            if ($forum_access != 9) {
+                if ($allow_to_post) {
+                    echo ($idtog == 11)
+                        ? aff_pub_in($lock_state, $topic, $forum, 0)
+                        : aff_pub_in($lock_state, $topic, $forum, $myrow['post_id']);
+                }
+
+                if (($Mmod) or (!empty($userdata[0])) and ($posterdata['uid'] == $userdata[0]) and (!$lock_state) and ($posterdata['uid'] != '')) {
+                    echo '<a class="me-3" href="editpost.php?post_id=' . $myrow["post_id"] . '&amp;topic=' . $topic . '&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Editer') . '" data-bs-toggle="tooltip"><i class="fa fa-edit fa-lg"></i></a>';
+
+                    if ($allow_upload_forum) {
+                        $PopUp = win_upload("forum_npds", $myrow['post_id'], $forum, $topic, "popup");
+
+                        echo '<a class="me-3" href="javascript:void(0);" onclick="window.open(' . $PopUp . ');" title="' . translate('Fichiers') . '" data-bs-toggle="tooltip"><i class="fa fa-download fa-lg"></i></a>';
+                    }
+                }
+
+                if ($allow_to_post and !$lock_state and $posterdata['uid'] != '') {
+                    echo '<a class="me-3" href="replyH.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $myrow['post_id'] . '&amp;citation=1" title="' . translate('Citation') . '" data-bs-toggle="tooltip"><i class="fa fa-quote-left fa-lg"></i></a>';
+                }
+
+                echo '<a class="me-3" href="prntopic.php?forum=' . $forum . '&amp;topic=' . $topic . '&amp;post_id=' . $myrow['post_id'] . '" title="' . translate('Imprimer') . '" data-bs-toggle="tooltip"><i class="fa fa-print fa-lg"></i></a>';
+
+                if ($Mmod) {
+                    echo '<a class="me-3" href="topicadmin.php?mode=viewip&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;forum=' . $forum . '&amp;arbre=1" title="IP" data-bs-toggle="tooltip" ><i class="fa fa-laptop fa-lg"></i></a>';
+
+                    if (!$myrow['post_aff']) {
+                        echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=1&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Afficher ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye text-danger fa-lg"></i></a>&nbsp;';
+                    } else {
+                        echo '&nbsp;<a href="topicadmin.php?mode=aff&amp;topic=' . $topic . '&amp;post=' . $myrow['post_id'] . '&amp;ordre=0&amp;forum=' . $forum . '&amp;arbre=1" title="' . translate('Masquer ce post') . '" data-bs-toggle="tooltip"><i class="fa fa-eye-slash fa-lg "></i></a>&nbsp;';
+                    }
+                }
+            }
+
+            echo '</div>
+                    </div>
+                </div>';
+
+            if ((isset($table[$key])) and (($maxlevel > $level + 1) or ($maxlevel == '0'))) {
+                echo '<div class="d-flex justify-content-between pe-4 border-top">
+                        <div class="border-right" style="margin-left:3rem"></div>
+                        <a data-bs-toggle="collapse" href="#tog_' . $idtog . 'z" aria-expanded="false" aria-controls="">
+                            <i class="togglearbr-icon fas fa-level-down-alt fa-2x"></i>
+                        </a>
+                    </div>
+                    <div id="tog_' . $idtog . 'z" class="collapse">';
+
+                $result .= makebranch($key, $table, $level + 1, $maxlevel, $max_post_id, $clas, $idtog);
+
+                echo '</div>';
+            }
+
+            echo '</div>
+                    </div>
+                </div>';
+
+            $count++;
+        }
+
+        return $result;
+    }
+
+    function aff_pub($lock_state, $topic, $forum, $post, $bouton)
+    {
+        $ibid = '';
+
+        if ($lock_state == 0) {
+            if (($bouton == 2) or ($bouton == 9)) {
+                $ibid = '<a class="" href="newtopic.php?forum=' . $forum . '" title="' . translate('Nouveau sujet') . '" data-bs-toggle="tooltip" >
+                        <i class="fa fa-plus-square "></i>
+                    </a>&nbsp;';
+            }
+        } else {
+            $ibid = '<i class="fa fa-lock fa-lg text-danger" title="' . translate('Ce sujet est verrouillé : il ne peut accueillir aucune nouvelle contribution.') . '" data-bs-toggle="tooltip"></i>&nbsp;';
+        }
+
+        return $ibid;
+    }
+
+    function aff_pub_in($lock_state, $topic, $forum, $post)
+    {
+        $ibid = '';
+
+        if ($lock_state == 0) {
+            $ibid = '<a class="me-3" href="replyH.php?topic=' . $topic . '&amp;forum=' . $forum . '&amp;post=' . $post . '" title="' . translate('Répondre') . '" data-bs-toggle="tooltip">
+                    <span class="d-none d-md-inline"></span>
+                    <i class="fa fa-reply me-2"></i>
+                    <span class="d-none d-md-inline">' . translate('Répondre') . '</span>
+                </a>';
+        }
+
+        return $ibid;
+    }
 }

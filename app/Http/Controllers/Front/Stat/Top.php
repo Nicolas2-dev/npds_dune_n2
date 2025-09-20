@@ -22,7 +22,6 @@ class Top extends FrontBaseController
         parent::initialize();
     }
 
-
     public function index()
     {
         $cache_obj = $SuperCache ? new SuperCacheManager() : new SuperCacheEmpty();

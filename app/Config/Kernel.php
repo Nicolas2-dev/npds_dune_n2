@@ -65,7 +65,7 @@ return [
         'Stat'          => 'App\Support\Facades\Stat',
         'Subscribe'     => 'App\Support\Facades\Subscribe',
         'Theme'         => 'App\Support\Facades\Theme',
-        'UserMenu'      => 'App\Support\Facades\UserMenu',
+        //'UserMenu'      => 'App\Support\Facades\UserMenu',
         'User'          => 'App\Support\Facades\User',
         'Component'     => 'App\Support\Facades\Component'
     ),

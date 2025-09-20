@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Front\Banners;
 use IntlDateFormatter;
 use Npds\Config\Config;
 use App\Support\Sanitize;
-use App\Support\Facades\Url;
-use App\Support\Facades\Auth;
 use App\Support\Facades\Date;
 use App\Support\Facades\Banner;
 use App\Support\Facades\Mailer;
 use App\Support\Facades\Language;
-use Npds\Support\Facades\Request;
 use App\Support\Facades\Validation;
 use App\Http\Controllers\Core\FrontBaseController;
 

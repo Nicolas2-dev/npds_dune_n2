@@ -27,6 +27,47 @@ class Submit extends FrontBaseController
      */
     protected function initialize()
     {
+        /*
+        switch ($op) {
+
+            case 'Prévisualiser':
+            case translate('Prévisualiser'):
+                if ($user) {
+                    $userinfo = Auth::getUserInfo($user);
+                    $name = $userinfo['uname'];
+                } else {
+                    $name = $anonymous;
+                }
+
+                PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
+
+                break;
+            case 'Ok':
+                settype($date_debval, 'string');
+                settype($date_finval, 'string');
+
+                if (!$date_debval) {
+                    $date_debval = $dd_pub . ' ' . $dh_pub . ':01';
+                }
+
+                if (!$date_finval) {
+                    $date_finval = $fd_pub . ' ' . $fh_pub . ':01';
+                }
+
+
+                if ($date_finval < $date_debval) {
+                    $date_finval = $date_debval;
+                }
+
+                SubmitStory($subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur, $asb_question, $asb_reponse);
+                break;
+
+            default:
+                defaultDisplay();
+                break;
+        }
+        */
+
         parent::initialize();
     }
 
@@ -329,44 +370,3 @@ class Submit extends FrontBaseController
     }
 
 }
-
-/*
-switch ($op) {
-
-    case 'Prévisualiser':
-    case translate('Prévisualiser'):
-        if ($user) {
-            $userinfo = Auth::getUserInfo($user);
-            $name = $userinfo['uname'];
-        } else {
-            $name = $anonymous;
-        }
-
-        PreviewStory($name, $subject, $story, $bodytext, $topic, $dd_pub, $fd_pub, $dh_pub, $fh_pub, $epur);
-
-        break;
-    case 'Ok':
-        settype($date_debval, 'string');
-        settype($date_finval, 'string');
-
-        if (!$date_debval) {
-            $date_debval = $dd_pub . ' ' . $dh_pub . ':01';
-        }
-
-        if (!$date_finval) {
-            $date_finval = $fd_pub . ' ' . $fh_pub . ':01';
-        }
-
-
-        if ($date_finval < $date_debval) {
-            $date_finval = $date_debval;
-        }
-
-        SubmitStory($subject, $story, $bodytext, $topic, $date_debval, $date_finval, $epur, $asb_question, $asb_reponse);
-        break;
-
-    default:
-        defaultDisplay();
-        break;
-}
-*/

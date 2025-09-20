@@ -2,6 +2,8 @@
 
 namespace App\Library\Cookie;
 
+use Npds\Config\Config;
+
 
 class Cookie
 {
@@ -89,4 +91,48 @@ class Cookie
 
         return null;
     }
+
+    /**
+     * Définit les cookies de l'utilisateur pour la session et la langue.
+     *
+     * @param int    $setuid          ID de l'utilisateur
+     * @param string $setuname        Nom d'utilisateur
+     * @param string $setpass         Mot de passe en clair (sera hashé en MD5)
+     * @param int    $setstorynum     Nombre d'histoires/éléments associés à l'utilisateur
+     * @param int    $setumode        Mode utilisateur
+     * @param int    $setuorder       Ordre d'affichage des contenus
+     * @param int    $setthold        Seuil de filtrage
+     * @param int    $setnoscore      Indicateur "pas de score"
+     * @param int    $setublockon     Indicateur de blocage
+     * @param string $settheme        Thème choisi
+     * @param int    $setcommentmax   Nombre maximum de commentaires
+     * @param string $user_langue     Code langue de l'utilisateur
+     *
+     * @return void
+     */
+    public function docookie(
+        int $setuid,
+        string $setuname,
+        string $setpass,
+        int $setstorynum,
+        int $setumode,
+        int $setuorder,
+        int $setthold,
+        int $setnoscore,
+        int $setublockon,
+        string $settheme,
+        int $setcommentmax,
+        string $user_langue
+    ): void {
+        $info = base64_encode("$setuid:$setuname:" . md5($setpass) . ":$setstorynum:$setumode:$setuorder:$setthold:$setnoscore:$setublockon:$settheme:$setcommentmax");
+
+        $timeX = time() + (3600 * Config::get('cookie.user_cook_duration', 1));
+
+        setcookie('user', $info, $timeX);
+
+        if ($user_langue != '') {
+            setcookie('user_language', $user_langue, $timeX);
+        }
+    }
+
 }

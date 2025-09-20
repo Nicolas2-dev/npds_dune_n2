@@ -7,28 +7,6 @@ class UserMenu
 {
 
     /**
-     * Instance singleton du dispatcher.
-     *
-     * @var self|null
-     */
-    protected static ?self $instance = null;
-
-
-    /**
-     * Retourne l'instance singleton du dispatcher.
-     *
-     * @return self
-     */
-    public static function getInstance(): self
-    {
-        if (isset(static::$instance)) {
-            return static::$instance;
-        }
-
-        return static::$instance = new static();
-    }
-    
-    /**
      * Génère le menu utilisateur pour le compte et les options associées.
      *
      * Ce menu inclut :
@@ -44,7 +22,7 @@ class UserMenu
      * @param string $uname Nom d'utilisateur utilisé pour les liens miniSite.
      * @return void Affiche directement le menu HTML.
      */
-    public function memberMenu(bool $minisite, string $uname): void
+    public static function render(bool $minisite, string $uname): string
     {
         global $op; // global a revoir !
 
@@ -64,7 +42,7 @@ class UserMenu
             'ModPath=reseaux-sociaux&ModStart=reseaux-sociaux&op=EditReseaux'
         ], true) ? 'active' : '';
 
-        echo '<ul class="nav nav-tabs d-flex flex-wrap"> 
+        $thml = '<ul class="nav nav-tabs d-flex flex-wrap"> 
             <li class="nav-item"><a class="nav-link ' . $cl_u . '" href="user.php" title="' . translate('Votre compte') . '" data-bs-toggle="tooltip" ><i class="fas fa-user fa-2x d-xl-none"></i><span class="d-none d-xl-inline"><i class="fas fa-user fa-lg"></i></span></a></li>
             <li class="nav-item"><a class="nav-link ' . $ed_u . '" href="user.php?op=edituser" title="' . translate('Vous') . '" data-bs-toggle="tooltip" ><i class="fas fa-user-edit fa-2x d-xl-none"></i><span class="d-none d-xl-inline">&nbsp;' . translate('Vous') . '</span></a></li>
             <li class="nav-item dropdown">
@@ -82,7 +60,7 @@ class UserMenu
 
             $PopUp = win_upload('popup');
 
-            echo '<li class="nav-item dropdown">
+            $html .= '<li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle tooltipbyclass" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="' . translate('Gérer votre miniSite') . '"><i class="fas fa-desktop fa-2x d-xl-none me-2"></i><span class="d-none d-xl-inline">' . translate('MiniSite') . '</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="minisite.php?op=' . $uname . '" target="_blank">' . translate('MiniSite') . '</a></li>
@@ -91,12 +69,15 @@ class UserMenu
             </li>';
         }
 
-        echo '<li class="nav-item"><a class="nav-link ' . $cl_cht . '" href="user.php?op=chgtheme" title="' . translate('Changer le thème') . '"  data-bs-toggle="tooltip" ><i class="fas fa-paint-brush fa-2x d-xl-none"></i><span class="d-none d-xl-inline">&nbsp;' . translate('Thème') . '</span></a></li>
+        $html .= '<li class="nav-item"><a class="nav-link ' . $cl_cht . '" href="user.php?op=chgtheme" title="' . translate('Changer le thème') . '"  data-bs-toggle="tooltip" ><i class="fas fa-paint-brush fa-2x d-xl-none"></i><span class="d-none d-xl-inline">&nbsp;' . translate('Thème') . '</span></a></li>
             <li class="nav-item"><a class="nav-link ' . $cl_rs . '" href="modules.php?ModPath=reseaux-sociaux&amp;ModStart=reseaux-sociaux" title="' . translate('Réseaux sociaux') . '"  data-bs-toggle="tooltip" ><i class="fas fa-share-alt-square fa-2x d-xl-none"></i><span class="d-none d-xl-inline">&nbsp;' . translate('Réseaux sociaux') . '</span></a></li>
             <li class="nav-item"><a class="nav-link ' . $cl_pm . '" href="viewpmsg.php" title="' . translate('Message personnel') . '"  data-bs-toggle="tooltip" ><i class="far fa-envelope fa-2x d-xl-none"></i><span class="d-none d-xl-inline">&nbsp;' . translate('Message') . '</span></a></li>
             <li class="nav-item"><a class="nav-link " href="user.php?op=logout" title="' . translate('Déconnexion') . '" data-bs-toggle="tooltip" ><i class="fas fa-sign-out-alt fa-2x text-danger d-xl-none"></i><span class="d-none d-xl-inline text-danger">&nbsp;' . translate('Déconnexion') . '</span></a></li>
         </ul>
         <div class="mt-3"></div>';
+
+        return $html;
+
     }
 
 }

@@ -7,7 +7,7 @@ use App\Library\User\Traits\UserInfoTrait;
 use App\Http\Controllers\Core\FrontBaseController;
 
 
-class User extends FrontBaseController
+class UserGroupe extends FrontBaseController
 {
 
     use UserInfoTrait;
@@ -21,18 +21,6 @@ class User extends FrontBaseController
     {
         /*
         switch ($op) {
-
-            case 'userinfo':
-                if (($member_list == 1) and ((!isset($user)) and (!isset($admin)))) {
-                    Header('Location: index.php');
-                }
-
-                if ($uname != '') {
-                    $this->userinfo($uname);
-                } else {
-                    $this->main($user);
-                }
-                break;
 
             case 'askforgroupe':
                 if ($user) {
@@ -48,20 +36,13 @@ class User extends FrontBaseController
                 }
                 break;
 
-            default:
-                if (!Auth::autoReg()) {
-                    unset($user);
-                }
-
-                $this->main($user);
-                break;
         }
         */
 
         parent::initialize();
     }
 
-    function main($user)
+    function askForGroupe()
     {
         global $stop, $smilies;
 
@@ -118,5 +99,4 @@ class User extends FrontBaseController
             $this->userInfo($cookie[1]);
         }
     }
-
 }

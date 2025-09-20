@@ -24,7 +24,7 @@ class DateComponent extends BaseComponent
     {
         // Utilisation d'IntlDateFormatter pour le format complet + medium
         $formatter = datefmt_create(
-                Language::languageIso(1, '_', 1), // locale par défaut
+                Language::languageIso(1, '_', 1),
                 IntlDateFormatter::FULL,
                 IntlDateFormatter::MEDIUM,
                 Config::get('date.timezone') ?: date_default_timezone_get()
